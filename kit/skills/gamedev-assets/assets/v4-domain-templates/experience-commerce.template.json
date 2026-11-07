@@ -1,0 +1,65 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "experience_commerce",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "state_atlas": [],
+  "commitment_table": [],
+  "session_boundaries": [],
+  "learning": {
+    "mechanic_exposure": [],
+    "diagnosis_remediation": [],
+    "mastery_evidence": [],
+    "relearn_skip": null
+  },
+  "semantic_dictionary": [],
+  "attention_event_matrix": [],
+  "style_state_inventory": [],
+  "localization_contract": null,
+  "assist_profiles": [],
+  "reorientation": null,
+  "commerce": {
+    "applicability": null,
+    "model_rationale": [],
+    "meta_loop_refs": [],
+    "offers": [],
+    "earned_paid_routes": [],
+    "time_risk_power_distributions": [],
+    "portfolio_cases": [],
+    "deterministic_purchase_default": true,
+    "paid_rng_decision_ref": null,
+    "competition_policy": null,
+    "shop_state_machine": [],
+    "store_product_mappings": [],
+    "verification_grant_reconcile": null,
+    "partial_ownership_duplicates": null,
+    "refund_restore_offline": null,
+    "failure_budget": null
+  },
+  "completion_exhaustion_refs": [],
+  "first_peak_late_return_fixtures": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "journey",
+      "presentation",
+      "commerce",
+      "economy"
+    ],
+    "tracks": [
+      "TR11",
+      "TR12",
+      "TR14",
+      "TR15",
+      "TR16"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

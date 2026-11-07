@@ -1,0 +1,438 @@
+{
+  "schema_version": "app-atelier-production-template/2",
+  "family_version": "2.3.0",
+  "stage": "operations",
+  "record_kind": "template_not_executed",
+  "canonical_authority": "existing .appatelier/state.json; register instantiated artifacts by current state.py protocol",
+  "recipes": [
+    {
+      "id": "APP-OPS-R01",
+      "status": "template",
+      "title": "Deployment → factual health",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "current version/deploy refs",
+          "sha256": null
+        },
+        {
+          "binding": "authorized signal/data scope",
+          "sha256": null
+        },
+        {
+          "binding": "budget/stop",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-OPS-R01-S1",
+          "depends_on": [],
+          "procedure": "discover current components and dependency identities",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R01-S2",
+          "depends_on": [
+            "APP-OPS-R01-S1"
+          ],
+          "procedure": "read actual source/time/window/numerator/denominator",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R01-S3",
+          "depends_on": [
+            "APP-OPS-R01-S2"
+          ],
+          "procedure": "compare product-specific thresholds without causal overclaim",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R01-S4",
+          "depends_on": [
+            "APP-OPS-R01-S3"
+          ],
+          "procedure": "persist current evidence and stale/unknown status",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "fresh health/cost observations",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "signal contracts",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "explicit unknowns",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-OPS-R02",
+      "status": "template",
+      "title": "Incident → causal repair",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "raw symptom/current hashes",
+          "sha256": null
+        },
+        {
+          "binding": "allowed containment",
+          "sha256": null
+        },
+        {
+          "binding": "unknown effect IDs",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-OPS-R02-S1",
+          "depends_on": [],
+          "procedure": "classify failure and separate observation from hypotheses",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R02-S2",
+          "depends_on": [
+            "APP-OPS-R02-S1"
+          ],
+          "procedure": "reconcile unknown provider state before effects",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R02-S3",
+          "depends_on": [
+            "APP-OPS-R02-S2"
+          ],
+          "procedure": "change one diagnostic hypothesis with expected correction and cap",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R02-S4",
+          "depends_on": [
+            "APP-OPS-R02-S3"
+          ],
+          "procedure": "route affected stages and verify failed case plus dependency regression",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "distinguishing probe",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "bounded repair",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "independent regression",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-OPS-R03",
+      "status": "template",
+      "title": "Backup/update → valid recovery",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "state/schema catalogue",
+          "sha256": null
+        },
+        {
+          "binding": "backup and key references",
+          "sha256": null
+        },
+        {
+          "binding": "delete/revoke generations",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-OPS-R03-S1",
+          "depends_on": [],
+          "procedure": "restore into permitted isolated environment",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R03-S2",
+          "depends_on": [
+            "APP-OPS-R03-S1"
+          ],
+          "procedure": "check data invariants, tombstones and external authority",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R03-S3",
+          "depends_on": [
+            "APP-OPS-R03-S2"
+          ],
+          "procedure": "test interrupted migration/old client/rollback mismatch",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R03-S4",
+          "depends_on": [
+            "APP-OPS-R03-S3"
+          ],
+          "procedure": "record actual RPO/RTO observations and unresolved gaps",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "actual restored environment",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "semantic compatibility proof",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "recovery limits",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-OPS-R04",
+      "status": "template",
+      "title": "Product change/exit → controlled transition",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "current scope and recipients",
+          "sha256": null
+        },
+        {
+          "binding": "rights/billing/data obligations",
+          "sha256": null
+        },
+        {
+          "binding": "exact candidate or shutdown plan",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-OPS-R04-S1",
+          "depends_on": [],
+          "procedure": "prepare all reviewable artifacts before required decision",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R04-S2",
+          "depends_on": [
+            "APP-OPS-R04-S1"
+          ],
+          "procedure": "apply current scoped effect through pending/reconcile protocol",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R04-S3",
+          "depends_on": [
+            "APP-OPS-R04-S2"
+          ],
+          "procedure": "verify useful core or agreed end-of-life consequences",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-OPS-R04-S4",
+          "depends_on": [
+            "APP-OPS-R04-S3"
+          ],
+          "procedure": "stop/revoke actual jobs and preserve permitted evidence",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "receipts/read-back",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "export/access outcomes",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "final checkpoint",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    }
+  ],
+  "assembly_template": {
+    "id": null,
+    "status": "not_run",
+    "requirement_ids": [],
+    "source_build_config_hashes": {},
+    "component_bindings": [],
+    "initial_state_ref": null,
+    "scenario_ref": null,
+    "expected_invariants": [],
+    "actual_observations": [],
+    "environment_platform_device_modality": {},
+    "author_ids": [],
+    "independent_observer_id": null,
+    "evidence_refs": [],
+    "limitations": []
+  },
+  "coverage_template": {
+    "requirement_id": null,
+    "source_intent_ref": null,
+    "domain_rule_ref": null,
+    "state_variant_platform": null,
+    "output_consumer_ref": null,
+    "recipe_ref": null,
+    "oracle_ref": null,
+    "proof_ref": null,
+    "due_stage": "operations",
+    "status": "pending",
+    "applicability_reason": null
+  },
+  "attempt_template": {
+    "id": null,
+    "status": "planned",
+    "recipe_input_toolchain_hashes": {},
+    "stable_effect_key": null,
+    "actual_provider_job_id": null,
+    "observations": [],
+    "actual_cost": null,
+    "output_hashes": {},
+    "receipt_ref": null,
+    "reconciliation_ref": null
+  }
+}

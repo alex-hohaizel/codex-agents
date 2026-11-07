@@ -1,0 +1,125 @@
+{
+  "schema_version": "chatbot.current-coverage/1",
+  "requirements": [
+    {
+      "id": "human_value",
+      "owner": "chatbot-atelier-conversation",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "natural_voice",
+      "owner": "chatbot-atelier-conversation",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "context_relevance",
+      "owner": "chatbot-atelier-conversation",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "proportional_depth",
+      "owner": "chatbot-atelier-conversation",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "simple_first",
+      "owner": "chatbot-atelier-conversation",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "practical_completion",
+      "owner": "chatbot-atelier-integrations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "multiuser_fairness",
+      "owner": "chatbot-atelier-integrations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "scheduling_fidelity",
+      "owner": "chatbot-atelier-integrations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "capability_truth",
+      "owner": "chatbot-atelier-integrations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "execution_truth",
+      "owner": "chatbot-atelier-integrations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "recovery_empathy",
+      "owner": "chatbot-atelier-conversation",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "interaction_continuity",
+      "owner": "chatbot-atelier-integrations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "character_semantics",
+      "owner": "chatbot-atelier-media",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "temporal_quality",
+      "owner": "chatbot-atelier-media",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "audiovisual_fidelity",
+      "owner": "chatbot-atelier-media",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "media_delivery",
+      "owner": "chatbot-atelier-media",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "audience_privacy",
+      "owner": "chatbot-atelier-knowledge",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "consent_authority",
+      "owner": "chatbot-atelier-specification",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "source_grounding",
+      "owner": "chatbot-atelier-knowledge",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "forgetting_integrity",
+      "owner": "chatbot-atelier-knowledge",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "bounded_resources",
+      "owner": "chatbot-atelier-build",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "lifecycle_reliability",
+      "owner": "chatbot-atelier-build",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "provider_constraints",
+      "owner": "chatbot-atelier-build",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    },
+    {
+      "id": "version_continuity",
+      "owner": "chatbot-atelier-operations",
+      "contract_path": "skills/chatbot-atelier-director/assets/requirements.json"
+    }
+  ]
+}

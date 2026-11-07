@@ -1,0 +1,24 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author typed systems/actors/equipment specifications, pin them through spec_refs, and project causal summaries into the canonical model. Empty forms are draft and do not prove depth.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "units_and_authority": {"distance": null, "time": "seconds", "angle": null, "screen": null, "simulation_tick_hz": null, "state_authority": null, "resolution_order": [], "rounding_clamp_tie_break": null},
+    "rule_form": {"id": null, "player_purpose": null, "state_variables": [], "input_or_trigger": null, "guards": [], "phases_and_timing": [], "transform": null, "cost_or_limit": null, "counterplay_or_error": null, "recovery": null, "feedback_event_refs": [], "persistence_reset": null, "boundary_examples": []},
+    "interaction_form": {"from_rule_id": null, "to_rule_id": null, "changed_condition": null, "changed_decision": null, "observable_result": null, "without_rule": null, "compatibility_or_exclusion": null},
+    "resource_form": {"id": null, "purpose": null, "unit_range": null, "sources": [], "sinks": [], "capacity_overflow": null, "alternative_use": null, "depletion_recovery": null, "reader_cue": null, "persistence_reset": null},
+    "effect_form": {"id": null, "trigger_and_targets": null, "duration": null, "stack_cap": null, "composition_and_priority": null, "refresh_replace": null, "immunity_cleanse": null, "death_scene_reset": null, "feedback_refs": []},
+    "equipment_form": {"id": null, "function": null, "acquisition_ref": null, "action_rule_refs": [], "properties": [], "strengths_limits_counters": null, "equip_switch_trial_rules": null, "compatibility": [], "progression_ref": null, "comparison_ui_ref": null},
+    "vehicle_form": {"id": null, "core_handling_rule_refs": [], "functional_modules": [], "module_budgets_and_compatibility": null, "configuration_tradeoffs": [], "route_and_control_effects": [], "invalid_configuration_recovery": null, "saved_loadout_ref": null},
+    "actor_form": {"id": null, "role": null, "body_and_navigation": null, "perception_senses_limits_occlusion": null, "knowledge_and_uncertainty": null, "memory_forgetting": null, "states_and_intents": [], "decision_priorities": [], "action_rule_refs": [], "telegraph_commitment_reaction": null, "counterplay_and_recovery": null, "coordination": null, "environment_interactions": [], "offscreen_fairness": null, "progression_variants": [], "production_cost": null},
+    "verification": {"causal_scenario_refs": [], "ablation_results": [], "dominant_policy_counterexamples": [], "normal_peak_error_cases": [], "runtime_trace_refs": [], "actual_human_readability_refs": [], "unresolved_items": []}
+  }
+}

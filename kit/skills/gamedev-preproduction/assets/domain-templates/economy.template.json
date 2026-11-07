@@ -1,0 +1,34 @@
+{
+  "template": true,
+  "schema": "gameatelier.economy/1",
+  "game_id": null,
+  "authority": null,
+  "currencies": [],
+  "faucets": [],
+  "sinks": [],
+  "exchanges": [],
+  "grants": [],
+  "catalog_ref": null,
+  "paid_earned_relation": [],
+  "random_rewards": {
+    "chosen": null,
+    "pools": [],
+    "odds_disclosure": null,
+    "guarantees": [],
+    "duplicate_policy": null
+  },
+  "commerce_state_machine_ref": null,
+  "simulation": {
+    "script_ref": null,
+    "config_ref": null,
+    "profiles": [],
+    "seeds": [],
+    "raw_results_ref": null,
+    "uncertainty": []
+  },
+  "canonical_model_ref": null,
+  "canonical_model_schema_version": "4.0.0",
+  "model_record_ids": [],
+  "representation": "draft_domain_attachment_or_derived_export",
+  "authority_note": "Resolve record IDs and source model hash before use; do not maintain a second independent truth."
+}

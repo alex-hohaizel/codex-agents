@@ -1,0 +1,42 @@
+{
+  "template": true,
+  "kind": "runtime_bindings_draft",
+  "schema": "gameatelier.runtime-bindings/1",
+  "game_id": null,
+  "model_source": {
+    "path": null,
+    "sha256": null,
+    "schema_version": "4.0.0",
+    "revision_ref": null
+  },
+  "adapters": [],
+  "bindings": [],
+  "binding_shape": {
+    "id": null,
+    "model_domain": null,
+    "model_object_id": null,
+    "model_field_path": null,
+    "runtime_target": {
+      "path": null,
+      "symbol_or_resource_field": null,
+      "data_type": null,
+      "units": null,
+      "generated": null
+    },
+    "adapter_id": null,
+    "adapter_version": null,
+    "transform_rule_ref": null,
+    "state_authority_ref": null,
+    "event_consumer_ids": [],
+    "dependency_ids": [],
+    "scenario_ids": [],
+    "oracle_ref": null,
+    "fixture_refs": [],
+    "drift_check_ref": null,
+    "evidence_ids": [],
+    "owner": null,
+    "status": "planned"
+  },
+  "issues": [],
+  "usage": "Populate bindings with actual source consumers. Keep expected behavior in canonical scenarios; never mark evidence before an actual run."
+}

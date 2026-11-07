@@ -1,0 +1,302 @@
+{
+  "schema_version": "app-atelier-stage-recipes/2",
+  "family_version": "2.3.0",
+  "stage": "growth",
+  "status": "templates_not_executed",
+  "canonical_records": "Register instantiated artifacts with hashes in .appatelier/state.json; do not replace ledger.",
+  "shared_depth_schema": "assets/depth/project.template.json",
+  "recipes": [
+    {
+      "id": "APP2-G01",
+      "operation": "value-to-feasible-channel",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "growth",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "define",
+          "procedure": "user trigger + segment + factual differentiation",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "compare",
+          "procedure": "allowed channels/access/cost/lag/rights/maintenance",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "connect",
+          "procedure": "reach→first useful action→repeat value→offer",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "review",
+          "procedure": "must failures + strongest counterargument",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "channel-plan",
+        "funnel-contract",
+        "cost-inputs"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Generic SEO label is not automation route.",
+          "Forbidden daily human work cannot be hidden in operations."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-G02",
+      "operation": "release-claims-to-materials",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "growth",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "pin",
+          "procedure": "released feature/build + accepted brand + claim evidence",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "produce",
+          "procedure": "editable localized source masters and variants",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "validate",
+          "procedure": "meaning/price/links/readability/rights/accessibility",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "preview",
+          "procedure": "exact channel before authorized publication",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "claim-ledger",
+        "source-masters",
+        "variants",
+        "preview"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Unreleased feature cannot be shown as available.",
+          "Generated reviews or installs cannot be evidence."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-G03",
+      "operation": "automation-to-bounded-publication",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "growth",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "bind",
+          "procedure": "runtime/scheduler/sources/target/grants/cap/stop",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "dry-run",
+          "procedure": "representative no-live-effect generation and failure handling",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "record",
+          "procedure": "stable pending effect identity before authorized external action",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "reconcile",
+          "procedure": "actual receipt/read-back/unknown outcome before retry",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "job-recipe",
+        "dry-run",
+        "actual-attempt-when-executed"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Plan is not active campaign.",
+          "Timeout spend/publication cannot trigger blind repeat."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-G04",
+      "operation": "events-to-observational-analysis",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "growth",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "define",
+          "procedure": "denominator/identity/dedup/time/retention/data scope",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "read",
+          "procedure": "allowed actual source/version/receipts/metrics",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "calculate",
+          "procedure": "funnel/cost/revenue/lag and uncertainty",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "report",
+          "procedure": "observations separate attribution/causal hypotheses",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "event-dictionary",
+        "observations",
+        "analysis",
+        "targeted-change"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Before/after does not establish causal effect.",
+          "Telemetry permission does not authorize prohibited A/B."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    }
+  ],
+  "domain_contract_template": {
+    "id": null,
+    "requirement_ids": [],
+    "entity_types": [],
+    "command": {
+      "id": null,
+      "actor": null,
+      "authorization": null,
+      "input_schema": null,
+      "preconditions": [],
+      "capture_moment": null,
+      "validation_and_calculation_order": [],
+      "atomic_group": null,
+      "transition": null,
+      "events": [],
+      "response": null,
+      "visible_feedback": null,
+      "durable_ack_boundary": null,
+      "idempotency_policy": null,
+      "timeout_reconciliation": null,
+      "cancellation": null,
+      "failure_cases": []
+    },
+    "fixtures": []
+  },
+  "state_field_template": {
+    "id": null,
+    "type": null,
+    "unit": null,
+    "range": null,
+    "scope": null,
+    "owner": null,
+    "authority": null,
+    "lifetime": null,
+    "serialization": null,
+    "consistency_group": null,
+    "commit_trigger": null,
+    "recovery": null,
+    "migration": null,
+    "retention_delete": null
+  },
+  "assembly_template": {
+    "status": "not_run",
+    "build_ref": null,
+    "config_ref": null,
+    "component_hashes": [],
+    "scenario": null,
+    "initial_state_ref": null,
+    "target_platform": null,
+    "device_or_environment": null,
+    "actions": [],
+    "expected": [],
+    "observed": [],
+    "author_id": null,
+    "reviewer_id": null,
+    "evidence_refs": [],
+    "gaps": []
+  }
+}

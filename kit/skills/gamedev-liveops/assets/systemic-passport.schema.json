@@ -1,0 +1,1161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gameatelier:systemic-passport:1",
+  "title": "Systemic passport for every illustrated candidate",
+  "description": "Structural concept passport companion. Presence, counts and references do not prove systemic depth, ergonomics, balance or production fidelity. Independent semantic review and later native/device evidence are separate. Compatible with handoff schema 1.0.0.",
+  "type": "object",
+  "properties": {
+    "passport_format": {
+      "const": "gameatelier.systemic-passport.1"
+    },
+    "concept_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "track": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scale": {
+          "enum": [
+            "S",
+            "M",
+            "L",
+            "other"
+          ]
+        },
+        "genre": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spatial_limit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "experience_span": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "track",
+        "scale",
+        "genre",
+        "spatial_limit",
+        "experience_span"
+      ],
+      "additionalProperties": false
+    },
+    "source_requirement_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "player_fantasy": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "immediate_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "whole_game_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "why_the_activity_is_desirable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "understandable_world_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "later_discovery_reframes_the_game": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "role",
+        "immediate_goal",
+        "whole_game_goal",
+        "why_the_activity_is_desirable",
+        "understandable_world_rule",
+        "later_discovery_reframes_the_game"
+      ],
+      "additionalProperties": false
+    },
+    "systems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/system"
+      },
+      "minItems": 1
+    },
+    "causal_interactions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/interaction"
+      },
+      "minItems": 1
+    },
+    "causal_traces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trace"
+      },
+      "minItems": 2
+    },
+    "contextual_resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/resource"
+      },
+      "minItems": 1
+    },
+    "ux": {
+      "type": "object",
+      "properties": {
+        "orientation_and_camera": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stable_input_grammar": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/input_action"
+          },
+          "minItems": 1
+        },
+        "peak_episode": {
+          "type": "object",
+          "properties": {
+            "situation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "simultaneous_player_demands": {
+              "type": "string",
+              "minLength": 1
+            },
+            "thumb_or_pointer_load": {
+              "type": "string",
+              "minLength": 1
+            },
+            "occlusion_and_targeting": {
+              "type": "string",
+              "minLength": 1
+            },
+            "why_it_is_comfortable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "next_input_if_interrupted": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "situation",
+            "simultaneous_player_demands",
+            "thumb_or_pointer_load",
+            "occlusion_and_targeting",
+            "why_it_is_comfortable",
+            "next_input_if_interrupted"
+          ],
+          "additionalProperties": false
+        },
+        "screen_states": {
+          "type": "object",
+          "properties": {
+            "first_play": {
+              "type": "string",
+              "minLength": 1
+            },
+            "normal": {
+              "type": "string",
+              "minLength": 1
+            },
+            "peak": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "first_play",
+            "normal",
+            "peak"
+          ],
+          "additionalProperties": false
+        },
+        "discovery_and_affordances": {
+          "type": "string",
+          "minLength": 1
+        },
+        "muted_and_no_haptic_information": {
+          "type": "string",
+          "minLength": 1
+        },
+        "controls_to_visible_hud_mapping": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "orientation_and_camera",
+        "stable_input_grammar",
+        "peak_episode",
+        "screen_states",
+        "discovery_and_affordances",
+        "muted_and_no_haptic_information",
+        "controls_to_visible_hud_mapping"
+      ],
+      "additionalProperties": false
+    },
+    "evolution": {
+      "type": "object",
+      "properties": {
+        "early": {
+          "$ref": "#/$defs/evolution_milestone"
+        },
+        "middle": {
+          "$ref": "#/$defs/evolution_milestone"
+        },
+        "late": {
+          "$ref": "#/$defs/evolution_milestone"
+        },
+        "progression_links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "enum": [
+                  "early",
+                  "middle",
+                  "late"
+                ]
+              },
+              "to": {
+                "enum": [
+                  "early",
+                  "middle",
+                  "late"
+                ]
+              },
+              "requires": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "requires"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "persistent_and_reset_states": {
+          "type": "string",
+          "minLength": 1
+        },
+        "self_directed_goal_after_initial_mastery": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "early",
+        "middle",
+        "late",
+        "progression_links",
+        "persistent_and_reset_states",
+        "self_directed_goal_after_initial_mastery"
+      ],
+      "additionalProperties": false
+    },
+    "replay_grammar": {
+      "type": "object",
+      "properties": {
+        "authored_families": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "combination_axes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "compatibility_and_fairness_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "concrete_contexts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/replay_context"
+          },
+          "minItems": 2
+        },
+        "same_policy_counterexample": {
+          "type": "string",
+          "minLength": 1
+        },
+        "finite_launch_capacity_and_source_cost": {
+          "type": "string",
+          "minLength": 1
+        },
+        "long_arc_without_manual_weekly_events": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "authored_families",
+        "combination_axes",
+        "compatibility_and_fairness_constraints",
+        "concrete_contexts",
+        "same_policy_counterexample",
+        "finite_launch_capacity_and_source_cost",
+        "long_arc_without_manual_weekly_events"
+      ],
+      "additionalProperties": false
+    },
+    "alternate_experience_commerce": {
+      "type": "object",
+      "properties": {
+        "model_hypothesis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exact_optional_offer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "desire_from_core_activity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trial": {
+          "type": "string",
+          "minLength": 1
+        },
+        "natural_choice_moment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "same_encounter_comparison": {
+          "type": "object",
+          "properties": {
+            "shared_encounter": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_input_and_decisions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternate_input_and_decisions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "different_feeling_or_rhythm": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternate_strength": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternate_limit_or_tradeoff": {
+              "type": "string",
+              "minLength": 1
+            },
+            "both_viable_outcomes": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "shared_encounter",
+            "baseline_input_and_decisions",
+            "alternate_input_and_decisions",
+            "different_feeling_or_rhythm",
+            "alternate_strength",
+            "alternate_limit_or_tradeoff",
+            "both_viable_outcomes"
+          ],
+          "additionalProperties": false
+        },
+        "repeated_use_and_next_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "complete_free_experience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "access_model_and_earned_comparables": {
+          "type": "string",
+          "minLength": 1
+        },
+        "no_offer_control": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cumulative_portfolio_counterexample": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mitigation_or_unresolved_gap": {
+          "type": "string",
+          "minLength": 1
+        },
+        "production_and_recurring_cost_route": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unselected_commercial_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "model_hypothesis",
+        "exact_optional_offer",
+        "desire_from_core_activity",
+        "trial",
+        "natural_choice_moment",
+        "same_encounter_comparison",
+        "repeated_use_and_next_goal",
+        "complete_free_experience",
+        "access_model_and_earned_comparables",
+        "no_offer_control",
+        "cumulative_portfolio_counterexample",
+        "mitigation_or_unresolved_gap",
+        "production_and_recurring_cost_route",
+        "unselected_commercial_decisions"
+      ],
+      "additionalProperties": false
+    },
+    "visual_production": {
+      "type": "object",
+      "properties": {
+        "profile_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "capability_evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "feasible_target_description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "camera_scale_density_ui": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference_constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "element_map": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/visible_element"
+          },
+          "minItems": 1
+        },
+        "candidate_specific_risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "what_was_actually_verified": {
+          "type": "string",
+          "minLength": 1
+        },
+        "what_remains_unproved_and_due_stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference_freeze_and_parity_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_rights_and_extra_cost": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "profile_ref",
+        "capability_evidence_refs",
+        "feasible_target_description",
+        "camera_scale_density_ui",
+        "reference_constraints",
+        "element_map",
+        "candidate_specific_risks",
+        "what_was_actually_verified",
+        "what_remains_unproved_and_due_stage",
+        "reference_freeze_and_parity_rule",
+        "source_rights_and_extra_cost"
+      ],
+      "additionalProperties": false
+    },
+    "counterfactual_review": {
+      "type": "object",
+      "properties": {
+        "remove_decorative_systems_test": {
+          "type": "string",
+          "minLength": 1
+        },
+        "strongest_simple_policy_test": {
+          "type": "string",
+          "minLength": 1
+        },
+        "early_late_decision_difference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "familiarity_and_player_comprehension": {
+          "type": "string",
+          "minLength": 1
+        },
+        "strongest_objection": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_discriminating_test": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "remove_decorative_systems_test",
+        "strongest_simple_policy_test",
+        "early_late_decision_difference",
+        "familiarity_and_player_comprehension",
+        "strongest_objection",
+        "next_discriminating_test"
+      ],
+      "additionalProperties": false
+    },
+    "review_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+      },
+      "minItems": 0
+    },
+    "user_acceptance_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "repair",
+        "ready_for_illustration",
+        "illustrated_visual_proposal",
+        "user_reference_accepted"
+      ]
+    }
+  },
+  "required": [
+    "passport_format",
+    "concept_id",
+    "revision",
+    "title",
+    "scope",
+    "source_requirement_refs",
+    "player_fantasy",
+    "systems",
+    "causal_interactions",
+    "causal_traces",
+    "contextual_resources",
+    "ux",
+    "evolution",
+    "replay_grammar",
+    "alternate_experience_commerce",
+    "visual_production",
+    "counterfactual_review",
+    "review_refs",
+    "user_acceptance_ref",
+    "status"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "system": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "family": {
+          "enum": [
+            "player",
+            "tool_or_ability",
+            "environment_or_world",
+            "pressure_or_agent",
+            "resource",
+            "goal_or_consequence",
+            "other"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state_variables": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "player_choices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "action_or_event": {
+                "type": "string",
+                "minLength": 1
+              },
+              "state_change": {
+                "type": "string",
+                "minLength": 1
+              },
+              "cost_or_limit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "counterplay_or_failure": {
+                "type": "string",
+                "minLength": 1
+              },
+              "recovery": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "condition",
+              "action_or_event",
+              "state_change",
+              "cost_or_limit",
+              "counterplay_or_failure",
+              "recovery"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "reader_cues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "family",
+        "name",
+        "state_variables",
+        "player_choices",
+        "rules",
+        "reader_cues"
+      ],
+      "additionalProperties": false
+    },
+    "interaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "from_system": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "to_system": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changed_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changed_player_decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "without_this_edge": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "from_system",
+        "to_system",
+        "condition",
+        "changed_state",
+        "changed_player_decision",
+        "without_this_edge"
+      ],
+      "additionalProperties": false
+    },
+    "trace": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "initial_context": {
+          "type": "string",
+          "minLength": 1
+        },
+        "player_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mechanic_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+                },
+                "minItems": 1,
+                "uniqueItems": true,
+                "description": "Resolve IDs to systems or causal_interactions in this same passport."
+              },
+              "state_change": {
+                "type": "string",
+                "minLength": 1
+              },
+              "readable_feedback": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_decision": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "input",
+              "mechanic_refs",
+              "state_change",
+              "readable_feedback",
+              "next_decision"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2
+        },
+        "ending_and_persistence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mistake_and_recovery": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contrast_trace_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "why_the_best_action_differs": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "initial_context",
+        "player_goal",
+        "steps",
+        "ending_and_persistence",
+        "mistake_and_recovery",
+        "contrast_trace_ref",
+        "why_the_best_action_differs"
+      ],
+      "additionalProperties": false
+    },
+    "resource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "health",
+            "contextual_state",
+            "material",
+            "relationship",
+            "economy",
+            "other"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "uses_and_sinks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "action_or_world_effect": {
+          "type": "string",
+          "minLength": 1
+        },
+        "competing_use_tradeoff": {
+          "type": "string",
+          "minLength": 1
+        },
+        "depletion_or_accumulation_risk": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recovery": {
+          "type": "string",
+          "minLength": 1
+        },
+        "player_readable_cue": {
+          "type": "string",
+          "minLength": 1
+        },
+        "persistence_or_reset": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interaction_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "system_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "description": "Owning system node; resource interaction_refs must resolve at least one edge incident on this node."
+        }
+      },
+      "required": [
+        "id",
+        "system_ref",
+        "name",
+        "kind",
+        "sources",
+        "uses_and_sinks",
+        "action_or_world_effect",
+        "competing_use_tradeoff",
+        "depletion_or_accumulation_risk",
+        "recovery",
+        "player_readable_cue",
+        "persistence_or_reset",
+        "interaction_refs"
+      ],
+      "additionalProperties": false
+    },
+    "input_action": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meaning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "precondition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preview_cue": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confirmation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ambiguity_resolution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cancel_or_recovery": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "input",
+        "meaning",
+        "precondition",
+        "preview_cue",
+        "confirmation",
+        "ambiguity_resolution",
+        "cancel_or_recovery"
+      ],
+      "additionalProperties": false
+    },
+    "evolution_milestone": {
+      "type": "object",
+      "properties": {
+        "player_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "introduced_capability_or_world_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "new_decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "familiar_action_reinterpreted": {
+          "type": "string",
+          "minLength": 1
+        },
+        "how_discovered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_visible_goal": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "player_goal",
+        "introduced_capability_or_world_state",
+        "new_decision",
+        "familiar_action_reinterpreted",
+        "how_discovered",
+        "next_visible_goal"
+      ],
+      "additionalProperties": false
+    },
+    "replay_context": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "grammar_axes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "concrete_situation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preferred_tactic_and_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "other_context_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "why_that_tactic_changes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "grammar_axes",
+        "concrete_situation",
+        "preferred_tactic_and_reason",
+        "other_context_ref",
+        "why_that_tactic_changes"
+      ],
+      "additionalProperties": false
+    },
+    "visible_element": {
+      "type": "object",
+      "properties": {
+        "element_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+        },
+        "visible_role_and_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "representation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "editable_source_route": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_assembly": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_profile_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "description": "Same production profile ID as visual_production.profile_ref; resolve to shared profile registry, not a tool ID."
+        },
+        "known_unknown_or_blocked": {
+          "enum": [
+            "known",
+            "planned",
+            "unknown",
+            "blocked"
+          ]
+        },
+        "risk_and_due_proof": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "element_id",
+        "visible_role_and_state",
+        "representation",
+        "editable_source_route",
+        "runtime_assembly",
+        "tool_profile_ref",
+        "known_unknown_or_blocked",
+        "risk_and_due_proof"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

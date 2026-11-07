@@ -1,0 +1,197 @@
+{
+  "id": "R06",
+  "status": "template",
+  "name": "attack-haptics",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "assets_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "windup/swing/block/hit/stagger/miss semantic events",
+    "timing/cancel/pause and authority rules",
+    "voice/haptic priorities/caps and hardware fallback",
+    "opt-out/settings persistence and accessible equivalents"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "DAW or Audacity",
+    "Godot audio adapter",
+    "Core Haptics/Android vibration qualified adapters"
+  ],
+  "capability_ids": [
+    "bind_CAP_O19_R06",
+    "bind_CAP_O23_R06",
+    "bind_CAP_O22_R06",
+    "bind_CAP_O33_R06"
+  ],
+  "steps": [
+    {
+      "id": "R06-S01",
+      "operation_id": "O19",
+      "capability_id": "bind_CAP_O19_R06",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Create coherent whoosh/block/hit/pain/miss families only where applicable; retain editable source and variant/no-repeat/voice constraints."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Miss never emits accepted hit cue; pain not infinite overlapping voice."
+        ]
+      },
+      "output_ids": [
+        "R06-OUT01"
+      ],
+      "validator": "bind_R06_sound-family_independent_validator"
+    },
+    {
+      "id": "R06-S02",
+      "operation_id": "O23",
+      "capability_id": "bind_CAP_O23_R06",
+      "depends_on": [
+        "R06-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Define bounded confirmation/received-hit/block patterns, min distance/cancel/aggregation and no-haptic fallback. Probe actual device/API capabilities before selecting primitives/amplitude."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "SupportedOS is not hardware/bridge proof; opt-out remains respected."
+        ]
+      },
+      "output_ids": [
+        "R06-OUT02"
+      ],
+      "validator": "bind_R06_patterns_independent_validator"
+    },
+    {
+      "id": "R06-S03",
+      "operation_id": "O22",
+      "capability_id": "bind_CAP_O22_R06",
+      "depends_on": [
+        "R06-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Dispatch whoosh via presentation marker and hit/block via simulation outcome with exact event instance. Bind multimodal offsets/tolerance and stop on focus loss/cancel/cleanup."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "No damage/entitlement from cue; no unbounded scaling by HP damage."
+        ]
+      },
+      "output_ids": [
+        "R06-OUT03"
+      ],
+      "validator": "bind_R06_synchronize_independent_validator"
+    },
+    {
+      "id": "R06-S04",
+      "operation_id": "O33",
+      "capability_id": "bind_CAP_O33_R06",
+      "depends_on": [
+        "R06-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Run sound-off/vibration-off/both-off/mono/reduced effects/unsupported hardware/repeated hits under hit stop. Physically observe tactile onset and comfort; record output method and device."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Critical status/direction/timing remains understandable; simulator/JSON not tactile pass."
+        ]
+      },
+      "output_ids": [
+        "R06-OUT04"
+      ],
+      "validator": "bind_R06_parity_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R06-OUT01",
+      "type": "SFX sources and event inventory",
+      "editable": true,
+      "consumer": "R06-S02",
+      "acceptance": [
+        "Miss never emits accepted hit cue; pain not infinite overlapping voice."
+      ]
+    },
+    {
+      "id": "R06-OUT02",
+      "type": "pattern/config source and capability probe",
+      "editable": true,
+      "consumer": "R06-S03",
+      "acceptance": [
+        "SupportedOS is not hardware/bridge proof; opt-out remains respected."
+      ]
+    },
+    {
+      "id": "R06-OUT03",
+      "type": "audio/haptic/VFX dispatcher and mix binding",
+      "editable": true,
+      "consumer": "R06-S04",
+      "acceptance": [
+        "No damage/entitlement from cue; no unbounded scaling by HP damage."
+      ]
+    },
+    {
+      "id": "R06-OUT04",
+      "type": "native/tactile evidence and non-audio parity observations",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Critical status/direction/timing remains understandable; simulator/JSON not tactile pass."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Missing hardware → documented semantic alternative, no fake tactile verdict.",
+      "Continuous buzzing → rework priority/aggregation/cancel; delayed hit cue → inspect dispatch/output path separately."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://developer.apple.com/documentation/corehaptics",
+    "https://developer.android.com/develop/ui/views/haptics/haptics-apis"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

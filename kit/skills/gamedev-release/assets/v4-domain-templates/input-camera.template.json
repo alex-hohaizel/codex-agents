@@ -1,0 +1,58 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "input_camera",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "intent_action_map": [],
+  "input_profiles": [
+    {
+      "id": null,
+      "device_grip_handedness": null,
+      "safe_area_policy": null,
+      "pointer_ownership": null,
+      "zones": [],
+      "threshold_units": null,
+      "recognizer_states": [],
+      "competition_priority": [],
+      "deadzone_curve_hysteresis": null,
+      "preview_commit_cancel": null,
+      "buffer_release": null,
+      "focus_pause_modal_policy": null,
+      "settings_save_ref": null
+    }
+  ],
+  "camera": {
+    "projection_angle": null,
+    "subject_frame_scale": null,
+    "visible_action_horizon": null,
+    "follow_deadzone_lookahead": null,
+    "zoom_bounds": null,
+    "occlusion_collision": null,
+    "motion_limits": null,
+    "requests": [],
+    "owner_priority_tie_break": null,
+    "blend_release_return": null,
+    "comfort_profile": null
+  },
+  "touch_camera_traces": [],
+  "first_peak_late_cases": [],
+  "latency_measurement_plan": null,
+  "human_evidence_obligations": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "input"
+    ],
+    "tracks": [
+      "TR13"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

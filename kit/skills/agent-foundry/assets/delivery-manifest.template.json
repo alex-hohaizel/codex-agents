@@ -1,0 +1,23 @@
+{
+  "is_template": true,
+  "format_version": 1,
+  "kit_id": "agent-package",
+  "agent_id": null,
+  "version": null,
+  "entry_skill": null,
+  "purpose": "generated",
+  "blueprint": null,
+  "skills": [],
+  "_instructions": {
+    "creation": "Use package_agent.py against already-authored files. This unfilled template cannot pass installation validation or grant permission.",
+    "generated_identity": "agent_id equals the current approved entry_skill. Skill names and entry must exactly match the current constructor build gate; counts are variable.",
+    "blueprint": "Generated packages pin id, integer revision, SHA256 and approval_source obtained from the current build gate. A copied manifest is provenance, not actual human authority.",
+    "skill_record": "Each item records name, path=skills/<name>, files={relative_path:SHA256}, modes={relative_path:ordinary_POSIX_mode_integer}. Required metadata and local entry references must be valid.",
+    "final_evidence": "Generated packaging also invokes current bundle-check on the unpacked files. Expected blueprint artifacts must be unpacked deliverables, never the final archive or a self-referential checksum.",
+    "factory": "Factory purpose is reserved for the exact current constructor's own one-skill core and cannot bypass target approval.",
+    "delivery_boundary": "Prepared files, project placement, host discovery, invocation, product execution, external registration and publication are separate states. No credentials belong in this manifest.",
+    "operating_standard": "New generated exports carry agent-operating-standard/1, current release and exact hashes of all portable operating resources. Legacy packages remain distinguishable; installation does not fabricate adoption or semantic proof.",
+    "visual_identity": "Choose project/system by the accepted purpose, independently of installation path. New project-specific icons use project-card-v1. Reusable system skills record reusable_system source basis and a bound actual existing system-style sample for created icons. Preserve existing exact visual identity and class; classification grants no permissions."
+  },
+  "operating_standard": null
+}

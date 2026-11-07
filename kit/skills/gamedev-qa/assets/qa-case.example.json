@@ -1,0 +1,61 @@
+{
+  "toolkit_version": "4.2.0",
+  "kind": "example_test_plan_not_execution",
+  "case_id": "EXAMPLE-REWARD-DEDUP-01",
+  "source_requirement_ids": [
+    "EXAMPLE-REQ-REWARD-DURABLE-ONCE"
+  ],
+  "rule_ids": [
+    "EXAMPLE-RULE-REWARD-CLAIM"
+  ],
+  "gate": "slice",
+  "domains": [
+    "rewards",
+    "lifecycle"
+  ],
+  "applies_when": "The product grants persistent rewards; replace this illustrative fixture with approved product rules.",
+  "input_fixture": {
+    "initial_inventory": {
+      "token": 4
+    },
+    "eligible_reward": {
+      "id": "illustrative-reward-7",
+      "token": 2
+    },
+    "claim_identity": "illustrative-claim-7"
+  },
+  "procedure": [
+    "Claim reward and persist committed result.",
+    "Replay the same claim identity twice.",
+    "Kill and reload after commit; submit the same identity again."
+  ],
+  "expected_observable": [
+    "Inventory contains 6 tokens after the first committed grant.",
+    "Inventory remains 6 after all duplicate claims and reload.",
+    "One committed reward operation is recorded; retries return the existing outcome."
+  ],
+  "oracle_source": "Illustrative durable-grant invariant plus explicit initial state; bind the approved game reward/persistence contract before use.",
+  "required_layers": [
+    "model",
+    "runtime"
+  ],
+  "required_proofs": [
+    "sanitized event/state trace before and after each fault point",
+    "named build/save version and actual observer record"
+  ],
+  "variant_cases": [
+    "kill before commit then retry",
+    "inventory cap/overflow according to approved rule",
+    "two devices if cloud claims are supported"
+  ],
+  "actual_result": null,
+  "raw_evidence_refs": [],
+  "executed_by": null,
+  "executed_at": null,
+  "independent_reviewer": null,
+  "status": "planned_example",
+  "limitations": [
+    "Example numbers are fixture values, not gameplay/economy recommendations.",
+    "This plan is not an execution receipt and cannot close a requirement."
+  ]
+}

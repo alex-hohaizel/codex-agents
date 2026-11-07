@@ -1,0 +1,231 @@
+{
+  "id": "R03",
+  "status": "template",
+  "name": "vfx-ui-collision",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "assets_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "authoritative action shape/trajectory/time/event IDs",
+    "style/camera/threat priority",
+    "screen states/string IDs/fonts/licenses/safe areas",
+    "reduced effects/mute/no-haptic alternatives and budgets"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "Inkscape",
+    "Krita",
+    "Godot shader/particle/Control authoring"
+  ],
+  "capability_ids": [
+    "bind_CAP_O16_R03",
+    "bind_CAP_O17_R03",
+    "bind_CAP_O32_R03",
+    "bind_CAP_O34_R03",
+    "bind_CAP_O35_R03"
+  ],
+  "steps": [
+    {
+      "id": "R03-S01",
+      "operation_id": "O16",
+      "capability_id": "bind_CAP_O16_R03",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Construct editable outline/fill/direction cue and burst/trail source from exact model shape/times. Set local/global coordinates, bounds, blend/depth, pool reset and lifetime."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Cue communicates allowed danger before active window; no accidentally authoritative particle."
+        ]
+      },
+      "output_ids": [
+        "R03-OUT01"
+      ],
+      "validator": "bind_R03_telegraph_independent_validator"
+    },
+    {
+      "id": "R03-S02",
+      "operation_id": "O17",
+      "capability_id": "bind_CAP_O17_R03",
+      "depends_on": [
+        "R03-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Build runtime components/theme with SVG icon masters and licensed font files. Bind string IDs/plurals/numbers; define focus/disabled/committed/recovery/error states."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Ukrainian glyphs, long strings, large text, safe areas and focus tested in real text renderer."
+        ]
+      },
+      "output_ids": [
+        "R03-OUT02"
+      ],
+      "validator": "bind_R03_layout_independent_validator"
+    },
+    {
+      "id": "R03-S03",
+      "operation_id": "O32",
+      "capability_id": "bind_CAP_O32_R03",
+      "depends_on": [
+        "R03-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Bind action instance/shape/time to adapters. Configure cancel/pause/resume/slow clock and pooled cleanup. Compare debug collision overlay against cue in timed scene."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Marker is presentation; hit resolver remains simulation authority; no stale pooled effect."
+        ]
+      },
+      "output_ids": [
+        "R03-OUT03"
+      ],
+      "validator": "bind_R03_binding_independent_validator"
+    },
+    {
+      "id": "R03-S04",
+      "operation_id": "O34",
+      "capability_id": "bind_CAP_O34_R03",
+      "depends_on": [
+        "R03-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Run crowded cues, thumb occlusion, low contrast, narrow aspect, muted/low-effects/reduced motion. Ask observer to identify threat/direction/timing/action without author hints."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Critical info survives each fallback; font/layout clarity and animation meaning assessed together."
+        ]
+      },
+      "output_ids": [
+        "R03-OUT04"
+      ],
+      "validator": "bind_R03_readability_independent_validator"
+    },
+    {
+      "id": "R03-S05",
+      "operation_id": "O35",
+      "capability_id": "bind_CAP_O35_R03",
+      "depends_on": [
+        "R03-S04"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Compare effect-on/off at peak overlap on due target; record CPU/GPU frame percentiles, overdraw/transparent coverage, particles/draws/memory/thermal context."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Project budgets met; lower tier removes decorative load while preserving critical cue."
+        ]
+      },
+      "output_ids": [
+        "R03-OUT05"
+      ],
+      "validator": "bind_R03_budget_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R03-OUT01",
+      "type": "engine VFX/shader/flipbook source",
+      "editable": true,
+      "consumer": "R03-S02",
+      "acceptance": [
+        "Cue communicates allowed danger before active window; no accidentally authoritative particle."
+      ]
+    },
+    {
+      "id": "R03-OUT02",
+      "type": "editable icons/theme/runtime layout/font manifest",
+      "editable": true,
+      "consumer": "R03-S03",
+      "acceptance": [
+        "Ukrainian glyphs, long strings, large text, safe areas and focus tested in real text renderer."
+      ]
+    },
+    {
+      "id": "R03-OUT03",
+      "type": "event mapping and diagnostic assembly",
+      "editable": true,
+      "consumer": "R03-S04",
+      "acceptance": [
+        "Marker is presentation; hit resolver remains simulation authority; no stale pooled effect."
+      ]
+    },
+    {
+      "id": "R03-OUT04",
+      "type": "timecoded captures and perceptual observations",
+      "editable": true,
+      "consumer": "R03-S05",
+      "acceptance": [
+        "Critical info survives each fallback; font/layout clarity and animation meaning assessed together."
+      ]
+    },
+    {
+      "id": "R03-OUT05",
+      "type": "profile receipt and tier configuration",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Project budgets met; lower tier removes decorative load while preserving critical cue."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Repair outline/shape/timing/layout/priority when readability fails; do not change collision to match arbitrary art.",
+      "Simple mesh/outline+icon/text fallback preserves semantic meaning."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://docs.godotengine.org/en/stable/tutorials/3d/particles/index.html",
+    "https://docs.godotengine.org/en/stable/tutorials/ui/gui_using_fonts.html"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

@@ -1,0 +1,12 @@
+interface:
+  display_name: GAME · Концепції · 5.0.0
+  short_description: Повні концепції C1, різноманіття й здійсненний задум
+  default_prompt: $gamedev-concepts Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  icon_small: ./assets/family-icon-small.png
+  icon_large: ./assets/family-icon-large.png
+policy:
+  allow_implicit_invocation: true
+  products:
+  - chatgpt
+  - codex
+  - atlas

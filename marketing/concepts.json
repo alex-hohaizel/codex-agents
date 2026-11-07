@@ -1,0 +1,442 @@
+[
+  {
+    "id": "01",
+    "slug": "mission-control",
+    "name": [
+      "Mission Control",
+      "Центр керування"
+    ],
+    "tag": [
+      "One brief. A team with a clear mission.",
+      "Одна задача. Команда з чіткою метою."
+    ],
+    "desc": [
+      "A composed command centre turns an unclear request into a visible plan. Specialists have a purpose, the owner sees decisions, and progress is tied to evidence.",
+      "Зібраний центр керування перетворює нечіткий запит на видимий план. Кожен фахівець має роль, власник бачить рішення, а прогрес спирається на докази."
+    ],
+    "bg": "#0C1822",
+    "fg": "#F1F8F5",
+    "accent": "#6DF1BE",
+    "muted": "#86A3A4",
+    "card": "#142732",
+    "secondary": "#F1B777",
+    "font": "Arial, sans-serif",
+    "form": "dashboard",
+    "audience": [
+      "Technical founders and engineering leads who want oversight without coordinating every role.",
+      "Технічні засновники й керівники розробки, яким потрібен контроль без ручної координації кожної ролі."
+    ],
+    "visual": [
+      "A dark operational canvas; one brief at the centre, clearly named specialist lanes, compact evidence cards. Mint shows active work; amber marks an owner decision.",
+      "Темне операційне полотно; одна задача в центрі, підписані доріжки фахівців, компактні картки доказів. М’ятний означає активну роботу; бурштиновий — рішення власника."
+    ],
+    "story": [
+      "Open on one plain-language brief. Reveal the director and four roles. Follow one requirement into implementation and verification. Finish with a shared WORK + CODEX checkpoint.",
+      "Почати з одного запиту людською мовою. Показати директора й чотири ролі. Простежити вимогу до реалізації та перевірки. Завершити спільною контрольною точкою WORK + CODEX."
+    ],
+    "motion": [
+      "Cards enter in causal order; a single route line follows the active handoff. 12–18 seconds. Reduced-motion version uses discrete cuts.",
+      "Картки з’являються в причинному порядку; одна лінія відстежує активну передачу. 12–18 секунд. Версія зі зменшеним рухом — послідовна зміна кадрів."
+    ],
+    "lock": [
+      "Preserve the navy/mint ratio, rectangular panels, left-aligned type, status vocabulary and one amber owner-decision signal. No decorative radar or fake live metrics.",
+      "Зберегти співвідношення темно-синього й м’ятного, прямокутні панелі, ліве вирівнювання, словник станів та один бурштиновий сигнал рішення власника. Без декоративного радара й вигаданих live-метрик."
+    ]
+  },
+  {
+    "id": "02",
+    "slug": "living-blueprint",
+    "name": [
+      "Living Blueprint",
+      "Живе креслення"
+    ],
+    "tag": [
+      "Every decision leaves a useful trace.",
+      "Кожне рішення залишає корисний слід."
+    ],
+    "desc": [
+      "A technical drawing that evolves into a working product. Requirements, architecture and tests remain visibly connected, from a single backend concern to a whole system.",
+      "Технічне креслення, що розвивається в робочий продукт. Вимоги, архітектура й перевірки залишаються пов’язаними — від однієї проблеми бекенду до цілої системи."
+    ],
+    "bg": "#F4F1E9",
+    "fg": "#173451",
+    "accent": "#245EEA",
+    "muted": "#6D7B86",
+    "card": "#FFFFFF",
+    "secondary": "#D06A43",
+    "font": "Georgia, serif",
+    "form": "blueprint",
+    "audience": [
+      "Architects, backend leads and teams that need explicit contracts, trade-offs and continuity.",
+      "Архітектори, бекенд-ліди й команди, яким потрібні точні контракти, обґрунтовані компроміси та безперервність."
+    ],
+    "visual": [
+      "Ivory drafting paper, cobalt construction lines, annotation numbers and restrained rust corrections. Product silhouettes grow out of the same measured grid.",
+      "Креслярський папір кольору слонової кістки, кобальтові лінії, номери виносок і стримані теракотові уточнення. Силуети продуктів виростають із тієї самої розмірної сітки."
+    ],
+    "story": [
+      "Start with a requirement annotation. Unfold its data contract, design decision, implementation and test. Zoom out to show apps, games and integrations sharing the method.",
+      "Почати з виноски вимоги. Розкрити її контракт даних, рішення, реалізацію та тест. Віддалити камеру й показати застосунки, ігри та інтеграції з тим самим підходом."
+    ],
+    "motion": [
+      "Lines draw once, annotations settle into place, then the blueprint becomes a product outline. Never imply that drawing alone produces tested software.",
+      "Лінії прокреслюються один раз, виноски стають на місця, потім креслення переходить у контур продукту. Не створювати враження, що саме креслення вже є перевіреним ПЗ."
+    ],
+    "lock": [
+      "Keep the paper background, cobalt geometry, numbered annotations and serif headline with sans-serif technical captions.",
+      "Зберегти паперове тло, кобальтову геометрію, нумеровані виноски та заголовок із засічками з технічними підписами без засічок."
+    ]
+  },
+  {
+    "id": "03",
+    "slug": "product-constellation",
+    "name": [
+      "Product Constellation",
+      "Сузір’я продукту"
+    ],
+    "tag": [
+      "The right expertise, connected around your goal.",
+      "Потрібна експертиза навколо твоєї мети."
+    ],
+    "desc": [
+      "A purposeful constellation reveals how specialist families join around one project. The emphasis is collaboration across disciplines, with an obvious centre and readable relationships.",
+      "Змістовне сузір’я показує, як спеціалізовані сімейства об’єднуються навколо одного проєкту. Акцент — на співпраці дисциплін із чітким центром і зрозумілими зв’язками."
+    ],
+    "bg": "#121025",
+    "fg": "#F5F1FF",
+    "accent": "#B99BFF",
+    "muted": "#A69ABC",
+    "card": "#211B38",
+    "secondary": "#62E4DA",
+    "font": "Arial, sans-serif",
+    "form": "constellation",
+    "audience": [
+      "Creators with multidisciplinary projects: an app, its support bot, integration services and launch materials.",
+      "Автори міждисциплінарних проєктів: застосунок, бот підтримки, інтеграційні сервіси та матеріали запуску."
+    ],
+    "visual": [
+      "A deep-plum field, large labelled nodes and a deliberate five-cluster orbit. Connections express real handoffs; small stars are absent.",
+      "Глибоке сливове поле, великі підписані вузли й продумана орбіта п’яти кластерів. Зв’язки означають реальні передачі; дрібних декоративних зірок немає."
+    ],
+    "story": [
+      "Place the owner’s goal at the centre. Activate only relevant families. Show one cross-family task and return its evidence to the project checkpoint.",
+      "Розмістити мету власника в центрі. Активувати лише потрібні сімейства. Показати одну міжсімейну задачу й повернути докази до контрольної точки проєкту."
+    ],
+    "motion": [
+      "Orbit is a compositional metaphor, not perpetual motion. Nodes illuminate on demand; lines appear only when a handoff occurs.",
+      "Орбіта — композиційна метафора без постійного обертання. Вузли активуються за потреби; лінії з’являються лише під час передачі."
+    ],
+    "lock": [
+      "Preserve central-goal hierarchy, five readable family clusters, plum/lilac/turquoise palette and meaningful labelled edges.",
+      "Зберегти ієрархію центральної мети, п’ять читабельних кластерів, сливово-бузково-бірюзову палітру й змістовні підписані зв’язки."
+    ]
+  },
+  {
+    "id": "04",
+    "slug": "atelier-editions",
+    "name": [
+      "Atelier Editions",
+      "Видання майстерні"
+    ],
+    "tag": [
+      "A serious craft, shaped to your project.",
+      "Ґрунтовна робота під твій проєкт."
+    ],
+    "desc": [
+      "An editorial portfolio presents the system through carefully composed project chapters. It feels like a premium creative and engineering practice with concrete deliverables.",
+      "Редакційне портфоліо представляє систему через продумані розділи проєктів. Враження преміальної творчої та інженерної практики з конкретними результатами."
+    ],
+    "bg": "#EEE7DB",
+    "fg": "#3C2028",
+    "accent": "#8A2947",
+    "muted": "#8B7975",
+    "card": "#F8F4ED",
+    "secondary": "#B98C47",
+    "font": "Georgia, serif",
+    "form": "editorial",
+    "audience": [
+      "Independent creators, product owners and buyers who value coherent experience, design and documented work.",
+      "Незалежні автори, власники продуктів і покупці, що цінують цілісний досвід, дизайн та задокументовану роботу."
+    ],
+    "visual": [
+      "Oversized editorial serif, burgundy folio numbers, generous paper margins and specimen-like product frames. Each chapter is an outcome.",
+      "Велика редакційна антиква, бордові номери сторінок, щедрі паперові поля й продуктові рамки як зразки. Кожен розділ — результат."
+    ],
+    "story": [
+      "Turn the brief into chapter one. Move through research, visual identity, engineering, independent review and release preparation. End on a living project archive.",
+      "Перетворити бриф на перший розділ. Пройти дослідження, візуальну ідентичність, інженерію, незалежну перевірку й підготовку випуску. Завершити живим архівом проєкту."
+    ],
+    "motion": [
+      "Page-like cuts and slow typographic reveals. Avoid simulated paper textures that obscure the actual interface or claims.",
+      "Монтажні переходи як сторінки й повільне розкриття типографіки. Уникати текстур паперу, що заважають інтерфейсу або змісту."
+    ],
+    "lock": [
+      "Preserve burgundy/ivory, folio numbering, generous negative space, serif hierarchy and consistent project specimen frames.",
+      "Зберегти бордово-кремову палітру, нумерацію, великий вільний простір, ієрархію антикви й однакові рамки зразків проєктів."
+    ]
+  },
+  {
+    "id": "05",
+    "slug": "prism-of-scale",
+    "name": [
+      "Prism of Scale",
+      "Призма масштабу"
+    ],
+    "tag": [
+      "One method. The scale your work needs.",
+      "Один підхід. Масштаб твоєї задачі."
+    ],
+    "desc": [
+      "A crisp modular prism expands from one bounded task to a complete product. It makes flexible scope tangible without pretending every project needs the largest team.",
+      "Чітка модульна призма розгортається від обмеженої задачі до цілого продукту. Гнучкий масштаб стає наочним без припущення, що кожному проєкту потрібна найбільша команда."
+    ],
+    "bg": "#FBFAF7",
+    "fg": "#191725",
+    "accent": "#6F48E9",
+    "muted": "#777388",
+    "card": "#F0EEF5",
+    "secondary": "#F37345",
+    "font": "Arial, sans-serif",
+    "form": "prism",
+    "audience": [
+      "People comparing a small focused assignment with a larger product initiative; useful for future packaging tiers without inventing prices.",
+      "Люди, що порівнюють вузьку задачу з великим продуктовим задумом; підходить для майбутніх пакетів без вигадування цін."
+    ],
+    "visual": [
+      "Black oversized type, white space and violet/orange folded modules. Small, medium and large scopes share one visual construction grammar.",
+      "Великий чорний шрифт, білий простір і фіолетово-помаранчеві складені модулі. Малий, середній і великий масштаби мають одну візуальну граматику."
+    ],
+    "story": [
+      "Isolate a backend decision. Expand it into a service, then an app with support and integrations. Show that scope is deliberately chosen before work expands.",
+      "Виокремити рішення в бекенді. Розгорнути його в сервіс, потім у застосунок із підтримкою та інтеграціями. Показати свідомий вибір масштабу до розширення робіт."
+    ],
+    "motion": [
+      "Modules unfold along one axis, then lock into a stable composition. Every expansion is labelled as a scope decision.",
+      "Модулі розкриваються вздовж однієї осі й фіксуються в стійкій композиції. Кожне розширення підписане як рішення про масштаб."
+    ],
+    "lock": [
+      "Keep fold angles, three scope levels, bold grotesk headings and violet/orange accents; preserve the small-task route in every adaptation.",
+      "Зберегти кути складок, три масштаби, жирний гротеск і фіолетово-помаранчеві акценти; у кожній адаптації лишити маршрут малої задачі."
+    ]
+  },
+  {
+    "id": "06",
+    "slug": "relay",
+    "name": [
+      "Relay",
+      "Естафета"
+    ],
+    "tag": [
+      "Good work keeps its context at every handoff.",
+      "Робота зберігає контекст на кожному переході."
+    ],
+    "desc": [
+      "The central story is continuity: WORK clarifies, CODEX implements, and both continue with recorded decisions and evidence. Handoffs are the hero.",
+      "Центральна історія — безперервність: WORK уточнює, CODEX реалізує, обидва продовжують із зафіксованими рішеннями й доказами. Головний герой — передача контексту."
+    ],
+    "bg": "#113ED9",
+    "fg": "#FFFFFF",
+    "accent": "#FFD270",
+    "muted": "#B5C6FF",
+    "card": "#224FE3",
+    "secondary": "#FF877C",
+    "font": "Arial, sans-serif",
+    "form": "relay",
+    "audience": [
+      "Users who already switch between planning and coding tools and want a repeatable joint workflow.",
+      "Користувачі, що вже перемикаються між плануванням і розробкою та хочуть повторювану спільну роботу."
+    ],
+    "visual": [
+      "Electric cobalt, warm yellow batons and a strong split-screen WORK/CODEX layout. The same project packet appears on both sides.",
+      "Електричний кобальт, теплі жовті естафетні блоки та сильна композиція WORK/CODEX навпіл. Той самий пакет проєкту присутній з обох боків."
+    ],
+    "story": [
+      "Write one brief in WORK. Carry requirements, decisions and acceptance criteria into CODEX. Return code, checks and open questions. Continue without a fresh project.",
+      "Написати один бриф у WORK. Передати вимоги, рішення та критерії приймання в CODEX. Повернути код, перевірки й відкриті питання. Продовжити той самий проєкт."
+    ],
+    "motion": [
+      "A single baton crosses the split and returns with evidence. Use clear pauses; no implication of built-in live synchronisation.",
+      "Один естафетний блок перетинає поділ і повертається з доказами. Чіткі паузи; без натяку на вбудовану синхронізацію в реальному часі."
+    ],
+    "lock": [
+      "Preserve the two named modes, visible shared packet, cobalt/yellow/coral ratio and the return path as well as the outbound path.",
+      "Зберегти два підписані режими, видимий спільний пакет, кобальтово-жовто-коралове співвідношення та зворотний маршрут поряд із прямим."
+    ]
+  },
+  {
+    "id": "07",
+    "slug": "evidence-first",
+    "name": [
+      "Evidence First",
+      "Спочатку докази"
+    ],
+    "tag": [
+      "A clear answer to: how do we know it works?",
+      "Чітка відповідь: звідки знаємо, що працює?"
+    ],
+    "desc": [
+      "A restrained quality-led identity shows the trace from user request to verified result. It presents review and acceptance as part of the work, with honest unresolved states.",
+      "Стримана ідентичність навколо якості показує шлях від запиту користувача до перевіреного результату. Перевірка й приймання — частина роботи, а невирішені стани видимі."
+    ],
+    "bg": "#171918",
+    "fg": "#F6F7F1",
+    "accent": "#D6F577",
+    "muted": "#A3AAA0",
+    "card": "#262C26",
+    "secondary": "#F0B279",
+    "font": "Courier New, monospace",
+    "form": "evidence",
+    "audience": [
+      "Engineering buyers, regulated or complex internal teams and technically sceptical users who need inspectable outputs.",
+      "Інженерні покупці, складні внутрішні команди й технічно скептичні користувачі, яким потрібні результати для перевірки."
+    ],
+    "visual": [
+      "Graphite background, acid-lime marks, large requirement IDs and an intentionally readable evidence table. Example data is labelled as illustrative.",
+      "Графітове тло, лаймові позначки, великі ID вимог і навмисно читабельна таблиця доказів. Приклад даних явно позначено як ілюстративний."
+    ],
+    "story": [
+      "Ask what “done” means. Attach acceptance criteria to a requirement. Show the implementation, QA finding and result. End with a real stop condition when evidence is missing.",
+      "Запитати, що означає «готово». Прикріпити критерії приймання до вимоги. Показати реалізацію, зауваження QA та результат. Завершити реальною зупинкою, коли доказів бракує."
+    ],
+    "motion": [
+      "A requirement row gains links one by one. Pass/pending states appear only as an explanatory example; no rolling fake success counter.",
+      "Рядок вимоги поступово отримує посилання. Стани passed/pending — лише пояснювальний приклад; без вигаданого лічильника успіху."
+    ],
+    "lock": [
+      "Preserve readable IDs, explicit example labels, three honest states and generous table spacing. Never use quality badges as certification.",
+      "Зберегти читабельні ID, явні позначення прикладів, три чесні стани й вільну таблицю. Не подавати значки як сертифікацію."
+    ]
+  },
+  {
+    "id": "08",
+    "slug": "launch-garden",
+    "name": [
+      "Launch Garden",
+      "Сад розвитку"
+    ],
+    "tag": [
+      "Grow the project without losing its roots.",
+      "Розвивай проєкт, зберігаючи його основу."
+    ],
+    "desc": [
+      "An organic yet structured system makes long-term evolution approachable. Roots are requirements; branches are specialist disciplines; new versions preserve project knowledge.",
+      "Органічна, але структурована система робить довгий розвиток зрозумілим. Коріння — вимоги; гілки — спеціалізовані дисципліни; нові версії зберігають знання проєкту."
+    ],
+    "bg": "#E9EDDC",
+    "fg": "#203F32",
+    "accent": "#3D6D45",
+    "muted": "#738269",
+    "card": "#F7F8EE",
+    "secondary": "#C88E3D",
+    "font": "Georgia, serif",
+    "form": "garden",
+    "audience": [
+      "Long-running pet projects, independent products and owners who want continuity through updates.",
+      "Довготривалі пет-проєкти, незалежні продукти й власники, що хочуть безперервності під час оновлень."
+    ],
+    "visual": [
+      "Sage paper, forest-green branching geometry and restrained seed-yellow markers. Product cards remain architectural, avoiding a generic botanical illustration.",
+      "Шавлієвий папір, лісова зелень розгалуженої геометрії та стримані жовті маркери. Картки продуктів залишаються архітектурними без загальної ботанічної ілюстрації."
+    ],
+    "story": [
+      "Plant a clear requirement. Develop its relevant branches. Release a tested increment. Carry the project roots through the next system upgrade and rollback checkpoint.",
+      "Закласти чітку вимогу. Розвинути потрібні гілки. Випустити перевірений крок. Перенести основу проєкту через наступне оновлення системи й контрольну точку відкату."
+    ],
+    "motion": [
+      "A branch extends only after a decision. Milestone rings record stages; roots stay visible. No promise of automatic growth, users or revenue.",
+      "Гілка зростає лише після рішення. Кільця фіксують етапи; коріння лишається видимим. Без обіцянки автоматичного зростання, користувачів або доходу."
+    ],
+    "lock": [
+      "Preserve roots/branches meaning, sage/forest palette, curved connectors and clear milestone labels; do not replace the project with a new seed on update.",
+      "Зберегти зміст коріння й гілок, шавлієво-зелену палітру, криві зв’язки та ясні етапи; під час оновлення не замінювати проєкт новим зерном."
+    ]
+  },
+  {
+    "id": "09",
+    "slug": "human-and-system",
+    "name": [
+      "Human × System",
+      "Людина × система"
+    ],
+    "tag": [
+      "Say what you need. Shape what happens next.",
+      "Скажи, що потрібно. Визначай наступний крок."
+    ],
+    "desc": [
+      "A warm, conversational entrance lowers the barrier for non-specialists. Plain speech becomes a scoped plan, while meaningful decisions remain visible to the owner.",
+      "Теплий розмовний початок знижує бар’єр для нефахівців. Звичайна мова перетворюється на узгоджений план, а важливі рішення лишаються видимими власнику."
+    ],
+    "bg": "#F9E8DB",
+    "fg": "#302D33",
+    "accent": "#D45E40",
+    "muted": "#8F7D77",
+    "card": "#FFF9F2",
+    "secondary": "#576FCC",
+    "font": "Arial, sans-serif",
+    "form": "dialogue",
+    "audience": [
+      "First-time users, small business owners and creators who do not yet know which specialist they need.",
+      "Нові користувачі, власники малого бізнесу й автори, що ще не знають, який фахівець їм потрібен."
+    ],
+    "visual": [
+      "Warm peach, large human-readable dialogue, a blue scope card and terracotta decision controls. No robot mascot or anthropomorphic promise.",
+      "Теплий персиковий, велика розмова людською мовою, синя картка масштабу й теракотові рішення. Без робота-талісмана або обіцянки людської свідомості."
+    ],
+    "story": [
+      "Open with a realistic vague request. Ask one useful question. Show the plan and owner choice. Reveal the specialist team and concrete next deliverable.",
+      "Почати з реального нечіткого запиту. Поставити одне корисне питання. Показати план і вибір власника. Розкрити команду фахівців та конкретний наступний результат."
+    ],
+    "motion": [
+      "Dialogue appears at a readable pace; the owner’s choice opens the team panel. Always keep a static complete reading mode.",
+      "Діалог з’являється в темпі читання; вибір власника відкриває панель команди. Завжди мати статичний режим повного читання."
+    ],
+    "lock": [
+      "Preserve large plain-language dialogue, warm neutral background, one visible decision and a concrete resulting artifact.",
+      "Зберегти велику розмову простою мовою, тепле нейтральне тло, одне видиме рішення й конкретний артефакт у результаті."
+    ]
+  },
+  {
+    "id": "10",
+    "slug": "open-canvas",
+    "name": [
+      "Open Canvas",
+      "Відкрите полотно"
+    ],
+    "tag": [
+      "From one useful task to the world you want to build.",
+      "Від корисної задачі до світу, який хочеш створити."
+    ],
+    "desc": [
+      "A panoramic canvas demonstrates range through precise miniature project specimens. The camera can travel between backend, integration, website, app, bot and mobile game without changing the method.",
+      "Панорамне полотно показує діапазон через точні мініатюри проєктів. Камера переходить між бекендом, інтеграцією, сайтом, застосунком, ботом і мобільною грою зі спільним підходом."
+    ],
+    "bg": "#EFECE5",
+    "fg": "#24292F",
+    "accent": "#E85B25",
+    "muted": "#858981",
+    "card": "#FAF8F2",
+    "secondary": "#3F6BBA",
+    "font": "Arial, sans-serif",
+    "form": "canvas",
+    "audience": [
+      "A broad first encounter: GitHub visitors and marketplace buyers exploring what the system can help them build.",
+      "Широке перше знайомство: відвідувачі GitHub і покупці майданчика, що досліджують можливості системи."
+    ],
+    "visual": [
+      "A warm infinite-workspace grid, vivid orange focus frame and six disciplined product specimens. Cropping guides preserve legibility at every ratio.",
+      "Тепла сітка нескінченного робочого простору, виразна помаранчева рамка фокуса й шість впорядкованих зразків продуктів. Напрямні кадрування зберігають читабельність."
+    ],
+    "story": [
+      "Start on one backend card. Pan into integration, app and game specimens. Zoom out to one shared lifecycle, then focus on the viewer’s first brief.",
+      "Почати з картки бекенду. Перейти до інтеграції, застосунку та гри. Віддалити до спільного життєвого циклу й зосередитися на першому запиті глядача."
+    ],
+    "motion": [
+      "Three deliberate pans, one final overview; avoid a dizzying endless zoom. Small-screen cuts use one specimen at a time.",
+      "Три продумані переміщення й один фінальний загальний план; без запаморочливого нескінченного зуму. Для малих екранів — один зразок за раз."
+    ],
+    "lock": [
+      "Preserve the six specimen categories, orange focus bracket, warm grid and scale ladder; all tiny product UIs remain labelled illustrations.",
+      "Зберегти шість категорій зразків, помаранчеву рамку фокуса, теплу сітку й шкалу масштабу; усі мініінтерфейси позначати як ілюстрації."
+    ]
+  }
+]

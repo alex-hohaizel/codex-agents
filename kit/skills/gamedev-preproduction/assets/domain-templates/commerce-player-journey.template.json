@@ -1,0 +1,26 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author the selected commercial model, economy/catalog and state specifications. Project canonical commerce fields and pin spec_refs; an intentional no-offer model needs no invented purchase flow.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "model_selection": {"actual_decision_ref": null, "chosen_model": null, "no_offer_reason_if_chosen": null, "compared_model_forms": [], "player_value_fit": null, "audience_market_platform": null, "base_access_and_free_paid_boundaries": null, "ongoing_content_and_cost_capacity": null},
+    "comparison_form": {"reference_game_version": null, "documented_success_or_failure_ref": null, "exact_value_and_repeated_use": null, "discovery_trial_earned_paid_decline": null, "limits_and_shared_economy": null, "shop_and_lifecycle": null, "distribution_ip_marketing_context": null, "transfer_rationale_and_limits": null},
+    "resource_form": {"id": null, "purpose": null, "earned_paid_provenance": null, "sources": [], "sinks_exchanges": [], "precision_caps": null, "reset_refill_expiry": null, "persistence_authority": null, "ui_information": null},
+    "offer_form": {"id": null, "desire_trigger": null, "exact_grant": null, "trial_preview": null, "earned_path": null, "decline_path": null, "baseline_alternative_scenario_refs": [], "same_run_save_use": null, "limits_and_downside": null, "cumulative_collection_effect": null, "platform_sku_kind": null, "localized_price_authority": null, "eligibility_schedule": null, "duplicate_refund_restore": null},
+    "attempt_booster_form": {"activity_ref": null, "baseline_replenishment": null, "eligible_uses": null, "spend_order": null, "shared_earned_ad_paid_cap": null, "session_day_week_event_windows": null, "stacking_duration_expiry": null, "carryover_clock_authority": null, "no_hidden_refill_reset": null, "player_message": null},
+    "rewarded_ad_form": {"voluntary_trigger_and_disclosed_reward": null, "frequency_fatigue_cap": null, "eligibility": null, "load_no_fill_offline_fail_cancel": null, "suspend_return": null, "verified_completion_not_dismissal": null, "grant_once_reconciliation": null, "test_integration_ref": null},
+    "pass_subscription_random_reward_form": {"chosen_features": [], "exact_contents_and_lifetime": null, "cadence_eligibility": null, "claimed_unclaimed_duplicates": null, "renew_cancel_restore_expiry": null, "random_pool_weights_version_guarantees": null, "probability_information": null, "current_policy_market_review_refs": []},
+    "shop_states": {"discovery_category_preview_comparison": null, "owned_equipped_eligible_unavailable": null, "contents_price_currency_duration_limits": null, "confirm_decline_back": null, "pending_success_fail": null, "after_purchase_use": null, "localized_layout_and_accessibility": null},
+    "transaction_contract": {"state_graph_ref": null, "purchase_order_transaction_grant_ids": null, "verification_and_authoritative_grant": null, "persistent_deduplication": null, "acknowledge_finish": null, "duplicate_out_of_order_kill_offline": null, "account_parental_approval_restore": null, "refund_revoke_consumed_goods": null, "unknown_outcome_reconciliation": null},
+    "balance_and_costs": {"policy_profiles_and_equal_playtime": [], "time_to_access": null, "dominant_portfolio_counterexample": null, "bypassed_caps_and_failure_walls": null, "inflation_stranding_exhaustion": null, "net_receipts_fees_costs": null, "raw_model_results_refs": [], "uncertainty": []},
+    "verification": {"current_platform_policy_refs": [], "actual_sandbox_receipt_refs": [], "independent_money_save_review_refs": [], "human_value_understanding_refs": [], "unresolved_items": []}
+  }
+}

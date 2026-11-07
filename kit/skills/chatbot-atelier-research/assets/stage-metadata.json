@@ -1,0 +1,27 @@
+{
+  "schema_version": "chatbot.atelier-stage/2",
+  "toolkit_version": "5.0.0",
+  "id": "chatbot-atelier-research",
+  "purpose": "Потреби, домен і здійсненність",
+  "primary_requirement_ids": [
+    "human_value",
+    "capability_truth",
+    "source_grounding"
+  ],
+  "full_companion_ids": "assets/requirements.json",
+  "self_contained": true,
+  "applicability": "by current task/domain; missing needed capability remains gap",
+  "handoff_required": [
+    "requirement_ids",
+    "source_snapshot",
+    "formal_contracts",
+    "operations",
+    "recipes",
+    "attempts",
+    "outputs",
+    "evidence",
+    "limitations",
+    "receiver",
+    "acceptance"
+  ]
+}

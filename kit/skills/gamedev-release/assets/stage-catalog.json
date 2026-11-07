@@ -1,0 +1,730 @@
+{
+  "schema_version": "1.0.0",
+  "toolkit_version": "5.0.0",
+  "suite_version": "1.0.0",
+  "entry_skill": "gamedev-director",
+  "unique_skill_count": 9,
+  "domain_stage_count": 8,
+  "purpose": "Routing catalogue for one natural-language Game Atelier entry; stages are modules, not mandatory repeated production passes.",
+  "invocation_contract": {
+    "mandatory_references": [
+      "references/game-model-workflow.md",
+      "references/experience-contract.md",
+      "references/systemic-design.md",
+      "references/v4/index.md"
+    ],
+    "project_state_namespace": ".gameatelier/orchestrator/state.json",
+    "reconcile_before_dependent_step": [
+      "current intent/task/stop lock",
+      "current requirements/decisions with exact source hashes",
+      "project knowledge source/scope/confidence/applicability/impact",
+      "actual artifact/dependency/evidence hashes",
+      "actual capability/consent/external state"
+    ],
+    "common_acceptance": [
+      "all current must IDs carried; no average-score waiver",
+      "verbatim source/intent/stage/dependencies/artifact/evidence/status/owner/closure recorded",
+      "artistic intent, implementation parity, device proof and user acceptance separate",
+      "no silent art/input/audio/commerce downgrade",
+      "pause/resume and explicit user stop honored",
+      "local allowed work completed before needed approval",
+      "unknown external outcome reconciled before retry",
+      "UA26-SYS-01…07 carried through the same project requirements/experience coverage",
+      "illustrated candidates require systemic passport and feasible profile before images; every image actually inspected before showing",
+      "C1 for each completed concept; full T for implementation handoff",
+      "GA4 P1/D1/D2 requirements mapped;20system applicability and5recordtypes covered",
+      "Semantic transformation/assembly and simulation-vs-durable boundaries retained"
+    ],
+    "manual_bridge_fields": [
+      "blocked_operation",
+      "reason",
+      "prepared_inputs_and_hashes",
+      "environment_and_verified_url",
+      "launch_steps",
+      "expected_result",
+      "safe_return_artifacts",
+      "return_validation",
+      "next_action"
+    ],
+    "continuation": "Return actual outputs/gaps to director; director selects only necessary dependencies within current intent and consent."
+  },
+  "stages": [
+    {
+      "id": "studio",
+      "skill": "gamedev-studio",
+      "skill_directory": "skill-6ae7313c6b108191983258cd442165a0",
+      "inputs": [
+        "current intent / existing studio revision and master hashes",
+        "identity/art choices and public legal/account/service state",
+        "project requirements, decisions, knowledge and consent"
+      ],
+      "outputs": [
+        "immutable brand master and lawful source/export family",
+        "studio identity, usage rules, rights ledger and service registry",
+        "verified setup runbook, actual action receipts or precise owner bridge",
+        "portable studio payload, coverage and next-task checkpoint"
+      ],
+      "acceptance": [
+        "master/derivative visual identity independently inspected at target sizes",
+        "source→export reproducible with exact bytes, rights and provenance",
+        "identity/art acceptance separate from legal/account/service readiness",
+        "required future game input/audio/economy IDs carried forward with owners; not waived by static branding"
+      ],
+      "choices": [
+        "existing/new studio and legal/display identity",
+        "material master/wordmark/sonic identity change",
+        "platform/account/entity/market/public contacts",
+        "paid account/service and allowed setup action scope"
+      ],
+      "capabilities": [
+        "current official web research",
+        "actual image inspection/generation/edit and lawful export as needed",
+        "filesystem/hash/package validation",
+        "sufficient account/service plugin/API/CLI or permitted browser for authorized operations"
+      ],
+      "environment": {
+        "preferred": "Work or Codex according to tested image/export/account operations",
+        "requires": [
+          "actual filesystem and transfer route",
+          "separate public/legal/account states"
+        ],
+        "not_inferred": [
+          "brand image does not prove vector/editable source",
+          "plugin availability does not grant account authority"
+        ]
+      },
+      "manual_bridge": [
+        "personal MFA/legal/signature/tax/payout confirmation only when personally required",
+        "blocked account action: verified URL, prepared field values/files, exact step, expected result and safe receipt return",
+        "missing source/export modality: exact inputs/locks/formats/rights/return validation"
+      ],
+      "gaps": [
+        "missing approved master/source/license",
+        "pending public/legal/account identifiers",
+        "unsupported export or account operation"
+      ],
+      "return_routes": [
+        {
+          "when": "identity/source delta or setup issue",
+          "to": "studio",
+          "scope": "only changed identity/export/service dependencies"
+        },
+        {
+          "when": "studio payload ready for requested concept scope",
+          "to": "concepts",
+          "scope": "exact studio revision and remaining gaps via director"
+        }
+      ]
+    },
+    {
+      "id": "concepts",
+      "skill": "gamedev-concepts",
+      "skill_directory": "skill-6ae732a7708481919b728873927a9d1f",
+      "inputs": [
+        "exact studio revision/hash and lawful payload",
+        "current search/run/preview scope and explicit stop boundary",
+        "requirements/decisions/knowledge and actual saved choices"
+      ],
+      "outputs": [
+        "finite concepts or previews exactly within intent scope",
+        "causal gameplay/mastery/run/build/meta/world/content-grammar model",
+        "per-offer player-value/earned-paid/cohort/recurrence/cost/dominance model",
+        "canonical art originals/element maps, audio/input direction and production feasibility",
+        "comparison, sources, objections, discriminating tests and checkpoint",
+        "every illustrated candidate: systemic passport/profile/review/actual-image-inspection refs with hashes"
+      ],
+      "acceptance": [
+        "every sketch combines action, capability growth and potential purchase value",
+        "same state + now/later/absent input has causal difference",
+        "functional unlock changes an old task; system count is not depth",
+        "actual comparable art/audio/motion evidence honestly scoped; text is not audition/playtest",
+        "no-offer and meaningful alternatives; cumulative access/power and paid-dominance risk modeled",
+        "recommendation/favorite never becomes chosen production concept",
+        "all applicable systemic due checks independently reviewed per passport before illustration",
+        "every image fits actual available production profile and is actually inspected before showing; target not runtime proof"
+      ],
+      "choices": [
+        "search scope/count and stop-search",
+        "chosen concept before full design/production",
+        "platform/control/orientation/online/audience/art direction",
+        "monetization model, paid randomness, implementation path and extra spend"
+      ],
+      "capabilities": [
+        "current primary-source research",
+        "actual comparable image/audio/motion tool operations where available",
+        "small causal/executable model or PoC execution",
+        "artifact inspection/provenance and independent task-local review"
+      ],
+      "environment": {
+        "preferred": "Work for available research/visual/audition, Codex for models/PoC",
+        "requires": [
+          "exact transfer package where tools differ"
+        ],
+        "not_inferred": [
+          "cloud/local chats or plugins auto-sync",
+          "competitor success or synthetic model equals our retention/profit"
+        ]
+      },
+      "manual_bridge": [
+        "missing creative/audition tool: exact target/input/format/rights task and hash-validated return",
+        "missing touch/native proof: precise future test owner and due-stage; no fabricated evidence"
+      ],
+      "gaps": [
+        "unselected concept or art/audio direction",
+        "unknown backview/rig/stems/physics",
+        "production path/native slice not yet proven",
+        "actual human market/playtest evidence absent"
+      ],
+      "return_routes": [
+        {
+          "when": "continue previews/search or repair candidate",
+          "to": "concepts",
+          "scope": "active run only; honor explicit preview stop"
+        },
+        {
+          "when": "studio identity gap",
+          "to": "studio",
+          "scope": "exact payload/identity requirement"
+        },
+        {
+          "when": "explicit chosen concept and design gate satisfied",
+          "to": "preproduction",
+          "scope": "chosen scope only via director"
+        }
+      ]
+    },
+    {
+      "id": "preproduction",
+      "skill": "gamedev-preproduction",
+      "skill_directory": "skill-6ae732eaa9e481918e950bd7fcde43e7",
+      "inputs": [
+        "explicit selected concept and immutable targets",
+        "studio payload, requirement/decision/knowledge graph",
+        "actual art/audio/input/commerce feasibility gaps"
+      ],
+      "outputs": [
+        "complete finite-scope GDD/TDD and canonical executable data",
+        "screen/state/interaction and predictive/confirmatory/error/recovery atlas",
+        "art/motion/physics/audio/haptic construction contracts and finite asset inventory",
+        "offer exact-value/earned-paid/recurrence/cohort/cost/cumulative-power models",
+        "native representative slice evidence or named blocked proof; capability/budget/test plan"
+      ],
+      "acceptance": [
+        "all systems share stable IDs and trace to artifacts/code/assets/QA",
+        "mastery/run/meta/content grammar complete for chosen genre and scope",
+        "new capability changes prior decisions with executable boundary fixtures",
+        "source→export→engine/native representative slice before mass production",
+        "actual art/motion/audition proof separated from spec and device/user acceptance",
+        "chosen reach/FPS/device budgets and commerce states explicit; no silent downgrade"
+      ],
+      "choices": [
+        "engine/platform/minimum devices and input/orientation",
+        "online/save authority/content scope/cadence",
+        "material construction/art/audio/physics targets",
+        "monetization/paid randomness/implementation model/extra spend"
+      ],
+      "capabilities": [
+        "actual engine/native export feasibility",
+        "canonical data/model validation",
+        "image/motion/audio inspection and source/export/import proof",
+        "technical architecture, rights and independent cross-system review"
+      ],
+      "environment": {
+        "preferred": "Codex canonical repository, Work creative/research bridge as needed",
+        "requires": [
+          "pinned actual toolchain",
+          "representative native host/device access for claimed proof"
+        ],
+        "not_inferred": [
+          "specification text is runtime fidelity",
+          "native PoC is complete production game"
+        ]
+      },
+      "manual_bridge": [
+        "missing SDK/Mac/device: exact scene/source/command/expected artifact and receipt return",
+        "material unknown identity: comparable actual sample with scoped user decision",
+        "missing modality: audition/capture task with unperformed status"
+      ],
+      "gaps": [
+        "critical chosen-concept/engine/platform/commerce decision pending",
+        "inconsistent rule/data/UI contracts",
+        "unproven source/export/native slice",
+        "missing actual sensory target"
+      ],
+      "return_routes": [
+        {
+          "when": "core concept or production choice conflicts",
+          "to": "concepts",
+          "scope": "affected causal design only"
+        },
+        {
+          "when": "source/native slice needed",
+          "to": "assets",
+          "scope": "bounded slice with shared revision and build consumer"
+        },
+        {
+          "when": "native feasibility slice needed",
+          "to": "build",
+          "scope": "bounded representative slice"
+        },
+        {
+          "when": "finite production contracts accepted",
+          "to": "assets",
+          "scope": "full agreed asset scope via director"
+        }
+      ]
+    },
+    {
+      "id": "assets",
+      "skill": "gamedev-assets",
+      "skill_directory": "skill-6ae73324b24081919c8b03d14b1acefa",
+      "inputs": [
+        "exact accepted design/data/studio and creative/construction baselines",
+        "finite category/variant/clip/state/cue inventory",
+        "runtime event/input/commerce contracts, device budgets and rights"
+      ],
+      "outputs": [
+        "actual editable sources, runtime exports and coherent scene assemblies",
+        "asset/source/export/import catalog with hashes and production recipes",
+        "complete music/SFX/mix/event/haptic package for chosen scope",
+        "rights ledger, whole-frame/motion/listening/import receipts",
+        "category denominator coverage, missing IDs and build bridge"
+      ],
+      "acceptance": [
+        "every required category has actual source/export/rights/recipe or explicit blocker",
+        "normal/peak/phone-size whole-frame identity and motion/contact independently inspected",
+        "real musical phrases/loops/transitions and contextual listening; no tone/header substitution",
+        "input cues/accessibility/mute/no-haptic alternatives preserve critical information",
+        "offer/trial/earned/owned/expiry representations match exact reusable value",
+        "representative slice and native-compatible budget proof precede mass production"
+      ],
+      "choices": [
+        "material silhouette/character/font/material/camera/audio/motion change",
+        "previously unknown backview/rig/stems requiring new intent",
+        "new paid/licensed production route and redistribution limits"
+      ],
+      "capabilities": [
+        "actual DCC/2D/UI/rig/motion/VFX source and export tools as required",
+        "available lawful music/SFX/edit/mix/audition route",
+        "engine import/context playback and target-size image inspection",
+        "physical-device haptic test where claimed"
+      ],
+      "environment": {
+        "preferred": "Codex source catalog and integration; Work available creative operations via exact bridge",
+        "requires": [
+          "actual editable formats and lawful source transfer",
+          "quality and licensing verified per operation"
+        ],
+        "not_inferred": [
+          "bitmap is editable mesh/vector",
+          "missing tool reduces required scope denominator",
+          "source preview is native device acceptance"
+        ]
+      },
+      "manual_bridge": [
+        "missing source/craft capability: exact item IDs, target locks, formats, rights and return validator",
+        "listening unavailable: actual audition files/procedure and human findings return",
+        "physical haptics unavailable: exact supported-device interaction task"
+      ],
+      "gaps": [
+        "missing source/export/license or unresolved identity detail",
+        "unperformed motion/listening/device modality",
+        "runtime import mismatch or budget conflict"
+      ],
+      "return_routes": [
+        {
+          "when": "spec/identity undefined",
+          "to": "preproduction",
+          "scope": "specific construction/event requirement"
+        },
+        {
+          "when": "target/runtime production mismatch",
+          "to": "build",
+          "scope": "shared representative slice and affected item IDs"
+        },
+        {
+          "when": "production catalog accepted",
+          "to": "build",
+          "scope": "exact sources/exports/recipes via director"
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "skill": "gamedev-build",
+      "skill_directory": "skill-6ae7335481d48191858f5795556806b9",
+      "inputs": [
+        "exact design/data/asset/studio revisions and decisions",
+        "actual platform/toolchain/device capability",
+        "requirements, knowledge, task lock, target tolerances and proof gaps"
+      ],
+      "outputs": [
+        "whole agreed playable scope, source/assets/data bindings",
+        "pinned build recipes/toolchain and actual per-platform artifacts/receipts",
+        "native representative journey with input/motion/audio/haptic captures",
+        "progression/economy/commerce/save/lifecycle tests and migration fixtures",
+        "implementation coverage, known issues and frozen independent-QA candidate"
+      ],
+      "acceptance": [
+        "requirement→spec/data→source/asset→runtime→evidence trace complete",
+        "now/later/absent/cancel/multitouch input causally changes real state",
+        "functional growth/mastery/replay/content grammar and return journey implemented",
+        "approved art/music/contact/feedback and mute/no-haptic parity preserved",
+        "native sandbox purchase/reward integrity and cumulative paid access/power checked",
+        "chosen device/reach/FPS budgets profiled under sustained representative load",
+        "built/installed/tested/independently-accepted statuses kept distinct"
+      ],
+      "choices": [
+        "material engine/platform/online/commerce change",
+        "art/audio/input quality or reach/performance tradeoff beyond envelope",
+        "new spend/account/production effect"
+      ],
+      "capabilities": [
+        "actual selected engine/compiler/export SDKs and native toolchains",
+        "device install/control/capture/profiling",
+        "source/data/test/runtime integration",
+        "native store sandbox adapters and secret-safe configuration where chosen"
+      ],
+      "environment": {
+        "preferred": "Codex canonical product repository and native host/CI",
+        "requires": [
+          "actual Android SDK or macOS/Xcode as applicable",
+          "named device/runtime for claims"
+        ],
+        "not_inferred": [
+          "cross-platform engine proves both platforms",
+          "simulator/archive/project is installable iPhone IPA",
+          "compile or author tests prove independent sensory acceptance"
+        ]
+      },
+      "manual_bridge": [
+        "missing Mac/signing/device: exact source snapshot/toolchain recipe/expected artifact+logs/hash return",
+        "missing store sandbox/account access: prepared catalog/config and exact access-dependent test",
+        "missing modality: exact captures/auditions/haptic procedure and reviewer return"
+      ],
+      "gaps": [
+        "incomplete production asset/design contract",
+        "missing native toolchain/signing/device",
+        "unperformed install/sensory/sandbox tests",
+        "out-of-budget profile or runtime identity drift"
+      ],
+      "return_routes": [
+        {
+          "when": "rule/interface conflict",
+          "to": "preproduction",
+          "scope": "affected canonical IDs"
+        },
+        {
+          "when": "asset/source/sensory defect",
+          "to": "assets",
+          "scope": "affected item dependency closure"
+        },
+        {
+          "when": "frozen candidate ready",
+          "to": "qa",
+          "scope": "exact builds/platforms/current evidence via director"
+        }
+      ]
+    },
+    {
+      "id": "qa",
+      "skill": "gamedev-qa",
+      "skill_directory": "skill-6ae733b60e2881918fc70bc695267b3f",
+      "inputs": [
+        "frozen exact source/build/config/data/assets/targets",
+        "design-derived acceptance and current requirement/decision/knowledge graph",
+        "actual test access/device matrix and task-specific review scope"
+      ],
+      "outputs": [
+        "independent criterion/evidence verdict and denominator-based coverage",
+        "actual platform/input/fidelity/sensory/economy/commerce/data profiles",
+        "human-test findings with limitations when performed",
+        "reproducible defects/owners/impact and scoped release recommendation"
+      ],
+      "acceptance": [
+        "reviewer is independent actual actor; self-check labeled separately",
+        "each must has current verdict/evidence or named blocker; no average-score waiver",
+        "art/motion/listening/physical haptics/touch evidence use actual modality",
+        "muted/no-haptic/two-thumb/accessibility paths and predictive/error/recovery cues tested",
+        "functional growth/content variety/free path/paid-dominance and cumulative access checked",
+        "chosen native/reach/FPS/device support checked with sustained profiles",
+        "simulation/playtest/live revenue and QA permission/publication consent separate"
+      ],
+      "choices": [
+        "material baseline acceptance/change via director",
+        "named beta scope versus release-review residual risk",
+        "additional paid device/test access"
+      ],
+      "capabilities": [
+        "actual independent artifact/source/test access",
+        "native install/input/capture/profile tools",
+        "image/motion/audio playback and physical haptic evidence as claimed",
+        "human playtest observations for human claims; native store sandbox for billing claims"
+      ],
+      "environment": {
+        "preferred": "Codex exact candidate and devices; Work relevant artifact/player research bridge",
+        "requires": [
+          "independence and actual raw current evidence"
+        ],
+        "not_inferred": [
+          "test count proves quality",
+          "waveform/metadata proves listening",
+          "desktop/emulator proves physical touch/thermal/haptics",
+          "single platform pass grants other platform pass"
+        ]
+      },
+      "manual_bridge": [
+        "missing human/modality/device/account: exact case, expected design ref, procedure and evidence return",
+        "no independent reviewer available: labeled self-check plus separate review task; not fabricated QA"
+      ],
+      "gaps": [
+        "missing modality/native/human evidence",
+        "stale hashes/reviews or unresolved critical defect",
+        "incomplete platform/commerce/privacy/save coverage"
+      ],
+      "return_routes": [
+        {
+          "when": "implementation defect",
+          "to": "build",
+          "scope": "reproducible failing IDs and impacted closure"
+        },
+        {
+          "when": "craft/source defect",
+          "to": "assets",
+          "scope": "exact capture/source mismatch"
+        },
+        {
+          "when": "rule/target contradiction",
+          "to": "preproduction",
+          "scope": "specific baseline issue; QA cannot rewrite oracle"
+        },
+        {
+          "when": "named exact candidate accepted for release review",
+          "to": "release",
+          "scope": "no implied publication permission"
+        }
+      ]
+    },
+    {
+      "id": "release",
+      "skill": "gamedev-release",
+      "skill_directory": "skill-6ae733ea6f1481918c19c620e3a1d580",
+      "inputs": [
+        "exact independently checked candidate and current per-platform verdicts",
+        "studio/legal/account/signing/rights/privacy state",
+        "chosen catalog/prices/regions/rollout scope and actual consent"
+      ],
+      "outputs": [
+        "reviewable binaries/metadata/catalog/privacy/reviewer package",
+        "current official policy snapshot and release smoke evidence",
+        "actual account/config/upload/submission/availability receipts where authorized",
+        "rollout/stop/rollback-forward, symbols/migrations and operator handoff",
+        "precise remaining permission or owner bridge if blocked"
+      ],
+      "acceptance": [
+        "candidate exact hash matches QA or targeted new QA completed",
+        "store art/video truthful to accepted runtime and studio identity",
+        "input/audio/haptic/mute/accessibility/device budgets survive release export",
+        "actual products preserve trial/earned/paid/reuse/cumulative access semantics",
+        "current disclosures/rights/store rules mapped to real binary/SDK behavior",
+        "external actions have exact current scope and actual receipt; unknown outcome reconciled",
+        "prepared/uploaded/in-review/approved/testable/live kept separate"
+      ],
+      "choices": [
+        "exact upload/submission/production/region/cohort action when not yet authorized",
+        "legal seller/account/payout/agreement confirmation",
+        "new price/model/paid randomness/backend/spend/material quality change"
+      ],
+      "capabilities": [
+        "current official store/SDK/payment/privacy research",
+        "native signing/export/upload CLI/API and sufficient store plugin where available",
+        "authorized account/config/catalog/browser operations",
+        "actual release-device/sandbox smoke and provider status reconciliation"
+      ],
+      "environment": {
+        "preferred": "Codex native repository/CI; available Work console/metadata bridge",
+        "requires": [
+          "actual signing/access/store roles and target consent",
+          "macOS/Xcode where iOS operation requires it"
+        ],
+        "not_inferred": [
+          "logo proves merchant/account readiness",
+          "upload proves store approval or live availability",
+          "MCP absence means no sufficient API/CLI route"
+        ]
+      },
+      "manual_bridge": [
+        "only blocked MFA/personal legal/signature/payout step with prepared fields/files, verified URL, expected receipt and safe return",
+        "missing Mac/signing/device/export: exact host/toolchain/candidate/command and required proof",
+        "unsupported connector operation: precise sufficient permitted CLI/browser or manual field mapping"
+      ],
+      "gaps": [
+        "missing signing/account/rights/native QA",
+        "pending exact action consent",
+        "store rejection or policy mismatch",
+        "unconfirmed upload/provider outcome"
+      ],
+      "return_routes": [
+        {
+          "when": "binary/signing/runtime candidate change",
+          "to": "build",
+          "scope": "new artifact identity and targeted QA"
+        },
+        {
+          "when": "candidate verification needed",
+          "to": "qa",
+          "scope": "changed release dependencies only"
+        },
+        {
+          "when": "catalog/rule conflict",
+          "to": "preproduction",
+          "scope": "exact commerce/choice IDs"
+        },
+        {
+          "when": "actual beta/release handoff ready",
+          "to": "liveops",
+          "scope": "versions/receipts/runbooks; monitoring only if separately tasked"
+        }
+      ]
+    },
+    {
+      "id": "liveops",
+      "skill": "gamedev-liveops",
+      "skill_directory": "skill-6ae7342cd7f88191a8fcab2972b04902",
+      "inputs": [
+        "actual provider/store/build/config/content/catalog/save state",
+        "bounded incident/analysis/content/experiment/cost/patch intent",
+        "queries/exports/runbooks/known issues, choices/knowledge/consent"
+      ],
+      "outputs": [
+        "reproducible findings vs hypotheses with cohort/time/denominator/uncertainty",
+        "project lessons with source/scope/confidence/applicability/impact",
+        "reviewable patch/content/experiment/migration and targeted QA",
+        "authorized actual action receipts and before/after evidence",
+        "finite round checkpoint, customer impact, next route or scheduler/owner bridge"
+      ],
+      "acceptance": [
+        "runtime state reconciled beyond old package/git HEAD",
+        "new functionality changes prior tasks and meaningful return goals",
+        "art/input/motion/audio/accessibility identity retained under changed dependencies",
+        "earned progress/paid entitlements, cumulative access/power and no-offer/alternatives protected",
+        "revenue interpreted with fairness/churn/refunds/cost, not guaranteed profit",
+        "chosen device/reach/FPS/support/cost budgets verified for impact",
+        "production actions match consent; recurring monitoring has actual separately authorized scheduler"
+      ],
+      "choices": [
+        "new material content/art/input/audio/progression/economy model",
+        "price/catalog/paid randomness/entitlement/production/region scope",
+        "experiment rollout and irreversible migration/risk",
+        "new service/spend or recurring scheduler frequency/source/cap/stop"
+      ],
+      "capabilities": [
+        "actual analytics/crash/provider read queries or provenance-tagged exports",
+        "source/data/content simulation and staging/native QA",
+        "authorized flags/config/mitigation/release tools",
+        "real scheduler/notification tool only when recurring work tasked"
+      ],
+      "environment": {
+        "preferred": "Codex product source and actual providers; Work analytics/brief bridge where available",
+        "requires": [
+          "actual version/cohort/time-window attribution",
+          "specific production permissions for writes"
+        ],
+        "not_inferred": [
+          "correlation proves causality",
+          "simulation or foreign success equals our retention/profit",
+          "single liveops invocation creates perpetual monitoring"
+        ]
+      },
+      "manual_bridge": [
+        "missing analytics access: exact export query/window/fields/provenance and safe return",
+        "missing production action/tool: prepared patch/config/rollback with exact blocked step",
+        "missing scheduler: concrete manual check/runbook; no claimed background service"
+      ],
+      "gaps": [
+        "insufficient/biased or stale actual data",
+        "unknown action outcome or missing production access",
+        "missing sensory/native/commerce regression proof",
+        "unapproved material choice or irreversible effect"
+      ],
+      "return_routes": [
+        {
+          "when": "rule/economy/progression design change",
+          "to": "preproduction",
+          "scope": "affected product subsystem only"
+        },
+        {
+          "when": "new/changed art/audio source",
+          "to": "assets",
+          "scope": "finite content/item dependency closure"
+        },
+        {
+          "when": "binary patch",
+          "to": "build",
+          "scope": "then independent QA and release"
+        },
+        {
+          "when": "content/config patch",
+          "to": "qa",
+          "scope": "schema/assets/economy/compatibility verification before allowed rollout"
+        },
+        {
+          "when": "approved rollout needed",
+          "to": "release",
+          "scope": "exact candidate/config action"
+        }
+      ]
+    }
+  ],
+  "systemic_preselection_gate": {
+    "requirement_ids": [
+      "UA26-SYS-01",
+      "UA26-SYS-02",
+      "UA26-SYS-03",
+      "UA26-SYS-04",
+      "UA26-SYS-05",
+      "UA26-SYS-06",
+      "UA26-SYS-07"
+    ],
+    "applies_to": "every illustrated candidate, including preview-only and broad portfolio search",
+    "before_image": [
+      "linked complete systemic passport",
+      "available visual production profile and candidate-specific deviations",
+      "independent semantic review pinned to current passport hash",
+      "structural receipt does not certify quality"
+    ],
+    "before_show": [
+      "actual inspection of every generated image against its passport/profile and input/HUD semantics",
+      "original bytes/hash/profile and inspection provenance retained"
+    ],
+    "not_implied": [
+      "selected production concept",
+      "user acceptance of master",
+      "finished GDD/assets",
+      "native device/FPS proof",
+      "fun, retention, revenue or balance certification"
+    ],
+    "next_scope": "Continue already requested concept packages after agreed candidate IDs, without duplicate approval of the same scope."
+  },
+  "game_model": {
+    "schema_version": "4.0.0",
+    "workflow": "references/game-model-workflow.md",
+    "format": "references/model-format.md",
+    "tool": "scripts/game_model.py",
+    "stages": [
+      "concept",
+      "preproduction",
+      "slice",
+      "beta",
+      "release"
+    ],
+    "authority": "Companion model, not replacement for canonical approvals/handoff. Required due checks derive from active features and stage.",
+    "current_protocols": {
+      "model": "4.0.0",
+      "handoff": "1.0.0",
+      "runtime": "2.0.0",
+      "toolkit": "4.2.0",
+      "previous_result_formats": "not_supported"
+    }
+  }
+}

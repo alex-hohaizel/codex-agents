@@ -1,0 +1,893 @@
+{
+  "schema_version": "4.0.0",
+  "id": "EXAMPLE-RACING",
+  "title": "Illustrative racing model",
+  "author_ids": [
+    "illustrative-design-author"
+  ],
+  "source_requirement_ids": [
+    "EXAMPLE-TYPED-CONTRACT-NOT-USER-APPROVAL"
+  ],
+  "constraints": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "target_fps": 60,
+    "extra_paid_services": false
+  },
+  "features": {
+    "camera": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "input": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "systems": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "actors": {
+      "enabled": false,
+      "rationale": "No actors subsystem proposed for this illustrative experience"
+    },
+    "world": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "progression": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "rewards": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "learning": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "art": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "commerce": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "lifecycle": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "equipment": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    }
+  },
+  "domains": {
+    "input": {
+      "scheme": "one-thumb steer and timed lift",
+      "simultaneous_contacts": 1,
+      "actions": [
+        {
+          "id": "ACT-PRIMARY",
+          "intent": "hold grip through a long bend",
+          "gesture": "one-thumb steer and timed lift",
+          "context": "tire heat and corner charge",
+          "feedback": "corner charge rises while lateral traction falls with heat",
+          "cost_or_limit": "overheat risks a wide exit",
+          "recovery": "Release, inspect the visible state and use the local undo or checkpoint route"
+        }
+      ],
+      "peak_load_scenario": "A hot heavy car cools first; a light cool car spends charge on the shortcut.",
+      "accessibility": [
+        "left/right placement where relevant",
+        "no mandatory audio or haptics",
+        "legible state cues and reduced-motion alternative"
+      ]
+    },
+    "systems": {
+      "rules": [
+        {
+          "id": "RULE-A",
+          "state": "tire heat and corner charge",
+          "trigger": "hold grip through a long bend",
+          "change": "corner charge rises while lateral traction falls with heat",
+          "limit": "overheat risks a wide exit",
+          "counterplay": "release charge onto a raised shortcut or cool on the shoulder",
+          "feedback": "Show the changed state before the next irreversible input"
+        },
+        {
+          "id": "RULE-B",
+          "state": "route availability after the first state transition",
+          "trigger": "release charge onto a raised shortcut or cool on the shoulder",
+          "change": "Reconfigure the safe route and next use of the first rule",
+          "limit": "The alternative route preserves the stated cost instead of refilling it",
+          "counterplay": "Return to the visible safe checkpoint and choose another route",
+          "feedback": "Keep the target, state change and recovery route visible"
+        }
+      ],
+      "links": [
+        {
+          "from": "RULE-A",
+          "to": "RULE-B",
+          "decision_effect": "A hot heavy car cools first; a light cool car spends charge on the shortcut."
+        },
+        {
+          "from": "RULE-B",
+          "to": "RULE-A",
+          "decision_effect": "The changed route alters when the first action is safe again"
+        }
+      ]
+    },
+    "world": {
+      "topology": "looped tracks",
+      "spaces": [
+        {
+          "id": "SPACE-START",
+          "purpose": "track with raised shortcut, cooling shoulder and visible landing margin",
+          "interactive_states": [
+            "tire heat and corner charge",
+            "route after the committed action"
+          ],
+          "route_choices": [
+            "release charge onto a raised shortcut or cool on the shoulder",
+            "the slower visible recovery route"
+          ]
+        }
+      ],
+      "transitions": []
+    },
+    "progression": {
+      "nodes": [
+        {
+          "id": "UNLOCK-BASE",
+          "unlock": "Understand the visible base interaction",
+          "prerequisites": [],
+          "new_decision": "A hot heavy car cools first; a light cool car spends charge on the shortcut.",
+          "revisit_effect": "Try the alternate route after the state change"
+        },
+        {
+          "id": "UNLOCK-ADVANCED",
+          "unlock": "adjustable weight distribution",
+          "prerequisites": [
+            "UNLOCK-BASE"
+          ],
+          "new_decision": "Use adjustable weight distribution to reinterpret the known route with a new cost",
+          "revisit_effect": "Return voluntarily to a signposted optional goal with the new capability"
+        }
+      ],
+      "reset_policy": "Persistent learned capability; temporary local state resets only at a declared checkpoint",
+      "long_horizon": "Master the base interaction, combine it with adjustable weight distribution, then choose authored advanced challenges"
+    },
+    "rewards": {
+      "entries": [
+        {
+          "id": "REWARD-CAPABILITY",
+          "trigger": "Complete the first combined-rule challenge",
+          "grants": "an earned suspension tuning slot",
+          "feedback": "Show the actual capability and a reachable place to try it",
+          "purpose": "Reopen a known route through a functional change",
+          "cap_or_rule": "Award once per unlock; repeat completion never duplicates a permanent grant"
+        }
+      ],
+      "fairness_recovery": "Reconcile interrupted completion once from the saved completion record"
+    },
+    "learning": {
+      "curriculum": [
+        {
+          "id": "LESSON-BASE",
+          "teaches": "tire heat and corner charge",
+          "practice": "drive the same safe curve on the hot lane and cooling shoulder",
+          "assessment": "Predict and execute one safe state transition without a forced overlay",
+          "remediation": "Replay the visible cause and offer a reversible safe retry",
+          "unlock_ref": "UNLOCK-BASE"
+        },
+        {
+          "id": "LESSON-COMBINE",
+          "teaches": "adjustable weight distribution",
+          "practice": "release charge onto a raised shortcut or cool on the shoulder",
+          "assessment": "A hot heavy car cools first; a light cool car spends charge on the shortcut.",
+          "remediation": "Expose the missed state cue and restore the local checkpoint",
+          "unlock_ref": "UNLOCK-ADVANCED"
+        }
+      ],
+      "timing": "Teach the base rule safely before combining it with the second rule",
+      "return_resume": "Restore the saved goal, last state change and next reachable choice"
+    },
+    "art": {
+      "style": {
+        "shape": "flat cel-shaded motorsport",
+        "materials": "flat cel-shaded motorsport with consistent readable silhouettes",
+        "palette": "Distinct subject, action cue and neutral background value roles",
+        "lighting": "Bounded authored lighting appropriate to flat cel-shaded motorsport",
+        "motion": "Anticipation, contact and recovery readable at the stated subject scale",
+        "ui": "State cues adjacent to the consequential action without thumb occlusion",
+        "audio": "Layered predictive and confirmatory cues for tire heat and corner charge",
+        "haptics": "Optional distinct confirmation and limit pulses; visual parity retained"
+      },
+      "production_route": {
+        "tools": [
+          "selected engine after feasibility verification",
+          "open-source DCC compatible with this direction"
+        ],
+        "editable_sources": "Editable layered geometry/vector/animation sources for flat cel-shaded motorsport",
+        "exports": "Versioned sprite/model/UI/audio exports for the selected engine",
+        "runtime_import": "Pinned scale, pivots, color, compression, material and animation settings",
+        "cost": "No extra paid services assumed; capabilities remain to verify",
+        "license": "Per-source provenance and commercial rights checked before production",
+        "risks": "Readability and production feasibility require an actual representative slice",
+        "verified_status": "Illustrative proposed route; no production or device proof claimed"
+      }
+    },
+    "commerce": {
+      "model": "premium",
+      "resources": [],
+      "offers": [
+        {
+          "id": "OFFER-CONTENT",
+          "desire": "Continue the mastered experience through full authored campaign",
+          "grants": "full authored campaign",
+          "earned_path": "Free representative demo; the full campaign honestly requires purchase",
+          "decline_path": "Keep existing playable scope and saves intact",
+          "limits": "One non-consumable entitlement; no repeat currency refill",
+          "cumulative_effect": "Adds labeled content access; preserves base challenge rules",
+          "price_basis": "Hypothesis pending comparable-price and willingness-to-pay research"
+        }
+      ],
+      "journeys": [
+        {
+          "id": "JOURNEY-CONTENT",
+          "trigger": "Voluntary content selection after representative play",
+          "steps": [
+            "Inspect included content and exact local store price",
+            "Choose purchase or leave",
+            "Reconcile authoritative store entitlement before granting"
+          ],
+          "cancel_recovery": "Return to previous playable state without loss",
+          "restore_or_reconcile": "Restore authoritative non-consumable access without double-granting"
+        }
+      ],
+      "free_path": "Free representative demo; the full campaign honestly requires purchase",
+      "dominance_counterexample": "Owning all offered content must not remove the stated rule costs or silently refill resources; test the strongest access advantage"
+    },
+    "lifecycle": {
+      "launch_scope": {
+        "content_units": "Finite authored foundation, combination and mastery families; quantities remain to estimate",
+        "early": "drive the same safe curve on the hot lane and cooling shoulder",
+        "mid": "Combine the learned rules with adjustable weight distribution",
+        "late": "A hot heavy car cools first; a light cool car spends charge on the shortcut.",
+        "end_or_replay": "Clear authored ending plus optional mastery and alternate-route goals"
+      },
+      "content_grammar": {
+        "vocabulary": [
+          "tire heat and corner charge",
+          "track with raised shortcut, cooling shoulder and visible landing margin",
+          "adjustable weight distribution"
+        ],
+        "composition_rules": [
+          "Combine rule states only when their signals and recovery remain readable"
+        ],
+        "forbidden_combinations": [
+          "No mandatory route without an earned solution or recoverable failure"
+        ],
+        "novel_decisions": [
+          "A hot heavy car cools first; a light cool car spends charge on the shortcut.",
+          "Use adjustable weight distribution to reinterpret an earlier route"
+        ]
+      },
+      "support_plan": {
+        "save": "Version permanent capability separately from transient local state",
+        "resume": "Restore checkpoint, goal and state cue",
+        "offline": "Core authored play works offline; commerce reconciles when available",
+        "update": "Stable content IDs with tested explicit save mappings",
+        "finite_content_end": "Present completion and optional goals honestly; no infinite-content claim"
+      }
+    },
+    "camera": {
+      "projection": "perspective",
+      "tracking": "spring chase",
+      "focus_subject": "vehicle",
+      "subject_fraction": {
+        "min": 0.24,
+        "max": 0.32
+      },
+      "states": [
+        {
+          "id": "CAMERA-NORMAL",
+          "when": "normal play",
+          "behavior": "spring chase",
+          "readability_risk": "Target and recovery route must remain readable"
+        },
+        {
+          "id": "CAMERA-PEAK",
+          "when": "before consequential commitment",
+          "behavior": "Bounded adjustment keeps subject, consequence and recovery visible",
+          "readability_risk": "Avoid shrinking the subject until the action is unreadable"
+        }
+      ]
+    },
+    "equipment": {
+      "items": [
+        {
+          "id": "ITEM-ADVANCED",
+          "function": "adjustable weight distribution",
+          "properties": [
+            {
+              "name": "functional mode",
+              "effect": "Reconfigure a known route through adjustable weight distribution",
+              "limit": "overheat risks a wide exit"
+            }
+          ],
+          "rule_refs": [
+            "RULE-A",
+            "RULE-B"
+          ],
+          "progression": "Earn through UNLOCK-ADVANCED",
+          "tradeoff": "release charge onto a raised shortcut or cool on the shoulder"
+        }
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "from": "RULE-A",
+      "to": "RULE-B",
+      "reason": "A hot heavy car cools first; a light cool car spends charge on the shortcut."
+    },
+    {
+      "from": "RULE-B",
+      "to": "UNLOCK-ADVANCED",
+      "reason": "Mastered state change makes the new capability intelligible"
+    },
+    {
+      "from": "UNLOCK-ADVANCED",
+      "to": "REWARD-CAPABILITY",
+      "reason": "Reward records the earned functional capability"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "SCENARIO-BASE",
+      "domains": [
+        "art",
+        "camera",
+        "commerce",
+        "equipment",
+        "input",
+        "learning",
+        "lifecycle",
+        "progression",
+        "rewards",
+        "systems",
+        "world"
+      ],
+      "initial_state": "tire heat and corner charge",
+      "action": "hold grip through a long bend",
+      "expected_observable": "corner charge rises while lateral traction falls with heat",
+      "changed_decision": "A hot heavy car cools first; a light cool car spends charge on the shortcut.",
+      "without_rule": "Without thermal traction both cars always take the shortcut."
+    },
+    {
+      "id": "SCENARIO-ADVANCED",
+      "domains": [
+        "systems",
+        "progression",
+        "learning",
+        "rewards",
+        "lifecycle"
+      ],
+      "initial_state": "The earned adjustable weight distribution is available in the known base context",
+      "action": "release charge onto a raised shortcut or cool on the shoulder",
+      "expected_observable": "A new reachable route with the stated cost; reward and saved capability survive recovery",
+      "changed_decision": "The new capability adds an optional route instead of only raising a number",
+      "without_rule": "Without this functional unlock, the old route remains viable but the new choice is unavailable"
+    }
+  ],
+  "evidence": [],
+  "portfolio": {
+    "scale": "compact championship",
+    "genre": "racing",
+    "framing": "(0.24, 0.32)",
+    "art": "flat cel-shaded motorsport"
+  },
+  "production": {
+    "maturity": "C0",
+    "tracks": [
+      {
+        "id": "TR01",
+        "name": "intent",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR02",
+        "name": "lore",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR03",
+        "name": "entity_state",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR04",
+        "name": "actions_physics",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR05",
+        "name": "equipment_capabilities",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR06",
+        "name": "ai_participants",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR07",
+        "name": "world_structure",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR08",
+        "name": "situation_composition",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR09",
+        "name": "playthrough",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR10",
+        "name": "player_development",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR11",
+        "name": "rewards_economy",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR12",
+        "name": "monetization",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR13",
+        "name": "input_camera",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR14",
+        "name": "ux_learning",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR15",
+        "name": "visual",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR16",
+        "name": "audio_haptics",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR17",
+        "name": "runtime_persistence",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR18",
+        "name": "content_production",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR19",
+        "name": "verification_measurement",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR20",
+        "name": "release_evolution",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      }
+    ],
+    "applicability": {
+      "damage": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "physics": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "ai": {
+        "enabled": false,
+        "rationale": "Current actors applicability; author the detailed AI contract if enabled."
+      },
+      "cloud": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "procedural": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "purchases": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      }
+    },
+    "contracts": [],
+    "state_fields": [],
+    "dependencies": [],
+    "operations": {},
+    "unresolved": [
+      {
+        "id": "AUTHOR-CURRENT-CONTRACTS",
+        "description": "Define current applicability and contracts before completing the concept.",
+        "owner": "project-integrator",
+        "due": "C1",
+        "blocks": [
+          "TR01",
+          "TR03",
+          "TR04",
+          "TR09",
+          "TR13",
+          "TR14",
+          "TR15",
+          "TR16",
+          "TR17",
+          "TR18",
+          "TR19",
+          "TR20"
+        ]
+      }
+    ]
+  }
+}

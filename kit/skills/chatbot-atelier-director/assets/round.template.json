@@ -1,0 +1,434 @@
+{
+  "schema_version": "chatbot.round/1",
+  "brief": {
+    "id": "",
+    "version": "",
+    "user_intent": "",
+    "baseline": "",
+    "constraints": [],
+    "authorization": []
+  },
+  "requirements": [
+    {
+      "id": "human_value",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "natural_voice",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "context_relevance",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "proportional_depth",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "simple_first",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "practical_completion",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "multiuser_fairness",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "scheduling_fidelity",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "capability_truth",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "execution_truth",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "recovery_empathy",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "interaction_continuity",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "character_semantics",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "temporal_quality",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "audiovisual_fidelity",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "media_delivery",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "audience_privacy",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "consent_authority",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "source_grounding",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "forgetting_integrity",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "bounded_resources",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "lifecycle_reliability",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "provider_constraints",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    },
+    {
+      "id": "version_continuity",
+      "state": "active",
+      "reason": "DRAFT: establish scoped impact"
+    }
+  ],
+  "findings": [],
+  "decisions": [],
+  "changes": [],
+  "evidence": [],
+  "runs": [],
+  "reviews": [],
+  "team_policy": {
+    "schema_version": "chatbot.team/1",
+    "profile_version": "1.0.0",
+    "stage": "chat",
+    "scope": {
+      "kind": "stage",
+      "active_requirement_ids": [
+        "human_value",
+        "natural_voice",
+        "context_relevance",
+        "proportional_depth",
+        "simple_first",
+        "practical_completion",
+        "multiuser_fairness",
+        "scheduling_fidelity",
+        "capability_truth",
+        "execution_truth",
+        "recovery_empathy",
+        "interaction_continuity",
+        "character_semantics",
+        "temporal_quality",
+        "audiovisual_fidelity",
+        "media_delivery",
+        "audience_privacy",
+        "consent_authority",
+        "source_grounding",
+        "forgetting_integrity",
+        "bounded_resources",
+        "lifecycle_reliability",
+        "provider_constraints",
+        "version_continuity"
+      ],
+      "changed_component_ids": [],
+      "statement": "DRAFT: import the actual task and baseline"
+    },
+    "components": {},
+    "impact_run": "",
+    "guardian_run": "",
+    "orchestrator_run": "",
+    "assignments": {
+      "human_value": {
+        "domain_id": "conversation",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "natural_voice": {
+        "domain_id": "conversation",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "context_relevance": {
+        "domain_id": "conversation",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "proportional_depth": {
+        "domain_id": "conversation",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "simple_first": {
+        "domain_id": "conversation",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "practical_completion": {
+        "domain_id": "actions",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "multiuser_fairness": {
+        "domain_id": "actions",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "scheduling_fidelity": {
+        "domain_id": "actions",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "capability_truth": {
+        "domain_id": "actions",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "execution_truth": {
+        "domain_id": "actions",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "recovery_empathy": {
+        "domain_id": "conversation",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "interaction_continuity": {
+        "domain_id": "actions",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "character_semantics": {
+        "domain_id": "media",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "temporal_quality": {
+        "domain_id": "media",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "audiovisual_fidelity": {
+        "domain_id": "media",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "media_delivery": {
+        "domain_id": "media",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "audience_privacy": {
+        "domain_id": "memory",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "consent_authority": {
+        "domain_id": "memory",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "source_grounding": {
+        "domain_id": "memory",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "forgetting_integrity": {
+        "domain_id": "memory",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "bounded_resources": {
+        "domain_id": "runtime",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "lifecycle_reliability": {
+        "domain_id": "runtime",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "provider_constraints": {
+        "domain_id": "runtime",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      },
+      "version_continuity": {
+        "domain_id": "runtime",
+        "status": "active",
+        "component_ids": [],
+        "owner_run": "",
+        "qa_run": "",
+        "judge_run": "",
+        "reason": "DRAFT: establish impact before accepting unchanged scope"
+      }
+    },
+    "perspectives": {},
+    "repair_history": [],
+    "reopens": []
+  },
+  "completion": {
+    "stage": "prepared",
+    "scope": "DRAFT",
+    "status": "pending",
+    "unresolved_requirement_ids": [
+      "human_value",
+      "natural_voice",
+      "context_relevance",
+      "proportional_depth",
+      "simple_first",
+      "practical_completion",
+      "multiuser_fairness",
+      "scheduling_fidelity",
+      "capability_truth",
+      "execution_truth",
+      "recovery_empathy",
+      "interaction_continuity",
+      "character_semantics",
+      "temporal_quality",
+      "audiovisual_fidelity",
+      "media_delivery",
+      "audience_privacy",
+      "consent_authority",
+      "source_grounding",
+      "forgetting_integrity",
+      "bounded_resources",
+      "lifecycle_reliability",
+      "provider_constraints",
+      "version_continuity"
+    ]
+  },
+  "checkpoint": {
+    "next_action": "Bind actual current inputs before execution"
+  }
+}

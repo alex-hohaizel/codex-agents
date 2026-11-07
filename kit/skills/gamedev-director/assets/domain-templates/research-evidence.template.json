@@ -1,0 +1,39 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Populate authoring data and link it from the canonical game model; this fragment is not a valid or accepted game model and creates no approval.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "intent_and_stop": {"current_intent_ref": null, "scope": null, "stop_boundary": null, "saved_favorite_refs": [], "production_choice_ref": null},
+    "constraints_refs": [],
+    "evidence_claim_form": {
+      "id": null,
+      "claim": null,
+      "classification": null,
+      "source_url_or_artifact": null,
+      "source_title": null,
+      "source_date": null,
+      "retrieved_at": null,
+      "market_platform_population": null,
+      "metric_definition_and_denominator": null,
+      "observation": null,
+      "inference": null,
+      "alternative_explanations": [],
+      "limitations": [],
+      "falsifying_observation": null,
+      "affected_ids": []
+    },
+    "comparison_form": {"game_and_version": null, "audience_and_fantasy": null, "action_rule_cost_feedback": null, "progression_and_content_arc": null, "commerce_value_journey": null, "distribution_ip_marketing_context": null, "documented_outcome_ref": null, "transfer_principle": null, "nontransferable_conditions": [], "counterexample_refs": []},
+    "portfolio": {"requested_distribution_ref": null, "axes": ["scale", "topology", "projection", "tracking", "framing", "genre", "input", "art", "commerce"], "coherent_cluster_rationales": [], "candidate_model_refs": [], "decision_signatures": [], "near_duplicate_review_refs": [], "coverage_gaps": []},
+    "organic_sharing": {"player_trigger": null, "shareable_result": null, "voluntary_path": null, "viewer_value": null, "entry_to_game": null, "privacy_and_offline_fallback": null, "production_cost": null, "measurement_ref": null},
+    "experiment_form": {"id": null, "question": null, "method": null, "minimum_relevant_scope": null, "decision_rule": null, "denominator_and_uncertainty": null, "actual_capability_refs": [], "observed_output_refs": [], "residual_risks": []},
+    "semantic_review": {"author_ids": [], "independent_reviewer_id": null, "current_input_hashes": {}, "findings": [], "unresolved_items": []}
+  }
+}

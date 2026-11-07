@@ -1,0 +1,30 @@
+{
+  "schema_version": "chatbot.atelier-stage/2",
+  "toolkit_version": "5.0.0",
+  "id": "chatbot-atelier-media",
+  "purpose": "Медіа, образ, анімація, звук і delivery",
+  "primary_requirement_ids": [
+    "character_semantics",
+    "temporal_quality",
+    "audiovisual_fidelity",
+    "media_delivery",
+    "provider_constraints",
+    "bounded_resources"
+  ],
+  "full_companion_ids": "assets/requirements.json",
+  "self_contained": true,
+  "applicability": "by current task/domain; missing needed capability remains gap",
+  "handoff_required": [
+    "requirement_ids",
+    "source_snapshot",
+    "formal_contracts",
+    "operations",
+    "recipes",
+    "attempts",
+    "outputs",
+    "evidence",
+    "limitations",
+    "receiver",
+    "acceptance"
+  ]
+}

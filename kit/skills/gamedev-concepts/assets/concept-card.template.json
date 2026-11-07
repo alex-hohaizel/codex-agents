@@ -1,0 +1,63 @@
+{
+  "template": true,
+  "concept_id": null,
+  "revision": null,
+  "title": null,
+  "lineage_refs": [],
+  "studio_payload_ref": null,
+  "player_promise": null,
+  "audience_and_platforms": null,
+  "live_input_causality": {
+    "input_now": null,
+    "input_later": null,
+    "input_absent": null
+  },
+  "attempt": {
+    "entry": null,
+    "goals": [],
+    "choices": [],
+    "stakes": null,
+    "climax": null,
+    "completion": null,
+    "persistence": null
+  },
+  "mastery_map": [],
+  "run_progression": [],
+  "meta_progression": [],
+  "content_grammar": {
+    "authored_families": [],
+    "generated_dimensions": [],
+    "constraints": [],
+    "seed_fixtures": [],
+    "validation_tests": []
+  },
+  "economy": {
+    "resources": [],
+    "sources_sinks": [],
+    "unlocks": [],
+    "offers": [],
+    "free_path": null,
+    "paid_tradeoffs": [],
+    "assumptions": [],
+    "model_refs": []
+  },
+  "ux_state_families": [],
+  "visual_target_refs": [],
+  "audio_direction_ref": null,
+  "physics_and_production_route": null,
+  "creative_unknowns": [],
+  "production_inventory_ref": null,
+  "cost_assumptions": [],
+  "requirements_coverage": [],
+  "strongest_objection": null,
+  "evidence": [],
+  "gaps": [],
+  "next_discriminating_test": null,
+  "user_choice_ref": null,
+  "readiness": "template_only",
+  "systemic_passport_ref": null,
+  "visual_production_profile_ref": null,
+  "preselection_review_refs": [],
+  "actual_image_inspection_refs": [],
+  "_projection_rule": "This human-facing concept card is a projection of the linked complete systemic passport. Preserve concept_id (a compact view may name it id); never replace missing systemic/UX/resource/progression/commerce/feasibility evidence with short prose. Resolve all refs/hashes before illustration-ready status."
+}

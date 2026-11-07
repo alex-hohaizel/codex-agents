@@ -1,0 +1,31 @@
+name: Validate sources and build bundles
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source, release and translation integrity
+        run: python3 scripts/check_repository.py
+      - name: Exercise packaging and failure detection
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Build Work and Codex source bundles
+        run: python3 scripts/build_packages.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agent-system-bundles
+          path: dist/*
+          if-no-files-found: error
+
+# Artifacts are not published GitHub Releases and this job changes no repository data.

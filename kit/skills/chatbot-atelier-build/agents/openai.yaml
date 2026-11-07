@@ -1,0 +1,12 @@
+interface:
+  display_name: BOT · Реалізація · 5.0.0
+  short_description: Повний наскрізний runtime чатбота
+  default_prompt: Використай $chatbot-atelier-build для завершення потрібного етапу створення або розвитку чатбота.
+  icon_small: ./assets/family-icon-small.png
+  icon_large: ./assets/family-icon-large.png
+policy:
+  products:
+  - chatgpt
+  - codex
+  - atlas
+  allow_implicit_invocation: true

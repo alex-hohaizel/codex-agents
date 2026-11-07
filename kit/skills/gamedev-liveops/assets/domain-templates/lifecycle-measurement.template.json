@@ -1,0 +1,26 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author product lifecycle, support and measurement specifications; project canonical lifecycle fields and pin spec_refs. No background monitoring or external authorization is created by this file.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "full_player_journey": {"acquisition_promise": null, "install_first_open": null, "learning_first_satisfying_loop": null, "early_mid_late": null, "completion_postgame": null, "return_after_absence": null, "support_update_offboarding": null},
+    "finite_launch_scope": {"content_units_and_families": [], "meaningful_differences": [], "authored_vocabulary": [], "composition_rules": [], "forbidden_combinations": [], "novel_decisions": [], "milestones_and_ending": null, "production_qa_capacity": null, "exhaustion_and_cadence": null},
+    "save_update_contract": {"state_authority": null, "schema_version_and_boundaries": null, "atomic_commit_backup_integrity": null, "corrupt_save_recovery": null, "migration_rollback": null, "inventory_unlock_world_curriculum_refs": [], "offline_clock_claim_rules": null, "sync_conflict_account_merge_if_applicable": null, "suspend_kill_network_audio_focus": null, "return_goal_reward_once_resume": null, "content_config_sdk_compatibility": null, "paid_entitlement_handling": null},
+    "support_contract": {"repro_build_device_context": null, "privacy_safe_trace": null, "receipt_state_lookup_if_applicable": null, "severity_triage_owner": null, "player_message_recovery_escalation": null, "finite_content_or_shutdown_policy": null},
+    "retention_and_sharing_hypothesis": {"concrete_return_value": null, "world_mastery_reward_links": [], "voluntary_shareable_moment": null, "viewer_value_and_entry": null, "privacy_fallback": null, "production_support_cost": null, "unproven_assumptions": []},
+    "metric_form": {"id": null, "question_and_decision": null, "event_schema_version": null, "numerator": null, "denominator": null, "population_and_cohort": null, "window_calendar_timezone": null, "exclusion_missing_data": null, "uncertainty": null, "privacy_consent": null, "observed_data_ref": null, "target_or_observed": null},
+    "player_test_form": {"id": null, "question": null, "participant_recruitment_and_limits": null, "actual_build_device_refs": [], "scenario_refs": [], "assistance_policy": null, "observed_behavior_errors": [], "anonymized_outcome_refs": [], "residual_risks": []},
+    "experiment_form": {"id": null, "hypothesis": null, "assignment_control": null, "primary_guardrail_metrics": [], "exposure_duration_rationale": null, "decision_rule_before_results": null, "stop_rollback": null, "observed_results_ref": null, "causal_limits": null},
+    "content_change_form": {"id": null, "new_decision_and_interactions": null, "vocabulary_reuse": null, "production_qa_cost_owner": null, "compatibility_overlap_expiry": null, "affected_ids_and_proofs": [], "actual_outcome_ref": null},
+    "checkpoint_return_bundle": {"source_version_hash_refs": [], "accepted_choices_and_favorites_refs": [], "completed_current_pending": null, "external_unknown_outcomes": [], "stop_boundary": null, "next_action": null, "exact_host_capabilities": null, "launch_steps_and_expected_returns": null, "writer_ownership_and_resource_locks": null},
+    "verification": {"native_build_device_refs": [], "independent_release_review_refs": [], "critical_money_save_privacy_authority_refs": [], "actual_player_cohort_refs": [], "current_policy_refs": [], "unresolved_items": []}
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "persistence_continuity",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "continuation_guarantee": {
+    "mode": null,
+    "checkpoint": null,
+    "bounded_loss_window": null,
+    "critical_confirmation_boundary": null
+  },
+  "state_fields": [
+    {
+      "id": null,
+      "system_ref": null,
+      "type": null,
+      "unit": null,
+      "precision": null,
+      "bounds": null,
+      "initial": null,
+      "lifetime": null,
+      "scope": null,
+      "authority": null,
+      "class": null,
+      "mutation_sources": [],
+      "commit_trigger": null,
+      "consistency_group_ref": null,
+      "restore_order": null,
+      "reconstruction": null,
+      "merge": null,
+      "migration": null,
+      "deletion_retention": null,
+      "privacy": null,
+      "fixture_refs": []
+    }
+  ],
+  "envelope": {
+    "schema_version": null,
+    "compatibility": null,
+    "catalog_economy_generator_versions": [],
+    "identity_binding": null,
+    "generation_ancestry": null,
+    "length_integrity": null
+  },
+  "local_commit": {
+    "storage_adapter_ref": null,
+    "writer_queue": null,
+    "atomicity_durability_assumptions": [],
+    "previous_good_policy": null,
+    "async_stale_write_guard": null,
+    "failure_behavior": null
+  },
+  "restore_pipeline": [],
+  "cloud": {
+    "applicability": null,
+    "identity_scopes": [],
+    "adapter_evidence_refs": [],
+    "sync_state_machine": [],
+    "conflict_policies": [],
+    "unknown_outcome_reconciliation": null,
+    "offline_behavior": null
+  },
+  "clock_domains": [],
+  "rng_roundtrip_rules": [],
+  "purchase_authority_refs": [],
+  "migration_manifest_ref": null,
+  "deletion_tombstone_policy": null,
+  "data_egress_refs": [],
+  "failure_cases": [],
+  "materialization": {
+    "target": "production.state_fields + production.contracts[].body",
+    "kinds": [
+      "persistence"
+    ],
+    "tracks": [
+      "TR17"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

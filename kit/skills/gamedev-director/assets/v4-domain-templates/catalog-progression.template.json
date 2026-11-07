@@ -1,0 +1,66 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "catalog_progression",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "catalog_version": null,
+  "launch_scope": null,
+  "catalog_form": null,
+  "family_definitions": [],
+  "launch_entries": [],
+  "generator_ref": null,
+  "parameter_definitions": [],
+  "compatibility": {
+    "slots": [],
+    "tags": [],
+    "requires": [],
+    "excludes": [],
+    "aggregate_rule_refs": [],
+    "legal_fixtures": [],
+    "illegal_fixtures": []
+  },
+  "progression_graphs": {
+    "run": [],
+    "permanent": [],
+    "human_mastery": [],
+    "collection": [],
+    "campaign": []
+  },
+  "capability_opportunity_matrix": [],
+  "mechanic_exposure_graph": [],
+  "reward_rules": [],
+  "completion_exhaustion": {
+    "caps": [],
+    "duplicates": null,
+    "excess_resources": null,
+    "offers": null,
+    "ending": null,
+    "replay": null
+  },
+  "dominance_contexts": [],
+  "paid_portfolio_cases": [],
+  "asset_state_refs": [],
+  "authoring_round_trip_ref": null,
+  "coverage_limits": null,
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "family",
+      "economy",
+      "state_machine"
+    ],
+    "tracks": [
+      "TR05",
+      "TR10",
+      "TR11"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

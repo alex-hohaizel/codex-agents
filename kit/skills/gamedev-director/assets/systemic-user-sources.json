@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "record_kind": "game_atelier_systemic_user_sources",
+  "toolkit_version": "2.1.0",
+  "source": {
+    "kind": "user_message_excerpt",
+    "request_id": "dd9e0086-c436-4300-b7b9-51cd0302dc42",
+    "date": "2026-11-02",
+    "timezone": "Europe/Kyiv",
+    "scope": "User explicitly requested these clarifications across the existing relevant skills; not a production choice of game, engine, purchase model, or accepted image."
+  },
+  "items": [
+    {
+      "id": "UA26-SYS-01",
+      "source_point": 1,
+      "verbatim_quote": "Не треба малювати тут мені те, що неможливо реалізувати в подальшому. Ці концепт арти мають стати основою і точкою для фіксації референсу",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "До кожного зображення: перевірений доступний visual production profile, підтриманий camera/HUD/animation/source route, scene budget і element-to-assembly map; після вибору exact original/hash лишається референсом. Actual native/device parity довести на належному пізнішому gate.",
+      "interpretation_is_verbatim": false
+    },
+    {
+      "id": "UA26-SYS-02",
+      "source_point": 2,
+      "verbatim_quote": "а продумана дуже обширна система механік, їх взаємодій між собою, з розвиненням подальшим протягом всієї гри",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "Для кожного ілюстрованого кандидата: причинний граф сімейств механік, замкнені міжсистемні ланцюги, різні рішення у конкретних контекстах і контрфактична перевірка; кількість правил не доводить глибини.",
+      "interpretation_is_verbatim": false
+    },
+    {
+      "id": "UA26-SYS-03",
+      "source_point": 3,
+      "verbatim_quote": "А продумати максимально гнучку систему нативно удобну і водночас глиббоко продуману",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "Карта action intent → input/context → readable state; стабільні жести, two-thumb simultaneous-load case, first/normal/peak HUD і передбачення/помилка/відновлення без прихованої незручності.",
+      "interpretation_is_verbatim": false
+    },
+    {
+      "id": "UA26-SYS-04",
+      "source_point": 4,
+      "verbatim_quote": "головна мета - альтернативний досвід, не ламаючий основний геймплей, а доповнюючий його, щось унікальне, за допомогою чого користувач зможе отримати по відчуттям інший досвід, хоча і в рамках того ж проходження",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "Додатковий досвід у тому самому поточному проходженні: baseline й альтернатива в тій самій ситуації, інший input/ритм, конкретні tradeoffs та спільні resource/state limits, trial і повторне використання. Не підміняти інтеграцію примусовим окремим save. Повна free/no-offer арка та предметний cumulative dominance counterexample; цінність різноманіття не вимагає однаковості всіх стилів.",
+      "interpretation_is_verbatim": false
+    },
+    {
+      "id": "UA26-SYS-05",
+      "source_point": 5,
+      "verbatim_quote": "Це має поступово для гравця давати відчуття розвитку, персонажа, навичок, світу тощо.",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "Ранній/середній/пізній досвід змінює можливості, розуміння й цілі; нова можливість переосмислює стару задачу. Content grammar має конкретно різні рішення, finite launch capacity й причину повернення; seeds/арени/+HP самі не закривають вимогу.",
+      "interpretation_is_verbatim": false
+    },
+    {
+      "id": "UA26-SYS-06",
+      "source_point": 6,
+      "verbatim_quote": "ресурси, котрими гравець може користуватись мають бути максимально як комплексними, так і мати звєязок з самім геймплеєм, або ігровими ситуаціями",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "Контекстні ресурси/характеристики мають джерело, перетворення, альтернативну витрату, cue, відновлення та наслідки в інших системах; показати конфлікт витрат і decision-changing cycle, не квоту валют чи смуг.",
+      "interpretation_is_verbatim": false
+    },
+    {
+      "id": "UA26-SYS-07",
+      "source_point": 7,
+      "verbatim_quote": "мають бути дуже багатошарові цілі концепції, котрі гравець захоче з вау ефектом відкривати для себе по мірі знаходження у грі, або відкривати варіативності",
+      "quote_kind": "exact_excerpt_preserving_original_spelling",
+      "interpretation": "Зрозуміла цілісна фантазія, цілі й арка відкриттів поєднують системи в повну гру; дивний гачок або одна вузька активність не заміняють багатошарову концепцію.",
+      "interpretation_is_verbatim": false
+    }
+  ],
+  "preserve_historical_sources": "Existing user-intent-sources.json and its original schema/quotes remain unchanged."
+}

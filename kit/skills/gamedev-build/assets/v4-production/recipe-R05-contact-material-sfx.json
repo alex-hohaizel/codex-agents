@@ -1,0 +1,198 @@
+{
+  "id": "R05",
+  "status": "template",
+  "name": "contact-material-sfx",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "assets_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "confirmed simulation contact/event IDs and material pair",
+    "actual normal relative speed/impulse or honest ordinal intensity",
+    "damage/break outcome distinct from contact",
+    "voice/dedup/spatial/mix/rights contracts"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "recording/synthesis/lawful sample library",
+    "Audacity or DAW",
+    "FFmpeg",
+    "Godot"
+  ],
+  "capability_ids": [
+    "bind_CAP_O19_R05",
+    "bind_CAP_O21_R05",
+    "bind_CAP_O22_R05",
+    "bind_CAP_O33_R05"
+  ],
+  "steps": [
+    {
+      "id": "R05-S01",
+      "operation_id": "O19",
+      "capability_id": "bind_CAP_O19_R05",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Record/synthesize/license dry transient/body/tail regions and coherent material families. Preserve original takes/license refs; create bounded variants for wood/metal/scrape/break as applicable."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Family meaning and material contrast audible, no unlicensed asset assumption."
+        ]
+      },
+      "output_ids": [
+        "R05-OUT01"
+      ],
+      "validator": "bind_R05_source_independent_validator"
+    },
+    {
+      "id": "R05-S02",
+      "operation_id": "O21",
+      "capability_id": "bind_CAP_O21_R05",
+      "depends_on": [
+        "R05-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Clean clicks/DC/noise conservatively, align onset and loop/tail, inspect clipping/phase. Export bound sample rate/channels/format and region metadata; measure and listen."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "No universal LUFS target; correct noise profile and desired dynamics; stereo/mono scope recorded."
+        ]
+      },
+      "output_ids": [
+        "R05-OUT02"
+      ],
+      "validator": "bind_R05_edit_independent_validator"
+    },
+    {
+      "id": "R05-S03",
+      "operation_id": "O22",
+      "capability_id": "bind_CAP_O22_R05",
+      "depends_on": [
+        "R05-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Map accepted event to bounded gain/pitch/layer curves; isolate cosmetic RNG. Gate pair cooldown/hysteresis; start/update/stop continuous scrape; authoritative break alone emits break cue."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "One accepted impact not manifold-count sounds; resting jitter quiet; no effect grants damage/currency."
+        ]
+      },
+      "output_ids": [
+        "R05-OUT03"
+      ],
+      "validator": "bind_R05_dispatch_independent_validator"
+    },
+    {
+      "id": "R05-S04",
+      "operation_id": "O33",
+      "capability_id": "bind_CAP_O33_R05",
+      "depends_on": [
+        "R05-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Play same physical scenario under differing allowed damage policies, threshold boundaries, debris pile, scrape cancellation/resume; test critical cue amid dense mix on target output routes."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Contact/material/damage distinction understood; cleanup stops loop; simulation feedback never waits for disk/cloud."
+        ]
+      },
+      "output_ids": [
+        "R05-OUT04"
+      ],
+      "validator": "bind_R05_audition_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R05-OUT01",
+      "type": "raw takes and editable multi-track family",
+      "editable": true,
+      "consumer": "R05-S02",
+      "acceptance": [
+        "Family meaning and material contrast audible, no unlicensed asset assumption."
+      ]
+    },
+    {
+      "id": "R05-OUT02",
+      "type": "edited sources/export variants",
+      "editable": true,
+      "consumer": "R05-S03",
+      "acceptance": [
+        "No universal LUFS target; correct noise profile and desired dynamics; stereo/mono scope recorded."
+      ]
+    },
+    {
+      "id": "R05-OUT03",
+      "type": "event mapping/buses/limits and dedup config",
+      "editable": true,
+      "consumer": "R05-S04",
+      "acceptance": [
+        "One accepted impact not manifold-count sounds; resting jitter quiet; no effect grants damage/currency."
+      ]
+    },
+    {
+      "id": "R05-OUT04",
+      "type": "timecoded listening/device observations",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Contact/material/damage distinction understood; cleanup stops loop; simulation feedback never waits for disk/cloud."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Fault in source/timing/curve/dedup/mix receives corresponding repair, not louder master by default.",
+      "Unsupported physics quantity stays unknown; use declared ordinal intensity if design allows."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://manual.audacityteam.org/man/normalize.html",
+    "https://docs.godotengine.org/en/stable/classes/class_audiostreamrandomizer.html"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

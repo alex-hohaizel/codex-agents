@@ -1,0 +1,60 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "lore_narrative",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "scope": {
+    "fantasy_theme_tone": null,
+    "player_role_motivation": null,
+    "stakes_failure_recovery": null,
+    "world_arc_ending": null,
+    "optional_discovery": null
+  },
+  "canon_facts": [],
+  "mutable_world_facts": [],
+  "character_faction_definitions": [],
+  "knowledge_facts": [],
+  "canon_conflicts": [],
+  "causal_edges": [],
+  "quest_graphs": [],
+  "dialogue_graphs": [],
+  "scene_nodes": [],
+  "scene_arbitration": {
+    "priority_tie_break": null,
+    "interruption_defer_cancel": null,
+    "stale_line_expiry": null,
+    "input_camera_release": null
+  },
+  "localization_voice_bindings": [],
+  "world_ai_catalog_economy_links": [],
+  "save_consistency_groups": [],
+  "content_absence_migration": [],
+  "procedural_narrative": {
+    "applicability": null,
+    "grammar": null,
+    "variable_domains": [],
+    "knowledge_canon_guards": [],
+    "bounded_generation_fallback": null,
+    "authority_boundary": null
+  },
+  "cold_receiver_cases": [],
+  "negative_cases": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "state_machine",
+      "behavior"
+    ],
+    "tracks": [
+      "TR02"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

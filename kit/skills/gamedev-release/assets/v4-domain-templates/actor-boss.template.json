@@ -1,0 +1,62 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "actor_boss",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "actor_families": [],
+  "body_motion_material_refs": [],
+  "resources_stat_effect_refs": [],
+  "knowledge_contract": {
+    "fact_schema": {
+      "subject": null,
+      "predicate": null,
+      "value_type": null,
+      "source_channel": null,
+      "observed_timebase": null,
+      "uncertainty": null,
+      "confidence": null,
+      "ttl_decay": null
+    },
+    "refresh_forget_rules": [],
+    "share_rules": [],
+    "truth_access_policy": null
+  },
+  "action_catalogue": [],
+  "decision_model": {
+    "form": null,
+    "alternatives": [],
+    "eligibility": [],
+    "priority_scoring": [],
+    "tie_break": null,
+    "reevaluation_cadence": null,
+    "commitment_hysteresis": null,
+    "abort_fallback": null,
+    "trace_schema": null
+  },
+  "navigation_positioning": [],
+  "coordination_reservations": [],
+  "encounter_contracts": [],
+  "boss_blueprints": [],
+  "state_save_lod_policy": [],
+  "resource_budgets": [],
+  "content_bindings": [],
+  "negative_cases": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "ai",
+      "state_machine"
+    ],
+    "tracks": [
+      "TR06"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

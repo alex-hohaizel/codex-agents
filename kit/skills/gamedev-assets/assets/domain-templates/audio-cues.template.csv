@@ -1,0 +1,1 @@
+model_source_ref,model_sha256,model_object_ids,scenario_ids,cue_id,semantic_event_id,family,source_files,export_files,baseline_id,variant_rule,pitch_range,gain_db,bus,spatial_mode,priority,voice_limit,cooldown_ms,ducking_rule,start_stop_rule,loop_markers,music_state,haptic_pattern_id,rights_ref,listening_review_ref,runtime_receipt_ref,owner,status

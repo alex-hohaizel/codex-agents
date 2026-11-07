@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0.0",
+  "source": "Direct Ukrainian user request in current Game Atelier unification conversation, 2026-11-01",
+  "scope": "Shared creative and workflow requirements; TatterJack particulars are project-scoped, not universal defaults",
+  "source_kind": "verbatim_excerpts",
+  "limitations": "Excerpts, not full transcript. Derived implementation constraints including hashes, representative slice, proof gates and no guaranteed revenue are professional interpretations, not purported verbatim instructions. Future projects bind their own actual sources.",
+  "items": [
+    {
+      "id": "UA26-EXP-01",
+      "verbatim_source": "кожен початковий начерк має містити зв’язок між ігровою дією, розвитком можливостей і потенційною цінністю покупки.",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-01"
+    },
+    {
+      "id": "UA26-EXP-02",
+      "verbatim_source": "Посилити увагу до глибиникерування, взаємодією механік, розвитком персонажа й світу та природним маршрутом монетизації.",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-02"
+    },
+    {
+      "id": "UA26-EXP-03",
+      "verbatim_source": "як керування, візуальний сигнал, звук і вібрація допомагають гравцеві передбачити наслідок, відчути результат і навчитися діяти краще.",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-03"
+    },
+    {
+      "id": "UA26-EXP-04",
+      "verbatim_source": "Задум творчій має бути унікальний, мати особливу «душу».",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-04"
+    },
+    {
+      "id": "UA26-EXP-05",
+      "verbatim_source": "якщо на етапі ідеї була показана якась картинка запланованого екрану гри, то навіть якщо це концепт, він має у всіх наступних етапах враховуватись абсолютно залізобетонно",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-05"
+    },
+    {
+      "id": "UA26-EXP-06",
+      "verbatim_source": "від самого першого кроку до останньго.",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-06"
+    },
+    {
+      "id": "UA26-EXP-07",
+      "verbatim_source": "а допомагати отримувати альтернативний досвід, котрий не ламає механіки гри, а дає новий вид взаємодії з ними",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-07"
+    },
+    {
+      "id": "UA26-EXP-08",
+      "verbatim_source": "Окремо досліджувати, як успішні ігри поєднують дію, зображення, звук і вібрацію з бажанням повторити спробу та повернутися пізніше.",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-08"
+    },
+    {
+      "id": "UA26-EXP-09",
+      "verbatim_source": "Він не має просто пропустити, або знизити вагу одного з елементів лише тому, що користувач про це не згадав.",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-09"
+    },
+    {
+      "id": "UA26-EXP-10",
+      "verbatim_source": "Також Агент має вміти давати можливість користувачу на будь якому етапі призупиняти умовно виконання до зрозумілої користувачу проміжної точки для оцінки результатів, щоб він затвердив, і з цим твердженням було продовження виконання усіх інструкцій далі",
+      "source_ref": "user-current-request-2026-11-01",
+      "interpretation_ref": "references/experience-contract.md#UA26-EXP-10"
+    }
+  ]
+}

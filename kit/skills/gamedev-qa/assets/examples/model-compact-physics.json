@@ -1,0 +1,847 @@
+{
+  "schema_version": "4.0.0",
+  "id": "EXAMPLE-COMPACT-PHYSICS",
+  "title": "Illustrative compact-physics model",
+  "author_ids": [
+    "illustrative-design-author"
+  ],
+  "source_requirement_ids": [
+    "EXAMPLE-TYPED-CONTRACT-NOT-USER-APPROVAL"
+  ],
+  "constraints": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "target_fps": 60,
+    "extra_paid_services": false
+  },
+  "features": {
+    "camera": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "input": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "systems": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "actors": {
+      "enabled": false,
+      "rationale": "No actors subsystem proposed for this illustrative experience"
+    },
+    "world": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "progression": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "rewards": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "learning": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "art": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "commerce": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "lifecycle": {
+      "enabled": true,
+      "rationale": "Required by the stated interaction and learning route"
+    },
+    "equipment": {
+      "enabled": false,
+      "rationale": "No equipment subsystem proposed for this illustrative experience"
+    }
+  },
+  "domains": {
+    "input": {
+      "scheme": "drag-place and release",
+      "simultaneous_contacts": 1,
+      "actions": [
+        {
+          "id": "ACT-PRIMARY",
+          "intent": "place a weight on a flexible beam then release the counterweight",
+          "gesture": "drag-place and release",
+          "context": "beam compression and counterweight height",
+          "feedback": "the beam bends while the lifted gate redirects the marble",
+          "cost_or_limit": "excess compression releases a magnetic latch",
+          "recovery": "Release, inspect the visible state and use the local undo or checkpoint route"
+        }
+      ],
+      "peak_load_scenario": "A compressed beam needs distributed support; an unloaded beam permits a direct launch.",
+      "accessibility": [
+        "left/right placement where relevant",
+        "no mandatory audio or haptics",
+        "legible state cues and reduced-motion alternative"
+      ]
+    },
+    "systems": {
+      "rules": [
+        {
+          "id": "RULE-A",
+          "state": "beam compression and counterweight height",
+          "trigger": "place a weight on a flexible beam then release the counterweight",
+          "change": "the beam bends while the lifted gate redirects the marble",
+          "limit": "excess compression releases a magnetic latch",
+          "counterplay": "distribute weight across supports or park the marble before cycling",
+          "feedback": "Show the changed state before the next irreversible input"
+        },
+        {
+          "id": "RULE-B",
+          "state": "route availability after the first state transition",
+          "trigger": "distribute weight across supports or park the marble before cycling",
+          "change": "Reconfigure the safe route and next use of the first rule",
+          "limit": "The alternative route preserves the stated cost instead of refilling it",
+          "counterplay": "Return to the visible safe checkpoint and choose another route",
+          "feedback": "Keep the target, state change and recovery route visible"
+        }
+      ],
+      "links": [
+        {
+          "from": "RULE-A",
+          "to": "RULE-B",
+          "decision_effect": "A compressed beam needs distributed support; an unloaded beam permits a direct launch."
+        },
+        {
+          "from": "RULE-B",
+          "to": "RULE-A",
+          "decision_effect": "The changed route alters when the first action is safe again"
+        }
+      ]
+    },
+    "world": {
+      "topology": "single_space",
+      "spaces": [
+        {
+          "id": "SPACE-START",
+          "purpose": "one workshop whose supports, routes and loads all change",
+          "interactive_states": [
+            "beam compression and counterweight height",
+            "route after the committed action"
+          ],
+          "route_choices": [
+            "distribute weight across supports or park the marble before cycling",
+            "the slower visible recovery route"
+          ]
+        }
+      ],
+      "transitions": []
+    },
+    "progression": {
+      "nodes": [
+        {
+          "id": "UNLOCK-BASE",
+          "unlock": "Understand the visible base interaction",
+          "prerequisites": [],
+          "new_decision": "A compressed beam needs distributed support; an unloaded beam permits a direct launch.",
+          "revisit_effect": "Try the alternate route after the state change"
+        },
+        {
+          "id": "UNLOCK-ADVANCED",
+          "unlock": "reversible magnetic joint",
+          "prerequisites": [
+            "UNLOCK-BASE"
+          ],
+          "new_decision": "Use reversible magnetic joint to reinterpret the known route with a new cost",
+          "revisit_effect": "Return voluntarily to a signposted optional goal with the new capability"
+        }
+      ],
+      "reset_policy": "Persistent learned capability; temporary local state resets only at a declared checkpoint",
+      "long_horizon": "Master the base interaction, combine it with reversible magnetic joint, then choose authored advanced challenges"
+    },
+    "rewards": {
+      "entries": [
+        {
+          "id": "REWARD-CAPABILITY",
+          "trigger": "Complete the first combined-rule challenge",
+          "grants": "a reusable workshop component",
+          "feedback": "Show the actual capability and a reachable place to try it",
+          "purpose": "Reopen a known route through a functional change",
+          "cap_or_rule": "Award once per unlock; repeat completion never duplicates a permanent grant"
+        }
+      ],
+      "fairness_recovery": "Reconcile interrupted completion once from the saved completion record"
+    },
+    "learning": {
+      "curriculum": [
+        {
+          "id": "LESSON-BASE",
+          "teaches": "beam compression and counterweight height",
+          "practice": "bend an unloaded beam and safely undo the placement",
+          "assessment": "Predict and execute one safe state transition without a forced overlay",
+          "remediation": "Replay the visible cause and offer a reversible safe retry",
+          "unlock_ref": "UNLOCK-BASE"
+        },
+        {
+          "id": "LESSON-COMBINE",
+          "teaches": "reversible magnetic joint",
+          "practice": "distribute weight across supports or park the marble before cycling",
+          "assessment": "A compressed beam needs distributed support; an unloaded beam permits a direct launch.",
+          "remediation": "Expose the missed state cue and restore the local checkpoint",
+          "unlock_ref": "UNLOCK-ADVANCED"
+        }
+      ],
+      "timing": "Teach the base rule safely before combining it with the second rule",
+      "return_resume": "Restore the saved goal, last state change and next reachable choice"
+    },
+    "art": {
+      "style": {
+        "shape": "tactile folded paper and cork",
+        "materials": "tactile folded paper and cork with consistent readable silhouettes",
+        "palette": "Distinct subject, action cue and neutral background value roles",
+        "lighting": "Bounded authored lighting appropriate to tactile folded paper and cork",
+        "motion": "Anticipation, contact and recovery readable at the stated subject scale",
+        "ui": "State cues adjacent to the consequential action without thumb occlusion",
+        "audio": "Layered predictive and confirmatory cues for beam compression and counterweight height",
+        "haptics": "Optional distinct confirmation and limit pulses; visual parity retained"
+      },
+      "production_route": {
+        "tools": [
+          "selected engine after feasibility verification",
+          "open-source DCC compatible with this direction"
+        ],
+        "editable_sources": "Editable layered geometry/vector/animation sources for tactile folded paper and cork",
+        "exports": "Versioned sprite/model/UI/audio exports for the selected engine",
+        "runtime_import": "Pinned scale, pivots, color, compression, material and animation settings",
+        "cost": "No extra paid services assumed; capabilities remain to verify",
+        "license": "Per-source provenance and commercial rights checked before production",
+        "risks": "Readability and production feasibility require an actual representative slice",
+        "verified_status": "Illustrative proposed route; no production or device proof claimed"
+      }
+    },
+    "commerce": {
+      "model": "none",
+      "resources": [],
+      "offers": [],
+      "journeys": [],
+      "no_offer_reason": "Complete free offline experience; no purchase or ad integration proposed"
+    },
+    "lifecycle": {
+      "launch_scope": {
+        "content_units": "Finite authored foundation, combination and mastery families; quantities remain to estimate",
+        "early": "bend an unloaded beam and safely undo the placement",
+        "mid": "Combine the learned rules with reversible magnetic joint",
+        "late": "A compressed beam needs distributed support; an unloaded beam permits a direct launch.",
+        "end_or_replay": "Clear authored ending plus optional mastery and alternate-route goals"
+      },
+      "content_grammar": {
+        "vocabulary": [
+          "beam compression and counterweight height",
+          "one workshop whose supports, routes and loads all change",
+          "reversible magnetic joint"
+        ],
+        "composition_rules": [
+          "Combine rule states only when their signals and recovery remain readable"
+        ],
+        "forbidden_combinations": [
+          "No mandatory route without an earned solution or recoverable failure"
+        ],
+        "novel_decisions": [
+          "A compressed beam needs distributed support; an unloaded beam permits a direct launch.",
+          "Use reversible magnetic joint to reinterpret an earlier route"
+        ]
+      },
+      "support_plan": {
+        "save": "Version permanent capability separately from transient local state",
+        "resume": "Restore checkpoint, goal and state cue",
+        "offline": "Core authored play works offline; commerce reconciles when available",
+        "update": "Stable content IDs with tested explicit save mappings",
+        "finite_content_end": "Present completion and optional goals honestly; no infinite-content claim"
+      }
+    },
+    "camera": {
+      "projection": "top-oblique orthographic",
+      "tracking": "fixed with optional local inspect",
+      "focus_subject": "current action subject and next consequential target",
+      "subject_fraction": {
+        "min": 0.22,
+        "max": 0.45
+      },
+      "states": [
+        {
+          "id": "CAMERA-NORMAL",
+          "when": "normal play",
+          "behavior": "fixed with optional local inspect",
+          "readability_risk": "Target and recovery route must remain readable"
+        },
+        {
+          "id": "CAMERA-PEAK",
+          "when": "before consequential commitment",
+          "behavior": "Bounded adjustment keeps subject, consequence and recovery visible",
+          "readability_risk": "Avoid shrinking the subject until the action is unreadable"
+        }
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "from": "RULE-A",
+      "to": "RULE-B",
+      "reason": "A compressed beam needs distributed support; an unloaded beam permits a direct launch."
+    },
+    {
+      "from": "RULE-B",
+      "to": "UNLOCK-ADVANCED",
+      "reason": "Mastered state change makes the new capability intelligible"
+    },
+    {
+      "from": "UNLOCK-ADVANCED",
+      "to": "REWARD-CAPABILITY",
+      "reason": "Reward records the earned functional capability"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "SCENARIO-BASE",
+      "domains": [
+        "art",
+        "camera",
+        "commerce",
+        "input",
+        "learning",
+        "lifecycle",
+        "progression",
+        "rewards",
+        "systems",
+        "world"
+      ],
+      "initial_state": "beam compression and counterweight height",
+      "action": "place a weight on a flexible beam then release the counterweight",
+      "expected_observable": "the beam bends while the lifted gate redirects the marble",
+      "changed_decision": "A compressed beam needs distributed support; an unloaded beam permits a direct launch.",
+      "without_rule": "Without compression the highest counterweight always solves the assembly."
+    },
+    {
+      "id": "SCENARIO-ADVANCED",
+      "domains": [
+        "systems",
+        "progression",
+        "learning",
+        "rewards",
+        "lifecycle"
+      ],
+      "initial_state": "The earned reversible magnetic joint is available in the known base context",
+      "action": "distribute weight across supports or park the marble before cycling",
+      "expected_observable": "A new reachable route with the stated cost; reward and saved capability survive recovery",
+      "changed_decision": "The new capability adds an optional route instead of only raising a number",
+      "without_rule": "Without this functional unlock, the old route remains viable but the new choice is unavailable"
+    }
+  ],
+  "evidence": [],
+  "portfolio": {
+    "scale": "one mutable space",
+    "genre": "physics puzzle action",
+    "framing": "(0.22, 0.45)",
+    "art": "tactile folded paper and cork"
+  },
+  "production": {
+    "maturity": "C0",
+    "tracks": [
+      {
+        "id": "TR01",
+        "name": "intent",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR02",
+        "name": "lore",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR03",
+        "name": "entity_state",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR04",
+        "name": "actions_physics",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR05",
+        "name": "equipment_capabilities",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR06",
+        "name": "ai_participants",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR07",
+        "name": "world_structure",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR08",
+        "name": "situation_composition",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR09",
+        "name": "playthrough",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR10",
+        "name": "player_development",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR11",
+        "name": "rewards_economy",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR12",
+        "name": "monetization",
+        "enabled": false,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR13",
+        "name": "input_camera",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR14",
+        "name": "ux_learning",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR15",
+        "name": "visual",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR16",
+        "name": "audio_haptics",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR17",
+        "name": "runtime_persistence",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR18",
+        "name": "content_production",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR19",
+        "name": "verification_measurement",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      },
+      {
+        "id": "TR20",
+        "name": "release_evolution",
+        "enabled": true,
+        "rationale": "Current authoring scaffold; determine applicability from project requirements.",
+        "owner": "unassigned",
+        "receiver": "unassigned",
+        "requirement_ids": [],
+        "summary": "Unresolved current sketch; not an accepted concept.",
+        "reads": [],
+        "writes": [],
+        "contract_ids": [],
+        "invariants": [],
+        "scenario_ids": [],
+        "progression": "Unresolved",
+        "content": "Unresolved",
+        "feedback": "Unresolved",
+        "persistence": "Unresolved",
+        "budget": "Unresolved",
+        "concept_refs": [],
+        "spec_refs": []
+      }
+    ],
+    "applicability": {
+      "damage": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "physics": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "ai": {
+        "enabled": false,
+        "rationale": "Current actors applicability; author the detailed AI contract if enabled."
+      },
+      "cloud": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "procedural": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      },
+      "purchases": {
+        "enabled": false,
+        "rationale": "Determine applicability from the current project brief."
+      }
+    },
+    "contracts": [],
+    "state_fields": [],
+    "dependencies": [],
+    "operations": {},
+    "unresolved": [
+      {
+        "id": "AUTHOR-CURRENT-CONTRACTS",
+        "description": "Define current applicability and contracts before completing the concept.",
+        "owner": "project-integrator",
+        "due": "C1",
+        "blocks": [
+          "TR01",
+          "TR03",
+          "TR04",
+          "TR09",
+          "TR13",
+          "TR14",
+          "TR15",
+          "TR16",
+          "TR17",
+          "TR18",
+          "TR19",
+          "TR20"
+        ]
+      }
+    ]
+  }
+}

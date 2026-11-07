@@ -1,0 +1,16 @@
+{
+  "id": "ASSET-0001",
+  "kind": null,
+  "baseline_id": null,
+  "source_path": null,
+  "source_sha256": null,
+  "license_id": null,
+  "author_ids": [],
+  "export_recipe": null,
+  "export_path": null,
+  "import_settings": {},
+  "runtime_node": null,
+  "depends_on": [],
+  "approval_scope": null,
+  "status": "draft"
+}

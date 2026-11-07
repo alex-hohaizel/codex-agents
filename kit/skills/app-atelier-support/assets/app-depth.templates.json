@@ -1,0 +1,438 @@
+{
+  "schema_version": "app-atelier-production-template/2",
+  "family_version": "2.3.0",
+  "stage": "support",
+  "record_kind": "template_not_executed",
+  "canonical_authority": "existing .appatelier/state.json; register instantiated artifacts by current state.py protocol",
+  "recipes": [
+    {
+      "id": "APP-SUP-R01",
+      "status": "template",
+      "title": "Правило продукту → grounded knowledge",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "accepted product/version rules",
+          "sha256": null
+        },
+        {
+          "binding": "rights/data matrix",
+          "sha256": null
+        },
+        {
+          "binding": "locale inventory",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-SUP-R01-S1",
+          "depends_on": [],
+          "procedure": "extract claims with source/version/locale and expiry",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R01-S2",
+          "depends_on": [
+            "APP-SUP-R01-S1"
+          ],
+          "procedure": "choose structured search or scoped RAG by need",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R01-S3",
+          "depends_on": [
+            "APP-SUP-R01-S2"
+          ],
+          "procedure": "apply subject permission filter before retrieval and response",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R01-S4",
+          "depends_on": [
+            "APP-SUP-R01-S3"
+          ],
+          "procedure": "run missing/stale/injection/locale negative fixtures",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "versioned KB sources",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "retrieval bindings",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "grounded-answer fixtures",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-SUP-R02",
+      "status": "template",
+      "title": "Identity → allowed context",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "auth contract",
+          "sha256": null
+        },
+        {
+          "binding": "guest/account/link matrix",
+          "sha256": null
+        },
+        {
+          "binding": "revoke rules",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-SUP-R02-S1",
+          "depends_on": [],
+          "procedure": "verify transport and reject group/forged events before retrieval",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R02-S2",
+          "depends_on": [
+            "APP-SUP-R02-S1"
+          ],
+          "procedure": "bind app/web subject to the selected channel identity under its verified adapter contract; private Telegram challenge only when selected",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R02-S3",
+          "depends_on": [
+            "APP-SUP-R02-S2"
+          ],
+          "procedure": "confirm link in authorized app/web session",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R02-S4",
+          "depends_on": [
+            "APP-SUP-R02-S3"
+          ],
+          "procedure": "exercise replay/A-to-B/cache/account-switch/revoke during inflight response",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "channel auth adapters",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "link state machine",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "isolation evidence",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-SUP-R03",
+      "status": "template",
+      "title": "Turn → action/case",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "case/action contract",
+          "sha256": null
+        },
+        {
+          "binding": "tool allowlist",
+          "sha256": null
+        },
+        {
+          "binding": "budget/fallback policy",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-SUP-R03-S1",
+          "depends_on": [],
+          "procedure": "deduplicate transport and establish authoritative scope",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R03-S2",
+          "depends_on": [
+            "APP-SUP-R03-S1"
+          ],
+          "procedure": "answer with source or invoke exact authorized bounded tool",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R03-S3",
+          "depends_on": [
+            "APP-SUP-R03-S2"
+          ],
+          "procedure": "persist pending before effect and reconcile unknown outcome",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R03-S4",
+          "depends_on": [
+            "APP-SUP-R03-S3"
+          ],
+          "procedure": "classify received/resolved truthfully and aggregate unresolved cases",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "typed turn handler",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "durable case/effect receipt",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "resolution evidence",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-SUP-R04",
+      "status": "template",
+      "title": "Support source → channel assembly",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "client/backend/KB/model versions",
+          "sha256": null
+        },
+        {
+          "binding": "channel capabilities",
+          "sha256": null
+        },
+        {
+          "binding": "raw scenarios",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-SUP-R04-S1",
+          "depends_on": [],
+          "procedure": "instantiate exact build/deploy recipe with secret refs",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R04-S2",
+          "depends_on": [
+            "APP-SUP-R04-S1"
+          ],
+          "procedure": "run Android/iOS/web and every selected bot-channel core route",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R04-S3",
+          "depends_on": [
+            "APP-SUP-R04-S2"
+          ],
+          "procedure": "test cap/outage/delete/restart and stale knowledge",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-SUP-R04-S4",
+          "depends_on": [
+            "APP-SUP-R04-S3"
+          ],
+          "procedure": "record actual hashes/receipts/observer and untested gates",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "actual channel bindings",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "cost/outage proofs",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "support runbook",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    }
+  ],
+  "assembly_template": {
+    "id": null,
+    "status": "not_run",
+    "requirement_ids": [],
+    "source_build_config_hashes": {},
+    "component_bindings": [],
+    "initial_state_ref": null,
+    "scenario_ref": null,
+    "expected_invariants": [],
+    "actual_observations": [],
+    "environment_platform_device_modality": {},
+    "author_ids": [],
+    "independent_observer_id": null,
+    "evidence_refs": [],
+    "limitations": []
+  },
+  "coverage_template": {
+    "requirement_id": null,
+    "source_intent_ref": null,
+    "domain_rule_ref": null,
+    "state_variant_platform": null,
+    "output_consumer_ref": null,
+    "recipe_ref": null,
+    "oracle_ref": null,
+    "proof_ref": null,
+    "due_stage": "support",
+    "status": "pending",
+    "applicability_reason": null
+  },
+  "attempt_template": {
+    "id": null,
+    "status": "planned",
+    "recipe_input_toolchain_hashes": {},
+    "stable_effect_key": null,
+    "actual_provider_job_id": null,
+    "observations": [],
+    "actual_cost": null,
+    "output_hashes": {},
+    "receipt_ref": null,
+    "reconciliation_ref": null
+  }
+}

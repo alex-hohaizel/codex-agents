@@ -1,0 +1,197 @@
+{
+  "schema_version": "skill.blueprint/2",
+  "id": "EXAMPLE-DOCUMENT-ANALYSIS",
+  "version": 1,
+  "brief": {
+    "goal": "fixture analysis",
+    "audience": "owner",
+    "deliverable": "report",
+    "quality": "traceable",
+    "constraints": [
+      "offline"
+    ],
+    "sources": [
+      "actual user task"
+    ]
+  },
+  "criteria": [
+    {
+      "id": "accuracy",
+      "source": "user task",
+      "intent": "accurate result",
+      "priority": "must",
+      "owner_domain": "analysis",
+      "artifact": "report",
+      "acceptance": "facts supported",
+      "negative_probe": "unsupported claim",
+      "proof": "primary evidence"
+    }
+  ],
+  "architecture": {
+    "kind": "single",
+    "reason": "one coherent report",
+    "alternative": "family adds no independent handoff"
+  },
+  "stages": [
+    {
+      "id": "analyze",
+      "name": "analysis",
+      "purpose": "answer",
+      "inputs": [
+        "task"
+      ],
+      "outputs": [
+        "report"
+      ],
+      "acceptance": "evidence linked",
+      "handoff": "user result",
+      "permissions": "read only",
+      "quality_process": "independent factual QA",
+      "criterion_ids": [
+        "accuracy"
+      ],
+      "depends_on": []
+    }
+  ],
+  "team": {
+    "domains": [
+      {
+        "id": "analysis",
+        "expertise": "subject research",
+        "outputs": [
+          "report"
+        ],
+        "activation": "requested report",
+        "independent_qa": "independent evidence reviewer"
+      }
+    ],
+    "orchestrator": "one",
+    "independence": "author differs from reviewer",
+    "council_activation": "material conflict",
+    "local_completion": "QA accepts exact repair",
+    "carry_forward": "verified unchanged dependencies",
+    "anti_loop": "new diagnosis after repeated failure"
+  },
+  "tools": [],
+  "open_questions": [],
+  "approval": null,
+  "toolkit_version": "5.0.0",
+  "specialization_depth": {
+    "maturity": "specification",
+    "applicability": [
+      {
+        "id": "A1",
+        "criterion_id": "accuracy",
+        "status": "applicable",
+        "reason": "requested factual report",
+        "owner_domain": "analysis",
+        "due_gate": "analysis acceptance"
+      }
+    ],
+    "source_methods": [
+      {
+        "id": "S1",
+        "source_ref": "synthetic-source",
+        "claim": "facts need attributable support",
+        "applicability": "factual report",
+        "method": "trace assertions to supplied material",
+        "verification_due": "before claim",
+        "limits": "does not prove source truth"
+      }
+    ],
+    "domain_contracts": [
+      {
+        "id": "C1",
+        "criterion_ids": [
+          "accuracy"
+        ],
+        "owner_domain": "analysis",
+        "typed_inputs": {
+          "source": "UTF8 text"
+        },
+        "typed_outputs": {
+          "report": "UTF8 markdown"
+        },
+        "rules": "quote has exact source locator; inference is labeled",
+        "state_policy": "single report revision; no runtime state",
+        "failure_recovery": "missing source becomes unresolved, not fact",
+        "invariants": [
+          "all factual claims attributable"
+        ],
+        "consumer": "owner",
+        "source_method_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "operations": [
+      {
+        "id": "O1",
+        "criterion_ids": [
+          "accuracy"
+        ],
+        "contract_ids": [
+          "C1"
+        ],
+        "owner_domain": "analysis",
+        "consumer": "owner",
+        "capability_plan": "read supplied source text then create Markdown",
+        "recipe_plan": "read→extract→support assertions→independent review",
+        "transformation_checks": [
+          "source meaning unchanged"
+        ],
+        "evidence_due": "before report accepted",
+        "permissions": "read supplied materials; write report",
+        "budget": "bounded source set",
+        "stop_condition": "unsupported material marked gap"
+      }
+    ],
+    "acceptance_cases": [
+      {
+        "id": "T1",
+        "criterion_ids": [
+          "accuracy"
+        ],
+        "preconditions": "supplied two factual notes",
+        "action": "write report",
+        "expected": "two supported assertions and explicit unknown",
+        "negative_case": "unsupported assertion rejected",
+        "proof_kind": "semantic factual review",
+        "review_policy": "independent reviewer for material claim"
+      }
+    ],
+    "child_contracts": [
+      {
+        "id": "CH1",
+        "stage_id": "analyze",
+        "criterion_ids": [
+          "accuracy"
+        ],
+        "input_contract": "supplied source text",
+        "output_contract": "attributable report plus gaps",
+        "consumer": "owner",
+        "capability_recipe_policy": "verify actual IO operation before relying",
+        "evidence_policy": "supported assertion; no deployment claims",
+        "inheritance_check": "requirement IDs all assigned and exact constraints preserved",
+        "checkpoint_handoff": "actual files plus current gap and next action",
+        "independence": "author differs from reviewer for material claim"
+      }
+    ],
+    "change_policy": {
+      "dependency_invalidation": "changed source stales dependent assertions",
+      "migration": "new file preserving original",
+      "carry_forward": "only unchanged semantic inputs"
+    },
+    "recovery_policy": {
+      "checkpoint": "actual report revision and unresolved sources",
+      "effect_reconciliation": "no external effects in this report scope",
+      "repair_budget": "two repeated failures trigger new diagnosis",
+      "stop_condition": "requested scope delivered or explicit blocker"
+    }
+  },
+  "record_kind": "synthetic_document_analysis_example_not_actual_execution",
+  "checkpoint": {
+    "phase": "example_only",
+    "next_action": "Bind to actual user task and sources before use."
+  }
+}

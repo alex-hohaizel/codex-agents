@@ -1,0 +1,61 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "behavior_rule",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "purpose": null,
+  "consumer_refs": [],
+  "form": null,
+  "implementation_ref": null,
+  "inputs": [
+    {
+      "id": null,
+      "type": null,
+      "unit": null,
+      "domain": null,
+      "precision": null,
+      "capture": {
+        "mode": null,
+        "moment": null
+      }
+    }
+  ],
+  "outputs": [],
+  "guards": [],
+  "algorithm_steps": [],
+  "state_reads": [],
+  "state_writes": [],
+  "timebase": null,
+  "update_order": [],
+  "rounding": null,
+  "clamps": [],
+  "tie_break": null,
+  "rng_refs": [],
+  "side_effects": [],
+  "errors": [],
+  "invariants": [],
+  "presentation_refs": [],
+  "persistence_refs": [],
+  "fixtures": [],
+  "materialization": {
+    "target": "production.contracts",
+    "kinds": [
+      "behavior",
+      "numeric",
+      "state_machine",
+      "rng"
+    ],
+    "tracks": [
+      "TR03",
+      "TR04"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

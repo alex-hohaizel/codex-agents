@@ -1,0 +1,57 @@
+{
+  "schema_version": "skill.blueprint/2",
+  "id": "DRAFT",
+  "version": 1,
+  "brief": {
+    "goal": "",
+    "audience": "",
+    "deliverable": "",
+    "quality": "",
+    "constraints": [],
+    "sources": []
+  },
+  "criteria": [],
+  "architecture": {
+    "kind": "single",
+    "reason": "",
+    "alternative": ""
+  },
+  "stages": [],
+  "team": {
+    "domains": [],
+    "orchestrator": "",
+    "independence": "",
+    "council_activation": "",
+    "local_completion": "",
+    "carry_forward": "",
+    "anti_loop": ""
+  },
+  "tools": [],
+  "open_questions": [],
+  "approval": null,
+  "checkpoint": {
+    "phase": "intake",
+    "next_action": "Recover the actual task before designing a skill."
+  },
+  "toolkit_version": "5.0.0",
+  "specialization_depth": {
+    "maturity": "sketch",
+    "applicability": [],
+    "domain_contracts": [],
+    "operations": [],
+    "acceptance_cases": [],
+    "child_contracts": [],
+    "source_methods": [],
+    "change_policy": {
+      "dependency_invalidation": "",
+      "migration": "",
+      "carry_forward": ""
+    },
+    "recovery_policy": {
+      "checkpoint": "",
+      "effect_reconciliation": "",
+      "repair_budget": "",
+      "stop_condition": ""
+    }
+  }
+}

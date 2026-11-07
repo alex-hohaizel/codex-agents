@@ -1,0 +1,65 @@
+{
+  "template_kind": "authoring_aid_not_game_model_schema",
+  "status": "unfilled",
+  "canonical_model_ref": null,
+  "source_requirement_ids": [],
+  "round_scope": {
+    "requested_count": null,
+    "output_boundary": null,
+    "extra_spend_limit": null,
+    "stop": null
+  },
+  "axis_definitions": {
+    "production_effort": [],
+    "content_capacity": [],
+    "session_arc": [],
+    "world_topology": [],
+    "genre_and_primary_decisions": [],
+    "camera_projection": [],
+    "camera_tracking": [],
+    "camera_framing": [],
+    "input_grammar": [],
+    "art_direction": [],
+    "progression_and_replay": [],
+    "commerce_fit": []
+  },
+  "candidates": [],
+  "candidate_row_fields": [
+    "concept_ref",
+    "reason_for_inclusion",
+    "axis_values",
+    "nearest_current_refs",
+    "nearest_historical_refs",
+    "shared_motifs",
+    "different_player_decisions",
+    "different_experiential_rhythm",
+    "feasibility_profile_ref",
+    "unresolved_choices"
+  ],
+  "nearest_pair_reviews": [],
+  "pair_review_fields": [
+    "first_ref",
+    "second_ref",
+    "same_causal_kernel",
+    "meaningful_differences",
+    "presentation_similarity",
+    "commerce_similarity",
+    "reviewer_ref",
+    "evidence_refs",
+    "limitations",
+    "repair"
+  ],
+  "portfolio_review": {
+    "identity_novelty_verdict": null,
+    "experience_diversity_verdict": null,
+    "coverage_gaps": [],
+    "concentration_rationale": [],
+    "actual_review_refs": [],
+    "limitations": []
+  },
+  "notes": [
+    "Заповнити реальними model/source refs; назви полів row_fields описують авторський журнал, не нову machine schema.",
+    "Відсутність копії та різноманітність портфеля перевіряти окремо.",
+    "Кількість і genre labels не доводять різних рішень або стилю; не вибирати продукт автоматично."
+  ]
+}

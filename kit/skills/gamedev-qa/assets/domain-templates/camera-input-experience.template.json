@@ -1,0 +1,38 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author camera/input/learning and UX state specifications; project summaries into canonical camera/input/learning domains and pin detailed spec_refs. A UI-only experience may disable spatial camera with a concrete rationale.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "camera": {
+      "projection_and_angle": null,
+      "tracking_family": null,
+      "focus_subject": null,
+      "orientation_aspect_profiles": [],
+      "state_form": {"id": null, "trigger": null, "target_offset": null, "subject_fraction_of_viewport_height_min_max": null, "framing_rationale": null, "bounds_dead_soft_zones": null, "lookahead": null, "damping_velocity_limits": null, "zoom_transition_cancel": null, "occlusion_handling": null, "offscreen_signaling_or_behavior_limits": null, "return_behavior": null},
+      "visibility_case_form": {"scenario_id": null, "closing_speed_and_visible_distance": null, "telegraph_duration": null, "camera_travel": null, "input_latency_and_action_startup": null, "available_response": null, "target_window_and_rationale": null, "actual_trace_ref": null, "remaining_risk": null},
+      "comparison_refs": [],
+      "comfort_and_reduced_motion": null
+    },
+    "input": {
+      "scheme_and_rationale": null,
+      "hands_and_simultaneous_contacts": null,
+      "action_form": {"id": null, "intent": null, "gesture_device": null, "context_and_preview": null, "hit_area_and_ownership": null, "thresholds_and_units": null, "priority_arbitration": null, "hold_release_cancel": null, "buffering": null, "invalid_reason": null, "feedback": null, "recovery": null, "rule_phase_refs": []},
+      "peak_episode": {"scenario_ref": null, "simultaneous_requirements": [], "deliberately_sequential_requirements": [], "thumb_occlusion_and_edges": null, "target_visibility": null, "fatigue_comfort": null, "device_handedness_profiles": [], "observed_trace_refs": []},
+      "assists_and_accessibility": []
+    },
+    "multimodal_event_form": {"id": null, "prediction": null, "input_rule_contact_ref": null, "animation_vfx": null, "audio_music": null, "haptic": null, "cost_reward_world_change": null, "next_decision": null, "timing_latency": null, "overlap_priority_cooldown": null, "error_recovery": null, "mute_nohaptic_reducedmotion_parity": null},
+    "hud": {"first_play_state": null, "normal_state": null, "peak_state": null, "late_state": null, "resource_information_for_next_decision": null, "phone_readability_profiles": [], "localization_font_scale": null},
+    "screen_state_form": {"id": null, "purpose": null, "entry_guard": null, "data_authority": null, "visible_content_refs": [], "actions_and_back": null, "empty_loading_locked_disabled_error_pending": null, "side_effects": [], "persistence": null, "recovery": null, "safe_area_and_focus": null},
+    "lesson_form": {"id": null, "teaches": null, "prerequisites": [], "moment_of_need": null, "cue": null, "safe_practice": null, "unprompted_assessment": null, "remediation": null, "transfer_context": null, "hint_trigger_and_end": null, "skip_replay_practice": null, "unlock_ref": null},
+    "return_resume": {"known_goal": null, "retained_curriculum_state": null, "reminder_without_forcing": null, "interrupted_action_recovery": null},
+    "verification": {"all_reachable_state_refs": [], "camera_input_timed_media_refs": [], "physical_device_readability_refs": [], "human_learning_comfort_refs": [], "unresolved_items": []}
+  }
+}

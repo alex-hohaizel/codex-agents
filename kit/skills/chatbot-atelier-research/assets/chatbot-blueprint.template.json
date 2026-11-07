@@ -1,0 +1,30 @@
+{
+  "schema_version": "chatbot.blueprint/3",
+  "toolkit_version": "5.0.0",
+  "status": "draft",
+  "brief": {
+    "id": "",
+    "version": "",
+    "user_intent": "",
+    "audiences": [],
+    "platforms": [],
+    "languages": [],
+    "constraints": [],
+    "authorization": []
+  },
+  "applicability": [],
+  "requirements": [],
+  "systems": [],
+  "interactions": [],
+  "journeys": [],
+  "operations": [],
+  "recipes": [],
+  "attempts": [],
+  "evidence": [],
+  "completion": {
+    "claimed_scope": "",
+    "maturity": "draft",
+    "unknowns": []
+  },
+  "platform_adapters": []
+}

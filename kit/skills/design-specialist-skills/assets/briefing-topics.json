@@ -1,0 +1,1082 @@
+{
+  "schema_version": "briefing.topics/1",
+  "family": "skill_constructor",
+  "common_topics": [
+    {
+      "id": "COMMON-INTENT",
+      "label": "Поточний намір і рівень результату",
+      "why": "Розрізняє бриф, відновлення, локальну зміну, виготовлення інструмента й виконання продукту.",
+      "questions": [
+        "Що потрібно зараз: новий задум, продовження, уточнення, ремонт, оцінка чи зміна самого агента?",
+        "Який результат поточного етапу має бути готовий і де зупинитися?"
+      ],
+      "decisions": [
+        "Режим роботи",
+        "Поточний етап і межа зупинки"
+      ],
+      "applies_when": "Завжди; відновити відповідь із фактичного запиту та чинного стану.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-SOURCES",
+      "label": "Чинні джерела, рішення й успадкований контекст",
+      "why": "Захищає прийнятий задум і запобігає повторному опитуванню.",
+      "questions": [
+        "Який із наданих матеріалів є актуальним, якщо вони суперечать один одному?",
+        "Що вже прийнято і має зберегтися під час цього продовження?"
+      ],
+      "decisions": [
+        "Джерело істини і provenance",
+        "Чинні рішення, поправки та вплив змін"
+      ],
+      "applies_when": "Завжди; спочатку прочитати доступні оригінали, стан, хеші й попередні відповіді.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-AUDIENCE",
+      "label": "Отримувач, реальна ситуація й користь",
+      "why": "Прив’язує результат до людини, задачі та спостережуваної зміни.",
+      "questions": [
+        "Для кого і в якій реальній ситуації потрібен результат?",
+        "Як це робиться зараз і що саме має покращитися?",
+        "Хто користується, хто платить, хто керує й хто приймає результат?"
+      ],
+      "decisions": [
+        "Цільові учасники й контекст",
+        "Спостережувана користь і baseline"
+      ],
+      "applies_when": "Завжди; різні ролі уточнювати лише коли вони існують у задумі.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-AMBITION",
+      "label": "Повний задум, запуск і перевірочний експеримент",
+      "why": "Зберігає амбіцію та відокремлює послідовність виробництва від скорочення мети.",
+      "questions": [
+        "Яким має бути повний прийнятий результат, коли він реалізований?",
+        "Що має входити до першого запуску, а що лише до окремого експерименту?",
+        "Які спрощення, заміни або втрати властивостей неприйнятні?"
+      ],
+      "decisions": [
+        "Повна ціль",
+        "Окремі launch/probe scope",
+        "Відхилені спрощення"
+      ],
+      "applies_when": "Завжди; не перетворювати обмежений тест на мовчазну заміну повної цілі.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-PRIORITY",
+      "label": "Акценти, приклади й негативні приклади",
+      "why": "Перетворює слова про якість на предметні вимоги та ранні залежності.",
+      "questions": [
+        "Що в цьому задумі найважливіше і чому?",
+        "Який конкретний приклад близький до бажаного результату та що саме в ньому підходить?",
+        "Який результат формально виконає завдання, але вас не влаштує?"
+      ],
+      "decisions": [
+        "Must і акценти",
+        "Критерії якості",
+        "Негативні приклади"
+      ],
+      "applies_when": "Завжди; відомі приклади й акценти перенести дослівно з посиланням на джерело.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-CONSTRAINTS",
+      "label": "Межі, етапні результати й залежності",
+      "why": "Дає основу для плану без довільних часових або функціональних лімітів.",
+      "questions": [
+        "Які строки, залежні події та обов’язкові проміжні результати вже існують?",
+        "Які жорсткі умови, сумісність або зовнішні залежності не можна змінювати?",
+        "Які рішення ви делегуєте експертам, а які хочете обрати особисто?"
+      ],
+      "decisions": [
+        "Milestones і due gates",
+        "Жорсткі constraints",
+        "Межі делегування"
+      ],
+      "applies_when": "Завжди; не встановлювати ліміти годин, платформ чи функцій за користувача.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-RESOURCES",
+      "label": "Бюджет, час, наявні ресурси й компроміси",
+      "why": "Погоджує здійсненний маршрут і реальну ціну якості.",
+      "questions": [
+        "Які гроші, час, пристрої, підписки, матеріали й допомога вже доступні?",
+        "Які одноразові й регулярні витрати прийнятні та які потребують окремого рішення?",
+        "Як обираємо між обґрунтованими альтернативами, якщо бажана якість не вкладається у чинні ресурси?"
+      ],
+      "decisions": [
+        "Ресурсні межі й spend scope",
+        "Одноразові та регулярні витрати",
+        "Погоджені компроміси або новий ресурс"
+      ],
+      "applies_when": "Завжди; невідомі ціни перевіряти на момент прив’язки операції.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-RIGHTS",
+      "label": "Матеріали, права й незмінні оригінали",
+      "why": "Дозволяє законно використовувати, змінювати та передавати конкретні матеріали.",
+      "questions": [
+        "Які наявні тексти, дизайн, код, бренди, голоси чи інші матеріали потрібно використати?",
+        "Що дозволено змінювати, генерувати, публікувати й передавати, кому належать права?",
+        "Які оригінали або атрибуцію необхідно зберегти?"
+      ],
+      "decisions": [
+        "Права, ліцензії й attribution",
+        "Accepted originals і editable sources",
+        "Обмеження похідних матеріалів"
+      ],
+      "applies_when": "Коли є вхідні чи створювані матеріали; відсутній доказ права лишається окремою прогалиною.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-DATA",
+      "label": "Дані, доступи, приватність і життєвий цикл",
+      "why": "Рано виявляє зміни архітектури через чутливість або збереження даних.",
+      "questions": [
+        "Які дані потрібні, хто їх контролює і кому можна їх показувати?",
+        "Що потрібно пам’ятати, синхронізувати, експортувати або видаляти?",
+        "Які наслідки втрати, помилки чи відкликання доступу неприйнятні?"
+      ],
+      "decisions": [
+        "Дані й межі довіри",
+        "Retention/export/delete/recovery",
+        "Потрібні права доступу"
+      ],
+      "applies_when": "Коли результат читає, створює чи зберігає дані; мінімальний контекст також оцінити на приватність.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-EFFECTS",
+      "label": "Зовнішні дії, ризик і участь власника",
+      "why": "Відокремлює підготовку від точного дозволеного зовнішнього наслідку.",
+      "questions": [
+        "Які зовнішні дії входять до цього доручення: зміни акаунтів, повідомлення, публікація, платежі або запуск сервісу?",
+        "Які конкретні дії потребують вашої особистої участі чи окремого рішення?",
+        "Як зупинитися, відкотитися й перевірити результат після переривання?"
+      ],
+      "decisions": [
+        "Точний scope повноважень",
+        "Людські кроки",
+        "Stop, rollback і reconcile"
+      ],
+      "applies_when": "Коли можливі зовнішні дії; чинну точну згоду зберегти без повторного запиту.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-HOST",
+      "label": "Середовище, доступні можливості й передача",
+      "why": "Робить виконання та повернення результату фактично можливими.",
+      "questions": [
+        "Де результат має працювати, де ви ним керуєте й куди має повернутися пакет?",
+        "Які host, інструменти, акаунти та цільові пристрої вже перевірені?",
+        "Як передати роботу до іншого середовища і що має перевірити одержувач?"
+      ],
+      "decisions": [
+        "Фактичний capability map",
+        "Host/target/bridge",
+        "Launch і return acceptance"
+      ],
+      "applies_when": "Коли потрібні інструменти, установка, виконання або передача; назва сервісу не доводить операційну доступність.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-ACCEPTANCE",
+      "label": "Приймання, докази й незалежна перевірка",
+      "why": "Пояснює, що саме доводить завершення поточного етапу.",
+      "questions": [
+        "Яку поведінку або артефакт ви перевірите, щоб прийняти результат?",
+        "Які помилки, граничні умови й ситуації відновлення потрібно показати?",
+        "Де потрібні незалежний експерт, реальний користувач, пристрій чи спостереження після запуску?"
+      ],
+      "decisions": [
+        "Observable acceptance по must",
+        "Потрібна модальність доказів",
+        "Reviewer і неперевірені межі"
+      ],
+      "applies_when": "Завжди; схема чи чекліст не замінюють предметну якість і фактичне використання.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-UNKNOWNS",
+      "label": "Невідомі, дослідження й майбутні рішення",
+      "why": "Закриває суттєві прогалини без примусу користувача вигадувати відповіді.",
+      "questions": [
+        "Щодо яких рішень ви ще не знаєте відповіді і хочете дослідження та рекомендацію?",
+        "Які з досліджених варіантів найкраще відповідають вашим критеріям і чи приймаєте рекомендований варіант?",
+        "Які майбутні параметри можна уточнювати пізніше у визначених межах і до якого milestone?"
+      ],
+      "decisions": [
+        "Research tasks і рекомендовані альтернативи",
+        "Закриття material unknowns",
+        "Owner, baseline/range, due gate і reopen для deferred"
+      ],
+      "applies_when": "Завжди; перед погодженням сценарію виконання закрити всі застосовні матеріальні невідомі.",
+      "downstream": [
+        "intake",
+        "research",
+        "architecture",
+        "blueprint",
+        "build",
+        "verify",
+        "install",
+        "refine",
+        "resume"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    }
+  ],
+  "stages": {
+    "intake": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-IN-PURPOSE",
+          "label": "Навичка, агент чи кінцевий продукт",
+          "why": "Конструктор має виготовити потрібний метод, не виконати чужий повний проєкт.",
+          "questions": [
+            "Яку повторювану роботу і для кого має виконувати навичка?",
+            "Ви просите нову спеціалізацію, сімейство, зміну існуючої навички чи виконання вже погодженого scope?"
+          ],
+          "decisions": [
+            "Target object and trigger",
+            "Recipient/consumer",
+            "Factory vs project boundary"
+          ],
+          "applies_when": "Завжди; прийнятий exact Foundry handoff не запускає повторного discovery.",
+          "downstream": [
+            "research",
+            "architecture",
+            "blueprint",
+            "build"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-IN-REUSE",
+          "label": "Чинні спеціалізації й пакет для зміни",
+          "why": "Межі нової роботи визначаються після inventory.",
+          "questions": [
+            "Які навички або агенти вже встановлені та можуть виконати чи частково закрити цю задачу?",
+            "Які exact source, version, blueprint, inherited IDs і accepted originals треба зберегти?"
+          ],
+          "decisions": [
+            "Reuse/adapt/create route",
+            "Current source baseline",
+            "Preserved requirement lineage"
+          ],
+          "applies_when": "Перед створенням нового або refinement існуючого; перевірити доступні поточні спеціалізації.",
+          "downstream": [
+            "research",
+            "architecture",
+            "refine"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-IN-RAW",
+          "label": "Сирі задачі й бажана зміна",
+          "why": "Реальні приклади визначають предметність та acceptance.",
+          "questions": [
+            "Який реальний вхід отримає навичка і який результат споживатиме людина або інший етап?",
+            "Який приклад і контрприклад покажуть різницю між добрим результатом та неприйнятним спрощенням?"
+          ],
+          "decisions": [
+            "Raw task/IO examples",
+            "Observable quality and negative case",
+            "Current process baseline"
+          ],
+          "applies_when": "Для нового або матеріально зміненого методу.",
+          "downstream": [
+            "research",
+            "blueprint",
+            "verify"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "research": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-RES-DOMAIN",
+          "label": "Предмет, методики й джерела",
+          "why": "Спеціалізація потребує точного методу конкретної області.",
+          "questions": [
+            "Які поняття, об’єкти, ролі, правила, стани та залежності визначають потрібну роботу?",
+            "Які актуальні першоджерела й методики дадуть надійний результат та де їхні межі застосовності?"
+          ],
+          "decisions": [
+            "Domain vocabulary/contracts",
+            "Source methods with versions",
+            "Adaptation and evidence limits"
+          ],
+          "applies_when": "Коли предмет невідомий або джерела змінилися.",
+          "downstream": [
+            "architecture",
+            "blueprint",
+            "build"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-RES-CHOICE",
+          "label": "Порівняння форм рішення",
+          "why": "Навичка або сімейство не є обов’язковою відповіддю на будь-яку проблему.",
+          "questions": [
+            "Які варіанти чинного процесу, deterministic automation, спеціалізованої навички, агента чи app виконують мету?",
+            "Який маршрут рекомендується за must, витратами, правами й точністю та які його контраргументи?"
+          ],
+          "decisions": [
+            "Real alternatives",
+            "Must-filter and recommendation",
+            "Reason for specialization"
+          ],
+          "applies_when": "Перед архітектурним вибором.",
+          "downstream": [
+            "architecture",
+            "blueprint"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-RES-SCENARIOS",
+          "label": "Класи сценаріїв і варіантів",
+          "why": "Виявляє матеріальні вимоги поза прикладом happy path.",
+          "questions": [
+            "Які first-use, normal, peak, boundary, incomplete, failure, retry, cold-return та end-of-service сценарії застосовні?",
+            "Які locale/platform/channel/permission/scale варіанти змінюють правила чи виходи?"
+          ],
+          "decisions": [
+            "Scenario grammar and applicability",
+            "Variant constraints",
+            "Risk and negative acceptance"
+          ],
+          "applies_when": "Для кожного ключового output; не дублювати чужі платформи без предметної потреби.",
+          "downstream": [
+            "blueprint",
+            "build",
+            "verify"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-RES-CAPABILITY",
+          "label": "Фактичні tools і виробничий маршрут",
+          "why": "Не дозволяє назві інструмента підмінити виконувану операцію.",
+          "questions": [
+            "Які exact operations, IO, editable masters, runtime derivatives і перевірки потрібні?",
+            "Які capabilities, rights, versions, costs та межі підтримки зараз підтверджені?"
+          ],
+          "decisions": [
+            "Operation/capability map",
+            "Production recipe feasibility",
+            "Fallback/bridge gaps"
+          ],
+          "applies_when": "Коли метод використовує tools, код, генерацію, інтеграцію чи передачу.",
+          "downstream": [
+            "architecture",
+            "blueprint",
+            "build",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "architecture": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-ARC-SINGLE",
+          "label": "Одна навичка чи обґрунтоване сімейство",
+          "why": "Кількість файлів випливає зі стабільних меж роботи.",
+          "questions": [
+            "Які компетенції, outputs, доступи, довгі цикли та незалежне повторне використання виправдовують окремі навички?",
+            "Чи може одна спеціалізація з умовними фазами дати простіший достатній маршрут?"
+          ],
+          "decisions": [
+            "Single/family recommendation",
+            "Stable stage boundaries",
+            "Public entry and reuse"
+          ],
+          "applies_when": "До blueprint; не створювати фаз або керівників лише за універсальним шаблоном.",
+          "downstream": [
+            "blueprint",
+            "build",
+            "install"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-ARC-HANDOFF",
+          "label": "Етапи й точні передачі",
+          "why": "Downstream має спожити прийнятий результат без повторного винаходу.",
+          "questions": [
+            "Який stable артефакт кожний етап передає споживачу і які рішення вже зафіксовано?",
+            "Які input maturity, hashes, interfaces, acceptance, failure/return upstream та carry-forward потрібні кожному edge?"
+          ],
+          "decisions": [
+            "Dynamic stage DAG",
+            "Handoff contracts",
+            "Dependency ownership and reopen"
+          ],
+          "applies_when": "Коли кілька фаз або навичок мають окремих consumers.",
+          "downstream": [
+            "blueprint",
+            "build",
+            "verify"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-ARC-TEAM",
+          "label": "Компетенції, writer і незалежний reviewer",
+          "why": "Назви ролей не доводять виконану перевірку.",
+          "questions": [
+            "Які реальні незалежні outputs потребують фахівців і хто їх інтегрує?",
+            "Де потрібні domain review, незалежний QA або рада для матеріального вибору та які resources належать кожному actor?"
+          ],
+          "decisions": [
+            "Competence/task/resource map",
+            "Actual independence",
+            "Proportional team/council activation"
+          ],
+          "applies_when": "Коли якість потребує кількох компетенцій; self-check позначити чесно.",
+          "downstream": [
+            "blueprint",
+            "build",
+            "verify"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-ARC-CONTRACT",
+          "label": "Причинні правила, стан і ймовірнісний output",
+          "why": "Повний дизайн має визначати поведінку й межі довіри.",
+          "questions": [
+            "Які сутності, mutable fields, commands/events, формули, units, guards, transitions і recovery потрібні?",
+            "Які outputs є фактами, припущеннями чи probabilistic оцінкою і коли потрібні abstention, fallback або людина?"
+          ],
+          "decisions": [
+            "Typed domain/state contracts",
+            "Allowed writers and consistency",
+            "Deterministic/probabilistic boundaries"
+          ],
+          "applies_when": "Для застосовної логіки; не додавати DB, RAG чи server як ознаку складності.",
+          "downstream": [
+            "blueprint",
+            "build",
+            "verify"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "blueprint": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-BP-CRITERIA",
+          "label": "Повний реєстр вимог і якості",
+          "why": "Прихована прогалина не має перейти у виготовлення.",
+          "questions": [
+            "Чи для кожної прийнятої вимоги відомі source, priority, applicability, owner, consumer та acceptance?",
+            "Які акценти, негативні приклади, права й resource constraints мають перейти в кожну залежну дитячу навичку?"
+          ],
+          "decisions": [
+            "Requirement registry and coverage",
+            "Child assignments",
+            "Material gaps closed"
+          ],
+          "applies_when": "До погодження конструкції навички.",
+          "downstream": [
+            "build",
+            "verify"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-BP-CONTENT",
+          "label": "Предметний склад пакета",
+          "why": "Користувач має бачити конкретний виконуваний метод і outputs.",
+          "questions": [
+            "Які exact SKILL, references, assets, scripts, schemas, cases і metadata потрібні прийнятому scope?",
+            "Який workflow entry/exit, production recipe, local/stage acceptance та return upstream матиме кожний child?"
+          ],
+          "decisions": [
+            "Versioned package manifest",
+            "Child self-contained contracts",
+            "Stage/operation plan"
+          ],
+          "applies_when": "До target skill build; не видавати загальний каркас за спеціалізацію.",
+          "downstream": [
+            "build",
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-BP-DEFER",
+          "label": "Архітектура зараз і майбутнє уточнення",
+          "why": "Відкладення не повинно приховати незатверджений product choice.",
+          "questions": [
+            "Які невідомі змінюють trigger, склад, правила, quality, costs чи effects і мають бути вирішені зараз?",
+            "Які numerical tuning або майбутні input values можна доручити етапу з baseline/range, owner, probe, due gate й reopen condition?"
+          ],
+          "decisions": [
+            "Current architectural decisions",
+            "Bounded deferred questions",
+            "Explicit maturity/acceptance limits"
+          ],
+          "applies_when": "Перед сценарієм виконання; не відкладати матеріальні unknowns.",
+          "downstream": [
+            "build",
+            "verify",
+            "refine"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-BP-APPROVE",
+          "label": "Конкретна пропозиція та межа згоди",
+          "why": "Погодження стосується видимої versioned конструкції.",
+          "questions": [
+            "Який із обґрунтованих варіантів структури, методів і ресурсів ви приймаєте?",
+            "Чи затверджуєте саме цю версію blueprint, exact target changes й межі, за якими буде виготовлено навички?"
+          ],
+          "decisions": [
+            "Actual version/scope approval",
+            "Build gate",
+            "Separate installation/product/effect scope"
+          ],
+          "applies_when": "Після закриття матеріальних питань; не перепитувати чинну точну згоду або прийнятий parent scope.",
+          "downstream": [
+            "build",
+            "install"
+          ],
+          "answer_owner": "user",
+          "criticality": "material"
+        }
+      ]
+    },
+    "build": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-BLD-METHOD",
+          "label": "Виконуваний предметний метод",
+          "why": "Дитяча навичка повинна вміти виконати своє завдання.",
+          "questions": [
+            "Як accepted requirements перетворюються на ordered domain algorithm, exact rules, resources і production recipes?",
+            "Які inputs/preconditions, expected outcomes, negative cases, uncertainty/failure paths та acceptance необхідні виконавцю?"
+          ],
+          "decisions": [
+            "Specialized SKILL/workflow",
+            "Domain resources and exact contracts",
+            "Operation→output→evidence links"
+          ],
+          "applies_when": "Після чинного build gate для затвердженої конструкції.",
+          "downstream": [
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-BLD-INHERIT",
+          "label": "Самодостатність і успадковані вимоги",
+          "why": "Кожна навичка має працювати без прихованого sibling path.",
+          "questions": [
+            "Які parent IDs, constraints, source lineage, права й shared contracts повинні міститися в кожному child?",
+            "Як потрібні common resources включити версійовано й перевірити пакет у чистому контексті?"
+          ],
+          "decisions": [
+            "Child contract/manifest",
+            "Bundled versioned shared resources",
+            "Cold-consumer acceptance"
+          ],
+          "applies_when": "Для однієї навички й сімейства; посилання на відсутній parent не є успадкуванням.",
+          "downstream": [
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-BLD-TOOLS",
+          "label": "Recipes, transformations й external effects",
+          "why": "Runtime має точні параметри та контроль невідомого outcome.",
+          "questions": [
+            "Які actual tool bindings, supported parameters, transformations, masters/derivatives, fixtures й validators потрібні?",
+            "Як робити timeout/retry/reconcile, pause/resume, repair/stop і повертати output без розширення authority?"
+          ],
+          "decisions": [
+            "Bound recipes and tool contracts",
+            "Lineage and attempts",
+            "Effect/recovery boundaries"
+          ],
+          "applies_when": "Коли потрібні генерація, код, інтеграція, довгі jobs або зовнішні операції.",
+          "downstream": [
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-BLD-DOCS",
+          "label": "Trigger, взаємодія й metadata",
+          "why": "Навичку має бути легко знайти й правильно застосувати.",
+          "questions": [
+            "Які позитивні й негативні triggers, потрібні inputs, output format і entry/exit зрозумілі користувачу?",
+            "Які exact local links, commands, UI metadata й короткі human instructions відповідають фактичним файлам?"
+          ],
+          "decisions": [
+            "Narrow trigger and boundary",
+            "Usable SKILL/metadata",
+            "Verified links/CLI"
+          ],
+          "applies_when": "Для кожного installable child; внутрішні імена не покладати на користувача.",
+          "downstream": [
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "verify": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-QA-MACHINE",
+          "label": "Структура, consistency й збереження must",
+          "why": "Машинні перевірки корисні у своїй точній межі.",
+          "questions": [
+            "Які quick_validate, consistency, schema/ref/CLI checks застосовні exact установленим джерелам?",
+            "Чи кожний parent must має child assignment, consumer й due evidence та чи немає суперечних інструкцій?"
+          ],
+          "decisions": [
+            "Source/package consistency",
+            "Inheritance coverage",
+            "Structural PASS limits"
+          ],
+          "applies_when": "Для target source перед збереженням; не писати зайвий custom validator без потреби.",
+          "downstream": [
+            "build",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-QA-FORWARD",
+          "label": "Незалежний предметний forward test",
+          "why": "Реальна raw задача показує, чи метод достатній.",
+          "questions": [
+            "Які bounded positive й negative raw cases виконає інший actor без діагнозу та очікуваної відповіді?",
+            "Як перевірити missing approval, critical unknown, self-review, stale dependency й cold return у доречних сценаріях?"
+          ],
+          "decisions": [
+            "Actual independent cases",
+            "Domain/perception evidence",
+            "No-live-mutation test scope"
+          ],
+          "applies_when": "За суттєвої складності та відповідно до прийнятого evidence plan.",
+          "downstream": [
+            "build",
+            "refine",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-QA-REPAIR",
+          "label": "Локальне приймання, repair і carry-forward",
+          "why": "Ремонт має замкнути конкретний дефект, зберігши чинне.",
+          "questions": [
+            "Які finding зачіпають exact requirements/artifacts й чому?",
+            "Які докази stale, які можна зберегти, хто робить retest і коли потрібна нова діагностика замість повтору?"
+          ],
+          "decisions": [
+            "Targeted repair batch",
+            "Dependency closure/invalidation",
+            "Independent verdict and anti-loop stop"
+          ],
+          "applies_when": "Після finding або зміни shared dependency.",
+          "downstream": [
+            "build",
+            "refine",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "install": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-DEL-TARGET",
+          "label": "Поточний host і підтримуване збереження",
+          "why": "Фактична установка має exact target і receipt.",
+          "questions": [
+            "У яких host/account/catalog навичка повинна бути доступна й який supported save/install маршрут існує?",
+            "Які factual prerequisites, costs, permissions чи owner steps потрібні та що вже доручено?"
+          ],
+          "decisions": [
+            "Delivery target and capability",
+            "Exact installation scope",
+            "Prepared/installed/discoverable states"
+          ],
+          "applies_when": "До установки або експорту; package не є доказом account registration.",
+          "downstream": [
+            "verify",
+            "refine"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-DEL-PACK",
+          "label": "Пакет, read-back і cold launch",
+          "why": "Навичка має бути самодостатньою та доступною після збереження.",
+          "questions": [
+            "Які exact files/versions/hashes, manifests, dependencies, install/verify/rollback інструкції передаємо?",
+            "Як повторно прочитати збережені джерела, знайти stable trigger і виконати перший bounded корисний сценарій?"
+          ],
+          "decisions": [
+            "Delivery manifest and source hashes",
+            "Actual save/read-back",
+            "First-use and return evidence"
+          ],
+          "applies_when": "Для кожної окремо встановлюваної навички; не встановлювати зайве сімейство для одного етапу.",
+          "downstream": [
+            "verify",
+            "resume"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-DEL-BOUNDARY",
+          "label": "Виклик іншого конструктора й parent handoff",
+          "why": "Результат виготовлення повертається власнику accepted intent.",
+          "questions": [
+            "Які child sources, inherited IDs, exact outputs/evidence, gaps і next action має отримати parent або користувач?",
+            "Чи включає чинне доручення виконання кінцевого продукту, чи завершуємо на доставці методики?"
+          ],
+          "decisions": [
+            "Parent/consumer handoff",
+            "Factory vs product completion",
+            "Unresolved external dependencies"
+          ],
+          "applies_when": "Коли навичка створюється з Foundry або іншого bounded component scope.",
+          "downstream": [
+            "resume",
+            "refine"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "refine": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-REF-CHANGE",
+          "label": "Точний delta й збереження чинних вимог",
+          "why": "Зміна не має стерти незгадані обов’язки.",
+          "questions": [
+            "Яку конкретну помилку, нову компетенцію або зміну host/tool потрібно врахувати?",
+            "Які sources, triggers, rules, assets, permissions і outputs залишаються accepted та недоторканими?"
+          ],
+          "decisions": [
+            "Versioned change scope",
+            "Must-preservation semantic diff",
+            "Source baseline"
+          ],
+          "applies_when": "Для оновлення, ремонту, звуження або розширення чинної спеціалізації.",
+          "downstream": [
+            "research",
+            "architecture",
+            "blueprint",
+            "build"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-REF-IMPACT",
+          "label": "Залежності, міграція й адресне погодження",
+          "why": "Матеріальна зміна й routine repair мають різний decision scope.",
+          "questions": [
+            "Які child contracts, handoff consumers, schemas, recipes та installed versions зачіпає delta?",
+            "Чи змінює це матеріальну мету, архітектуру, права, ресурси чи effects і який конкретний новий вибір потрібен?"
+          ],
+          "decisions": [
+            "Impact closure",
+            "Material approval delta vs authorized repair",
+            "Migration/rollback"
+          ],
+          "applies_when": "До залежної зміни або заміни встановленої версії.",
+          "downstream": [
+            "blueprint",
+            "build",
+            "verify",
+            "install"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-REF-REGRESSION",
+          "label": "Регресія й фактичне збереження нової версії",
+          "why": "Нова source версія має довести старий і новий applicable scope.",
+          "questions": [
+            "Які preserved cases і нові negative cases перевіряють зміну?",
+            "Які checks/evidence потрібно повторити та як підтвердити exact saved version і rollback?"
+          ],
+          "decisions": [
+            "Targeted regression/independent review",
+            "Carry-forward evidence",
+            "Save/read-back acceptance"
+          ],
+          "applies_when": "Після implementation delta перед заявою готовності.",
+          "downstream": [
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "resume": {
+      "skill": "design-specialist-skills",
+      "topics": [
+        {
+          "id": "DS-RESUME-CONTEXT",
+          "label": "Повернення до фактичних джерел",
+          "why": "Відновлення має зберегти accepted scope і не почати анкету заново.",
+          "questions": [
+            "Які actual blueprint, sources, installed revision, approvals, evidence і checkpoint чинні?",
+            "Які jobs, source changes, unresolved effects, resources та stop треба звірити до продовження?"
+          ],
+          "decisions": [
+            "Verified cold-return baseline",
+            "Current authority and pending work",
+            "Exact next action"
+          ],
+          "applies_when": "Після паузи, handoff або зміни host; prefill доступні відповіді з provenance.",
+          "downstream": [
+            "intake",
+            "refine",
+            "build",
+            "verify",
+            "install"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "DS-RESUME-REOPEN",
+          "label": "Адресне відкриття залежного",
+          "why": "Повернення не вимагає повторювати прийнятий незалежний цикл.",
+          "questions": [
+            "Що змінилося з часу checkpoint і які рішення або докази стало stale?",
+            "Який найближчий due gate та які material unknowns треба закрити перед його execution?"
+          ],
+          "decisions": [
+            "Targeted resume route",
+            "Deferred question maturation",
+            "Carry-forward and reopen conditions"
+          ],
+          "applies_when": "Перед залежним next action.",
+          "downstream": [
+            "research",
+            "architecture",
+            "blueprint",
+            "build",
+            "verify",
+            "install"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    }
+  }
+}

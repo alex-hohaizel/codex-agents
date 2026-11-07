@@ -1,0 +1,438 @@
+{
+  "schema_version": "app-atelier-production-template/2",
+  "family_version": "2.3.0",
+  "stage": "release",
+  "record_kind": "template_not_executed",
+  "canonical_authority": "existing .appatelier/state.json; register instantiated artifacts by current state.py protocol",
+  "recipes": [
+    {
+      "id": "APP-REL-R01",
+      "status": "template",
+      "title": "Scope → current feasibility",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "target/client/region/channel",
+          "sha256": null
+        },
+        {
+          "binding": "profile constraints",
+          "sha256": null
+        },
+        {
+          "binding": "official sources",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-REL-R01-S1",
+          "depends_on": [],
+          "procedure": "discover operation-level host/toolchain/account rights",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R01-S2",
+          "depends_on": [
+            "APP-REL-R01-S1"
+          ],
+          "procedure": "verify current official store/testing/billing rules",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R01-S3",
+          "depends_on": [
+            "APP-REL-R01-S2"
+          ],
+          "procedure": "compare constraints without silent platform reduction",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R01-S4",
+          "depends_on": [
+            "APP-REL-R01-S3"
+          ],
+          "procedure": "bind owners and exact launch/return for missing prerequisites",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "operation capability matrix",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "cost/prerequisite record",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "exact blockers",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-REL-R02",
+      "status": "template",
+      "title": "Pinned source → signed candidate",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "source/lockfiles/config/assets",
+          "sha256": null
+        },
+        {
+          "binding": "private signing refs",
+          "sha256": null
+        },
+        {
+          "binding": "current QA",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-REL-R02-S1",
+          "depends_on": [],
+          "procedure": "clean build each target via exact toolchain recipe",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R02-S2",
+          "depends_on": [
+            "APP-REL-R02-S1"
+          ],
+          "procedure": "sign/package/export using host secret facility",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R02-S3",
+          "depends_on": [
+            "APP-REL-R02-S2"
+          ],
+          "procedure": "install correct package route and verify core/upgrade/permissions",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R02-S4",
+          "depends_on": [
+            "APP-REL-R02-S3"
+          ],
+          "procedure": "pin artifact/config/data/support versions and inspect final media",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "Android/iOS/web artifacts",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "symbols/mappings",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "candidate manifest",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-REL-R03",
+      "status": "template",
+      "title": "Candidate → external availability",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "exact candidate hashes",
+          "sha256": null
+        },
+        {
+          "binding": "sufficient current effect scope",
+          "sha256": null
+        },
+        {
+          "binding": "target/account/channel/cost",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-REL-R03-S1",
+          "depends_on": [],
+          "procedure": "write pending attempt with stable effect identity",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R03-S2",
+          "depends_on": [
+            "APP-REL-R03-S1"
+          ],
+          "procedure": "dispatch one actual supported operation",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R03-S3",
+          "depends_on": [
+            "APP-REL-R03-S2"
+          ],
+          "procedure": "reconcile timeout using provider ID before retry",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R03-S4",
+          "depends_on": [
+            "APP-REL-R03-S3"
+          ],
+          "procedure": "separate submitted/approved/released/available/core-observed",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "actual submission/deploy IDs",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "receipts/read-back",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "availability status",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-REL-R04",
+      "status": "template",
+      "title": "Release → operations continuity",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "data/code compatibility",
+          "sha256": null
+        },
+        {
+          "binding": "recovery runbook",
+          "sha256": null
+        },
+        {
+          "binding": "signal/cost/support plan",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-REL-R04-S1",
+          "depends_on": [],
+          "procedure": "check migrations/revoke fences and rollback semantics",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R04-S2",
+          "depends_on": [
+            "APP-REL-R04-S1"
+          ],
+          "procedure": "run scoped fresh-install/upgrade/core smoke",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R04-S3",
+          "depends_on": [
+            "APP-REL-R04-S2"
+          ],
+          "procedure": "verify actual scheduler/alert when authorized",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-REL-R04-S4",
+          "depends_on": [
+            "APP-REL-R04-S3"
+          ],
+          "procedure": "hand off exact versions, receipts, open gates and next action",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "verified restore/rollback limits",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "operations packet",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "post-release observations",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    }
+  ],
+  "assembly_template": {
+    "id": null,
+    "status": "not_run",
+    "requirement_ids": [],
+    "source_build_config_hashes": {},
+    "component_bindings": [],
+    "initial_state_ref": null,
+    "scenario_ref": null,
+    "expected_invariants": [],
+    "actual_observations": [],
+    "environment_platform_device_modality": {},
+    "author_ids": [],
+    "independent_observer_id": null,
+    "evidence_refs": [],
+    "limitations": []
+  },
+  "coverage_template": {
+    "requirement_id": null,
+    "source_intent_ref": null,
+    "domain_rule_ref": null,
+    "state_variant_platform": null,
+    "output_consumer_ref": null,
+    "recipe_ref": null,
+    "oracle_ref": null,
+    "proof_ref": null,
+    "due_stage": "release",
+    "status": "pending",
+    "applicability_reason": null
+  },
+  "attempt_template": {
+    "id": null,
+    "status": "planned",
+    "recipe_input_toolchain_hashes": {},
+    "stable_effect_key": null,
+    "actual_provider_job_id": null,
+    "observations": [],
+    "actual_cost": null,
+    "output_hashes": {},
+    "receipt_ref": null,
+    "reconciliation_ref": null
+  }
+}

@@ -1,0 +1,12 @@
+interface:
+  display_name: Конструктори · Навички · 5.0.0
+  short_description: Предметні навички з контрактами й доказами якості
+  default_prompt: 'Використай $design-specialist-skills: досліди мою задачу, визнач предметні правила й перевірки, спроєктуй команду та погоджену навичку або сімейство.'
+  icon_small: ./assets/family-icon-small.png
+  icon_large: ./assets/family-icon-large.png
+policy:
+  products:
+  - chatgpt
+  - codex
+  - atlas
+  allow_implicit_invocation: true

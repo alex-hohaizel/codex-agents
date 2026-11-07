@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.0.0",
+  "record_kind": "game_atelier_intent_lock",
+  "is_template": true,
+  "project_id": null,
+  "revision": null,
+  "source_user_requirement_ids": [
+    "UA26-EXP-01",
+    "UA26-EXP-03",
+    "UA26-EXP-04",
+    "UA26-EXP-05",
+    "UA26-EXP-06",
+    "UA26-EXP-09",
+    "UA26-EXP-10"
+  ],
+  "_instructions": {
+    "purpose": "Protect exact accepted originals, intent/acceptance scope and user stop boundaries through every stage. This record declares no permission by itself.",
+    "instantiate": "Bind current project, original authority sources and actual files; replace placeholder records. Null/empty fields are unresolved, never inferred acceptance.",
+    "immutable_master": "Never overwrite accepted original bytes. Derived exports and proposed deltas get separate IDs, hashes, recipes and appropriately scoped reviews/decisions.",
+    "scope": "Saved favorite, chosen direction, accepted frame, motion, audio, feel, native build and public release are different scopes. Preserve the exact authority reference for each.",
+    "four_separate_claims": [
+      "artistic_intent",
+      "implementation_parity",
+      "device_proof",
+      "user_acceptance"
+    ],
+    "gate_rule": "Mass production is blocked until applicable representative-slice checks, current hashes, independent review and required material acceptance all close. A stored true boolean cannot authorize work.",
+    "unknown_rule": "A frame does not prove hidden geometry, back view, rig, physics, font binaries, stems or haptic feel. Missing tool/device proof is blocked, not N/A.",
+    "search_rule": "4x100 is an optional explicitly chosen search mode, not a universal quota. Current search/preview/pause stop overrides any proposed next stage."
+  },
+  "current_intent": {
+    "authority_ref": null,
+    "verbatim_instruction": null,
+    "interpreted_goal": null,
+    "authorized_scope": [],
+    "excluded_or_pending_scope": [],
+    "execution_status": "unresolved",
+    "search_mode": null,
+    "search_mode_authority_ref": null,
+    "search_budget_and_bounded_outputs": null,
+    "saved_favorite_concept_ids": [],
+    "selected_production_concept_id": null,
+    "selection_authority_ref": null,
+    "pause_stop": {
+      "mode": null,
+      "authority_ref": null,
+      "after_artifact_id": null,
+      "after_stage": null,
+      "search_or_preview_only_scope": null,
+      "checkpoint_ref": null,
+      "resume_authority_ref": null
+    },
+    "pending_material_decision_refs": []
+  },
+  "artistic_intent": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-01",
+      "UA26-EXP-03",
+      "UA26-EXP-04"
+    ],
+    "fantasy_genre_mechanics_tempo": null,
+    "emotional_character_and_art_promise": null,
+    "distinctive_motifs_and_contrasts": null,
+    "direction_portfolio_ref": null,
+    "direction_choice_authority_ref": null,
+    "all_layer_inventory_ref": null,
+    "camera_proportion_shape_material_palette_light": null,
+    "ui_typography_menus_accessibility": null,
+    "animation_contact_vfx": null,
+    "audio_music_mix_haptic_language": null,
+    "progression_commerce_and_store_presentation": null,
+    "character_breaking_changes_to_avoid": [],
+    "status": "pending"
+  },
+  "accepted_originals": [
+    {
+      "master_id": null,
+      "source_user_requirement_ids": [
+        "UA26-EXP-05"
+      ],
+      "media_kind": null,
+      "path": null,
+      "sha256": null,
+      "media_properties": {},
+      "provenance": {
+        "origin_ref": null,
+        "creator_or_generation_tool": null,
+        "source_version_or_generation_receipt": null,
+        "source_inputs_refs": [],
+        "rights_ledger_ref": null,
+        "license_and_commercial_scope": null
+      },
+      "acceptance": {
+        "status": "pending",
+        "authority_ref": null,
+        "accepted_at": null,
+        "accepted_scope": [],
+        "unaccepted_or_unknown_scope": [],
+        "requirement_ids": []
+      },
+      "required_unchanged_reuse_paths": [],
+      "derived_export_ids": []
+    }
+  ],
+  "derived_exports": [],
+  "_derived_export_fields": [
+    "id",
+    "source_master_id",
+    "source_sha256",
+    "path",
+    "sha256",
+    "recipe_ref",
+    "tool_and_settings_version",
+    "rights_ref",
+    "runtime_import_ref",
+    "delta_scope",
+    "review_ref",
+    "authority_ref_if_material"
+  ],
+  "unknowns": [
+    {
+      "id": null,
+      "source_master_or_layer_id": null,
+      "kind": null,
+      "unknown_statement": null,
+      "known_evidence_refs": [],
+      "affected_requirement_and_artifact_ids": [],
+      "scope_and_impact": null,
+      "resolution_route": null,
+      "material_decision_required": null,
+      "owner": null,
+      "due_gate": null,
+      "status": "unresolved",
+      "resolution_artifact_refs": [],
+      "authority_ref_if_material": null,
+      "closure_ref": null
+    }
+  ],
+  "proposed_deltas": [],
+  "_delta_fields": [
+    "id",
+    "reason",
+    "base_master_id_and_sha256",
+    "proposed_artifact_id_and_sha256",
+    "side_by_side_or_audition_ref",
+    "visual_motion_audio_gameplay_scope",
+    "downstream_impact_ids",
+    "options_and_consequences",
+    "recommendation",
+    "authority_ref",
+    "status"
+  ],
+  "implementation_parity": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-03",
+      "UA26-EXP-04",
+      "UA26-EXP-05",
+      "UA26-EXP-06"
+    ],
+    "source_to_runtime_map_ref": null,
+    "runtime_build_id_and_sha256": null,
+    "controlled_reference_capture_scope": {
+      "reference_master_ids": [],
+      "scene_camera_aspect": null,
+      "state_seed_content_version": null,
+      "time_and_contact_phase": null,
+      "audio_event_mix_settings": null,
+      "input_haptic_settings": null
+    },
+    "predeclared_acceptance_parameters_and_allowed_deltas_ref": null,
+    "frame_motion_contact_audio_ui_comparison_refs": [],
+    "perceptual_review_ref": null,
+    "known_deviations_and_impact": [],
+    "status": "pending"
+  },
+  "device_proofs": [],
+  "_device_proof_fields": [
+    "id",
+    "platform_device_os",
+    "build_and_content_hashes",
+    "control_camera_state_seed_time_scope",
+    "actual_observer_and_date",
+    "input_contact_motion_ui_capture_refs",
+    "listening_audio_mix_refs",
+    "haptic_observation_ref",
+    "mute_no_haptic_accessibility_refs",
+    "performance_measurement_refs",
+    "limitations",
+    "independent_review_ref",
+    "status"
+  ],
+  "user_acceptances": [],
+  "_user_acceptance_fields": [
+    "id",
+    "authority_ref",
+    "verbatim_choice",
+    "scope",
+    "artifact_and_evidence_hashes",
+    "accepted_deviations",
+    "unaccepted_scope",
+    "date",
+    "supersedes_only_scoped_acceptance_id"
+  ],
+  "representative_slice": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-03",
+      "UA26-EXP-04",
+      "UA26-EXP-05",
+      "UA26-EXP-06",
+      "UA26-EXP-09"
+    ],
+    "id": null,
+    "scope_and_risk_selection_rationale": null,
+    "requirement_ids": [],
+    "production_route": {
+      "authoring_tools_and_capability_refs": [],
+      "editable_source_and_licensed_font_audio_refs": [],
+      "export_import_assembly_proof_refs": [],
+      "engine_toolchain_lock_ref": null,
+      "budget_and_resource_feasibility_ref": null,
+      "highest_risk_transition_proofs": [],
+      "status": "pending"
+    },
+    "native_artifact_ref": null,
+    "implementation_parity_ref": null,
+    "device_proof_ids": [],
+    "control_contact_motion_audio_ui_haptic_scope": null,
+    "progression_reward_offer_decline_scope": null,
+    "applicable_due_checks": [],
+    "independent_review_refs": [],
+    "required_user_acceptance_ids": [],
+    "unresolved_blockers": [],
+    "manual_bridge_ref_if_blocked": null,
+    "status": "pending",
+    "mass_production_permission": {
+      "allowed": false,
+      "derived_from_check_review_acceptance_refs": [],
+      "artifact_and_dependency_hashes": {},
+      "allowed_batch_scope": [],
+      "exclusions": [],
+      "reopen_triggers": [],
+      "evaluated_at": null
+    }
+  },
+  "continuity_and_resume": {
+    "dependency_map_ref": null,
+    "current_checkpoint_ref": null,
+    "last_verified_package_and_hash": null,
+    "completed_current_pending_jobs_ref": null,
+    "external_actions_with_unknown_outcome": [],
+    "return_instructions_ref": null,
+    "next_executable_action": null,
+    "next_action_within_stop_scope": null,
+    "dependent_reviews_reopened_by_change": [],
+    "_rule": "Resume from actual files/hashes and verified external state. Do not repeat purchase/upload/deploy with unknown outcome. Project learning reopens only dependent scope and does not silently change global rules or authority."
+  }
+}

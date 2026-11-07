@@ -1,0 +1,80 @@
+{
+  "template_kind": "authoring_aid_not_game_model_schema",
+  "status": "unfilled",
+  "canonical_model_ref": null,
+  "source_requirement_ids": [],
+  "camera_domain_ref": null,
+  "input_domain_refs": [],
+  "world_domain_refs": [],
+  "art_domain_refs": [],
+  "projection": {
+    "kind": null,
+    "world_axes": null,
+    "view_direction": null,
+    "world_scale": null,
+    "rationale": null
+  },
+  "tracking": {
+    "target": null,
+    "follow_rule": null,
+    "dead_zone": null,
+    "look_ahead": null,
+    "smoothing": null,
+    "bounds": null,
+    "recentering_and_respawn": null
+  },
+  "framing": {
+    "reference_viewport": null,
+    "hero_size_range_and_units": null,
+    "tool_and_target_scale": null,
+    "action_focus": null,
+    "reaction_horizon": null,
+    "hud_and_safe_areas": null,
+    "thumb_occlusion_rule": null,
+    "rationale_from_mechanics": null
+  },
+  "zoom_and_modes": {
+    "normal": null,
+    "critical_contact": null,
+    "peak": null,
+    "transitions": [],
+    "limits_and_player_control": null
+  },
+  "coverage": {
+    "authored_source_refs": [],
+    "visible_and_missing_sides": null,
+    "occlusion_and_cutaways": null,
+    "offscreen_threat_information": null,
+    "navigation_cues": null,
+    "comfort_and_reduced_motion": null
+  },
+  "scenarios": [],
+  "scenario_row_fields": [
+    "scenario_ref",
+    "state",
+    "player_intent",
+    "required_visible_information",
+    "tracking_or_transition",
+    "input_load",
+    "source_coverage",
+    "failure_or_recovery",
+    "evidence_refs"
+  ],
+  "actual_frame_inspections": [],
+  "inspection_row_fields": [
+    "image_ref",
+    "sha256",
+    "actual_observer_ref",
+    "camera_and_scale_match",
+    "mechanic_and_hud_match",
+    "deviations",
+    "verdict",
+    "repair_ref",
+    "limitations"
+  ],
+  "notes": [
+    "12% героя, fixed camera, whole-arena й два диски не є default.",
+    "Одну projection можна зберігати під час tracking; fixed projection не означає одну нерухому арену.",
+    "Кожний показаний кадр потребує actual inspection; runtime/device claims мають окремий доказ."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ATT-project-operation",
+  "recipe_id": "REC-project-family",
+  "effect_key": "stable_effect_identity",
+  "recipe_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "input_digests": {
+    "ART-approved-source": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "toolchain_digests": {
+    "pinned_toolchain": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "parameters": {},
+  "seed": {
+    "state": "not_exposed",
+    "value": null
+  },
+  "status": "pending",
+  "run_ref": null,
+  "observations": [
+    {
+      "sequence": 1,
+      "at": "bind_actual_time",
+      "status": "pending",
+      "receipt_ref": "local_ledger_entry_before_effect"
+    }
+  ],
+  "cost": {
+    "maximum_minor_units": 0,
+    "observed_minor_units": null,
+    "reserved_minor_units": 0
+  },
+  "reconciliation": {
+    "status_query": "bind_real_status_lookup",
+    "unknown_outcome": "do_not_resubmit",
+    "reconcile_before_retry": true
+  },
+  "outputs": []
+}

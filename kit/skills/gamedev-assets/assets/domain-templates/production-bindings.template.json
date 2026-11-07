@@ -1,0 +1,55 @@
+{
+  "template": true,
+  "kind": "production_bindings_draft",
+  "schema": "gameatelier.production-bindings/1",
+  "game_id": null,
+  "model_source": {
+    "path": null,
+    "sha256": null,
+    "schema_version": "4.0.0",
+    "revision_ref": null
+  },
+  "baseline_refs": [],
+  "bindings": [],
+  "binding_shape": {
+    "id": null,
+    "model_domain": null,
+    "model_object_ids": [],
+    "state_ids": [],
+    "event_ids": [],
+    "scenario_ids": [],
+    "representation": {
+      "kind": null,
+      "required_variants": [],
+      "intentional_absence": null
+    },
+    "accepted_target_refs": [],
+    "fixed_property_refs": [],
+    "source_item_ids": [],
+    "export_item_ids": [],
+    "recipe_refs": [],
+    "importer_ref": null,
+    "runtime_consumer_refs": [],
+    "property_derivations": [
+      {
+        "model_field_ref": null,
+        "target_property_ref": null,
+        "transform_rule_ref": null,
+        "drift_check_ref": null
+      }
+    ],
+    "coverage": {
+      "required_ids": [],
+      "produced_ids": [],
+      "exported_ids": [],
+      "reviewed_ids": [],
+      "runtime_tested_ids": []
+    },
+    "evidence_ids": [],
+    "missing_evidence": [],
+    "owner": null,
+    "status": "planned"
+  },
+  "issues": [],
+  "usage": "Populate bindings from canonical model objects; binding_shape is documentation, not an actual produced item or evidence."
+}

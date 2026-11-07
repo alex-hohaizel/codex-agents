@@ -1,0 +1,21 @@
+{
+  "template": true,
+  "schema": "gameatelier.material-catalog/1",
+  "game_id": null,
+  "design_package_ref": null,
+  "design_package_hash": null,
+  "studio_payload_ref": null,
+  "scope_ref": null,
+  "baseline_ref": null,
+  "items": [],
+  "assemblies": [],
+  "coverage_by_category": [],
+  "issues": [],
+  "model_source": {
+    "path": null,
+    "sha256": null,
+    "schema_version": "4.0.0",
+    "revision_ref": null
+  },
+  "production_bindings_ref": null
+}

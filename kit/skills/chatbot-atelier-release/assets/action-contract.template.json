@@ -1,0 +1,43 @@
+{
+  "id": "",
+  "requirement_ids": [],
+  "owner": "",
+  "scope": {
+    "tenant": "",
+    "chat": "",
+    "topic": "",
+    "actor": "",
+    "audience": []
+  },
+  "identity": {
+    "logical_operation_id": "",
+    "source_version": "",
+    "semantic_spec_version": "",
+    "privacy_epoch": null
+  },
+  "inputs": [],
+  "outputs": [],
+  "states": [],
+  "transitions": [],
+  "dedup": {
+    "key": "",
+    "retention": "",
+    "atomic_boundary": ""
+  },
+  "cancel": {
+    "before_dispatch": "",
+    "after_dispatch": ""
+  },
+  "retry": {
+    "classes": [],
+    "attempt_limit": null,
+    "deadline": "",
+    "reconcile": ""
+  },
+  "delivery": {
+    "destination": "",
+    "receipt_type": "",
+    "uncertainty_policy": ""
+  },
+  "acceptance_vectors": []
+}

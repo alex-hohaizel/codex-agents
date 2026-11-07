@@ -1,0 +1,233 @@
+{
+  "id": "R08",
+  "status": "template",
+  "name": "spend-save-continuity",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "build_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "complete state catalogue incl owner/type/units/scope/authority",
+    "consistency group/spend/grant IDs and commit/restore order",
+    "schema migration corpus and clock/RNG encoding",
+    "optional chosen cloud/account/conflict model"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "versioned local snapshots or qualified SQLite bridge",
+    "engine harness",
+    "Hypothesis reference sequences",
+    "chosen platform save adapter"
+  ],
+  "capability_ids": [
+    "bind_CAP_O26_R08",
+    "bind_CAP_O26_R08",
+    "bind_CAP_O27_R08",
+    "bind_CAP_O31_R08",
+    "bind_CAP_O33_R08"
+  ],
+  "steps": [
+    {
+      "id": "R08-S01",
+      "operation_id": "O26",
+      "capability_id": "bind_CAP_O26_R08",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Separate definitions/instances and durable/reconstructible/ephemeral/cache/secret state. Define consistency-group atomic transaction and dirty/checkpoint/recovery guarantee."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Every meaningful changed state has preserve/recompute/reset rule; local continuity not replaced by cloud."
+        ]
+      },
+      "output_ids": [
+        "R08-OUT01"
+      ],
+      "validator": "bind_R08_contract_independent_validator"
+    },
+    {
+      "id": "R08-S02",
+      "operation_id": "O26",
+      "capability_id": "bind_CAP_O26_R08",
+      "depends_on": [
+        "R08-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Implement generations/old-good copy or database transaction, bounded write queue, exact ID/RNG encoding and versioned migrations. Newer unknown save cannot be overwritten with defaults."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Spend+grant once; validation rejects malformed/unsafe object construction; checksum not authority."
+        ]
+      },
+      "output_ids": [
+        "R08-OUT02"
+      ],
+      "validator": "bind_R08_implementation_independent_validator"
+    },
+    {
+      "id": "R08-S03",
+      "operation_id": "O27",
+      "capability_id": "bind_CAP_O27_R08",
+      "depends_on": [
+        "R08-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Only if chosen, bind platform/profile identity, sync/conflict/restore/consent/account/quota/offline policies. Store purchase restore, OS backup and cloud progression remain separate."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "No silent crossplatform account merge; native bridge and actual permission semantics probed."
+        ]
+      },
+      "output_ids": [
+        "R08-OUT03"
+      ],
+      "validator": "bind_R08_optional-cloud_independent_validator"
+    },
+    {
+      "id": "R08-S04",
+      "operation_id": "O31",
+      "capability_id": "bind_CAP_O31_R08",
+      "depends_on": [
+        "R08-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Generate spend/equip/save/kill/load/migrate sequences, reduce failures into runtime regression. Inject interruption at each boundary, disk-full/truncation/corrupt/duplicate/old/new payload and restore fault."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Exactly one legal outcome, old good save available; confirmed reward not duplicated/lost."
+        ]
+      },
+      "output_ids": [
+        "R08-OUT04"
+      ],
+      "validator": "bind_R08_fault-corpus_independent_validator"
+    },
+    {
+      "id": "R08-S05",
+      "operation_id": "O33",
+      "capability_id": "bind_CAP_O33_R08",
+      "depends_on": [
+        "R08-S04"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Perform actual lifecycle/store-build-to-RC upgrade and restore on due target; verify profile/account switch and native/cloud paths where chosen."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Filesystem/OS behavior actually observed; backup without successful restore not recovery proof."
+        ]
+      },
+      "output_ids": [
+        "R08-OUT05"
+      ],
+      "validator": "bind_R08_device-update_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R08-OUT01",
+      "type": "typed schema/commit contract and state map",
+      "editable": true,
+      "consumer": "R08-S02",
+      "acceptance": [
+        "Every meaningful changed state has preserve/recompute/reset rule; local continuity not replaced by cloud."
+      ]
+    },
+    {
+      "id": "R08-OUT02",
+      "type": "local adapter/schema/migrations/fixtures",
+      "editable": true,
+      "consumer": "R08-S03",
+      "acceptance": [
+        "Spend+grant once; validation rejects malformed/unsafe object construction; checksum not authority."
+      ]
+    },
+    {
+      "id": "R08-OUT03",
+      "type": "optional qualified cloud adapter",
+      "editable": true,
+      "consumer": "R08-S04",
+      "acceptance": [
+        "No silent crossplatform account merge; native bridge and actual permission semantics probed."
+      ]
+    },
+    {
+      "id": "R08-OUT04",
+      "type": "stateful/fault/migration results",
+      "editable": true,
+      "consumer": "R08-S05",
+      "acceptance": [
+        "Exactly one legal outcome, old good save available; confirmed reward not duplicated/lost."
+      ]
+    },
+    {
+      "id": "R08-OUT05",
+      "type": "device migration/recovery receipts",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Filesystem/OS behavior actually observed; backup without successful restore not recovery proof."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Unknown durable operation → reconcile journal; never max-currency/union-inventory conflicting branches.",
+      "Incident preserve safe evidence then compatible forward repair/verified restore; no forced network dependency."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://www.sqlite.org/atomiccommit.html",
+    "https://developer.android.com/games/pgs/savedgames",
+    "https://developer.apple.com/documentation/gamesave"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

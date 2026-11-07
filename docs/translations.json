@@ -1,0 +1,123 @@
+{
+  "schema_version": "codex-agents.translations/1",
+  "source": "docs/en/GUIDE.md",
+  "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+  "default_locale": "en",
+  "guide_editions": 7,
+  "translation_editions": 6,
+  "verification_scope": "Complete translated guide editions; heading/step/table structure, shell commands and stable skill identifiers checked. Linguistic quality is based on translation author review, not an independent certified translation.",
+  "translations": [
+    {
+      "locale": "en",
+      "path": "docs/en/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "status": "complete",
+      "role": "source",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    },
+    {
+      "locale": "uk",
+      "path": "docs/uk/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "37a5d8a535e28febbdc9b551300e3713bd5a4de7e88ce6ccc956a2b3e99049c3",
+      "status": "complete",
+      "role": "translation",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    },
+    {
+      "locale": "de",
+      "path": "docs/de/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "44683f6b53733be147107d41b9a3dcb6027c218dfaafad0861f09f2f222dc85e",
+      "status": "complete",
+      "role": "translation",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    },
+    {
+      "locale": "it",
+      "path": "docs/it/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "6107ed6f624ac50eeb20710123f315cd35e7cb506f0943247de50bca38c42e6e",
+      "status": "complete",
+      "role": "translation",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    },
+    {
+      "locale": "es",
+      "path": "docs/es/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "091b19b22c84f6cb686d7b26717a76bcf2a5560cef6c1c94262f2e2a9f9d5297",
+      "status": "complete",
+      "role": "translation",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    },
+    {
+      "locale": "fr",
+      "path": "docs/fr/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "6d6763496b14fcbce76011d2fb99fa79b8d465d59ca57a16e3bc127a12d269a5",
+      "status": "complete",
+      "role": "translation",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    },
+    {
+      "locale": "zh-CN",
+      "path": "docs/zh-CN/GUIDE.md",
+      "source_sha256": "075cea29ae55800c2a442ac3e522d29abec5386f97c79f347bcde26bf236781a",
+      "sha256": "cbd4f2f77504f3ef3673eb8c536eb2379ee37a287949241e8779cda7f4171db9",
+      "status": "complete",
+      "role": "translation",
+      "verified_parity": {
+        "heading_levels": true,
+        "ordered_step_numbers": true,
+        "table_rows": true,
+        "fence_languages": true,
+        "bash_blocks": true,
+        "stable_skill_names": true
+      }
+    }
+  ]
+}

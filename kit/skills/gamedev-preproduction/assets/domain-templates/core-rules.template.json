@@ -1,0 +1,28 @@
+{
+  "template": true,
+  "schema": "gameatelier.core-rules/1",
+  "game_id": null,
+  "units": {
+    "distance": null,
+    "time": "seconds",
+    "angle": null,
+    "screen": null
+  },
+  "tick_rate_hz": null,
+  "states": [],
+  "actions": [],
+  "resolution_order": [],
+  "input_rules": [],
+  "physics_constants": {},
+  "collision_layers": [],
+  "timers": [],
+  "win_fail_rules": [],
+  "scoring_rules": [],
+  "boundary_examples": [],
+  "replay_format": null,
+  "canonical_model_ref": null,
+  "canonical_model_schema_version": "4.0.0",
+  "model_record_ids": [],
+  "representation": "draft_domain_attachment_or_derived_export",
+  "authority_note": "Resolve record IDs and source model hash before use; do not maintain a second independent truth."
+}

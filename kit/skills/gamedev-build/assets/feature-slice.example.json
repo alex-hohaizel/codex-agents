@@ -1,0 +1,36 @@
+{
+  "kind": "example_not_execution",
+  "feature_id": "feature-001",
+  "requirement_ids": [
+    "REPLACE_WITH_REAL_ID"
+  ],
+  "baseline_refs": [
+    "design/approved-rule.md"
+  ],
+  "input_fixture": "fixtures/run-seed-001.json",
+  "expected_outcome_ref": "design/acceptance/run-001.json",
+  "changed_files": [],
+  "runtime_bindings": [],
+  "platforms": [],
+  "checks": [],
+  "evidence": [],
+  "independent_review": {
+    "status": "pending",
+    "actor": null
+  },
+  "status": "planned",
+  "model_source": {
+    "path": null,
+    "sha256": null,
+    "schema_version": "4.0.0",
+    "revision_ref": null
+  },
+  "model_object_ids": [],
+  "scenario_ids": [],
+  "affected_dependency_ids": [],
+  "changed_decision_ref": null,
+  "without_rule_ref": null,
+  "runtime_binding_ids": [],
+  "due_gate": "slice",
+  "observations": []
+}

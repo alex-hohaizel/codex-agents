@@ -1,0 +1,29 @@
+{
+  "id": "TR-project-export",
+  "source_ref": "ART-approved-source",
+  "target_ref": "ART-runtime-export",
+  "conventions": {
+    "units": "declare",
+    "axes": "declare",
+    "timebase": "seconds_with_explicit_fps_or_sample_rate",
+    "color_space": "declare",
+    "alpha": "declare",
+    "ids": "stable_model_ids"
+  },
+  "preserved_invariants": [
+    "bound_project_semantic_invariant"
+  ],
+  "intentional_changes": [],
+  "known_losses": [],
+  "uncertainties": [],
+  "mapping": "source_field_to_target_binding_and_conversion",
+  "validators": [
+    {
+      "id": "CHECK-project-boundary",
+      "method": "independent_oracle_or_probe",
+      "expected": "bind_exact_expected",
+      "tolerance": "bind_before_execution",
+      "evidence_due": "gate_from_project"
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "id": "R02",
+  "status": "template",
+  "name": "3d-rig-clips",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "assets_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "approved dimensions/front-side-back views/material intent",
+    "deformation regions/sockets/modular seams/clip inventory",
+    "scale/axes/root policy/contact windows/collision model",
+    "target budgets and lawful source/clip rights"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "Blender",
+    "Godot",
+    "qualified image/multiview-to-mesh and rig adapters"
+  ],
+  "capability_ids": [
+    "bind_CAP_O10_R02",
+    "bind_CAP_O11_R02",
+    "bind_CAP_O12_R02",
+    "bind_CAP_O13_R02",
+    "bind_CAP_O14_R02",
+    "bind_CAP_O32_R02"
+  ],
+  "steps": [
+    {
+      "id": "R02-S01",
+      "operation_id": "O10",
+      "capability_id": "bind_CAP_O10_R02",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Blockout metric dimensions/sockets/clearance; if AI mesh, inspect hidden surfaces, fusion, holes and baked lighting. Compare silhouette from gameplay camera and two gear swaps."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Body scope and modular seams feasible before texture/rig batch."
+        ]
+      },
+      "output_ids": [
+        "R02-OUT01"
+      ],
+      "validator": "bind_R02_mesh_independent_validator"
+    },
+    {
+      "id": "R02-S02",
+      "operation_id": "O11",
+      "capability_id": "bind_CAP_O11_R02",
+      "depends_on": [
+        "R02-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Create deformation edge flow around required joints; preserve source high/low meshes and triangulation policy; evaluate silhouette and LOD transitions."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Extreme deformation regions supported, triangle/material budget bound to actual target."
+        ]
+      },
+      "output_ids": [
+        "R02-OUT02"
+      ],
+      "validator": "bind_R02_retopo_independent_validator"
+    },
+    {
+      "id": "R02-S03",
+      "operation_id": "O12",
+      "capability_id": "bind_CAP_O12_R02",
+      "depends_on": [
+        "R02-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Lay out UV with checker/overlap policy/texel density/padding. Bake with explicit cage. Preserve texture masters; map base/emissive color separately from normal/ORM data channels."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "No unacceptable seam/distortion; roughness/metallic/normal/color conventions verified."
+        ]
+      },
+      "output_ids": [
+        "R02-OUT03"
+      ],
+      "validator": "bind_R02_uv-bake_independent_validator"
+    },
+    {
+      "id": "R02-S04",
+      "operation_id": "O13",
+      "capability_id": "bind_CAP_O13_R02",
+      "depends_on": [
+        "R02-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Build rest/control/deform skeletons, sockets and weights. Bake unsupported controls; stress squat/reach/grip/twist/landing and gear seams. Auto-rig only within witnessed body scope."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Weights/influence limits/rest bind/DOF correct, deformation visually accepted."
+        ]
+      },
+      "output_ids": [
+        "R02-OUT04"
+      ],
+      "validator": "bind_R02_rig_independent_validator"
+    },
+    {
+      "id": "R02-S05",
+      "operation_id": "O14",
+      "capability_id": "bind_CAP_O14_R02",
+      "depends_on": [
+        "R02-S04"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Author or lawfully retarget clips using rest/bone/scale map. Bake Actions with exact bounds/fps/loop/root policy. Store event times in sidecar; controller or allowed root delta owns displacement."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Start/stop/turn/blend/contact/release/cancel; no double root/controller motion or accumulated drift."
+        ]
+      },
+      "output_ids": [
+        "R02-OUT05"
+      ],
+      "validator": "bind_R02_clips_independent_validator"
+    },
+    {
+      "id": "R02-S06",
+      "operation_id": "O32",
+      "capability_id": "bind_CAP_O32_R02",
+      "depends_on": [
+        "R02-S05"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Export pinned GLB preset, run glTF validator, clean-import scene, bind colliders/actions/sockets/markers and material tiers; measure on due native target."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Format validity plus semantics, stress poses, gameplay contact, native profile; source reopens without missing add-ons."
+        ]
+      },
+      "output_ids": [
+        "R02-OUT06"
+      ],
+      "validator": "bind_R02_assemble_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R02-OUT01",
+      "type": "editable diagnostic mesh source",
+      "editable": true,
+      "consumer": "R02-S02",
+      "acceptance": [
+        "Body scope and modular seams feasible before texture/rig batch."
+      ]
+    },
+    {
+      "id": "R02-OUT02",
+      "type": "low/high topology and LOD source",
+      "editable": true,
+      "consumer": "R02-S03",
+      "acceptance": [
+        "Extreme deformation regions supported, triangle/material budget bound to actual target."
+      ]
+    },
+    {
+      "id": "R02-OUT03",
+      "type": "UV/cage/material masters and maps",
+      "editable": true,
+      "consumer": "R02-S04",
+      "acceptance": [
+        "No unacceptable seam/distortion; roughness/metallic/normal/color conventions verified."
+      ]
+    },
+    {
+      "id": "R02-OUT04",
+      "type": "editable rig/skin/weights and attachment map",
+      "editable": true,
+      "consumer": "R02-S05",
+      "acceptance": [
+        "Weights/influence limits/rest bind/DOF correct, deformation visually accepted."
+      ]
+    },
+    {
+      "id": "R02-OUT05",
+      "type": "editable Actions, baked clips and event sidecar",
+      "editable": true,
+      "consumer": "R02-S06",
+      "acceptance": [
+        "Start/stop/turn/blend/contact/release/cancel; no double root/controller motion or accumulated drift."
+      ]
+    },
+    {
+      "id": "R02-OUT06",
+      "type": "GLB/import config/assembly scene",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Format validity plus semantics, stress poses, gameplay contact, native profile; source reopens without missing add-ons."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Diagnose mesh/topology/weights/rest map/keys/export/import layer before changing generation.",
+      "Public model upload requires allowed data scope; fallback local authored Blender source."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html",
+    "https://docs.blender.org/manual/en/latest/addons/import_export/scene_gltf2.html",
+    "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/retargeting_3d_skeletons.html"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

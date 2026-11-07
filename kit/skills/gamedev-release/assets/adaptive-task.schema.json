@@ -1,0 +1,856 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "adaptive-task/1"
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "registry_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "active",
+            "blocked",
+            "candidate",
+            "accepted",
+            "cancelled"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "goal",
+        "scope",
+        "owner",
+        "host",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "assessment": {
+      "type": "object",
+      "properties": {
+        "scale": {
+          "type": "string",
+          "enum": [
+            "local",
+            "feature",
+            "system",
+            "cross_system",
+            "repeated"
+          ]
+        },
+        "uncertainty": {
+          "type": "string",
+          "enum": [
+            "low",
+            "material",
+            "unknown"
+          ]
+        },
+        "consequence": {
+          "type": "string",
+          "enum": [
+            "reversible",
+            "material",
+            "external",
+            "critical"
+          ]
+        },
+        "coupling": {
+          "type": "string",
+          "enum": [
+            "isolated",
+            "shared",
+            "system"
+          ]
+        },
+        "depth": {
+          "type": "string",
+          "enum": [
+            "quick",
+            "focused",
+            "deep"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "escalate_when": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "reduce_when": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "scale",
+        "uncertainty",
+        "consequence",
+        "coupling",
+        "depth",
+        "rationale"
+      ],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "obligation",
+              "question",
+              "constraint",
+              "decision",
+              "example",
+              "context",
+              "evidence"
+            ]
+          },
+          "authority": {
+            "type": "string",
+            "enum": [
+              "user",
+              "project",
+              "reference",
+              "untrusted"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "authority",
+          "path",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "included",
+              "deferred",
+              "excluded",
+              "unknown"
+            ]
+          },
+          "disposition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "due": {
+            "type": "string",
+            "minLength": 1
+          },
+          "output_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "acceptance": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "source_ids",
+          "text",
+          "status",
+          "due",
+          "output_ids",
+          "acceptance"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "strategy": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "research",
+            "synthesis",
+            "coverage",
+            "mixed"
+          ]
+        },
+        "reuse_choice": {
+          "type": "string",
+          "enum": [
+            "reuse",
+            "compose",
+            "extend",
+            "create_gap",
+            "not_applicable"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "option": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "option",
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "competencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "availability": {
+                "type": "string",
+                "enum": [
+                  "verified",
+                  "unverified",
+                  "missing"
+                ]
+              },
+              "source_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0
+              },
+              "output_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0
+              }
+            },
+            "required": [
+              "id",
+              "method",
+              "provider",
+              "availability",
+              "source_ids",
+              "output_ids"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "stop": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "mode",
+        "reuse_choice",
+        "rationale",
+        "competencies",
+        "stop"
+      ],
+      "additionalProperties": false
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "produced",
+              "reviewed",
+              "accepted"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "author": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "status",
+          "author",
+          "evidence_ids"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "structural",
+              "semantic",
+              "integration",
+              "native_device",
+              "visual_language",
+              "human_decision",
+              "live_observation"
+            ]
+          },
+          "observer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "unknown"
+            ]
+          },
+          "output_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "output_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "output_id",
+                "sha256"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "observer",
+          "result",
+          "output_ids",
+          "path",
+          "sha256",
+          "limitations",
+          "subjects"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "destination": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "unknown",
+              "confirmed_success",
+              "confirmed_absent",
+              "confirmed_failure"
+            ]
+          },
+          "grant_source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "retry_requested": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "destination",
+          "state",
+          "grant_source_ids",
+          "evidence_ids",
+          "retry_requested"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "authority": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "grant_source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "route": {
+          "type": "object",
+          "properties": {
+            "basis": {
+              "type": "string",
+              "enum": [
+                "same_host",
+                "unique_verified",
+                "owner_chosen",
+                "unresolved"
+              ]
+            },
+            "chosen": {
+              "type": "string",
+              "minLength": 1
+            },
+            "grant_source_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "destination": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "available": {
+                    "type": "boolean"
+                  },
+                  "allowed": {
+                    "type": "boolean"
+                  },
+                  "identity_verified": {
+                    "type": "boolean"
+                  },
+                  "proof_source_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                },
+                "required": [
+                  "id",
+                  "destination",
+                  "available",
+                  "allowed",
+                  "identity_verified",
+                  "proof_source_ids"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 0
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "prepared",
+                "saved",
+                "delivered",
+                "admitted",
+                "started",
+                "result",
+                "reviewed",
+                "accepted"
+              ]
+            },
+            "receipt_evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "basis",
+            "options",
+            "state",
+            "receipt_evidence_ids"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "scope",
+        "grant_source_ids"
+      ],
+      "additionalProperties": false
+    },
+    "registration": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "pending",
+            "registered"
+          ]
+        },
+        "registry_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry_pointer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hash_field": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "complete"
+          ]
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "raw_sources_reviewed": {
+          "type": "boolean"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "source_bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "source_id",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "state",
+        "actor",
+        "source_ids",
+        "raw_sources_reviewed",
+        "findings",
+        "source_bindings"
+      ],
+      "additionalProperties": false
+    },
+    "next": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requires_user": {
+          "type": "boolean"
+        },
+        "where": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instruction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "success_signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "return_to": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "action",
+        "owner",
+        "requires_user"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "project",
+    "task",
+    "assessment",
+    "sources",
+    "obligations",
+    "strategy",
+    "outputs",
+    "authority",
+    "registration",
+    "next"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:adaptive-task:1",
+  "title": "Project-owned adaptive task artifact; structural checks do not certify semantic quality"
+}

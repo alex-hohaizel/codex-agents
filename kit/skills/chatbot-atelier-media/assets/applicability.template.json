@@ -1,0 +1,88 @@
+{
+  "systems": [
+    {
+      "id": "conversation",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "platform",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "authorization",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "actions",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "memory",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "retrieval",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "scheduling",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "collaboration",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "media",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "payments",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "support",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    },
+    {
+      "id": "operations",
+      "state": "unknown",
+      "reason": "",
+      "owner": "",
+      "requirement_ids": []
+    }
+  ]
+}

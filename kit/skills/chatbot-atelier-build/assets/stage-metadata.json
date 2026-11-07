@@ -1,0 +1,30 @@
+{
+  "schema_version": "chatbot.atelier-stage/2",
+  "toolkit_version": "5.0.0",
+  "id": "chatbot-atelier-build",
+  "purpose": "Наскрізна реалізація чатбота",
+  "primary_requirement_ids": [
+    "practical_completion",
+    "execution_truth",
+    "bounded_resources",
+    "lifecycle_reliability",
+    "provider_constraints",
+    "version_continuity"
+  ],
+  "full_companion_ids": "assets/requirements.json",
+  "self_contained": true,
+  "applicability": "by current task/domain; missing needed capability remains gap",
+  "handoff_required": [
+    "requirement_ids",
+    "source_snapshot",
+    "formal_contracts",
+    "operations",
+    "recipes",
+    "attempts",
+    "outputs",
+    "evidence",
+    "limitations",
+    "receiver",
+    "acceptance"
+  ]
+}

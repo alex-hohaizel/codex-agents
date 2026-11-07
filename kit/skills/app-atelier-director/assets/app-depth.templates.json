@@ -1,0 +1,301 @@
+{
+  "schema_version": "app-atelier-stage-recipes/2",
+  "family_version": "2.3.0",
+  "stage": "director",
+  "status": "templates_not_executed",
+  "canonical_records": "Register instantiated artifacts with hashes in .appatelier/state.json; do not replace ledger.",
+  "shared_depth_schema": "assets/depth/project.template.json",
+  "recipes": [
+    {
+      "id": "APP2-D01",
+      "operation": "intake-to-linked-system",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "director",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "read",
+          "procedure": "current user request + actual profile/state + accepted package",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "classify",
+          "procedure": "intent/scope and existing decisions; material unknowns",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "derive",
+          "procedure": "applicability/requirements/owners/outputs/acceptance/due",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "register",
+          "procedure": "versioned linked model hash in canonical ledger",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "intake-brief",
+        "app-system-map",
+        "requirement-coverage"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Existing approval remains valid inside scope.",
+          "Missing required capability must stay blocked."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-D02",
+      "operation": "team-and-execution-dag",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "director",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "decompose",
+          "procedure": "artifact dependencies + paths/resources",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "assign",
+          "procedure": "competences and actual owners + distinct critical reviewer",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "admit",
+          "procedure": "inputs/hash/capability/grants/budget/resource availability",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "integrate",
+          "procedure": "ordered shared writes + due requirement closure",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "task-dag",
+        "owned-resources",
+        "acceptance-route"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "No concurrent writer for shared file/device/account.",
+          "Role title without actual output cannot be completed."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-D03",
+      "operation": "representative-slice-to-scale",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "director",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "bind",
+          "procedure": "highest-risk useful journey + platforms + target evidence",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "prepare",
+          "procedure": "exact sources/build/config/state/scene fixtures",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "execute",
+          "procedure": "actual client→domain→storage→reopen + optional sync/billing/support",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "review",
+          "procedure": "expected/actual and limits; scale only after due acceptance",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "assembly-plan",
+        "actual-assembly-evidence",
+        "scale-decision"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Desktop prototype cannot close native device claim.",
+          "Artifact count cannot prove production throughput."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-D04",
+      "operation": "resume-and-targeted-repair",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "director",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "read",
+          "procedure": "checkpoint/current files/permissions/unresolved effects",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "reconcile",
+          "procedure": "remote outcomes before repeat",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "trace",
+          "procedure": "changed semantic inputs through transitive dependency closure",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "repair",
+          "procedure": "bounded new hypothesis with exact next validator",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "reconciliation",
+        "stale-closure",
+        "repair-attempt",
+        "checkpoint"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Timeout cannot be silently treated as absent.",
+          "Unchanged accepted originals must not be regenerated."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    }
+  ],
+  "domain_contract_template": {
+    "id": null,
+    "requirement_ids": [],
+    "entity_types": [],
+    "command": {
+      "id": null,
+      "actor": null,
+      "authorization": null,
+      "input_schema": null,
+      "preconditions": [],
+      "capture_moment": null,
+      "validation_and_calculation_order": [],
+      "atomic_group": null,
+      "transition": null,
+      "events": [],
+      "response": null,
+      "visible_feedback": null,
+      "durable_ack_boundary": null,
+      "idempotency_policy": null,
+      "timeout_reconciliation": null,
+      "cancellation": null,
+      "failure_cases": []
+    },
+    "fixtures": []
+  },
+  "state_field_template": {
+    "id": null,
+    "type": null,
+    "unit": null,
+    "range": null,
+    "scope": null,
+    "owner": null,
+    "authority": null,
+    "lifetime": null,
+    "serialization": null,
+    "consistency_group": null,
+    "commit_trigger": null,
+    "recovery": null,
+    "migration": null,
+    "retention_delete": null
+  },
+  "assembly_template": {
+    "status": "not_run",
+    "build_ref": null,
+    "config_ref": null,
+    "component_hashes": [],
+    "scenario": null,
+    "initial_state_ref": null,
+    "target_platform": null,
+    "device_or_environment": null,
+    "actions": [],
+    "expected": [],
+    "observed": [],
+    "author_id": null,
+    "reviewer_id": null,
+    "evidence_refs": [],
+    "gaps": []
+  }
+}

@@ -1,0 +1,300 @@
+{
+  "schema_version": "app-atelier-stage-recipes/2",
+  "family_version": "2.3.0",
+  "stage": "experience",
+  "status": "templates_not_executed",
+  "canonical_records": "Register instantiated artifacts with hashes in .appatelier/state.json; do not replace ledger.",
+  "shared_depth_schema": "assets/depth/project.template.json",
+  "recipes": [
+    {
+      "id": "APP2-E01",
+      "operation": "domain-to-stateful-ux",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "experience",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "derive",
+          "procedure": "intention/input/rule/feedback/result journeys",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "map",
+          "procedure": "navigation/screens/components + core/edge/recovery states",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "bind",
+          "procedure": "each action to domain command/permission/error",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "specify",
+          "procedure": "gesture/focus/cancel/retry/lifecycle/late callback",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "journey-state-map",
+        "component-contracts"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Visible action without domain behavior remains gap.",
+          "Animation cannot define authoritative state."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-E02",
+      "operation": "accepted-reference-to-runtime-assets",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "experience",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "inspect",
+          "procedure": "accepted master/hash + feasible generation/editing route",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "produce",
+          "procedure": "editable source/tokens/content/state variants",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "transform",
+          "procedure": "density/font/color/time/locale/accessibility invariants",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "integrate",
+          "procedure": "exact runtime component and scenario",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "editable-masters",
+        "exports",
+        "runtime-bindings",
+        "transform-records"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Raster text is not accessible localized UI.",
+          "Generated concept image is not editable vector source."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-E03",
+      "operation": "prototype-to-accessibility-review",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "experience",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "bind",
+          "procedure": "target viewport/input/accessibility/locale matrix",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "walk",
+          "procedure": "focus/keyboard/labels/states/scale/reflow/reduced motion",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "exercise",
+          "procedure": "errors/permission denial/long strings/slow/offline states",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "record",
+          "procedure": "actual modality/limits and independent verdict where needed",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "prototype",
+        "accessibility-findings",
+        "locale-review"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Automated checker alone cannot certify whole conformance.",
+          "Synthetic review is not empirical human validation."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-E04",
+      "operation": "ux-to-assembly",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "experience",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "pin",
+          "procedure": "actual build/config/assets/tokens/fixture hashes",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "execute",
+          "procedure": "input→domain→persistence→restart + conditional commerce/support",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "compare",
+          "procedure": "runtime and accepted reference within stated tolerances",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "handoff",
+          "procedure": "masters/recipes/states/content/rights/gaps",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "assembly-evidence",
+        "runtime-comparison",
+        "handoff"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Static screen cannot be called interactive prototype.",
+          "Prototype cannot close native device integration."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    }
+  ],
+  "domain_contract_template": {
+    "id": null,
+    "requirement_ids": [],
+    "entity_types": [],
+    "command": {
+      "id": null,
+      "actor": null,
+      "authorization": null,
+      "input_schema": null,
+      "preconditions": [],
+      "capture_moment": null,
+      "validation_and_calculation_order": [],
+      "atomic_group": null,
+      "transition": null,
+      "events": [],
+      "response": null,
+      "visible_feedback": null,
+      "durable_ack_boundary": null,
+      "idempotency_policy": null,
+      "timeout_reconciliation": null,
+      "cancellation": null,
+      "failure_cases": []
+    },
+    "fixtures": []
+  },
+  "state_field_template": {
+    "id": null,
+    "type": null,
+    "unit": null,
+    "range": null,
+    "scope": null,
+    "owner": null,
+    "authority": null,
+    "lifetime": null,
+    "serialization": null,
+    "consistency_group": null,
+    "commit_trigger": null,
+    "recovery": null,
+    "migration": null,
+    "retention_delete": null
+  },
+  "assembly_template": {
+    "status": "not_run",
+    "build_ref": null,
+    "config_ref": null,
+    "component_hashes": [],
+    "scenario": null,
+    "initial_state_ref": null,
+    "target_platform": null,
+    "device_or_environment": null,
+    "actions": [],
+    "expected": [],
+    "observed": [],
+    "author_id": null,
+    "reviewer_id": null,
+    "evidence_refs": [],
+    "gaps": []
+  }
+}

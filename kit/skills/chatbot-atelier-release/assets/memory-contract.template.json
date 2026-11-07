@@ -1,0 +1,26 @@
+{
+  "id": "",
+  "requirement_ids": [],
+  "owner": "",
+  "fact_fields": [
+    "source_ids",
+    "source_version",
+    "actor",
+    "audience",
+    "purpose",
+    "valid_from",
+    "valid_until",
+    "corrected_by",
+    "privacy_epoch"
+  ],
+  "scope_rules": [],
+  "write_authorization": "",
+  "retrieval_acl": "",
+  "retention": "",
+  "derived_artifacts": [],
+  "forget_cascade": [],
+  "late_result_fence": "",
+  "restore_tombstones": "",
+  "positive_vectors": [],
+  "negative_vectors": []
+}

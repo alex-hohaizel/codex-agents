@@ -1,0 +1,11 @@
+{
+  "schema_version": "4.0.0",
+  "gate": "C0",
+  "capabilities": [],
+  "recipes": [],
+  "transformations": [],
+  "attempts": [],
+  "assemblies": [],
+  "obligations": [],
+  "template_note": "Populate only actual scope. Empty C0 is not C1/T/production completeness."
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "world_generation",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "world_layers": {
+    "authored_foundation": null,
+    "mission_progression": null,
+    "spatial_realization": null,
+    "current_situations": null,
+    "persistent_consequences": null
+  },
+  "mission_graph": [],
+  "topology_graph": [],
+  "route_edges": [],
+  "module_ports": [],
+  "generation": {
+    "algorithm_ref": null,
+    "version": null,
+    "inputs": [],
+    "rng_stream_ref": null,
+    "steps": [],
+    "constraints": [],
+    "repair_actions": [],
+    "attempt_budget": null,
+    "time_budget": null,
+    "verified_fallback_ref": null,
+    "accepted_result_persistence": null
+  },
+  "semantic_novelty": {
+    "signature_fields": [],
+    "history_scope": null,
+    "repeat_bounds": null,
+    "sampling_policy": null,
+    "measurement_refs": []
+  },
+  "progression_refs": [],
+  "pacing_rules": [],
+  "difficulty_profiles": [],
+  "challenge_dimensions": [],
+  "capability_opportunity_refs": [],
+  "topology_revision_policy": null,
+  "fixtures": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "generator",
+      "state_machine"
+    ],
+    "tracks": [
+      "TR07",
+      "TR08",
+      "TR09"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "CAP-project-operation",
+  "operation_id": "O07",
+  "tool": "bind_actual_tool",
+  "provider": "local_or_chosen_provider",
+  "toolchain": {
+    "version": "pin_actual_version",
+    "configuration_digest": "bind_actual_digest"
+  },
+  "host": "bind_actual_host",
+  "target": "bind_actual_target_profile",
+  "schema_ref": "current_schema_ref_or_local_interface",
+  "catalog_ref": "actual_catalog_receipt_or_not_applicable_local",
+  "supported_outputs": [
+    "explicit_editable_source",
+    "explicit_export"
+  ],
+  "unsupported_features": [],
+  "parameter_bindings": [
+    {
+      "requirement_id": "REQ-project",
+      "schema_field": "exact_supported_field",
+      "supported": true,
+      "material": true,
+      "consumption_check": "actual_output_or_trace_verifies_field_effect"
+    }
+  ],
+  "proof_level": "candidate",
+  "witness_refs": [],
+  "freshness": {
+    "observed_at": "not_observed",
+    "triggers": [
+      "tool_version",
+      "schema",
+      "model",
+      "terms",
+      "host",
+      "target"
+    ]
+  },
+  "rights": {
+    "source_terms_ref": "bind_before_execution",
+    "data_scope": "bind_before_upload",
+    "commercial_use": "unverified"
+  },
+  "cost": {
+    "currency": "project_currency",
+    "maximum_minor_units": 0,
+    "authorized_scope_ref": "none_new_paid_effects"
+  },
+  "fallback": "prepare_qualified_local_route_or_precise_host_bridge",
+  "stale": false
+}

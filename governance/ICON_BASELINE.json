@@ -1,0 +1,370 @@
+{
+  "schema": "codex-agents.visual-baseline/1",
+  "suite_version": "5.0.0",
+  "scope": "Portable Codex source identity; host Work avatars are separate",
+  "skills": {
+    "design-specialist-skills": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "c7f6ba7199a1f870c8cc8ed2e999240e6b7954d6c44de8bab479f1188ec52fe3",
+        "assets/family-icon-small.png": "cabd299022855c009c45f998d63fd100412b6e9d5907fcd547f577103ca6fc3f",
+        "assets/icon.svg": "51a6923974188748638a424aa59b42b6afad2d910f910a1d43bb13ee10f3ce26"
+      }
+    },
+    "gamedev-director": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "8d30b4f6dd4146d59d282a95aacbc25a7bb395891e3721e351824788bef25098",
+        "assets/family-icon-small.png": "1b1c6c6f488018fa887eeaa43c574b93b443e009054da419edf5d805e4c46761",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "gamedev-studio": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "58fe926eaa79aa66068eb5f750f27e1687f29891d5dc1ca0dca6a44e875c0888",
+        "assets/family-icon-small.png": "018600e964b507af36f62ea361ae6afc0c0e0952ed11eb1b1ed59bf994f7a592",
+        "assets/icon.svg": "9be88f8dd4c5e658961515c71389eafd45142ffa68bcae58e8dcff57d178ed91"
+      }
+    },
+    "gamedev-concepts": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "03ca167c994b6e8a7f0c66295da510b815fbef6dff9de7ab9756b412b2431731",
+        "assets/family-icon-small.png": "b69c8970a696b90f62537b815458223d6b70d132aff3a4edd95ee9a44822580b",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "gamedev-preproduction": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "3d86e95c57d020294c70d88a2555fb42f0ca7edf84b64e7b4af83a44ddad7f25",
+        "assets/family-icon-small.png": "256933b17e457bd539c10498c4e1c099e8dbff87024709ea398c3afc7c5b1df5",
+        "assets/icon.svg": "49315dda7125ec5fc77ef5f2b96126d8b2121c6e72944b4702972e90f321d3ee"
+      }
+    },
+    "gamedev-assets": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "79de224e1effa70c4f1832522915786fdc84d2168ef5b0731b24302d30bbf44a",
+        "assets/family-icon-small.png": "ed03f935c5239f55a43437863cf217a26a3a113e9aa0d80916273226a29f54b5",
+        "assets/icon.svg": "8936b24f674a1250d999e2c2b5901374fb4240426f32bd1ae340c352a90d617d"
+      }
+    },
+    "gamedev-build": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "c3118ad124ec233698b266866b4f932bf3d9002a1c461bb59bd7198d54872bcd",
+        "assets/family-icon-small.png": "16eabe5848734b2b3833abf3f0cd5eb7640aa06198e41e904ab7eebf1053791e",
+        "assets/icon.svg": "8936b24f674a1250d999e2c2b5901374fb4240426f32bd1ae340c352a90d617d"
+      }
+    },
+    "gamedev-qa": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "54e38b1684b5eef9b3852b616036b4ad654f6a1575a0a304bcb115e8d78b3c68",
+        "assets/family-icon-small.png": "38b8d772af2c0d462cd050263b8324eff1299d6a07c219518fa317954d90eb83",
+        "assets/icon.svg": "0cdb7990dea3ad89ead04743eeac2dc58c119fb0b8b4a01499a21237f155bc1a"
+      }
+    },
+    "gamedev-release": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "126e6397b6d8e7ff07c13109ffe2b300e17a6b3a745abc65b9f7ccda97f58d52",
+        "assets/family-icon-small.png": "b5f9b9918100e5d72598a7abd80c65e06c255beede5e07a294f7ff2a31740830",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "gamedev-liveops": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "825a8ec2fa7891cb599fc70b9a72959d4a09fcbfa1294e06389ee8857b964a78",
+        "assets/family-icon-small.png": "276646866775832df42b1adc3ebb62366c5f6725bec3638275366525f0363af3",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "agent-foundry": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "e238c761264e87d5d5dcab9f9f8a305761c461eb0eb6e44fe1ec02dbb260501d",
+        "assets/family-icon-small.png": "bb43a566a7228ea24689f0d87599d354d661c20a04b83f2c357f157b15aeec1d",
+        "assets/icon.svg": "9be88f8dd4c5e658961515c71389eafd45142ffa68bcae58e8dcff57d178ed91"
+      }
+    },
+    "app-atelier-research": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "c921c2a775201736090bdd4a6c62bc0f5090f70fede19e3577d6f7944ceb0eb7",
+        "assets/family-icon-small.png": "ff3bcc0d3b379c7b5a6926a28defacb78e430a753011b0d87ca8ba941ef6a96c",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "app-atelier-concepts": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "9285bed53c0c9fd8ae9ea49124fdb960389078e67bc12610e057b07ca3144ddc",
+        "assets/family-icon-small.png": "8df7d54f391ac1e02d7aac3d06c57ca0ebad482956e429e0473f7fcc80c6df45",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "app-atelier-specification": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "c5f8bc8ed9f0db9f67240fdbe2be98db6b0d4d09b0587dc4cf0ed9f07f8df476",
+        "assets/family-icon-small.png": "f80e134378198d4b1d762c73b7d8ebd2d88853be42a9e8a24cb008bf27fcc58c",
+        "assets/icon.svg": "49315dda7125ec5fc77ef5f2b96126d8b2121c6e72944b4702972e90f321d3ee"
+      }
+    },
+    "app-atelier-experience": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "bfba14d825b901dadc2668e7051db5333a6e439c070c9334f4091cdd3bf7f969",
+        "assets/family-icon-small.png": "5ebedb5569214cc53c47082daa0bda7043478c75794d83fa90f0c73c839f1b5d",
+        "assets/icon.svg": "49315dda7125ec5fc77ef5f2b96126d8b2121c6e72944b4702972e90f321d3ee"
+      }
+    },
+    "app-atelier-build": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "0aacb6ac950cb8cb0ea9350df984f6975c98b951be9ce41132ec422119839455",
+        "assets/family-icon-small.png": "3619c8edba58286656dbf628439a74841d84483d8fc704318835f198fcb32408",
+        "assets/icon.svg": "8936b24f674a1250d999e2c2b5901374fb4240426f32bd1ae340c352a90d617d"
+      }
+    },
+    "app-atelier-support": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "b2f7a6f5d921e90d527b56668792b74faa1cac08b1346399f3b68593fb2dda2c",
+        "assets/family-icon-small.png": "29bdbfa24a7a7cb08362fc912d884847a2b7463998b024ffcb2c95ba9fb57197",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "app-atelier-qa": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "42850da9858aae7652f8ade97324de4f4d54bc1e3b45b6336573f5407f663a3e",
+        "assets/family-icon-small.png": "ecf62a7cb437c1d79f28d66a09f9ecf31c778bd37195e7468b55c897f7ac48cb",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "app-atelier-release": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "0b7b7d6ac575296a3213b9645a218955064dc272402de9557d364137555fcd42",
+        "assets/family-icon-small.png": "4ece1c80ebe767fed6d38ec3f55423a6146832ac1e5ec446e179dc992b6aeffc",
+        "assets/icon.svg": "72343cc4b66256ae7de8474c7cad14e711ad84a94c473732a44f96a56124c42d"
+      }
+    },
+    "app-atelier-growth": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "72df93af327e59ce298c7a7473a0235c2d9fb6858a30a141f1abfce267c3b2db",
+        "assets/family-icon-small.png": "9ae1d096d4ae14c47c83e9c0a2d02f9b9dd5f2e4d8f83f235f37667dbdb24da1",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "app-atelier-operations": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "dc6ba70f583f3860e25e6c93f7d29ca9f50a5bb2c9f082ccb851b391bdd7ac4a",
+        "assets/family-icon-small.png": "9b15c04cf70d4f695de821a2ca9865385a27a2131ae720f2feb145db49c8081d",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "app-atelier-director": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "be723123a68aba81205fc95108373a84012098bac6d7f041b06e9521edfff906",
+        "assets/family-icon-small.png": "b5c028d53e608b5e0db8052124a9c9d305e40469e725c4eaebf54bc5427b02a9",
+        "assets/icon.svg": "e9301497fa98ef56aaca7ede0857b9a18dc06c34040f0679c609a6bf49b1d38b"
+      }
+    },
+    "chatbot-atelier-build": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "fceefa49f716da19d7dd7cd3e9e6caf391dbfe81591e64df68f139a0ea14a985",
+        "assets/family-icon-small.png": "4bf78c6d8c82a4ae54c733cf97fc919a58318b869c150fe8a1542b50b418bb6d",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-conversation": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "98158ba588324466e9d8bf9bccc77bd1edc9e342bf4e25adac89ef84da260d18",
+        "assets/family-icon-small.png": "9c4fa49899acaf77e3b3c045beaac3482eeabce14068527f994832622e657f90",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-director": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "e4740c8e8ae08889442012f68576a2ec7be183d415052257bfe23141f0b5d45a",
+        "assets/family-icon-small.png": "197070903210dcae046e7197ea1f5d65e25319ef12b68e74917a930379af3b2c",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-integrations": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "462258e8cbab71340d8591fef4b0dfca22046e3d1ad0d968b9b3b7a00d693b61",
+        "assets/family-icon-small.png": "82950dc90bfe14fbad19183d405f33bfd67d459232b47c189e6c33da3ced25e2",
+        "assets/icon.svg": "8936b24f674a1250d999e2c2b5901374fb4240426f32bd1ae340c352a90d617d"
+      }
+    },
+    "chatbot-atelier-knowledge": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "e1389e790956930f0f7c6cc015d0ea92e37c23690a51c9bc59bf33a5eaee2551",
+        "assets/family-icon-small.png": "cd6afb52a9afd8795292f6c347636d34fc8204775f0624e9039527fee5f68bd3",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-media": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "579cca52a5b4aff09661f9202d5ff12ddb55e9d202dd02634d50ab7354dbbc85",
+        "assets/family-icon-small.png": "30fab080e5c1ad014efcfc04d90aa52c56ea47f709ba84cfdd08368a899bda9f",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-operations": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "1a8909adaabb01964dec1802aa1a41622fb382b810b4be0986be9c899d36cb94",
+        "assets/family-icon-small.png": "15746b602b02ed94b64b6ff079edcd9455f9b151b86722fcd3aae72e65330a16",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-qa": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "78fc2667bc6176c1b87b4b2b6bf0fe8b2ec5a0dd53b630ee48b8799fae425e03",
+        "assets/family-icon-small.png": "6e8c9df1c1b62eb8a8a0c2049fc96ffc401f7fa4e9a29046b5d2204f260c26c9",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-release": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "7e1633538055eaf339f885573c338c19878a85b5ad7b03a87abe1c132389998e",
+        "assets/family-icon-small.png": "40a478f3dabcd49cb7932787f936bdbbb91ac5d938aa8f13f655e701d24db7eb",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-research": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "6a28ce23be3921e404c1044254ce0283b1c0eb16b29fa244d2d78391e69a5ec1",
+        "assets/family-icon-small.png": "b41bbf4c3f866bf2583d43990f0477a37a9c125256e598680a809c1e29bb11c1",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    },
+    "chatbot-atelier-specification": {
+      "interface": {
+        "icon_small": "./assets/family-icon-small.png",
+        "icon_large": "./assets/family-icon-large.png"
+      },
+      "files": {
+        "assets/family-icon-large.png": "d38ecc8e529fb3666a3315e96bf4866750cf7246c6944abbe1687ea70180fba2",
+        "assets/family-icon-small.png": "9039ab0c0ffd720fe5ff381076bfaf12dffb01ae8bd9264282e37775ee9c2e74",
+        "assets/icon.svg": "d80a4c3e0fd2efa7af88433a53b25a92c78a644175c6669dd78fee50fb53acf6"
+      }
+    }
+  }
+}

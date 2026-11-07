@@ -1,0 +1,12 @@
+interface:
+  display_name: BOT · Медіа · 5.0.0
+  short_description: Зображення, анімації, звук і доставка
+  default_prompt: Використай $chatbot-atelier-media для завершення потрібного етапу створення або розвитку чатбота.
+  icon_small: ./assets/family-icon-small.png
+  icon_large: ./assets/family-icon-large.png
+policy:
+  products:
+  - chatgpt
+  - codex
+  - atlas
+  allow_implicit_invocation: true

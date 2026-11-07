@@ -1,0 +1,210 @@
+{
+  "toolkit_version": "4.2.0",
+  "record_kind": "release_case_patterns",
+  "is_template": true,
+  "execution_evidence": false,
+  "derivation": "Actual features, launch scope, claims, due gate and dependency impact determine required cases. Missing access is not N/A; examples do not close QA.",
+  "cases": [
+    {
+      "id": "REL-IDENTITY",
+      "domain": "lifecycle",
+      "stage": "release",
+      "applies_when": "Кожний binary/config/content release",
+      "procedure_pattern": "Порівняти candidate hashes і model/rule/catalog/save versions з QA freeze; змінити один config у test copy",
+      "expected_observable": "Mismatch позначає stale відповідний scope й потребує targeted retest; жодного silent carry-forward pass",
+      "oracle_source_kind": "QA freeze; dependency closure; build receipts",
+      "required_layers": [
+        "structural",
+        "runtime"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-JOURNEY",
+      "domain": "learning",
+      "stage": "release",
+      "applies_when": "Кожний launch scope з first-use learning",
+      "procedure_pattern": "Clean install → first meaningful action → failure/retry → reward/save → next goal; повернути lapsed profile",
+      "expected_observable": "Всі належні переходи відтворюються на exact RC; навчання й recovery не зникають у release export",
+      "oracle_source_kind": "accepted journey/state/learning contracts",
+      "required_layers": [
+        "runtime",
+        "device",
+        "human"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-CONTENT",
+      "domain": "world",
+      "stage": "release",
+      "applies_when": "Є launch content/encounters/progression",
+      "procedure_pattern": "Звірити actual content families/early-mid-late/optional routes з manifest і store claims; пройти curated boundary cases",
+      "expected_observable": "Немає target-only advertised механік; representative slice не маскує відсутній launch content; відомі generation/reachability constraints виконані",
+      "oracle_source_kind": "content manifest; world/progression grammar; QA matrix",
+      "required_layers": [
+        "structural",
+        "model",
+        "runtime"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-CRAFT",
+      "domain": "art",
+      "stage": "release",
+      "applies_when": "Є прийняті references й target tiers",
+      "procedure_pattern": "Порівняти same-state release frame/motion/audio/input-camera; mute/no-haptic/reduced-motion за fit",
+      "expected_observable": "Прийнятий scope/tolerance збережено; critical cues не губляться; окремо зазначено неперевірені physical modalities",
+      "oracle_source_kind": "accepted masters; camera/input/sensory specs",
+      "required_layers": [
+        "runtime",
+        "device",
+        "human"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-SHOP",
+      "domain": "commerce",
+      "stage": "release",
+      "applies_when": "Є shop/IAP/offers",
+      "procedure_pattern": "Offer eligible/ineligible/expired/owned; ціна свіжа/stale/unavailable; buy/cancel/back/use/expiry",
+      "expected_observable": "Exact contents/duration/caps/локальна store price відомі до commitment; decline/recovery працездатні; trial/switch не дає невказаного refill",
+      "oracle_source_kind": "offer/entitlement journey; store product catalog",
+      "required_layers": [
+        "runtime",
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-IAP",
+      "domain": "commerce",
+      "stage": "release",
+      "applies_when": "Є IAP",
+      "procedure_pattern": "Sandbox pending/fail/cancel/success; outage й kill на verify/grant/ack; duplicate/reordered callbacks",
+      "expected_observable": "Лише verified purchased дає durable grant один раз; pending не дає access; reconciliation/ack/consume відповідають official store contract",
+      "oracle_source_kind": "current platform lifecycle; authoritative transaction rules",
+      "required_layers": [
+        "model",
+        "runtime",
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-RESTORE",
+      "domain": "commerce",
+      "stage": "release",
+      "applies_when": "Є restorable/refundable products",
+      "procedure_pattern": "Sandbox restore після reinstall/account switch; duplicate restore; refund/revoke; consumed consumable",
+      "expected_observable": "Відновлюється належне entitlement, не повторно витрачений consumable; revocation/expiry й player recovery узгоджені; save не губиться",
+      "oracle_source_kind": "product-type entitlement/refund/restore policy",
+      "required_layers": [
+        "runtime",
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-ADS",
+      "domain": "commerce",
+      "stage": "release",
+      "applies_when": "Є rewarded ads",
+      "procedure_pattern": "Opt-in/decline/no-fill/timeout/offline/consent denied; earned/duplicate/close-before-earned; cap/reset boundary",
+      "expected_observable": "Clear reward before opt-in; decline/no-fill не блокують normal core; valid earned reward один раз; limits стійкі до restart/time-skew за дизайном",
+      "oracle_source_kind": "placement/reward/cap policy; current ad platform rules",
+      "required_layers": [
+        "model",
+        "runtime",
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-PORTFOLIO",
+      "domain": "commerce",
+      "stage": "release",
+      "applies_when": "Є boosts/mechanical paid options/attempt economy",
+      "procedure_pattern": "Never-pay/no-offer/full-paid portfolios; overlap/expiry/restore; test strongest allowed synergy",
+      "expected_observable": "Немає невказаного cumulative budget bypass/домінування; оголошені caps, overlap, free goals і earn paths збережені в live catalog",
+      "oracle_source_kind": "approved commerce/progression model; scenario results",
+      "required_layers": [
+        "model",
+        "runtime"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-SAVE",
+      "domain": "lifecycle",
+      "stage": "release",
+      "applies_when": "Є persistent state/update",
+      "procedure_pattern": "Supported historical fixtures → migration; kill/retry; truncated/low-storage/offline conflict; restore backup",
+      "expected_observable": "Migration idempotent й interruption-safe; progress/entitlements не губляться/не дублюються; incompatible boundary/rollback-forward явні",
+      "oracle_source_kind": "save/data migration/recovery contracts",
+      "required_layers": [
+        "model",
+        "runtime",
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-POLICY",
+      "domain": "lifecycle",
+      "stage": "release",
+      "applies_when": "Кожний store release; SDK/data за applicability",
+      "procedure_pattern": "Порівняти actual SDK/network permissions із dated official rules/disclosures; age/consent/deletion/reviewer access",
+      "expected_observable": "Snapshot датується; actual data/age/ads/IAP/rights/store claims збігаються; gaps blocked; secrets не в portable output",
+      "oracle_source_kind": "current official source + binary/config behavior",
+      "required_layers": [
+        "structural",
+        "runtime",
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-DEVICE",
+      "domain": "lifecycle",
+      "stage": "release",
+      "applies_when": "Кожний target mobile platform",
+      "procedure_pattern": "Install/update/launch на representative tiers; sustained worst-case gameplay/UI; interruption/thermal/audio/input",
+      "expected_observable": "Frame-time distributions/memory/thermal й recovery у agreed budget; physical claims не закриті simulator; missing coverage явна",
+      "oracle_source_kind": "frozen budgets; profiler/install raw traces",
+      "required_layers": [
+        "device"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    },
+    {
+      "id": "REL-ROLLOUT",
+      "domain": "lifecycle",
+      "stage": "release",
+      "applies_when": "Є дозволений upload/submission/rollout",
+      "procedure_pattern": "Звірити target/version/channel/regions/price scope; unknown outcome reconcile; smoke й stop procedure",
+      "expected_observable": "Actual receipt/state відомі; upload не названо live; halt/flag/backend/forward fix мають конкретні compatibility й entitlement boundaries",
+      "oracle_source_kind": "current authorization; provider state; rollback-forward runbook",
+      "required_layers": [
+        "external_receipt",
+        "runtime"
+      ],
+      "actual_result": null,
+      "status": "pattern_not_executed"
+    }
+  ]
+}

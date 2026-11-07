@@ -1,0 +1,515 @@
+{
+  "version": "4.0.0",
+  "reviewed_at": "2026-11-02",
+  "scope": "finite agreed-scope operation closure; extend for actual game needs",
+  "proof": "taxonomy_and_instructions_not_tool_access_or_execution_receipts",
+  "operations": [
+    {
+      "id": "O01",
+      "name": "Первинні дослідження",
+      "candidate_methods": "Web/офіційні docs/papers, дозволені connected sources",
+      "output_acceptance": "Facts/inferences ledger, актуальність, доступ і відповідність твердженню",
+      "owner_route": "director",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O02",
+      "name": "Намір/рішення",
+      "candidate_methods": "Director/Foundry, versioned Markdown/JSON, hashes",
+      "output_acceptance": "Source→вимога→рішення→обсяг, чинна згода й handoff",
+      "owner_route": "director",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O03",
+      "name": "Модель систем",
+      "candidate_methods": "Typed data, statecharts, decision/interaction graphs",
+      "output_acceptance": "Повні правила/каталоги/стійкі IDs, C1/TDD receiver review",
+      "owner_route": "director",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O04",
+      "name": "Математика/симуляції",
+      "candidate_methods": "Pure functions, Python/Fractions; NumPy/Hypothesis за потребою",
+      "output_acceptance": "Числові oracles, distributions, units, sensitivity, scope evidence",
+      "owner_route": "director",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O05",
+      "name": "Концепт-кадр",
+      "candidate_methods": "Доступний raster imagegen; інші provider routes за вибором",
+      "output_acceptance": "Approved target/profile, exact original, feasibility й lineage",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O06",
+      "name": "Художня система/вектор",
+      "candidate_methods": "Krita/Inkscape, авторські style tokens",
+      "output_acceptance": "Editable source, силует/матеріали/камера/типографіка/ліцензії",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O07",
+      "name": "Sprite/cutout",
+      "candidate_methods": "Krita, підтримана генерація/редагування й alpha inspection",
+      "output_acceptance": "Узгоджені шари/пози/pivot/scale; реальна прозорість",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O08",
+      "name": "Atlas/кадри",
+      "candidate_methods": "DCC/export scripts, engine import",
+      "output_acceptance": "Frame metadata, padding/bleed, filtering, packing, pixel parity",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O09",
+      "name": "2D рух",
+      "candidate_methods": "Keyframes/cutout/skeletal route, Krita/Blender/Godot за видом",
+      "output_acceptance": "Clips/переходи/markers, feet/contact/cancel, читабельність",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O10",
+      "name": "3D геометрія",
+      "candidate_methods": "Blender або перевірений image/multiview-to-3D route",
+      "output_acceptance": "Source mesh, scale/axes/topology, видимі й приховані поверхні",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O11",
+      "name": "Retopology/LOD",
+      "candidate_methods": "Blender/manual/procedural cleanup",
+      "output_acceptance": "Deformation topology, silhouette, triangles/LOD/collision budgets",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O12",
+      "name": "UV/PBR/materials",
+      "candidate_methods": "Blender/Krita, bake/import presets",
+      "output_acceptance": "UV/texel density/maps/color space, platform material parity",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O13",
+      "name": "Rig/skin",
+      "candidate_methods": "Blender або придатний rigging adapter",
+      "output_acceptance": "Skeleton/bind/weights/rest pose; deformation й attachment tests",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O14",
+      "name": "3D clips/retarget",
+      "candidate_methods": "Blender/Godot, дозволені library/mocap/процедурні inputs",
+      "output_acceptance": "Root/in-place policy, retarget, contacts, clips/markers/cleanup",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O15",
+      "name": "Колізії/фізичні профілі",
+      "candidate_methods": "Godot/backend authoring/query fixtures",
+      "output_acceptance": "Hit/hurt/parts, units/layers/CCD, відповідність resolver",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O16",
+      "name": "VFX/shader/light",
+      "candidate_methods": "Godot particles/shaders/lighting, DCC bake",
+      "output_acceptance": "Event-bound effects, low-tier/reduced-effects/cue collision checks",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O17",
+      "name": "UI/шрифти/локалізація",
+      "candidate_methods": "Godot Control/Theme, вектор/ліцензовані fonts",
+      "output_acceptance": "Stateful UI, string IDs, glyph/plural/layout/input coverage",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O18",
+      "name": "Композиція",
+      "candidate_methods": "Composer/DAW, LMMS/Ardour чи інший придатний route; AI умовно",
+      "output_acceptance": "Мотиви/структура/tempo, editable session/MIDI/stems за вимогами",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O19",
+      "name": "SFX",
+      "candidate_methods": "Recording/синтез/дозволені libraries, Audacity/DAW",
+      "output_acceptance": "Raw/source, material/action families, варіанти й права",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O20",
+      "name": "Голос",
+      "candidate_methods": "Recording або перевірений TTS provider",
+      "output_acceptance": "Locked transcript, pronunciation/locale/voice approval, source/rights",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O21",
+      "name": "Audio editing/export",
+      "candidate_methods": "Audacity/DAW/FFmpeg, вимір і слухання",
+      "output_acceptance": "Loop/regions, noise/click/clip, format/channels/memory; без універсального LUFS-пресету",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O22",
+      "name": "Runtime audio/music",
+      "candidate_methods": "Godot buses/Randomizer/Interactive; FMOD/Wwise умовно",
+      "output_acceptance": "Event/parameter/mix/ducking/transition/voice limits, device listening",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O23",
+      "name": "Haptics",
+      "candidate_methods": "Engine/platform vibration/Core Haptics де підтримано",
+      "output_acceptance": "Причинні patterns/limits/cancel, mute/no-haptic equivalents",
+      "owner_route": "assets",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O24",
+      "name": "Gameplay code",
+      "candidate_methods": "Godot/GDScript typed; інші мови за engine/profile",
+      "output_acceptance": "Модулі правил/станів/components, clear ownership, runtime parity",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O25",
+      "name": "AI/world/narrative authoring",
+      "candidate_methods": "State machines/BT/utility/planning/grammar за задачею",
+      "output_acceptance": "Поведінка/encounters/graphs з trace, legality й budgets",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O26",
+      "name": "Локальні дані/save",
+      "candidate_methods": "Typed resources/JSON або SQLite за потребою",
+      "output_acceptance": "Schema/transactions/generations, exact types, migrations/recovery",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O27",
+      "name": "Cloud continuation",
+      "candidate_methods": "Google/Apple adapters, D1 policies",
+      "output_acceptance": "Profile binding, conflict/restore/account/quota native proofs",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O28",
+      "name": "Backend/data/deploy — умовно",
+      "candidate_methods": "Придатна мова/API, PostgreSQL, Docker/Render/Supabase чи інша обрана система",
+      "output_acceptance": "Authority/data/API/schema, auth, migrations, deployment/recovery, явні витрати",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O29",
+      "name": "Native SDK adapters",
+      "candidate_methods": "Android Java/Kotlin/JNI; Apple Swift/ObjC/native bridge",
+      "output_acceptance": "Callback/thread/lifecycle/ABI/capability contracts, release probes",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O30",
+      "name": "Code quality",
+      "candidate_methods": "Engine style/static typing, formatter/linter/review за мовою",
+      "output_acceptance": "Зрозумілі interfaces, warnings, boundaries, не сліпе додавання framework",
+      "owner_route": "qa",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O31",
+      "name": "Logic/model/property tests",
+      "candidate_methods": "GUT або GdUnit4 за сумісністю; pytest/Hypothesis для reference tooling",
+      "output_acceptance": "Golden/negative/property cases; implementation не тестує лише власну копію",
+      "owner_route": "qa",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O32",
+      "name": "Engine integration",
+      "candidate_methods": "Test scenes/headless runner де придатний",
+      "output_acceptance": "Input→rules→actors→resources→save, event order й actual bindings",
+      "owner_route": "qa",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O33",
+      "name": "Native/device/human",
+      "candidate_methods": "adb/Android tools, Xcode/XCTest де придатний, фізичні сесії",
+      "output_acceptance": "Multitouch/lifecycle/accessibility/comfort; headless не підміняє phone",
+      "owner_route": "qa",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O34",
+      "name": "Perceptual acceptance",
+      "candidate_methods": "Actual captures/listening/side-by-side, bounded diff metrics",
+      "output_acceptance": "Reference parity, animation/contact/audio/haptics у цілому",
+      "owner_route": "qa",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O35",
+      "name": "Performance",
+      "candidate_methods": "Godot profiler, Android Perfetto/AGI, Apple Instruments за платформою",
+      "output_acceptance": "Cold/peak/thermal/frame/input/memory/power traces з методом",
+      "owner_route": "qa",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O36",
+      "name": "Source/provenance",
+      "candidate_methods": "Git/LFS за потребою, locks/hashes, attestations",
+      "output_acceptance": "Exact source/assets/toolchain→artifact, trusted provenance boundaries",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O37",
+      "name": "Android build/sign",
+      "candidate_methods": "Godot export + сумісні JDK/Gradle/SDK/templates",
+      "output_acceptance": "Перевірені AAB/APK, signing/config/ABI, install/run receipt",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O38",
+      "name": "Apple build/sign",
+      "candidate_methods": "Mac/Xcode/export/provisioning/codesign",
+      "output_acceptance": "Exact archive/IPA, capabilities, native run й symbols",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O39",
+      "name": "CI/artifact delivery",
+      "candidate_methods": "Local runners/GitHub Actions чи інший обраний CI",
+      "output_acceptance": "Staged jobs, input-pinned caches, immutable outputs, secrets boundaries",
+      "owner_route": "build",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O40",
+      "name": "Commerce/ad sandbox",
+      "candidate_methods": "StoreKit/Play Billing/rewarded SDK за scope",
+      "output_acceptance": "Buy/pending/cancel/refund/restore/no-fill, grant once/reconcile",
+      "owner_route": "release",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O41",
+      "name": "Store distribution",
+      "candidate_methods": "Play tracks/TestFlight/App Store workflows",
+      "output_acceptance": "Exact RC, metadata/rights/testers, staged release й actual receipts",
+      "owner_route": "release",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O42",
+      "name": "Observability/support",
+      "candidate_methods": "Logs/reason codes/symbols/repro; analytics/crash tools за вибором",
+      "output_acceptance": "Health/incident triage, safe diagnostics, repair/return; без вигаданого background monitoring",
+      "owner_route": "liveops",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O43",
+      "name": "Liveops/оновлення",
+      "candidate_methods": "Versioned config/content/schema, compatibility/rollout/runbooks",
+      "output_acceptance": "Impact, recovery/forward fix, economy/context, rights/service-loss policy",
+      "owner_route": "liveops",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O44",
+      "name": "Поширення/залучення — за scope",
+      "candidate_methods": "Продуктові hypotheses, ASO/store assets, правдиві native clips/дозволені канали",
+      "output_acceptance": "Зрозуміла цінність/власне авторство, права, attribution, реальні результати",
+      "owner_route": "liveops",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    },
+    {
+      "id": "O45",
+      "name": "Оновлення агента",
+      "candidate_methods": "Skill Creator/Foundry, canonical Git source, package/update/verify/rollback",
+      "output_acceptance": "Узгоджені9skills/resources, переносні інструкціїWork/Codex, actual loaded-version proof",
+      "owner_route": "director",
+      "default_availability": "candidate_not_installed_or_tested",
+      "applicability": "derive_from_project_scope",
+      "tool_versions": "pin_per_operation_and_target_before_execution"
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "X01",
+      "mechanism": "Production capability witness на операцію, поверх native SDK probe D1Q19",
+      "negative_acceptance": "Flattened PNG не закриває required editable layers/rig"
+    },
+    {
+      "id": "X02",
+      "mechanism": "Виконуваний recipe з consumer, поверх authoring round-trip Q27",
+      "negative_acceptance": "Новий виконавець знає preset, source/exports і перевіряє результат без чату"
+    },
+    {
+      "id": "X03",
+      "mechanism": "Семантичні зобов’язання на ребрі, поверх post-import lint Q26",
+      "negative_acceptance": "Валідний mesh/clip зі зміненими scale/contact time не проходить integration"
+    },
+    {
+      "id": "X04",
+      "mechanism": "Замкненість production coverage, поверх sample throughput Q36",
+      "negative_acceptance": "У всіх потрібних death/cancel/locale/contact states є здійсненний маршрут"
+    },
+    {
+      "id": "X05",
+      "mechanism": "Історія actual production attempts, окремо від gameplay repro Q28",
+      "negative_acceptance": "Timeout не запускає повторно вже завершену платну генерацію/remote build"
+    },
+    {
+      "id": "X06",
+      "mechanism": "Admission за accepted inputs/interfaces/ресурсами/компетенціями",
+      "negative_acceptance": "Конкурентні writers/shared export/device не пошкоджують той самий результат"
+    },
+    {
+      "id": "X07",
+      "mechanism": "Семантичний cache key і freshness witnesses",
+      "negative_acceptance": "Зміна exporter/model invalidates залежні outputs; accepted original лишається"
+    },
+    {
+      "id": "X08",
+      "mechanism": "Assembly obligations у representative slice",
+      "negative_acceptance": "Окремо reviewed animation/audio не приховують хибний контакт у спільній сцені"
+    },
+    {
+      "id": "X09",
+      "mechanism": "Причинна класифікація repair й бюджет",
+      "negative_acceptance": "Відсутню rig capability не «лікують» п’ятьма однаковими prompts"
+    },
+    {
+      "id": "X10",
+      "mechanism": "Input-pinned host bridge та return validation",
+      "negative_acceptance": "Receipt старої Android збірки не підтверджує новий iOS claim"
+    },
+    {
+      "id": "X11",
+      "mechanism": "Descriptor/schema/catalog/argument binding і parameter consumption",
+      "negative_acceptance": "Unsupported або silently ignored material parameter не стає виконаною вимогою"
+    }
+  ]
+}

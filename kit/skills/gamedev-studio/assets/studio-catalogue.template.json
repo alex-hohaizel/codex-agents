@@ -1,0 +1,17 @@
+{
+  "template": true,
+  "studio_id": null,
+  "revision": null,
+  "display_name": null,
+  "legal_identity": {"legal_name": null, "country": null, "entity_type": null, "status": "pending", "issue_ref": null},
+  "public_contacts": {"support_url": null, "privacy_url": null, "website_url": null},
+  "master": {"asset_id": null, "path": null, "sha256": null, "approval_ref": null},
+  "variants": [],
+  "tokens_ref": null,
+  "rights_refs": [],
+  "usage_map": [],
+  "services": [],
+  "setup_tasks": [],
+  "open_decisions": [],
+  "readiness": "template_only"
+}

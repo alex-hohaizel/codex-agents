@@ -1,0 +1,569 @@
+{
+  "schema_version": "1.0.0",
+  "record_kind": "constructor_baseline",
+  "is_template": false,
+  "source_ref": "constructor-user-request-2026-11-01",
+  "purpose": "Mandatory construction and inherited workflow checklist, not fixed domain features or completed evidence. Bind each future target to its actual request and domain-specific acceptance.",
+  "items": [
+    {
+      "id": "AF-01",
+      "title": "Природномовний intake",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Намір, бажаний результат, наявний стан і дозволений поточний scope з точним джерелом; користувач не знає назв skills/scripts",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-02",
+      "title": "Відновлення існуючих напрацювань",
+      "priority": "must",
+      "source_kind": "inherited_contract_and_current_continuity_request",
+      "acceptance": "Актуальні файли/версії/права/рішення прочитані; originals і прийняті рішення не переписані; адресний gap report",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-03",
+      "title": "Предметна нейтральність",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "В універсальному installable source немає назв, сутностей, preset-функцій або готових сценаріїв з ілюстративного списку користувача",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-04",
+      "title": "Адаптивне уточнення",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Питання виходять із конкретних прогалин і впливу на рішення; пояснені причина, варіанти, наслідки й момент блокування",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-05",
+      "title": "Самостійна реконструкція предметної області",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Карта користувачів/ролей, об'єктів, процесів, станів, інтеграцій, ризиків, обмежень і результатів; питання не обмежені відомими шаблонами",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-06",
+      "title": "Повнота вимог",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Stable ID → source/intent → priority/applicability → dependencies → owner → acceptance → artifact/evidence → closure; складені вимоги мають дочірні checks",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-07",
+      "title": "Незнижувані ключові цілі",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Ключова обіцянка присутня в discovery, варіантах, дизайні, реалізації, перевірці й супроводі; високий середній score не компенсує провал must",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-08",
+      "title": "Сильні альтернативи та докази",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Варіанти рішення й доречні існуючі альтернативи порівняні за однаковими критеріями; факти, припущення та висновки розділені",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-09",
+      "title": "Повна специфікація агента перед створенням",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Versioned capability blueprint: що робить, що отримує/видає, як працює, межі, ролі, інструменти, етапи, tests, handoff, вартість, дозволи й невідомості",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-10",
+      "title": "Погодження blueprint",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Exact version/hash/scope і фактичне джерело згоди; pending/decline/stale не запускає залежне створення; зміна матеріального scope відкриває адресне рішення",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-11",
+      "title": "Пропорційна архітектура",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Порівняння єдиного зв'язного модуля та сімейства там, де поділ має користь; кількість модулів не успадковується з вихідного виробничого агента",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-12",
+      "title": "Предметна команда",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Працюючі техліди/виконавці з inputs, owned paths, outputs, quality gates; незалежні перевірки реальними іншими акторами, без менеджерського театру",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-13",
+      "title": "Залежності й паралельність",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Граф етапів/tasks/артефактів і зовнішніх передумов; незалежне паралельно, approval/shared mutations/dependencies послідовно",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-14",
+      "title": "Реальні tools і середовища",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Capability report з tested/unknown/blocked, версіями, правами, бюджетом і сумісністю; назва host/plugin не є доказом можливості",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-15",
+      "title": "Підготовка інфраструктури",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Конкретні середовища, акаунти, workspace, інтеграції й доступи лише за потребою; доступна дозволена автоматизація виконується, точний owner step ізолюється",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-16",
+      "title": "Створення й установка",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Реальні skills/resources/scripts за погодженими компетенціями, валідні пакети, перевірений фактичний save/install, а не лише ZIP",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-17",
+      "title": "Придатність Work та Codex",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Один контрольований source; переносні форми за host capabilities; standalone modules без прихованих sibling залежностей; source/version/installation/discovery/execution розрізнені",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-18",
+      "title": "Наскрізні пакети передачі",
+      "priority": "must",
+      "source_kind": "inherited_contract_and_current_continuity_request",
+      "acceptance": "Кожна межа має фактичні inputs/outputs/hashes/decisions/knowledge/evidence/gaps, читабельний next action та return contract",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-19",
+      "title": "Фактичний запуск результату",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Створений агент дає спосіб запустити й побачити результат у потрібному середовищі; observed receipt/URL/build/process або точний blocked bridge",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-20",
+      "title": "Проектна пам'ять і адаптація",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Нові вимоги/lessons із source/confidence/scope/applicability/impact; перед dependent job reconciliation, selective invalidation; новий урок не дає нових прав",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-21",
+      "title": "Проектні спеціалізації",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Потреба може створити project-local знання, templates, scripts або skills у погодженому scope; нова матеріальна компетенція не додається мовчки",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-22",
+      "title": "Пауза та resume",
+      "priority": "must",
+      "source_kind": "inherited_contract_and_current_continuity_request",
+      "acceptance": "Now/after artifact/after stage; checkpoint із completed/current/pending/effects/next; stop не стирається переформулюванням, виконане не повторюється",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-23",
+      "title": "Перевірки та чесні статуси",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Structural validation, self-check, independent review, user acceptance, built/running/deployed/observed окремо; негативні cases і bounded local repair",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-24",
+      "title": "Супровід і розвиток",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Runbook, моніторинг за фактичною можливістю, інциденти, відновлення/rollback, версії й міграції, feedback/metrics, наступні зміни через зачеплені гілки циклу",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AF-25",
+      "title": "Повний людський посібник",
+      "priority": "must",
+      "source_kind": "direct_user_requirement",
+      "acceptance": "Початок, installation, natural-language usage, approvals, Work↔Codex, launch/return, pause/resume, update/recovery й окрема експлуатація кінцевого результату",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-01",
+      "title": "Три окремі project scopes: factory, створений агент, кінцевий результат",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Уникає підміни створеного пакета фактом виконаного продукту й переносу чужого approval",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-02",
+      "title": "Ізоляція проектів і приватних знань",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Узагальнювати прийоми можна; переносити сторонні credentials, приватні дані чи проектні рішення без дозволу не можна",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-03",
+      "title": "Source/permission/effect ledger",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Створення, витрати, публікація, destructive зміни та recurring jobs мають точний чинний scope і фактичні receipts",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-04",
+      "title": "Unknown-outcome recovery та idempotency",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Timeout не означає невиконання; спочатку read/status/reconciliation, потім дозволений retry",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-05",
+      "title": "Реалістична повнота",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Усі відомі застосовні вимоги в bounded scope покриті; майбутні деталі мають owner/due gate. «Абсолютно все в усіх майбутніх світах» не обіцяється",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-06",
+      "title": "Resource discipline",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Ліміти часу/токенів/генерацій/сховища/витрат і concurrency; дешеві перевірки перед дорогими; без нескінченного self-expansion",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-07",
+      "title": "Безпечний імпорт і точне збереження",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Paths/symlinks/resource limits/provenance; imported scripts не запускаються автоматично; прийняті originals збережені",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-08",
+      "title": "Контроль знань і контексту",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "File/structured/lexical retrieval, dependencies й readable checkpoints як baseline; SDK/vector store/довгі chains лише за виміряної потреби",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-09",
+      "title": "Cross-layer consistency",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Прийняті цінність, поведінка, взаємодія, стиль і якість не деградують між specs/materials/code/операціями",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AD-10",
+      "title": "Фактична межа середовища",
+      "priority": "must",
+      "source_kind": "professional_derivative",
+      "acceptance": "Framework/script не є LLM, hosting, секретом, tool access, фоновим оператором або сертифікатом якості",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_generated_agent_contracts",
+      "closure_requires": "current scoped artifact plus appropriate actual evidence/review; source text alone is not proof"
+    },
+    {
+      "id": "AX-01",
+      "title": "Рівні зрілості M0/M1/M2",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Начерк, повний паспорт і точна виробнича передача мають різні due gates; завершені альтернативи однаково повні.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-02",
+      "title": "Предметна карта систем",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Сутності/definition-instance-revision, actors, стани, причинні reads/writes/events та застосовність без фіксованої тематики.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-03",
+      "title": "Виконувані правила",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Типи/одиниці/межі/порядок/округлення/момент читання/час/ймовірність/пріоритет та незалежний oracle; implementer не вигадує відсутню поведінку.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-04",
+      "title": "Відмова й відновлення",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Окремі normal/partial/blocked/cancel/unknown/recovery переходи, дозволені дії, cleanup, наслідки й відновлення.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-05",
+      "title": "Довговічність стану",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Authority, persistence, consistency group, durable boundary, migration/rollback/restore, tombstone та crash corpus.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-06",
+      "title": "Наскрізний виробничий граф",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Requirement→contract→operation→recipe→transformation→attempt→output→consumer assembly→evidence; meaningful edges та dependency closure.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-07",
+      "title": "Можливість рівня операції",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Descriptor/schema/catalog/access/test/integration окремі; unsupported material parameter не компенсується score.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-08",
+      "title": "Споживання параметрів",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Для material requirement задані actual schema field, bound value, supported operation і consumption check.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-09",
+      "title": "Семантика перетворень",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Source/master/export/consumer, IDs/encoding/units/time/precision/privacy, preserved invariants та дозволені втрати мають oracle.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-10",
+      "title": "Виробничі рецепти",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Exact inputs/hash, steps DAG, owner/consumer, masters/output format, validators/budgets/effects/repair/stop; template не executable.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-11",
+      "title": "Історія спроб",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Pending до effect, actual job/receipt, append observations/cost, reconcile unknown до retry; provider exactly-once не вигадується.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-12",
+      "title": "Причинний ремонт",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Failure class, hypothesis, changed variable, expected correction, next validator і cap; після двох однакових failures інший метод.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-13",
+      "title": "Семантичний cache",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Ключ включає relevant inputs/recipe/model/toolchain/profile/rights; source/schema/terms/importer change інвалідує affected proofs.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-14",
+      "title": "Фактичне складання",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Exact component/config/inputs, real consumer scenario та окремі structural/semantic/integration/human/operational verdicts.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-15",
+      "title": "Виміряна спроможність",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Representative end-to-end element до масштабування, actual time/cost/repair/bottleneck без гарантії extrapolation.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-16",
+      "title": "Спадкування child agents",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Кожний модуль містить versioned core/domain/production/evaluation contracts, exact requirement coverage, recipes/fixtures та cold receiver.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-17",
+      "title": "Точний host return",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Preflight/cwd/inputs/hash/steps/receipt/return validation і next allowed action; Work/Codex profiles не обіцяють спільні sessions.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-18",
+      "title": "Поточний формат і актуальність доказів",
+      "priority": "must",
+      "source_kind": "approved_cross_domain_transfer_request_2026-11-03",
+      "acceptance": "Поточні формати визначені окремо від номера інструментарію; непідтриманий формат відхиляється, новий результат відтворюється з актуальних джерел без успадкування готовності.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped artifacts, exact links/hashes and actual evidence of required kind; structural pass alone is not domain quality"
+    },
+    {
+      "id": "AX-19",
+      "title": "Умовне виготовлення спеціалізованих навичок",
+      "priority": "must",
+      "source_kind": "user_refinement_specialist_and_product_routes_2026-11-03",
+      "acceptance": "Для reusable skill/family або методичної прогалини обрано актуальний design-specialist-skills з exact accepted scope; Skill Creator відповідає за установку. Для code/config-only агента constructor не примусовий. Немає повторних discovery/погодження незмінного scope; missing dependency не позначено invoked.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped route/handoff artifacts, actual dependency resolution and evidence; catalog or structural pass alone does not prove invocation or domain quality"
+    },
+    {
+      "id": "AX-20",
+      "title": "Предметна маршрутизація app/bot компонентів",
+      "priority": "must",
+      "source_kind": "user_refinement_specialist_and_product_routes_2026-11-03",
+      "acceptance": "Лише обрані app/chatbot компоненти мають stable Work @/Codex $ selector власного сімейства, переносний bounded handoff, parent authority/requirements/scope, shared contract owner/consumers/hash, actual source resolution та докази виконання. Порожній/невідомий план не створює компоненти автоматично; mixed app/bot не вигадують незалежні sources of truth.",
+      "status": "specified_not_product_proven",
+      "scope": "factory_and_applicable_generated_agent_contracts",
+      "closure_requires": "current scoped route/handoff artifacts, actual dependency resolution and evidence; catalog or structural pass alone does not prove invocation or domain quality"
+    }
+  ],
+  "rules": [
+    "Validate each due applicable must individually; never average away a failing requirement.",
+    "Preserve actual source and emphasized intent across phases and outputs.",
+    "Unknown domain details require explained discovery; do not populate from illustrative presets.",
+    "Current user approval of exact target blueprint precedes target construction.",
+    "Factory design, target execution and external effects have separate scopes.",
+    "This checklist states obligations; files or filled records alone prove no product quality."
+  ],
+  "toolkit_version": "2.2.0",
+  "current_protocol_note": "One current protocol per record kind; toolkit version and protocol version are independent. Previous output format adapters are not provided."
+}

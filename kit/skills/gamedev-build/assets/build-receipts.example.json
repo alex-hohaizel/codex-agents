@@ -1,0 +1,28 @@
+{
+  "kind": "example_not_execution",
+  "receipts": [
+    {
+      "receipt_id": "build-001",
+      "game_id": "example-game",
+      "platform": "android",
+      "artifact_type": "apk",
+      "artifact_path": "build/game-debug.apk",
+      "artifact_sha256": "REPLACE_AFTER_ACTUAL_BUILD",
+      "source_commit": "REPLACE_AFTER_ACTUAL_BUILD",
+      "baseline_sha256": "REPLACE_AFTER_ACTUAL_BUILD",
+      "toolchain": {
+        "engine": "pin-actual-version"
+      },
+      "command": [
+        "actual",
+        "command"
+      ],
+      "exit_code": null,
+      "log_path": "evidence/build.log",
+      "signing_status": "not_checked",
+      "built_at": null,
+      "build_profile": "debug",
+      "limitations": []
+    }
+  ]
+}

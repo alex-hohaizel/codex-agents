@@ -1,0 +1,26 @@
+{
+  "template": true,
+  "schema": "gameatelier.quality-budgets/1",
+  "device_profiles": [],
+  "graphics_tiers": [],
+  "budgets": {
+    "frame_time_ms": null,
+    "peak_memory_mib": null,
+    "install_size_mib": null,
+    "first_interactive_seconds": null,
+    "transition_seconds": null,
+    "draw_calls_peak": null,
+    "texture_memory_mib": null,
+    "active_audio_voices": null,
+    "audio_memory_mib": null
+  },
+  "measurement_procedures": [],
+  "peak_scenario_refs": [],
+  "provisional_assumptions": [],
+  "actual_measurement_refs": [],
+  "canonical_model_ref": null,
+  "canonical_model_schema_version": "4.0.0",
+  "model_record_ids": [],
+  "representation": "draft_domain_attachment_or_derived_export",
+  "authority_note": "Resolve record IDs and source model hash before use; do not maintain a second independent truth."
+}

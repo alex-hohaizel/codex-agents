@@ -1,0 +1,37 @@
+{
+  "schema_version": "lumen.handoff/3",
+  "project": {
+    "repository": "",
+    "branch": "",
+    "source_sha": "",
+    "dirty_state": "unknown",
+    "deployed_sha": "",
+    "observation": "unknown"
+  },
+  "user_intent": "",
+  "authorization": [],
+  "source_requirement_ids": [],
+  "capabilities": [],
+  "owned_paths": [],
+  "contracts": [],
+  "recipes": [],
+  "attempts": [],
+  "remote_jobs": [],
+  "evidence": [],
+  "unresolved": [],
+  "receiver": "",
+  "next_action": "",
+  "acceptance": [],
+  "project_requirement_impact": {
+    "conversation_profile": [],
+    "project_invariants": [],
+    "quality_rubrics": []
+  },
+  "selected_channels": [],
+  "platform_adapter_contract_refs": [],
+  "source_snapshot_files": [],
+  "current_checks": {
+    "baseline": [],
+    "changed_scope": []
+  }
+}

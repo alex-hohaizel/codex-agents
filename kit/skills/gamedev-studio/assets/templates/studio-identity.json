@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "studio_id": "pending",
+  "display_name": "pending",
+  "legal_entity": null,
+  "public_developer_name": null,
+  "support_url": null,
+  "privacy_url": null,
+  "masters": [],
+  "usage_rules_artifact_id": null,
+  "account_readiness": {},
+  "status": "draft"
+}

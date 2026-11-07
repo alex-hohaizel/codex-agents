@@ -1,0 +1,55 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "lifecycle_failure",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "applicability": null,
+  "states": [],
+  "transitions": [],
+  "failure_profiles": [
+    {
+      "id": null,
+      "cause": null,
+      "guard_ref": null,
+      "authority": null,
+      "entry_effects": [],
+      "permitted_actions": [],
+      "timer_rule_ref": null,
+      "terminal_condition": null,
+      "status_projectile_policy": null,
+      "collision_body_policy": null,
+      "ai_reservation_cleanup": null,
+      "camera_feedback_refs": [],
+      "cargo_loot_policy": null,
+      "recovery_ref": null,
+      "cost_ref": null,
+      "checkpoint_reset_ref": null,
+      "persistence_group_ref": null
+    }
+  ],
+  "simultaneous_outcome_priority": [],
+  "retry_world_state": null,
+  "respawn_identity_generation": null,
+  "neutral_input_policy": null,
+  "reward_once_rule_ref": null,
+  "negative_cases": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "state_machine",
+      "behavior"
+    ],
+    "tracks": [
+      "TR03",
+      "TR09"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

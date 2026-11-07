@@ -1,0 +1,36 @@
+{
+  "id": "ASM-project-slice",
+  "scene_ref": "bind_exact_scene",
+  "build_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "config_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "components": [
+    {
+      "id": "ART-runtime-export",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "binding": "bind_actual_node_resource_component"
+    }
+  ],
+  "scenario": {
+    "initial_state_ref": "fixture_id",
+    "actions_ref": "sequence_id",
+    "expected_ref": "oracle_id",
+    "platform_profile": "bind_actual_profile"
+  },
+  "invariants": [
+    {
+      "id": "CHECK-project-boundary",
+      "expected": "bind_value",
+      "observed": "not_performed",
+      "verdict": "pending"
+    }
+  ],
+  "evidence_refs": [
+    "bind_actual_evidence_only_after_execution"
+  ],
+  "author_id": "bind_actual_author",
+  "reviewer_id": "bind_different_actual_reviewer",
+  "proof_level": "candidate",
+  "gaps": [
+    "template_not_executed"
+  ]
+}

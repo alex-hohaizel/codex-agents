@@ -1,0 +1,109 @@
+{
+  "schema_version": "game-atelier-golden-arithmetic/1",
+  "scope": "illustrative_D2_arithmetic_not_game_or_engine_proof",
+  "source": "Approved D2 sections4–5; concrete arithmetic reviewed before implementation",
+  "capture_policy": "physical crit only; damage snapshot/live inputs and rounding as D2; DoT eighth tick precedes expiry; no extra offline ticks",
+  "cases": {
+    "channel_hit": {
+      "physical_before_round": "2135/17",
+      "fire_before_round": "85/2",
+      "rounded_channels": [
+        126,
+        42
+      ],
+      "barrier_absorbed": 30,
+      "incoming_hp": 138,
+      "actual_hp_loss": 100,
+      "overkill": 38,
+      "hp_after": 0
+    },
+    "periodic_damage": {
+      "hp_after": "4",
+      "barrier_after": "0",
+      "stagger": 14,
+      "ticks": [
+        {
+          "tick": 1,
+          "at_seconds": "1/4",
+          "damage": "9/8",
+          "hp_loss": "0",
+          "hp_after": "10",
+          "barrier_after": "3/8"
+        },
+        {
+          "tick": 2,
+          "at_seconds": "1/2",
+          "damage": "9/8",
+          "hp_loss": "3/4",
+          "hp_after": "37/4",
+          "barrier_after": "0"
+        },
+        {
+          "tick": 3,
+          "at_seconds": "3/4",
+          "damage": "9/8",
+          "hp_loss": "9/8",
+          "hp_after": "65/8",
+          "barrier_after": "0"
+        },
+        {
+          "tick": 4,
+          "at_seconds": "1",
+          "damage": "9/8",
+          "hp_loss": "9/8",
+          "hp_after": "7",
+          "barrier_after": "0"
+        },
+        {
+          "tick": 5,
+          "at_seconds": "5/4",
+          "damage": "3/4",
+          "hp_loss": "3/4",
+          "hp_after": "25/4",
+          "barrier_after": "0"
+        },
+        {
+          "tick": 6,
+          "at_seconds": "3/2",
+          "damage": "3/4",
+          "hp_loss": "3/4",
+          "hp_after": "11/2",
+          "barrier_after": "0"
+        },
+        {
+          "tick": 7,
+          "at_seconds": "7/4",
+          "damage": "3/4",
+          "hp_loss": "3/4",
+          "hp_after": "19/4",
+          "barrier_after": "0"
+        },
+        {
+          "tick": 8,
+          "at_seconds": "2",
+          "damage": "3/4",
+          "hp_loss": "3/4",
+          "hp_after": "4",
+          "barrier_after": "0"
+        }
+      ],
+      "resume_after_tick4_next": 5
+    },
+    "ttk_two_successes": {
+      "guaranteed_ttk_seconds": 3,
+      "random_mean_seconds": 4,
+      "random_median_seconds": 3,
+      "random_p95_seconds": 8,
+      "cdf7": "15/16",
+      "cdf8": "247/256"
+    },
+    "ideal_contact": {
+      "central_effective_mass_kg": "800",
+      "central_impulse_Ns": "4800",
+      "normal_energy_before_J": "10000",
+      "normal_energy_loss_J": "9600",
+      "offset_effective_mass_kg": "400",
+      "offset_impulse_Ns": "2400"
+    }
+  }
+}

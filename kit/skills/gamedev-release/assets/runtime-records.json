@@ -1,0 +1,224 @@
+{
+  "schema_version": "2.0.0",
+  "toolkit_version": "5.0.0",
+  "handoff_protocol": "1.0.0",
+  "purpose": "Agent-facing record shapes and examples. EXAMPLE strings are placeholders, never evidence or authority. Runtime validates fields; this file is not an autonomous agent or a product-quality schema.",
+  "state": ".gameatelier/orchestrator/state.json",
+  "canonical_authority": "Existing .gameatelier/{state,decisions,requirements,toolchain,capabilities,sync-lock}.json files are preserved and hash-linked. For an existing decision ID, canonical_ref and canonical_sha256 are required; exact already-confirmed canonical authority can be imported. Pending canonical authority must be updated in its canonical source and relinked before confirming; the sidecar cannot override it. Canonical requirement definition/priority/status/closure and decision scope/effect/options/approved hashes cannot be reinterpreted in the sidecar; update authoritative source first. Approval without a typed effect cannot be promoted to a new effect.",
+  "references": "depends_on is an array of existing globally unique ledger IDs. Each update versions the record, snapshots transitive dependencies and invalidates affected outputs. stage is one of studio, concepts, preproduction, assets, build, qa, release, liveops. scope is an exact nonempty string; project knowledge with scope project applies throughout its listed stages.",
+  "examples": {
+    "intent": {
+      "kind": "incident",
+      "stage": "build",
+      "scope": "save-migration",
+      "source": "EXAMPLE actual user incident reference",
+      "operation": "work"
+    },
+    "requirement": {
+      "id": "REQ-INPUT",
+      "source": "EXAMPLE actual user message reference",
+      "verbatim_source": "EXAMPLE exact original words",
+      "intent": "EXAMPLE preserved intent",
+      "stage": "build",
+      "scope": "save-migration",
+      "owner": "implementation-agent",
+      "status": "pending",
+      "priority": "must",
+      "acceptance": "EXAMPLE precise acceptance condition",
+      "depends_on": [],
+      "artifact_ids": [],
+      "evidence_ids": [],
+      "closure": null
+    },
+    "knowledge": {
+      "id": "KN-CONTACT",
+      "source": "EXAMPLE actual device observation reference",
+      "verbatim_source": "EXAMPLE exact observation",
+      "text": "EXAMPLE scoped lesson",
+      "scope": "project",
+      "confidence": "observed",
+      "stages": [
+        "build",
+        "qa"
+      ],
+      "impact_ids": [],
+      "impact_reason": "EXAMPLE decisions changed by lesson",
+      "depends_on": []
+    },
+    "task": {
+      "id": "TASK-MIGRATION",
+      "stage": "build",
+      "scope": "save-migration",
+      "source": "EXAMPLE actual user incident reference",
+      "goal": "EXAMPLE bounded output and stop condition",
+      "owner": "implementation-agent",
+      "skill": "gamedev-build",
+      "depends_on": [],
+      "required_decisions": [],
+      "required_requirements": [
+        "REQ-INPUT"
+      ],
+      "fulfills_requirements": [
+        "REQ-INPUT"
+      ],
+      "required_evidence": [],
+      "capabilities": [],
+      "artifact_ids": [
+        "ART-MIGRATION"
+      ],
+      "external_actions": [],
+      "required_modalities": [
+        "build",
+        "device"
+      ],
+      "requires_production_choice": false,
+      "independent_review_required": true
+    },
+    "artifact": {
+      "id": "ART-MIGRATION",
+      "path": "artifacts/migration/source-snapshot.zip",
+      "stage": "build",
+      "scope": "save-migration",
+      "kind": "source_snapshot",
+      "author_ids": [
+        "implementation-agent"
+      ],
+      "status": "final",
+      "depends_on": []
+    },
+    "evidence": {
+      "id": "EV-DEVICE",
+      "source": "EXAMPLE actual test-run receipt reference",
+      "stage": "build",
+      "scope": "save-migration",
+      "modality": "device",
+      "artifact_ids": [
+        "ART-MIGRATION"
+      ],
+      "observer": "independent-qa",
+      "status": "pass",
+      "proof_path": "artifacts/migration/device-run.json",
+      "environment": "EXAMPLE actual device + OS + build hash",
+      "observed_at": "EXAMPLE actual observation timestamp",
+      "method": "EXAMPLE actual performed reproduction steps",
+      "depends_on": []
+    },
+    "decision": {
+      "id": "DEC-CHANNEL",
+      "source": "EXAMPLE actual user request reference",
+      "stage": "release",
+      "scope": "EXAMPLE exact package hash, account, channel and rollout scope",
+      "question": "EXAMPLE concrete material choice",
+      "options": [
+        "approve",
+        "hold"
+      ],
+      "consequences": {
+        "approve": "EXAMPLE exact external effect and cost",
+        "hold": "EXAMPLE prepared result remains local"
+      },
+      "recommendation": "hold",
+      "explanation": "EXAMPLE tradeoff",
+      "depends_on": [],
+      "approval": {
+        "option": "approve",
+        "effects": [
+          "upload"
+        ],
+        "artifact_ids": [
+          "ART-MIGRATION"
+        ]
+      }
+    },
+    "master_approval_extension": {
+      "approved_sha256": "EXAMPLE exact 64-character lowercase SHA256 of original bytes",
+      "approval": {
+        "option": "approve",
+        "effects": [
+          "master"
+        ]
+      }
+    },
+    "artifact_approval_extension": {
+      "approval_decision": "EXAMPLE confirmed decision ID with identical scope and approved_sha256"
+    },
+    "canonical_link_extension": {
+      "canonical_ref": ".gameatelier/decisions.json#DEC-EXAMPLE",
+      "canonical_sha256": "EXAMPLE exact source-file SHA256"
+    },
+    "capability": {
+      "id": "CAP-STORE",
+      "source": "EXAMPLE actually observed tool capability reference",
+      "available": false,
+      "scope": "project",
+      "environment": "EXAMPLE exact service/account/environment",
+      "verified_at": "EXAMPLE observation timestamp"
+    },
+    "action": {
+      "id": "ACTION-UPLOAD",
+      "idempotency_key": "EXAMPLE unique stable provider effect key",
+      "type": "upload",
+      "scope": "EXAMPLE exact package hash, account, channel and rollout scope",
+      "source": "EXAMPLE actual request reference",
+      "decision_id": "DEC-CHANNEL",
+      "decision_revision": 1,
+      "capability_id": "CAP-STORE",
+      "environment": "EXAMPLE exact service/account/environment",
+      "prepared_artifact_ids": [
+        "ART-MIGRATION"
+      ],
+      "task": "TASK-UPLOAD",
+      "depends_on": []
+    },
+    "receipt": {
+      "source": "EXAMPLE actual provider response/read-only query reference",
+      "provider_ref": "EXAMPLE actual provider operation/object ID",
+      "proof_path": "artifacts/receipts/upload.json",
+      "reconciled": false
+    },
+    "intake": {
+      "id": "original-upload",
+      "source": "EXAMPLE original upload/version reference",
+      "rights": "EXAMPLE actual rights/provenance declaration",
+      "authority_ref": "EXAMPLE actual import instruction",
+      "approved_masters": []
+    },
+    "manual_bridge": {
+      "id": "BRIDGE-IOS",
+      "environment": "EXAMPLE macOS with installed Xcode and exact version",
+      "working_path": "/absolute/path/to/product",
+      "command": [
+        "xcodebuild",
+        "-version"
+      ],
+      "expected_result": "EXAMPLE exact version output/logs; no signing or upload",
+      "return_path": "/absolute/path/to/product/artifacts/bridge-return",
+      "return_instructions": "EXAMPLE return logs, toolchain lock and hashes; then context/readiness",
+      "scope": "toolchain-observation",
+      "missing_capability": "macOS executor",
+      "launch_steps": [
+        "EXAMPLE obtain exact handoff package and verify hashes",
+        "EXAMPLE open exact working directory",
+        "EXAMPLE run exact argv",
+        "EXAMPLE save actual result in exact return path"
+      ]
+    }
+  },
+  "rules": [
+    "Every source, authority and proof must name an actual observation or user instruction; do not promote these examples to records.",
+    "Task artifact_ids can name future outputs. required_evidence and required_decisions can be pending; readiness blocks until current. fulfills_requirements permits work to implement pending requirements, but completion still requires their actual closure. Every declared fulfills_requirements item must close at completion, including should/could. Completion binds the actual output and proof snapshots; later changes stale the task and downstream consumers.",
+    "Evidence pass requires an observer who is not an artifact author. Audio/visual proof requires media; other modalities require environment, observed_at and method. The runtime verifies bytes and declared provenance, not whether someone actually listened, played or used a device. For a task that must close through independent QA, set independent_review_required=true; then completion requires pass evidence. Observed evidence alone records an observation and is not an independent review.",
+    "A decision is pending until exact scope, decision revision, project revision, option and actual authority are recorded. Saved favorites never select a production concept. Effects stop_search and production_choice require explicit structured decisions. Derived production/search flags are revoked when their current decision becomes pending/stale/superseded. Positive effect approval is explicit approval.option plus approval.effects, never inferred from option wording. External approval also captures exact approval.artifact_ids hashes; master approval requires effect master and approved_sha256. A confirmed declining option grants no effect.",
+    "Prepare reviewable artifacts and an action before a material external approval. dispatch journals pending and never invokes a tool. If the agent crashes, outcome stays pending. An unknown outcome requires read-only provider reconciliation proof, not retry.",
+    "Pause now prevents work gates; after-artifact pause triggers on exact final/reference artifact registration. After-stage pause triggers only after pipeline.py validates an accepted package. Receipts and checkpoint records remain recordable while paused. An active pause cannot be replaced with a future boundary to clear it; explicit resume is required.",
+    "refresh --accept-suite-update --authority REVIEW_SOURCE records agent compatibility review, not a new user approval. --impact ID invalidates only declared affected records and dependents; verified compatible cleanup needs no semantic reapproval.",
+    "Project-init never overwrites existing state. Intake never executes imported files. Approved original bytes remain immutable; derivatives need new IDs. The hash-chained journal and snapshot are atomically replaced under an exclusive lock.",
+    "Use separate project directories for isolated cases. No command claims actual device, playtest, account, store, upload, purchase, deployment, scheduling or revenue evidence unless an actual tool/human receipt is supplied.",
+    "A full production task in preproduction/assets/build/qa/release cannot disable production authority via requires_production_choice=false. A partial maintenance task may do so only when the recorded incident/feature intent matches stage, scope and source exactly; its intent contract is preserved.",
+    "Before stage-check loads pipeline.py it enforces installed-suite/integrity/pause guards. Accepted-stage crossing also checks current runtime must closure and decisions. For nonempty applicable runtime context, the new package manifest.project_context must equal the stage_context_snapshot returned by context --stage; reconcile package records/reviews and reseal a new revision. The handoff schema/suite protocol remains1.0.0.",
+    "A met requirement must cite evidence covering its exact closure artifacts; unrelated current evidence cannot close it.",
+    "The structured production operation requires stop-search/production authority. full_concepts may complete C1 candidates before selection through concepts/candidate_completion; typed qa design_review/contract_review uses candidate scope. Actual production/build/release retains current production-choice guards.",
+    "Stage-check compiles and executes exactly the single in-memory pipeline.py source buffer whose SHA256 matches the pinned suite hash. It never reads or writes validator .pyc caches and rechecks the suite before accepted-stage crossing; ordinary runtime use does not add files to the installed skill."
+  ],
+  "continuity_upgrade": "workflow-upgrade previews exact verified4.2→4.3 state upgrade; explicit source/target hashes+authority, backup and append-only event on apply; no product mutation/effect replay. canonical fragment/envelope and evidence scope bindings remain due."
+}

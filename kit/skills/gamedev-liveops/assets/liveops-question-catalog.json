@@ -1,0 +1,185 @@
+{
+  "toolkit_version": "4.2.0",
+  "record_kind": "liveops_question_patterns",
+  "is_template": true,
+  "execution_evidence": false,
+  "derivation": "Choose actual active domains, current claims, incident scope and dependency impact; include additional product-specific questions. Missing source stays unknown, never fabricated.",
+  "questions": [
+    {
+      "id": "OPS-LEARN-01",
+      "domain": "learning",
+      "question": "Чи гравець засвоїв дію, а не лише закрив tutorial?",
+      "signals": "First meaningful action, assistance/error/dropoff; transfer-task success у новому encounter",
+      "cohort_denominator_requirements": "Початківці eligible для конкретного вміння; однаковий build/learning version; actual observed sample",
+      "evidence_needed": "actual first-use observation плюс relevant event funnel",
+      "misinterpretation_control": "Screen completion не замінює transfer; не пояснювати expected reaction під час first-use",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-RETURN-01",
+      "domain": "lifecycle",
+      "question": "Чому гравець повернувся/не повернувся і яку мету знайшов?",
+      "signals": "Actual return windows, next-goal visibility, lapsed recovery, selected voluntary objective",
+      "cohort_denominator_requirements": "Real return cohort; calendar/rolling retention method явно обрано; acquisition/build filters",
+      "evidence_needed": "query/export + consented qualitative follow-up за доступності",
+      "misinterpretation_control": "Одноразове «повернувся б» не є retention; немає datasource — diagnosis plan",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-CHOICE-01",
+      "domain": "systems",
+      "question": "Чи різні contexts змінюють рішення?",
+      "signals": "Context/build/route choice distribution; strongest-simple-policy outcomes; причинні counterexamples",
+      "cohort_denominator_requirements": "Доступні learned tools і progression tier; врахувати self-selection/mastery",
+      "evidence_needed": "runtime replay/model experiments + real behavior where available",
+      "misinterpretation_control": "Popularity не доводить dominance; низьке використання може означати непомітність/закритий доступ",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-CAMERA-01",
+      "domain": "camera",
+      "question": "Чи framing допомагає важливій дії?",
+      "signals": "Off-screen failures, occlusion/transition/input-cancel reports, observed anticipation visibility",
+      "cohort_denominator_requirements": "Named camera/device/aspect/config; noisy reports відділено від відтворюваних cases",
+      "evidence_needed": "runtime captures/physical device tests/observations",
+      "misinterpretation_control": "Crash-free не доводить good feel; не фіксувати універсальний character-screen-size",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-AI-01",
+      "domain": "actors",
+      "question": "Чи challenge читається й має різну контргру?",
+      "signals": "Deaths/counters by action/encounter family; reaction/telegraph evidence; unavoidable chains",
+      "cohort_denominator_requirements": "Matched content/progression/device tiers; врахувати gear/mastery",
+      "evidence_needed": "sanitized replay/actor-state traces + actual observation",
+      "misinterpretation_control": "Більший HP/кількість ворогів не вважається новизною; не робити ворогів обов’язковими без fit",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-WORLD-01",
+      "domain": "world",
+      "question": "Чи світ і маршрути дають осмислений вибір?",
+      "signals": "Risk-route selection/escape/reward outcomes; interactive-state use; unreachable seed incidents",
+      "cohort_denominator_requirements": "Eligible routes/tools/objectives; content seed/version у записі",
+      "evidence_needed": "grammar/reachability tests + runtime/live route summaries",
+      "misinterpretation_control": "Seed count не є числом нових experiences; optional return не робити прихованим forced grind",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-PROG-01",
+      "domain": "progression",
+      "question": "Де розвиток дає нові можливості або зупиняється?",
+      "signals": "Time-to-meaningful-choice/unlock distributions, old-task-after-unlock, progression softlocks",
+      "cohort_denominator_requirements": "Never-pay/skill/time cohorts із declared assumptions; real/simulated відділено",
+      "evidence_needed": "model acquisition simulations + runtime/live progression evidence",
+      "misinterpretation_control": "Середній time-to-unlock приховує tails; більше статів не доводить capability change",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-EQUIP-01",
+      "domain": "equipment",
+      "question": "Чи кожна retained property має роль і counter-context?",
+      "signals": "Build viability, property effect/counterexamples, stack/cap violations, collection synergies",
+      "cohort_denominator_requirements": "Available inventory/mastery; model/catalog/economy versions",
+      "evidence_needed": "model/property checks + scenario replay; live context when present",
+      "misinterpretation_control": "Не видаляти rare option лише за usage; перевірити unlock/навчання/compatibility",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-REWARD-01",
+      "domain": "rewards",
+      "question": "Чи нагороди надійні, зрозумілі й ведуть до наступної можливості?",
+      "signals": "Eligible→claim→grant→use funnel; duplicate/missing/cap-loss; reward comprehension",
+      "cohort_denominator_requirements": "Reward ID/version/type; eligible claims denominator; offline/retry dedupe",
+      "evidence_needed": "ledger/state traces + runtime/human evidence + live query when available",
+      "misinterpretation_control": "Reward animation completion не доводить durable grant або зрозумілу цінність",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-EXHAUST-01",
+      "domain": "lifecycle",
+      "question": "Що відбувається після освоєння finite launch content?",
+      "signals": "Remaining meaningful goals, encounter repetition, exhaustion/abandon, voluntary return",
+      "cohort_denominator_requirements": "Actual progression/content availability, cadence і production capacity",
+      "evidence_needed": "content graph/model + actual longitudinal/live evidence",
+      "misinterpretation_control": "Не обіцяти endless quality за seed combinations або weekly content без capacity",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-OFFER-01",
+      "domain": "commerce",
+      "question": "Чи offer створює зрозумілу повторну цінність?",
+      "signals": "Eligible exposure→trial/decline/store sheet→verified→use→expiry/restore; refunds/complaints",
+      "cohort_denominator_requirements": "Exact offer/catalog/local price/duration/caps; exposure denominator; sandbox excluded",
+      "evidence_needed": "store/server truth + UI events + human comprehension",
+      "misinterpretation_control": "Conversion без value reuse/fairness/churn не достатня; decline не означає failure",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-PORTFOLIO-01",
+      "domain": "commerce",
+      "question": "Чи сукупні покупки/boosters обходять правила й free path?",
+      "signals": "Cumulative access/power/attempt budgets; overlap/expiry; no-offer outcomes; strongest synergy",
+      "cohort_denominator_requirements": "Never-pay/no-offer/full-paid portfolios; skill/time/content normalized where possible",
+      "evidence_needed": "simulation/counterexample fixtures + runtime; relevant live cohorts",
+      "misinterpretation_control": "Однаковий DPS не доводить горизонтальний баланс; paid portfolio аналізувати разом",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-ADS-01",
+      "domain": "commerce",
+      "question": "Чи реклама працює добровільно й надійно?",
+      "signals": "Opt-in/decline/no-fill/timeout/earned/grant/cap; duplicate/missing rewards; complaints",
+      "cohort_denominator_requirements": "Eligible placement/cohort/device/consent/version; server truth where available",
+      "evidence_needed": "runtime/sdk/SSV sanitized records + live aggregates if actual",
+      "misinterpretation_control": "Не змішувати simulated impressions із revenue; no-fill не ламає normal free play",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-HEALTH-01",
+      "domain": "lifecycle",
+      "question": "Чи змінена гра лишилася технічно й художньо прийнятною?",
+      "signals": "Crash/ANR/save issues; frame-time tails/thermal/memory/input/audio/haptic; fidelity drift",
+      "cohort_denominator_requirements": "Named devices/build/config/scene/quality tier; comparable measurement conditions",
+      "evidence_needed": "actual profiler/capture/install traces + sensory review",
+      "misinterpretation_control": "Emulator не доводить physical feel/thermal; logs не замінюють слухання",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-EXPERIMENT-01",
+      "domain": "lifecycle",
+      "question": "Чи достатньо доказів для причинного висновку?",
+      "signals": "Primary metric effect/uncertainty, exposure quality, guardrails and practical significance",
+      "cohort_denominator_requirements": "Predeclared eligibility/sticky allocation/sample/duration/method; confounders",
+      "evidence_needed": "actual experiment/query records; or label observational only",
+      "misinterpretation_control": "Не завершувати на зручному p-value; маленька вибірка не є гарантованим покращенням",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    },
+    {
+      "id": "OPS-COST-01",
+      "domain": "lifecycle",
+      "question": "Чи підтримується продукт у фактичному budget?",
+      "signals": "Fixed/variable/after-free-tier costs, content/QA capacity, alerts delivery, outage recovery",
+      "cohort_denominator_requirements": "Current provider terms/time window/real usage; selected services only",
+      "evidence_needed": "provider export/terms + cost model assumptions + actual alert test",
+      "misinterpretation_control": "ChatGPT/Codex не покривають зовнішній backend/API; hypothetical costs не називати charged",
+      "actual_finding": null,
+      "status": "planned_pattern"
+    }
+  ]
+}

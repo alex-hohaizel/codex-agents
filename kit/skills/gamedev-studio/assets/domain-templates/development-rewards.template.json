@@ -1,0 +1,22 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author applicable progression/rewards specifications and pin spec_refs. Use one set of stable IDs for runtime, UI, shop, save and analytics; this template grants no acceptance.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "applicable_layers": {"mastery_knowledge": null, "within_session": null, "persistent_capabilities": null, "collection_loadouts": null, "world_access_consequences": null, "social_goals": null, "postgame": null},
+    "unlock_node_form": {"id": null, "player_goal": null, "prerequisite_node_refs": [], "conditions_and_costs": null, "authority": null, "grants": [], "new_decision": null, "tradeoff": null, "application_contexts": [], "reinterpreted_old_context": null, "next_visible_goal": null, "earned_paid_relation": null, "persistence_reset_cap": null, "feedback_refs": []},
+    "capability_development_form": {"entity_id": null, "property_or_ability": null, "meaningful_behavior_change": null, "limits_and_counterplay": null, "compatibility": [], "comparison_and_preview": null, "switch_respec_duplicate_policy": null},
+    "reward_form": {"id": null, "trigger_and_eligibility": null, "recognized_effort_risk_or_mastery": null, "player_expectation": null, "grant": null, "meaningful_use": null, "next_goal": null, "guaranteed_chance_choice": null, "pool_weights_version_ref": null, "player_information": null, "repetition_duplicates_cap": null, "expiry_claim_rules": null, "grant_once_authority": null, "presentation": null, "persistence_revoke": null},
+    "journey_form": {"id": null, "phase_or_return_context": null, "player_knowledge_and_capabilities": null, "new_decisions": [], "new_contexts": [], "reward_use": null, "visible_next_goal": null, "novelty_or_exhaustion_risk": null, "learning_prerequisite_refs": []},
+    "balance_model": {"script_config_version_refs": [], "policy_profiles": [], "playtime_assumptions": [], "seed_coverage_classes": [], "time_to_meaningful_unlock": null, "starvation_overflow_stranding": null, "snowball_mandatory_dead_choices": null, "catchup_and_recovery": null, "cumulative_paid_advantage": null, "content_exhaustion": null, "raw_results_refs": [], "limitations": []},
+    "verification": {"unlock_use_save_return_scenario_refs": [], "dead_path_counterexamples": [], "human_pacing_understanding_refs": [], "critical_grant_integrity_refs": [], "unresolved_items": []}
+  }
+}

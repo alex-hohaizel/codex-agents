@@ -1,0 +1,16 @@
+{
+  "fixture_only": true,
+  "source": "Direct user task, 2026-11-01; isolated intake regression case, no new game production authorization",
+  "studio": {"name": "TatterJack", "revision": "R10", "status": "accepted", "master_sha256": "43b916d58c85db01360703aeef54a388abc60abb7499794177ac54ad1b3f6118", "master_bytes_verified_by_this_fixture": false},
+  "platforms": ["Android", "iOS"],
+  "reach": "broad practical reach",
+  "fps_target": 60,
+  "extra_spend": 0,
+  "engine": "pending",
+  "minimum_device": "pending",
+  "online_model": "pending",
+  "monetization": "pending",
+  "favorites": ["R2-A1", "R2-B1", "R3-B2", "R3-C1", "R3-D3"],
+  "production_choice": null,
+  "constraints": {"visual_preview_limit": 12, "search_round": "R4", "full_concepts_require": ["explicit stop_search decision", "explicit production_choice decision"]}
+}

@@ -1,0 +1,231 @@
+{
+  "id": "R01",
+  "status": "template",
+  "name": "2d-states",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "assets_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "approved original hash/style tokens/camera scale",
+    "complete action/state/variant inventory incl cancel/hurt/death if applicable",
+    "canvas/pivot/fps/durations/contacts/hit-hurt geometry",
+    "rights and target device budgets"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "Krita",
+    "Godot",
+    "qualified raster image editor"
+  ],
+  "capability_ids": [
+    "bind_CAP_O06_R01",
+    "bind_CAP_O09_R01",
+    "bind_CAP_O09_R01",
+    "bind_CAP_O08_R01",
+    "bind_CAP_O32_R01"
+  ],
+  "steps": [
+    {
+      "id": "R01-S01",
+      "operation_id": "O06",
+      "capability_id": "bind_CAP_O06_R01",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Build named silhouette/palette/landmark/gear/guide layers from approved master. Resolve missing backviews and occluded parts as explicit authored tasks. Compare neutral and two extreme poses before any batch."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Identity and required parts accepted at gameplay camera size; original retained by hash."
+        ]
+      },
+      "output_ids": [
+        "R01-OUT01"
+      ],
+      "validator": "bind_R01_construction_independent_validator"
+    },
+    {
+      "id": "R01-S02",
+      "operation_id": "O09",
+      "capability_id": "bind_CAP_O09_R01",
+      "depends_on": [
+        "R01-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Choose frame-by-frame, cutout or authored 3D-render route for silhouette needs. Produce only representative run plus contact/cancel sample. Lock pivot and anticipation/active/recovery markers in seconds."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "No identity drift or foot slip beyond project tolerance; gameplay collision retains authority."
+        ]
+      },
+      "output_ids": [
+        "R01-OUT02"
+      ],
+      "validator": "bind_R01_route-sample_independent_validator"
+    },
+    {
+      "id": "R01-S03",
+      "operation_id": "O09",
+      "capability_id": "bind_CAP_O09_R01",
+      "depends_on": [
+        "R01-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Author remaining keys then in-betweens or rig curves for full applicable inventory. Set each frame duration/loop and transitions; mirror only semantically symmetric gear."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Every inventory state/transition exists; missing death/cancel cannot hide behind idle/run."
+        ]
+      },
+      "output_ids": [
+        "R01-OUT03"
+      ],
+      "validator": "bind_R01_clips_independent_validator"
+    },
+    {
+      "id": "R01-S04",
+      "operation_id": "O08",
+      "capability_id": "bind_CAP_O08_R01",
+      "depends_on": [
+        "R01-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Export lossless PNG sequence in explicit order; preserve trim offsets and pivot metadata. Pack with bound padding/extrusion/filtering/compression preset."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Alpha on light/dark backgrounds; no fringe, bleed, jitter, clipping or reordered frames."
+        ]
+      },
+      "output_ids": [
+        "R01-OUT04"
+      ],
+      "validator": "bind_R01_export_independent_validator"
+    },
+    {
+      "id": "R01-S05",
+      "operation_id": "O32",
+      "capability_id": "bind_CAP_O32_R01",
+      "depends_on": [
+        "R01-S04"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Use bound engine preset to create SpriteFrames/AnimationPlayer resources; bind state IDs, marker sidecar and collision refs in representative scene."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Normal/slow playback start/stop/cancel/contact/recovery; same camera; technical/semantic/perceptual verdicts separate."
+        ]
+      },
+      "output_ids": [
+        "R01-OUT05"
+      ],
+      "validator": "bind_R01_import_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R01-OUT01",
+      "type": "KRA or editable layered source",
+      "editable": true,
+      "consumer": "R01-S02",
+      "acceptance": [
+        "Identity and required parts accepted at gameplay camera size; original retained by hash."
+      ]
+    },
+    {
+      "id": "R01-OUT02",
+      "type": "editable animation sample and marker sidecar",
+      "editable": true,
+      "consumer": "R01-S03",
+      "acceptance": [
+        "No identity drift or foot slip beyond project tolerance; gameplay collision retains authority."
+      ]
+    },
+    {
+      "id": "R01-OUT03",
+      "type": "editable complete timeline or cutout scene",
+      "editable": true,
+      "consumer": "R01-S04",
+      "acceptance": [
+        "Every inventory state/transition exists; missing death/cancel cannot hide behind idle/run."
+      ]
+    },
+    {
+      "id": "R01-OUT04",
+      "type": "PNG atlas and frame-duration-pivot manifest",
+      "editable": true,
+      "consumer": "R01-S05",
+      "acceptance": [
+        "Alpha on light/dark backgrounds; no fringe, bleed, jitter, clipping or reordered frames."
+      ]
+    },
+    {
+      "id": "R01-OUT05",
+      "type": "engine resources and test scene",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Normal/slow playback start/stop/cancel/contact/recovery; same camera; technical/semantic/perceptual verdicts separate."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Frame inconsistency → repair affected layers or switch to controlled rig/keyframe route.",
+      "After two same failed hypotheses, stop batch and change diagnosis/method."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://docs.krita.org/en/reference_manual/render_animation.html",
+    "https://docs.godotengine.org/en/stable/tutorials/2d/2d_sprite_animation.html"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

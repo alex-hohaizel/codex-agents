@@ -1,0 +1,82 @@
+{
+  "id": "REC-project-family",
+  "status": "template",
+  "requirement_ids": [
+    "REQ-project"
+  ],
+  "owner": "actual_executor_id_at_binding",
+  "consumer": "actual_receiving_component_or_owner",
+  "inputs": [
+    {
+      "id": "ART-approved-source",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "type": "accepted_master",
+      "acceptance_ref": "bind_actual_acceptance"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "ART-runtime-export",
+      "type": "bind_exact_format",
+      "editable": false,
+      "consumer": "bind_runtime_adapter",
+      "acceptance": [
+        "bind_semantic",
+        "bind_technical",
+        "bind_perceptual_if_due"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "STEP-1",
+      "operation_id": "O07",
+      "capability_id": "CAP-project-operation",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Bind actual source and approved preset; perform concrete operation"
+        ],
+        "preset_refs": [
+          "bind_exact_preset_path"
+        ],
+        "expected_observations": [
+          "bind_exact_observable"
+        ]
+      },
+      "output_ids": [
+        "ART-runtime-export"
+      ],
+      "validator": "CHECK-project-boundary"
+    }
+  ],
+  "transformation_ids": [
+    "TR-project-export"
+  ],
+  "budget": {
+    "time_minutes": "bind_positive_cap",
+    "maximum_minor_units": 0,
+    "maximum_same_hypothesis_failures": 2
+  },
+  "allowed_effects": [
+    "local_reversible_edits_within_owned_paths"
+  ],
+  "acceptance": [
+    "consumer_can_reopen_export_import_without_chat",
+    "all_due_semantic_technical_perceptual_obligations_pass"
+  ],
+  "repair": {
+    "failure_classes": [
+      "input_contract",
+      "unsupported_operation",
+      "craft_generation",
+      "format_import",
+      "integration",
+      "environment_access",
+      "transient_provider",
+      "acceptance_defect"
+    ],
+    "after_two_same_failures": "change_hypothesis_method_or_report_precise_blocker"
+  }
+}

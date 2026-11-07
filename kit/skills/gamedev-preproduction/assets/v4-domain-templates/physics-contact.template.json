@@ -1,0 +1,74 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "physics_contact",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "motion_model": null,
+  "engine": {
+    "name": null,
+    "version": null,
+    "backend": null
+  },
+  "units": {
+    "length": null,
+    "mass": null,
+    "time": null,
+    "angle": null
+  },
+  "step": {
+    "fixed_dt": null,
+    "substeps": null,
+    "catchup_cap": null,
+    "ccd": null,
+    "sleep": null,
+    "pause_timescale": null
+  },
+  "transform_ownership": [],
+  "collision_query_matrix": [],
+  "material_rules": [],
+  "measurement": {
+    "method": null,
+    "relative_contact_velocity": null,
+    "normal": null,
+    "impulse_availability": null,
+    "unavailable_policy": null
+  },
+  "contact_to_damage": {
+    "input_measurement": null,
+    "unit": null,
+    "domain": null,
+    "aggregation_window": null,
+    "threshold": null,
+    "curve_ref": null,
+    "material_part_mapping": [],
+    "saturation": null,
+    "version": null
+  },
+  "solver_impulse_dedup_policy": null,
+  "platform_support_rules": [],
+  "destruction": {
+    "authoritative_changes": [],
+    "cosmetic_debris_policy": null,
+    "topology_revision_policy": null,
+    "cache_invalidation": [],
+    "recovery_routes": []
+  },
+  "fixtures": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "physics"
+    ],
+    "tracks": [
+      "TR04"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

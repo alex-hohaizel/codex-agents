@@ -1,0 +1,41 @@
+{
+  "schema_version": "chatbot.adapter/1",
+  "maturity": "draft",
+  "id": "",
+  "platform": "other",
+  "selected_channel": "",
+  "official_documentation": "",
+  "api_version": "",
+  "checked_at": "",
+  "environment": "",
+  "account_eligibility": "",
+  "audience": "",
+  "identity_rule": "",
+  "authorization_rule": "",
+  "revocation_rule": "",
+  "credential_selector": "",
+  "ingress": {
+    "mode": "",
+    "verification": "",
+    "dedupe_key_rule": "",
+    "ordering_scope": "",
+    "durable_boundary": "",
+    "ack_required": false,
+    "ack_deadline_ms": null,
+    "deadline_source": "",
+    "retry_reconcile": "",
+    "expiry_rule": ""
+  },
+  "egress": {
+    "operation": "",
+    "audience_resolution": "",
+    "idempotency_rule": "",
+    "uncertain_outcome": "",
+    "policy_check": "",
+    "rate_limit_policy": "",
+    "claim_levels": [],
+    "proof_rules": {}
+  },
+  "capabilities": [],
+  "evidence": []
+}

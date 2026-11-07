@@ -1,0 +1,12 @@
+interface:
+  display_name: APP · Випуск · 5.0.0
+  short_description: Предметна робота над одним корисним застосунком
+  default_prompt: Застосуй $app-atelier-release до поточного проєкту й виконай дозволений наступний крок.
+  icon_small: ./assets/family-icon-small.png
+  icon_large: ./assets/family-icon-large.png
+policy:
+  products:
+  - chatgpt
+  - codex
+  - atlas
+  allow_implicit_invocation: true

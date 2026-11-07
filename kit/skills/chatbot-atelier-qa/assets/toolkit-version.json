@@ -1,0 +1,13 @@
+{
+  "toolkit_version": "5.0.0",
+  "effective_date": "2026-11-03",
+  "output_formats": "single current format per protocol; unsupported identifiers rejected",
+  "current_contracts": [
+    "chatbot.blueprint/3",
+    "chatbot.round/1",
+    "chatbot.team/1",
+    "chatbot.team-profile/1",
+    "chatbot.review/1",
+    "chatbot.adapter/1"
+  ]
+}

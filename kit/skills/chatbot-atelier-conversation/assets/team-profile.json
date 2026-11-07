@@ -1,0 +1,79 @@
+{
+  "schema_version": "chatbot.team-profile/1",
+  "version": "1.0.0",
+  "stage": "chat",
+  "domains": [
+    {
+      "id": "conversation",
+      "requirement_ids": [
+        "human_value",
+        "natural_voice",
+        "context_relevance",
+        "proportional_depth",
+        "simple_first",
+        "recovery_empathy"
+      ],
+      "activation": "Actual artifacts, scope and risk; working lead may produce, independent QA may not."
+    },
+    {
+      "id": "actions",
+      "requirement_ids": [
+        "practical_completion",
+        "multiuser_fairness",
+        "scheduling_fidelity",
+        "capability_truth",
+        "execution_truth",
+        "interaction_continuity"
+      ],
+      "activation": "Actual artifacts, scope and risk; working lead may produce, independent QA may not."
+    },
+    {
+      "id": "media",
+      "requirement_ids": [
+        "character_semantics",
+        "temporal_quality",
+        "audiovisual_fidelity",
+        "media_delivery"
+      ],
+      "activation": "Actual artifacts, scope and risk; working lead may produce, independent QA may not."
+    },
+    {
+      "id": "memory",
+      "requirement_ids": [
+        "audience_privacy",
+        "consent_authority",
+        "source_grounding",
+        "forgetting_integrity"
+      ],
+      "activation": "Actual artifacts, scope and risk; working lead may produce, independent QA may not."
+    },
+    {
+      "id": "runtime",
+      "requirement_ids": [
+        "bounded_resources",
+        "lifecycle_reliability",
+        "provider_constraints",
+        "version_continuity"
+      ],
+      "activation": "Actual artifacts, scope and risk; working lead may produce, independent QA may not."
+    }
+  ],
+  "critical_requirement_ids": [
+    "audience_privacy",
+    "consent_authority",
+    "forgetting_integrity"
+  ],
+  "council": {
+    "activation": [
+      "stage",
+      "critical",
+      "material_baseline_change"
+    ],
+    "typical_reviewers": [
+      3,
+      5
+    ],
+    "hard_cap": null
+  },
+  "quality": "All original IDs, intent, evidence types and independent acceptance remain binding."
+}

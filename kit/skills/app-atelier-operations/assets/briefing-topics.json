@@ -1,0 +1,1561 @@
+{
+  "schema_version": "briefing.topics/1",
+  "family": "app",
+  "common_topics": [
+    {
+      "id": "COMMON-INTENT",
+      "label": "Поточний намір і рівень результату",
+      "why": "Розрізняє бриф, відновлення, локальну зміну, виготовлення інструмента й виконання продукту.",
+      "questions": [
+        "Що потрібно зараз: новий задум, продовження, уточнення, ремонт, оцінка чи зміна самого агента?",
+        "Який результат поточного етапу має бути готовий і де зупинитися?"
+      ],
+      "decisions": [
+        "Режим роботи",
+        "Поточний етап і межа зупинки"
+      ],
+      "applies_when": "Завжди; відновити відповідь із фактичного запиту та чинного стану.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-SOURCES",
+      "label": "Чинні джерела, рішення й успадкований контекст",
+      "why": "Захищає прийнятий задум і запобігає повторному опитуванню.",
+      "questions": [
+        "Який із наданих матеріалів є актуальним, якщо вони суперечать один одному?",
+        "Що вже прийнято і має зберегтися під час цього продовження?"
+      ],
+      "decisions": [
+        "Джерело істини і provenance",
+        "Чинні рішення, поправки та вплив змін"
+      ],
+      "applies_when": "Завжди; спочатку прочитати доступні оригінали, стан, хеші й попередні відповіді.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-AUDIENCE",
+      "label": "Отримувач, реальна ситуація й користь",
+      "why": "Прив’язує результат до людини, задачі та спостережуваної зміни.",
+      "questions": [
+        "Для кого і в якій реальній ситуації потрібен результат?",
+        "Як це робиться зараз і що саме має покращитися?",
+        "Хто користується, хто платить, хто керує й хто приймає результат?"
+      ],
+      "decisions": [
+        "Цільові учасники й контекст",
+        "Спостережувана користь і baseline"
+      ],
+      "applies_when": "Завжди; різні ролі уточнювати лише коли вони існують у задумі.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-AMBITION",
+      "label": "Повний задум, запуск і перевірочний експеримент",
+      "why": "Зберігає амбіцію та відокремлює послідовність виробництва від скорочення мети.",
+      "questions": [
+        "Яким має бути повний прийнятий результат, коли він реалізований?",
+        "Що має входити до першого запуску, а що лише до окремого експерименту?",
+        "Які спрощення, заміни або втрати властивостей неприйнятні?"
+      ],
+      "decisions": [
+        "Повна ціль",
+        "Окремі launch/probe scope",
+        "Відхилені спрощення"
+      ],
+      "applies_when": "Завжди; не перетворювати обмежений тест на мовчазну заміну повної цілі.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-PRIORITY",
+      "label": "Акценти, приклади й негативні приклади",
+      "why": "Перетворює слова про якість на предметні вимоги та ранні залежності.",
+      "questions": [
+        "Що в цьому задумі найважливіше і чому?",
+        "Який конкретний приклад близький до бажаного результату та що саме в ньому підходить?",
+        "Який результат формально виконає завдання, але вас не влаштує?"
+      ],
+      "decisions": [
+        "Must і акценти",
+        "Критерії якості",
+        "Негативні приклади"
+      ],
+      "applies_when": "Завжди; відомі приклади й акценти перенести дослівно з посиланням на джерело.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-CONSTRAINTS",
+      "label": "Межі, етапні результати й залежності",
+      "why": "Дає основу для плану без довільних часових або функціональних лімітів.",
+      "questions": [
+        "Які строки, залежні події та обов’язкові проміжні результати вже існують?",
+        "Які жорсткі умови, сумісність або зовнішні залежності не можна змінювати?",
+        "Які рішення ви делегуєте експертам, а які хочете обрати особисто?"
+      ],
+      "decisions": [
+        "Milestones і due gates",
+        "Жорсткі constraints",
+        "Межі делегування"
+      ],
+      "applies_when": "Завжди; не встановлювати ліміти годин, платформ чи функцій за користувача.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-RESOURCES",
+      "label": "Бюджет, час, наявні ресурси й компроміси",
+      "why": "Погоджує здійсненний маршрут і реальну ціну якості.",
+      "questions": [
+        "Які гроші, час, пристрої, підписки, матеріали й допомога вже доступні?",
+        "Які одноразові й регулярні витрати прийнятні та які потребують окремого рішення?",
+        "Як обираємо між обґрунтованими альтернативами, якщо бажана якість не вкладається у чинні ресурси?"
+      ],
+      "decisions": [
+        "Ресурсні межі й spend scope",
+        "Одноразові та регулярні витрати",
+        "Погоджені компроміси або новий ресурс"
+      ],
+      "applies_when": "Завжди; невідомі ціни перевіряти на момент прив’язки операції.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-RIGHTS",
+      "label": "Матеріали, права й незмінні оригінали",
+      "why": "Дозволяє законно використовувати, змінювати та передавати конкретні матеріали.",
+      "questions": [
+        "Які наявні тексти, дизайн, код, бренди, голоси чи інші матеріали потрібно використати?",
+        "Що дозволено змінювати, генерувати, публікувати й передавати, кому належать права?",
+        "Які оригінали або атрибуцію необхідно зберегти?"
+      ],
+      "decisions": [
+        "Права, ліцензії й attribution",
+        "Accepted originals і editable sources",
+        "Обмеження похідних матеріалів"
+      ],
+      "applies_when": "Коли є вхідні чи створювані матеріали; відсутній доказ права лишається окремою прогалиною.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-DATA",
+      "label": "Дані, доступи, приватність і життєвий цикл",
+      "why": "Рано виявляє зміни архітектури через чутливість або збереження даних.",
+      "questions": [
+        "Які дані потрібні, хто їх контролює і кому можна їх показувати?",
+        "Що потрібно пам’ятати, синхронізувати, експортувати або видаляти?",
+        "Які наслідки втрати, помилки чи відкликання доступу неприйнятні?"
+      ],
+      "decisions": [
+        "Дані й межі довіри",
+        "Retention/export/delete/recovery",
+        "Потрібні права доступу"
+      ],
+      "applies_when": "Коли результат читає, створює чи зберігає дані; мінімальний контекст також оцінити на приватність.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-EFFECTS",
+      "label": "Зовнішні дії, ризик і участь власника",
+      "why": "Відокремлює підготовку від точного дозволеного зовнішнього наслідку.",
+      "questions": [
+        "Які зовнішні дії входять до цього доручення: зміни акаунтів, повідомлення, публікація, платежі або запуск сервісу?",
+        "Які конкретні дії потребують вашої особистої участі чи окремого рішення?",
+        "Як зупинитися, відкотитися й перевірити результат після переривання?"
+      ],
+      "decisions": [
+        "Точний scope повноважень",
+        "Людські кроки",
+        "Stop, rollback і reconcile"
+      ],
+      "applies_when": "Коли можливі зовнішні дії; чинну точну згоду зберегти без повторного запиту.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "user",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-HOST",
+      "label": "Середовище, доступні можливості й передача",
+      "why": "Робить виконання та повернення результату фактично можливими.",
+      "questions": [
+        "Де результат має працювати, де ви ним керуєте й куди має повернутися пакет?",
+        "Які host, інструменти, акаунти та цільові пристрої вже перевірені?",
+        "Як передати роботу до іншого середовища і що має перевірити одержувач?"
+      ],
+      "decisions": [
+        "Фактичний capability map",
+        "Host/target/bridge",
+        "Launch і return acceptance"
+      ],
+      "applies_when": "Коли потрібні інструменти, установка, виконання або передача; назва сервісу не доводить операційну доступність.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-ACCEPTANCE",
+      "label": "Приймання, докази й незалежна перевірка",
+      "why": "Пояснює, що саме доводить завершення поточного етапу.",
+      "questions": [
+        "Яку поведінку або артефакт ви перевірите, щоб прийняти результат?",
+        "Які помилки, граничні умови й ситуації відновлення потрібно показати?",
+        "Де потрібні незалежний експерт, реальний користувач, пристрій чи спостереження після запуску?"
+      ],
+      "decisions": [
+        "Observable acceptance по must",
+        "Потрібна модальність доказів",
+        "Reviewer і неперевірені межі"
+      ],
+      "applies_when": "Завжди; схема чи чекліст не замінюють предметну якість і фактичне використання.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "COMMON-UNKNOWNS",
+      "label": "Невідомі, дослідження й майбутні рішення",
+      "why": "Закриває суттєві прогалини без примусу користувача вигадувати відповіді.",
+      "questions": [
+        "Щодо яких рішень ви ще не знаєте відповіді і хочете дослідження та рекомендацію?",
+        "Які з досліджених варіантів найкраще відповідають вашим критеріям і чи приймаєте рекомендований варіант?",
+        "Які майбутні параметри можна уточнювати пізніше у визначених межах і до якого milestone?"
+      ],
+      "decisions": [
+        "Research tasks і рекомендовані альтернативи",
+        "Закриття material unknowns",
+        "Owner, baseline/range, due gate і reopen для deferred"
+      ],
+      "applies_when": "Завжди; перед погодженням сценарію виконання закрити всі застосовні матеріальні невідомі.",
+      "downstream": [
+        "director",
+        "research",
+        "concepts",
+        "specification",
+        "experience",
+        "build",
+        "support",
+        "qa",
+        "release",
+        "growth",
+        "operations"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    }
+  ],
+  "stages": {
+    "director": {
+      "skill": "app-atelier-director",
+      "topics": [
+        {
+          "id": "APP-DIR-MODE",
+          "label": "Стан продукту й маршрут розвитку",
+          "why": "Поточний стан визначає потрібні гілки замість повторного повного циклу.",
+          "questions": [
+            "Що вже існує: задум, прийнята концепція, прототип, код, користувачі чи випущений сервіс?",
+            "Який шлях поточного результату до першої та повторної користі потрібно довести зараз?"
+          ],
+          "decisions": [
+            "Baseline продукту",
+            "Залежності research/design/build/release/growth"
+          ],
+          "applies_when": "Завжди для інтеграції застосунку.",
+          "downstream": [
+            "research",
+            "concepts",
+            "specification",
+            "experience",
+            "build",
+            "qa",
+            "release",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-DIR-OWNERS",
+          "label": "Компоненти й операційна участь",
+          "why": "App, бот підтримки та агент можуть мати спільний намір і різні контракти.",
+          "questions": [
+            "Які частини продукту вже існують і які окремі компоненти справді потрібні?",
+            "Що власник готовий робити регулярно, а що має виконуватися автоматично чи делеговано?"
+          ],
+          "decisions": [
+            "Межі компонентів і source of truth",
+            "Реальний manual/automation route"
+          ],
+          "applies_when": "За інтегрованого продукту або вимоги мінімальної щоденної участі.",
+          "downstream": [
+            "specification",
+            "support",
+            "build",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-DIR-REACH",
+          "label": "Майбутня доступність і життєздатність",
+          "why": "Ранній маршрут випуску й залучення може змінити архітектуру.",
+          "questions": [
+            "Як цільовий користувач знайде, спробує, отримає й повторно використає застосунок?",
+            "Які stores, web, інтеграції, платежі чи власницькі акаунти створюють ранні передумови?"
+          ],
+          "decisions": [
+            "Distribution/growth route",
+            "Early release feasibility",
+            "DAG критичних передумов"
+          ],
+          "applies_when": "До повного виробничого плану; канали перевіряти за реальним продуктом.",
+          "downstream": [
+            "concepts",
+            "specification",
+            "release",
+            "growth"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "research": {
+      "skill": "app-atelier-research",
+      "topics": [
+        {
+          "id": "APP-RES-JOB",
+          "label": "Потреба й реальна аудиторія сьогодні",
+          "why": "Шукає підтверджений контекст попиту та відмінність від загальної ідеї.",
+          "questions": [
+            "Який конкретний user job, тригер і бажаний результат досліджуємо?",
+            "Яких реальних людей, спільнот, звернень чи даних можна досягти зараз?"
+          ],
+          "decisions": [
+            "Сегменти і доступні джерела",
+            "Research questions і критерії відбору"
+          ],
+          "applies_when": "Коли потрібен пошук напряму або перевірка суттєвої гіпотези.",
+          "downstream": [
+            "concepts",
+            "specification",
+            "growth"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-RES-ALTS",
+          "label": "Актуальні альтернативи й незадоволення",
+          "why": "Дає порівняння за однією задачею, а не список випадкових конкурентів.",
+          "questions": [
+            "Чим аудиторія користується зараз, включно з ручним способом або відмовою від задачі?",
+            "Які свіжі докази показують важливі недоліки та причини перемикання?"
+          ],
+          "decisions": [
+            "Порівняльний набір",
+            "Primary-source evidence",
+            "Незакриті прогалини"
+          ],
+          "applies_when": "До вибору ринкового напряму; ціни й можливості перевірити на поточну дату.",
+          "downstream": [
+            "concepts",
+            "growth"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-RES-PAY",
+          "label": "Бажання платити й повторна цінність",
+          "why": "Відокремлює інтерес, реальну дію та платіжну мотивацію.",
+          "questions": [
+            "Хто має бажання й можливість платити та за який конкретний результат?",
+            "Які власні дані, тест або поведінка відрізнять цікавість від готовності користуватися й платити?"
+          ],
+          "decisions": [
+            "Buyer/user distinction",
+            "Paid-desire hypotheses",
+            "Метод перевірки та межі висновку"
+          ],
+          "applies_when": "Коли комерційна ціль застосовна; безкоштовний особистий інструмент має явну іншу модель цінності.",
+          "downstream": [
+            "concepts",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-RES-CHOICE",
+          "label": "Напрями, докази й наступне рішення",
+          "why": "Не дозволяє рейтингу приховати невиконаний must.",
+          "questions": [
+            "Які критерії та жорсткі фільтри визначають придатний напрям?",
+            "Який із реальних досліджених напрямів рекомендуємо, які є контраргументи й що ще треба перевірити?"
+          ],
+          "decisions": [
+            "Must-фільтр",
+            "Shortlist і evidence limits",
+            "Вибраний напрям або bounded probe"
+          ],
+          "applies_when": "На завершенні дослідження напряму.",
+          "downstream": [
+            "concepts"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "concepts": {
+      "skill": "app-atelier-concepts",
+      "topics": [
+        {
+          "id": "APP-CON-LOOP",
+          "label": "Цілісний корисний сценарій",
+          "why": "Концепція має пояснювати повторний причинний продукт.",
+          "questions": [
+            "Як користувач проходить від тригера до першої користі й повторного повернення?",
+            "Які сутності, правила, можливості та винятки потрібні для всього погодженого задуму?"
+          ],
+          "decisions": [
+            "Повний user loop",
+            "Системні межі й причинні залежності"
+          ],
+          "applies_when": "Для кожної концепції, що претендує на вибір.",
+          "downstream": [
+            "specification",
+            "experience",
+            "build"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-CON-DIFF",
+          "label": "Відмінність і бажаність",
+          "why": "Обґрунтовує чому реальна аудиторія обере цей продукт.",
+          "questions": [
+            "Чому людина обере цей підхід серед перевірених альтернатив?",
+            "Які частини задуму несуть основну користь і які неприйнятні спрощення її знищать?"
+          ],
+          "decisions": [
+            "Value proposition",
+            "Диференціація й negative cases"
+          ],
+          "applies_when": "За вибору концепції; спиратися на поточні дослідження, а не вигадану популярність.",
+          "downstream": [
+            "experience",
+            "growth",
+            "qa"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-CON-MONEY",
+          "label": "Оплата й повна економіка",
+          "why": "Платіжний та операційний шлях формують продукт до реалізації.",
+          "questions": [
+            "За що, коли і як людина платитиме, якщо оплата входить до задуму?",
+            "Як доступ, проба, обмеження, скасування й повернення коштів пов’язані з реальною користю?",
+            "Які acquisition, hosting, AI, support і payment витрати потрібні для цього шляху?"
+          ],
+          "decisions": [
+            "Комерційна модель",
+            "Entitlements/refunds",
+            "Повна unit economics із сценаріями невизначеності"
+          ],
+          "applies_when": "Коли є дохід, платні залежності або регулярна експлуатація; не нав’язувати підписку чи рекламу.",
+          "downstream": [
+            "specification",
+            "build",
+            "support",
+            "release",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-CON-OPS",
+          "label": "Залучення й автоматизованість концепції",
+          "why": "Приховані ручні кроки можуть зробити продукт неприйнятним.",
+          "questions": [
+            "Як продукт отримає перших користувачів із фактичної поточної аудиторії?",
+            "Хто виконує контент, модерацію, підтримку, продажі й інциденти та що робити без його участі?"
+          ],
+          "decisions": [
+            "Acquisition loop",
+            "Manual dependency map",
+            "Операційний контракт"
+          ],
+          "applies_when": "До вибору концепції, якщо повторне використання або запуск входять у ціль.",
+          "downstream": [
+            "support",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-CON-SELECT",
+          "label": "Порівняння концепцій і ранній ризик",
+          "why": "Вибір потребує чесної feasibility і меж доказів.",
+          "questions": [
+            "Які реальні концепції проходять must-фільтр і чим відрізняються за користю, якістю, ризиком та ціною?",
+            "Яку невизначеність варто перевірити representative slice до тиражування?"
+          ],
+          "decisions": [
+            "Обрана концепція",
+            "Архітектурний baseline",
+            "Ціль bounded probe без скорочення повного задуму"
+          ],
+          "applies_when": "Перед переходом до специфікації.",
+          "downstream": [
+            "specification",
+            "experience",
+            "build",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "specification": {
+      "skill": "app-atelier-specification",
+      "topics": [
+        {
+          "id": "APP-SPEC-DOMAIN",
+          "label": "Предметні правила, дані й стани",
+          "why": "Downstream має отримати визначену поведінку.",
+          "questions": [
+            "Які сутності, ролі, поля, команди та переходи реалізують усі прийняті сценарії?",
+            "Які правила, одиниці, порядок обчислень, інваріанти й джерело істини не можна порушувати?"
+          ],
+          "decisions": [
+            "Typed domain/state model",
+            "Формули, ownership і consistency",
+            "Fixtures/oracles"
+          ],
+          "applies_when": "Для застосовних систем продукту; не додавати DB чи сервер без потреби.",
+          "downstream": [
+            "build",
+            "qa",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-CLIENTS",
+          "label": "Клієнти, пристрої, offline й синхронізація",
+          "why": "Платформи та зв’язок визначають архітектуру й досвід.",
+          "questions": [
+            "Де й на яких пристроях аудиторія має користуватися повним та першим результатом?",
+            "Яка поведінка потрібна без мережі, при зміні пристрою, конфлікті або перерваній синхронізації?"
+          ],
+          "decisions": [
+            "Platform/device matrix",
+            "Offline/sync/recovery semantics",
+            "Сумісність та migration"
+          ],
+          "applies_when": "Коли є клієнтські застосунки; дослідити здійсненні маршрути без самовільного скорочення платформ.",
+          "downstream": [
+            "experience",
+            "build",
+            "qa",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-AUTH",
+          "label": "Ідентичність, права й безпека",
+          "why": "Доступ до даних та ефектів має бути причинно визначений.",
+          "questions": [
+            "Чи потрібні акаунти, гості, організації, сімейний або спільний доступ?",
+            "Які ролі можуть читати й змінювати дані та як працюють consent, recovery, export і delete?"
+          ],
+          "decisions": [
+            "Auth/authorization model",
+            "Trust boundaries",
+            "Privacy/threat/recovery contract"
+          ],
+          "applies_when": "Коли є ідентичність, приватні дані або зовнішні ефекти.",
+          "downstream": [
+            "build",
+            "support",
+            "qa",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-API",
+          "label": "Інтеграції, AI та відмови",
+          "why": "Перевіряє реальні операції до технічного зобов’язання.",
+          "questions": [
+            "Які зовнішні системи або AI-операції необхідні й які актуальні IO/capabilities/ціни підтверджені?",
+            "Що відбувається при timeout, rate limit, дублі, частковому результаті або невідомому зовнішньому ефекті?"
+          ],
+          "decisions": [
+            "API/schema contracts",
+            "Operation recipes",
+            "Idempotency/reconcile/fallback"
+          ],
+          "applies_when": "Коли продукт залежить від зовнішнього сервісу, AI або автоматизації.",
+          "downstream": [
+            "build",
+            "support",
+            "qa",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-QUALITY",
+          "label": "Якість, нефункціональні вимоги й план доказів",
+          "why": "Вимірна якість задає implementation та QA.",
+          "questions": [
+            "Які доступність, швидкодія, ресурсні витрати, масштаби й надійність потрібні в цільових умовах?",
+            "Які архітектурні рішення потрібні зараз, а які числові налаштування можна дослідити у погодженому range до конкретного gate?"
+          ],
+          "decisions": [
+            "Quality baselines",
+            "Architecture C1",
+            "Tuning range/owner/experiment/due gate"
+          ],
+          "applies_when": "Для всіх застосовних користувацьких і системних шляхів.",
+          "downstream": [
+            "experience",
+            "build",
+            "qa",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-CATALOG",
+          "label": "Каталоги, пошук і сумісність можливостей",
+          "why": "Каталог або комбінації не мають лишатися довільними прикладами.",
+          "questions": [
+            "Які повні каталоги, типи, категорії, фільтри, пошук, правила сумісності й заборонені комбінації потрібні?",
+            "Як створюються, перевіряються, оновлюються й відображаються елементи та що відбувається з порожнім або недоступним результатом?"
+          ],
+          "decisions": [
+            "Catalog grammar and completeness rules",
+            "Compatibility/discovery contracts",
+            "Versioning and boundary fixtures"
+          ],
+          "applies_when": "Коли продукт має каталог, варіативний контент, конфігурації або поєднувані можливості.",
+          "downstream": [
+            "experience",
+            "build",
+            "qa"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-STATE",
+          "label": "Локальне збереження, commit і відновлення",
+          "why": "Досвід має зберігати визначену роботу за interruption та upgrade.",
+          "questions": [
+            "Який стан є тимчасовим або durable, хто ним володіє, коли він зберігається й що означає підтвердження успіху?",
+            "Як поводяться drafts, undo/reset, crash/cold return, backup/restore, міграція, імпорт і видалення?"
+          ],
+          "decisions": [
+            "State ownership and commit boundary",
+            "Persistence/recovery/migration contract",
+            "Loss/restore acceptance"
+          ],
+          "applies_when": "Коли продукт має mutable state, документи, локальні дані або довготривалу роботу.",
+          "downstream": [
+            "experience",
+            "build",
+            "qa",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-CONTENT",
+          "label": "Контент, генерація й користувацькі матеріали",
+          "why": "Створюваний контент змінює якість, права та операційний контур.",
+          "questions": [
+            "Хто створює й редагує контент: власник, користувач, генератор чи зовнішнє джерело, та які output formats і editable sources потрібні?",
+            "Як перевіряються достовірність, авторство, права, неприйнятний output, частковий результат, версії, undo й повторна генерація?"
+          ],
+          "decisions": [
+            "Content ownership and lifecycle",
+            "Generation/review/fallback contract",
+            "Master/runtime lineage and moderation applicability"
+          ],
+          "applies_when": "Коли контент або AI-generation є частиною основної користі, а не лише маркетингових матеріалів.",
+          "downstream": [
+            "experience",
+            "build",
+            "support",
+            "qa",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SPEC-PLATFORM",
+          "label": "Платформні функції, фонові дії й згода",
+          "why": "Від permissions та lifecycle залежать UX, витрати й реальна здійсненність.",
+          "questions": [
+            "Які camera/microphone/location/files/sharing/deep links/notifications, датчики або системні інтеграції справді потрібні сценаріям?",
+            "Як працюють permission denial/revocation, background limits, scheduled/proactive дії, opt-out і fallback на цільових платформах?"
+          ],
+          "decisions": [
+            "Applicable native/web capability matrix",
+            "Consent and background action contract",
+            "Permission/lifecycle/fallback acceptance"
+          ],
+          "applies_when": "Коли сценарії використовують системні функції або proactive роботу; актуальні можливості перевірити до вибору архітектури.",
+          "downstream": [
+            "experience",
+            "build",
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "experience": {
+      "skill": "app-atelier-experience",
+      "topics": [
+        {
+          "id": "APP-EXP-JOURNEY",
+          "label": "Інформаційна архітектура й повний UX",
+          "why": "Дизайн має покрити прийняту поведінку, а не лише головний екран.",
+          "questions": [
+            "Які екрани, переходи й стани потрібні від onboarding до повторної користі та завершення?",
+            "Як людина бачить loading, empty, error, cancel, permission, offline і recovery?"
+          ],
+          "decisions": [
+            "Journey/state matrix",
+            "Navigation/content hierarchy",
+            "Interaction acceptance"
+          ],
+          "applies_when": "Для всіх погоджених сценаріїв та declared clients.",
+          "downstream": [
+            "build",
+            "qa",
+            "support"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-EXP-BRAND",
+          "label": "Окремий характер і візуальні оригінали",
+          "why": "Зберігає бажане враження й правомірний дизайн.",
+          "questions": [
+            "Які характер, тон і довіра потрібні саме цій аудиторії?",
+            "Які прийняті назва, оригінали, references і негативні приклади визначають дизайн?"
+          ],
+          "decisions": [
+            "Brand direction",
+            "Design tokens/masters",
+            "Accepted reference and rights"
+          ],
+          "applies_when": "Коли є користувацький інтерфейс або публічний бренд.",
+          "downstream": [
+            "build",
+            "growth",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-EXP-ACCESS",
+          "label": "Доступність, мови й адаптація",
+          "why": "Користь має бути доступною в реальному контексті.",
+          "questions": [
+            "Які мови, напрям письма, розміри екрана, способи введення й accessibility потреби важливі?",
+            "Які альтернативні сигнали потрібні без кольору, звуку, точного жесту або стабільного зв’язку?"
+          ],
+          "decisions": [
+            "Locale/accessibility/input matrix",
+            "Responsive/adaptive behavior",
+            "Actual checks"
+          ],
+          "applies_when": "Коли ці варіанти стосуються аудиторії; не обмежувати всі інтерфейси одним вводом.",
+          "downstream": [
+            "build",
+            "qa",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-EXP-CONTENT",
+          "label": "Прототип, тексти й матеріали",
+          "why": "Перевіряє цілісний сценарій перед тиражуванням.",
+          "questions": [
+            "Який representative сценарій прототип покаже разом із реальними даними, текстами й умовною оплатою?",
+            "Які UI, іконки, ілюстрації, motion і звуки потрібні та який редагований master має отримати build?"
+          ],
+          "decisions": [
+            "Prototype scope і acceptance",
+            "Content/asset catalog",
+            "Export/integration handoff"
+          ],
+          "applies_when": "До масштабного виготовлення дизайну й матеріалів.",
+          "downstream": [
+            "build",
+            "qa",
+            "growth"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "build": {
+      "skill": "app-atelier-build",
+      "topics": [
+        {
+          "id": "APP-BLD-BASE",
+          "label": "Чинний код, контракти й збірка",
+          "why": "Робота починається з фактичної бази й прийнятого plan.",
+          "questions": [
+            "Які repo, ревізія, клієнти, backend, схеми й CI зараз є чинними?",
+            "Який exact approved сценарій і які залежності треба зібрати першим?"
+          ],
+          "decisions": [
+            "Implementation baseline",
+            "Owned paths/task DAG",
+            "Representative slice"
+          ],
+          "applies_when": "Для нового build або scoped repair; не повторювати прийнятий discovery.",
+          "downstream": [
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-BLD-CORE",
+          "label": "Повна інтеграція поведінки",
+          "why": "Ізольовані UI та API не доводять корисного продукту.",
+          "questions": [
+            "Як UI, правила, дані, auth, sync та conditional billing/support утворюють повний шлях?",
+            "Які fixtures, migrations, cancellation/retry/recovery й telemetry потрібні для перевірки цього шляху?"
+          ],
+          "decisions": [
+            "Exact assembly contracts",
+            "Persistence/migration behavior",
+            "Integrated scenarios"
+          ],
+          "applies_when": "Для всіх застосовних систем approved scope.",
+          "downstream": [
+            "support",
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-BLD-TOOL",
+          "label": "Можливості й виробничі маршрути",
+          "why": "Кожний output має виконувану операцію та consumer.",
+          "questions": [
+            "Які actual SDK, tool versions, generation/export/integration операції підтверджені?",
+            "Який fallback або точний bridge закриє unavailable capability без зміни наміру?"
+          ],
+          "decisions": [
+            "Capability/recipe bindings",
+            "Master→runtime lineage",
+            "Bridge and return validation"
+          ],
+          "applies_when": "До залежної операції або тиражування матеріалів.",
+          "downstream": [
+            "qa",
+            "release"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-BLD-RISK",
+          "label": "Безпека, навантаження й помилки",
+          "why": "Втілює прийняті гарантії за межами happy path.",
+          "questions": [
+            "Як довести permission boundaries, data protection, critical performance й cost controls на цільових умовах?",
+            "Як release flags, rollback, backup/restore та unknown-effect reconcile обмежують наслідки відмови?"
+          ],
+          "decisions": [
+            "Implemented safeguards",
+            "Failure/load cases",
+            "Operational readiness evidence"
+          ],
+          "applies_when": "Коли відповідні ризики існують у продукті.",
+          "downstream": [
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "support": {
+      "skill": "app-atelier-support",
+      "topics": [
+        {
+          "id": "APP-SUP-SCOPE",
+          "label": "Роль підтримки й канали",
+          "why": "Окремий бот підтримки має межі всередині продукту.",
+          "questions": [
+            "Які звернення, канали, мови й години або режими підтримки потрібні аудиторії?",
+            "Які запити вирішуються автоматично, а які мають переходити до визначеного human owner?"
+          ],
+          "decisions": [
+            "Support scope/channels",
+            "Escalation and fallback",
+            "Component owner"
+          ],
+          "applies_when": "Коли підтримка потрібна; її обсяг не дорівнює новому продуктовому циклу.",
+          "downstream": [
+            "build",
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SUP-KB",
+          "label": "Знання, свіжість і доступ",
+          "why": "Відповідь має спиратися на актуальне джерело й права користувача.",
+          "questions": [
+            "Які джерела відповідей є authoritative і як вони оновлюються?",
+            "Як підтримка перевіряє користувача, доступ до приватних даних і показує межі впевненості?"
+          ],
+          "decisions": [
+            "KB ownership/freshness",
+            "Auth and retrieval scope",
+            "Unknown-answer behavior"
+          ],
+          "applies_when": "Для knowledge-backed або account-specific підтримки.",
+          "downstream": [
+            "build",
+            "qa",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SUP-ACTIONS",
+          "label": "Безпечні дії й згода",
+          "why": "Допомога може змінювати платний доступ чи дані.",
+          "questions": [
+            "Які точні дії підтримка може робити: diagnostics, account changes, refund, deletion чи ticket?",
+            "Які consent, audit, permissions, idempotency та ручна ескалація потрібні кожній дії?"
+          ],
+          "decisions": [
+            "Action contracts and authority",
+            "Audit/reconcile",
+            "Escalation acceptance"
+          ],
+          "applies_when": "Коли підтримка має tools або впливає на дані/оплату.",
+          "downstream": [
+            "build",
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-SUP-EVAL",
+          "label": "Якість підтримки й оновлення",
+          "why": "Реальна придатність потребує незалежних сценаріїв.",
+          "questions": [
+            "Які типові, складні й негативні звернення мають бути вирішені або правильно передані?",
+            "Як побачити помилку, оновити KB/бота й перевірити регресії без витоку приватних діалогів?"
+          ],
+          "decisions": [
+            "Evaluation cases",
+            "Quality/incident signals",
+            "Update and retention contract"
+          ],
+          "applies_when": "До інтеграції підтримки в випуск.",
+          "downstream": [
+            "qa",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "qa": {
+      "skill": "app-atelier-qa",
+      "topics": [
+        {
+          "id": "APP-QA-COVER",
+          "label": "Матриця вимог і доказів",
+          "why": "Незалежна перевірка починається з must, а не довільного тестсписку.",
+          "questions": [
+            "Які exact approved вимоги, клієнти, версії й артефакти має покривати цей review?",
+            "Який доказ потрібен кожній вимозі й які перевірки зараз фактично недоступні?"
+          ],
+          "decisions": [
+            "Pinned coverage matrix",
+            "Test modality/reviewer",
+            "Explicit pending gates"
+          ],
+          "applies_when": "Для independent QA або targeted repair.",
+          "downstream": [
+            "build",
+            "release"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-QA-PATHS",
+          "label": "Сценарії, межі й відновлення",
+          "why": "Знаходить приховані дефекти між системами.",
+          "questions": [
+            "Які normal, empty, boundary, concurrent, offline, failure, cancel/retry та cold-return сценарії існують у продукті?",
+            "Як перевірити loss/conflict/migration, billing entitlements і support разом із основною користю?"
+          ],
+          "decisions": [
+            "Exact pre/post fixtures",
+            "Cross-system regressions",
+            "Recovery acceptance"
+          ],
+          "applies_when": "Лише для застосовних класів сценаріїв, із явними прогалинами комбінацій.",
+          "downstream": [
+            "build",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-QA-HUMAN",
+          "label": "Доступність, зрозумілість і реальні умови",
+          "why": "Автотест не доводить сприйняття й бажаність.",
+          "questions": [
+            "Які device, accessibility, language і performance checks потрібні цільовій аудиторії?",
+            "Хто реально перевірить корисність, тексти, платіжну ясність і потрібні людські властивості?"
+          ],
+          "decisions": [
+            "Device/human evidence",
+            "Accessibility/performance verdict",
+            "Limits of self-check"
+          ],
+          "applies_when": "Коли ці властивості входять у acceptance.",
+          "downstream": [
+            "experience",
+            "build",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-QA-REPAIR",
+          "label": "Дефекти, ретест і carry-forward",
+          "why": "Локалізує ремонт за залежностями.",
+          "questions": [
+            "Які finding порушують must і які exact outputs вони зачіпають?",
+            "Які чинні докази можна зберегти, а які треба повторити після ремонту?"
+          ],
+          "decisions": [
+            "Severity and targeted repairs",
+            "Dependency invalidation",
+            "Independent retest verdict"
+          ],
+          "applies_when": "Після finding або зміни baseline.",
+          "downstream": [
+            "build",
+            "release"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        }
+      ]
+    },
+    "release": {
+      "skill": "app-atelier-release",
+      "topics": [
+        {
+          "id": "APP-REL-EARLY",
+          "label": "Рання здійсненність маршруту",
+          "why": "Store/account/policy prerequisites потрібно знати до full build.",
+          "questions": [
+            "Які магазини або web targets, країни, категорії, вікові групи й правила стосуються цього продукту?",
+            "Які identity, signing, payments, privacy disclosures, device/SDK і account steps реально доступні?"
+          ],
+          "decisions": [
+            "Current release capability/preflight",
+            "Owner-specific prerequisites",
+            "Policy blockers"
+          ],
+          "applies_when": "Рано при виборі архітектури й повторно перед точним випуском.",
+          "downstream": [
+            "specification",
+            "build",
+            "qa"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-REL-PACK",
+          "label": "Exact release candidate й матеріали",
+          "why": "Підготовка має конкретний перевірний пакет.",
+          "questions": [
+            "Яку версію, збірки, конфігурацію, migrations і approved scope випускаємо?",
+            "Які listing, screenshots, legal/privacy/support/export/deletion й release notes потрібні?"
+          ],
+          "decisions": [
+            "Pinned RC and manifest",
+            "Distribution materials",
+            "Readiness gaps"
+          ],
+          "applies_when": "Для підготовки кандидата випуску.",
+          "downstream": [
+            "qa",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-REL-EFFECT",
+          "label": "Зовнішній наслідок і read-back",
+          "why": "Submission, approval та доступність є різними станами.",
+          "questions": [
+            "Який exact effect доручено зараз: prepared packet, test deployment, submission, rollout чи production change?",
+            "Як обмежуємо rollout, перевіряємо фактичну доступність, відстежуємо невідомий outcome і виконуємо rollback?"
+          ],
+          "decisions": [
+            "Current authority scope",
+            "Rollout/read-back/receipt",
+            "Rollback decision"
+          ],
+          "applies_when": "До конкретної зовнішньої release операції, враховуючи чинну точну згоду.",
+          "downstream": [
+            "operations",
+            "growth"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-REL-READY",
+          "label": "Готовність власника й експлуатації",
+          "why": "Реліз потребує прийнятої підтримки та операційного маршруту.",
+          "questions": [
+            "Хто відповідає за користувацькі звернення, платежі, витрати й інциденти після запуску?",
+            "Які monitoring, alert, backup/restore та owner handoff реально перевірені?"
+          ],
+          "decisions": [
+            "Operational/owner readiness",
+            "Launch acceptance",
+            "Pending external states"
+          ],
+          "applies_when": "До оголошення фактичного запуску.",
+          "downstream": [
+            "support",
+            "growth",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "growth": {
+      "skill": "app-atelier-growth",
+      "topics": [
+        {
+          "id": "APP-GRW-BASE",
+          "label": "Реальна початкова аудиторія й канал",
+          "why": "План починається з доступних людей та прав на контакт.",
+          "questions": [
+            "Яка реальна аудиторія, канали, контент, контакти та власні дані вже є сьогодні?",
+            "Де цільова людина має релевантну потребу й які канали дозволені її контекстом?"
+          ],
+          "decisions": [
+            "Current audience baseline",
+            "Reachable channels and permissions",
+            "Channel research"
+          ],
+          "applies_when": "Коли потрібне залучення; нульову аудиторію фіксувати чесно.",
+          "downstream": [
+            "concepts",
+            "experience",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-GRW-FUNNEL",
+          "label": "Шлях до активації й повторної користі",
+          "why": "Трафік без корисної дії не доводить зростання.",
+          "questions": [
+            "Як користувач переходить від повідомлення до проби, першої користі, повернення й умовної оплати?",
+            "Де очікуються бар’єри довіри, friction, abandonment і що їх перевірить?"
+          ],
+          "decisions": [
+            "Causal acquisition/activation/retention path",
+            "Value message and proof",
+            "Onboarding experiments"
+          ],
+          "applies_when": "Для погодженої growth цілі.",
+          "downstream": [
+            "experience",
+            "build",
+            "support",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-GRW-TEST",
+          "label": "Експерименти, метрики й економіка",
+          "why": "Розділяє гіпотези та фактичні вимірювання.",
+          "questions": [
+            "Які гіпотези каналів і повідомлень перевіряємо та що спростує кожну?",
+            "Які privacy-safe події, attribution, бюджети, cost/value bounds і stop правила потрібні?"
+          ],
+          "decisions": [
+            "Experiment contracts",
+            "Metric definitions and baselines",
+            "Spend/stop scope"
+          ],
+          "applies_when": "До виконання growth експериментів; ціни та можливості каналів перевіряти актуально.",
+          "downstream": [
+            "build",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-GRW-AUTO",
+          "label": "Матеріали й дозволена автоматизація",
+          "why": "Автоматизований маршрут має реальний механізм і власника.",
+          "questions": [
+            "Які тексти, дизайн, демо, community або партнерські матеріали потрібні конкретному каналу?",
+            "Які jobs, публікації, контакти й аналіз дозволені, що потребує власника і як припинити автоматизацію?"
+          ],
+          "decisions": [
+            "Material production/rights",
+            "Action authority and cadence",
+            "Actual service/return verification"
+          ],
+          "applies_when": "Коли growth має зовнішні effects або recurring роботу.",
+          "downstream": [
+            "experience",
+            "release",
+            "operations"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    },
+    "operations": {
+      "skill": "app-atelier-operations",
+      "topics": [
+        {
+          "id": "APP-OPS-SIGNALS",
+          "label": "Поточний стан і продуктова якість",
+          "why": "Після запуску зміни мають спиратися на реальні сигнали.",
+          "questions": [
+            "Які фактичні user, quality, reliability, payment, retention і cost дані доступні?",
+            "Які відхилення від baseline вимагають дії й хто їх бачить?"
+          ],
+          "decisions": [
+            "Operational baseline",
+            "Metric ownership/thresholds",
+            "Evidence limits"
+          ],
+          "applies_when": "Для чинного продукту або operational readiness.",
+          "downstream": [
+            "research",
+            "concepts",
+            "specification",
+            "build",
+            "qa"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-OPS-INCIDENT",
+          "label": "Інциденти й відновлення",
+          "why": "Задає causal repair та фактичний restore.",
+          "questions": [
+            "Які дані, користувачі, платежі й зовнішні effects зачеплено інцидентом?",
+            "Як виконати containment, reconcile, rollback/restore, повідомлення й independent verification у чинних правах?"
+          ],
+          "decisions": [
+            "Incident scope and recovery",
+            "Exact external state",
+            "Postmortem and targeted regression"
+          ],
+          "applies_when": "Коли є інцидент або потрібно підготувати response.",
+          "downstream": [
+            "build",
+            "support",
+            "qa",
+            "release"
+          ],
+          "answer_owner": "expert",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-OPS-CHANGE",
+          "label": "Оновлення й розвиток",
+          "why": "Зберігає чинні рішення під час адресних змін.",
+          "questions": [
+            "Яка нова вимога чи спостереження обґрунтовує зміну та які залежності вона зачіпає?",
+            "Як перевірити compatibility, migrations, feature rollout і carry-forward доказів?"
+          ],
+          "decisions": [
+            "Change impact and versioned scope",
+            "Targeted lifecycle route",
+            "Upgrade/rollback acceptance"
+          ],
+          "applies_when": "Для нового feature, залежності, платформної або policy зміни.",
+          "downstream": [
+            "research",
+            "specification",
+            "experience",
+            "build",
+            "qa",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        },
+        {
+          "id": "APP-OPS-EXIT",
+          "label": "Тривала експлуатація й завершення",
+          "why": "Сервіс має власників витрат, даних і завершення.",
+          "questions": [
+            "Хто й за яких меж підтримує jobs, secrets, backups, billing, KB та зовнішні залежності?",
+            "Як користувач експортує дані, скасовує оплату, видаляє акаунт і що робимо при закритті продукту?"
+          ],
+          "decisions": [
+            "Support/maintenance ownership",
+            "Recurring resource and renewal scope",
+            "Export/delete/sunset contract"
+          ],
+          "applies_when": "Коли продукт має тривалий стан, користувачів або регулярні витрати.",
+          "downstream": [
+            "support",
+            "build",
+            "release"
+          ],
+          "answer_owner": "mixed",
+          "criticality": "material"
+        }
+      ]
+    }
+  }
+}

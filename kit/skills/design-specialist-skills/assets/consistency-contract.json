@@ -1,0 +1,10 @@
+{
+  "schema_version": "skill.consistency/1",
+  "container_kind": "blueprint",
+  "current_checker": "blueprint.py",
+  "root_required_flags": [
+    "--approved"
+  ],
+  "canonical_stage": null,
+  "history_documents": []
+}

@@ -1,0 +1,438 @@
+{
+  "schema_version": "app-atelier-production-template/2",
+  "family_version": "2.3.0",
+  "stage": "qa",
+  "record_kind": "template_not_executed",
+  "canonical_authority": "existing .appatelier/state.json; register instantiated artifacts by current state.py protocol",
+  "recipes": [
+    {
+      "id": "APP-QA-R01",
+      "status": "template",
+      "title": "Вимоги → oracles і coverage",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "current IDs and raw intent",
+          "sha256": null
+        },
+        {
+          "binding": "domain/state contracts",
+          "sha256": null
+        },
+        {
+          "binding": "artifact hashes",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-QA-R01-S1",
+          "depends_on": [],
+          "procedure": "enumerate classes, interactions, forbidden transitions and missing consumers",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R01-S2",
+          "depends_on": [
+            "APP-QA-R01-S1"
+          ],
+          "procedure": "choose falsifiable reference/property/integration method per claim",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R01-S3",
+          "depends_on": [
+            "APP-QA-R01-S2"
+          ],
+          "procedure": "bind evaluator-only oracle and independent actor inputs",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R01-S4",
+          "depends_on": [
+            "APP-QA-R01-S3"
+          ],
+          "procedure": "record actual scope, environment, result and limitations",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "risk-based case matrix",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "independent oracles",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "due verdicts",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-QA-R02",
+      "status": "template",
+      "title": "Candidate → interaction assembly",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "exact source/build/config",
+          "sha256": null
+        },
+        {
+          "binding": "platform bindings",
+          "sha256": null
+        },
+        {
+          "binding": "initial states and actions",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-QA-R02-S1",
+          "depends_on": [],
+          "procedure": "execute core plus persistence/restart/support",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R02-S2",
+          "depends_on": [
+            "APP-QA-R02-S1"
+          ],
+          "procedure": "inject duplicate/order/kill/offline/revoke/upgrade failures",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R02-S3",
+          "depends_on": [
+            "APP-QA-R02-S2"
+          ],
+          "procedure": "measure accessibility and performance in exact environments",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R02-S4",
+          "depends_on": [
+            "APP-QA-R02-S3"
+          ],
+          "procedure": "separate structural/sandbox/device/external claims",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "raw runtime observations",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "cross-boundary findings",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "platform proof map",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-QA-R03",
+      "status": "template",
+      "title": "Production chain → provenance verdict",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "capability/schema/catalog refs",
+          "sha256": null
+        },
+        {
+          "binding": "recipes/transformations/attempts",
+          "sha256": null
+        },
+        {
+          "binding": "accepted output and rights",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-QA-R03-S1",
+          "depends_on": [],
+          "procedure": "check actual parameters and supported output semantics",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R03-S2",
+          "depends_on": [
+            "APP-QA-R03-S1"
+          ],
+          "procedure": "compare input/toolchain/output digests and consumer bindings",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R03-S3",
+          "depends_on": [
+            "APP-QA-R03-S2"
+          ],
+          "procedure": "reconcile unresolved external attempts before retry",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R03-S4",
+          "depends_on": [
+            "APP-QA-R03-S3"
+          ],
+          "procedure": "verify rights, scope, permissions and exact return packet",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "dangling/stale proof findings",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "parameter consumption evidence",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "handoff verdict",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    },
+    {
+      "id": "APP-QA-R04",
+      "status": "template",
+      "title": "Finding → targeted closure",
+      "requirement_ids": [],
+      "accepted_input_refs": [
+        {
+          "binding": "raw failing case",
+          "sha256": null
+        },
+        {
+          "binding": "new subject hash",
+          "sha256": null
+        },
+        {
+          "binding": "transitive dependency map",
+          "sha256": null
+        }
+      ],
+      "owner_actor_id": null,
+      "competencies": [],
+      "environment_ref": null,
+      "capability_ref": null,
+      "consumer_binding": null,
+      "steps": [
+        {
+          "id": "APP-QA-R04-S1",
+          "depends_on": [],
+          "procedure": "separate observation from root-cause hypothesis",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R04-S2",
+          "depends_on": [
+            "APP-QA-R04-S1"
+          ],
+          "procedure": "perform failed case and affected regression with independent actor",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R04-S3",
+          "depends_on": [
+            "APP-QA-R04-S2"
+          ],
+          "procedure": "retain only unchanged fresh proofs",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        },
+        {
+          "id": "APP-QA-R04-S4",
+          "depends_on": [
+            "APP-QA-R04-S3"
+          ],
+          "procedure": "leave due critical gaps failed/blocked without score compensation",
+          "bound_argv_or_api": null,
+          "expected_output_ref": null
+        }
+      ],
+      "outputs": [
+        {
+          "binding": "reproduced regression result",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "carry-forward justification",
+          "artifact_ref": null,
+          "sha256": null
+        },
+        {
+          "binding": "scoped verdict",
+          "artifact_ref": null,
+          "sha256": null
+        }
+      ],
+      "transformations": [],
+      "validators": {
+        "semantic_oracle_ref": null,
+        "negative_fixture_refs": [],
+        "integration_scenario_ref": null,
+        "independent_observer_id": null
+      },
+      "budget": {
+        "cost_cap": null,
+        "time_cap": null,
+        "allowed_effect_scope_ref": null
+      },
+      "attempt_refs": [],
+      "repair": {
+        "hypothesis": null,
+        "changed_variable": null,
+        "stop": null
+      },
+      "achieved_proof": "not_run"
+    }
+  ],
+  "assembly_template": {
+    "id": null,
+    "status": "not_run",
+    "requirement_ids": [],
+    "source_build_config_hashes": {},
+    "component_bindings": [],
+    "initial_state_ref": null,
+    "scenario_ref": null,
+    "expected_invariants": [],
+    "actual_observations": [],
+    "environment_platform_device_modality": {},
+    "author_ids": [],
+    "independent_observer_id": null,
+    "evidence_refs": [],
+    "limitations": []
+  },
+  "coverage_template": {
+    "requirement_id": null,
+    "source_intent_ref": null,
+    "domain_rule_ref": null,
+    "state_variant_platform": null,
+    "output_consumer_ref": null,
+    "recipe_ref": null,
+    "oracle_ref": null,
+    "proof_ref": null,
+    "due_stage": "qa",
+    "status": "pending",
+    "applicability_reason": null
+  },
+  "attempt_template": {
+    "id": null,
+    "status": "planned",
+    "recipe_input_toolchain_hashes": {},
+    "stable_effect_key": null,
+    "actual_provider_job_id": null,
+    "observations": [],
+    "actual_cost": null,
+    "output_hashes": {},
+    "receipt_ref": null,
+    "reconciliation_ref": null
+  }
+}

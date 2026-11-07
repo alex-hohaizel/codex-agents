@@ -1,0 +1,7 @@
+{
+  "schema_version": "skill.consistency/1",
+  "canonical_stage": "chat",
+  "current_checker": "check_round.py",
+  "root_required_flags": [],
+  "history_documents": []
+}

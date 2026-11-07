@@ -1,0 +1,464 @@
+{
+  "schema_version": "1.0.0",
+  "toolkit_version": "3.0.0",
+  "record_kind": "suite_requirements_mapping",
+  "preserve_previous_ids": true,
+  "rules": [
+    "Модулі активуються за задумом; приклади не є обов’язковими механіками.",
+    "Concept потребує причинно завершеного задуму; повний GDD після вибору.",
+    "Факти/гіпотези/actual proof/quality judgments розділені."
+  ],
+  "items": [
+    {
+      "id": "GA3-01",
+      "title": "Камера й простір",
+      "source_ref": "user-sources-3.0.json#GA3-01",
+      "modules": [
+        "experience",
+        "world"
+      ],
+      "domain": "camera",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-02",
+      "title": "Художня специфікація",
+      "source_ref": "user-sources-3.0.json#GA3-02",
+      "modules": [
+        "creative"
+      ],
+      "domain": "art",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-03",
+      "title": "Масштаб ключової дії",
+      "source_ref": "user-sources-3.0.json#GA3-03",
+      "modules": [
+        "experience",
+        "creative"
+      ],
+      "domain": "camera",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-04",
+      "title": "Системна глибина",
+      "source_ref": "user-sources-3.0.json#GA3-04",
+      "modules": [
+        "systems",
+        "world"
+      ],
+      "domain": "systems",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-05",
+      "title": "Керування",
+      "source_ref": "user-sources-3.0.json#GA3-05",
+      "modules": [
+        "experience"
+      ],
+      "domain": "input",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-06",
+      "title": "Ресурси й відновлення",
+      "source_ref": "user-sources-3.0.json#GA3-06",
+      "modules": [
+        "systems",
+        "experience"
+      ],
+      "domain": "systems",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-07",
+      "title": "Портфель різних концепцій",
+      "source_ref": "user-sources-3.0.json#GA3-07",
+      "modules": [
+        "research",
+        "experience",
+        "creative"
+      ],
+      "domain": "lifecycle",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-08",
+      "title": "Вбудована монетизація",
+      "source_ref": "user-sources-3.0.json#GA3-08",
+      "modules": [
+        "commerce",
+        "research"
+      ],
+      "domain": "commerce",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-09",
+      "title": "Прогресія",
+      "source_ref": "user-sources-3.0.json#GA3-09",
+      "modules": [
+        "progression",
+        "systems"
+      ],
+      "domain": "progression",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-10",
+      "title": "Навчання",
+      "source_ref": "user-sources-3.0.json#GA3-10",
+      "modules": [
+        "experience",
+        "progression"
+      ],
+      "domain": "learning",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-11",
+      "title": "Внутрішній магазин",
+      "source_ref": "user-sources-3.0.json#GA3-11",
+      "modules": [
+        "commerce",
+        "experience"
+      ],
+      "domain": "commerce",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-12",
+      "title": "Повний шлях гравця",
+      "source_ref": "user-sources-3.0.json#GA3-12",
+      "modules": [
+        "experience",
+        "lifecycle"
+      ],
+      "domain": "lifecycle",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-13",
+      "title": "Змістовний обсяг",
+      "source_ref": "user-sources-3.0.json#GA3-13",
+      "modules": [
+        "world",
+        "lifecycle"
+      ],
+      "domain": "lifecycle",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-14",
+      "title": "Супротивники",
+      "source_ref": "user-sources-3.0.json#GA3-14",
+      "modules": [
+        "world",
+        "systems"
+      ],
+      "domain": "actors",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-15",
+      "title": "Інтерактивний світ",
+      "source_ref": "user-sources-3.0.json#GA3-15",
+      "modules": [
+        "world",
+        "systems"
+      ],
+      "domain": "world",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-16",
+      "title": "Глибина кожного масштабу",
+      "source_ref": "user-sources-3.0.json#GA3-16",
+      "modules": [
+        "world",
+        "progression",
+        "lifecycle"
+      ],
+      "domain": "world",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-17",
+      "title": "Винагороди",
+      "source_ref": "user-sources-3.0.json#GA3-17",
+      "modules": [
+        "progression",
+        "commerce"
+      ],
+      "domain": "rewards",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    },
+    {
+      "id": "GA3-18",
+      "title": "Властивості й здібності",
+      "source_ref": "user-sources-3.0.json#GA3-18",
+      "modules": [
+        "systems",
+        "progression",
+        "world"
+      ],
+      "domain": "equipment",
+      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "design_due": "concept",
+      "typed_rules_due": "preproduction",
+      "actual_behavior_due": "slice",
+      "human_judgment_due": "beta",
+      "consumer_stages": [
+        "concepts",
+        "preproduction",
+        "assets",
+        "build",
+        "qa",
+        "release",
+        "liveops"
+      ],
+      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+    }
+  ]
+}

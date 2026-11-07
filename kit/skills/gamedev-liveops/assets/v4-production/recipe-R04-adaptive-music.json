@@ -1,0 +1,198 @@
+{
+  "id": "R04",
+  "status": "template",
+  "name": "adaptive-music",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "assets_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "sonic fantasy/motifs/palette/structure/intentional silence",
+    "music states/conditions/hysteresis/transitions",
+    "tempo/meter/sample rate/loop bars/tails/stem needs",
+    "source/voice/sample rights and target audio budget"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "LMMS",
+    "Ardour",
+    "Godot AudioStreamInteractive/Synchronized",
+    "separately qualified AI composition/extraction"
+  ],
+  "capability_ids": [
+    "bind_CAP_O18_R04",
+    "bind_CAP_O21_R04",
+    "bind_CAP_O22_R04",
+    "bind_CAP_O32_R04"
+  ],
+  "steps": [
+    {
+      "id": "R04-S01",
+      "operation_id": "O18",
+      "capability_id": "bind_CAP_O18_R04",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Author motif and all required sections/layers/intro/exit/stinger in editable session. AI full track only supplies candidate material; separately qualify any stems/MIDI extraction."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Audible emotional arc/motif identity and arrangement serve gameplay; no fabricated stems claim."
+        ]
+      },
+      "output_ids": [
+        "R04-OUT01"
+      ],
+      "validator": "bind_R04_compose_independent_validator"
+    },
+    {
+      "id": "R04-S02",
+      "operation_id": "O21",
+      "capability_id": "bind_CAP_O21_R04",
+      "depends_on": [
+        "R04-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Export aligned stems with same origin and explicit bars/tails. Example fixture:96BPM4/4 at48kHz gives30000samples/beat and960000samples/8bars. Check clicks/seams/phase/bleed and every stem combination."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Exact timebase and loop boundaries plus listening; numeric meter does not replace musical verdict."
+        ]
+      },
+      "output_ids": [
+        "R04-OUT02"
+      ],
+      "validator": "bind_R04_align_independent_validator"
+    },
+    {
+      "id": "R04-S03",
+      "operation_id": "O22",
+      "capability_id": "bind_CAP_O22_R04",
+      "depends_on": [
+        "R04-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Import pinned format/normalize/compression/loop settings; create synchronized layers and explicit interactive transition table. Bind hysteresis and next-bar vs immediate death/pause policy."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Current engine probe confirms scheduling; stable prose/API assumptions not silently trusted."
+        ]
+      },
+      "output_ids": [
+        "R04-OUT03"
+      ],
+      "validator": "bind_R04_graph_independent_validator"
+    },
+    {
+      "id": "R04-S04",
+      "operation_id": "O32",
+      "capability_id": "bind_CAP_O32_R04",
+      "depends_on": [
+        "R04-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Exercise every allowed pair, late-bar request, repeated request during crossfade, long loop, pause/resume and cold decode. Verify no second layer set after return."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Transitions musically coherent and semantically correct; actual voice/decode/memory budgets documented."
+        ]
+      },
+      "output_ids": [
+        "R04-OUT04"
+      ],
+      "validator": "bind_R04_stress_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R04-OUT01",
+      "type": "DAW session plus dependencies or actual accepted sources",
+      "editable": true,
+      "consumer": "R04-S02",
+      "acceptance": [
+        "Audible emotional arc/motif identity and arrangement serve gameplay; no fabricated stems claim."
+      ]
+    },
+    {
+      "id": "R04-OUT02",
+      "type": "aligned lossless stems/loops/region manifest",
+      "editable": true,
+      "consumer": "R04-S03",
+      "acceptance": [
+        "Exact timebase and loop boundaries plus listening; numeric meter does not replace musical verdict."
+      ]
+    },
+    {
+      "id": "R04-OUT03",
+      "type": "engine music resources/table/bus configuration",
+      "editable": true,
+      "consumer": "R04-S04",
+      "acceptance": [
+        "Current engine probe confirms scheduling; stable prose/API assumptions not silently trusted."
+      ]
+    },
+    {
+      "id": "R04-OUT04",
+      "type": "scene trace and listening capture",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Transitions musically coherent and semantically correct; actual voice/decode/memory budgets documented."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "If separated stems bleed or MIDI transcription fails, recompose/rearrange source rather than asserting restoration.",
+      "Use simpler complete authored music graph if it meets intended quality; no compulsory middleware/subscription."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://manual.ardour.org/working-with-sessions/interchange-with-other-daws/stem-exports/",
+    "https://docs.godotengine.org/en/stable/classes/class_audiostreaminteractive.html"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

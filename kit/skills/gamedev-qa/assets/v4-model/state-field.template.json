@@ -1,0 +1,19 @@
+{
+  "owner": "Unresolved",
+  "units": "Unresolved",
+  "scope": "Unresolved",
+  "authority": "Unresolved",
+  "storage": "Unresolved",
+  "encoding": "Unresolved",
+  "consistency_group": "Unresolved",
+  "commit": "Unresolved",
+  "restore": "Unresolved",
+  "merge": "Unresolved",
+  "migration": "Unresolved",
+  "retention": "Unresolved",
+  "id": "STATE-DEFINE",
+  "type": "object",
+  "initial": null,
+  "classification": "durable",
+  "status": "unresolved"
+}

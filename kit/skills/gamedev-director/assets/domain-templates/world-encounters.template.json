@@ -1,0 +1,25 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author world/encounter/content specifications and link current files from canonical world and lifecycle domains. Topology size or seed count alone is not variety evidence.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "structure": {"spatial_scale": null, "visible_extent": null, "topology": null, "session_shape": null, "long_horizon": null, "structure_fit": null},
+    "space_form": {"id": null, "mechanical_role": null, "objectives": [], "entry_exit_contracts": [], "prerequisites": [], "interactive_state_refs": [], "local_rules": [], "recovery": null, "persistence_reset": null, "save_boundary": null, "navigation_information": null, "production_scope_refs": []},
+    "transition_form": {"id": null, "from_space_id": null, "to_space_id": null, "method_guard": null, "travel_loading_cost": null, "player_information": null, "new_decision": null, "failure_recovery": null, "persisted_consequences": []},
+    "route_choice_form": {"id": null, "alternatives": [], "risk_reward_or_resource_tradeoff": null, "required_abilities": [], "readable_uncertainty": null, "future_consequences": null, "fairness_check_ref": null},
+    "revisit_form": {"space_id": null, "voluntary_goal": null, "known_target_and_information": null, "required_unlock_ref": null, "changed_context": null, "reward_availability_or_probability": null, "repetition_and_expiry": null, "shortcut_and_travel_cost": null},
+    "encounter_form": {"id": null, "topology_and_approach": null, "objective": null, "actor_roles": [], "material_hazard_states": [], "tool_options": [], "resource_pressure": null, "phases_and_pacing": [], "camera_and_offscreen_constraints": null, "failure_recovery": null, "reward_refs": [], "changed_player_decision": null, "compatibility_exclusions": [], "production_cost": null},
+    "event_form": {"id": null, "trigger_eligibility": null, "weight_and_clock_authority": null, "cooldown_repetition": null, "telegraph_and_player_options": null, "objective_effect": null, "fallback": null},
+    "generation": {"chosen": null, "authored_vocabulary_refs": [], "grammar_rules": [], "algorithm_version_seed": null, "socket_contracts": [], "movement_constants_ref": null, "reachability_solvability": null, "difficulty_pacing_budgets": null, "forbidden_combinations": [], "repair_retry_fallback": null, "coverage_classes": [], "semantic_signatures": [], "raw_result_refs": []},
+    "full_arc": {"early": null, "mid": null, "late": null, "launch_end": null, "optional_postgame": null, "novelty_exhaustion": null, "cadence_capacity_ref": null},
+    "verification": {"runtime_transition_refs": [], "peak_encounter_refs": [], "human_route_understanding_refs": [], "unresolved_items": []}
+  }
+}

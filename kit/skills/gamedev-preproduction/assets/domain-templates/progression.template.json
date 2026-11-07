@@ -1,0 +1,37 @@
+{
+  "template": true,
+  "schema": "gameatelier.progression/1",
+  "game_id": null,
+  "run": {
+    "start_state": null,
+    "end_conditions": [],
+    "temporary_choices": [],
+    "resets": [],
+    "carry_forward": []
+  },
+  "meta": {
+    "nodes": [],
+    "edges": [],
+    "power_envelope": null,
+    "catch_up": null,
+    "postgame": null
+  },
+  "mastery": {
+    "skills": [],
+    "observable_signals": [],
+    "feedback_rules": []
+  },
+  "journeys": [],
+  "balance_model": {
+    "script_ref": null,
+    "config_ref": null,
+    "seed_refs": [],
+    "raw_results_ref": null,
+    "limitations": []
+  },
+  "canonical_model_ref": null,
+  "canonical_model_schema_version": "4.0.0",
+  "model_record_ids": [],
+  "representation": "draft_domain_attachment_or_derived_export",
+  "authority_note": "Resolve record IDs and source model hash before use; do not maintain a second independent truth."
+}

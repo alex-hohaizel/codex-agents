@@ -1,0 +1,233 @@
+{
+  "id": "R07",
+  "status": "template",
+  "name": "mechanic-to-native",
+  "version": "4.0.0",
+  "requirement_ids": [
+    "bind_project_requirement_ids"
+  ],
+  "owner": "build_actual_executor",
+  "consumer": "bind_actual_consumer",
+  "input_contracts": [
+    "exact rule/state/data contracts with units/order/capture/RNG",
+    "independent fixture intermediates/outcomes/negative cases",
+    "input/AI/physics/asset bindings",
+    "engine/platform/toolchain/support/performance profile"
+  ],
+  "inputs": [
+    {
+      "id": "bind_accepted_input_ids",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "note": "Replace sentinel with actual accepted hash before binding."
+    }
+  ],
+  "tool_candidates": [
+    "Godot typed GDScript or accepted engine",
+    "GUT or GdUnit4 pinned compatible runner",
+    "pytest/Hypothesis reference tooling",
+    "native SDK tools"
+  ],
+  "capability_ids": [
+    "bind_CAP_O24_R07",
+    "bind_CAP_O31_R07",
+    "bind_CAP_O32_R07",
+    "bind_CAP_O29_R07",
+    "bind_CAP_O33_R07"
+  ],
+  "steps": [
+    {
+      "id": "R07-S01",
+      "operation_id": "O24",
+      "capability_id": "bind_CAP_O24_R07",
+      "depends_on": [],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Implement immutable definitions/session state/resolver with clear ownership and bounded events. Keep solver-specific physics in adapter rather than copying entire engine into domain."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Units/time/rounding/tie-break match accepted rule; no arbitrary eval/universal DSL."
+        ]
+      },
+      "output_ids": [
+        "R07-OUT01"
+      ],
+      "validator": "bind_R07_rules_independent_validator"
+    },
+    {
+      "id": "R07-S02",
+      "operation_id": "O31",
+      "capability_id": "bind_CAP_O31_R07",
+      "depends_on": [
+        "R07-S01"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Run independent boundary/golden/property/state traces. Share fixture IDs with reference tooling; run actual GDScript differential consumer rather than testing only Python duplicate."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Deliberate defect in claimed property fails; no duplicate grant/illegal transition/NaN accepted."
+        ]
+      },
+      "output_ids": [
+        "R07-OUT02"
+      ],
+      "validator": "bind_R07_fixtures_independent_validator"
+    },
+    {
+      "id": "R07-S03",
+      "operation_id": "O32",
+      "capability_id": "bind_CAP_O32_R07",
+      "depends_on": [
+        "R07-S02"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Bind actual input/camera/entities/resources/AI/presentation/save in test scene. Exercise cancel/interrupt/lethal/phase order and cleanup, not only mocked method call."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Runtime consumes same IDs/rules; resources/signal order/cleanup verified."
+        ]
+      },
+      "output_ids": [
+        "R07-OUT03"
+      ],
+      "validator": "bind_R07_assembly_independent_validator"
+    },
+    {
+      "id": "R07-S04",
+      "operation_id": "O29",
+      "capability_id": "bind_CAP_O29_R07",
+      "depends_on": [
+        "R07-S03"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Probe required SDK operations in conformance scene: callback threads/lifecycle/account/cancel/unknown state/release strip/signing. Missing capability blocks corresponding claim."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Mock/harness claims separate from actual installed signed build."
+        ]
+      },
+      "output_ids": [
+        "R07-OUT04"
+      ],
+      "validator": "bind_R07_native-adapter_independent_validator"
+    },
+    {
+      "id": "R07-S05",
+      "operation_id": "O33",
+      "capability_id": "bind_CAP_O33_R07",
+      "depends_on": [
+        "R07-S04"
+      ],
+      "binding": {
+        "kind": "procedure",
+        "actions": [
+          "Export due native targets; install exact build and run real multitouch/camera/cues/kill/resume/accessibility. Human tests understanding and comfort; profile cold/peak/thermal as due."
+        ],
+        "preset_refs": [
+          "bind_actual_project_source_and_versioned_preset"
+        ],
+        "expected_observations": [
+          "Same oracle plus target semantics; headless/editor pass not device/human evidence."
+        ]
+      },
+      "output_ids": [
+        "R07-OUT05"
+      ],
+      "validator": "bind_R07_native-human_independent_validator"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "R07-OUT01",
+      "type": "typed runtime modules and configs",
+      "editable": true,
+      "consumer": "R07-S02",
+      "acceptance": [
+        "Units/time/rounding/tie-break match accepted rule; no arbitrary eval/universal DSL."
+      ]
+    },
+    {
+      "id": "R07-OUT02",
+      "type": "meaningful test harness and minimized counterexamples",
+      "editable": true,
+      "consumer": "R07-S03",
+      "acceptance": [
+        "Deliberate defect in claimed property fails; no duplicate grant/illegal transition/NaN accepted."
+      ]
+    },
+    {
+      "id": "R07-OUT03",
+      "type": "engine scene and timed traces",
+      "editable": true,
+      "consumer": "R07-S04",
+      "acceptance": [
+        "Runtime consumes same IDs/rules; resources/signal order/cleanup verified."
+      ]
+    },
+    {
+      "id": "R07-OUT04",
+      "type": "platform adapter and conformance receipts",
+      "editable": true,
+      "consumer": "R07-S05",
+      "acceptance": [
+        "Mock/harness claims separate from actual installed signed build."
+      ]
+    },
+    {
+      "id": "R07-OUT05",
+      "type": "native artifacts/device/human evidence",
+      "editable": false,
+      "consumer": "bind_actual_runtime_or_release_consumer",
+      "acceptance": [
+        "Same oracle plus target semantics; headless/editor pass not device/human evidence."
+      ]
+    }
+  ],
+  "transformation_ids": [],
+  "budget": {
+    "maximum_minor_units": 0,
+    "time_minutes": "bind_before_execution",
+    "maximum_same_hypothesis_failures": 2,
+    "batch_gate": "accepted representative source-export-runtime slice before scale"
+  },
+  "allowed_effects": [
+    "local_reversible_work_within_owned_paths"
+  ],
+  "acceptance": [
+    "semantic verdict",
+    "technical verdict",
+    "perceptual/native/human verdict when due"
+  ],
+  "repair": {
+    "fallback": [
+      "Repair rule/adapter/data/import/scene layer indicated by minimal failing trace.",
+      "C++/GDExtension only for measured need and supported target; no mandatory microservices/ECS stack."
+    ],
+    "require_changed_hypothesis": true,
+    "stop_on_budget_or_blocked_must": true
+  },
+  "source_urls": [
+    "https://gut.readthedocs.io/",
+    "https://mikeschulze.github.io/gdUnit4/",
+    "https://hypothesis.readthedocs.io/"
+  ],
+  "template_warning": "Bind actual project IDs/tools/presets/current permissions and due evidence; not an execution receipt."
+}

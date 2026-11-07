@@ -1,0 +1,9 @@
+{
+  "id": "DEC-PLATFORMS",
+  "question": "Android, iOS чи обидві платформи?",
+  "material": true,
+  "status": "pending",
+  "answer": null,
+  "authority_ref": null,
+  "scope": "project"
+}

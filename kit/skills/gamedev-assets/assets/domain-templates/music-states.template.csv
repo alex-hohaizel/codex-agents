@@ -1,0 +1,1 @@
+model_source_ref,model_sha256,model_object_ids,scenario_ids,music_state_id,trigger_event_id,entry_guard,track_or_stem_ids,bpm,meter,key,intro_marker,loop_start,loop_end,outro_marker,intensity_layers,transition_quantization,crossfade_ms,stinger_ids,interrupt_resume_rule,mix_profile,listening_review_ref,owner,status

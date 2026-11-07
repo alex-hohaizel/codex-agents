@@ -1,0 +1,401 @@
+{
+  "schema_version": "chatbot.operations/2",
+  "operations": [
+    {
+      "id": "C01",
+      "domain": "research",
+      "transformation": "brief→formal domain",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C02",
+      "domain": "platform",
+      "transformation": "authenticated event→durable acknowledgement",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C03",
+      "domain": "conversation",
+      "transformation": "context→appropriate speech/silence",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C04",
+      "domain": "authorization",
+      "transformation": "actor/scope/spec→allowed command",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C05",
+      "domain": "tools",
+      "transformation": "command→reconciled effect",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C06",
+      "domain": "memory",
+      "transformation": "source→scoped fact",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C07",
+      "domain": "retrieval",
+      "transformation": "query→ACL-grounded answer",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C08",
+      "domain": "erasure",
+      "transformation": "revoke→derived invalidation",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C09",
+      "domain": "schedule",
+      "transformation": "civil time→durable occurrence",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C10",
+      "domain": "group",
+      "transformation": "consent→fair round",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C11",
+      "domain": "media",
+      "transformation": "source→editable assets",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C12",
+      "domain": "audio",
+      "transformation": "source→audible validated output",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C13",
+      "domain": "delivery",
+      "transformation": "outcome→audience receipt",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C14",
+      "domain": "implementation",
+      "transformation": "spec→source/build",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C15",
+      "domain": "qa",
+      "transformation": "frozen artifact→independent verdict",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C16",
+      "domain": "release",
+      "transformation": "build→observed deployment",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C17",
+      "domain": "support",
+      "transformation": "request→owned resolution",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C18",
+      "domain": "operations",
+      "transformation": "incident→causal repair",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C19",
+      "domain": "cost",
+      "transformation": "measurement→bounded policy",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C20",
+      "domain": "handoff",
+      "transformation": "checkpoint→cold continuation",
+      "activation": "by applicability and user intent",
+      "capability_status": "unverified",
+      "recipe_reference": "references/production-recipes.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C21",
+      "domain": "channel-choice",
+      "transformation": "user journey→explicit selected channel/account feasibility",
+      "activation": "channel intake or changed platform/account/policy",
+      "capability_status": "unverified",
+      "recipe_reference": "references/platform-adapters.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    },
+    {
+      "id": "C22",
+      "domain": "adapter-conformance",
+      "transformation": "current platform contract→auth/ack/dispatch/delivery/recovery probe",
+      "activation": "channel intake or changed platform/account/policy",
+      "capability_status": "unverified",
+      "recipe_reference": "references/platform-adapters.md",
+      "required_record": [
+        "inputs",
+        "method",
+        "parameters",
+        "output",
+        "consumer",
+        "checks",
+        "attempt",
+        "limitations"
+      ]
+    }
+  ]
+}

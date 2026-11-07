@@ -1,0 +1,107 @@
+{
+  "template": true,
+  "schema": "gameatelier.style-lock/1",
+  "game_id": null,
+  "creative_reference": {
+    "path": null,
+    "sha256": null,
+    "approval_source": null,
+    "scene_state": null,
+    "aspect": null
+  },
+  "construction": {
+    "palette": [],
+    "shape_landmarks": [],
+    "camera": {
+      "model_object_id": null,
+      "projection": null,
+      "world_units_per_meter": null,
+      "fov_degrees": null,
+      "orthographic_size_world_units": null,
+      "gameplay_contexts": [],
+      "subject_screen_height_fraction": {
+        "minimum": null,
+        "typical": null,
+        "maximum": null,
+        "context_ref": null,
+        "reason": null
+      },
+      "focal_hierarchy": [],
+      "tracking": {
+        "target_object_ids": [],
+        "follow_axes": [],
+        "lookahead_rule_ref": null,
+        "dead_zone_ref": null,
+        "damping_rule_ref": null,
+        "limits_ref": null,
+        "collision_occlusion_rule_ref": null
+      },
+      "transitions": {
+        "model_rule_ids": [],
+        "timing_ref": null,
+        "interruption_rule_ref": null
+      },
+      "readability": {
+        "reaction_distance_rule_ref": null,
+        "offscreen_threat_policy_ref": null,
+        "thumb_occlusion_regions_ref": null,
+        "normal_peak_scenario_ids": []
+      },
+      "viewport": {
+        "base_resolution": null,
+        "aspect_policy_ref": null,
+        "safe_area_policy_ref": null,
+        "quality_profile_ids": []
+      },
+      "motion_accessibility": {
+        "shake_rule_ref": null,
+        "zoom_rule_ref": null,
+        "reduced_motion_rule_ref": null
+      },
+      "engine_binding_ref": null,
+      "capture_scenario_ids": []
+    },
+    "materials": [],
+    "lights": [],
+    "postprocess": {},
+    "font_files": [],
+    "ui_tokens": {},
+    "motion_language": {
+      "model_object_ids": [],
+      "weight_timing_ref": null,
+      "anticipation_contact_recovery_ref": null,
+      "deformation_bounds_ref": null,
+      "cancel_blend_ref": null,
+      "camera_contribution_ref": null
+    },
+    "audio_palette": {
+      "model_object_ids": [],
+      "motif_timbre_ref": null,
+      "mix_hierarchy_ref": null,
+      "music_states_ref": null,
+      "semantic_event_map_ref": null,
+      "listening_review_refs": []
+    },
+    "haptic_language": {
+      "model_object_ids": [],
+      "semantic_event_map_ref": null,
+      "intensity_cadence_ref": null,
+      "platform_fallback_ref": null,
+      "physical_review_refs": []
+    }
+  },
+  "fixed_properties": [],
+  "allowed_derivatives": [],
+  "tolerances": [],
+  "runtime_slice_receipts": [],
+  "deviations": [],
+  "reopen_conditions": [],
+  "model_source": {
+    "path": null,
+    "sha256": null,
+    "schema_version": "4.0.0",
+    "object_ids": [],
+    "derivation_recipe_ref": null
+  },
+  "record_status": "draft_not_acceptance"
+}

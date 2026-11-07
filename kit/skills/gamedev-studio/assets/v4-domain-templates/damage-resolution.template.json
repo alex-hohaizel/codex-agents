@@ -1,0 +1,78 @@
+{
+  "schema_version": "4.0.0",
+  "template_only": true,
+  "status": "draft",
+  "contract_kind": "damage_resolution",
+  "id": null,
+  "model_ref": null,
+  "owner": null,
+  "requirement_refs": [],
+  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "applicability": null,
+  "resolution_version": null,
+  "source_identity": {
+    "definition": null,
+    "instance": null,
+    "generation": null,
+    "instigator": null,
+    "credit_owner": null,
+    "team_capture": null
+  },
+  "target_identity": {
+    "instance": null,
+    "generation": null,
+    "part": null
+  },
+  "ids": {
+    "root_action": null,
+    "parent_effect": null,
+    "effect_instance": null,
+    "hit": null,
+    "tick_index": null
+  },
+  "dedup": {
+    "key_fields": [],
+    "scope": null,
+    "multi_hit_policy": null,
+    "retention": null
+  },
+  "eligibility_rules": [],
+  "channel_definitions": [],
+  "pipeline_order": [],
+  "capture_inputs": [],
+  "modifier_groups": [],
+  "defense_rules": [],
+  "resource_part_mapping": [],
+  "secondary_trigger_predicates": [],
+  "outcome_priority": [],
+  "cascade_guards": {
+    "max_depth": null,
+    "max_work": null,
+    "reflection_policy": null
+  },
+  "simulation_commit": {
+    "boundary": null,
+    "immediate_feedback_refs": []
+  },
+  "durable_commit": {
+    "consistency_group_ref": null,
+    "critical_confirmation_rule": null,
+    "dirty_window_bound": null
+  },
+  "rng_stream_refs": [],
+  "intermediate_value_oracles": [],
+  "negative_cases": [],
+  "materialization": {
+    "target": "production.contracts[].body",
+    "kinds": [
+      "damage"
+    ],
+    "tracks": [
+      "TR03",
+      "TR04"
+    ],
+    "mode": "authoring worksheet; not a directly loadable model",
+    "schema_ref": "assets/game-model.schema.json",
+    "instruction": "Transfer accepted IDs/data into canonical production fields and kind-specific body defined by scripts/v4_contract.py. Do not copy template status draft as contract status; use unresolved/defined/tuning truthfully. Common contract envelope needs inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry."
+  }
+}

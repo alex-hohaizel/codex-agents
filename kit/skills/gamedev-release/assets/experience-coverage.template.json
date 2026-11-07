@@ -1,0 +1,862 @@
+{
+  "schema_version": "1.0.0",
+  "record_kind": "game_atelier_experience_coverage",
+  "is_template": true,
+  "project_id": null,
+  "revision": null,
+  "source_user_requirement_ids": [
+    "UA26-EXP-01",
+    "UA26-EXP-02",
+    "UA26-EXP-03",
+    "UA26-EXP-04",
+    "UA26-EXP-05",
+    "UA26-EXP-06",
+    "UA26-EXP-07",
+    "UA26-EXP-08",
+    "UA26-EXP-09",
+    "UA26-EXP-10",
+    "UA26-SYS-01",
+    "UA26-SYS-02",
+    "UA26-SYS-03",
+    "UA26-SYS-04",
+    "UA26-SYS-05",
+    "UA26-SYS-06",
+    "UA26-SYS-07"
+  ],
+  "_instructions": {
+    "purpose": "Companion to handoff requirements/decisions/reviews/claims. Reuse their IDs and hashes; do not create a competing source of truth or treat a populated template as proof.",
+    "instantiate": "Set is_template=false only after binding project/source references. Replace placeholder records with actual records, or empty arrays when none exist. Null/empty fields do not count as evidence or acceptance.",
+    "source_map": "references/experience-contract.md maps UA26-EXP IDs to exact authorized-brief excerpts. Bind each to the original current user message; do not call a brief paraphrase verbatim user text.",
+    "status_values": [
+      "pending",
+      "met",
+      "blocked",
+      "not_applicable"
+    ],
+    "applicability_values": [
+      "pending",
+      "applicable",
+      "not_applicable"
+    ],
+    "priority_values": [
+      "must",
+      "should",
+      "explore"
+    ],
+    "hard_must": "Every applicable due must is checked individually. A failing must blocks its dependent gate; scores, averages and coverage percentages cannot compensate.",
+    "future_proofs": "Future-stage evidence stays pending with due_at and blocking_here=false; it is not met or N/A. Missing capability is blocked, not N/A.",
+    "hashes": "Use actual lowercase sha256 of files. Review closure pins artifact, dependency and evidence hashes; a changed transitive dependency reopens affected closure.",
+    "independence": "An independent reviewer is not an author of the artifact under review. Self-check is recorded honestly and does not become an independent pass.",
+    "search": "No mandatory candidate count. The 4x100 protocol is an optional explicitly selected search mode and obeys current pause/stop scope."
+  },
+  "current_scope": {
+    "stage": null,
+    "task_contract_ref": null,
+    "intent_lock_ref": null,
+    "package_id": null,
+    "package_sha256": null,
+    "decision_refs": [],
+    "project_lesson_refs": [],
+    "stop_rule_ref": null
+  },
+  "requirements": [
+    {
+      "id": null,
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [],
+      "source": {
+        "kind": null,
+        "reference": null,
+        "verbatim_quote": null,
+        "intent": null
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": null,
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": null,
+          "due_at": null,
+          "blocking_here": true,
+          "required_deliverable": null,
+          "acceptance_method": null,
+          "required_evidence_modalities": [],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": null,
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-01",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-01"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "Не треба малювати тут мені те, що неможливо реалізувати в подальшому. Ці концепт арти мають стати основою і точкою для фіксації референсу",
+        "intent": "До кожного зображення: перевірений доступний visual production profile, підтриманий camera/HUD/animation/source route, scene budget і element-to-assembly map; після вибору exact original/hash лишається референсом. Actual native/device parity довести на належному пізнішому gate."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "До кожного зображення: перевірений доступний visual production profile, підтриманий camera/HUD/animation/source route, scene budget і element-to-assembly map; після вибору exact original/hash лишається референсом. Actual native/device parity довести на належному пізнішому gate.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-02",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-02"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "а продумана дуже обширна система механік, їх взаємодій між собою, з розвиненням подальшим протягом всієї гри",
+        "intent": "Для кожного ілюстрованого кандидата: причинний граф сімейств механік, замкнені міжсистемні ланцюги, різні рішення у конкретних контекстах і контрфактична перевірка; кількість правил не доводить глибини."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "Для кожного ілюстрованого кандидата: причинний граф сімейств механік, замкнені міжсистемні ланцюги, різні рішення у конкретних контекстах і контрфактична перевірка; кількість правил не доводить глибини.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-03",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-03"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "А продумати максимально гнучку систему нативно удобну і водночас глиббоко продуману",
+        "intent": "Карта action intent → input/context → readable state; стабільні жести, two-thumb simultaneous-load case, first/normal/peak HUD і передбачення/помилка/відновлення без прихованої незручності."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "Карта action intent → input/context → readable state; стабільні жести, two-thumb simultaneous-load case, first/normal/peak HUD і передбачення/помилка/відновлення без прихованої незручності.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-04",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-04"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "головна мета - альтернативний досвід, не ламаючий основний геймплей, а доповнюючий його",
+        "intent": "Змістовна гіпотеза додаткового досвіду: baseline та альтернатива в тій самій ситуації, відмінні рішення/ритм, tradeoffs, trial, повторне використання, повна free/no-offer арка та cumulative dominance counterexample; декор не підміняє цей brief."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "Змістовна гіпотеза додаткового досвіду: baseline та альтернатива в тій самій ситуації, відмінні рішення/ритм, tradeoffs, trial, повторне використання, повна free/no-offer арка та cumulative dominance counterexample; декор не підміняє цей brief.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-05",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-05"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "Це має поступово для гравця давати відчуття розвитку, персонажа, навичок, світу тощо.",
+        "intent": "Ранній/середній/пізній досвід змінює можливості, розуміння й цілі; нова можливість переосмислює стару задачу. Content grammar має конкретно різні рішення, finite launch capacity й причину повернення; seeds/арени/+HP самі не закривають вимогу."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "Ранній/середній/пізній досвід змінює можливості, розуміння й цілі; нова можливість переосмислює стару задачу. Content grammar має конкретно різні рішення, finite launch capacity й причину повернення; seeds/арени/+HP самі не закривають вимогу.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-06",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-06"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "ресурси, котрими гравець може користуватись мають бути максимально як комплексними, так і мати звєязок з самім геймплеєм, або ігровими ситуаціями",
+        "intent": "Контекстні ресурси/характеристики мають джерело, перетворення, альтернативну витрату, cue, відновлення та наслідки в інших системах; показати конфлікт витрат і decision-changing cycle, не квоту валют чи смуг."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "Контекстні ресурси/характеристики мають джерело, перетворення, альтернативну витрату, cue, відновлення та наслідки в інших системах; показати конфлікт витрат і decision-changing cycle, не квоту валют чи смуг.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    },
+    {
+      "id": "UA26-SYS-07",
+      "parent_requirement_id": null,
+      "source_user_requirement_ids": [
+        "UA26-SYS-07"
+      ],
+      "source": {
+        "kind": "user_message_excerpt",
+        "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
+        "verbatim_quote": "мають бути дуже багатошарові цілі концепції, котрі гравець захоче з вау ефектом відкривати для себе по мірі знаходження у грі, або відкривати варіативності",
+        "intent": "Зрозуміла цілісна фантазія, цілі й арка відкриттів поєднують системи в повну гру; дивний гачок або одна вузька активність не заміняють багатошарову концепцію."
+      },
+      "priority": "must",
+      "blocking": true,
+      "owner": "gamedev-concepts",
+      "scope": {
+        "platforms": [],
+        "device_classes": [],
+        "audience_markets": [],
+        "modes_features": [],
+        "modalities": [],
+        "release_channels": []
+      },
+      "applicability": {
+        "status": "pending",
+        "rationale": null,
+        "excluded_scope": [],
+        "authority_ref": null,
+        "reconsider_triggers": []
+      },
+      "depends_on_requirement_ids": [],
+      "depends_on_artifact_ids": [],
+      "stage_obligations": [
+        {
+          "stage": "concepts",
+          "due_at": "before_each_candidate_illustration",
+          "blocking_here": true,
+          "required_deliverable": "Зрозуміла цілісна фантазія, цілі й арка відкриттів поєднують системи в повну гру; дивний гачок або одна вузька активність не заміняють багатошарову концепцію.",
+          "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
+          "required_evidence_modalities": [
+            "document"
+          ],
+          "artifact_ids": [],
+          "evidence_ids": [],
+          "status": "pending",
+          "owner": "gamedev-concepts",
+          "closure": {
+            "review_ref": null,
+            "independent_reviewer_id": null,
+            "authority_ref_if_material": null,
+            "artifact_hashes": {},
+            "dependency_hashes": {},
+            "evidence_hashes": {},
+            "limitations": [],
+            "closed_at": null
+          }
+        }
+      ],
+      "status": "pending",
+      "blocker_refs": [],
+      "next_action": null
+    }
+  ],
+  "seed_contract": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-01",
+      "UA26-EXP-02",
+      "UA26-EXP-04",
+      "UA26-EXP-07"
+    ],
+    "concept_id": null,
+    "fantasy_and_emotional_character": null,
+    "direct_action_contact_and_next_decision": null,
+    "systems_that_change_each_others_decisions": [],
+    "player_capability_growth": null,
+    "world_capability_or_context_growth": null,
+    "old_task_changed_by_new_capability": null,
+    "mastery_run_build_meta_world_fit": null,
+    "repeat_and_long_return_reason": null,
+    "finite_launch_scope_and_content_grammar": null,
+    "optional_purchase_desire_and_meaningful_alternative": null,
+    "art_promise": null,
+    "known_unknowns": [],
+    "evidence_claim_refs": [],
+    "systemic_passport_ref": null,
+    "visual_production_profile_ref": null
+  },
+  "experience_graph": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-02",
+      "UA26-EXP-03",
+      "UA26-EXP-07"
+    ],
+    "nodes": [],
+    "edges": [],
+    "_node_fields": [
+      "id",
+      "kind",
+      "player_goal",
+      "prerequisites",
+      "state",
+      "owner",
+      "requirement_ids",
+      "artifact_ids",
+      "due_proof"
+    ],
+    "_edge_fields": [
+      "id",
+      "from",
+      "to",
+      "input_or_trigger",
+      "rule_and_contact",
+      "state_change",
+      "timing",
+      "predictive_signal",
+      "confirmatory_signal",
+      "error_signal",
+      "recovery_signal",
+      "visual_motion_audio_haptic_map",
+      "cost_reward",
+      "next_decision",
+      "progression_links",
+      "commerce_links",
+      "save_recovery",
+      "evidence_ids"
+    ],
+    "information_parity_cases": [],
+    "thumbs_accessibility_and_interruption_cases": []
+  },
+  "layer_catalog": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-03",
+      "UA26-EXP-04",
+      "UA26-EXP-05"
+    ],
+    "controls_camera": [
+      "controls_and_input_response",
+      "camera_projection_framing_tracking",
+      "world_scale_and_readability"
+    ],
+    "world_actors": [
+      "environment_architecture_terrain",
+      "characters_creatures_opponents",
+      "props_tools_resources_interactables",
+      "shape_proportion_silhouette",
+      "palette_material_texture",
+      "light_shadow_weather"
+    ],
+    "interface": [
+      "hud",
+      "typography_glyphs_icons",
+      "menus_navigation",
+      "onboarding",
+      "progression_results_inventory_shop",
+      "settings_accessibility",
+      "loading_pause_error_empty_locked_states",
+      "localization_safe_areas"
+    ],
+    "motion_contact": [
+      "locomotion_poses",
+      "rig_constraints_ik",
+      "clips_blends_events",
+      "collision_contact_physics",
+      "camera_and_ui_motion",
+      "vfx_particles_trails_telegraphs"
+    ],
+    "sound_feel": [
+      "music_motifs_arrangement_transitions",
+      "ambience",
+      "action_contact_character_sfx",
+      "ui_sfx",
+      "mix_ducking_interruptions",
+      "haptic_event_language",
+      "mute_no_haptic_information_parity"
+    ],
+    "growth_value": [
+      "unlock_reward_presentation",
+      "currency_item_offer_vocabulary",
+      "content_art_ensemble_coherence",
+      "desire_trial_decline_ownership_use_feedback"
+    ],
+    "external_presentation": [
+      "studio_identity_links",
+      "icon_key_art",
+      "store_screenshots_trailer_metadata_parity"
+    ],
+    "_rule": "Inventory every actual layer/element. A catalog entry is an intent obligation to consider, not a claim that all listed features must exist. Scope N/A with a reason; never use generic-rest as coverage."
+  },
+  "layer_inventory": [
+    {
+      "id": null,
+      "layer_key": null,
+      "element_or_state_scope": null,
+      "source_user_requirement_ids": [],
+      "requirement_ids": [],
+      "artistic_intent": null,
+      "gameplay_readability_and_emotional_role": null,
+      "applicability": "pending",
+      "applicability_rationale": null,
+      "master_ids": [],
+      "authoring_source_ids": [],
+      "export_import_recipe_refs": [],
+      "runtime_nodes_or_events": [],
+      "state_camera_seed_time_scope": null,
+      "known_unknown_ids": [],
+      "owner": null,
+      "due_at": null,
+      "artifact_ids": [],
+      "evidence_ids": [],
+      "closure_ref": null,
+      "status": "pending"
+    }
+  ],
+  "commerce": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-01",
+      "UA26-EXP-07",
+      "UA26-EXP-08"
+    ],
+    "chosen_model_decision_refs": [],
+    "considered_models_and_fit": [],
+    "currency_graph_ref": null,
+    "progression_graph_ref": null,
+    "offer_journeys": [
+      {
+        "offer_id": null,
+        "owner": null,
+        "requirement_ids": [],
+        "player_desire_and_gameplay_link": null,
+        "exact_contents_version_entitlement": null,
+        "eligible_moment_and_cohorts": null,
+        "discovery_and_natural_reason": null,
+        "trial_or_demonstration_route": null,
+        "earned_route_pace_and_assumptions": null,
+        "paid_content_boundary_if_no_equivalent_earned_route": null,
+        "optional_purchase_and_decline_path": null,
+        "meaningful_no_purchase_alternative": null,
+        "grant_ownership_repeated_use": null,
+        "next_meaningful_goal": null,
+        "price_currency_region_source": null,
+        "recurrence_duration_caps_expiry": null,
+        "production_and_service_cost_basis": null,
+        "save_grant_restore_refund_revoke_error_contract_ref": null,
+        "cumulative_impact_scenario_ids": [],
+        "evidence_claim_refs": [],
+        "status": "pending"
+      }
+    ],
+    "cumulative_impact_model": {
+      "model_version_and_artifact_ref": null,
+      "shared_skill_time_content_assumptions": null,
+      "cohort_definitions": [],
+      "scenarios": [],
+      "required_comparisons_to_scope": [
+        "no_offer_control",
+        "engaged_nonpayer",
+        "payer_routes",
+        "full_owned_collection",
+        "stacked_boosts_and_synergies",
+        "repeated_purchases",
+        "pass_timing_if_chosen",
+        "simultaneous_offers"
+      ],
+      "outcomes_to_scope": [
+        "access_playstyle_breadth",
+        "time_to_capability",
+        "time_and_cost_to_goal",
+        "challenge_failure_recovery",
+        "power_and_dominance",
+        "competitive_social_impact",
+        "enjoyment_offer_load_regret_decline"
+      ],
+      "assumption_ranges_and_sensitivity": [],
+      "free_alternatives_and_catchup": null,
+      "dominant_strategy_findings": [],
+      "unknowns_and_limitations": [],
+      "actual_cohort_evidence_refs": [],
+      "_rule": "Scope each comparison and outcome with rationale. Simulation is not observed desire, retention or revenue. Equal item DPS does not prove cumulative horizontal balance."
+    },
+    "financial_model_ref": null,
+    "_financial_fields": [
+      "one_time_vs_recurring_gross",
+      "refunds_fees_net",
+      "variable_service_costs",
+      "finite_production_fixed_costs",
+      "source_assumption_ranges",
+      "observed_vs_simulated_scope"
+    ]
+  },
+  "evidence_and_launch_context": {
+    "source_user_requirement_ids": [
+      "UA26-EXP-06",
+      "UA26-EXP-08",
+      "UA26-EXP-09"
+    ],
+    "claims_ledger_ref": null,
+    "research_context_ref": null,
+    "launch_context_ref": null,
+    "_claim_fields": [
+      "id",
+      "fact_inference_hypothesis_unknown",
+      "source_date",
+      "market_platform_audience_scope",
+      "method",
+      "confidence_rationale",
+      "contradictory_signals",
+      "limitations",
+      "decision_impact",
+      "artifact_and_evidence_hashes"
+    ],
+    "_launch_context_fields": [
+      "audience_and_demand_signals",
+      "comparison_scope",
+      "competition_and_timing",
+      "device_distribution_constraints",
+      "production_capacity_and_cost",
+      "current_official_store_policy_refs",
+      "open_questions_and_cheapest_discriminating_tests"
+    ],
+    "_rule": "Observed external facts and own product outcomes are distinct. Infer explicitly; never claim market, retention or profit guarantees from formulas or other games."
+  },
+  "stage_closure": {
+    "stage": null,
+    "gate_id": null,
+    "source_user_requirement_ids": [
+      "UA26-EXP-09",
+      "UA26-EXP-10",
+      "UA26-SYS-01",
+      "UA26-SYS-02",
+      "UA26-SYS-03",
+      "UA26-SYS-04",
+      "UA26-SYS-05",
+      "UA26-SYS-06",
+      "UA26-SYS-07"
+    ],
+    "applicable_due_requirement_ids": [],
+    "met_requirement_ids": [],
+    "blocked_requirement_ids": [],
+    "future_pending_obligations": [],
+    "not_applicable_with_rationale_refs": [],
+    "artifact_ids": [],
+    "evidence_ids": [],
+    "independent_review_refs": [],
+    "material_decision_refs": [],
+    "stop_rule_checked_ref": null,
+    "status": "pending",
+    "remaining_limitations": [],
+    "next_scope": null,
+    "manual_bridge_ref_if_blocked": null,
+    "closure_owner": null,
+    "closed_at": null
+  },
+  "systemic_preselection_refs": {
+    "requirement_ids": [
+      "UA26-SYS-01",
+      "UA26-SYS-02",
+      "UA26-SYS-03",
+      "UA26-SYS-04",
+      "UA26-SYS-05",
+      "UA26-SYS-06",
+      "UA26-SYS-07"
+    ],
+    "candidate_passport_refs": [],
+    "visual_production_profile_refs": [],
+    "structural_check_receipt_refs": [],
+    "independent_semantic_review_refs": [],
+    "actual_image_inspection_refs": [],
+    "_rule": "References to the SAME requirements, decisions, artifacts and reviews. No independent approval/met flags; instantiate exact project IDs/hashes and preserve later native/device/human due gates."
+  }
+}

@@ -1,0 +1,300 @@
+{
+  "schema_version": "app-atelier-stage-recipes/2",
+  "family_version": "2.3.0",
+  "stage": "concepts",
+  "status": "templates_not_executed",
+  "canonical_records": "Register instantiated artifacts with hashes in .appatelier/state.json; do not replace ledger.",
+  "shared_depth_schema": "assets/depth/project.template.json",
+  "recipes": [
+    {
+      "id": "APP2-C01",
+      "operation": "direction-to-full-concepts",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "concepts",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "read",
+          "procedure": "accepted direction + current research + constraints",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "design",
+          "procedure": "complete core/edge/recovery/return journeys and system applicability",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "combine",
+          "procedure": "catalogues/state/UX/commerce/operations/acquisition as causal whole",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "compare",
+          "procedure": "must-filtered full candidates with counterargument",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "complete-concepts",
+        "applicability",
+        "comparison"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Sketch cannot be labeled complete finalist.",
+          "New UI style alone cannot prove product differentiation."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-C02",
+      "operation": "offer-to-entitlement-experience",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "concepts",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "choose",
+          "procedure": "commercial models by domain fit",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "define",
+          "procedure": "offer/limits/compatibility/authority/restore/expiry/refund",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "walk",
+          "procedure": "free/trial/paid journey and cumulative offers",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "reconcile",
+          "procedure": "platform/tenant/account scope and ongoing costs",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "offer-map",
+        "commerce-journeys",
+        "cost-obligations"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "No duplicate sale of same right.",
+          "No forced subscription or game mechanic for unrelated app."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-C03",
+      "operation": "assumptions-to-economics",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "concepts",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "bind",
+          "procedure": "dated units/currency/period/kind/source/ranges",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "compute",
+          "procedure": "gross/refunds/fees/variable/fixed/acquisition + profit definition",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "exercise",
+          "procedure": "downside/base/upside + sensitivity + zero/negative margin",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "review",
+          "procedure": "intermediate values and changed scale assumptions",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "economic-model",
+        "calculation-output",
+        "sensitivity"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Calculation is not demand evidence.",
+          "One-time owners cannot all count as new monthly purchases."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    },
+    {
+      "id": "APP2-C04",
+      "operation": "concept-to-feasible-launch",
+      "status": "template",
+      "requirement_ids": [],
+      "input_bindings_required": true,
+      "input_refs_and_hashes": [],
+      "toolchain_bindings": [],
+      "capability_refs": [],
+      "owner_competence": "concepts",
+      "actual_owner_id": null,
+      "owned_paths_and_resources": [],
+      "consumer": null,
+      "steps": [
+        {
+          "order": 1,
+          "action": "inventory",
+          "procedure": "all required outputs/adapters/rights/operations",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 2,
+          "action": "probe-plan",
+          "procedure": "representative risk with metric/threshold/horizon/cap/stop",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 3,
+          "action": "model",
+          "procedure": "runtime/support/acquisition/exit and cash lag",
+          "binding_status": "project_binding_required"
+        },
+        {
+          "order": 4,
+          "action": "deliver",
+          "procedure": "cold concept packet with choices/unknowns/due proof",
+          "binding_status": "project_binding_required"
+        }
+      ],
+      "output_classes": [
+        "production-profile",
+        "operations-map",
+        "decision-packet"
+      ],
+      "transformation_refs": [],
+      "acceptance": {
+        "positive": "Every bound output satisfies current due requirement and declared consumer contract with appropriate actual evidence.",
+        "negative_cases": [
+          "Planned probe cannot be marked executed.",
+          "Forbidden daily human work cannot become automated fallback."
+        ],
+        "oracle_refs": [],
+        "due_gate": null
+      },
+      "budget_and_allowed_effects": null,
+      "repair_policy": "After two same unsuccessful hypotheses change diagnosis/method; unknown external outcome reconciled before retry.",
+      "attempt_refs": []
+    }
+  ],
+  "domain_contract_template": {
+    "id": null,
+    "requirement_ids": [],
+    "entity_types": [],
+    "command": {
+      "id": null,
+      "actor": null,
+      "authorization": null,
+      "input_schema": null,
+      "preconditions": [],
+      "capture_moment": null,
+      "validation_and_calculation_order": [],
+      "atomic_group": null,
+      "transition": null,
+      "events": [],
+      "response": null,
+      "visible_feedback": null,
+      "durable_ack_boundary": null,
+      "idempotency_policy": null,
+      "timeout_reconciliation": null,
+      "cancellation": null,
+      "failure_cases": []
+    },
+    "fixtures": []
+  },
+  "state_field_template": {
+    "id": null,
+    "type": null,
+    "unit": null,
+    "range": null,
+    "scope": null,
+    "owner": null,
+    "authority": null,
+    "lifetime": null,
+    "serialization": null,
+    "consistency_group": null,
+    "commit_trigger": null,
+    "recovery": null,
+    "migration": null,
+    "retention_delete": null
+  },
+  "assembly_template": {
+    "status": "not_run",
+    "build_ref": null,
+    "config_ref": null,
+    "component_hashes": [],
+    "scenario": null,
+    "initial_state_ref": null,
+    "target_platform": null,
+    "device_or_environment": null,
+    "actions": [],
+    "expected": [],
+    "observed": [],
+    "author_id": null,
+    "reviewer_id": null,
+    "evidence_refs": [],
+    "gaps": []
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "toolkit_version": "4.0.0",
+  "record_kind": "suite_change_authorization_not_game_production_choice",
+  "approved_on": "2026-11-02",
+  "timezone": "Europe/Kyiv",
+  "sources": [
+    {
+      "id": "P1",
+      "filename": "Game_Atelier_4_0_Proposal_P1_UA.md",
+      "sha256": "32e5cefcab845d5f8d58ba91e9bb28a6c2d81de4666eb993f1aae705ebf3af81"
+    },
+    {
+      "id": "D1",
+      "filename": "Game_Atelier_4_0_Addendum_D1_UA.md",
+      "sha256": "8afaee6bd4e8c0a8f5889f263a122e09038811df63301da1dab72f00a0059aa1"
+    },
+    {
+      "id": "D2",
+      "filename": "Game_Atelier_4_0_Addendum_D2_UA.md",
+      "sha256": "ad5724e8243a5ad59ab6486fb8c5efed1ed854520364a891ed734562f67fda19"
+    }
+  ],
+  "approvals": [
+    {
+      "request_id": "aa94da26-00e8-4de4-98d4-d8e2a733eeec",
+      "scope": [
+        "P1",
+        "P1-A",
+        "P1-B",
+        "P1-C",
+        "P1-D",
+        "P1-E",
+        "P1-F"
+      ],
+      "verbatim_excerpt": "Зафіксуй P1 з рекомендованими відповідями"
+    },
+    {
+      "request_id": "ea866b54-c9ce-46c1-8d7d-3170515fefa2",
+      "scope": [
+        "D1"
+      ],
+      "verbatim_excerpt": "Це все підтверджую"
+    },
+    {
+      "request_id": "6d559783-c3e7-4211-834c-f0351326b88b",
+      "scope": [
+        "P1",
+        "D1",
+        "D2",
+        "suite_implementation",
+        "skill_update",
+        "codex_delivery"
+      ],
+      "verbatim_excerpt": "Погоджую абсолютно всі покращення і запропоновані доповнення. Реалізуй, онови навичку, дай файли і інструкцію для онови codex"
+    }
+  ],
+  "decisions": {
+    "A": "Full C1 for each completed concept; C0 only preliminary sketches; full T for selected development",
+    "B": "Authored/hybrid allowed with reason; meaningful variety first",
+    "C": "Functional paid sets may give transparent measured time/options/power advantage when appropriate; competitive rules separate",
+    "D": "Deterministic paid purchases default; earned RNG transparent; paid RNG separate explicit decision",
+    "E": "No hidden adaptive difficulty by success or purchases by default; progression and pacing separate; transparent optional assists",
+    "F": "Online/social/backend conditional per game; no mandatory new network/services/recurring cost without project decision"
+  },
+  "preserve": [
+    "all previous requirement/source IDs",
+    "TatterJack approved studio masters",
+    "R6/R7 and five historical favorites",
+    "native Android/iOS scope",
+    "60 FPS target with measured device evidence",
+    "project source, saves, decisions and original media"
+  ],
+  "does_not_authorize": [
+    "choose a new game",
+    "start a new concept round",
+    "publish a game",
+    "buy tools",
+    "deploy paid infrastructure",
+    "claim native/device/player/revenue proof"
+  ]
+}

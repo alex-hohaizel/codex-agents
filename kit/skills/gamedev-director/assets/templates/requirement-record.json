@@ -1,0 +1,11 @@
+{
+  "id": "FID-01",
+  "source": "user U2.1",
+  "priority": "must",
+  "owner": "pending",
+  "status": "pending",
+  "acceptance": "Define project-specific reference→runtime comparison and approval scope",
+  "artifact_ids": [],
+  "evidence_ids": [],
+  "rationale": ""
+}

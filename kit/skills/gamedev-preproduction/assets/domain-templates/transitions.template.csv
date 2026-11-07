@@ -1,0 +1,1 @@
+transition_id,from_state,event_id,guard,side_effect_ids,to_state,error_state,recovery_action,persisted_data_ids,idempotency_key,test_ids,owner,status

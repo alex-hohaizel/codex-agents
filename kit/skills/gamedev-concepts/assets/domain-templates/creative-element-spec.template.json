@@ -1,0 +1,24 @@
+{
+  "template": true,
+  "status": "draft",
+  "template_kind": "domain_authoring_fragment",
+  "integration": "Author per-element creative specifications and production lineage; project the direction/route into canonical art and pin detailed spec_refs. This is neither generated media nor accepted source artwork.",
+  "canonical_model_contract": "../../references/model-format.md",
+  "source_requirement_ids": [],
+  "features": {},
+  "domains": {},
+  "scenarios": [],
+  "dependencies": [],
+  "evidence": [],
+  "authoring": {
+    "direction": {"fantasy_emotion_tempo": null, "shape_and_silhouettes": null, "proportions_scale": null, "materials_texture": null, "palette_value_hierarchy": null, "lighting_shadows": null, "composition_depth": null, "camera_ref": null, "typography_icons_ui": null, "motion_contact": null, "vfx": null, "audio_music_identity": null, "haptic_character": null, "store_expression": null, "difference_from_portfolio_presets": null},
+    "production_profile": {"id": null, "actual_tool_capability_refs": [], "versions_license_cost": null, "editable_source_route": null, "sprite_model_rig_animation_route": null, "export_settings": null, "runtime_import_settings": null, "material_light_vfx_ui_capabilities": null, "audio_haptic_route": null, "visible_scene_budget": null, "target_devices": [], "verified_status": null, "unresolved_risks": []},
+    "element_form": {"id": null, "family": null, "mechanical_communication_role": null, "source_requirement_ids": [], "rule_and_event_refs": [], "view_and_screen_scale": null, "dimensions_proportions_pivot": null, "shape_material_palette_light": null, "visible_state_refs": [], "motion_contact_spec_ref": null, "ui_audio_haptic_refs": [], "variants_and_exceptions": [], "quantity_and_cost": null, "consumers": [], "acceptance": null},
+    "state_form": {"id": null, "element_id": null, "trigger_rule_ref": null, "visible_change_and_readability": null, "clips_curves_event_tracks": null, "root_limb_contact_constraints": null, "blend_cancel_interrupt": null, "collision_simulation_authority": null, "feedback_refs": [], "source_export_import_refs": []},
+    "audio_haptic_form": {"event_id": null, "cue_purpose": null, "music_sfx_ambience_ui_source_refs": [], "motif_timbre_tempo_texture": null, "stems_loops_transitions": null, "mix_ducking_priority": null, "interruption": null, "haptic_pattern_intensity_duration_cooldown": null, "native_fallback": null, "actual_listening_device_refs": []},
+    "image_inspection_form": {"image_id": null, "exact_path_sha256": null, "profile_id": null, "observer_id": null, "camera_mechanics_ui_checks": null, "body_contact_density_checks": null, "production_plausibility": null, "deviations": [], "outcome": null},
+    "master_lock": {"canonical_asset_refs_and_hashes": [], "actual_user_decision_ref": null, "accepted_properties": [], "allowed_derivatives": [], "unknown_details": [], "provenance_rights_refs": []},
+    "lineage_form": {"element_state_id": null, "master_ref": null, "authoring_object_ref": null, "source_sha256": null, "export_recipe_ref": null, "import_config_ref": null, "runtime_consumer_ref": null, "evidence_ref": null},
+    "parity": {"normal_peak_scenario_refs": [], "fixed_camera_state_seed_time_aspect": null, "side_by_side_crop_overlay_refs": [], "static_diff_tolerances_if_applicable": null, "motion_contact_audio_haptic_observation_refs": [], "native_build_device_refs": [], "material_changes_needing_decision": [], "unresolved_items": []}
+  }
+}

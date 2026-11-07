@@ -1,0 +1,26 @@
+{
+  "id": "CONTRACT-DEFINE",
+  "kind": "behavior",
+  "version": "1",
+  "track_id": "TR01",
+  "owner": "fixture-author",
+  "requirement_ids": [
+    "EXAMPLE-TYPED-CONTRACT-NOT-USER-APPROVAL"
+  ],
+  "purpose": "Fixture operation semantics",
+  "status": "unresolved",
+  "inputs": [],
+  "outputs": [],
+  "read_refs": [],
+  "write_refs": [],
+  "depends_on": [],
+  "algorithm": "Unresolved; define exact behavior before C1",
+  "invariants": [
+    "Duplicate intent cannot produce a second grant."
+  ],
+  "cases": [],
+  "feedback": "Accepted once, duplicate silent.",
+  "persistence": "Uses explicit durable grant identity.",
+  "telemetry": "Reason and operation identity.",
+  "body": {}
+}
