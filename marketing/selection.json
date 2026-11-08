@@ -2,7 +2,7 @@
   "schema_version": 1,
   "system_version": "5.0.0",
   "repository_version": "1.1.0",
-  "status": "selected-for-finalization",
+  "status": "finalized",
   "selected_campaign": "marketing/campaign",
   "identity_locked": true,
   "identity_lock_scope": "Campaign visual composition and product identities only; installed skill identity is unchanged",
@@ -19,5 +19,8 @@
     "PDF",
     "offline HTML"
   ],
-  "publication_status": "pending-remote-read-back"
+  "publication_status": "complete",
+  "publication_commit": "4a968a95dc899bed694b6163f2cff256ef77d54b",
+  "publication_tree": "3206fe02527af5ea3f2e8c9fba5f3c1df0fb14f7",
+  "publication_ci_run_id": 42482264010
 }

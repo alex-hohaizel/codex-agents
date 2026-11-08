@@ -6,28 +6,31 @@
   "scope": "Finalize matching EN/UK campaign, retire obsolete advertising, reconcile localized documentation and publish verified repository",
   "baseline_commit": "7e47dfe9f160068167053f3d94c1fe3c446b5f87",
   "tasks": {
-    "bilingual_artwork": "verified-local",
-    "campaign_exports": "verified-local",
-    "obsolete_advertising_cleanup": "verified-local-51-remote-deletions-pending",
-    "seven_guide_entries": "verified-local",
-    "translation_hashes": "verified-local",
-    "compatibility_instructions": "verified-local",
-    "source_and_icon_integrity": "verified-local",
-    "package_validation": "verified-local",
-    "remote_publication": "authorized-in-progress",
-    "remote_read_back": "baseline-and-source-checkpoint-verified-final-pending",
-    "remote_ci": "pending-final-publication"
+    "bilingual_artwork": "complete",
+    "campaign_exports": "complete",
+    "obsolete_advertising_cleanup": "complete",
+    "seven_guide_entries": "complete",
+    "translation_hashes": "complete",
+    "compatibility_instructions": "complete",
+    "source_and_icon_integrity": "complete",
+    "package_validation": "complete",
+    "remote_publication": "complete",
+    "remote_read_back": "complete",
+    "remote_ci": "complete"
   },
   "publication": {
-    "status": "authorized-in-progress",
+    "status": "complete",
     "repository": "alex-hohaizel/codex-agents",
-    "commit": null,
-    "remote_read_back_verified": false,
-    "changed_paths_verified": false,
-    "removed_paths_verified": false,
-    "main_commit_observed": "7e47dfe9f160068167053f3d94c1fe3c446b5f87",
-    "final_candidate_published": false,
-    "owner_authorized_exact_repository": true
+    "commit": "4a968a95dc899bed694b6163f2cff256ef77d54b",
+    "tree": "3206fe02527af5ea3f2e8c9fba5f3c1df0fb14f7",
+    "remote_read_back_verified": true,
+    "changed_paths_verified": true,
+    "removed_paths_verified": true,
+    "main_commit_observed": "4a968a95dc899bed694b6163f2cff256ef77d54b",
+    "final_candidate_published": true,
+    "owner_authorized_exact_repository": true,
+    "observed_at": "2026-11-08T12:55:41.399818+00:00",
+    "verification_scope": "Published campaign payload commit A; metadata-only follow-up commit B is verified separately."
   },
   "application_effects": {
     "suite_reinstall_required": false,
@@ -62,7 +65,13 @@
   },
   "cleanup": {
     "obsolete_local_files_removed": 104,
-    "obsolete_remote_paths_to_delete": [
+    "replaced_advertising_entry_paths": [
+      "marketing/README.md",
+      "marketing/README.uk.md",
+      "marketing/selection.json"
+    ],
+    "git_history_rewritten": false,
+    "obsolete_remote_paths_deleted": [
       "assets/marketing/01-mission-control.en.svg",
       "assets/marketing/01-mission-control.uk.svg",
       "assets/marketing/02-living-blueprint.en.svg",
@@ -115,11 +124,40 @@
       "marketing/concepts/10-open-canvas.en.md",
       "marketing/concepts/10-open-canvas.uk.md"
     ],
-    "replaced_advertising_entry_paths": [
-      "marketing/README.md",
-      "marketing/README.uk.md",
-      "marketing/selection.json"
+    "obsolete_remote_path_deletion_count": 51,
+    "same_path_replacement_count": 3,
+    "remote_removed_paths_verified": true
+  },
+  "payload_ci": {
+    "run_id": 42482264010,
+    "head_sha": "4a968a95dc899bed694b6163f2cff256ef77d54b",
+    "conclusion": "success",
+    "url": "https://github.com/alex-hohaizel/codex-agents/actions/runs/42482264010"
+  },
+  "temporary_cleanup": {
+    "branch_absent": true,
+    "transport_paths_absent": true
+  },
+  "completed_at": "2026-11-08T12:55:41.399818+00:00",
+  "metadata_followup": {
+    "scope": [
+      "governance/TASK_CLOSEOUT.json",
+      "governance/WORK_CLOSEOUT.uk.md",
+      "marketing/CURRENT_CAMPAIGN.json",
+      "marketing/selection.json",
+      "governance/campaign-requirements.csv"
     ],
-    "git_history_rewritten": false
+    "payload_commit": "4a968a95dc899bed694b6163f2cff256ef77d54b",
+    "own_commit_sha_intentionally_not_embedded": true,
+    "verification_policy": "The executor observes follow-up publication and CI outside this payload-evidence record."
+  },
+  "immutable_verification": {
+    "core_paths": 2967,
+    "mismatches": 0,
+    "uk_artwork_hashes_preserved": 10,
+    "uk_source_cover_sha256": "ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f",
+    "localization_pairs_reviewed": 10,
+    "composition_preserved_by_review": true,
+    "non_text_pixel_identity_guaranteed": false
   }
 }
