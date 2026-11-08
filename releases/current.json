@@ -1,8 +1,8 @@
 {
   "schema_version": "codex-agents.release/1",
-  "repository_version": "1.0.0",
+  "repository_version": "1.1.0",
   "suite_version": "5.0.0",
-  "release_date": "2026-11-07",
+  "release_date": "2026-11-08",
   "release_notes": "releases/5.0.0.md",
   "migration": "releases/migrations/5.0.0.md",
   "requirements": "governance/requirements.csv",
@@ -50,5 +50,13 @@
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported installation; source inclusion does not prove host installation"
     }
+  ],
+  "repository_release_notes": "releases/repository-1.1.0.md",
+  "marketing_showcase": "marketing/campaign/README.md",
+  "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
+  "repository_migration": "releases/migrations/repository-1.1.0.md",
+  "marketing_artwork_languages": [
+    "en",
+    "uk"
   ]
 }

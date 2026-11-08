@@ -1,95 +1,71 @@
 # Agent System · Work + Codex
 
-**Describe the result. Build the right team. Keep the knowledge.**
+**A focused task. An existing product. A whole new direction.**
 
-A reusable system of **33 specialized skills** for taking a focused task or a whole product through research, requirements, design, implementation, verification and continued improvement. Use it to review a backend architecture, build an integration, restore an existing service, shape a mobile app or develop a game. The team and depth follow the actual task.
+A reusable system of **33 specialized skills** for research, requirements, design, implementation, verification and continued improvement. Review a backend architecture, build an integration, restore an existing service, create an application or develop a game. The specialist team and depth follow the actual task.
 
 [English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md)
 
-**[Start here →](START_HERE.md)** · **[Explore 10 visual directions →](marketing/README.md)** · [Changes](CHANGELOG.md) · [Upgrade an existing project](releases/migrations/5.0.0.md)
+**[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Existing-project adoption](releases/migrations/5.0.0.md)
 
-## What can you ask it to do?
+![Agent System: English campaign cover](assets/marketing/campaign/en/01-original.png)
 
-| Your goal | Where you start | What you work toward |
+The campaign contains **ten matching materials in English and Ukrainian**: applications, game/studio creation, conversational products, platforms, automation, both constructors, product lifecycle, project continuity and a useful next task. The English artwork localizes the corresponding Ukrainian composition. The exact Ukrainian source cover remains preserved. These are conceptual examples of capabilities, not evidence of real customers, orders or released products.
+
+Open the campaign README in your language for its PDF, lightweight download and offline-gallery links. GitHub displays HTML source; download the repository or source package before opening `marketing/campaign/index.html` locally. The current campaign pointer is [CURRENT_CAMPAIGN.json](marketing/CURRENT_CAMPAIGN.json). Superseded concept galleries, draft artwork and the rejected vector replacement have been removed from the current tree.
+
+## Choose the work you need
+
+| Your goal | Start with | Useful outcome |
 | --- | --- | --- |
-| “Review retries and consistency in my payments backend.” | Agent constructor | A scoped specialist, evidence, failure cases and a reviewable fix plan |
-| “Create an agent that reconciles spreadsheets and prepares shipping documents.” | Agent constructor | A tailored workflow, data boundaries, integration contracts and verification |
-| “Build a useful mobile app from this idea.” | App director | Research, coherent concepts, specification, UX, Android/iOS/web implementation, QA and release preparation |
-| “Improve our support bot without losing its personality or memory rules.” | ChatBot director | Conversation, knowledge, media, integrations, tests and a controlled migration |
-| “Make a mobile game with lasting progression and a consistent visual identity.” | Game director | Concepts, full game/system design, assets, native implementation, QA and live operations |
-| “Fix this one bug in the current product.” | The relevant existing agent | A targeted change with the accepted product requirements preserved |
+| Review retries, consistency or performance in a backend | Agent constructor | A scoped specialist, evidence and a reviewable change |
+| Reconcile spreadsheets and prepare shipping documents | Agent constructor | A tailored workflow with clear data, actions and exception handling |
+| Create or improve an Android, iOS or web application | App director | Product decisions, specification, UX, implementation, QA and release preparation |
+| Improve a support bot or conversational product | ChatBot director | Preserved personality and memory rules, knowledge, actions, media and verification |
+| Develop a mobile game | Game director | Studio identity, concepts, game systems, assets, native implementation, QA and live operations |
+| Fix a known issue in an existing product | The relevant existing agent | A targeted change with accepted product requirements preserved |
 
-Outputs depend on the actual scope, connected tools, data access and execution environment. This is a workflow system for capable hosts; it does not grant new service access or replace device testing.
+Outputs depend on the actual scope, connected tools, data access and execution environment. The toolkit provides instructions and working methods; it does not grant service access or replace native-device testing.
 
-## One system, two places to work
+## One project across Work and Codex
 
-Work is useful for clarifying the goal, comparing choices, reviewing designs and inspecting connected evidence. Codex is useful for editing a real repository, running scripts, testing and preparing a concrete implementation. Both can do overlapping work when the required tools exist.
+Work is useful for clarifying a goal, comparing choices, reviewing designs and inspecting connected evidence. Codex is useful for editing a real repository, running scripts, testing and preparing implementation. Their capabilities overlap when the relevant tools exist.
 
-The continuity comes from the same project, source revision, requirements, decisions and checkpoint. A handoff carries the selected language, task status and actual evidence. There is no claim that one chat can silently see another chat or start a desktop session.
+Continuity comes from the same source revision, requirements, decisions, selected language and checkpoint. A handoff carries those records and actual results. It does not silently open another chat or start a desktop session.
 
-```mermaid
-flowchart TD
-    A[Your task] --> B[Scope and requirements]
-    B --> C[Relevant specialist team]
-    C --> D[Work review]
-    C --> E[Codex implementation]
-    D --> F[Shared project checkpoint]
-    E --> F
-    F --> G[Verification and next decision]
-    G --> B
-```
-
-## What is included?
-
-| Family | Skills | Purpose |
+| Family | Skills | Scope |
 | --- | ---: | --- |
 | Constructors | 2 | Tailored agents and reusable specialist skills |
-| App | 11 | Research through product operations |
-| ChatBot | 11 | Conversation, knowledge, integration and ongoing service |
-| Game | 9 | Studio identity through native game development and live operations |
+| App | 11 | Research through application operations |
+| ChatBot | 11 | Conversation, knowledge, integration and continued service |
+| Game | 9 | Studio creation through native games and live operations |
 
-The optional [repository maintenance skill](maintenance-skill/SKILL.md) is separate from these 33. It carries the owner's future publication contract into skill-management work.
+The optional [repository maintenance skill](maintenance-skill/SKILL.md) is separate from the 33 baseline skills.
 
-## Start without an existing installation
+## Installation and existing projects
 
 1. Open [START_HERE.md](START_HERE.md) and choose your language.
-2. Connect GitHub in the host you use and grant this repository access; because it is private, only authorized accounts can read it.
-3. Follow your guide's **Work installation** or **Codex installation** steps. Reading or downloading the repository is not installation.
-4. Run the guide's first small task and verify the actual loaded source.
-5. For an existing product, adopt the new toolkit through the migration checklist before the next dependent stage.
+2. Connect GitHub in the host you use and grant this private repository access.
+3. Follow the complete Work or Codex installation section. Reading a repository or extracting an archive is not installation.
+4. Verify source integrity, actual discovery and a small real task separately.
+5. For an existing product, keep its requirements, design identity, native state, decisions and checkpoint, then follow its applicable adoption instructions.
 
-To choose Ukrainian, for example, begin with: “Use Ukrainian for this setup and future project communication. Read docs/uk/GUIDE.md and save preferred_language=uk in the project context.” Every guide contains its own complete bootstrap prompt.
+**Repository edition 1.1.0 is a compatible documentation, campaign and tooling update.** The reusable suite remains **5.0.0**; stable skill names, canonical skill sources and installed icon identity are unchanged. Existing 5.0.0 installations need no reinstall for this edition. Do not reinitialize a product or change its native schema merely to read the new material. See [the exact edition migration](releases/migrations/repository-1.1.0.md).
 
-## Versions that mean something
+## Verify and package
 
-- **Reusable suite: 5.0.0.** The canonical source skills preserve the verified release bytes.
-- **Repository/documentation: 1.0.0.** This initial repository release adds onboarding, translations, release governance, migration instructions and marketing concept studies.
-- **Project-agent and native schema versions are separate.** Updating a skill does not rename a game state schema or migrate a running product.
-
-Every future relevant update must include applicable source, documentation, translations, packages, change notes and existing-project migration instructions. See the [update contract](governance/UPDATE_CONTRACT.md) and [permanent agent instructions](AGENTS.md). An enabled daily fallback checks accessible approved sources; the [synchronization status](governance/SYNC_STATUS.md) records its scope, first eligible check and access limits. Integrity, behavior, host discovery and product acceptance are separate checks.
-
-## Visual presentation, ready for a decision
-
-![Ten visual marketing directions for comparison](assets/marketing/concept-contact-sheet.en.png)
-
-[Open the full-size boards and offline gallery](marketing/README.md). These are alternatives for selection; no campaign identity has been approved.
-
-[Ten distinct concept boards](marketing/README.md) explore different ways to explain the system. Each has a hero, team/process graphic, practical use cases and a defined visual identity for later ads, decks and landing pages. No final campaign direction is selected in this release.
-
-The [quality model](governance/QUALITY_MODEL.md) shows what technical depth means in practice: causal requirements, explicit data and recovery rules, preserved design, relevant performance budgets and evidence from the actual target environment.
-
-## Verify and build packages
-
-From this repository root, with Python 3.9 or newer:
+From the repository root:
 
 ```sh
 python3 -B kit/verify_release.py
 python3 -B scripts/check_repository.py
+python3 -B marketing/campaign/check_campaign.py
+python3 -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-The generated Work and Codex ZIP packages and SHA256SUMS appear in `dist/`. CI builds the same artifacts; private-repository artifacts require authorized GitHub access. See the guide for installation, update journals and safe rollback.
+Source bundle names retain suite version 5.0.0; their build metadata records repository edition 1.1.0. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
 
-[Source provenance](kit/PROVENANCE.md) · [Requirements](governance/requirements.csv) · [Distribution rights](RIGHTS.md)
+[Update contract](governance/UPDATE_CONTRACT.md) · [Requirements](governance/requirements.csv) · [Validation](governance/VALIDATION.md) · [Quality model](governance/QUALITY_MODEL.md) · [Source provenance](kit/PROVENANCE.md) · [Rights](RIGHTS.md)
 
-This independent project is not an official OpenAI product. Host capabilities and access vary. No speed, revenue or superiority claim is presented as measured evidence.
+This independent project is not an official OpenAI product. Host capabilities vary. No measured speed, revenue or superiority claim is made.

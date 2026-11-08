@@ -1,0 +1,1459 @@
+{
+  "schema_version": "codex-agents.capability-map/1",
+  "suite_version": "5.0.0",
+  "reviewed_date": "2026-11-07",
+  "evidence_scope": "Canonical SKILL.md descriptions and domain routes, with linked repository contracts. Capability design, not host execution or shipped-product proof.",
+  "families": [
+    {
+      "id": "constructors",
+      "name": {
+        "en": "Constructors",
+        "uk": "Конструктори"
+      },
+      "count": 2,
+      "promise": {
+        "en": "Create a specialist around your domain, then compose the right capabilities.",
+        "uk": "Створити спеціаліста під свою предметну область і поєднати потрібні можливості."
+      }
+    },
+    {
+      "id": "app",
+      "name": {
+        "en": "Applications",
+        "uk": "Застосунки"
+      },
+      "count": 11,
+      "promise": {
+        "en": "From researched opportunity to Android, iOS and web product, support and growth.",
+        "uk": "Від дослідженого напряму до Android, iOS і web продукту, підтримки й залучення."
+      }
+    },
+    {
+      "id": "chatbot",
+      "name": {
+        "en": "Chatbots",
+        "uk": "Чатботи"
+      },
+      "count": 11,
+      "promise": {
+        "en": "Conversation, memory, actions and media become one maintained bot.",
+        "uk": "Розмова, пам’ять, дії та медіа стають одним підтримуваним ботом."
+      }
+    },
+    {
+      "id": "game",
+      "name": {
+        "en": "Games",
+        "uk": "Ігри"
+      },
+      "count": 9,
+      "promise": {
+        "en": "From a studio identity to systemic game design, native release and live operations.",
+        "uk": "Від ідентичності студії до системного дизайну гри, нативного випуску й liveops."
+      }
+    }
+  ],
+  "skills": [
+    {
+      "name": "agent-foundry",
+      "family": "constructors",
+      "title": {
+        "en": "Agent constructor",
+        "uk": "Конструктор агентів"
+      },
+      "contribution": {
+        "en": "Turn a plain-language goal into a domain-specific agent or skill family, with research, a capability blueprint, tools, memory, evaluation, installation and support.",
+        "uk": "Перетворює задум звичайною мовою на предметного агента або сімейство навичок: дослідження, паспорт можливостей, інструменти, пам’ять, перевірки, встановлення й супровід."
+      },
+      "outcomes": {
+        "en": [
+          "Approved capability blueprint",
+          "Portable agent package",
+          "Representative task evaluations and installation evidence"
+        ],
+        "uk": [
+          "Погоджений паспорт можливостей",
+          "Переносний пакет агента",
+          "Перевірки предметних задач і докази встановлення"
+        ]
+      },
+      "sources": [
+        "kit/skills/agent-foundry/SKILL.md",
+        "kit/skills/agent-foundry/references/architecture-contract.md",
+        "kit/skills/agent-foundry/references/generated-agent-contract.md",
+        "kit/skills/agent-foundry/references/specialist-discovery.md"
+      ],
+      "source_sha256": "d525f8f4344f4d38b557a4635689cd55ac935f79b395732f63dbe19e9f738d59",
+      "limitations": {
+        "en": [
+          "Creating an agent and executing its target project are separate scopes; the blueprint and available host determine the actual breadth."
+        ],
+        "uk": [
+          "Створення агента й виконання його кінцевого проєкту мають окремі межі; фактичний обсяг визначають паспорт і можливості середовища."
+        ]
+      }
+    },
+    {
+      "name": "design-specialist-skills",
+      "family": "constructors",
+      "title": {
+        "en": "Specialist skill constructor",
+        "uk": "Конструктор спеціалізованих навичок"
+      },
+      "contribution": {
+        "en": "Build a reusable specialist method or coordinated family around the real domain, outputs, team competencies and acceptance criteria.",
+        "uk": "Створює повторно застосовну предметну навичку або узгоджене сімейство за реальним доменом, результатами, компетенціями й критеріями приймання."
+      },
+      "outcomes": {
+        "en": [
+          "Versioned skill blueprint",
+          "Self-contained skill sources and resources",
+          "Consistency checks and independent review evidence"
+        ],
+        "uk": [
+          "Версійний blueprint навички",
+          "Самодостатні джерела й ресурси навичок",
+          "Перевірки узгодженості та докази незалежного review"
+        ]
+      },
+      "sources": [
+        "kit/skills/design-specialist-skills/SKILL.md",
+        "kit/skills/design-specialist-skills/references/single-or-family.md",
+        "kit/skills/design-specialist-skills/references/team-architecture.md",
+        "kit/skills/design-specialist-skills/references/build-and-verify.md"
+      ],
+      "source_sha256": "3126a9feb3e4fd1b1e0ce64cbb8e8a81d9cfe0c38b64d8ab376c5a254d97f2d1",
+      "limitations": {
+        "en": [
+          "A named specialist role is not an executed subagent; installation uses the supported skill workflow after approval."
+        ],
+        "uk": [
+          "Названа роль спеціаліста не означає запущеного субагента; встановлення відбувається штатним способом після погодження."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-director",
+      "family": "app",
+      "title": {
+        "en": "Application director",
+        "uk": "Директор застосунків"
+      },
+      "contribution": {
+        "en": "Lead one application from an open idea or existing project through product decisions, design, Android/iOS/web implementation, release and evolution.",
+        "uk": "Веде один застосунок від вільного задуму або чинного проєкту через продуктові рішення, дизайн, Android/iOS/web, випуск і розвиток."
+      },
+      "outcomes": {
+        "en": [
+          "Integrated product roadmap",
+          "Coordinated specialist outputs",
+          "Current checkpoint and next action"
+        ],
+        "uk": [
+          "Узгоджений продуктовий план",
+          "Інтегровані результати спеціалістів",
+          "Поточний checkpoint і наступна дія"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-director/SKILL.md",
+        "kit/skills/app-atelier-director/references/workflow.md",
+        "kit/skills/app-atelier-director/references/cross-family-routing.md"
+      ],
+      "source_sha256": "26eafcfc7dafdea5f1a0a9a87a35ed156cbe63a6a5cc0157478898a7cbdcecd0",
+      "limitations": {
+        "en": [
+          "Routes are selected for the task; unrelated phases do not start for a small repair or status request."
+        ],
+        "uk": [
+          "Маршрути обираються за задачею; локальний ремонт або запит статусу не запускає зайві етапи."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-research",
+      "family": "app",
+      "title": {
+        "en": "Product research",
+        "uk": "Дослідження продукту"
+      },
+      "contribution": {
+        "en": "Investigate needs, alternatives, competitors and market directions before committing to a product.",
+        "uk": "Досліджує потреби, альтернативи, конкурентів і ринкові напрями до вибору продукту."
+      },
+      "outcomes": {
+        "en": [
+          "Market and alternatives map",
+          "Source-backed claim ledger",
+          "Decision brief with uncertainties"
+        ],
+        "uk": [
+          "Карта ринку й альтернатив",
+          "Реєстр тверджень і джерел",
+          "Матеріал для рішення з невизначеностями"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-research/SKILL.md",
+        "kit/skills/app-atelier-research/references/evidence-contract.md"
+      ],
+      "source_sha256": "eb449ef16d0cfffaa61baca1ec5bb221636397fe9ebb8a978bdd0fc456a2c3cc",
+      "limitations": {
+        "en": [
+          "Research findings and AI review do not prove demand, revenue or human validation."
+        ],
+        "uk": [
+          "Дослідження та AI-review не доводять попит, дохід або перевірку на реальних користувачах."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-concepts",
+      "family": "app",
+      "title": {
+        "en": "Product concepts and economics",
+        "uk": "Концепції й економіка продукту"
+      },
+      "contribution": {
+        "en": "Compare complete application concepts that connect user value, UX, monetization, operating model and acquisition feasibility.",
+        "uk": "Порівнює цілісні концепції, де користь, UX, монетизація, операційна модель і здійсненність залучення пов’язані між собою."
+      },
+      "outcomes": {
+        "en": [
+          "Comparable product shortlist",
+          "Free/trial/paid model and unit economics",
+          "Build, pivot or rejection recommendation"
+        ],
+        "uk": [
+          "Зіставний shortlist продуктів",
+          "Free/trial/paid модель та юніт-економіка",
+          "Рекомендація розробки, pivot або відхилення"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-concepts/SKILL.md",
+        "kit/skills/app-atelier-concepts/references/budget-contract.md"
+      ],
+      "source_sha256": "9ffe4c5719d1aa7d6304952865c7d0a547babe0b5faa3dabab3c08c4c16fdcfb",
+      "limitations": {
+        "en": [
+          "Economic models are assumptions to test; they are not observed profit or a guaranteed outcome."
+        ],
+        "uk": [
+          "Економічні моделі містять припущення для перевірки; вони не є фактичним прибутком або гарантією результату."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-specification",
+      "family": "app",
+      "title": {
+        "en": "Product and technical specification",
+        "uk": "Продуктова й технічна специфікація"
+      },
+      "contribution": {
+        "en": "Translate the chosen concept into PRD/TDD, domain rules, data/auth/API/payment contracts and a verifiable implementation plan.",
+        "uk": "Перетворює обрану концепцію на PRD/TDD, предметні правила, контракти даних/auth/API/оплат і перевірний план реалізації."
+      },
+      "outcomes": {
+        "en": [
+          "PRD/TDD and architecture alternatives",
+          "Data, API and entitlement contracts",
+          "Acceptance matrix and release feasibility"
+        ],
+        "uk": [
+          "PRD/TDD й архітектурні альтернативи",
+          "Контракти даних, API та прав доступу",
+          "Матриця приймання й здійсненність випуску"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-specification/SKILL.md",
+        "kit/skills/app-atelier-specification/references/app-system-contract.md",
+        "kit/skills/app-atelier-specification/references/requirements-contract.md"
+      ],
+      "source_sha256": "0beba8e998a10f66f675a0439548edd8dae4c3ffdf20a67bd992f7dfbbc212bc",
+      "limitations": {
+        "en": [
+          "A completed specification is a design result; runtime, device and release claims need their own evidence."
+        ],
+        "uk": [
+          "Завершена специфікація є проєктним результатом; runtime, пристрої та випуск потребують окремих доказів."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-experience",
+      "family": "app",
+      "title": {
+        "en": "Brand, UX and interface design",
+        "uk": "Бренд, UX та інтерфейс"
+      },
+      "contribution": {
+        "en": "Develop a distinct application brand, screen and state system, interactive prototype and production assets across the chosen clients.",
+        "uk": "Проєктує окремий бренд, екрани й стани, інтерактивний прототип і виробничі матеріали для обраних клієнтів."
+      },
+      "outcomes": {
+        "en": [
+          "Brand and visual direction",
+          "Interactive prototype and state map",
+          "Implementation-ready assets and design checks"
+        ],
+        "uk": [
+          "Бренд і візуальний напрям",
+          "Інтерактивний прототип і карта станів",
+          "Матеріали для реалізації та перевірки дизайну"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-experience/SKILL.md",
+        "kit/skills/app-atelier-experience/references/acceptance.md"
+      ],
+      "source_sha256": "eb380062139a2e8d66e8f3d7d4bdf90d9f4d9067810bf5b57b6daa8aaf373b46",
+      "limitations": {
+        "en": [
+          "A mockup or prototype is not a shipped client; accepted design must be checked against the actual implementation."
+        ],
+        "uk": [
+          "Макет або прототип не є випущеним клієнтом; прийнятий дизайн звіряється з фактичною реалізацією."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-build",
+      "family": "app",
+      "title": {
+        "en": "Android, iOS and web engineering",
+        "uk": "Розробка Android, iOS і web"
+      },
+      "contribution": {
+        "en": "Implement the agreed product across Android, iOS and web, with backend, data, authentication, billing and integrations when the product requires them.",
+        "uk": "Реалізує погоджений продукт для Android, iOS і web; backend, дані, автентифікацію, оплати й інтеграції додає за потребою продукту."
+      },
+      "outcomes": {
+        "en": [
+          "Working end-to-end product slice",
+          "Client/backend sources and integrations",
+          "Reproducible builds and verification evidence"
+        ],
+        "uk": [
+          "Працюючий наскрізний зріз продукту",
+          "Код клієнтів/backend та інтеграції",
+          "Відтворювані збірки й докази перевірок"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-build/SKILL.md",
+        "kit/skills/app-atelier-build/references/app-system-contract.md"
+      ],
+      "source_sha256": "bca4c228903a16582643efb1eac0425d7af9890c28dab79f10e9590b8d56f84d",
+      "limitations": {
+        "en": [
+          "Technology and infrastructure follow the domain; code or one platform test does not prove every native client works."
+        ],
+        "uk": [
+          "Стек та інфраструктура випливають із предметної області; код або тест однієї платформи не доводить роботу всіх клієнтів."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-support",
+      "family": "app",
+      "title": {
+        "en": "Product support bot",
+        "uk": "Бот підтримки продукту"
+      },
+      "contribution": {
+        "en": "Create and integrate a support bot with a knowledge base, product tone, user context and narrowly authorized actions.",
+        "uk": "Створює й інтегрує бота підтримки з базою знань, мовою продукту, контекстом користувача й обмеженими дозволеними діями."
+      },
+      "outcomes": {
+        "en": [
+          "Support knowledge base and response routes",
+          "In-product and channel integration",
+          "Access-boundary and support tests"
+        ],
+        "uk": [
+          "База знань і маршрути відповідей",
+          "Інтеграція в продукт та обрані канали",
+          "Перевірки доступу й підтримки"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-support/SKILL.md",
+        "kit/skills/app-atelier-support/references/data-support-contract.md"
+      ],
+      "source_sha256": "9fa37cfb8abdade4357793ffc991216031b44a6e044e7e155e6f2b52934b62b3",
+      "limitations": {
+        "en": [
+          "The support skill is not an already running service and does not confer unrestricted administrative access."
+        ],
+        "uk": [
+          "Навичка підтримки не є вже запущеною службою й не надає необмеженого адміністративного доступу."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-qa",
+      "family": "app",
+      "title": {
+        "en": "Application QA",
+        "uk": "QA застосунку"
+      },
+      "contribution": {
+        "en": "Independently check product requirements, design, Android/iOS/web behavior, payments, support, privacy and recovery at the relevant evidence level.",
+        "uk": "Незалежно перевіряє вимоги, дизайн, поведінку Android/iOS/web, оплати, підтримку, приватність і відновлення належним видом доказу."
+      },
+      "outcomes": {
+        "en": [
+          "Requirement-to-test coverage",
+          "Reproducible findings and repair scope",
+          "Scoped readiness verdict"
+        ],
+        "uk": [
+          "Покриття вимог перевірками",
+          "Відтворювані дефекти й обсяг ремонту",
+          "Висновок готовності в перевірених межах"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-qa/SKILL.md",
+        "kit/skills/app-atelier-qa/references/acceptance.md",
+        "kit/skills/app-atelier-qa/references/evidence-contract.md"
+      ],
+      "source_sha256": "48c2cf49ae86e5390746bab6176abda7865048a06d59897b48bea01757c5199d",
+      "limitations": {
+        "en": [
+          "Independent QA requires another actual reviewer; source checks do not substitute for device or human evidence."
+        ],
+        "uk": [
+          "Незалежне QA потребує іншого фактичного reviewer; перевірки коду не заміняють пристрої або людську оцінку."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-release",
+      "family": "app",
+      "title": {
+        "en": "Application release",
+        "uk": "Випуск застосунку"
+      },
+      "contribution": {
+        "en": "Prepare and carry out an authorized application release with early store feasibility, signing, listings, deployment verification and rollback planning.",
+        "uk": "Готує й проводить дозволений випуск: рання здійсненність stores, підписання, listings, перевірка deployment і план відкату."
+      },
+      "outcomes": {
+        "en": [
+          "Release candidate and store materials",
+          "Deployment/submission receipts and read-back",
+          "Rollback and operations handoff"
+        ],
+        "uk": [
+          "Release candidate й матеріали stores",
+          "Підтвердження deployment/submission та перевірка стану",
+          "Відкат і передача в експлуатацію"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-release/SKILL.md",
+        "kit/skills/app-atelier-release/references/runtime-contract.md"
+      ],
+      "source_sha256": "806fb2a7abc15be859846fd1cac0266cc9a4d511208a8beb61f13eaaa981e600",
+      "limitations": {
+        "en": [
+          "Store submission, approval and live availability are distinct; accounts, signing, platform access and exact authority must exist."
+        ],
+        "uk": [
+          "Подання, схвалення store та доступність є різними станами; потрібні акаунти, підписання, доступ і конкретні повноваження."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-growth",
+      "family": "app",
+      "title": {
+        "en": "Growth and distribution",
+        "uk": "Залучення й дистрибуція"
+      },
+      "contribution": {
+        "en": "Plan suitable ASO, SEO, content, partnerships or product-led routes before major build, then activate authorized channels and analyze observed acquisition.",
+        "uk": "Планує доречні ASO, SEO, контентні, партнерські або продуктові канали до значної розробки; активує дозволені маршрути й аналізує фактичне залучення."
+      },
+      "outcomes": {
+        "en": [
+          "Channel feasibility and budget",
+          "Distribution materials and instrumentation",
+          "Observed acquisition review"
+        ],
+        "uk": [
+          "Здійсненність каналів і бюджет",
+          "Матеріали дистрибуції та вимірювання",
+          "Розбір фактичного залучення"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-growth/SKILL.md",
+        "kit/skills/app-atelier-growth/references/budget-contract.md",
+        "kit/skills/app-atelier-growth/references/evidence-contract.md"
+      ],
+      "source_sha256": "c39e3e707c3f8c48ec132a3fc12362e4d062957d55f1026e4e2825b9bbbb07bd",
+      "limitations": {
+        "en": [
+          "A plan is not a live campaign; results are observed, and paid activity or human experiments require applicable authorization."
+        ],
+        "uk": [
+          "План не є живою кампанією; результати спостерігаються, а платні дії та людські експерименти потребують відповідних повноважень."
+        ]
+      }
+    },
+    {
+      "name": "app-atelier-operations",
+      "family": "app",
+      "title": {
+        "en": "Application operations and evolution",
+        "uk": "Експлуатація й розвиток застосунку"
+      },
+      "contribution": {
+        "en": "Maintain an existing product through incident diagnosis, metrics and cost analysis, updates, migrations, backup/restore and retirement.",
+        "uk": "Супроводжує чинний продукт: діагностика інцидентів, метрики й витрати, оновлення, міграції, резервування, відновлення та завершення."
+      },
+      "outcomes": {
+        "en": [
+          "Root-cause repair and regression evidence",
+          "Cost and product health review",
+          "Recovery, migration and operations runbooks"
+        ],
+        "uk": [
+          "Причинний ремонт і докази регресії",
+          "Розбір витрат і стану продукту",
+          "Інструкції відновлення, міграцій та експлуатації"
+        ]
+      },
+      "sources": [
+        "kit/skills/app-atelier-operations/SKILL.md",
+        "kit/skills/app-atelier-operations/references/runtime-contract.md"
+      ],
+      "source_sha256": "d63e87677547bfb4ecd179ed56684a39097311e0a0d4213773af74916167c144",
+      "limitations": {
+        "en": [
+          "Ongoing monitoring needs an actually configured scheduler/runtime; a skill or closed chat is not a background service."
+        ],
+        "uk": [
+          "Постійний моніторинг потребує налаштованого scheduler/runtime; навичка або закритий чат не є фоновим сервісом."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-director",
+      "family": "chatbot",
+      "title": {
+        "en": "Chatbot director",
+        "uk": "Директор чатботів"
+      },
+      "contribution": {
+        "en": "Lead a new or existing bot through domain research, behavior, conversation, knowledge, integrations, media, QA, release and support.",
+        "uk": "Веде нового або чинного бота через дослідження, предметну поведінку, розмову, знання, інтеграції, медіа, QA, випуск і супровід."
+      },
+      "outcomes": {
+        "en": [
+          "One coordinated bot roadmap",
+          "Preserved requirements and accepted persona",
+          "Integrated results and continuation checkpoint"
+        ],
+        "uk": [
+          "Єдиний узгоджений план бота",
+          "Збережені вимоги й прийнята персона",
+          "Інтегровані результати та checkpoint продовження"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-director/SKILL.md",
+        "kit/skills/chatbot-atelier-director/references/resume-current-project.md",
+        "kit/skills/chatbot-atelier-director/references/stage-contract.md"
+      ],
+      "source_sha256": "eeb72b3d161cef9547888474da2bd99fffc206048a744c6dcc92941105244381",
+      "limitations": {
+        "en": [
+          "Restoring a bot uses available project sources and evidence; it does not imply automatic access to private chats or another host."
+        ],
+        "uk": [
+          "Відновлення спирається на доступні джерела й докази; воно не означає автоматичного доступу до приватних чатів або іншого середовища."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-research",
+      "family": "chatbot",
+      "title": {
+        "en": "Chatbot needs and feasibility",
+        "uk": "Потреби й здійсненність чатбота"
+      },
+      "contribution": {
+        "en": "Investigate the real user problem, domain, platform constraints, integrations and production feasibility before selecting the bot solution.",
+        "uk": "Досліджує потребу, предметну область, платформи, інтеграції та виробничу здійсненність до вибору рішення бота."
+      },
+      "outcomes": {
+        "en": [
+          "Problem and alternatives map",
+          "Verified platform/dependency sources",
+          "Feasibility brief and open questions"
+        ],
+        "uk": [
+          "Карта проблеми й альтернатив",
+          "Перевірені джерела платформ і залежностей",
+          "Матеріал здійсненності й відкриті питання"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-research/SKILL.md",
+        "kit/skills/chatbot-atelier-research/references/primary-sources.md"
+      ],
+      "source_sha256": "d81ba8d61553b43524f946396ac4e856bafad6ce625238e269102357e00367ff",
+      "limitations": {
+        "en": [
+          "Research separates source facts, inferences and unknowns; it does not prove a working integration."
+        ],
+        "uk": [
+          "Дослідження розрізняє факти джерел, висновки й невідоме; воно не доводить працюючу інтеграцію."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-specification",
+      "family": "chatbot",
+      "title": {
+        "en": "Chatbot domain and action contracts",
+        "uk": "Предметні контракти чатбота"
+      },
+      "contribution": {
+        "en": "Specify the bot as a causal system of rules, state, API/tools/events/data, access boundaries, failures and acceptance cases.",
+        "uk": "Описує бота як причинну систему правил, стану, API/tools/events/data, меж доступу, відмов і сценаріїв приймання."
+      },
+      "outcomes": {
+        "en": [
+          "Domain and lifecycle model",
+          "Action, data and permission contracts",
+          "Negative cases and implementation handoff"
+        ],
+        "uk": [
+          "Предметна модель і життєвий цикл",
+          "Контракти дій, даних і повноважень",
+          "Негативні сценарії й передача в реалізацію"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-specification/SKILL.md",
+        "kit/skills/chatbot-atelier-specification/references/domain-contracts.md"
+      ],
+      "source_sha256": "74dddb96d08707fc89d864761abb4f0c7ce144e69bec5e3d677834d9fb4a04fd",
+      "limitations": {
+        "en": [
+          "A valid contract or schema is a design artifact; actual effects and runtime behavior need execution evidence."
+        ],
+        "uk": [
+          "Коректний контракт або схема є проєктним артефактом; фактичні дії та runtime-поведінка потребують доказів виконання."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-conversation",
+      "family": "chatbot",
+      "title": {
+        "en": "Conversation and character",
+        "uk": "Розмова й характер"
+      },
+      "contribution": {
+        "en": "Shape natural language, persona, attention, clarification, initiative, buttons and group participation around the bot’s purpose.",
+        "uk": "Проєктує природну мову, характер, увагу, уточнення, ініціативу, кнопки й групову участь відповідно до мети бота."
+      },
+      "outcomes": {
+        "en": [
+          "Conversation and persona direction",
+          "Representative dialogues and interaction states",
+          "Conversation evaluation and repair cases"
+        ],
+        "uk": [
+          "Мовний напрям і персона",
+          "Предметні діалоги й стани взаємодії",
+          "Оцінювання розмови та сценарії ремонту"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-conversation/SKILL.md",
+        "kit/skills/chatbot-atelier-conversation/references/conversation-and-value.md",
+        "kit/skills/chatbot-atelier-conversation/references/judge-rubrics.md"
+      ],
+      "source_sha256": "aaadcf3c39af97b0b5af8089247c1c321215f0701062bbda560282d1c2b3f8b3",
+      "limitations": {
+        "en": [
+          "Automated review and example dialogues are distinct from an observed conversation or human assessment."
+        ],
+        "uk": [
+          "Автоматизований review і приклади діалогів відрізняються від фактичної розмови або людської оцінки."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-knowledge",
+      "family": "chatbot",
+      "title": {
+        "en": "Memory, retrieval and privacy",
+        "uk": "Пам’ять, пошук і приватність"
+      },
+      "contribution": {
+        "en": "Build scoped memory and source-backed retrieval, with corrections, expiry, access rules, forgetting, revocation and safe restoration.",
+        "uk": "Проєктує scoped-пам’ять і пошук за джерелами: виправлення, строки чинності, доступ, забування, відкликання та безпечне відновлення."
+      },
+      "outcomes": {
+        "en": [
+          "Memory, ACL and retention model",
+          "Retrieval evaluations when RAG is needed",
+          "Deletion/revocation and restore traces"
+        ],
+        "uk": [
+          "Модель пам’яті, доступу й зберігання",
+          "Перевірки retrieval за потреби RAG",
+          "Сліди видалення, відкликання й відновлення"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-knowledge/SKILL.md",
+        "kit/skills/chatbot-atelier-knowledge/references/domain-contracts.md",
+        "kit/skills/chatbot-atelier-knowledge/references/quality-and-operations.md"
+      ],
+      "source_sha256": "22c3c078e36fc7ef2046d57dc0ef54795a050956ea7c0e454f9bbeac08b743aa",
+      "limitations": {
+        "en": [
+          "RAG is conditional; stored facts do not grant broader access, and erased data must not reappear through old backups or caches."
+        ],
+        "uk": [
+          "RAG застосовується за потребою; збережені факти не розширюють доступ, а стерті дані не мають повертатися зі старих копій або кешу."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-integrations",
+      "family": "chatbot",
+      "title": {
+        "en": "Actions, integrations and jobs",
+        "uk": "Дії, інтеграції та jobs"
+      },
+      "contribution": {
+        "en": "Implement platform adapters, callbacks, external tools, group workflows and scheduled jobs with deduplication, recovery and delivery evidence.",
+        "uk": "Реалізує platform adapters, callbacks, зовнішні інструменти, групові процеси й scheduled jobs із deduplication, відновленням і доказами доставки."
+      },
+      "outcomes": {
+        "en": [
+          "Adapters and authorized command handlers",
+          "Durable jobs and retry/reconciliation behavior",
+          "Provider-boundary tests and receipts"
+        ],
+        "uk": [
+          "Adapters і дозволені command handlers",
+          "Стійкі jobs, повтори та reconciliation",
+          "Перевірки меж провайдера й підтвердження"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-integrations/SKILL.md",
+        "kit/skills/chatbot-atelier-integrations/references/platform-adapters.md",
+        "kit/skills/chatbot-atelier-integrations/references/platform-sources.md"
+      ],
+      "source_sha256": "faa060aa6a5d7095b17cf600cd395385a69c869c66dcca6137184a506b53b204",
+      "limitations": {
+        "en": [
+          "An acknowledgment or queued job does not prove delivery or human reading; providers, permissions and scheduler access must be real."
+        ],
+        "uk": [
+          "ACK або job у черзі не доводить доставку чи прочитання; провайдери, повноваження й scheduler мають бути фактично доступні."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-media",
+      "family": "chatbot",
+      "title": {
+        "en": "Bot media, voice and motion",
+        "uk": "Медіа, голос і рух бота"
+      },
+      "contribution": {
+        "en": "Produce and integrate images, stickers, animation, video, music and voice while preserving accepted identity, source provenance and runtime delivery.",
+        "uk": "Виробляє й інтегрує зображення, стікери, анімацію, відео, музику та голос зі збереженням ідентичності, походження джерел і фактичної доставки."
+      },
+      "outcomes": {
+        "en": [
+          "Approved media sources and outputs",
+          "Production recipes and runtime manifests",
+          "Playback, integration and delivery evidence"
+        ],
+        "uk": [
+          "Прийняті медіаджерела й результати",
+          "Виробничі рецепти та runtime manifests",
+          "Докази відтворення, інтеграції й доставки"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-media/SKILL.md",
+        "kit/skills/chatbot-atelier-media/references/media-quality.md",
+        "kit/skills/chatbot-atelier-media/references/production-recipes.md"
+      ],
+      "source_sha256": "e3a0c917c84073f9dea19e14ecd48a4950a2fae873d3633fa2f9ac1623a54d3a",
+      "limitations": {
+        "en": [
+          "Each modality depends on actual tools and rights; a still image does not prove animation, rigging, audio or integration."
+        ],
+        "uk": [
+          "Кожна модальність залежить від інструментів і прав; статичне зображення не доводить анімацію, rig, звук або інтеграцію."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-build",
+      "family": "chatbot",
+      "title": {
+        "en": "End-to-end chatbot engineering",
+        "uk": "Наскрізна реалізація чатбота"
+      },
+      "contribution": {
+        "en": "Implement the agreed bot across conversation, state, knowledge, integrations and media, starting with a real end-to-end slice.",
+        "uk": "Реалізує погодженого бота через розмову, стан, знання, інтеграції й медіа, починаючи з реального наскрізного зрізу."
+      },
+      "outcomes": {
+        "en": [
+          "Working bot slice and implementation",
+          "Integrated contracts, assets and migrations",
+          "Build and test evidence for the accepted scope"
+        ],
+        "uk": [
+          "Працюючий зріз і реалізація бота",
+          "Інтегровані контракти, assets і міграції",
+          "Докази збірки й перевірок погодженого обсягу"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-build/SKILL.md",
+        "kit/skills/chatbot-atelier-build/references/production-recipes.md",
+        "kit/skills/chatbot-atelier-build/references/domain-contracts.md"
+      ],
+      "source_sha256": "1f9d6e0188043af9800dab5eb7b4b559b74122e39788328556e73da098f369c1",
+      "limitations": {
+        "en": [
+          "Preserve existing bot capabilities; mocks and local runs do not establish production delivery or every platform outcome."
+        ],
+        "uk": [
+          "Чинні можливості бота зберігаються; mocks і локальні запуски не доводять production-доставку або всі платформи."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-qa",
+      "family": "chatbot",
+      "title": {
+        "en": "Chatbot QA",
+        "uk": "QA чатбота"
+      },
+      "contribution": {
+        "en": "Independently test the bot’s requirements, conversation, memory, actions, media and runtime through positive and negative domain cases.",
+        "uk": "Незалежно перевіряє вимоги, розмову, пам’ять, дії, медіа й runtime через позитивні та негативні предметні сценарії."
+      },
+      "outcomes": {
+        "en": [
+          "Domain and cross-system test matrix",
+          "Reproducible defects and evidence",
+          "Scoped readiness and repair verdict"
+        ],
+        "uk": [
+          "Матриця предметних і міжсистемних перевірок",
+          "Відтворювані дефекти й докази",
+          "Висновок готовності та ремонту"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-qa/SKILL.md",
+        "kit/skills/chatbot-atelier-qa/references/quality-and-operations.md",
+        "kit/skills/chatbot-atelier-qa/references/evidence-and-delivery.md"
+      ],
+      "source_sha256": "bfa5a59994a3fc34f8ba23b908834b4a21facfbfaf4ce4b7529840422af866d2",
+      "limitations": {
+        "en": [
+          "Another actual actor must perform independent review; structural validation does not prove naturalness, privacy or external delivery."
+        ],
+        "uk": [
+          "Незалежний review виконує інший фактичний actor; структурна валідація не доводить природність, приватність або зовнішню доставку."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-release",
+      "family": "chatbot",
+      "title": {
+        "en": "Chatbot release and migration",
+        "uk": "Випуск і міграція чатбота"
+      },
+      "contribution": {
+        "en": "Prepare and execute an authorized bot release with exact source/assets, data compatibility, provider observation, delivery smoke and rollback.",
+        "uk": "Готує й виконує дозволений випуск бота: точні source/assets, сумісність даних, спостереження провайдера, delivery smoke і відкат."
+      },
+      "outcomes": {
+        "en": [
+          "Pinned release package",
+          "Migration and rollout plan",
+          "Observed delivery and rollback handoff"
+        ],
+        "uk": [
+          "Зафіксований релізний пакет",
+          "План міграції й rollout",
+          "Спостережена доставка та передача відкату"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-release/SKILL.md",
+        "kit/skills/chatbot-atelier-release/references/evidence-and-delivery.md",
+        "kit/skills/chatbot-atelier-release/references/quality-and-operations.md"
+      ],
+      "source_sha256": "5e9ce4506b886bcd62f868cf2b85c9f3bcb9b1a10fd8f1b85b482a7ecb7b2cba",
+      "limitations": {
+        "en": [
+          "Prepared packages and dispatch records do not prove a live release; unknown external outcomes require reconciliation."
+        ],
+        "uk": [
+          "Готові пакети й записи dispatch не доводять живий реліз; невідомий зовнішній результат потребує reconciliation."
+        ]
+      }
+    },
+    {
+      "name": "chatbot-atelier-operations",
+      "family": "chatbot",
+      "title": {
+        "en": "Chatbot operations and evolution",
+        "uk": "Супровід і розвиток чатбота"
+      },
+      "contribution": {
+        "en": "Recover and evolve an existing bot through causal incident repair, conversation improvements, reliability, cost control and compatible migrations.",
+        "uk": "Відновлює й розвиває чинного бота: причинний ремонт інцидентів, покращення розмови, надійність, контроль витрат і сумісні міграції."
+      },
+      "outcomes": {
+        "en": [
+          "Current-state and incident diagnosis",
+          "Targeted repairs and regression checks",
+          "Operations, migration and continuation records"
+        ],
+        "uk": [
+          "Діагностика поточного стану й інцидентів",
+          "Адресні ремонти й регресійні перевірки",
+          "Записи експлуатації, міграцій і продовження"
+        ]
+      },
+      "sources": [
+        "kit/skills/chatbot-atelier-operations/SKILL.md",
+        "kit/skills/chatbot-atelier-operations/references/resume-current-project.md",
+        "kit/skills/chatbot-atelier-operations/references/quality-and-operations.md"
+      ],
+      "source_sha256": "e9da3028d97c51c48acba0acd00aabde551857caac33154be1938f576e731c88",
+      "limitations": {
+        "en": [
+          "Monitoring and external changes need actual runtime and applicable authority; an instruction alone does not keep a bot online."
+        ],
+        "uk": [
+          "Моніторинг і зовнішні зміни потребують runtime та відповідних повноважень; сама інструкція не підтримує бота онлайн."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-director",
+      "family": "game",
+      "title": {
+        "en": "Game director",
+        "uk": "Директор ігор"
+      },
+      "contribution": {
+        "en": "Lead a game from studio identity and concepts through systemic design, production assets, native implementation, QA, release and live operations.",
+        "uk": "Веде гру від ідентичності студії й концепцій через системний дизайн, виробничі assets, нативну реалізацію, QA, випуск та liveops."
+      },
+      "outcomes": {
+        "en": [
+          "Integrated game roadmap and model",
+          "Coordinated specialist production",
+          "Preserved creative decisions and continuation"
+        ],
+        "uk": [
+          "Узгоджений план і модель гри",
+          "Інтегрована робота виробничих спеціалістів",
+          "Збережені творчі рішення й продовження"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-director/SKILL.md",
+        "kit/skills/gamedev-director/references/game-model-workflow.md",
+        "kit/skills/gamedev-director/references/systemic-design.md"
+      ],
+      "source_sha256": "10d0ae65d075a50e6f3bf4aa87bc7153d93542b308f48bb3152d11e8ff222085",
+      "limitations": {
+        "en": [
+          "The game, tool suite and native state have separate versions; a workflow update does not certify a shipped game."
+        ],
+        "uk": [
+          "Гра, комплект інструментів і нативний стан мають окремі версії; оновлення workflow не засвідчує випущену гру."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-studio",
+      "family": "game",
+      "title": {
+        "en": "Studio identity and readiness",
+        "uk": "Ідентичність і готовність студії"
+      },
+      "contribution": {
+        "en": "Create or restore the studio brand, logo, developer identity, lawful production sources and required account/service setup route.",
+        "uk": "Створює або відновлює бренд, логотип, developer identity, правомірні виробничі джерела й маршрут налаштування потрібних акаунтів та сервісів."
+      },
+      "outcomes": {
+        "en": [
+          "Approved studio masters and derivatives",
+          "Identity, rights and usage catalogue",
+          "Verified setup dependencies and studio handoff"
+        ],
+        "uk": [
+          "Прийняті оригінали студії та похідні",
+          "Каталог ідентичності, прав і використань",
+          "Перевірені передумови setup й передача студії"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-studio/SKILL.md",
+        "kit/skills/gamedev-studio/references/studio-production.md",
+        "kit/skills/gamedev-studio/references/studio-payload.md"
+      ],
+      "source_sha256": "80ffe28b3f135d806d7752c625a94feb19987fdefef68f8185571bce0217b1ef",
+      "limitations": {
+        "en": [
+          "A brand is not a legal entity or configured account; personal verification, paid services and signatures have separate prerequisites."
+        ],
+        "uk": [
+          "Бренд не є юридичною особою або налаштованим акаунтом; персональна перевірка, платні сервіси й підписання мають окремі передумови."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-concepts",
+      "family": "game",
+      "title": {
+        "en": "Game concepts and feasibility",
+        "uk": "Концепції й здійсненність гри"
+      },
+      "contribution": {
+        "en": "Compare complete mobile game ideas across mechanics, world, progression, controls, learning, visual direction, economy and a feasible production route.",
+        "uk": "Порівнює цілісні мобільні ігри: механіки, світ, прогресія, керування, навчання, візуальний напрям, економіка й здійсненне виробництво."
+      },
+      "outcomes": {
+        "en": [
+          "Distinct comparable game candidates",
+          "Playable-system and visual concept briefs",
+          "Feasibility and selection evidence"
+        ],
+        "uk": [
+          "Різні зіставні кандидати ігор",
+          "Описи ігрових систем і візуального задуму",
+          "Докази здійсненності й матеріал вибору"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-concepts/SKILL.md",
+        "kit/skills/gamedev-concepts/references/systemic-design.md",
+        "kit/skills/gamedev-concepts/references/experience-contract.md"
+      ],
+      "source_sha256": "8f98c879f11ae9f53a26e47f3abed44982c20ed8a188b2b685c4d05b9effaff3",
+      "limitations": {
+        "en": [
+          "A concept image is not gameplay; candidates are not selected automatically, and business models remain hypotheses."
+        ],
+        "uk": [
+          "Зображення концепції не є gameplay; кандидат не обирається автоматично, а бізнес-моделі залишаються гіпотезами."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-preproduction",
+      "family": "game",
+      "title": {
+        "en": "Game design and engineering contracts",
+        "uk": "Ігровий дизайн і технічні контракти"
+      },
+      "contribution": {
+        "en": "Expand the selected game into GDD/TDD and one linked model of mechanics, camera/input, AI/world, progression, economy, saves and production.",
+        "uk": "Розгортає обрану гру в GDD/TDD та пов’язану модель механік, камери/керування, AI/світу, прогресії, економіки, збережень і виробництва."
+      },
+      "outcomes": {
+        "en": [
+          "GDD/TDD and canonical game model",
+          "Rules, state, catalogs and data contracts",
+          "Production plan, device budgets and acceptance cases"
+        ],
+        "uk": [
+          "GDD/TDD й канонічна модель гри",
+          "Правила, стани, каталоги й контракти даних",
+          "План виробництва, бюджети пристроїв і приймання"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-preproduction/SKILL.md",
+        "kit/skills/gamedev-preproduction/references/engineering-architecture.md",
+        "kit/skills/gamedev-preproduction/references/design-data.md",
+        "kit/skills/gamedev-preproduction/references/fidelity-slice.md"
+      ],
+      "source_sha256": "26776da7c763f699e896a454a86f97bf9da4595688bebf44186871ece0d3ced3",
+      "limitations": {
+        "en": [
+          "Numeric targets and designed rules require implementation and actual platform evidence before runtime claims."
+        ],
+        "uk": [
+          "Числові цілі й спроєктовані правила потребують реалізації та доказів на цільовій платформі до runtime-тверджень."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-assets",
+      "family": "game",
+      "title": {
+        "en": "Game art, animation, audio and haptics",
+        "uk": "Ігровий арт, анімація, звук і haptics"
+      },
+      "contribution": {
+        "en": "Produce and integrate the game’s art, animation, interface, audio and haptic assets from the accepted creative and system design.",
+        "uk": "Виробляє й інтегрує арт, анімацію, інтерфейс, звук і haptics за прийнятим творчим та системним задумом."
+      },
+      "outcomes": {
+        "en": [
+          "Accepted production masters and exports",
+          "State-aware asset families and recipes",
+          "Source-to-runtime fidelity and assembly evidence"
+        ],
+        "uk": [
+          "Прийняті виробничі оригінали й експорти",
+          "Сімейства assets для станів і рецепти",
+          "Докази відповідності source→runtime та складання"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-assets/SKILL.md",
+        "kit/skills/gamedev-assets/references/experience-contract.md",
+        "kit/skills/gamedev-assets/references/v4-route.md"
+      ],
+      "source_sha256": "7ca283798d0419bb7755440a82f548c791f47d2acb201064fd3b1d2f6f671df1",
+      "limitations": {
+        "en": [
+          "A generated image does not contain an implied rig, animation, audio or editable layers; each required operation needs a verified production route."
+        ],
+        "uk": [
+          "Згенероване зображення не містить автоматично rig, анімацію, звук або шари; кожна потрібна операція має перевірний виробничий маршрут."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-build",
+      "family": "game",
+      "title": {
+        "en": "Native game engineering",
+        "uk": "Розробка нативної гри"
+      },
+      "contribution": {
+        "en": "Implement gameplay, world/AI, camera/input, UI, progression, economy, saves and native Android/iOS behavior from the agreed model and assets.",
+        "uk": "Реалізує gameplay, світ/AI, камеру/керування, UI, прогресію, економіку, збереження та нативну поведінку Android/iOS із погодженої моделі й assets."
+      },
+      "outcomes": {
+        "en": [
+          "Representative native game slice",
+          "Integrated gameplay and production sources",
+          "Actual builds and causal behavior tests"
+        ],
+        "uk": [
+          "Репрезентативний нативний зріз гри",
+          "Інтегровані gameplay й виробничі джерела",
+          "Фактичні збірки та перевірки причинної поведінки"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-build/SKILL.md",
+        "kit/skills/gamedev-build/references/game-model-workflow.md",
+        "kit/skills/gamedev-build/references/v4-route.md"
+      ],
+      "source_sha256": "edf20df72d56d460cb870e4b5aee1f5e297f926fb08ab87a289177a71c7a005d",
+      "limitations": {
+        "en": [
+          "Source availability or an engine export does not prove physical-device performance, signed distribution or player acceptance."
+        ],
+        "uk": [
+          "Код або export рушія не доводить performance на фізичному пристрої, підписану дистрибуцію або прийняття гравцем."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-qa",
+      "family": "game",
+      "title": {
+        "en": "Game QA and device verification",
+        "uk": "QA гри й перевірка пристроїв"
+      },
+      "contribution": {
+        "en": "Independently test design and native runtime across controls, feel, systems, progression, store/payments, saves and performance.",
+        "uk": "Незалежно перевіряє задум і нативний runtime: керування, відчуття дії, системи, прогресію, магазин/оплати, збереження й performance."
+      },
+      "outcomes": {
+        "en": [
+          "Domain and cross-system case matrix",
+          "Reproducible game defects and device evidence",
+          "Scoped quality verdict and repair handoff"
+        ],
+        "uk": [
+          "Матриця предметних і міжсистемних сценаріїв",
+          "Відтворювані дефекти й докази пристроїв",
+          "Висновок якості та передача ремонту"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-qa/SKILL.md",
+        "kit/skills/gamedev-qa/references/native-performance.md",
+        "kit/skills/gamedev-qa/references/fidelity-review.md",
+        "kit/skills/gamedev-qa/references/test-strategy.md"
+      ],
+      "source_sha256": "f244fad283d5e0de605d3b879a21f86dff9e1da79b62ee72a9748f027f20de80",
+      "limitations": {
+        "en": [
+          "A still frame or structural pass does not prove motion, audio, haptics, device measurements or human experience."
+        ],
+        "uk": [
+          "Статичний кадр або структурний pass не доводить рух, звук, haptics, вимірювання пристрою або людський досвід."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-release",
+      "family": "game",
+      "title": {
+        "en": "Game release and rollout",
+        "uk": "Випуск і rollout гри"
+      },
+      "contribution": {
+        "en": "Prepare and conduct an authorized Android/iOS game release with signed binaries, store metadata, commerce/privacy checks and operations handoff.",
+        "uk": "Готує й проводить дозволений випуск Android/iOS гри: підписані binaries, store metadata, commerce/privacy перевірки й передача в експлуатацію."
+      },
+      "outcomes": {
+        "en": [
+          "Exact release candidate and store package",
+          "Submission and availability evidence",
+          "Save-compatible rollout and recovery plan"
+        ],
+        "uk": [
+          "Точний release candidate й store package",
+          "Докази подання та доступності",
+          "Сумісний зі збереженнями rollout і план відновлення"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-release/SKILL.md",
+        "kit/skills/gamedev-release/references/v4-route.md",
+        "kit/skills/gamedev-release/references/handoff-contract.md"
+      ],
+      "source_sha256": "58cdd4a4edcead375d99684c2481e691604a35434303320704d52ceb9eed9a6a",
+      "limitations": {
+        "en": [
+          "AAB, simulator builds, signed device binaries and store availability are different outcomes; actual platform and account evidence is required."
+        ],
+        "uk": [
+          "AAB, Simulator-збірка, підписаний device binary й доступність store є різними результатами; потрібні фактичні докази платформи та акаунта."
+        ]
+      }
+    },
+    {
+      "name": "gamedev-liveops",
+      "family": "game",
+      "title": {
+        "en": "Game live operations and evolution",
+        "uk": "Liveops і розвиток гри"
+      },
+      "contribution": {
+        "en": "Analyze a beta or released game and deliver a bounded improvement to learning, return paths, variety, progression, economy, content or reliability.",
+        "uk": "Аналізує beta або випущену гру та доводить обмежене покращення навчання, повернення, варіативності, прогресії, економіки, контенту або надійності."
+      },
+      "outcomes": {
+        "en": [
+          "Telemetry and causal incident review",
+          "Versioned content or balance improvement",
+          "Compatible hotfix, save migration and rollback evidence"
+        ],
+        "uk": [
+          "Розбір telemetry та причин інциденту",
+          "Версійне покращення контенту або балансу",
+          "Докази сумісного hotfix, міграції збережень і відкату"
+        ]
+      },
+      "sources": [
+        "kit/skills/gamedev-liveops/SKILL.md",
+        "kit/skills/gamedev-liveops/references/systemic-design.md",
+        "kit/skills/gamedev-liveops/references/v4-route.md"
+      ],
+      "source_sha256": "e311c2392fb9b4df3a113cd7d2837c356513ac8f9700826bea9c48267ac151bb",
+      "limitations": {
+        "en": [
+          "Models and design intentions are distinct from live observations; ongoing monitoring or experiments need a configured runtime and authorization."
+        ],
+        "uk": [
+          "Моделі й дизайнерські наміри відрізняються від live-спостережень; постійний моніторинг або експерименти потребують runtime та повноважень."
+        ]
+      }
+    }
+  ],
+  "cross_family_scenarios": [
+    {
+      "id": "platform",
+      "title": {
+        "en": "A product platform",
+        "uk": "Продуктова платформа"
+      },
+      "brief": {
+        "en": "Design a platform, its APIs and data boundaries; implement the agreed client and service scope and verify a representative path.",
+        "uk": "Спроєктувати платформу, API й межі даних; реалізувати погоджені клієнти та сервіси й перевірити репрезентативний шлях."
+      },
+      "skills": [
+        "agent-foundry",
+        "design-specialist-skills",
+        "app-atelier-director",
+        "app-atelier-specification",
+        "app-atelier-build",
+        "app-atelier-qa"
+      ],
+      "visual": {
+        "en": "Client screens, a coherent service/data view, and a concrete verification result.",
+        "uk": "Екрани клієнтів, зрозуміла модель сервісів/даних і конкретний результат перевірки."
+      }
+    },
+    {
+      "id": "backend-repair",
+      "title": {
+        "en": "One difficult backend task",
+        "uk": "Одна складна backend-задача"
+      },
+      "brief": {
+        "en": "Create or adapt a specialist for a bounded API, consistency, integration or performance task using the actual repository and measurable acceptance.",
+        "uk": "Створити або адаптувати спеціаліста для обмеженої задачі API, узгодженості, інтеграції чи performance за фактичним репозиторієм і вимірним прийманням."
+      },
+      "skills": [
+        "agent-foundry",
+        "design-specialist-skills"
+      ],
+      "visual": {
+        "en": "The changed behavior, relevant request/data path and an inspectable test or measurement; no invented improvement percentage.",
+        "uk": "Змінена поведінка, потрібний шлях запиту/даних і перевірний тест або вимірювання; без вигаданого відсотка покращення."
+      }
+    },
+    {
+      "id": "automation",
+      "title": {
+        "en": "An operational automation agent",
+        "uk": "Агент робочої автоматизації"
+      },
+      "brief": {
+        "en": "Turn a repeated data-and-tool workflow into an authorized agent with validation, batch completeness, retries and recovery.",
+        "uk": "Перетворити повторюваний процес даних та інструментів на дозволеного агента з валідацією, контролем повноти batch, повторами й відновленням."
+      },
+      "skills": [
+        "agent-foundry",
+        "design-specialist-skills",
+        "chatbot-atelier-integrations"
+      ],
+      "visual": {
+        "en": "A concrete input table, operation queue, exception handling and completed output.",
+        "uk": "Конкретна вхідна таблиця, черга операцій, обробка винятків і завершений результат."
+      }
+    },
+    {
+      "id": "app-with-support",
+      "title": {
+        "en": "An application with its support bot",
+        "uk": "Застосунок зі своїм ботом підтримки"
+      },
+      "brief": {
+        "en": "Develop the mobile/web product, its brand and business model, then connect support to the same permission and data contracts.",
+        "uk": "Створити mobile/web продукт, його бренд і бізнес-модель, а підтримку приєднати до спільних контрактів доступу й даних."
+      },
+      "skills": [
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-build",
+        "app-atelier-support",
+        "chatbot-atelier-director"
+      ],
+      "visual": {
+        "en": "A phone and web interface next to an actual support journey, not three unrelated generic screens.",
+        "uk": "Телефон і web-інтерфейс поруч із предметним сценарієм підтримки, а не три не пов’язані загальні екрани."
+      }
+    },
+    {
+      "id": "studio-to-game",
+      "title": {
+        "en": "A studio and its first game",
+        "uk": "Студія та її перша гра"
+      },
+      "brief": {
+        "en": "Build the studio identity and setup route, compare complete game concepts, produce systems and media, implement, verify, release and evolve the chosen game.",
+        "uk": "Створити ідентичність студії й маршрут setup, порівняти цілісні концепції, виробити системи й медіа, реалізувати, перевірити, випустити й розвивати обрану гру."
+      },
+      "skills": [
+        "gamedev-studio",
+        "gamedev-concepts",
+        "gamedev-preproduction",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-liveops"
+      ],
+      "visual": {
+        "en": "Studio mark, gameplay, progression/loadout, art/audio production and store/release context.",
+        "uk": "Знак студії, gameplay, прогресія/спорядження, виробництво арту/звуку й контекст store/випуску."
+      }
+    },
+    {
+      "id": "restore",
+      "title": {
+        "en": "An existing product continued",
+        "uk": "Продовження чинного продукту"
+      },
+      "brief": {
+        "en": "Recover the actual source, requirements, persona or design, decisions and unfinished work; improve only the affected scope and preserve continuity.",
+        "uk": "Відновити фактичний код, вимоги, персону або дизайн, рішення й незавершене; покращити зачеплений обсяг зі збереженням тяглості."
+      },
+      "skills": [
+        "agent-foundry",
+        "app-atelier-operations",
+        "chatbot-atelier-operations",
+        "gamedev-liveops"
+      ],
+      "visual": {
+        "en": "The same recognizable product before and after a specific change, plus a clear continuation point.",
+        "uk": "Той самий впізнаваний продукт до й після конкретної зміни та зрозуміла точка продовження."
+      }
+    }
+  ],
+  "boundaries": {
+    "en": [
+      "This is a source-backed capability map of 33 reusable skills at 5.0.0, not evidence that every described product has already shipped.",
+      "A skill defines reusable methods and contracts for a capable host. Repositories, external services, media tools, devices, signing and deployments depend on actual access.",
+      "Specialist roles become parallel independent actors only when the environment supports and actually launches them.",
+      "The system adapts to a broad range of ideas through domain discovery and specialist construction; it does not guarantee feasibility, unlimited autonomy, revenue or universal correctness.",
+      "Owner decisions and applicable authorization govern material choices, costs, sensitive data and external publication. Existing precise authorization is carried forward.",
+      "WORK↔CODEX continuity requires a real transfer of current project sources, requirements, decisions, versions and unfinished work; it is not automatic memory across every chat.",
+      "Visual scenarios are illustrative examples of supported work, not deployed-product screenshots, customer endorsements or measured case studies."
+    ],
+    "uk": [
+      "Це карта можливостей 33 повторно застосовних навичок 5.0.0 за їхніми джерелами; вона не доводить, що всі описані продукти вже випущені.",
+      "Навичка задає методи й контракти для здатного середовища. Репозиторії, зовнішні сервіси, медіаінструменти, пристрої, підписання та deployment залежать від фактичного доступу.",
+      "Ролі спеціалістів стають паралельними незалежними виконавцями, коли середовище підтримує й фактично запускає їх.",
+      "Система адаптується до широкого спектра задумів через дослідження домену й створення спеціалістів; вона не гарантує здійсненність, безмежну автономність, дохід або універсальну правильність.",
+      "Матеріальні рішення, витрати, чутливі дані й зовнішня публікація керуються рішеннями власника та відповідними повноваженнями. Чинна точна згода зберігається.",
+      "Тяглість WORK↔CODEX потребує фактичного перенесення актуальних джерел, вимог, рішень, версій і незавершеного; це не автоматична пам’ять між усіма чатами.",
+      "Візуальні сценарії є ілюстративними прикладами підтримуваної роботи, а не screenshots випущених продуктів, відгуками клієнтів або виміряними кейсами."
+    ]
+  }
+}

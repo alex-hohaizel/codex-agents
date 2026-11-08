@@ -17,7 +17,7 @@ This repository is the distribution and operating record for the reusable Agent 
 
 ## Version numbers
 
-`releases/current.json` separates **suite version** from **repository edition**. The current suite is `5.0.0`; repository edition `1.0.0` introduces this distribution and documentation. Do not increment every skill merely to change the guide. A behavioural suite release updates the agreed suite number and affected manifests together. Data schema versions, native game runtime schema and existing project IDs remain independent contracts.
+`releases/current.json` separates **suite version** from **repository edition**. The current suite is `5.0.0`; read the repository edition from `releases/current.json`. Edition `1.0.0` introduced distribution and documentation; compatible edition `1.1.0` finalizes the bilingual campaign and updates its documentation and tools. Do not increment every skill merely to change the guide. A behavioural suite release updates the agreed suite number and affected manifests together. Data schema versions, native game runtime schema and existing project IDs remain independent contracts.
 
 Use semantic versioning for future editions: patch for compatible corrections, minor for compatible additions, major for incompatible behaviour or migration requirements. The release record must state the actual impact; a number alone is insufficient.
 
@@ -27,7 +27,7 @@ Installing a new toolkit never proves that a project has adopted it. Restore the
 
 ## Language and identity
 
-English is the documentation default. Store the selected conversation language in the project context and include it in handoffs. Translate explanations and copyable prompts; keep stable skill names, paths, protocol IDs, code and commands unchanged. Final marketing assets follow the owner-selected concept and its recorded identity contract. Until selection, the ten directions are proposals, not an approved brand.
+English is the documentation default. Store the selected conversation language in the project context and include it in handoffs. Translate explanations and copyable prompts; keep stable skill names, paths, protocol IDs, code and commands unchanged. Final marketing assets follow the selected campaign in `marketing/CURRENT_CAMPAIGN.json` and its recorded identity contract. Edition 1.1.0 uses one settled campaign in English and Ukrainian; obsolete concept rounds and rejected draft renderers are removed from the current tree. Future new concepts remain proposals until the owner selects them. English localization must preserve intended composition and product identity; generative edits require actual review and must not be called pixel-identical without evidence.
 
 ## Scope of the promise
 

@@ -4,6 +4,9 @@
 
 **Grundlage dieses Leitfadens:** Agent System 5.0.0, 7. November 2026. **Wiederverwendbares Paket:** 33 Skills. Dieser Leitfaden behandelt eine neue Installation, die tägliche Arbeit, die gemeinsame Arbeit an einem Projekt in Work und Codex sowie die Aktualisierung eines bestehenden Projekts. Die Repository-Dokumentation und Paketrevisionen können sich ändern, ohne dass sich die zugrunde liegende Skill-Version ändert; lies vor einer Aktualisierung den Release-Eintrag.
 
+
+**Kampagne und Repository-Edition 1.1.0:** [Englische Werbung](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). Die Kampagne umfasst zehn entsprechende Materialien je Sprache zu Anwendungen, Spielen, Chatbots, Plattformen, Automatisierung und eigenen Spezialisten. Werbung ist nur auf Englisch und Ukrainisch verfügbar; jeder Leitfaden bleibt in seiner angegebenen Sprache vollständig. Diese Edition ändert Präsentationsmaterial, Dokumentation und kompatible Repository-Werkzeuge; die wiederverwendbare Suite bleibt 5.0.0. Bestehende verifizierte Installationen benötigen keine Neuinstallation und kein Zurücksetzen des Produkts. Setze dasselbe Projekt mit seinen Anforderungen, seiner Designidentität, seinen Entscheidungen und seinem Checkpoint fort und lies vor der nächsten davon abhängigen Aufgabe die aktuellen Repository-Anweisungen.
+
 ## 1. Was du damit erhältst
 
 Beschreibe ein Ergebnis in gewöhnlicher Sprache. Das System hilft, daraus eine konkrete Aufgabe zu machen, zieht die passenden Fachgebiete hinzu, hält Entscheidungen und Anforderungen zusammen und prüft das Ergebnis am vereinbarten Ziel.

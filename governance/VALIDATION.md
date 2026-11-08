@@ -1,40 +1,37 @@
-# Repository validation evidence
+# Repository verification record
 
-Initial repository edition: 1.0.0. Suite: 5.0.0. Checked on 7 November 2026.
+Repository edition **1.1.0**; reusable suite **5.0.0**. Current task date: 2026-11-08. Final observed results and remote revision belong in `governance/TASK_CLOSEOUT.json`.
 
-## Canonical source integrity
+## Source and identity scope
 
-The curated kit's `verify_release.py` checked 2,962 files with no mismatches. The source manifest SHA-256 is `489c59fa08cccb77ecdfb0d609521320e1d16504b72494f3866ec845e8d50b07`. The skill manifest contains 33 stable names and 2,955 skill files.
+The canonical suite baseline contains 33 stable skills and 2,955 skill files. Its release verifier covers 2,962 curated source/support files; manifest SHA-256 is `489c59fa08cccb77ecdfb0d609521320e1d16504b72494f3866ec845e8d50b07`. The edition must preserve the canonical skill and installed-icon baseline bytes. Guide files intentionally change to add localized campaign/compatibility entries, so the former comparison that included unchanged guide files is not evidence for this edition.
 
-## Portable installation smoke
+The original Ukrainian campaign cover is preserved with SHA-256 `ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f`. English artwork is a corresponding lettering localization. Intended 1:1 composition is separate from measured pixel identity; the localization review must state what was actually inspected.
 
-The actual portable updater was exercised in an isolated temporary destination, with audit plan and backups outside that destination. The temporary tree was removed after the check; no existing user skill installation was changed.
+## Current required checks
 
-| Step | Observed result |
-| --- | --- |
-| Audit | No blockers; 33 install entries |
-| Apply | `status=complete`, `changed=33` |
-| Verify with the actual apply journal | `verified_skills=33`, `canonical_core_verified=true`, `visual_preservation_verified=true`, no failures or duplicates |
-| Rollback using that journal | `status=rolled_back`, `restored_entries=33` |
-
-The fresh destination had no prior custom icons, so this run verifies the fresh-install/journal path. It does not by itself prove preservation of every user's customized icon. The updater's custom-icon preservation checks and the existing installation's exact journal remain necessary for an update.
-
-## Repository-tool tests
-
-Seven offline tests passed: source corruption blocks packaging; a changed English guide invalidates translations; a private project export is rejected; archives are byte reproducible despite changed file modification times; symlink packaging is rejected; missing migration records/broken links are detected; and an unexpected icon redesign is caught even after its source manifest hash is refreshed.
-
-Run current checks from the repository root:
-
-```bash
-python3 scripts/check_repository.py
+```sh
+python3 -B kit/verify_release.py
+python3 -B scripts/check_repository.py
+python3 -B marketing/campaign/check_campaign.py
 python3 -m unittest discover -s scripts/tests -v
-python3 scripts/build_packages.py
+python3 -B scripts/build_packages.py
 ```
 
-The final repository check passed with 33 skills, 2,955 canonical skill files, seven complete guide editions and no errors or warnings. All seven offline tests passed. Translation parity checks confirmed the same heading hierarchy, 44 numbered steps, 63 table rows, shell commands and 33 stable skill names across all editions; each edition records the English source hash in `docs/translations.json`.
+Run against the final source tree after localization and cleanup. The campaign check covers both language inventories, artifact receipts/page counts and source-image correspondence. Visual review of translated content, composition preservation and rendered PDFs is separate from file-hash checks. Record actual browser testing separately; source parsing alone is not browser layout acceptance.
 
-Both source bundles were built and inspected. Each includes the complete guide set, kit integrity records, rights notice, migration and continuity templates, optional maintenance source and visual concept gallery. Neither contains excluded private project exports, host backup history or cache files. Exact current archive hashes and sizes are generated in `dist/BUILD.json` and `dist/SHA256SUMS`; [package instructions](PACKAGES.md) explain local builds and downloading a completed GitHub Actions artifact. A workflow run is not claimed by these local checks.
+The full guides remain complete in seven languages. Equivalent localized campaign/compatibility paragraphs were added without changing installation commands, numbered steps or stable skill identifiers; `docs/translations.json` records their current English source hash and localized hashes. Advertising is EN/UK only.
 
-## What this evidence does not establish
+Current packages must include the new campaign and exclude deleted draft advertising, private product agents, credentials, chat histories and host-specific evidence. Check both archive inventories and hashes, and record reproducibility only when actually compared. Work/Codex source bundles do not perform installation merely by existing or being extracted.
 
-Host discovery and real domain behaviour were not verified by the temporary installation. `runtime_discovery_verified=false` and `behavior_verified=false` are preserved as honest limits. Native-device performance, deployment access, another Work/Codex session, external actions and product acceptance require their own actual checks in the relevant project.
+## Publication and task closeout
+
+Read the current remote head before writing, reconcile intervening changes, publish the authorized cleanup with the expected parent, and read back the final ref/tree and affected paths. An attempted upload or local passing check is not publication. Record actual remote CI separately; a workflow file is not proof of a successful run. Do not mark remote publication or CI completed before observing their results.
+
+`TASK_CLOSEOUT.json` starts with pending evidence fields and is finalized by the publishing executor. This record intentionally does not fabricate final commit IDs, remote paths or CI outcomes.
+
+## Historical baseline evidence
+
+The original 1.0.0 release recorded a successful isolated portable-updater audit/apply/verify/rollback using its actual journal, seven repository-tool tests and a successful source check. Those historical results establish that baseline only; they do not prove execution on the final 1.1.0 candidate, current host discovery, device testing or product acceptance.
+
+No product-state migration, production deployment or user-host installation is performed by this presentation/documentation task.

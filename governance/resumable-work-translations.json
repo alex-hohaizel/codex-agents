@@ -1,0 +1,15 @@
+{
+  "schema_version": "codex-agents.document-translations/1",
+  "source": "governance/RESUMABLE_WORK.md",
+  "source_sha256": "b67c27e16c9969d7e09a8d7e8e1913422a97b326d58fc752334ac1636d785119",
+  "translations": [
+    {
+      "locale": "uk",
+      "path": "governance/RESUMABLE_WORK.uk.md",
+      "sha256": "a5a3755c40cac21434f4afe9b90f9da2a3ca4b675adce0698ea9f695b0a5a711",
+      "status": "complete-same-scope-reviewed"
+    }
+  ],
+  "installation_guides_unchanged": false,
+  "installation_commands_unchanged": true
+}

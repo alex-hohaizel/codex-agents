@@ -4,6 +4,9 @@
 
 **Versión de referencia de la guía:** Agent System 5.0.0, 7 de noviembre de 2026. **Suite reutilizable:** 33 habilidades. Esta guía abarca una instalación nueva, el trabajo diario, compartir un proyecto entre Work y Codex y actualizar un proyecto existente. Las revisiones de la documentación y los paquetes del repositorio pueden cambiar sin modificar la versión de las habilidades subyacentes; consulta el registro de la versión antes de actualizar.
 
+
+**Campaña y edición del repositorio 1.1.0:** [Publicidad en inglés](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). La campaña contiene diez materiales correspondientes por idioma sobre aplicaciones, juegos, chatbots, plataformas, automatización y especialistas propios. La publicidad está disponible solo en inglés y ucraniano; cada guía sigue completa en su idioma declarado. Esta edición cambia la presentación, la documentación y herramientas compatibles del repositorio; la suite reutilizable sigue en 5.0.0. Las instalaciones existentes verificadas no necesitan reinstalación ni reinicio del producto. Continúa el mismo proyecto conservando sus requisitos, identidad de diseño, decisiones y checkpoint y lee las instrucciones actuales del repositorio antes de la siguiente tarea dependiente.
+
 ## 1. Qué te ofrece
 
 Describe un resultado con palabras cotidianas. El sistema ayuda a convertirlo en una tarea concreta, incorpora las especialidades pertinentes, mantiene juntas las decisiones y los requisitos y comprueba el resultado frente al objetivo acordado.

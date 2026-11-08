@@ -29,3 +29,13 @@ The owner's request authorizes ordinary reversible maintenance and publication h
 ## Reading order for a new session
 
 Read `START_HERE.md`, the guide for the chosen language, `governance/QUALITY_MODEL.md`, and `releases/current.json`. Apply the quality dimensions relevant to the actual task; do not impose unrelated product features or claim a certification. For an active product, also read its native checkpoint, requirements, decisions, toolkit lock and handoff. A repository link alone is not a host installation or cross-session memory channel.
+
+## Bounded execution and recovery
+
+For long artifact or publication tasks, read [the resumable-work contract](governance/RESUMABLE_WORK.md). Persist the confirmed baseline, current stage, input/output digests, completed checks, unresolved outcomes and exact next action outside chat before starting the next expensive phase. Give the owner a short progress update at stage boundaries. Keep tool responses concise; store full inventories and logs in task files.
+
+For the current campaign, read its active README and run `python3 -B marketing/campaign/build_campaign.py`, then `python3 -B marketing/campaign/check_campaign.py`. The compatible resumable runner, where used, must follow the active campaign rather than a deleted draft. Resume skips only stages with matching inputs and verified outputs. Generation, validation, packages, publication, remote read-back and delivery each need actual evidence. If an external write response is lost, reconcile the destination before another write. These controls protect completed work but do not repair or guarantee the host's conversation infrastructure.
+
+## Active marketing reference
+
+Before continuing advertising work, read `marketing/CURRENT_CAMPAIGN.json` and its active campaign README. Preserve the exact Ukrainian source-cover hash and its product identities. The selected campaign contains ten corresponding Ukrainian and English materials; English localization is a lettering-only change in intended composition. Keep source-language artwork unchanged, record actual localization review and do not claim unverified pixel identity. Do not reintroduce retired concepts, redraw the source cover or describe newly created continuation art as recovered historical files. The owner authorized finalization, publication and removal of obsolete advertising from the current tree; that scope does not extend to unrelated product data or installed skill identity.

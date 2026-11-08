@@ -4,6 +4,9 @@
 
 **Référence du guide :** Agent System 5.0.0, 7 novembre 2026. **Suite réutilisable :** 33 compétences. Ce guide couvre une nouvelle installation, le travail quotidien, le partage d'un projet entre Work et Codex et la mise à jour d'un projet existant. Les révisions de la documentation et des paquets du dépôt peuvent changer sans modifier la version des compétences sous-jacentes ; consultez la fiche de version avant toute mise à jour.
 
+
+**Campagne et édition du dépôt 1.1.0 :** [Publicité en anglais](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). La campagne comprend dix supports correspondants par langue sur les applications, jeux, chatbots, plateformes, l’automatisation et les spécialistes personnalisés. La publicité est disponible uniquement en anglais et en ukrainien ; chaque guide reste complet dans sa langue annoncée. Cette édition modifie la présentation, la documentation et des outils compatibles du dépôt ; la suite réutilisable reste en version 5.0.0. Les installations existantes vérifiées n’exigent ni réinstallation ni réinitialisation du produit. Poursuivez le même projet avec ses exigences, son identité visuelle, ses décisions et son checkpoint et lisez les instructions actuelles du dépôt avant la prochaine tâche dépendante.
+
 ## 1. Ce que cela vous apporte
 
 Décrivez un résultat avec des mots courants. Le système vous aide à en faire une tâche concrète, mobilise les spécialités pertinentes, conserve ensemble les décisions et les exigences, et vérifie que le résultat correspond à l'objectif convenu.

@@ -4,6 +4,9 @@
 
 **Guide baseline:** Agent System 5.0.0, 7 November 2026. **Reusable suite:** 33 skills. This guide covers a new installation, everyday work, sharing a project between Work and Codex, and updating an existing project. Repository documentation and package revisions can change without changing the underlying skill version; consult the release record before updating.
 
+
+**Campaign and repository edition 1.1.0:** [English advertising](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). The campaign contains ten matching materials per language, covering applications, games, chatbots, platforms, automation and custom specialists. Advertising is available in English and Ukrainian only; every guide remains complete in its stated language. This edition changes presentation, documentation and compatible repository tooling; the reusable suite stays 5.0.0. Existing verified installations need no reinstall or product reset. Continue the same project from its requirements, design identity, decisions and checkpoint, and read the current repository instructions before the next dependent task.
+
 ## 1. What this gives you
 
 Describe a result in ordinary language. The system helps turn it into a concrete task, brings in the relevant specialties, keeps the decisions and requirements together, and checks the result against the agreed outcome.

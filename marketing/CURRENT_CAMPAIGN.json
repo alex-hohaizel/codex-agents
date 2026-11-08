@@ -1,0 +1,17 @@
+{
+  "schema": "codex-agents.current-campaign/1",
+  "active_path": "marketing/campaign",
+  "source_language": "uk",
+  "default_documentation_language": "en",
+  "artwork_languages": [
+    "en",
+    "uk"
+  ],
+  "materials_per_language": 10,
+  "reference_artwork": "assets/marketing/campaign/uk/01-original.png",
+  "original_sha256": "ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f",
+  "identity_contract": "Corresponding English artwork changes text only in intended composition; preserve objects, product identities, colors and framing. Do not claim unverified non-text pixel identity.",
+  "status": "finalizing-authorized-bilingual-campaign",
+  "obsolete_materials": "Removed from current tree; available only in Git history",
+  "publication_status": "pending-remote-read-back"
+}

@@ -1,7 +1,8 @@
-name: Validate sources and build bundles
+name: Validate sources and build bilingual campaign bundles
 
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -11,21 +12,26 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate source, release and translation integrity
-        run: python3 scripts/check_repository.py
-      - name: Exercise packaging and failure detection
-        run: python3 -m unittest discover -s scripts/tests -v
-      - name: Build Work and Codex source bundles
-        run: python3 scripts/build_packages.py
+      - name: Install tested campaign verification dependencies
+        run: python3 -m pip install reportlab==4.4.9 pillow==13.0.0 pypdf==6.21.4
+      - name: Build and verify campaign, sources, recovery tests and source bundles
+        run: python3 -B scripts/showcase_pipeline.py --timeout 300
       - uses: actions/upload-artifact@v4
         with:
           name: agent-system-bundles
           path: dist/*
           if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: campaign-downloads-en-uk
+          path: reports/local-campaign-artifacts/*
+          if-no-files-found: error
 
-# Artifacts are not published GitHub Releases and this job changes no repository data.
+# Artifacts are downloads, not GitHub Releases. This job writes no repository data,
+# installs no user skill, and changes no product state or repository visibility.

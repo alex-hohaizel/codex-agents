@@ -8,4 +8,4 @@ When contrasting with an ordinary unstructured prompt, compare observable workfl
 
 Team diagrams distinguish a designed specialist role from an actually launched independent sub-agent. Parallel execution is possible only when the host exposes it. Preserve this distinction in sales material and demonstrations.
 
-The ten marketing concepts demonstrate possible visual directions. They do not prove a shipped product, active customer, commercial license, store approval or endorsement by OpenAI, GitHub or any other provider. Commercial terms and public distribution are separate owner decisions.
+The current English/Ukrainian campaign illustrates possible workflows and product outcomes. They do not prove a shipped product, active customer, commercial license, store approval or endorsement by OpenAI, GitHub or any other provider. Commercial terms and public distribution are separate owner decisions.
