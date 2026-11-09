@@ -107,7 +107,16 @@
     "Secure physical erasure of backups or provider data"
   ],
   "publication": {
-    "status": "pending"
+    "payload_commit": "9598c54b979c27e26faa25f21df06c62476f49d2",
+    "payload_main_push_observed": true,
+    "payload_file_read_back_observed": true,
+    "initial_ci": {
+      "run_id": 42558392693,
+      "conclusion": "failure",
+      "cause": "Cold CI ran launcher tests before building the client",
+      "correction": "Build the client before launcher tests",
+      "recheck": "pending"
+    }
   },
   "host_installation": {
     "status": "33_core_and_13_host_profile_files_applied_and_verified",
@@ -115,7 +124,13 @@
     "actual_visual_preservation_journal_verified": true,
     "global_profile_observed_in_current_chat": true,
     "role_invocation_claimed": false,
-    "optional_orchestrator": "pending exact published-ref installation",
+    "optional_orchestrator": {
+      "installed": true,
+      "source_commit": "9598c54b979c27e26faa25f21df06c62476f49d2",
+      "source_files": 28,
+      "exact_file_set_and_hashes_verified": true,
+      "host_discovery": "pending"
+    },
     "private_receipts_published": false
   },
   "local_service": {

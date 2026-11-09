@@ -28,8 +28,8 @@ jobs:
         run: |
           npm ci --ignore-scripts
           npm run check
-          npm test
           npm run build
+          npm test
       - name: Check reviewed core contracts
         run: |
           python3 -B scripts/materialize_standards.py --check

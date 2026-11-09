@@ -2,7 +2,7 @@
   "schema": "deterministic-core-comparison-summary/1",
   "baseline_commit": "5acde284853c7fb65a1cff8a0d71f28bfcf99676",
   "candidate_release": "6.0.0",
-  "candidate_commit": null,
+  "candidate_commit": "9598c54b979c27e26faa25f21df06c62476f49d2",
   "source_files": [
     {
       "path": "kit/skills/agent-foundry/scripts/foundry.py",
@@ -93,7 +93,7 @@
   "boundary": "Deterministic local parser/provenance/writer/fingerprint properties. No media/model/device/provider acceptance or universal quality score. Author implemented the repairs; independent release review is separate.",
   "measurement_correction": "Initial H1 adapter checked valid instead of actual CLI ok; criterion/input/candidate unchanged, raw first attempt retained privately, corrected complete paired run observed both preserved holdouts.",
   "candidate_manifest_sha256": "5cd3ab1d03f271343076e54d92320a9230672ebac7c70417f57ffa1a2606d1d8",
-  "candidate_commit_binding": "Exact payload commit is recorded after publication; the source hashes and manifest above identify the measured code.",
+  "candidate_commit_binding": "Observed published payload commit; later metadata/CI-only commits do not alter the measured source hashes.",
   "control_design_limit": "The two author-created valid controls were frozen before measurement, not blind to the repair author. They do not prove unseen creative generalization.",
   "independent_review": {
     "all_twelve_observations_reproduced": true,
