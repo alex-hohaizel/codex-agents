@@ -2,12 +2,13 @@
   "schema": "visual-identity/1",
   "class": "system",
   "interface": {
-    "icon_small": "./assets/icon.svg",
-    "icon_large": "./assets/icon.svg",
+    "icon_small": "./assets/icon-small.png",
+    "icon_large": "./assets/icon-large.png",
     "brand_color": "#21CFC4"
   },
   "files": {
-    "assets/icon.svg": "ae3dcf423dcdf7acfd84e3d299b8abb1242daf4b1817e6d7f1941922d49c1051"
+    "assets/icon-small.png": "466c274709fdd5a18109450b4c925f8e92c0a686f8c746ebc961f1cde32fd560",
+    "assets/icon-large.png": "b51bc78f1df714ec39f0afdbc7a910f756bedcc958f77ecf73673d866ac59960"
   },
   "regenerate_on_update": false
 }

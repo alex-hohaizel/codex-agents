@@ -1,6 +1,6 @@
 # Repository verification record
 
-Repository edition 1.2.1; reusable suite 6.0.0. Current scoped results belong in [RELEASE_6_VERIFICATION.json](RELEASE_6_VERIFICATION.json). Historical campaign closeout remains under `history/TASK_CLOSEOUT-1.1.0.json`.
+Repository edition 1.2.2; reusable suite 6.0.0. The optional Orchestrator1.0.1 presentation correction is described in [the patch release](../releases/repository-1.2.2.md); its installation, display and publication observations are recorded separately after execution. Earlier scoped core/service results remain in [RELEASE_6_VERIFICATION.json](RELEASE_6_VERIFICATION.json), with their original source scope. Historical campaign closeout remains under `history/TASK_CLOSEOUT-1.1.0.json`.
 
 ## Source and identity
 

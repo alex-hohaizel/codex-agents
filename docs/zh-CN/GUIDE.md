@@ -5,7 +5,7 @@
 **指南基线：** Agent System 6.0.0，2026 年 11 月 9 日。**可复用套件：** 33 项技能。本指南涵盖首次安装、日常使用、Work 与 Codex 之间的项目协作，以及现有项目的升级。仓库文档和分发包的修订可以独立于底层技能版本发生变化；升级前请查阅版本记录。
 
 
-**当前版本：** 套件6.0.0、仓库1.2.1、可选的 Atelier Orchestrator1.0.0，以及本地 Agent Atelier0.1.1。升级前请阅读[准确的6.0迁移说明](../../releases/migrations/6.0.0.md)。之前的1.1.0宣传活动保持不变：[英文宣传材料](../../marketing/campaign/README.md)和[乌克兰文宣传材料](../../marketing/campaign/README.uk.md)，每种语言各十份。宣传材料提供 EN/UK；指南和服务界面覆盖全部七种已声明语言。Work 的实际审计、更新、安装和控制推迟到单独任务；来源归档或仓库连接不是安装回执。
+**当前版本：** 套件6.0.0、仓库1.2.2、可选的 Atelier Orchestrator1.0.1，以及本地 Agent Atelier0.1.1。升级前请阅读[准确的6.0迁移说明](../../releases/migrations/6.0.0.md)。之前的1.1.0宣传活动保持不变：[英文宣传材料](../../marketing/campaign/README.md)和[乌克兰文宣传材料](../../marketing/campaign/README.uk.md)，每种语言各十份。宣传材料提供 EN/UK；指南和服务界面覆盖全部七种已声明语言。Work 的实际审计、更新、安装和控制仍属于相应环境中的单独任务；来源归档或仓库连接不是安装回执。
 
 ## 0. 升级到6.0并打开本地工作台
 
@@ -22,6 +22,9 @@ python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/jo
 3. 只能用 apply 实际返回的路径替换日志占位路径。未知差异必须核对，不要强制覆盖。分别验证实际发现/来源加载和一项范围明确的任务。现有图标及不相关技能保持不变。
 4. 在仓库根目录单独审计 Codex 环境配置：`python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`。使用 `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json` 应用，再用 `verify --journal /absolute/host-journal.json` 验证。受管理的区块会保留现有全局指令；十二种受限角色保留其模型和外部影响限制。实际环境是否加载该配置需要单独检查。
 5. 通过支持的技能管理器，从选定 commit 的 `optional-skills/atelier-orchestrator` 安装可选的 `atelier-orchestrator`。它独立于33项核心技能更新工具；存在来源不代表已安装或执行成功。现有维护技能也仍为单独的可选组件。
+
+Atelier Orchestrator 是可选的协调技能：它恢复上下文、选择可用专家、整合其成果，并可通过本地服务执行已授权任务。Agent Atelier0.1.1 是独立的本地应用/服务器，通过自己的启动器打开，并不是技能列表中的条目。两者的版本独立。Orchestrator1.0.1 将入口说明、界面文字和启动提示统一为核心技能采用的乌克兰语呈现方式，并绑定由未更改的 SVG 图标渲染的 PNG 版本以提高兼容性。请参阅[定向更新与回退说明](../../releases/migrations/repository-1.2.2.md)。存在来源并不证明已在 Work 安装。
+
 6. 从来源构建本地服务时，使用已固定的 lockfile，以及 Node.js 24.22.2 或受支持的更新运行时。在 `apps/agent-atelier/` 中执行以下命令。首次安装依赖需要网络访问，但不意味着启用新的付费服务。
 
 ```bash

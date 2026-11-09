@@ -1,5 +1,9 @@
 # Change log
 
+## Repository 1.2.2 / Atelier Orchestrator 1.0.1 — 2026-11-09
+
+Align the optional orchestration skill's entrypoint and UI text with the Ukrainian core-skill presentation. Bind PNG renderings of its preserved original SVG for icon compatibility, and explain the difference between the coordinating skill and the independently launched Agent Atelier application. Core 6.0.0, service 0.1.1, client behaviour, stable identity and permissions remain unchanged. Reconcile all seven guides; live WORK installation still needs its own manager/readback evidence. See [patch notes](releases/repository-1.2.2.md) and [targeted migration](releases/migrations/repository-1.2.2.md).
+
 ## Repository1.2.1 / Agent Atelier0.1.1 — 2026-11-09
 
 Repair restricted Codex instruction bootstrap with exact governing-source pins, least-privilege file admission, native loaded-source matching, pre-turn drift/provider checks and safe instruction-alias retention. Preserve core6.0.0, icons, history and native formats. See [patch notes](releases/repository-1.2.1.md) and [migration](releases/migrations/repository-1.2.1.md). The actual smoke outcome is recorded separately from implementation.

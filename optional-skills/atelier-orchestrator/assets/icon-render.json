@@ -1,0 +1,28 @@
+{
+  "schema": "icon-render/1",
+  "purpose": "Host-compatible PNG representations of unchanged established SVG; no redesign",
+  "master": {
+    "path": "assets/icon.svg",
+    "sha256": "ae3dcf423dcdf7acfd84e3d299b8abb1242daf4b1817e6d7f1941922d49c1051"
+  },
+  "renderer": {
+    "name": "sharp",
+    "version": "0.35.5",
+    "svg": "2.63.2"
+  },
+  "outputs": [
+    {
+      "path": "assets/icon-small.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "466c274709fdd5a18109450b4c925f8e92c0a686f8c746ebc961f1cde32fd560"
+    },
+    {
+      "path": "assets/icon-large.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "b51bc78f1df714ec39f0afdbc7a910f756bedcc958f77ecf73673d866ac59960"
+    }
+  ],
+  "brand_color_unchanged": "#21CFC4"
+}

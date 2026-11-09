@@ -1,0 +1,51 @@
+{
+  "schema": "orchestrator-presentation-verification/1",
+  "optional_skill_version": "1.0.1",
+  "repository_edition": "1.2.2",
+  "core_suite_version": "6.0.0",
+  "service_version": "0.1.1",
+  "scope": "Ukrainian entrypoint and UI; PNG renditions of established SVG; no behavior or permission change",
+  "source_files_before": 28,
+  "source_files_after": 31,
+  "reviewed_changes": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "assets/icon-large.png",
+    "assets/icon-render.json",
+    "assets/icon-small.png",
+    "assets/visual-identity-origin.json",
+    "assets/visual-identity.lock.json"
+  ],
+  "installed_source_matches_candidate": true,
+  "backup_and_actual_apply_journal_retained_privately": true,
+  "discovery": {
+    "actual_native_skills_list_force_reload": true,
+    "enabled": true,
+    "single_unique_installed_source": true,
+    "ukrainian_description_observed": true,
+    "zero_model_calls": true
+  },
+  "icon": {
+    "master_svg_sha256": "ae3dcf423dcdf7acfd84e3d299b8abb1242daf4b1817e6d7f1941922d49c1051",
+    "master_and_palette_unchanged": true,
+    "rendered_png_sizes": [
+      128,
+      512
+    ],
+    "source_renders_inspected": true,
+    "native_host_ui_render_observed": false
+  },
+  "checks": {
+    "skill_creator_validator": "pass",
+    "visual_identity_lock": "pass",
+    "inherited_operating_resources": "pass",
+    "repository_integrity_and_seven_guide_freshness": "pass",
+    "existing_client_loopback_tests": 2
+  },
+  "work_live_update_verified": false,
+  "new_model_probe_run": false,
+  "limits": [
+    "Actual native UI rendering was unavailable; source assets, metadata and host discovery are verified separately.",
+    "Existing real model smoke remains historical evidence on unchanged client/service code; no new model quality or product acceptance is claimed."
+  ]
+}

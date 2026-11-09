@@ -9,5 +9,11 @@
   "style_reference": {
     "path": "assets/system-style-reference.svg",
     "sha256": "9be88f8dd4c5e658961515c71389eafd45142ffa68bcae58e8dcff57d178ed91"
+  },
+  "derivatives": {
+    "source": "assets/icon.svg",
+    "source_sha256": "ae3dcf423dcdf7acfd84e3d299b8abb1242daf4b1817e6d7f1941922d49c1051",
+    "record": "assets/icon-render.json",
+    "reason": "Existing SVG rendered as PNG for consistent host icon bindings; stable mark and color preserved"
   }
 }

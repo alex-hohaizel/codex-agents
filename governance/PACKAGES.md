@@ -20,7 +20,7 @@ The `dist/` directory will contain:
 
 The Work and Codex bundles deliberately carry the same canonical sources, complete guides, migrations, templates and the current bilingual campaign. Each has a different `PACKAGE.json` and `PACKAGE_README.md` identifying its installation workflow. Work installation uses the supported personal-skill manager. Codex installation uses the portable updater. Extracting either archive alone performs no installation.
 
-Obsolete advertising and rejected draft renderers are excluded from the current tree and packages. The exact build metadata records repository edition 1.2.1 separately from suite version 6.0.0.
+Obsolete advertising and rejected draft renderers are excluded from the current tree and packages. The exact build metadata records repository edition 1.2.2 separately from suite version 6.0.0.
 
 The optional `maintenance-skill/` and `optional-skills/atelier-orchestrator/` sources are separate from the 33 baseline skills and are not installed by the baseline updater. The source bundles exclude private project-specific agents, host backups and project histories.
 
@@ -35,4 +35,4 @@ The optional `maintenance-skill/` and `optional-skills/atelier-orchestrator/` so
 
 The workflow definition is included in this repository. Its presence does not prove that a run has already happened or that downloadable artifacts currently exist. A GitHub Actions artifact is also separate from a published GitHub Release.
 
-The source bundles include the local service source/lockfile, shared production/context masters and host/role profiles. They exclude `node_modules`, built client assets, local service data, private audit reports and installation backups. Build the service as described in `apps/agent-atelier/README.md`. WORK live installation remains separately deferred.
+The source bundles include the local service source/lockfile, shared production/context masters and host/role profiles. They exclude `node_modules`, built client assets, local service data, private audit reports and installation backups. Build the service as described in `apps/agent-atelier/README.md`. WORK live installation remains a separate host task requiring actual manager/readback evidence.

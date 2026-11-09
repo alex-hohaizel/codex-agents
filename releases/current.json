@@ -1,6 +1,6 @@
 {
   "schema_version": "codex-agents.release/1",
-  "repository_version": "1.2.1",
+  "repository_version": "1.2.2",
   "suite_version": "6.0.0",
   "release_date": "2026-11-09",
   "release_notes": "releases/6.0.0.md",
@@ -52,16 +52,16 @@
     },
     {
       "name": "atelier-orchestrator",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "source": "optional-skills/atelier-orchestrator",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
     }
   ],
-  "repository_release_notes": "releases/repository-1.2.1.md",
+  "repository_release_notes": "releases/repository-1.2.2.md",
   "marketing_showcase": "marketing/campaign/README.md",
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
-  "repository_migration": "releases/migrations/repository-1.2.1.md",
+  "repository_migration": "releases/migrations/repository-1.2.2.md",
   "marketing_artwork_languages": [
     "en",
     "uk"

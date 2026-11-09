@@ -1,17 +1,17 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+  "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
   "default_locale": "en",
   "guide_editions": 7,
   "translation_editions": 6,
-  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction.",
+  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction. Patch1.2.2/optional1.0.1 updates the current release line and adds equivalent skill/application and icon-delivery explanations in all seven guides. These changed passages were self-reviewed against final English; structural parity, stable-name counts, command blocks and exact retention of all other baseline bytes were checked. No Work installation, host display or new runtime verification follows from this translation review.",
   "translations": [
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -26,8 +26,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "d76039bfa6fbaa55489a5773741fd604c2230a931cd55552bac246fe8973f256",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "b5a7703e3898a54aaa2165f99ea5d21ac0b7236a3d8d197ebecc727541dc5752",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -42,8 +42,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "bff69b286548778c643f0b85f77cc84446f81ac84dccc8aba92de6aa94829fbd",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "924543b0a7c171a40bbcd21588d7cfc60df1a67ece755eb21213ce1e31b6499b",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -58,8 +58,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "94e88ad3356c9da1c3d82efb7262df0163a2c2015a15d85d506ceeeb13c0fda4",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "293e2cfe6546f397401ce8ce0592a7cbeffb33d6f49b3124e549972a0d4a337f",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "615ae58ee5a79a042f4eddf726aeca4008f121e349b14faa6c7a86c66b8b06d7",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "8f87eff3167a87a9ce09e54f10e29e0dbae48c7222782b8d8930559fc933c696",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -90,8 +90,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "d0951a86929fcc18a11c6addbfecd3b954afdba4e596ca0e32bf7e26a5f3bbdf",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "c1ebb01c0cf6adb3a245fd1310e2ee397d4932fb3ceeef84229c9624139c75f8",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -106,8 +106,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
-      "sha256": "6188a3cfd7ed1fafc92fd064f062183dca3dd54f15135d71931bb7e9163ed8db",
+      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "sha256": "84a343be79131e0768477c2f16d17bd3f94fee60531bb856316c40b83a046107",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -120,14 +120,14 @@
       }
     }
   ],
-  "repository_version": "1.2.1",
+  "repository_version": "1.2.2",
   "campaign_languages": [
     "en",
     "uk"
   ],
   "language_review": {
-    "method": "Model-authored translation and source-to-target self-review of changed passages, including section0 step8 governing-instruction admission; independent release review remains separate",
+    "method": "Model-authored translation and source-to-target self-review of the changed 1.2.2 release and skill/application/icon paragraphs; exact untouched-body and structural/command parity checked; independent release review remains separate",
     "native_human_review": "not_performed",
-    "source_freeze_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f"
+    "source_freeze_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315"
   }
 }
