@@ -761,17 +761,21 @@ test("atomic reservation survives concurrent dispatch awaits and consumes each t
       );
     const a = await prepare(),
       b = await prepare();
-    let release;
+    let release, enteredResolve;
+    const entered = new Promise((resolve) => {
+      enteredResolve = resolve;
+    });
     f.codex.connect = () =>
       new Promise((resolve) => {
         release = resolve;
+        enteredResolve();
       });
     const first = f.command(
       "task.dispatch",
       { task_id: a.result.task.id },
       { project_id: f.binding.id },
     );
-    await new Promise((r) => setImmediate(r));
+    await entered;
     const second = await f.command(
       "task.dispatch",
       { task_id: b.result.task.id },
@@ -1396,6 +1400,64 @@ test("overlapping read-only roots share two readers while disjoint roots keep th
     assert.equal((await dispatch(other)).status, "completed");
     assert.equal((await dispatch(other)).error.code, "CAPACITY_LIMIT");
     assert.equal(f.codex.starts, 4);
+  } finally {
+    await f.close();
+  }
+});
+
+test("legacy or changed governing instruction context never reaches a model turn", async () => {
+  const f = await fixture();
+  let turns = 0;
+  try {
+    const prepared = await f.command(
+      "task.prepare",
+      {
+        objective: "Inspect fixture",
+        acceptance: "Preserve content",
+        scope: "read-only",
+        deadline_seconds: 60,
+      },
+      { project_id: f.binding.id },
+    );
+    const task = prepared.result.task;
+    const old = { ...task, capsule: { ...task.capsule } };
+    delete old.capsule.instruction_manifest;
+    f.app.store.put("task", task.id, old);
+    let connects = 0;
+    const connect = f.codex.connect.bind(f.codex);
+    f.codex.connect = () => {
+      connects++;
+      return connect();
+    };
+    const legacy = await f.command(
+      "task.dispatch",
+      { task_id: task.id },
+      { project_id: f.binding.id },
+    );
+    assert.equal(legacy.error.code, "TASK_NOT_READY");
+    assert.equal(connects, 0);
+    f.app.store.put("task", task.id, task);
+    const start = f.codex.start.bind(f.codex);
+    f.codex.start = async () => {
+      const result = await start();
+      await writeFile(
+        join(f.project, "AGENTS.override.md"),
+        "New governing precedence after bootstrap",
+      );
+      return result;
+    };
+    f.codex.turn = async () => {
+      turns++;
+      throw new Error("Unexpected turn");
+    };
+    const drift = await f.command(
+      "task.dispatch",
+      { task_id: task.id },
+      { project_id: f.binding.id },
+    );
+    assert.equal(drift.error.code, "SOURCE_DRIFT");
+    assert.equal(turns, 0);
+    assert.equal(f.codex.starts, 1);
   } finally {
     await f.close();
   }

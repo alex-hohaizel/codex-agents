@@ -1,9 +1,9 @@
 {
   "schema": "codex-agents.release-verification/1",
   "suite_version": "6.0.0",
-  "repository_version": "1.2.0",
+  "repository_version": "1.2.1",
   "date": "2026-11-09",
-  "status": "delivered_source_local_installation_and_service_with_explicit_model_gate_pending",
+  "status": "patch_and_single_actual_model_smoke_verified",
   "baseline_commit": "5acde284853c7fb65a1cff8a0d71f28bfcf99676",
   "preserved": [
     "33 core stable names and icon bytes/bindings/colors",
@@ -17,9 +17,9 @@
       "scope": "Synthetic/local behavior including adoption, installer, updater, negative admission and recovery"
     },
     "service_unit_integration": {
-      "tests": 39,
-      "passed": 39,
-      "scope": "Temporary SQLite/fake Codex protocol + actual loopback launcher lifecycle; no inference"
+      "tests": 46,
+      "passed": 46,
+      "scope": "Temporary SQLite/fake Codex protocol, actual loopback launcher and governing instruction/alias/provider/retention regressions; real model proof recorded separately"
     },
     "independent_privacy": {
       "findings": 11,
@@ -31,7 +31,9 @@
     "guides": {
       "languages": 7,
       "key_command_structure_reviewed": true,
-      "native_human_certification": false
+      "native_human_certification": false,
+      "patch_parity": "All seven governing-instruction clarification passages translated; commands, structure and unrelated body retained",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f"
     },
     "repository_tests": {
       "tests": 35,
@@ -62,7 +64,8 @@
       "ui_languages": 7,
       "keys_per_catalog": 450,
       "new_privacy_strings_reviewed_per_language": 41,
-      "scope": "Actual synthetic browser and fake-transport behavior; no model calls, device or native-human certification"
+      "scope": "Actual synthetic browser and fake-transport behavior; no model calls, device or native-human certification",
+      "reuse_reason": "Client source/interaction/layout unchanged by the0.1.1 server-only bootstrap patch"
     },
     "independent_release_review": {
       "concrete_defects_fixed_and_retested": 2,
@@ -85,16 +88,25 @@
       "additional_independent_parser_cli_checks": 6,
       "scope": "Deterministic local guard/provenance/writer/source identity; valid author controls are not blind creative holdouts",
       "model_calls": 0
+    },
+    "governing_instruction_patch": {
+      "source_version": "0.1.1",
+      "zero_turn_bootstrap_passed": true,
+      "exact_file_and_scope_negative_controls_passed": true,
+      "alias_cleanup_independent_review_passed": true,
+      "actual_smoke_independent_review": "passed",
+      "additional_inference_authorized": false,
+      "independent_actual_smoke_checks": 14
     }
   },
-  "pending": [
-    "One final restricted-profile model smoke: explicit owner reapproval pending after automatic review rejection"
-  ],
+  "pending": [],
   "model_route": {
     "earlier_read_only_temp_fixture_succeeded": true,
-    "final_restricted_profile_model_test": "blocked_pending_explicit_user_reapproval_after_automatic_review_rejection",
+    "final_restricted_profile_model_test": "passed_one_actual_turn_after_bootstrap_fix",
     "automatic_review_rejections": 2,
-    "no_retry_or_indirect_inference": true
+    "explicit_owner_approval_received": true,
+    "actual_smoke": "evaluations/actual-model-smoke-0.1.1.json",
+    "no_unapproved_or_indirect_inference": true
   },
   "work": "Live audit/update/install/control deferred to separate owner task",
   "claims_not_made": [
@@ -113,7 +125,7 @@
       "conclusion": "failure",
       "cause": "Cold CI ran launcher tests before building the client",
       "correction": "Build the client before launcher tests",
-      "recheck": "pending"
+      "recheck": "passed by run42558627948"
     },
     "validated_code_commit": "d7078bbc650865ccbc265a7dd1ed1951324b9ea4",
     "code_ci": {
@@ -152,7 +164,7 @@
     }
   },
   "local_service": {
-    "version": "0.1.0",
+    "version": "0.1.1",
     "status": "running on personal Mac",
     "explicit_current_repository_binding": true,
     "locale": "uk",
@@ -164,9 +176,26 @@
       "protocol_initialized": true,
       "account_mode": "chatgpt",
       "version": "0.166.0",
-      "model_execution_tested": false
-    }
+      "controlled_instance_model_execution_tested": true,
+      "persistent_instance_model_calls": 0,
+      "proof": "evaluations/actual-model-smoke-0.1.1.json"
+    },
+    "source_version": "0.1.1",
+    "running_version": "0.1.1",
+    "controlled_instance_model_smoke": "passed on0.1.1; persistent setup itself still has no model job",
+    "same_database_and_binding_preserved": true
   },
   "comparison_scope": "Actual deterministic baseline/candidate pairs are separate from creative/model-dependent output comparison. All media scenarios are not treated as executed or certified.",
-  "completed_at": "2026-11-09T03:58:04.865684+00:00"
+  "completed_at": "2026-11-09T03:58:04.865684+00:00",
+  "patch": {
+    "repository_version": "1.2.1",
+    "service_version": "0.1.1",
+    "notes": "releases/repository-1.2.1.md",
+    "migration": "releases/migrations/repository-1.2.1.md",
+    "core_suite_unchanged": "6.0.0",
+    "core_reinstall_required": false,
+    "source_publication": "Exact patch commit/ref/tree/CI are observed separately by the publishing executor; its own hash is not fabricated inside this commit",
+    "core_skills_or_role_reinstall_required": false,
+    "observed_at": "2026-11-09T08:27:49.990763+00:00"
+  }
 }

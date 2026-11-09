@@ -1,5 +1,5 @@
-import { lstat, readdir, rm, readFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { lstat, readdir, rm, readFile, readlink } from "node:fs/promises";
+import { join, resolve, dirname, basename } from "node:path";
 import { ACTIVE_JOB_STATES } from "../shared/contracts.mjs";
 import {
   atomicWrite,
@@ -131,7 +131,7 @@ export class RetentionManager {
     );
   }
 
-  async file(relative) {
+  async file(relative, reviewedAliases = null) {
     fail(
       typeof relative === "string" &&
         !relative.startsWith("/") &&
@@ -143,7 +143,9 @@ export class RetentionManager {
       403,
     );
     fail(
-      ["task-inputs", "codex-logs", "backups"].includes(relative.split("/")[0]),
+      ["task-inputs", "instruction-aliases", "codex-logs", "backups"].includes(
+        relative.split("/")[0],
+      ),
       "OUTSIDE_ROOT",
       "Only service-owned cache/log/backup paths are eligible",
       403,
@@ -164,11 +166,84 @@ export class RetentionManager {
         throw error;
       }
     }
+    const aliasMode = relative.split("/")[0] === "instruction-aliases";
+    let aliasTargets = null;
+    if (aliasMode) {
+      const parts = relative.split("/");
+      fail(
+        parts.length === 2 && identifier(parts[1]),
+        "OUTSIDE_ROOT",
+        "Only a complete owned instruction-alias cache can be reviewed",
+        403,
+      );
+      if (reviewedAliases !== null) aliasTargets = reviewedAliases;
+      else {
+        const manifest = this.store.get("task", parts[1])?.capsule
+          ?.instruction_manifest;
+        fail(
+          manifest?.schema_version === "atelier.governing-instructions/1" &&
+            Array.isArray(manifest.sources),
+          "REVISION_CONFLICT",
+          "Instruction alias cleanup requires the original task pins or reviewed pending manifest",
+          409,
+        );
+        aliasTargets = Object.fromEntries(
+          manifest.sources.map((source) => [
+            sha(source.path) + ".md",
+            source.path,
+          ]),
+        );
+      }
+      fail(
+        aliasTargets &&
+          typeof aliasTargets === "object" &&
+          !Array.isArray(aliasTargets) &&
+          Object.keys(aliasTargets).length <= 256 &&
+          Object.entries(aliasTargets).every(
+            ([name, target]) =>
+              typeof target === "string" &&
+              target.startsWith("/") &&
+              target.length <= 8192 &&
+              !target.includes("\0") &&
+              name === sha(target) + ".md",
+          ),
+        "OUTSIDE_ROOT",
+        "Invalid reviewed instruction alias targets",
+        403,
+      );
+    }
     let count = 0,
       bytes = 0;
     const entries = [];
     const visit = async (target) => {
       const stat = await lstat(target);
+      if (aliasMode && target !== path) {
+        const expected = aliasTargets[basename(target)];
+        fail(
+          dirname(target) === path &&
+            stat.isSymbolicLink() &&
+            expected &&
+            (await readlink(target)) === expected,
+          "OUTSIDE_ROOT",
+          "Only exact task-derived instruction aliases may be unlinked",
+          403,
+        );
+        fail(
+          ++count <= 10_000,
+          "CAPACITY_LIMIT",
+          "Cleanup tree is too large for one preview",
+          409,
+        );
+        bytes += stat.size;
+        entries.push({
+          path: basename(target),
+          type: "instruction-alias",
+          target_sha256: sha(expected),
+          size: stat.size,
+          mtime_ms: stat.mtimeMs,
+        });
+        return; // Never open or traverse a governing target during cleanup.
+      }
       fail(
         !stat.isSymbolicLink(),
         "OUTSIDE_ROOT",
@@ -215,6 +290,7 @@ export class RetentionManager {
       mtime_ms: stat.mtimeMs,
       directory: stat.isDirectory(),
       contents_sha256: digest(entries),
+      ...(aliasMode ? { alias_targets: aliasTargets } : {}),
     };
   }
 
@@ -352,8 +428,10 @@ export class RetentionManager {
       );
     const files = [];
     for (const taskId of cacheTasks) {
-      const file = await this.file(`task-inputs/${taskId}`);
-      if (file) files.push(file);
+      for (const category of ["task-inputs", "instruction-aliases"]) {
+        const file = await this.file(`${category}/${taskId}`);
+        if (file) files.push(file);
+      }
     }
     const backups = this.store
       .list("backup")
@@ -590,7 +668,10 @@ export class RetentionManager {
         "Cleanup receipt lacks reviewed target hashes; preview again",
         409,
       );
-      const current = await this.file(expected.relative);
+      const current = await this.file(
+        expected.relative,
+        expected.alias_targets ?? null,
+      );
       if (!current) continue; // Already removed before interruption.
       fail(
         digest(current) === digest(expected),
@@ -604,7 +685,11 @@ export class RetentionManager {
       await rm(join(this.dataDir, relative), { recursive: true, force: false });
     for (const task of this.store.list("task"))
       if (
-        pending.files.some((file) => file.relative === `task-inputs/${task.id}`)
+        pending.files.some((file) =>
+          [`task-inputs/${task.id}`, `instruction-aliases/${task.id}`].includes(
+            file.relative,
+          ),
+        )
       )
         this.store.put("task", task.id, {
           ...task,

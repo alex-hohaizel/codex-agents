@@ -1,5 +1,9 @@
 # Change log
 
+## Repository1.2.1 / Agent Atelier0.1.1 — 2026-11-09
+
+Repair restricted Codex instruction bootstrap with exact governing-source pins, least-privilege file admission, native loaded-source matching, pre-turn drift/provider checks and safe instruction-alias retention. Preserve core6.0.0, icons, history and native formats. See [patch notes](releases/repository-1.2.1.md) and [migration](releases/migrations/repository-1.2.1.md). The actual smoke outcome is recorded separately from implementation.
+
 ## Suite6.0.0 / repository 1.2.0 — 2026-11-09
 
 Strengthen source/evidence admission, atomic team writes and generated-agent inheritance; preserve native product formats and core icon identity. Add self-contained production/context contracts to all33 skills, reviewed Codex host/role profiles, optional orchestrator and Agent Atelier local Mac workbench. Complete guides/UI remain available in seven languages. See [release notes](releases/6.0.0.md), [migration](releases/migrations/6.0.0.md) and the scoped [verification record](governance/RELEASE_6_VERIFICATION.json). WORK live changes remain a separate task.

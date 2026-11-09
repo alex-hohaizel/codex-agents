@@ -1,4 +1,4 @@
-# Agent Atelier 0.1.0 — local Mac workbench
+# Agent Atelier 0.1.1 — local Mac workbench
 
 Agent Atelier binds explicitly selected product roots, shows their native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
 
@@ -39,6 +39,14 @@ For development run the backend and Vite in separate terminals. Set an explicit 
 The default job profile denies sibling projects, native approval/state roots, credentials, private service data, unrelated temporary files and ambient external tools. Exactly selected verified skill snapshots are separate read grants. Extra read grants currently require a service data directory without glob metacharacters; the default location is supported. Unsupported plugin/tool routes stay visible as requiring a capable host. Enabling public-web read is an explicit task choice; there is no deterministic filter guaranteeing that every outbound query is free of private text.
 
 The local executor's default scopes prohibit ambient production/publication/spending and do not silently inherit every external plugin. Actual supported capability/permission policies are reported by the adapter. If the task needs another host/API/tool, preserve the requirement and use the exact supported bridge; do not downgrade the requested result or advertise an unavailable operation.
+
+## Governing instructions and exact read scope
+
+Preparation pins the governing instruction candidate set, including absent files, override precedence, root markers and native loading settings. Existing sources must be bounded regular files. Dispatch checks current pins, the native host's actual loaded sources and the pins again before the model turn. Changed instructions or a legacy unpinned task require fresh preparation; history and native products remain intact.
+
+For instruction paths containing glob metacharacters, per-task service-owned aliases serialize read permission for those exact original files. The adapter verifies each alias target/hash and never grants its parent directory. This preserves normal instruction loading while retaining sibling/credential/private-state denials. Native instruction budgets are checked rather than silently dropping required sources.
+
+Input-cache cleanup also unlinks reviewed instruction aliases without following or deleting governing targets. Unknown/replaced pointers reject. The local route verifies native OpenAI metadata and existing ChatGPT authentication before a turn; custom provider/base-URL configurations need a separately reviewed route.
 
 ## Skills and optional agent
 

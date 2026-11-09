@@ -11,6 +11,8 @@ import {
   overridesToArgv,
 } from "./permissions.mjs";
 import { fail, now, parseStrictJson, redact, ServiceError } from "./utils.mjs";
+import { SERVICE_VERSION } from "../shared/contracts.mjs";
+import { InstructionsManager, instructionSettings } from "./instructions.mjs";
 const run = promisify(execFile);
 export class CodexAdapter extends EventEmitter {
   constructor({
@@ -20,9 +22,11 @@ export class CodexAdapter extends EventEmitter {
     spawnProcess = spawn,
     experimentalApi = true,
     configOverrides = [],
+    instructions,
   } = {}) {
     super();
     this.dataDir = dataDir;
+    this.instructions = instructions ?? new InstructionsManager({ dataDir });
     this.executable = executable;
     this.rpcTimeoutMs = rpcTimeoutMs;
     this.spawnProcess = spawnProcess;
@@ -183,7 +187,7 @@ export class CodexAdapter extends EventEmitter {
           clientInfo: {
             name: "agent-atelier",
             title: "Agent Atelier",
-            version: "0.1.0",
+            version: SERVICE_VERSION,
           },
           capabilities: { experimentalApi: this.experimentalApi },
         },
@@ -392,19 +396,38 @@ export class CodexAdapter extends EventEmitter {
       (page.data ?? page.turns ?? []).find((turn) => turn.id === turnId) ?? null
     );
   }
+  async instructionSettings(cwd) {
+    await this.connect();
+    const response = await this.rpc("config/read", {
+      cwd,
+      includeLayers: false,
+    });
+    return instructionSettings(response.config ?? {});
+  }
   async taskConfiguration(cwd, capsule) {
     const boundary = await externalToolDenials(this.executable, cwd);
     if (!capsule) return { name: "atelier-local", config: boundary.overrides };
+    const instructionAliases = await this.instructions.aliases(
+      capsule.instruction_manifest,
+      capsule.task_id,
+    );
     const profile = localProfile(
       capsule.scope,
       capsule.allowed_paths,
       [
         ...this.runtimeReadRoots,
+        ...instructionAliases.map((row) => row.path),
         ...(capsule.selected_skills ?? []).map((item) => item.snapshot_root),
       ],
       cwd,
       [this.dataDir],
     );
+    for (const filename of [
+      "AGENTS.md",
+      "AGENTS.override.md",
+      ...capsule.instruction_manifest.settings.project_doc_fallback_filenames,
+    ])
+      profile.filesystem[":workspace_roots"][filename] = "read";
     return {
       name: "atelier-task",
       config: {
@@ -420,17 +443,35 @@ export class CodexAdapter extends EventEmitter {
   async start(cwd, capsule) {
     await this.connect();
     const settings = await this.taskConfiguration(cwd, capsule);
-    return this.rpc("thread/start", {
+    const result = await this.rpc("thread/start", {
       cwd,
       permissions: settings.name,
       approvalPolicy: "on-request",
       config: settings.config,
     });
+    fail(
+      this.status.auth_mode === "chatgpt" &&
+        result.modelProvider === "openai" &&
+        capsule.instruction_manifest.settings.native_route?.provider ===
+          "openai",
+      "BILLING_AUTHORITY_REQUIRED",
+      "Resolved native provider/auth route is not verified existing ChatGPT/OpenAI; no turn dispatched",
+      409,
+    );
+    this.instructions.verifyLoaded(
+      capsule.instruction_manifest,
+      result.instructionSources,
+    );
+    await this.instructions.verify(
+      capsule.instruction_manifest,
+      await this.instructionSettings(cwd),
+    );
+    return result;
   }
   async resume(threadId, cwd, capsule) {
     await this.connect();
     const settings = await this.taskConfiguration(cwd, capsule);
-    return this.rpc("thread/resume", {
+    const result = await this.rpc("thread/resume", {
       threadId,
       cwd,
       permissions: settings.name,
@@ -438,8 +479,34 @@ export class CodexAdapter extends EventEmitter {
       excludeTurns: true,
       config: settings.config,
     });
+    fail(
+      this.status.auth_mode === "chatgpt" &&
+        result.modelProvider === "openai" &&
+        capsule.instruction_manifest.settings.native_route?.provider ===
+          "openai",
+      "BILLING_AUTHORITY_REQUIRED",
+      "Resolved native provider/auth route is not verified existing ChatGPT/OpenAI; no turn dispatched",
+      409,
+    );
+    this.instructions.verifyLoaded(
+      capsule.instruction_manifest,
+      result.instructionSources,
+    );
+    await this.instructions.verify(
+      capsule.instruction_manifest,
+      await this.instructionSettings(cwd),
+    );
+    return result;
   }
   async turn(threadId, capsule, onDispatch = () => {}) {
+    await this.instructions.verify(
+      capsule.instruction_manifest,
+      await this.instructionSettings(capsule.root),
+    );
+    await this.instructions.aliases(
+      capsule.instruction_manifest,
+      capsule.task_id,
+    );
     onDispatch();
     return this.rpc("turn/start", {
       threadId,

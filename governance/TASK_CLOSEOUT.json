@@ -1,9 +1,9 @@
 {
   "schema": "codex-agents.task-closeout/1",
   "date": "2026-11-09",
-  "repository_version": "1.2.0",
+  "repository_version": "1.2.1",
   "suite_version": "6.0.0",
-  "status": "delivered_with_explicit_model_test_gate_pending",
+  "status": "verified_including_one_actual_model_smoke",
   "verification": "governance/RELEASE_6_VERIFICATION.json",
   "historical_campaign_closeout": "governance/history/TASK_CLOSEOUT-1.1.0.json",
   "publication": {
@@ -12,7 +12,8 @@
     "main_push_and_payload_readback_observed": true,
     "code_ci_conclusion": "success",
     "code_ci_run_id": 42558627948,
-    "metadata_followup_own_commit_intentionally_not_embedded": true
+    "metadata_followup_own_commit_intentionally_not_embedded": true,
+    "patch_ref_policy": "Exact patch ref/tree/CI observed after upload by executor; own hash intentionally not embedded"
   },
   "local_effects": {
     "core_skills_applied_verified": 33,
@@ -22,8 +23,18 @@
     "local_service_running": true,
     "persistent_setup_model_calls": 0,
     "active_product_migrations": 0,
-    "core_icon_identity_preserved": true
+    "core_icon_identity_preserved": true,
+    "service_version": "0.1.1",
+    "same_database_and_binding_preserved": true
   },
-  "remaining_gate": "Automatic review requires explicit owner reapproval for one final restricted-profile read-only synthetic model smoke; not run indirectly",
-  "work": "Live audit/update/install/control deferred to a separate owner task"
+  "remaining_gate": null,
+  "work": "Live audit/update/install/control deferred to a separate owner task",
+  "model_smoke": {
+    "service_version": "0.1.1",
+    "actual_turns": 1,
+    "elapsed_ms": 18176,
+    "scope": "Fresh read-only synthetic nonce fixture; no web/MCP/new paid resource/product change",
+    "independent_review": "passed",
+    "proof": "evaluations/actual-model-smoke-0.1.1.json"
+  }
 }

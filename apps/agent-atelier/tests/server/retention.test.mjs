@@ -371,3 +371,88 @@ test("interrupted cleanup retains reviewed hashes and refuses a replaced target 
   });
   assert.equal(await readFile(path, "utf8"), "new unreviewed material");
 });
+
+test("instruction alias retention unlinks only task-derived pointers after DB forgetting and never follows targets", async (t) => {
+  const { root, dataDir, store, retention } = await fixture(t);
+  terminal(store);
+  const target = join(root, "native-AGENTS.md"),
+    missing = join(root, "removed-AGENTS.md");
+  await writeFile(target, "native instructions must remain");
+  const { sha } = await import("../../server/utils.mjs");
+  store.put("task", "task_old", {
+    ...store.get("task", "task_old"),
+    capsule: {
+      instruction_manifest: {
+        schema_version: "atelier.governing-instructions/1",
+        sources: [{ path: target }, { path: missing }],
+      },
+    },
+  });
+  const aliases = join(dataDir, "instruction-aliases", "task_old");
+  await mkdir(aliases, { recursive: true });
+  await symlink(target, join(aliases, sha(target) + ".md"));
+  await symlink(missing, join(aliases, sha(missing) + ".md"));
+  const preview = await retention.preview({
+    forget_project_ids: ["project_A"],
+  });
+  await retention.apply({
+    preview_id: preview.preview_id,
+    sha256: preview.sha256,
+    confirmed: true,
+  });
+  assert.equal(store.get("task", "task_old"), null);
+  await assert.rejects(readFile(join(aliases, sha(target) + ".md")), {
+    code: "ENOENT",
+  });
+  assert.equal(
+    await readFile(target, "utf8"),
+    "native instructions must remain",
+  );
+});
+
+test("instruction alias cleanup rejects unexpected pointers and binds retry to exact reviewed targets", async (t) => {
+  const { root, dataDir, store, retention } = await fixture(t);
+  terminal(store);
+  const { sha } = await import("../../server/utils.mjs");
+  const target = join(root, "original.md"),
+    replacement = join(root, "replacement.md");
+  await writeFile(target, "original");
+  await writeFile(replacement, "replacement");
+  store.put("task", "task_old", {
+    ...store.get("task", "task_old"),
+    capsule: {
+      instruction_manifest: {
+        schema_version: "atelier.governing-instructions/1",
+        sources: [{ path: target }],
+      },
+    },
+  });
+  const aliases = join(dataDir, "instruction-aliases", "task_old");
+  await mkdir(aliases, { recursive: true });
+  const link = join(aliases, sha(target) + ".md");
+  await symlink(target, link);
+  await symlink(replacement, join(aliases, "unexpected.md"));
+  await assert.rejects(retention.preview(), { code: "OUTSIDE_ROOT" });
+  await rm(join(aliases, "unexpected.md"));
+  const preview = await retention.preview(),
+    finish = retention.finishFiles.bind(retention);
+  retention.finishFiles = async () => {
+    throw new Error("synthetic I/O failure");
+  };
+  await assert.rejects(
+    retention.apply({
+      preview_id: preview.preview_id,
+      sha256: preview.sha256,
+      confirmed: true,
+    }),
+    /I\/O failure/,
+  );
+  retention.finishFiles = finish;
+  await rm(link);
+  await symlink(replacement, link);
+  await assert.rejects(retention.finishFiles(preview.preview_id), {
+    code: "OUTSIDE_ROOT",
+  });
+  assert.equal(await readFile(replacement, "utf8"), "replacement");
+  assert.equal(await readFile(target, "utf8"), "original");
+});

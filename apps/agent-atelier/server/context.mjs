@@ -78,6 +78,7 @@ export async function compileContext({
   payload,
   taskId,
   authorityEpoch,
+  instructionManifest,
 }) {
   const objective = text(payload.objective, "objective", 3, 2e4),
     acceptance = text(payload.acceptance, "acceptance", 3, 12e3);
@@ -226,6 +227,7 @@ export async function compileContext({
     requirements: selected.selected,
     omitted_requirements: selected.omitted,
     original_sources: inputs,
+    instruction_manifest: instructionManifest,
     decisions: workspace.decisions,
     identity: workspace.identity,
     readiness: workspace.readiness,

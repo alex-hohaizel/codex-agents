@@ -1,17 +1,17 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+  "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
   "default_locale": "en",
   "guide_editions": 7,
   "translation_editions": 6,
-  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared changed guide commands/structure and critical safety/recovery passages; this is not native-human certification.",
+  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction.",
   "translations": [
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -26,8 +26,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "b5348fa684086518c7c42466cd61ab39004d90909153147cbda05c1ef18dfc65",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "d76039bfa6fbaa55489a5773741fd604c2230a931cd55552bac246fe8973f256",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -42,8 +42,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "eea7079206a9f85c8bc54dcb3f45aa7f85de1fc2c5a85e4a2428012be9ef2418",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "bff69b286548778c643f0b85f77cc84446f81ac84dccc8aba92de6aa94829fbd",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -58,8 +58,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "bea412bfe0f790ebeefeb6a6c086ae874516360a4d8bc0e94b8ca08da09e0699",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "94e88ad3356c9da1c3d82efb7262df0163a2c2015a15d85d506ceeeb13c0fda4",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "762dad5a7b9e0e715eeea443882c99381be1daadec338094db2651b4fdc1347d",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "615ae58ee5a79a042f4eddf726aeca4008f121e349b14faa6c7a86c66b8b06d7",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -90,8 +90,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "afe7e9bb9e9cbab500f400adf4a5557c710de375c5368212fc649e53db0ba203",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "d0951a86929fcc18a11c6addbfecd3b954afdba4e596ca0e32bf7e26a5f3bbdf",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -106,8 +106,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
-      "sha256": "a572573392bf001fa9bdf4db146f8f80a1c5b75921618b324f9dd30e4de0cc06",
+      "source_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f",
+      "sha256": "6188a3cfd7ed1fafc92fd064f062183dca3dd54f15135d71931bb7e9163ed8db",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -120,14 +120,14 @@
       }
     }
   ],
-  "repository_version": "1.2.0",
+  "repository_version": "1.2.1",
   "campaign_languages": [
     "en",
     "uk"
   ],
   "language_review": {
-    "method": "Model-authored translation and source-to-target self-review of changed passages; independent release review remains separate",
+    "method": "Model-authored translation and source-to-target self-review of changed passages, including section0 step8 governing-instruction admission; independent release review remains separate",
     "native_human_review": "not_performed",
-    "source_freeze_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4"
+    "source_freeze_sha256": "4630ac8cc158dfd9825496dee207028188170299e7748c2fcaca9cef0678d10f"
   }
 }

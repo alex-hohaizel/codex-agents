@@ -9,6 +9,7 @@ import { CodexAdapter } from "./codex.mjs";
 import { SkillsManager } from "./skills.mjs";
 import { RetentionManager } from "./retention.mjs";
 import { compileContext } from "./context.mjs";
+import { InstructionsManager, instructionSettings } from "./instructions.mjs";
 import {
   ACTIVE_JOB_STATES,
   API_VERSION,
@@ -48,7 +49,9 @@ export class Application extends EventEmitter {
       dataDir,
     });
     this.retention = new RetentionManager({ store: this.store, dataDir });
-    this.codex = codex ?? new CodexAdapter({ dataDir });
+    this.instructions = new InstructionsManager({ dataDir });
+    this.codex =
+      codex ?? new CodexAdapter({ dataDir, instructions: this.instructions });
     this.instanceId = id("instance");
     this.timers = new Map();
     this.previewRestores = new Map();
@@ -668,6 +671,12 @@ export class Application extends EventEmitter {
       );
     const taskId = id("task"),
       epoch = this.store.get("settings", "owner").authority_epoch;
+    const instructionManifest = await this.instructions.capture(
+      project.root,
+      this.codex.instructionSettings
+        ? await this.codex.instructionSettings(project.root)
+        : instructionSettings(),
+    );
     const selections = await this.skills.selections(
       payload.selected_skills ?? [],
       taskId,
@@ -685,6 +694,7 @@ export class Application extends EventEmitter {
       payload,
       taskId,
       authorityEpoch: epoch,
+      instructionManifest,
     });
     if (payload.thread_binding_id) {
       const binding = this.store.get(
@@ -760,6 +770,19 @@ export class Application extends EventEmitter {
       "Prepare a new capsule before dispatch/resume",
       409,
     );
+    fail(
+      task.capsule.instruction_manifest?.schema_version ===
+        "atelier.governing-instructions/1",
+      "TASK_NOT_READY",
+      "Legacy task is missing governing-instruction pins; prepare a new capsule",
+      409,
+    );
+    fail(
+      task.capsule.instruction_manifest.root === project.root,
+      "SCOPE_MISMATCH",
+      "Governing instruction root differs from this project",
+      409,
+    );
     const epoch = this.store.get("settings", "owner").authority_epoch;
     fail(
       task.capsule.authority_epoch === epoch,
@@ -798,7 +821,14 @@ export class Application extends EventEmitter {
     );
     this.event("job.created", { job });
     try {
+      await this.instructions.verify(task.capsule.instruction_manifest);
       await this.codex.connect();
+      await this.instructions.verify(
+        task.capsule.instruction_manifest,
+        this.codex.instructionSettings
+          ? await this.codex.instructionSettings(project.root)
+          : task.capsule.instruction_manifest.settings,
+      );
       fail(
         this.codex.status.auth_mode === undefined ||
           this.codex.status.auth_mode === "chatgpt",
@@ -876,7 +906,15 @@ export class Application extends EventEmitter {
         thread_id: thread.id,
         session_id: thread.sessionId ?? null,
         instruction_sources: started.instructionSources ?? [],
+        native_model_provider: started.modelProvider ?? null,
+        native_model: started.model ?? null,
       });
+      await this.instructions.verify(
+        task.capsule.instruction_manifest,
+        this.codex.instructionSettings
+          ? await this.codex.instructionSettings(project.root)
+          : task.capsule.instruction_manifest.settings,
+      );
       const result = await this.codex.turn(thread.id, task.capsule, () =>
         this.updateJob(job.id, {
           host_dispatch_started: true,

@@ -50,7 +50,7 @@ The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Ate
 4. Verify source integrity, actual discovery and a small real task separately.
 5. For an existing product, keep its requirements, design identity, native state, decisions and checkpoint, then follow its applicable adoption instructions.
 
-**Suite6.0.0 / repository edition 1.2.0** adds production/context contracts, stronger evidence and writer admission, supported Codex host profiles and a real local workbench. Preserve the 33 names/icons and all existing accepted product state. Use the exact [6.0.0 migration](releases/migrations/6.0.0.md); installation is separate from project adoption, discovery and behavior. WORK live audit/update/install/control is deferred to a separate task.
+**Suite6.0.0 / repository edition 1.2.1** adds production/context contracts, stronger evidence and writer admission, supported Codex host profiles and a real local workbench. Preserve the 33 names/icons and all existing accepted product state. Use the exact [6.0.0 migration](releases/migrations/6.0.0.md); installation is separate from project adoption, discovery and behavior. WORK live audit/update/install/control is deferred to a separate task.
 
 ## Verify and package
 
@@ -64,7 +64,7 @@ python3 -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-Source bundles identify suite 6.0.0 and repository edition 1.2.0. They include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
+Source bundles identify suite 6.0.0 and repository edition 1.2.1. They include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
 
 [Update contract](governance/UPDATE_CONTRACT.md) · [Requirements](governance/requirements.csv) · [Validation](governance/VALIDATION.md) · [Quality model](governance/QUALITY_MODEL.md) · [Source provenance](kit/PROVENANCE.md) · [Rights](RIGHTS.md)
 

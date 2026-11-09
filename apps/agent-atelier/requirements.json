@@ -1,7 +1,7 @@
 {
   "schema_version": "atelier.product-requirements/1",
   "product_id": "agent-atelier",
-  "release_candidate": "0.1.0",
+  "release_candidate": "0.1.1",
   "baseline_reference": "Current selected operational-platform marketing reference; translated into usable actual controls, not decorative fake capability",
   "requirements": [
     {
@@ -40,7 +40,7 @@
       "id": "AT-05",
       "priority": "must",
       "interpretation": "Actual supported Codex prepare/dispatch/approval/interrupt/reconcile/restart with honest outcomes",
-      "status": "implemented_protocol_and_earlier_runtime_verified_final_profile_model_gate_pending",
+      "status": "implemented_with_one_actual_restricted_model_smoke_passed",
       "owner": "integrator",
       "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
     },
