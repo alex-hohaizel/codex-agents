@@ -1,5 +1,5 @@
 interface:
-  display_name: APP · Директор · 5.0.0
+  display_name: APP · Директор · 6.0.0
   short_description: Повний цикл створення одного корисного застосунку
   default_prompt: Застосуй $app-atelier-director до поточного проєкту й виконай дозволений наступний крок.
   icon_small: ./assets/family-icon-small.png

@@ -1,5 +1,5 @@
 interface:
-  display_name: Конструктори · Навички · 5.0.0
+  display_name: Конструктори · Навички · 6.0.0
   short_description: Предметні навички з контрактами й доказами якості
   default_prompt: 'Використай $design-specialist-skills: досліди мою задачу, визнач предметні правила й перевірки, спроєктуй команду та погоджену навичку або сімейство.'
   icon_small: ./assets/family-icon-small.png

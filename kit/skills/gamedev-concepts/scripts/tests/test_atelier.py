@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import json
 import marshal
+import os
 from pathlib import Path
 import shutil
 import stat
@@ -12,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 SOURCE = Path(__file__).resolve().parents[1]
@@ -19,7 +21,7 @@ SOURCE = Path(__file__).resolve().parents[1]
 
 class RuntimeTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.base = Path(self.temp.name)
         self.bundle = self.base / "bundle"
         (self.bundle / "scripts").mkdir(parents=True)
@@ -80,7 +82,7 @@ class RuntimeTests(unittest.TestCase):
     def test_current_runtime_protocol_rejects_previous_toolkit_results(self):
         current = self.state()
         self.assertEqual(current["schema_version"], "2.0.0")
-        self.assertEqual(current["toolkit_version"], "5.0.0")
+        self.assertEqual(current["toolkit_version"], "6.0.0")
         self.assertEqual(current["handoff_protocol"], "1.0.0")
         # Previous toolkit results are rejected without modifying their files.
         current["toolkit_version"] = "2.0.0"
@@ -515,7 +517,7 @@ class RuntimeTests(unittest.TestCase):
             path.parent.mkdir(exist_ok=True)
             path.write_text(json.dumps({"items": rows}))
             artifacts.append({"id": "PKG-REC-" + name, "path": "records/" + path.name, "kind": "record", "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "status": "final", "author_ids": [], "depends_on": []})
-        manifest = {"schema_version": "1.0.0", "suite_version": "1.0.0", "toolkit_version": "5.0.0", "package_id": "test-project-studio-r1", "project_id": "test-project", "stage": "studio", "revision": 1, "stage_status": "draft", "upstream": [], "artifacts": artifacts}
+        manifest = {"schema_version": "1.0.0", "suite_version": "1.0.0", "toolkit_version": "6.0.0", "package_id": "test-project-studio-r1", "project_id": "test-project", "stage": "studio", "revision": 1, "stage_status": "draft", "upstream": [], "artifacts": artifacts}
         manifest_path = package / "manifest.json"
         manifest_path.write_text(json.dumps(manifest))
         self.call("pause", "--when", "stage", "--target", "studio")
@@ -669,12 +671,15 @@ class RuntimeTests(unittest.TestCase):
         pipeline_stat = pipeline.stat()
         header = importlib.util.MAGIC_NUMBER + struct.pack("<III", 0, int(pipeline_stat.st_mtime) & 0xffffffff, pipeline_stat.st_size & 0xffffffff)
         poisoned = header + marshal.dumps(compile(malicious_source, str(pipeline), "exec"))
-        cache = Path(importlib.util.cache_from_source(str(pipeline)))
-        cache.parent.mkdir(exist_ok=True)
+        cache_root = str(self.base / 'isolated-python-cache')
+        with mock.patch.object(sys, 'pycache_prefix', cache_root):
+            cache = Path(importlib.util.cache_from_source(str(pipeline)))
+        cache.parent.mkdir(parents=True, exist_ok=True)
         cache.write_bytes(poisoned)
         # This header is valid for the unchanged checked source: SourceFileLoader
         # would accept and execute it. The runtime must compile the source bytes.
-        result = self.call("stage-check", "--package", self.project / "handoff", "--require-accepted")
+        with mock.patch.dict(os.environ, {'PYTHONPYCACHEPREFIX': cache_root}):
+            result = self.call("stage-check", "--package", self.project / "handoff", "--require-accepted")
         self.assertTrue(result["valid"])
         self.assertFalse(marker.exists())
         self.assertEqual(cache.read_bytes(), poisoned, "runtime must neither read for execution nor rewrite an existing .pyc")
@@ -779,6 +784,18 @@ class RuntimeTests(unittest.TestCase):
         (self.bundle / "scripts/new-helper.py").write_text("# Any added executable code changes the lock")
         self.assertFalse(self.call("readiness", "--task", "TASK", expected=1)["ready"])
 
+    def test_task_specific_consumed_stage_source_change_reopens_only_that_task(self):
+        shared = self.bundle / 'assets/suite-shared-paths.json'
+        shared.write_text(json.dumps({'paths': ['scripts/atelier.py', 'scripts/pipeline.py', 'references/experience-contract.md', 'assets/stage-catalog.json', 'assets/suite-shared-paths.json']}))
+        self.call('refresh', '--accept-suite-update', '--authority', 'Synthetic reviewed runtime closure')
+        self.task('EARLIER')
+        local = self.bundle / 'references/art-direction.md';local.write_text('Accepted art direction')
+        self.task('CONSUMER')
+        local.write_text('Materially different art direction')
+        self.assertTrue(self.call('readiness', '--task', 'EARLIER')['ready'])
+        self.assertFalse(self.call('readiness', '--task', 'CONSUMER', expected=1)['ready'])
+        self.assertEqual(self.state()['tasks']['CONSUMER']['status'], 'stale')
+
     def make_upgrade_target(self, source_version="4.2.0"):
         script = self.script.read_text()
         # This exact historical input is deliberate even after the production
@@ -789,7 +806,7 @@ class RuntimeTests(unittest.TestCase):
         original["snapshot_hash"] = hashlib.sha256(json.dumps(original, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         (self.project / ".gameatelier/orchestrator/state.json").write_text(json.dumps(original, ensure_ascii=False, indent=2) + "\n")
         import re
-        self.script.write_text(re.sub(r'^TOOLKIT_VERSION = "[0-9.]+"', 'TOOLKIT_VERSION = "5.0.0"', script, flags=re.M))
+        self.script.write_text(re.sub(r'^TOOLKIT_VERSION = "[0-9.]+"', 'TOOLKIT_VERSION = "6.0.0"', script, flags=re.M))
 
     def upgrade_apply(self, preview, **extra):
         return self.call("workflow-upgrade", "--apply", "--authority", "Actual reviewed workflow upgrade", "--expected-state-hash", preview["source_state_sha256"], "--target-suite-hash", preview["target_suite_sha256"], **extra)
@@ -815,7 +832,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertFalse((self.project / ".gameatelier/orchestrator/backups").exists())
         result = self.upgrade_apply(preview)
         after = self.state()
-        self.assertEqual(after["toolkit_version"], "5.0.0")
+        self.assertEqual(after["toolkit_version"], "6.0.0")
         for field in ("requirements", "decisions", "artifacts", "evidence", "actions", "favorites", "production_choice", "search_stopped", "pause", "seed_history", "stage_checks", "tasks"):
             self.assertEqual(after[field], before[field], field)
         self.assertEqual(after["journal"][:-1], before["journal"])
@@ -832,10 +849,21 @@ class RuntimeTests(unittest.TestCase):
         self.make_upgrade_target(source_version="4.3.0")
         preview = self.call("workflow-upgrade")
         self.assertEqual(preview["from_toolkit"], "4.3.0")
-        self.assertEqual(preview["to_toolkit"], "5.0.0")
+        self.assertEqual(preview["to_toolkit"], "6.0.0")
         self.upgrade_apply(preview)
         self.assertEqual(self.state()["project_id"], original_id)
-        self.assertEqual(self.state()["toolkit_version"], "5.0.0")
+        self.assertEqual(self.state()["toolkit_version"], "6.0.0")
+
+    def test_reviewed_5_to_6_upgrade_preserves_originals_and_never_replays_work(self):
+        original_id=self.state()['project_id']
+        self.make_upgrade_target(source_version='5.0.0')
+        before=self.state();preview=self.call('workflow-upgrade')
+        self.assertEqual(preview['from_toolkit'],'5.0.0');self.assertEqual(preview['to_toolkit'],'6.0.0')
+        result=self.upgrade_apply(preview)
+        self.assertEqual(self.state()['project_id'],original_id)
+        self.assertEqual(self.state()['requirements'],before['requirements'])
+        self.assertEqual(self.state()['actions'],before['actions'])
+        self.assertEqual(result['external_actions_executed'],[])
 
     def test_workflow_upgrade_rejects_stale_state_target_corruption_and_unknown_versions(self):
         self.make_upgrade_target()

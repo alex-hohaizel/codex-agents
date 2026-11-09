@@ -15,6 +15,25 @@ import stat
 import sys
 import tempfile
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 VERSION = 'app-atelier-state/1'
 GROUPS = ('requirement','decision','knowledge','job','artifact','evidence','execution','capability','grant','effect')
 ID = re.compile(r'^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$')
@@ -98,7 +117,7 @@ def read_json(path):
     path=no_symlinks(path)
     need(path.is_file() and path.stat().st_size<=LIMIT,'missing/oversize regular JSON: '+str(path))
     with path.open(encoding='utf-8') as f:
-        obj=json.load(f,parse_constant=lambda s: (_ for _ in ()).throw(ValueError('nonfinite JSON value')))
+        obj=strict_json_loads(f.read(),parse_constant=lambda s: (_ for _ in ()).throw(ValueError('nonfinite JSON value')))
     canonical(obj)
     return obj
 
@@ -518,7 +537,9 @@ def validate_record(root,folder,state,kind,r):
         h=file_sha(contained(root,r['path']));need(r.get('sha256',h)==h,'artifact hash differs');r['sha256']=h
     elif kind=='evidence':
         require(r,'artifact_ids','proof_path','observer','method','environment','status');strings(r['artifact_ids']);need(r['artifact_ids'],'evidence needs artifacts')
-        need(type(r.get('independent')) is bool,'explicit independent flag required');r['artifact_hashes']={}
+        need(type(r.get('independent')) is bool,'explicit independent flag required')
+        supplied={key:r[key] for key in ('artifact_hashes','requirement_hashes','proof_sha256') if key in r}
+        r['artifact_hashes']={}
         need(r['status'] in ('pass','fail','blocked'),'invalid evidence status')
         for aid in r['artifact_ids']:
             a=state['artifact'].get(aid);need(a and fresh_artifact(root,a),'evidence artifact missing/stale')
@@ -528,6 +549,8 @@ def validate_record(root,folder,state,kind,r):
         for rid in r.get('requirement_ids',[]):
             requirement=state['requirement'].get(rid);need(requirement is not None,'evidence references unknown requirement')
             r['requirement_hashes'][rid]=digest(requirement_definition(requirement))
+        for key,value in supplied.items():
+            need(value==r[key],'evidence '+key+' differs from supplied observation snapshot; record a new observation')
     elif kind=='capability':
         require(r,'scope','environment','effect_types','available');strings(r['effect_types']);need(type(r['available']) is bool,'available must be boolean')
     elif kind=='grant':

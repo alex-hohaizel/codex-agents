@@ -10,6 +10,26 @@ import json
 from pathlib import Path
 import re
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 NAMES = set('gamedev-director gamedev-studio gamedev-concepts gamedev-preproduction gamedev-assets gamedev-build gamedev-qa gamedev-release gamedev-liveops'.split())
 
 
@@ -25,8 +45,8 @@ def check_one(path):
     skill = (path/'SKILL.md').read_text(encoding='utf-8')
     if skill_name(path) not in NAMES:
         errors.append('unexpected skill name')
-    if not re.search(r'5\.0\.0', skill):
-        errors.append('missing current5.0.0 toolkit declaration')
+    if not re.search(r'6\.0\.0', skill):
+        errors.append('missing current6.0.0 toolkit declaration')
     if len(skill.splitlines()) >= 500:
         errors.append('SKILL exceeds progressive disclosure limit')
     for p in path.rglob('*'):
@@ -36,7 +56,7 @@ def check_one(path):
             errors.append('symlink resource: ' + str(p.relative_to(path)))
         if p.is_file() and p.suffix == '.json':
             try:
-                json.loads(p.read_text(encoding='utf-8'), parse_constant=lambda x: (_ for _ in ()).throw(ValueError('nonfinite ' + x)))
+                strict_json_loads(p.read_text(encoding='utf-8'), parse_constant=lambda x: (_ for _ in ()).throw(ValueError('nonfinite ' + x)))
             except (ValueError, UnicodeError) as e:
                 errors.append(str(p.relative_to(path)) + ': ' + str(e))
     for p in [path/'SKILL.md', *(path/'references').rglob('*.md')]:
@@ -51,20 +71,20 @@ def check_one(path):
             candidate = p.parent/target
             if not candidate.exists():
                 errors.append(str(p.relative_to(path)) + ': missing link ' + target)
-    registry = json.loads((path/'assets/requirements-4.0.json').read_text())
+    registry = strict_json_loads((path/'assets/requirements-4.0.json').read_text())
     ids = [x['id'] for x in registry['items']]
     if len(ids) != 74 or len(set(ids)) != 74:
         errors.append('4.0 extension must retain74 unique approved IDs')
     for stem, count in [('GA4-U',8),('GA4-D1-Q',36),('GA4-D2-X',11)]:
         if sum(x.startswith(stem) for x in ids) != count:
             errors.append('missing approved coverage ' + stem)
-    sources = json.loads((path/'assets/approved-baseline-4.0.json').read_text())
+    sources = strict_json_loads((path/'assets/approved-baseline-4.0.json').read_text())
     if {x['id'] for x in sources['sources']} != {'P1','D1','D2'}:
         errors.append('approved source baseline incomplete')
-    catalog = json.loads((path/'assets/stage-catalog.json').read_text())
-    if catalog.get('toolkit_version') != '5.0.0' or catalog.get('unique_skill_count') != 9:
+    catalog = strict_json_loads((path/'assets/stage-catalog.json').read_text())
+    if catalog.get('toolkit_version') != '6.0.0' or catalog.get('unique_skill_count') != 9:
         errors.append('stale stage catalogue')
-    shared = json.loads((path/'assets/suite-shared-paths.json').read_text())['paths']
+    shared = strict_json_loads((path/'assets/suite-shared-paths.json').read_text())['paths']
     for rel in shared:
         if not (path/rel).is_file():
             errors.append('missing standalone resource: ' + rel)
@@ -91,7 +111,7 @@ def check(root=None, single=None):
         errors.extend(name + ': ' + x for x in check_one(path))
     if len(matched) == 9:
         canonical = matched['gamedev-director']
-        shared = json.loads((canonical/'assets/suite-shared-paths.json').read_text())['paths']
+        shared = strict_json_loads((canonical/'assets/suite-shared-paths.json').read_text())['paths']
         for name, path in sorted(matched.items()):
             for rel in shared:
                 if (path/rel).is_file() and hashlib.sha256((path/rel).read_bytes()).digest() != hashlib.sha256((canonical/rel).read_bytes()).digest():

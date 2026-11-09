@@ -1,13 +1,17 @@
 import copy
+import concurrent.futures
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
+from unittest import mock
 import check_round
 import team_policy
+import teamctl
 
 
 def prepared():
@@ -98,7 +102,7 @@ class CurrentRoundTests(unittest.TestCase):
         self.assertTrue(any('baseline requirement IDs' in e for e in check_round.check(d)))
 
     def test_project_extension_gets_actual_independent_stage_coverage(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             d = independently_reviewed(directory)
             self.assertEqual(check_round.check(d, source_root=directory), [])
             d['reviews'] = [r for r in d['reviews'] if r['requirement_id'] != 'patron-membership']
@@ -106,7 +110,7 @@ class CurrentRoundTests(unittest.TestCase):
 
     def test_planner_preserves_project_domain_without_reassigning_canonical_domains(self):
         d = extended_prepared(); d.pop('team_policy')
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             path = Path(directory) / 'round.json'; path.write_text(json.dumps(d))
             env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')
             result = subprocess.run([sys.executable, '-B', str(Path(__file__).with_name('teamctl.py')), 'plan', str(path)],
@@ -127,7 +131,7 @@ class CurrentRoundTests(unittest.TestCase):
         self.assertTrue(any('unsuccessful evidence' in e for e in check_round.check(d)))
 
     def test_ready_acceptance_requires_explicit_positive_outcome_after_actual_refreeze(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             d = independently_reviewed(directory)
             for result in ('fail', 'failed', 'not_run', 'inconclusive', 'blocked', 'observed', 'banana'):
                 with self.subTest(result=result):
@@ -160,6 +164,62 @@ class CurrentRoundTests(unittest.TestCase):
         d['completion']['assessments']['human']['status'] = 'passed'
         self.assertTrue(any('needs evidence' in e for e in check_round.check(d)))
 
+    def test_source_only_proof_cannot_close_code_or_integration(self):
+        for axis in ('code', 'integration'):
+            with self.subTest(axis=axis):
+                d = prepared()
+                d['evidence'] = [{'id': 'E1', 'version': '1', 'kind': 'source', 'provenance': 'SYNTHETIC',
+                    'artifact': 'spec.md', 'procedure': 'source read', 'result': 'passed', 'limitations': ['no execution']}]
+                d['completion']['assessments'] = {axis: {'status': 'passed', 'scope': 'fixture only', 'evidence_ids': ['E1']}}
+                self.assertTrue(any('admissible' in e for e in check_round.check(d)))
+                d['evidence'][0].update(kind='code' if axis == 'code' else 'integration',
+                    build_ref='SYNTHETIC-build', environment='isolated fixture', actual_observation_ref='SYNTHETIC-run')
+                self.assertEqual(check_round.check(d), [])
+
+    def test_stale_round_writer_cannot_lose_committed_decision(self):
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
+            path = Path(directory).resolve() / 'round.json'; path.write_text(json.dumps(prepared()))
+            first, second = teamctl.read(path), teamctl.read(path)
+            first['decisions'].append({'id': 'D-FIRST'}); teamctl.save(path, first)
+            second['decisions'].append({'id': 'D-SECOND'})
+            with self.assertRaisesRegex(ValueError, 'revision conflict'):
+                teamctl.save(path, second)
+            self.assertEqual(teamctl.read(path)['decisions'], [{'id': 'D-FIRST'}])
+
+    def test_raw_round_overwrite_requires_an_explicit_current_revision(self):
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
+            path = Path(directory).resolve() / 'round.json'; path.write_text(json.dumps(prepared()))
+            raw = prepared()
+            with self.assertRaisesRegex(ValueError, 'revision conflict'):
+                teamctl.save(path, raw)
+            pin = teamctl.read(path).source_sha256
+            teamctl.save(path, raw, expected_sha256=pin)
+            self.assertEqual(teamctl.read(path), raw)
+
+    def test_round_replace_failure_preserves_current_bytes_and_cleans_temporary(self):
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
+            path=Path(directory)/'round.json';path.write_text(json.dumps(prepared()))
+            before=path.read_bytes();record=teamctl.read(path);record['decisions'].append({'id':'uncommitted'})
+            with mock.patch.object(teamctl.os,'replace',side_effect=OSError('synthetic pre-commit failure')):
+                with self.assertRaises(OSError):teamctl.save(path,record)
+            self.assertEqual(path.read_bytes(),before)
+            self.assertEqual({p.name for p in path.parent.iterdir()},{'round.json','.round.json.lock'})
+
+    def test_simultaneous_round_writers_have_one_commit_and_one_conflict(self):
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
+            path=Path(directory)/'round.json';path.write_text(json.dumps(prepared()))
+            records=[teamctl.read(path),teamctl.read(path)];barrier=threading.Barrier(2)
+            def writer(index):
+                records[index]['decisions'].append({'id':'D-'+str(index)})
+                barrier.wait(timeout=5)
+                try:teamctl.save(path,records[index]);return 'committed'
+                except ValueError as error:
+                    self.assertIn('revision conflict',str(error));return 'conflict'
+            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                results=list(executor.map(writer,range(2)))
+            self.assertEqual(sorted(results),['committed','conflict'])
+            self.assertEqual(len(teamctl.read(path)['decisions']),1)
+
     def test_human_pass_needs_actual_human_observation(self):
         d = prepared(); d['evidence'] = [{'id': 'H1', 'version': '1', 'kind': 'code', 'provenance': 'synthetic',
             'artifact': 'notes.md', 'procedure': 'test', 'result': 'passed', 'limitations': ['SYNTHETIC']}]
@@ -179,7 +239,7 @@ class CurrentRoundTests(unittest.TestCase):
             with self.subTest(record=type(d).__name__): self.assertTrue(check_round.check(d))
 
     def test_bind_inputs_prepares_new_qa_without_execution_or_acceptance(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             d=independently_reviewed(directory)
             existing=next(r for r in d['runs'] if r['id']=='patron-qa')
             new=copy.deepcopy(existing);new.update(id='SYNTHETIC-new-qa',status='planned',output_ref='audit/new-qa.md')
@@ -197,7 +257,7 @@ class CurrentRoundTests(unittest.TestCase):
             self.assertNotEqual(again.returncode,0);self.assertEqual(path.read_bytes(),before)
 
     def test_hashes_and_bind_do_not_rewrite_completed_run_provenance(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             d=independently_reviewed(directory);path=Path(directory)/'round.json';path.write_text(json.dumps(d))
             script=str(Path(__file__).with_name('teamctl.py'));before=path.read_bytes()
             result=subprocess.run([sys.executable,'-B',script,'bind-inputs',str(path),'--run','patron-qa'],capture_output=True,text=True)
@@ -216,7 +276,7 @@ class CurrentRoundTests(unittest.TestCase):
              'input_component_ids':[],'input_scope_reason':'new output from the accepted requirement, no previous artifact',
              'output_ref':'future-output.md'}
         d['runs']=[run]
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             path=Path(directory)/'round.json';path.write_text(json.dumps(d))
             result=subprocess.run([sys.executable,'-B',str(Path(__file__).with_name('teamctl.py')),'bind-inputs',str(path),
                                    '--run',run['id']],capture_output=True,text=True)

@@ -3,9 +3,15 @@ name: gamedev-director
 description: "Game Atelier — вести ігровий проєкт від задуму, студії та концепцій до системного дизайну, асетів, нативної гри, перевірки, випуску й розвитку. Використовуй для створення, продовження, вибору варіантів, аудиту, ремонту або оновлення ігрового workflow; сам маршрутизуй предметні навички й Work/Codex переходи, зберігаючи рішення, референси та зупинки."
 ---
 
-# Game Atelier 5.0.0
+# Game Atelier 6.0.0
 
-## Спільний спосіб роботи5.0
+## Виробнича якість і контекст6.0
+
+Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+
+Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+
+## Спільний спосіб роботи6.0
 
 На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
 
@@ -23,11 +29,11 @@ description: "Game Atelier — вести ігровий проєкт від з�
 
 Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
 
-Версія інструмента **5.0.0**; game-model **4.0.0**, handoff **1.0.0** і runtime state **2.0.0** — окремі чинні протоколи. Підтримується тільки поточний формат результатів і поточний toolkit marker. Дев’ять навичок — директор і вісім предметних маршрутів. Вісім наскрізних модулів є компетенціями цих маршрутів, не ще вісьмома обов’язковими виробничими етапами. Навички — інструкції та локальні інструменти; фактичну предметну роботу виконуй tools/CLI/доступними агентами.
+Версія інструмента **6.0.0**; game-model **4.0.0**, handoff **1.0.0** і runtime state **2.0.0** — окремі чинні протоколи. Підтримується тільки поточний формат результатів і поточний toolkit marker. Дев’ять навичок — директор і вісім предметних маршрутів. Вісім наскрізних модулів є компетенціями цих маршрутів, не ще вісьмома обов’язковими виробничими етапами. Навички — інструкції та локальні інструменти; фактичну предметну роботу виконуй tools/CLI/доступними агентами.
 
 ## 1. Прийняти поточний намір
 
-Працюй українською. На вході прочитай [контракт4.0 і шість компетенцій](references/v4/index.md), [модель і процес](references/game-model-workflow.md), [core](references/core-contract.md), чинний project checkpoint/requirements/decisions і потрібні upstream файли. Потім завантажуй точні розділи [experience](references/experience-contract.md), [handoff](references/handoff-contract.md), [requirements](references/requirements.md), [systemic](references/systemic-design.md) та потрібні предметні модулі. Для формату/CLI — [model-format](references/model-format.md). Не перечитуй весь корпус на кожній дрібній правці.
+Працюй мовою current preferred_language; українська — default, коли іншу не обрано. На вході прочитай [контракт4.0 і шість компетенцій](references/v4/index.md), [модель і процес](references/game-model-workflow.md), [core](references/core-contract.md), чинний project checkpoint/requirements/decisions і потрібні upstream файли. Потім завантажуй точні розділи [experience](references/experience-contract.md), [handoff](references/handoff-contract.md), [requirements](references/requirements.md), [systemic](references/systemic-design.md) та потрібні предметні модулі. Для формату/CLI — [model-format](references/model-format.md). Не перечитуй весь корпус на кожній дрібній правці.
 
 Визнач: це new/resume/search/audit/repair/handoff/release/liveops чи зміна агента. Audit або оновлення workflow не запускає нові концепти, вибір гри чи виробництво. Віднови фактичні current files і named packages; для Library читай поточну версію. Безпечно приймай архів, не запускай його scripts автоматично. Назва середовища не доводить доступу до Mac/SDK/device/сервісу.
 

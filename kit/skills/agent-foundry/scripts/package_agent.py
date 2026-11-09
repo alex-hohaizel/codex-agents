@@ -20,6 +20,26 @@ import types
 import unicodedata
 import zipfile
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 sys.dont_write_bytecode = True
 HERE = Path(__file__).absolute().parent
 
@@ -62,7 +82,7 @@ def gate(session):
         raise ValueError("Current bundled constructor runtime is unavailable")
     p = subprocess.run([sys.executable, "-B", str(runtime), "build-gate", str(session)], capture_output=True, text=True, timeout=45)
     try:
-        result = json.loads(p.stdout)
+        result = strict_json_loads(p.stdout)
     except ValueError as error:
         raise ValueError("Constructor build gate did not return JSON") from error
     if p.returncode != 0 or not isinstance(result, dict) or result.get("ready") is not True:
@@ -80,7 +100,7 @@ def bundle_gate(session, directory):
     runtime = HERE / "foundry.py"
     p = subprocess.run([sys.executable, "-B", str(runtime), "bundle-check", str(session), "--directory", str(directory)], capture_output=True, text=True, timeout=45)
     try:
-        result = json.loads(p.stdout)
+        result = strict_json_loads(p.stdout)
     except ValueError as error:
         raise ValueError("Constructor bundle check did not return JSON") from error
     if p.returncode != 0 or not isinstance(result, dict) or result.get("valid") is not True:
@@ -291,7 +311,7 @@ def build(args):
     snapshot = capture_files(kit, api)
     exports = []
     with tempfile.TemporaryDirectory(prefix="agent-delivery-") as temporary:
-        frozen = Path(temporary) / kit.name
+        frozen = Path(temporary).resolve() / kit.name
         write_snapshot(frozen, snapshot, api)
         api.load_kit(frozen)
         if observed is not None:
@@ -309,9 +329,9 @@ def build(args):
             output = reject_export_path(args.plugin_output, kit, api)
             if not args.display_name or not args.subtitle or len(args.subtitle) > 30:
                 raise ValueError("Plugin display name and subtitle (1..30 characters) are required")
-            root = Path(temporary) / args.agent_id
+            root = Path(temporary).resolve() / args.agent_id
             if root == frozen:
-                root = Path(temporary) / "plugin" / args.agent_id
+                root = Path(temporary).resolve() / "plugin" / args.agent_id
             root.mkdir(parents=True)
             plugin_snapshot = {name: record for name, record in snapshot.items() if name.startswith("skills/")}
             plugin = {"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", "name": args.agent_id, "version": args.version, "description": "A scoped agent with specialist instructions and verified delivery contracts.", "extensions": {"com.openai": {"interface": {"displayName": args.display_name, "shortDescription": args.subtitle, "capabilities": []}}}}

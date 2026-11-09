@@ -1,5 +1,9 @@
 # Change log
 
+## Suite6.0.0 / repository 1.2.0 — 2026-11-09
+
+Strengthen source/evidence admission, atomic team writes and generated-agent inheritance; preserve native product formats and core icon identity. Add self-contained production/context contracts to all33 skills, reviewed Codex host/role profiles, optional orchestrator and Agent Atelier local Mac workbench. Complete guides/UI remain available in seven languages. See [release notes](releases/6.0.0.md), [migration](releases/migrations/6.0.0.md) and the scoped [verification record](governance/RELEASE_6_VERIFICATION.json). WORK live changes remain a separate task.
+
 ## Repository 1.1.0 — 2026-11-08
 
 Finalize [one selected campaign](marketing/campaign/README.md) in English and Ukrainian: ten matching materials per language, localized descriptions, compact PDFs and portable galleries. Preserve the exact Ukrainian source cover and use its composition/product identities for English lettering localization. Keep the 33-skill directory available on demand.

@@ -21,8 +21,8 @@ def load(path):
 
 
 class GeneratedChildrenTests(unittest.TestCase):
-    def run_check(self, complete):
-        with tempfile.TemporaryDirectory() as tmp:
+    def run_check(self, complete, missing=None):
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as tmp:
             base = Path(tmp)
             blueprint = base / "blueprint.json"
             blueprint.write_text(json.dumps(fixture2()))
@@ -42,6 +42,8 @@ class GeneratedChildrenTests(unittest.TestCase):
                 snapshot = visual.freeze(child, "project")
                 (child / "assets/visual-identity.lock.json").write_text(json.dumps(snapshot))
                 (child / "assets/visual-identity-origin.json").write_text(json.dumps({"schema":"visual-identity-origin/1", "kind":"created"}))
+                if missing:
+                    (child/missing).unlink()
             before = sorted(str(p.relative_to(child)) for p in child.rglob("*"))
             proc = subprocess.run([sys.executable, "-B", str(ROOT / "scripts/blueprint.py"), "check", str(blueprint), "--child", str(child)], text=True, capture_output=True, timeout=8)
             self.assertEqual(before, sorted(str(p.relative_to(child)) for p in child.rglob("*")))
@@ -51,7 +53,7 @@ class GeneratedChildrenTests(unittest.TestCase):
         code, result = self.run_check(True)
         self.assertEqual(code, 0, result)
         self.assertEqual(result["children_checked"], 1)
-        self.assertEqual(result["operating_standard"]["release"], "5.0.0")
+        self.assertEqual(result["operating_standard"]["release"], "6.0.0")
         self.assertIs(result["quality_certified"], False)
 
     def test_empty_child_cannot_pass_record_check_as_materialized(self):
@@ -59,6 +61,13 @@ class GeneratedChildrenTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(result["children_checked"], 1)
         self.assertTrue(result["errors"])
+
+    def test_quality_and_context_are_material_resources_not_only_entry_labels(self):
+        for resource in ('references/production-quality.md','references/context-capsule.md','assets/production-profiles.json','scripts/context_capsule.py'):
+            with self.subTest(resource=resource):
+                code,result=self.run_check(True,missing=resource)
+                self.assertEqual(code,1,result)
+                self.assertTrue(any(resource in issue for issue in result['errors']))
 
 
 if __name__ == "__main__":

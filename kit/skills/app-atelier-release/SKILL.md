@@ -3,9 +3,15 @@ name: app-atelier-release
 description: "App Atelier - підготовка й дозволений випуск Android/iOS/web продукту: рання перевірка досяжності stores/акаунтів/бюджету/тестування, signing, listings, billing/privacy передумови, deployment, receipts/read-back і rollback. Використовувати до повного build для release feasibility, перед beta/production поданням, при ремонті релізу або передачі Work/Codex."
 ---
 
-# App Atelier 5.0.0 · Випуск
+# App Atelier 6.0.0 · Випуск
 
-## Спільний спосіб роботи5.0
+## Виробнича якість і контекст6.0
+
+Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+
+Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+
+## Спільний спосіб роботи6.0
 
 На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
 
@@ -23,7 +29,7 @@ description: "App Atelier - підготовка й дозволений вип�
 
 Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
 
-Редакція інструментарію **5.0.0**. Перед залежною предметною роботою прочитати [наскрізний контракт](references/cross-domain-core.md) та [виробничу глибину етапу](references/app-depth.md) і [модель систем застосунку](references/app-system-contract.md). Інстанціювати потрібні [рецепти й матрицю покриття](assets/app-depth.templates.json) у проєктних artifacts і реєструвати їх у чинному canonical state; шаблон не є виконаною операцією або доказом.
+Редакція інструментарію **6.0.0**. Перед залежною предметною роботою прочитати [наскрізний контракт](references/cross-domain-core.md) та [виробничу глибину етапу](references/app-depth.md) і [модель систем застосунку](references/app-system-contract.md). Інстанціювати потрібні [рецепти й матрицю покриття](assets/app-depth.templates.json) у проєктних artifacts і реєструвати їх у чинному canonical state; шаблон не є виконаною операцією або доказом.
 
 Обов’язок входу: До significant build сформувати повну operation-level feasibility для Android/iOS/web/support/data/billing за застосовності; до dispatch pin-ити exact release assembly, чинні prerequisites, migration/rollback і current effect scope. Не підміняти missing account або signing N/A.
 

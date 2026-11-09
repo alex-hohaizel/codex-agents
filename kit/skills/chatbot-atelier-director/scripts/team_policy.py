@@ -5,6 +5,25 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 SCHEMA = 'chatbot.team/1'
 PRODUCTION = {'specialist', 'lead', 'integration', 'executive', 'orchestrator', 'supreme',
               'craft', 'product_brief', 'chief_plan', 'decomposition', 'lead_integration',
@@ -24,7 +43,7 @@ def digest(value):
 
 def load_profile(stage=None):
     assets = Path(__file__).resolve().parents[1] / 'assets'
-    own = json.loads((assets / 'team-profile.json').read_text())
+    own = strict_json_loads((assets / 'team-profile.json').read_text())
     if stage is None or stage == own['stage']:
         return own
     raise ValueError('Unknown current chat team stage')
@@ -63,7 +82,7 @@ def snapshot_inputs(plan, run, runs, profile=None, requirement_records=None):
     rids = ids(run.get('requirement_ids', []), 'run requirement_ids')
     if not rids: raise ValueError('run input scope needs requirement_ids')
     assignments, components = plan.get('assignments', {}), plan.get('components', {})
-    canonical_rows = json.loads((Path(__file__).resolve().parents[1] / 'assets/requirements.json').read_text())['requirements']
+    canonical_rows = strict_json_loads((Path(__file__).resolve().parents[1] / 'assets/requirements.json').read_text())['requirements']
     canonical_map = {row['id']: row for row in canonical_rows}
     records = {row['id']: row for row in (requirement_records or []) if isinstance(row, dict) and isinstance(row.get('id'), str)}
     dependencies = set()
@@ -301,7 +320,7 @@ def check(plan, ids, runs, package_hash=None, root=None, ready=False, profile=No
             need(root is not None or not ready, 'ready carry-forward needs source bytes')
             return
         try:
-            receipt = json.loads(source)
+            receipt = strict_json_loads(source)
         except (ValueError, UnicodeError):
             need(False, 'invalid immutable review receipt')
             return

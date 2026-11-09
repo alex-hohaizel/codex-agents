@@ -1,11 +1,13 @@
 {
   "schema": "agent-operating-release/1",
-  "release": "5.0.0",
+  "release": "6.0.0",
   "skill": "gamedev-preproduction",
   "class": "system",
   "operating_standard": "agent-operating-standard/1",
   "adaptive_task_schema": "adaptive-task/1",
   "visual_policy": "visual-identity/1",
   "native_state_schema_changed": false,
-  "requires_project_adoption": "Review native suite locks before dependent work; do not reinitialize or fabricate prior acceptance."
+  "requires_project_adoption": "Review actual native locks, stricter evidence/dependency admission and pending tasks; no reinitialization or fabricated prior acceptance.",
+  "production_quality_profile": "atelier.production-profiles/1",
+  "context_capsule_schema": "atelier.context-capsule/1"
 }

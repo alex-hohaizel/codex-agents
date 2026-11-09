@@ -1,18 +1,122 @@
 #!/usr/bin/env python3
 """Plan and freeze one current chatbot.round/1 record; never executes a role."""
 import argparse
+import fcntl
 import hashlib
 import json
+import os
 from pathlib import Path
+import stat
+import tempfile
 import team_policy
 
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+MAX_RECORD_BYTES = 16 * 1024 * 1024
+
+
+class Record(dict):
+    """An in-memory read revision; never persisted as competing domain state."""
+
+
+def safe_file(path):
+    path = Path(os.path.abspath(path))
+    if any(part.is_symlink() for part in (path, *path.parents)):
+        raise ValueError('Round path must not traverse symlinks')
+    return path
+
+
+def record_bytes(path):
+    fd = os.open(safe_file(path), os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0))
+    try:
+        info = os.fstat(fd)
+        if not stat.S_ISREG(info.st_mode) or info.st_size > MAX_RECORD_BYTES:
+            raise ValueError('Round must be a bounded regular file')
+        with os.fdopen(fd, 'rb', closefd=False) as stream:
+            raw = stream.read(MAX_RECORD_BYTES + 1)
+        if len(raw) > MAX_RECORD_BYTES:
+            raise ValueError('Round exceeds record limit')
+        return raw
+    finally:
+        os.close(fd)
+
+
 def read(path):
-    return json.loads(path.read_text())
+    path = safe_file(path)
+    raw = record_bytes(path)
+    value = strict_json_loads(raw)
+    if not isinstance(value, dict):
+        raise ValueError('Round must be an object')
+    value = Record(value)
+    value.source_sha256 = hashlib.sha256(raw).hexdigest()
+    value.source_path = path
+    return value
 
 
-def save(path, value):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
+def save(path, value, expected_sha256=None):
+    """Compare-and-swap one native round under a shared writer lock.
+
+    Callers must read again after a conflict. A timeout/failed replace never
+    authorizes discarding another writer's data or re-running an external job.
+    """
+    path = safe_file(path)
+    if getattr(value, 'source_path', path) != path:
+        raise ValueError('Round snapshot belongs to a different path')
+    expected = expected_sha256 or getattr(value, 'source_sha256', None)
+    encoded = (json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n').encode('utf-8')
+    if len(encoded) > MAX_RECORD_BYTES:
+        raise ValueError('Round exceeds record limit')
+    lock_path = safe_file(path.with_name('.' + path.name + '.lock'))
+    lock_fd = os.open(lock_path, os.O_CREAT | os.O_RDWR | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0), 0o600)
+    temporary = None
+    try:
+        if not stat.S_ISREG(os.fstat(lock_fd).st_mode):
+            raise ValueError('Round lock must be a regular file')
+        fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        current = record_bytes(path) if path.exists() else None
+        if current is not None and (not expected or hashlib.sha256(current).hexdigest() != expected):
+            raise ValueError('Round revision conflict; reread current state before applying this change')
+        if current is None and expected is not None:
+            raise ValueError('Round revision conflict; previously read source is missing')
+        fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
+        os.fchmod(fd, stat.S_IMODE(path.stat().st_mode) if current is not None else 0o600)
+        with os.fdopen(fd, 'wb') as stream:
+            stream.write(encoded)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+        temporary = None
+        directory_fd = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
+        if isinstance(value, Record):
+            value.source_sha256 = hashlib.sha256(encoded).hexdigest()
+            value.source_path = path
+    finally:
+        if temporary is not None:
+            os.unlink(temporary)
+        fcntl.flock(lock_fd, fcntl.LOCK_UN)
+        os.close(lock_fd)
 
 
 def require_own_container(data, stage='chat'):
@@ -28,9 +132,12 @@ def main():
     p.add_argument('--active', nargs='+')
     p.add_argument('--ready', action='store_true')
     p.add_argument('--run', help='Actual prepared/planned/running run whose input snapshot is captured')
+    p.add_argument('--expected-sha256', help='Reject a stale caller revision before planning or mutation')
     a = p.parse_args()
     try:
         data = read(a.file)
+        if a.expected_sha256 and a.expected_sha256 != data.source_sha256:
+            raise ValueError('Round revision conflict; caller must reread current state')
         require_own_container(data)
         ids = [r['id'] for r in data['requirements']]
         if a.command == 'plan':

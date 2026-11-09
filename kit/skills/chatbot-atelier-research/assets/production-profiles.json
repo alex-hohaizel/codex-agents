@@ -1,0 +1,214 @@
+{
+  "schema_version": "atelier.production-profiles/1",
+  "release": "6.0.0",
+  "status": "decision and acceptance guidance; not certification",
+  "identity_rules": [
+    "Explicit user task/reference outranks style defaults",
+    "Approved master pinned; derivatives record transformations",
+    "Semantic reuse does not force premature presentation reuse",
+    "No material simplification without current authority"
+  ],
+  "profiles": [
+    {
+      "id": "ui",
+      "applies_to": "ui",
+      "production_dimensions": [
+        "information architecture",
+        "task-first hierarchy",
+        "reference composition and visual mechanism",
+        "type/density/material/light",
+        "responsive component states",
+        "keyboard/focus/zoom/reduced motion"
+      ],
+      "actual_acceptance": [
+        "working target flow",
+        "normal/empty/loading/error/offline/permission/recovery",
+        "actual render vs accepted benchmark",
+        "readable data and operational controls"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "document",
+      "applies_to": "document",
+      "production_dimensions": [
+        "editorial argument and sources",
+        "page grid/type/rhythm",
+        "tables/figures/notes",
+        "target file and editability"
+      ],
+      "actual_acceptance": [
+        "render all pages",
+        "content/semantic review",
+        "no clipping/overflow/lost notes",
+        "actual requested format"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "presentation",
+      "applies_to": "presentation",
+      "production_dimensions": [
+        "storyline and visual argument",
+        "slide pacing and hierarchy",
+        "consistent image/type/grid",
+        "speaker/display context"
+      ],
+      "actual_acceptance": [
+        "render every slide",
+        "editable object fidelity",
+        "source/claim checks",
+        "target presentation playback"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "data-graphic",
+      "applies_to": "data-graphic",
+      "production_dimensions": [
+        "question/data provenance",
+        "units/uncertainty",
+        "encoding/scale/baseline",
+        "labels/legend and comparison"
+      ],
+      "actual_acceptance": [
+        "reproducible calculation",
+        "nonmisleading visual encoding",
+        "actual export readability",
+        "accessible alternative"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "image",
+      "applies_to": "image",
+      "production_dimensions": [
+        "composition/silhouette/material/light",
+        "subject accuracy",
+        "reference character and scale",
+        "alpha/format/master/rights"
+      ],
+      "actual_acceptance": [
+        "inspect actual pixels in use",
+        "identity comparison",
+        "export/edges/scale validation",
+        "requested editability"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "vector-3d",
+      "applies_to": "vector-3d",
+      "production_dimensions": [
+        "native geometry/vector structure",
+        "scale/material/lighting",
+        "rig/topology/LOD where applicable",
+        "consumer/export constraints"
+      ],
+      "actual_acceptance": [
+        "open actual native master",
+        "consumer import/render",
+        "geometry/animation checks where applicable",
+        "not a raster pretending to be a model"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "motion",
+      "applies_to": "motion",
+      "production_dimensions": [
+        "storyboard and temporal composition",
+        "timing/easing/shot continuity",
+        "sync/transitions/loop",
+        "codec/captions/performance"
+      ],
+      "actual_acceptance": [
+        "actual playback/capture",
+        "temporal defects and sync",
+        "target integration",
+        "reduced-motion alternative where relevant"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "audio",
+      "applies_to": "audio",
+      "production_dimensions": [
+        "performance/prosody/diction",
+        "voice/character continuity",
+        "arrangement/phrase/mix",
+        "noise/clipping/loop/rights"
+      ],
+      "actual_acceptance": [
+        "actual listening in context",
+        "intelligibility/pronunciation",
+        "loop/sync/dynamics",
+        "technical metrics support, not replace listening"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    },
+    {
+      "id": "engineering",
+      "applies_to": "engineering",
+      "production_dimensions": [
+        "idiomatic language/domain model",
+        "explicit APIs/data/authorization",
+        "concurrency/recovery invariants",
+        "versioned operations and dependencies",
+        "human maintenance"
+      ],
+      "actual_acceptance": [
+        "relevant static/unit/contract/integration",
+        "failure and ambiguous-outcome cases",
+        "target-environment measurement where material",
+        "independent diff and maintenance handoff"
+      ],
+      "critical_failures": [
+        "lost accepted must/reference mechanism",
+        "false runtime/quality success",
+        "unapproved identity drift"
+      ],
+      "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
+    }
+  ]
+}

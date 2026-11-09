@@ -14,7 +14,7 @@ spec.loader.exec_module(module)
 
 class DepthChecks(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
+        self.tmp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.root = Path(self.tmp.name)
         (self.root / 'input.txt').write_text('requirement revision 1')
         (self.root / 'result.txt').write_text('observed fixture result')

@@ -8,7 +8,7 @@ For every future relevant change, publish the authorized verified change here in
 
 ## Preserve the owner's work
 
-- Keep the canonical 33-skill 5.0.0 baseline and its stable names unless an intentional suite change is declared. Repository documentation revision and skill suite version are separate.
+- Keep the33 stable core names and the verified5.0.0 predecessor for preservation/rollback. The authorized6.0.0 suite adds reviewed production/context and correctness changes; repository edition and native schema versions are separate.
 - Preserve existing local icon files, bindings, colors and system/project classes. New items may receive appropriate new graphics; routine updates must not redesign existing items.
 - Preserve every accepted requirement, design identity, persona, business rule, decision, permission and unfinished task when adopting new skills into a project. Keep deferred requirements visible.
 - Never infer installation, a running subagent, another host session, a device test, a completed deployment or product acceptance from the existence of a file. Record each actual result separately.

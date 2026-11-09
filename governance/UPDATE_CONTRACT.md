@@ -17,7 +17,7 @@ This repository is the distribution and operating record for the reusable Agent 
 
 ## Version numbers
 
-`releases/current.json` separates **suite version** from **repository edition**. The current suite is `5.0.0`; read the repository edition from `releases/current.json`. Edition `1.0.0` introduced distribution and documentation; compatible edition `1.1.0` finalizes the bilingual campaign and updates its documentation and tools. Do not increment every skill merely to change the guide. A behavioural suite release updates the agreed suite number and affected manifests together. Data schema versions, native game runtime schema and existing project IDs remain independent contracts.
+`releases/current.json` separates **suite version** from **repository edition**. The current suite candidate is `6.0.0`, with repository edition `1.2.0`. Edition1.0.0 introduced distribution and documentation;1.1.0 finalized the bilingual campaign;1.2.0 adds the local service and production/context distribution. The6.0.0 major suite hardens evidence/source/writer admission with explicit old-state adoption. Do not increment every skill merely to change the guide. Data schema versions, native game runtime schema and existing project IDs remain independent contracts.
 
 Use semantic versioning for future editions: patch for compatible corrections, minor for compatible additions, major for incompatible behaviour or migration requirements. The release record must state the actual impact; a number alone is insufficient.
 

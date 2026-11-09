@@ -24,7 +24,27 @@ import zipfile
 from contextlib import contextmanager
 from pathlib import Path, PurePosixPath
 
-TOOLKIT_VERSION = "5.0.0"
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
+TOOLKIT_VERSION = "6.0.0"
 RUNTIME_SCHEMA_VERSION = "2.0.0"
 VERSION = TOOLKIT_VERSION  # Public tool-version marker; state schema is separate.
 HANDOFF_PROTOCOL = "1.0.0"
@@ -35,7 +55,8 @@ PRODUCTION_STAGES = {"preproduction", "assets", "build", "qa", "release"}
 REVIEW_OPERATIONS = {"design_review", "contract_review"}
 # Historical source versions are deliberate migration inputs, not display
 # metadata. Never replace these entries while bumping TOOLKIT_VERSION.
-WORKFLOW_UPGRADE_FROM = {"5.0.0": {"4.2.0", "4.3.0"}}
+WORKFLOW_UPGRADE_FROM = {"5.0.0": {"4.2.0", "4.3.0"},
+                         "6.0.0": {"4.2.0", "4.3.0", "5.0.0"}}
 ACTION_TYPES = {"purchase", "upload", "deploy", "store_write", "account", "signature", "legal", "destructive", "public_effect", "schedule", "monitor"}
 EVIDENCE_MODALITIES = frozenset({"visual", "audio", "haptic", "play", "device", "build", "document", "external_receipt"})
 MAX_FILES, MAX_BYTES = 10000, 256 * 1024 * 1024
@@ -126,7 +147,7 @@ def suite_lock():
     declaration = base / "assets/suite-shared-paths.json"
     if declaration.is_file():
         require(not declaration.is_symlink(), "shared suite declaration cannot be linked")
-        paths = json.loads(declaration.read_text(encoding="utf-8")).get("paths")
+        paths = strict_json_loads(declaration.read_text(encoding="utf-8")).get("paths")
         strings(paths, "shared suite paths")
         require(len(paths) == len(set(paths)), "shared suite paths must be unique")
         names.add("assets/suite-shared-paths.json")
@@ -172,7 +193,7 @@ def canonical_rows(root, name):
     path = safe_path(root, ".gameatelier/" + name + ".json")
     if not path.is_file():
         return {}
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = strict_json_loads(path.read_text(encoding="utf-8"))
     rows = data.get("items", data.get(name, data)) if isinstance(data, dict) else data
     if isinstance(rows, dict):
         return {key: value for key, value in rows.items() if isinstance(value, dict)}
@@ -190,7 +211,7 @@ def canonical_binding(root, name, ident):
     path = safe_path(root, ".gameatelier/" + name + ".json")
     if not path.is_file():
         return None
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = strict_json_loads(path.read_text(encoding="utf-8"))
     container = next((key for key in ("items", name) if isinstance(data, dict) and key in data), None)
     if container:
         raw = data[container]
@@ -265,8 +286,8 @@ def link_canonical(root, record, name):
 
 def load_input(path):
     if str(path) == "-":
-        return json.load(sys.stdin)
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+        return strict_json_loads(sys.stdin.read(256 * 1024 * 1024 + 1))
+    return strict_json_loads(Path(path).read_text(encoding="utf-8"))
 
 
 @contextmanager
@@ -291,7 +312,7 @@ def locked(root):
 def read_state(home, accepted_toolkits=None):
     path = home / "state.json"
     require(path.is_file() and not path.is_symlink(), "project not initialized or state is a symlink")
-    state = json.loads(path.read_text(encoding="utf-8"))
+    state = strict_json_loads(path.read_text(encoding="utf-8"))
     require(state.get("schema_version") == RUNTIME_SCHEMA_VERSION, "unsupported runtime schema; create a current project state from current inputs")
     require(state.get("toolkit_version") in (accepted_toolkits or {TOOLKIT_VERSION}), "unsupported toolkit result; use an explicit supported workflow-upgrade or reconstruct a current state from current inputs")
     previous = None
@@ -336,7 +357,7 @@ def workflow_upgrade(state, home, root, args):
     authenticate human intent or certify the project under a new tool version.
     """
     source_bytes = (home / "state.json").read_bytes()
-    require(json.loads(source_bytes) == state, "workflow source changed while reading; repeat preview")
+    require(strict_json_loads(source_bytes) == state, "workflow source changed while reading; repeat preview")
     source_hash = hashlib.sha256(source_bytes).hexdigest()
     target_lock = suite_lock()
     require(all(value is not None for value in target_lock.values()), "target shared runtime resources missing; repair installation before upgrade")
@@ -571,6 +592,14 @@ def refresh(state, root):
             row["status"] = "stale"
             row.setdefault("stale_reasons", []).append("proof bytes changed/missing")
             changed.append(ident)
+    for ident, row in state['tasks'].items():
+        pins = row.get('consumed_sources')
+        mismatched = (not isinstance(pins, dict) or
+                      any(state['observed_suite_sources'].get(path) != expected for path, expected in pins.items()))
+        if mismatched and row.get('status') != 'stale':
+            row['status'] = 'stale'
+            row.setdefault('stale_reasons', []).append('consumed operating source missing/changed; review context and record a new task')
+            changed.append(ident)
     for row in state["actions"].values():
         receipt = row.get("receipt")
         if receipt:
@@ -669,6 +698,9 @@ def readiness(state, task_id, phase="start"):
     require(task_id in state["tasks"], "unknown task")
     task = state["tasks"][task_id]
     blockers = global_blockers(state)
+    pins = task.get('consumed_sources')
+    if not isinstance(pins, dict) or any(state.get('observed_suite_sources', {}).get(path) != expected for path, expected in pins.items()):
+        blockers.append('task consumed-source snapshot missing/changed; reconcile exact current context')
     try:
         task_modalities(task)
     except ValueError as exc:
@@ -1045,6 +1077,11 @@ def dispatch(state, root, args):
         fields(record, "id", "stage", "scope", "source", "goal", "owner", "skill")
         stage_of(record)
         task_modalities(record)
+        available_sources = suite_sources()
+        consumed = record.get('consumed_sources', available_sources)
+        require(isinstance(consumed, dict) and all(isinstance(path, str) and HEX.fullmatch(str(value)) for path, value in consumed.items()), 'consumed_sources must map exact relative operating paths to SHA256')
+        require(all(available_sources.get(path) == value for path, value in consumed.items()), 'consumed operating source differs from supplied task context')
+        record['consumed_sources'] = dict(consumed)
         require(record["skill"] == "gamedev-" + record["stage"], "task must name the actual stage skill")
         intent = state.get("current_intent", {})
         same_route = intent.get("stage") == record["stage"] and intent.get("scope") == record["scope"]
@@ -1221,15 +1258,15 @@ def dispatch(state, root, args):
         require(not global_blockers(state), "stage check blocked before loading validator: " + "; ".join(global_blockers(state)))
         package = args.package.resolve()
         require(package.is_dir(), "stage-check uses an already safely imported/created package directory")
-        manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
+        manifest = strict_json_loads((package / "manifest.json").read_text(encoding="utf-8"))
         if args.require_accepted or manifest.get("stage_status") == "accepted":
             stage = manifest.get("stage")
             require(stage in STAGES, "unknown package stage")
             scope = manifest.get("scope", "project")
             require(isinstance(scope, str) and scope.strip(), "package scope must be nonempty text")
             require(manifest.get("project_id") == state["project_id"], "stage package belongs to another project")
-            package_requirements = {row["id"]: row for row in json.loads(safe_path(package, "records/requirements.json").read_text(encoding="utf-8"))["items"]}
-            package_decisions = {row["id"]: row for row in json.loads(safe_path(package, "records/decisions.json").read_text(encoding="utf-8"))["items"]}
+            package_requirements = {row["id"]: row for row in strict_json_loads(safe_path(package, "records/requirements.json").read_text(encoding="utf-8"))["items"]}
+            package_decisions = {row["id"]: row for row in strict_json_loads(safe_path(package, "records/decisions.json").read_text(encoding="utf-8"))["items"]}
             for ident, row in state["requirements"].items():
                 if applicable(row, stage, scope) and row.get("priority") == "must":
                     require(requirement_satisfied(state, ident), "current project must requirement blocks stage: " + ident)
@@ -1264,7 +1301,7 @@ def dispatch(state, root, args):
             require(suite_lock() == state["suite_lock"], "installed suite changed during validator execution; reconcile before accepting stage")
             require(not global_blockers(state), "cannot cross stage boundary while paused/integrity blocked")
             manifest_path = package / "manifest.json"
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest = strict_json_loads(manifest_path.read_text(encoding="utf-8"))
             require(manifest["project_id"] == state["project_id"], "stage package belongs to another project")
             state["stage_checks"].append({"stage": result["stage"], "scope": manifest.get("scope", "project"), "toolkit_version": TOOLKIT_VERSION, "runtime_suite_sha256": digest(state["suite_lock"]), "manifest_path": str(manifest_path), "manifest_sha256": sha(manifest_path), "knowledge_revision": state["knowledge_revision"], "model_gate": result.get("model_gate"), "acceptance_scope": result.get("acceptance_scope"), "at": now()})
             stop_boundary(state, "stage", result["stage"])

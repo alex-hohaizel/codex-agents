@@ -1,0 +1,107 @@
+{
+  "schema": "deterministic-core-comparison-summary/1",
+  "baseline_commit": "5acde284853c7fb65a1cff8a0d71f28bfcf99676",
+  "candidate_release": "6.0.0",
+  "candidate_commit": null,
+  "source_files": [
+    {
+      "path": "kit/skills/agent-foundry/scripts/foundry.py",
+      "baseline_sha256": "c2bf9e912f621d61ff3c0afca73cfe4fbe4a7524924534edb501ff75a029c228",
+      "candidate_sha256": "e8e2aecf538e59cedae3d2ad36b10d5262bfb2aa0e936dcde8cd3cd1e5057073"
+    },
+    {
+      "path": "kit/skills/design-specialist-skills/scripts/blueprint.py",
+      "baseline_sha256": "a96013f8078da05c0c9a0c9de708ae5d1a69e186339f74415f7b4bee99ac96ef",
+      "candidate_sha256": "88622874d813f5174c010ac4ef4dc249d4c5d9e7fc111bac6fe61b28ae3022dd"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/scripts/teamctl.py",
+      "baseline_sha256": "8293bbe15f40b29d3d9f056d6d3b6ea8523500e374991f26bdb97a5ed6e438a0",
+      "candidate_sha256": "d1e40208e7bc3009f1c641cd3969c1fbeeade6b4b70209d19fb9240ce8983a5f"
+    }
+  ],
+  "rubric_sha256": "f00236623b570b184e36ee9f09c61ba686ae6c90dcdb50ccdc72b2c6937334d7",
+  "corpus_input_sha256s": {
+    "valid-holdout.json": "43e9efa181cba6035976c44341e82f9da352cfdb5c81c8278065f638cbdccdef",
+    "ambiguous-version.json": "a7e6630b280d394b5dc3bb3f8be7f0b5a55124e6976a43b1bf713586b1ec142d",
+    "foundry-blueprint.json": "54342e2af5755e6277f0d7364992ab48f2c60e633d939f38a3f267d7db92c67a",
+    "artifact-old.txt": "f5ff939d2afe96c13d56ae802e8e6ffbd1445a8251ec3f2a488d2e4a3586817d",
+    "artifact-new.txt": "004aebffc33d86ec218a69eef40d80788131fe82061fbe1d3605b9d332f8dffe",
+    "proof.json": "af5997a647a691eba763d8648b0ad06a6babb9d7f1e2353bdc1cd8ae95a33804",
+    "artifact-registration.json": "418dee6f20156362fc943c33c5cf84f557fe3198bf25a0c1b30fdf5caa6cec57",
+    "stale-evidence-registration.json": "1d2b877701194fb90a38fccb61cfbdb9578b9091458fe866bd2691f8af02e467",
+    "round.json": "868e54d9c3610d4694bcf71d3c1d6ed08ef974d0a89d0d3ca6968568297778a2",
+    "source-change.json": "de0936bda3801a39268f31e1a43d8bf8c7bae67e23d9f1c8ff3438e29c141629",
+    "decision-inputs.json": "519e089c15bd6a964d4d6235e7aaa7ab8201b44e548a66a1807a8f191155e9e7",
+    "synthetic-approval.json": "d4fae0733c19bbc67898cc257d83122dd672c98da7c1bce8e2876766fb9d94ad",
+    "initial-evidence.json": "dc7e29e100cffc3e209057ab3c31fbbf0b4fadec331804db593b05c8fbbb2990"
+  },
+  "driver_sha256": "b05f799c80aff6aa9b47eb593c8941dd969dce3e7f344d5b9cdc3b7be4961f6c",
+  "python_version": "3.9.6",
+  "model": null,
+  "cases": [
+    {
+      "id": "P1-stale-evidence",
+      "group": "known-audit-regression",
+      "same_raw_inputs": true,
+      "baseline_expected_guard_or_preservation": false,
+      "candidate_expected_guard_or_preservation": true,
+      "preservation_output_identical": null
+    },
+    {
+      "id": "P2-duplicate-json",
+      "group": "known-audit-regression",
+      "same_raw_inputs": true,
+      "baseline_expected_guard_or_preservation": false,
+      "candidate_expected_guard_or_preservation": true,
+      "preservation_output_identical": null
+    },
+    {
+      "id": "P3-stale-writer",
+      "group": "known-audit-regression",
+      "same_raw_inputs": true,
+      "baseline_expected_guard_or_preservation": false,
+      "candidate_expected_guard_or_preservation": true,
+      "preservation_output_identical": null
+    },
+    {
+      "id": "P4-normative-source",
+      "group": "known-audit-regression",
+      "same_raw_inputs": true,
+      "baseline_expected_guard_or_preservation": false,
+      "candidate_expected_guard_or_preservation": true,
+      "preservation_output_identical": null
+    },
+    {
+      "id": "H1-valid-proposal",
+      "group": "unchanged-valid-preservation-control",
+      "same_raw_inputs": true,
+      "baseline_expected_guard_or_preservation": true,
+      "candidate_expected_guard_or_preservation": true,
+      "preservation_output_identical": true
+    },
+    {
+      "id": "H2-serial-writers",
+      "group": "unchanged-valid-preservation-control",
+      "same_raw_inputs": true,
+      "baseline_expected_guard_or_preservation": true,
+      "candidate_expected_guard_or_preservation": true,
+      "preservation_output_identical": true
+    }
+  ],
+  "cold_usage": "Fresh local processes and complete copied standalone bundles; no agent chat history or outside sibling skills",
+  "boundary": "Deterministic local parser/provenance/writer/fingerprint properties. No media/model/device/provider acceptance or universal quality score. Author implemented the repairs; independent release review is separate.",
+  "measurement_correction": "Initial H1 adapter checked valid instead of actual CLI ok; criterion/input/candidate unchanged, raw first attempt retained privately, corrected complete paired run observed both preserved holdouts.",
+  "candidate_manifest_sha256": "5cd3ab1d03f271343076e54d92320a9230672ebac7c70417f57ffa1a2606d1d8",
+  "candidate_commit_binding": "Exact payload commit is recorded after publication; the source hashes and manifest above identify the measured code.",
+  "control_design_limit": "The two author-created valid controls were frozen before measurement, not blind to the repair author. They do not prove unseen creative generalization.",
+  "independent_review": {
+    "all_twelve_observations_reproduced": true,
+    "baseline_git_archive_and_installed_canonical_candidate_verified": true,
+    "additional_independent_unicode_valid_and_escaped_duplicate_key_cli_checks": 6,
+    "additional_controls_passed": true,
+    "model_calls": 0,
+    "api_calls": 0,
+    "universal_quality_claimed": false
+  }
+}

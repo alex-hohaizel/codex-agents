@@ -57,7 +57,7 @@ def chatbot(blueprint=False):
 
 class StatusTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.root = Path(self.temp.name)
 
     def tearDown(self):

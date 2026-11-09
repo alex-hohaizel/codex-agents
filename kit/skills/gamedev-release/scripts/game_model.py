@@ -15,7 +15,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 VERSION = "4.0.0"
-TOOLKIT_VERSION = "4.3.0"
+TOOLKIT_VERSION = "6.0.0"
 
 
 def v4():

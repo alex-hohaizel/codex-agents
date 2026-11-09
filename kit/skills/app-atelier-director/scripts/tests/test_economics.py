@@ -75,7 +75,7 @@ class EconomicsTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.row(model(refund_rate='1.01'))
 
     def test_cli_preserves_decimal_lexeme_and_target(self):
-        with tempfile.TemporaryDirectory() as folder:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as folder:
             p=Path(folder)/'model.json';p.write_text(json.dumps(model(price_per_month=0.3,paid_variable_cost=0.1,fixed_cost=0.2)))
             r=subprocess.run([sys.executable,'-B',str(SCRIPT),'--model',str(p),'--target-profit','0'],capture_output=True,text=True)
             self.assertEqual(r.returncode,0,r.stderr)

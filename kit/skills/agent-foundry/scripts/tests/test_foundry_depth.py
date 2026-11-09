@@ -18,7 +18,7 @@ spec.loader.exec_module(mod)
 
 class DepthTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
+        self.tmp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.root = Path(self.tmp.name)
         module = self.root / 'skills' / 'target'
         module.mkdir(parents=True)

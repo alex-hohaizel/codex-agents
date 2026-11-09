@@ -5,6 +5,26 @@ import json
 from pathlib import Path
 import re
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 PLATFORMS={'telegram','instagram','slack','discord','whatsapp','teams','web','other'}
 MODES={'telegram':{'webhook','polling'},'instagram':{'webhook'},'slack':{'events_webhook','socket_mode'},'discord':{'interactions_webhook','gateway'},'whatsapp':{'webhook'},'teams':{'webhook'},'web':{'http_api','browser_session','webhook','realtime'}}
 STATUS={'candidate','catalog_verified','configured','exercised','unsupported'}
@@ -100,7 +120,7 @@ def validate(data):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('file',type=Path);a=p.parse_args()
-    try:errors=validate(json.loads(a.file.read_text()))
+    try:errors=validate(strict_json_loads(a.file.read_text()))
     except (OSError,ValueError,TypeError,AttributeError) as exc:errors=[str(exc)]
     print(json.dumps({'ok':not errors,'errors':errors,'quality_certified':False,'scope':'Current record declarations only; real provider/current policy and observations require evidence.'},ensure_ascii=False,indent=2))
     return bool(errors)

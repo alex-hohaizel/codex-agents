@@ -1,9 +1,12 @@
-# Agent System 5.0.0 portable core
+# Agent System 6.0.0 portable core
 
-This curated distribution contains the 33 reusable skills from the verified
-Agent System 5.0.0 Codex release dated 2026-11-07. The original canonical
-`manifest.json` and every one of its 2,955 declared skill files are preserved
-byte for byte. Suite ID: `agent-system-5.0.0`.
+This reviewed distribution evolves the 33 reusable skills from the verified
+Agent System5.0.0 predecessor. Suite ID: `agent-system-6.0.0`.
+The 6.0.0 changes are recorded in `releases/6.0.0.md` at repository root;
+existing icon bytes/bindings remain preserved. The original 5.0.0 file descriptors,
+interface bytes and prior histories remain in `manifest.json.previous_trees` for
+exact updater admission and rollback compatibility. This does not describe changed
+6.0.0 instructions as byte-identical to their predecessor.
 
 ## Included
 
@@ -33,8 +36,9 @@ or live project data. Renaming a schema requires a separate compatibility change
 The curated integrity record is newly generated. It is not a signature and does
 not replace verification of source provenance, trusted transport, host discovery,
 real task behavior, device results, or product acceptance. All 33 canonical
-skill versions remain 5.0.0; repository documentation changes do not claim a new
-skill runtime release.
+skill versions are 6.0.0; repository edition 1.2.0, native domain formats,
+optional agents and service versions are separate. No active product state is
+migrated by copying these skill files.
 
 Work can normalize presentation metadata and managed avatar bytes. A Work
 read-back and this frozen portable source are separate evidence. Installing or

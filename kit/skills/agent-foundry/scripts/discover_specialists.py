@@ -10,6 +10,26 @@ import json
 import re
 from pathlib import Path
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 FORMAT = "specialist-discovery/1"
 ARCHIVED = {"archive", "archives", "archived", "uninstalled", "disabled"}
 FIT_FIELDS = ("capabilities", "inputs", "outputs", "stages", "compatibility", "rights", "limits", "need_fit")
@@ -55,7 +75,7 @@ def source_record(path, roots):
         card_bytes = card.read_bytes()
         source["files"].append({"path": str(card.resolve()), "sha256": digest(card_bytes)})
         try:
-            profile = json.loads(card_bytes)
+            profile = strict_json_loads(card_bytes)
         except (ValueError, UnicodeError):
             profile = {"error": "invalid capability card; analyze actual source"}
     else:
@@ -328,9 +348,9 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == "inventory":
-            result = inventory(args.host, args.root, [json.loads(Path(p).read_text()) for p in args.metadata], args.exclude_source, args.snapshot_root)
+            result = inventory(args.host, args.root, [strict_json_loads(Path(p).read_text()) for p in args.metadata], args.exclude_source, args.snapshot_root)
         else:
-            result = validate_decision(json.loads(Path(args.inventory).read_text()), json.loads(Path(args.decision).read_text()))
+            result = validate_decision(strict_json_loads(Path(args.inventory).read_text()), strict_json_loads(Path(args.decision).read_text()))
     except (OSError, ValueError, TypeError, KeyError) as error:
         parser.error(str(error))
     print(json.dumps(result, ensure_ascii=False, indent=2))

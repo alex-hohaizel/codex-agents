@@ -10,7 +10,7 @@ v=importlib.util.module_from_spec(spec);spec.loader.exec_module(v)
 
 class IdentityTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
+        self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.root=Path(self.temp.name)
         (self.root/'agents').mkdir();(self.root/'assets').mkdir()
 
     def tearDown(self):self.temp.cleanup()

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Atelier · Orchestrator1.0.0"
+  short_description: "Coordinate approved projects, context, jobs and evidence"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#21CFC4"
+  default_prompt: "Use $atelier-orchestrator to continue the approved project from its actual sources, context and current checkpoint."

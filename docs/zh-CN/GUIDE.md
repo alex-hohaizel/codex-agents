@@ -2,10 +2,41 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**指南基线：** Agent System 5.0.0，2026 年 11 月 7 日。**可复用套件：** 33 项技能。本指南涵盖首次安装、日常使用、Work 与 Codex 之间的项目协作，以及现有项目的升级。仓库文档和分发包的修订可以独立于底层技能版本发生变化；升级前请查阅版本记录。
+**指南基线：** Agent System 6.0.0，2026 年 11 月 9 日。**可复用套件：** 33 项技能。本指南涵盖首次安装、日常使用、Work 与 Codex 之间的项目协作，以及现有项目的升级。仓库文档和分发包的修订可以独立于底层技能版本发生变化；升级前请查阅版本记录。
 
 
-**宣传活动与仓库版本 1.1.0：** [英文宣传材料](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md)。本活动每种语言各有十份相对应的材料，涵盖应用、游戏、聊天机器人、平台、自动化和自定义专家。宣传材料仅提供英文和乌克兰文；各语言指南仍保持完整。本次版本更新涉及展示材料、文档和兼容的仓库工具，可复用套件仍为 5.0.0。现有已验证的安装无需重新安装，也无需重置产品。请保留同一项目的需求、设计标识、决策和 checkpoint，继续原项目，并在下一项依赖这些内容的任务之前阅读当前仓库指令。
+**当前版本：** 套件6.0.0、仓库1.2.0、可选的 Atelier Orchestrator1.0.0，以及本地 Agent Atelier0.1.0。升级前请阅读[准确的6.0迁移说明](../../releases/migrations/6.0.0.md)。之前的1.1.0宣传活动保持不变：[英文宣传材料](../../marketing/campaign/README.md)和[乌克兰文宣传材料](../../marketing/campaign/README.uk.md)，每种语言各十份。宣传材料提供 EN/UK；指南和服务界面覆盖全部七种已声明语言。Work 的实际审计、更新、安装和控制推迟到单独任务；来源归档或仓库连接不是安装回执。
+
+## 0. 升级到6.0并打开本地工作台
+
+1. 选择准确且经过验证的发行 commit。保留当前33项技能的来源、图标文件/绑定/颜色/类别、本地修改及归属证明。保存项目原有需求、已接受的标识/角色、决策、权限、待办任务和结果不明的外部操作。安装不会迁移产品。
+2. 在 `kit/` 中阅读便携更新工具的帮助，再审计准确的候选版本。应用前检查全部33条记录、冲突和视觉标识保留情况。计划和备份应保存在技能发现目录之外。
+
+```bash
+python3 portable/update_skill_suite.py --help
+python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+```
+
+3. 只能用 apply 实际返回的路径替换日志占位路径。未知差异必须核对，不要强制覆盖。分别验证实际发现/来源加载和一项范围明确的任务。现有图标及不相关技能保持不变。
+4. 在仓库根目录单独审计 Codex 环境配置：`python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`。使用 `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json` 应用，再用 `verify --journal /absolute/host-journal.json` 验证。受管理的区块会保留现有全局指令；十二种受限角色保留其模型和外部影响限制。实际环境是否加载该配置需要单独检查。
+5. 通过支持的技能管理器，从选定 commit 的 `optional-skills/atelier-orchestrator` 安装可选的 `atelier-orchestrator`。它独立于33项核心技能更新工具；存在来源不代表已安装或执行成功。现有维护技能也仍为单独的可选组件。
+6. 从来源构建本地服务时，使用已固定的 lockfile，以及 Node.js 24.22.2 或受支持的更新运行时。在 `apps/agent-atelier/` 中执行以下命令。首次安装依赖需要网络访问，但不意味着启用新的付费服务。
+
+```bash
+npm ci --ignore-scripts
+npm run build
+node launcher/atelier.mjs start
+node launcher/atelier.mjs status
+node launcher/atelier.mjs doctor
+node launcher/atelier.mjs stop
+```
+
+7. 在 Mac 上，构建完成后可双击 `apps/agent-atelier/launcher/Agent Atelier.command` 启动。启动器打开回环地址，复用自身已有的运行实例，不会启用登录自启动。选择并预览一个明确的项目根目录，再进行绑定。绑定只是只读发现项目，不代表产品已采用新流程，也不授权所有未来任务。演示模式使用虚构数据，不执行命令。
+8. 准备包含准确范围、输入、验收和限制的任务，再通过支持的 Codex 适配器启动。来源、制作质量、集成、设备、独立审查和所有者验收是不同状态。只有得到环境的实际结果后，才能确认取消。现有聊天需要准确的标识/cwd，以及空闲状态下的移交；服务的持有锁无法限制另一个独立桌面客户端写入。重试前先核对结果不明的外部操作。
+9. 现有 Foundry 会话使用 `suite-update-plan`，以及已审查的 `refresh --accept-suite-update` 记录，其中包含准确的来源状态和目标摘要。App state/1 无需因 toolkit 更新而迁移格式。Chat 集成证据需要当前契约对象的固定引用，以及真实的新观察；不能事后为旧证据补填引用。Game 使用受支持的5→6工作流程升级，同时保留 runtime2/model4/handoff1。生成的智能体需要来源到目标的比较及无隐藏历史的继续执行；任何项目都不会被重置。
+10. 服务备份/恢复只涉及服务自己的状态：预览并校验准确备份、核对工作、保留已撤销的权限；它不恢复产品数据库或外部影响。技能回滚使用更新工具实际生成的日志；环境配置回滚使用自己的日志，并拒绝后续差异。WORK 的实际安装/控制仍推迟处理。恢复方式和受支持的限制请参阅[详细迁移说明](../../releases/migrations/6.0.0.md)及[服务指南](../../apps/agent-atelier/README.md)。
 
 ## 1. 这套系统能为你提供什么
 
@@ -342,7 +373,7 @@ git status --short
 
 每个发布版本都应说明修改内容、受影响用户、前提条件、安装步骤、项目采用步骤、验证、已知限制和回滚方式。常规流程发生变化时，通用指南也必须更新。不要仅依赖一个版本号。
 
-共享版本 5.0.0 将构建器与三个产品家族统一到一个可见套件版本，新增共同的自适应工作方式、领域研究与综合、视觉形象处理，以及共享的 Work↔Codex 路线。历史协议和运行时 schema 版本仍然独立。没有真实迁移就把旧 schema 改名为“5.0.0”，会破坏兼容性，而不是使项目现代化。
+6.0.0版本保留33个稳定名称和图标标识，同时强化证据、来源依赖、JSON 输入检查和状态写入。它增加可独立使用的制作/上下文配置，以及明确的参考一致性要求。历史协议和项目原有运行时 schema 版本仍相互独立；不做迁移就将旧 schema 改为套件版本号，会破坏兼容性。
 
 ### 已有 Agent Systems 2.3 / Game 4.3 项目
 
@@ -355,7 +386,7 @@ git status --short
 7. 重新检查每项受影响需求及当前阶段的验收标准。执行一项小型真实延续任务，并保存证据。
 8. 在产品检查点中记录已采用的工具套件版本。保留迁移记录，让下一次聊天能够解释这一过渡。
 
-Game 5.0.0 提供已审查的工作流程升级路线，用于 4.2.0/4.3.0 项目，同时保持运行时 schema 2.0.0。其使用取决于真实项目状态及工具支持的输入。App 和 ChatBot 项目同样需要审查各自状态和兼容性；不能仅因为套件共享一个版本，就把它们送入游戏迁移流程。
+Game6.0.0 提供已审查的工作流程升级路线，用于 4.2.0/4.3.0/5.0.0 项目，同时保持运行时 schema 2.0.0。其使用取决于真实项目状态及工具支持的输入。App 和 ChatBot 项目同样需要审查各自状态和兼容性；不能仅因为套件共享一个版本，就把它们送入游戏迁移流程。
 
 ### 以前通过构建器创建的代理
 

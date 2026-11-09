@@ -25,10 +25,11 @@ import zipfile
 
 SCHEMA = "codex-agents.showcase-pipeline/1"
 LOG_LIMIT = 64 * 1024
-IGNORED = {".git", "__pycache__", ".pytest_cache", ".venv", ".DS_Store"}
+IGNORED = {".git", "__pycache__", ".pytest_cache", ".venv", ".DS_Store", "node_modules", "dist", ".atelier-local", "test-results", "playwright-report"}
 PACKAGE_ROOTS = ("kit", "AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md",
                  "RIGHTS.md", "locales.json", "maintenance-skill", "docs", "templates",
-                 "governance", "releases", "scripts", "marketing", "assets")
+                 "governance", "releases", "scripts", "marketing", "assets",
+                 "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps")
 
 
 class TerminationRequested(KeyboardInterrupt):

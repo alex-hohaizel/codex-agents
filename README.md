@@ -6,7 +6,7 @@ A reusable system of **33 specialized skills** for research, requirements, desig
 
 [English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md)
 
-**[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Existing-project adoption](releases/migrations/5.0.0.md)
+**[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Existing-project adoption](releases/migrations/6.0.0.md)
 
 ![Agent System: English campaign cover](assets/marketing/campaign/en/01-original.png)
 
@@ -40,7 +40,7 @@ Continuity comes from the same source revision, requirements, decisions, selecte
 | ChatBot | 11 | Conversation, knowledge, integration and continued service |
 | Game | 9 | Studio creation through native games and live operations |
 
-The optional [repository maintenance skill](maintenance-skill/SKILL.md) is separate from the 33 baseline skills.
+The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Atelier orchestrator](optional-skills/atelier-orchestrator/SKILL.md) are separate from the 33 baseline skills. The [Agent Atelier local Mac workbench](apps/agent-atelier/README.md) shows actual projects, sources, context, tasks, outcomes and reviewed skill updates.
 
 ## Installation and existing projects
 
@@ -50,7 +50,7 @@ The optional [repository maintenance skill](maintenance-skill/SKILL.md) is separ
 4. Verify source integrity, actual discovery and a small real task separately.
 5. For an existing product, keep its requirements, design identity, native state, decisions and checkpoint, then follow its applicable adoption instructions.
 
-**Repository edition 1.1.0 is a compatible documentation, campaign and tooling update.** The reusable suite remains **5.0.0**; stable skill names, canonical skill sources and installed icon identity are unchanged. Existing 5.0.0 installations need no reinstall for this edition. Do not reinitialize a product or change its native schema merely to read the new material. See [the exact edition migration](releases/migrations/repository-1.1.0.md).
+**Suite6.0.0 / repository edition 1.2.0** adds production/context contracts, stronger evidence and writer admission, supported Codex host profiles and a real local workbench. Preserve the 33 names/icons and all existing accepted product state. Use the exact [6.0.0 migration](releases/migrations/6.0.0.md); installation is separate from project adoption, discovery and behavior. WORK live audit/update/install/control is deferred to a separate task.
 
 ## Verify and package
 
@@ -64,7 +64,7 @@ python3 -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-Source bundle names retain suite version 5.0.0; their build metadata records repository edition 1.1.0. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
+Source bundles identify suite 6.0.0 and repository edition 1.2.0. They include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
 
 [Update contract](governance/UPDATE_CONTRACT.md) · [Requirements](governance/requirements.csv) · [Validation](governance/VALIDATION.md) · [Quality model](governance/QUALITY_MODEL.md) · [Source provenance](kit/PROVENANCE.md) · [Rights](RIGHTS.md)
 

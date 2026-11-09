@@ -6,6 +6,26 @@ from pathlib import Path
 import re
 
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 def check(root):
     root=Path(root).resolve();errors=[]
     def need(ok,msg):
@@ -13,15 +33,15 @@ def check(root):
     skill=root/'SKILL.md'
     if not skill.is_file():return ['SKILL.md missing']
     text=skill.read_text()
-    config=json.loads((root/'assets/consistency-contract.json').read_text())
+    config=strict_json_loads((root/'assets/consistency-contract.json').read_text())
     need(config.get('schema_version')=='skill.consistency/1','unsupported consistency contract')
     checker=config.get('current_checker','')
     need((root/'scripts'/checker).is_file(),'current domain checker missing')
     need(checker in text,'current checker not described in SKILL.md')
-    profile=json.loads((root/'assets/team-profile.json').read_text())
+    profile=strict_json_loads((root/'assets/team-profile.json').read_text())
     need(profile.get('schema_version')=='chatbot.team-profile/1','current chatbot team profile required')
     need(profile.get('stage')=='chat' and config.get('canonical_stage')=='chat','current chat stage required')
-    requirements=json.loads((root/'assets/requirements.json').read_text())['requirements']
+    requirements=strict_json_loads((root/'assets/requirements.json').read_text())['requirements']
     ids=[row['id'] for row in requirements]
     owners=[rid for domain in profile['domains'] for rid in domain['requirement_ids']]
     need(len(ids)==len(set(ids)) and set(ids)==set(owners) and len(owners)==len(set(owners)),'each current criterion needs exactly one domain owner')

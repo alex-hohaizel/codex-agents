@@ -1,17 +1,17 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
+  "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
   "default_locale": "en",
   "guide_editions": 7,
   "translation_editions": 6,
-  "verification_scope": "Complete guide editions retained. Equivalent localized campaign and compatibility entry added in all seven languages. Existing headings, numbered steps, tables, commands and stable names preserved; source and translation hashes refreshed. No English artwork localization is claimed for the other five guide languages.",
+  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared changed guide commands/structure and critical safety/recovery passages; this is not native-human certification.",
   "translations": [
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -26,8 +26,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "e95315150f1cbddcdfedbf1026f8da20d71e6806eaf3adabb76eb77868a726aa",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "b5348fa684086518c7c42466cd61ab39004d90909153147cbda05c1ef18dfc65",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -42,8 +42,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "d6ff35506a1f59cca64ed0b40805b3aa418592481078c2605c550a1564b7f48a",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "eea7079206a9f85c8bc54dcb3f45aa7f85de1fc2c5a85e4a2428012be9ef2418",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -58,8 +58,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "b849bcc61d8ec9e33f759460985e04bfdb7194e58aa07528db7a370ee363845d",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "bea412bfe0f790ebeefeb6a6c086ae874516360a4d8bc0e94b8ca08da09e0699",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "b308103d63824462fc364228e10c0d4a192460bef1d42f586d354d3f2ab527cf",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "762dad5a7b9e0e715eeea443882c99381be1daadec338094db2651b4fdc1347d",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -90,8 +90,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "dfc17c551178cddc13c2fbe90f3978b743314007efa4c0b67151e5126b5fc48c",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "afe7e9bb9e9cbab500f400adf4a5557c710de375c5368212fc649e53db0ba203",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -106,8 +106,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "241df36270155ddeb8896b543fa8b8afbaf7ca0d3782b0f35fabc052e625b073",
-      "sha256": "8ee478a4776bcd43a92cd4991cf45e3546dafce641dabb4401da386fc190fbb5",
+      "source_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4",
+      "sha256": "a572573392bf001fa9bdf4db146f8f80a1c5b75921618b324f9dd30e4de0cc06",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -120,9 +120,14 @@
       }
     }
   ],
-  "repository_version": "1.1.0",
+  "repository_version": "1.2.0",
   "campaign_languages": [
     "en",
     "uk"
-  ]
+  ],
+  "language_review": {
+    "method": "Model-authored translation and source-to-target self-review of changed passages; independent release review remains separate",
+    "native_human_review": "not_performed",
+    "source_freeze_sha256": "af43a545e956ffd2ecb13bb6d6364967f5547c765b56d715e46ea59fa7742ea4"
+  }
 }

@@ -1,0 +1,13 @@
+{
+  "schema": "visual-identity-origin/1",
+  "kind": "created",
+  "scope": "reusable_system",
+  "scope_basis": {
+    "source": "Approved Agent Atelier B0.1 optional orchestration component, implementation instruction2026-11-09",
+    "reason": "Reusable portfolio/task integration across products; no project-specific identity or authority"
+  },
+  "style_reference": {
+    "path": "assets/system-style-reference.svg",
+    "sha256": "9be88f8dd4c5e658961515c71389eafd45142ffa68bcae58e8dcff57d178ed91"
+  }
+}

@@ -3,9 +3,15 @@ name: app-atelier-specification
 description: "App Atelier: перетворюй обрану власником концепцію на предметні PRD/TDD, контракти даних/auth/API/оплат, завершений core Android/iOS/web, оцінки й acceptance. Використовуй для специфікації нового продукту, зміни scope, вибору архітектурних альтернатив або передавання в дизайн і розробку; перевіряй ранню release/account/store/budget здійсненність до значного build."
 ---
 
-# App Atelier 5.0.0 · Специфікація
+# App Atelier 6.0.0 · Специфікація
 
-## Спільний спосіб роботи5.0
+## Виробнича якість і контекст6.0
+
+Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+
+Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+
+## Спільний спосіб роботи6.0
 
 На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
 
@@ -23,7 +29,7 @@ description: "App Atelier: перетворюй обрану власником 
 
 Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
 
-Редакція інструментарію **5.0.0**. Перед залежною роботою прочитати [наскрізне ядро](references/cross-domain-core.md), [предметний контракт застосунку](references/app-system-contract.md) і [методику цього етапу](references/app-depth.md). Застосувати їх до чинного profile/state та REQ-ID; `assets/app-system.template.json` і `assets/app-depth.templates.json` інстанціювати як linked project artifacts, а не докази виконання. `python3 scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` (gate: `draft`, `design` або `production`) перевіряє лише структурний depth-контракт; `state.py` та economics читають лише власні чинні формати.
+Редакція інструментарію **6.0.0**. Перед залежною роботою прочитати [наскрізне ядро](references/cross-domain-core.md), [предметний контракт застосунку](references/app-system-contract.md) і [методику цього етапу](references/app-depth.md). Застосувати їх до чинного profile/state та REQ-ID; `assets/app-system.template.json` і `assets/app-depth.templates.json` інстанціювати як linked project artifacts, а не докази виконання. `python3 scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` (gate: `draft`, `design` або `production`) перевіряє лише структурний depth-контракт; `state.py` та economics читають лише власні чинні формати.
 
 
 Перетвори прийняту концепцію на виконувану домовленість для розробників.
@@ -119,7 +125,7 @@ description: "App Atelier: перетворюй обрану власником 
 Перевір store/account/testing/signing/budget/no-human здійсненність до production scope або значного build.
 Без доступу до акаунта познач unverified dependency; не називай route доступним.
 
-**Before-release:** залиш актуальний recheck правил/цін/accounts/signing, actual tests трьох клієнтів і billing за моделлю.
+**Before-release:** залиш актуальний recheck правил/цін/accounts/signing, actual tests усіх погоджених клієнтів і billing за моделлю.
 Залиш readiness і exact release effect окремому рішенню власника.
 Не обходь zero-budget/no-human conflict; запропонуй власнику concrete scope/route delta.
 

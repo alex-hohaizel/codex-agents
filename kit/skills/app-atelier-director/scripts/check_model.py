@@ -8,6 +8,26 @@ from pathlib import Path
 import re
 import sys
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 DECIMAL_PRECISION = 1024
 DECIMAL_INPUT = re.compile(r'^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$')
 DISPLAY_QUANTUM = Decimal('0.000001')
@@ -116,7 +136,7 @@ def main():
     if args.example:print(json.dumps(EXAMPLE,ensure_ascii=False,indent=2));return
     need(args.model is not None,'--model FILE required unless --example')
     need(not args.model.is_symlink() and args.model.is_file() and args.model.stat().st_size<=4*1024*1024,'model must be a regular bounded JSON file')
-    with args.model.open(encoding='utf-8') as f:model=json.load(f,parse_float=Decimal,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('nonfinite JSON value')))
+    with args.model.open(encoding='utf-8') as f:model=strict_json_loads(f.read(256 * 1024 * 1024 + 1),parse_float=Decimal,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('nonfinite JSON value')))
     print(json.dumps(calculate(model,args.target_profit),ensure_ascii=False,indent=2,allow_nan=False))
 
 if __name__=='__main__':

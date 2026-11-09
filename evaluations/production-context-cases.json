@@ -1,0 +1,103 @@
+{
+  "schema": "agent-system.production-evaluations/1",
+  "suite_version": "6.0.0",
+  "scope": "Reusable acceptance scenarios, not certification or automatically completed scores",
+  "cases": [
+    {
+      "id": "Q01",
+      "medium": "ui",
+      "request": "A dense operational workbench approved by the owner",
+      "negative_case": "A sparse hero/card dashboard replaces code, diff, context and task panes",
+      "acceptance": "Compare defining layout/interaction mechanisms at1440/1920and390; actual code/diff/task routes work; show provenance and acceptance separately",
+      "observed_scope": "Independent browser/source/visual review on this service; final retention UI retest pending"
+    },
+    {
+      "id": "Q02",
+      "medium": "document",
+      "request": "A technical report with a selected editorial master",
+      "negative_case": "Generic template drops figure hierarchy, tables, source captions or language",
+      "acceptance": "Render all pages; inspect typography, orphaning, tables, font embedding, links and selected-master lineage",
+      "observed_scope": "Evaluation contract; no new document production claimed"
+    },
+    {
+      "id": "Q03",
+      "medium": "presentation",
+      "request": "A selected composition is extended into a new deck",
+      "negative_case": "Every slide becomes the same three-card layout or loses the approved identity",
+      "acceptance": "Render slide range; test narrative pacing, hierarchy, legibility and actual source data; compare accepted master",
+      "observed_scope": "Evaluation contract; no new deck production claimed"
+    },
+    {
+      "id": "Q04",
+      "medium": "data",
+      "request": "A planning/analysis workbook with formulas and an expected decision",
+      "negative_case": "Values are painted into cells without correct formulas or readable evidence",
+      "acceptance": "Recalculate and inspect changed formulas, edge scenarios, units, chart encodings and exported sheets",
+      "observed_scope": "Evaluation contract; no new workbook production claimed"
+    },
+    {
+      "id": "Q05",
+      "medium": "image",
+      "request": "A selected character/material/lighting reference",
+      "negative_case": "Independent prompts produce a different character or generic substitute",
+      "acceptance": "Use accepted input image lineage, matched camera/material/light, dimensions and intended-use crop; independently inspect the actual output",
+      "observed_scope": "Evaluation contract; no new image production claimed"
+    },
+    {
+      "id": "Q06",
+      "medium": "vector_3d",
+      "request": "An editable icon/3Dasset with an approved visual master",
+      "negative_case": "Raster proxy or unmatched silhouette is called production-ready",
+      "acceptance": "Inspect geometry/silhouette/materials, editability, scale, render and integration in its real medium",
+      "observed_scope": "Existing core icon integrity preserved; new orchestrator vector structurally reviewed"
+    },
+    {
+      "id": "Q07",
+      "medium": "motion",
+      "request": "A product animation with an approved sequence and identity",
+      "negative_case": "Unrelated frames, abrupt loops or timing mismatches pass because a file exists",
+      "acceptance": "Review storyboard, continuity, timing, seam, resolution/codec and actual delivery playback",
+      "observed_scope": "Evaluation contract; no new motion production claimed"
+    },
+    {
+      "id": "Q08",
+      "medium": "audio",
+      "request": "A voice/sound asset with target language, use and accepted identity",
+      "negative_case": "A generated file is delivered without listening, pronunciation, levels or rights checks",
+      "acceptance": "Listen to target segments; inspect voice identity, pronunciation, loudness, clipping, pauses, format and delivery",
+      "observed_scope": "Evaluation contract; no new audio production claimed"
+    },
+    {
+      "id": "Q09",
+      "medium": "engineering",
+      "request": "A scoped subsystem with correctness and maintainability requirements",
+      "negative_case": "Novel architecture or extra infrastructure replaces the accepted needs without proof",
+      "acceptance": "Trace requirements→contracts→code→negative tests→runtime; justify dependencies and operational ownership; preserve ordinary human maintenance",
+      "observed_scope": "Core and local service meaningful correctness tests; no unrelated product migration"
+    },
+    {
+      "id": "Q10",
+      "medium": "context",
+      "request": "An unchanged requirement is silently omitted after handoff",
+      "negative_case": "A summary or completion score is treated as full accepted scope",
+      "acceptance": "Compile bounded source-pinned capsule, fail missing/cyclicmust, preserve deferredrequirements and changed-source invalidation",
+      "observed_scope": "Five deterministic context compiler cases; independent task lineage review"
+    },
+    {
+      "id": "Q11",
+      "medium": "evidence",
+      "request": "An old observation is registered after source or contract changes",
+      "negative_case": "The registrar silently assigns new hashes and promotes integration readiness",
+      "acceptance": "Reject supplied stale pins; preserve source/observed/independent/ownerproof distinctions",
+      "observed_scope": "Actual Foundry/App/Chat/Game regression fixtures, not universal truth authentication"
+    },
+    {
+      "id": "Q12",
+      "medium": "recovery",
+      "request": "A writer disconnects or an interrupted cleanup target changes",
+      "negative_case": "Unknown work is replayed or replacement cache files are removed by an old receipt",
+      "acceptance": "Retain command identity, reconcile terminal correlation; compare reviewed content hashes before retry; refuse stale authority",
+      "observed_scope": "Service synthetic concurrency/recovery/privacy probes; final release matrix records current result"
+    }
+  ]
+}

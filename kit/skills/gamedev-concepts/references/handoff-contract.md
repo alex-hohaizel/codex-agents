@@ -60,7 +60,7 @@ python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip
 
 ## Поточний контекст проєкту
 
-Чинний handoff protocol має `schema_version` і `suite_version` **1.0.0**, а поточний `toolkit_version` — **4.3.0**. До пакетів додавати `records/intent-lock.json`, `records/experience-coverage.json`, проєктні lessons/knowledge та readable checkpoint як звичайні artifacts з kind/status/depends_on і sha256. Використовувати фактичні requirement/decision/review IDs; контекст не є другим джерелом згоди. Приклади в assets — шаблони, не готові докази.
+Чинний handoff protocol має `schema_version` і `suite_version` **1.0.0**, а поточний `toolkit_version` — **6.0.0**. До пакетів додавати `records/intent-lock.json`, `records/experience-coverage.json`, проєктні lessons/knowledge та readable checkpoint як звичайні artifacts з kind/status/depends_on і sha256. Використовувати фактичні requirement/decision/review IDs; контекст не є другим джерелом згоди. Приклади в assets — шаблони, не готові докази.
 
 Живий облік director лежить у `.gameatelier/orchestrator/state.json`; наявні `.gameatelier/state.json`, requirements/decisions та game saves не перезаписувати. Sidecar pin-ить canonical authority файли і hashes. Для передачі включати потрібний checkpoint/контекст, inputs/masters, open decisions, stop boundary, знання та залежності; не всі внутрішні журнали. Невідомий outcome зовнішньої дії лишається unknown з ID/status-query до встановлення результату.
 
@@ -68,7 +68,7 @@ python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip
 
 `START_HERE.md` описує результат простими словами й одну наступну дію. Якщо середовище дозволяє — агент сам викликає потрібну навичку/tool. Для ручної передачі: де відкрити проект, точні файли/версії, що запустити, очікувані output/receipt, що повернути, як перевірити. Назва навички без input/output і повернення недостатня. Pause/search-only пакет може бути draft і повноцінним проміжним результатом; це не accepted production handoff.
 
-Передавати чинні systemic passports, visual production profiles, structural check receipts, незалежні semantic reviews та actual image inspections як звичайні artifacts/evidence з pinned hashes і чинними requirement IDs. Preview-ready не підміняє accepted concepts із chosen-concept decision; не вигадувати production choice для завершення карток. Поточна runtime state schema — **2.0.0**; її marker також має бути **4.3.0**.
+Передавати чинні systemic passports, visual production profiles, structural check receipts, незалежні semantic reviews та actual image inspections як звичайні artifacts/evidence з pinned hashes і чинними requirement IDs. Preview-ready не підміняє accepted concepts із chosen-concept decision; не вигадувати production choice для завершення карток. Поточна runtime state schema — **2.0.0**; її marker також має бути **6.0.0**.
 
 ## Чинні scoped профілі4.0
 
@@ -90,7 +90,7 @@ python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip
 
 `manifest.game_model` містить `path`, `sha256`, `acceptance_scope`, `scope_ref`, `scope_description`. `scope_ref` має існувати у поточних package requirements/decisions; опис називає конкретний boundedreview/repair. Без scope діє fullstage; release не приймає lower-scopelabel. Доступні labels визначає `pipeline.py model_gate/acceptance_profile`. Scoped slice_review не є fullbeta абоreleaseacceptance.
 
-Кожна linked model, включно з draft, має чинну schema **4.0.0**. Nonstudio accepted package додатково потребує due C1/T/evidence. `current_toolkit_ready` показує accepted поточний toolkit gate; `quality_certified` залишається false. `pipeline init` використовує toolkit **4.3.0**. Інші markers або попередні формати результатів не приймаються.
+Кожна linked model, включно з draft, має чинну schema **4.0.0**. Nonstudio accepted package додатково потребує due C1/T/evidence. `current_toolkit_ready` показує accepted поточний toolkit gate; `quality_certified` залишається false. `pipeline init` використовує toolkit **6.0.0**. Інші markers або попередні формати результатів не приймаються.
 
 
 ## Поточні проєктні вимоги та scope
@@ -98,3 +98,8 @@ python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip
 Accepted manifest може містити `scope` — exact project/task scope; без нього scope=`project`. Це окрема вісь від `game_model.acceptance_scope`, який визначає зрілість приймання. Отримати binding через `atelier.py context PROJECT --stage STAGE --scope SCOPE`. Project-scoped вимоги застосовні до кожного scope, а чужі bounded scopes не блокують незалежну роботу.
 
 `stage-check` для accepted claim (також без прапорця --require-accepted) перевіряє current applicable must за primary stage або типізованим масивом stages, status/closure/evidence та package inclusion. Кожний due must має бути в records/requirements із тим самим ID, status, owner й acceptance; current material decisions — у records/decisions із тим самим answer/authority. Manifest.project_context pin-ить їхні актуальні definition tokens. Просто скопіювати hash без оновлення змісту/review не є reconciliation. Pipeline transport checks без canonical project state самі не підтверджують актуальність project authority.
+
+
+## Admission6.0
+
+Tasks pin consumed_sources окремо від shared runtime identity. Зміна такого source робить affected task stale; old missing pins потребують reviewed/new task. Runtime2/model4/handoff1 schema IDs лишаються; тільки current toolkit marker6.0.0 і supported workflow adoption змінюють operating version.

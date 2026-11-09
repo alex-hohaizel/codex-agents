@@ -20,6 +20,25 @@ import sys
 import unicodedata
 import uuid
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 NAMES = frozenset({
     'agent-foundry', 'design-specialist-skills',
     'gamedev-director', 'gamedev-studio', 'gamedev-concepts',
@@ -98,7 +117,7 @@ def read_bytes(path, limit=MAX_FILE):
 
 def read_json(path):
     try:
-        return json.loads(read_bytes(path, 16 * 1024 * 1024).decode('utf-8'))
+        return strict_json_loads(read_bytes(path, 16 * 1024 * 1024).decode('utf-8'))
     except (ValueError, UnicodeError) as error:
         raise SuiteError('Invalid UTF-8 JSON: ' + str(path)) from error
 
@@ -210,7 +229,7 @@ def visual_yaml(text):
         require(key not in fields, 'Duplicate visual interface field: ' + key)
         if raw.startswith('"'):
             try:
-                value = json.loads(raw)
+                value = strict_json_loads(raw)
             except ValueError as error:
                 raise SuiteError('Unsupported visual YAML scalar: ' + key) from error
         elif raw.startswith("'"):
@@ -333,7 +352,7 @@ def effective_files(row, overlay):
 def read_kit(kit):
     kit = safe_path(kit)
     raw = read_bytes(kit / 'manifest.json', 16 * 1024 * 1024)
-    manifest = json.loads(raw.decode('utf-8'))
+    manifest = strict_json_loads(raw.decode('utf-8'))
     require(isinstance(manifest, dict) and manifest.get('schema_version') == 'atelier.skill-suite/1', 'Unsupported suite manifest')
     require(isinstance(manifest.get('suite_id'), str) and manifest['suite_id'].strip(), 'suite_id is required')
     require(manifest.get('visual_identity_policy') in (None, VISUAL_POLICY), 'Unsupported visual identity policy')

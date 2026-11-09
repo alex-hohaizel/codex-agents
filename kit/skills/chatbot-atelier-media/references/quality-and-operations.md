@@ -39,3 +39,8 @@ Carry-forward можливий тільки коли exact artifacts та тра
 При rollout фіксувати source/build/deploy ID, target, migrations, observed health/delivery і rollback trigger. Incident: severity/user impact, containment, actual evidence, causal hypothesis/test, recovery, data correctness, communication, prevention. Support escalation має destination/owner, delivery state і очікувану відповідь; не вигадувати SLA.
 
 Під час супроводу відстежувати completion/error/uncertain/retry/duplicate/queue-age, response silence/false initiative, retrieval failures/abstention, cost, latency/resource і feedback з privacy-safe telemetry. Зміни моделі/provider/schema потребують impact review та адресних evals. Перевірити export/портативність/завершення сервісу, якщо обіцяно тривале зберігання.
+
+
+## Admission6.0
+
+Integrated attempt subject requires current contract_sha256 from check_chat_contract.py --subject. Normative contract/requirement/recipe/operation/adapter changes invalidate dependent acceptance. Never add current pins to an old observation retroactively. Code/integration evidence needs an admissible kind, build_ref and environment; integration also needs actual_observation_ref. teamctl mutations require the current revision/CAS; raw save without expected_sha256 cannot overwrite stale state.

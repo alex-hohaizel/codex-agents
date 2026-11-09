@@ -1,0 +1,29 @@
+# Сумісність підключених інструментів
+
+Це правила використання перевірених пакетів у прийнятому проєкті, не копія їхніх сервісів і не доказ actual availability. Перед операцією прочитати актуальний source/параметри та перевірити потрібний рівень доступу. Конкретна воля користувача, предметні інваріанти й політика host мають відповідний пріоритет; конфлікт показати до залежної дії. Повний каталог усіх інструментів не завантажувати в кожну задачу.
+
+| Операція | Обов'язковий спосіб роботи |
+|---|---|
+| Назва/UI metadata навички | Адресний patch; зберегти `name`, `policy`, `dependencies` та незачеплені поля. Генератор, що перезаписує YAML, не є безпечним rename. Перевірити actual diff. |
+| Генерація зображення | Використати підтриманий built-in маршрут; fallback лише за чинним explicit scope. Перевірити output collision до виклику, actual budget/permissions і pending/unknown effect. Timeout не доводить відсутність роботи; спершу reconciliation. Local ledger не гарантує exactly-once провайдера. |
+| Генерація/візуальне приймання | Actual output оглянути за предметною рубрикою та інтеграцією. Промпт/опис не є доказом зображення, delivery або поведінки. Required QA не скасовується інструкцією пакета «не переглядати власну генерацію». |
+| Новий Google Doc / редагування | Native create/edit за фактичним бажаним результатом і підтриманими tools; Word import потрібний для запитаного conversion/Word source або обґрунтованого обраного маршруту. Не робити прихований export/import для read-only Q&A. |
+| Таблиця/Slides | Зберегти identity/target існуючого документа. Ремонт закінчується після належних current checks; механічний третій цикл без дефекту не додається. Після повторів без прогресу змінити діагностику. |
+| DOCX redaction | Звірити реальний `--help` helper; documented flags можуть бути stale. Перевірити зміст і довжину заміни на synthetic fixture до actual document. Не називати anonymized без перевірки всіх застосовних носіїв даних. |
+| Go review | Вибрати предметний lead general/distributed/fintech, вузькі style references за потребою. Baseline tooling failures фіксувати окремо. `gofmt` приймає files/directories, не package pattern `./...`. |
+| Go concurrency / API | Cancel має охоплювати очікування input/output і всі owned goroutines; WithoutCancel потребує bounds/owner/drain. APQ не є allowlist без окремої серверної політики. Unimplemented gRPC embedding не доводить ручну реалізацію нових методів. Clip не звільняє той самий backing array. |
+| Доступ до даних | Перевірка owner/tenant/object authorization потрібна незалежно від UUID. Загальна порада уникати RLS не скасовує прийняту isolation модель. Для Supabase helper policy перевірити actual EXECUTE grants і search_path за вибраною моделлю. |
+| Database constraints | Прив'язати перевірку constraint до конкретної таблиці/schema/OID; одне ім'я може бути неунікальним. Міграції перевірити на потрібних ролях і сценаріях. |
+| Перенесення Heroku/Render | Names-only/redacted inventory секретів; значення не просити вставляти в чат. Для snapshot/cutover зупинити або узгоджено fenced усіх writers, включно workers/schedulers/external sync. Maintenance mode HTTP недостатній. |
+| Перенесення Redis | RDB binary не є RESP command stream для `--pipe`. Вибрати підтриманий provider/import або перевірений DUMP/RESTORE route із TTL/type/count, writer/replay та rollback правилами. |
+| Публікація website/cloud | Уточнити, чи actual deploy одразу публічний і яка БД live. Підготовлений preview/показ результату не створює нового deployment grant. Не вигадувати staging/container/GLB capability без exact supported operation. |
+| Візуалізація/Page | Локальний widget може пояснювати стан; його shared/sandbox state не стає authority для product decisions. Наявність visual не доводить API керування Work-чатом або фонової роботи. |
+| Native destination і requested format | Створення/import/edit/copy — різні операції. Зберегти existing object ID, структуру й editability; actual requested PPTX/DOCX/XLSX не підміняти default viewer/Spaces. Підтриманий export перевірити до обіцянки доставки. |
+| Supabase UPDATE і DDL | PostgreSQL для UPDATE/ALL використовує USING також як WITH CHECK, якщо окремий check відсутній; не вигадувати automatic owner bypass. Actual MCP execute_sql contract може вимагати apply_migration для DDL; pin target/environment, local CLI iteration окремо від hosted mutation. |
+| Queue persistence | Oban використовує підтриманий SQL engine, не Redis queue backend. Перевірити actual engine/version; named URL/host:port має відповідати parser споживача. |
+| Генерація й identity | Provider recipe про variety/scroll film/default theme не скасовує explicit task/accepted identity. Actual visual/playback review не забороняється на підставі механічного anti-regeneration default; коригувати дефект із bounded changed hypothesis. |
+| Consuming upload/retry | Втрата відповіді не доводить відсутність effect. Перед повторним upload/send/create звірити provider ID/current state; definite rejection, unknown outcome і successful receipt розділяти. |
+| Deploy і monitoring | Actual branch/remote/CI/autodeploy/scope замість hardcoded push main; thresholds із workload/SLO/baseline, не universal p95/memory certification. Після connect продовжити чинне доручення, якщо route вже доступний. |
+| Актуальність пакетних вказівок | Датовані конкурси/credits/host policy перевіряти перед застосуванням; не переносити onboarding defaults на повний production scope. Структурні/keyword graders доповнювати actual предметними probes. |
+
+Джерельні guards уточнено за первинною документацією та source/probes аудитів2026-11-04 і2026-11-09; це не universal live verification. Ця таблиця не є live-сертифікацією сервісів. Для недоступного/суперечливого required маршруту підготувати exact gap і здатний host; зберігати потрібний обсяг, а не позначати його N/A через відсутність інструмента.

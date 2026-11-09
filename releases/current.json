@@ -1,10 +1,10 @@
 {
   "schema_version": "codex-agents.release/1",
-  "repository_version": "1.1.0",
-  "suite_version": "5.0.0",
-  "release_date": "2026-11-08",
-  "release_notes": "releases/5.0.0.md",
-  "migration": "releases/migrations/5.0.0.md",
+  "repository_version": "1.2.0",
+  "suite_version": "6.0.0",
+  "release_date": "2026-11-09",
+  "release_notes": "releases/6.0.0.md",
+  "migration": "releases/migrations/6.0.0.md",
   "requirements": "governance/requirements.csv",
   "stable_skill_names": [
     "agent-foundry",
@@ -41,7 +41,7 @@
     "gamedev-release",
     "gamedev-studio"
   ],
-  "source_manifest_sha256": "489c59fa08cccb77ecdfb0d609521320e1d16504b72494f3866ec845e8d50b07",
+  "source_manifest_sha256": "5cd3ab1d03f271343076e54d92320a9230672ebac7c70417f57ffa1a2606d1d8",
   "optional_skills": [
     {
       "name": "codex-agents-maintenance",
@@ -49,14 +49,27 @@
       "source": "maintenance-skill",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported installation; source inclusion does not prove host installation"
+    },
+    {
+      "name": "atelier-orchestrator",
+      "version": "1.0.0",
+      "source": "optional-skills/atelier-orchestrator",
+      "included_in_baseline_count": false,
+      "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
     }
   ],
-  "repository_release_notes": "releases/repository-1.1.0.md",
+  "repository_release_notes": "releases/6.0.0.md",
   "marketing_showcase": "marketing/campaign/README.md",
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
-  "repository_migration": "releases/migrations/repository-1.1.0.md",
+  "repository_migration": "releases/migrations/6.0.0.md",
   "marketing_artwork_languages": [
     "en",
     "uk"
-  ]
+  ],
+  "local_service": {
+    "name": "agent-atelier",
+    "version": "0.1.0",
+    "source": "apps/agent-atelier",
+    "scope": "Personal Mac first; real supported Codex integration; Work deferred"
+  }
 }

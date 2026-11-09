@@ -13,6 +13,26 @@ from pathlib import Path, PurePosixPath
 import re
 import stat
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 FIELDS = ('icon_small', 'icon_large', 'brand_color')
 SUFFIXES = {'.svg', '.png', '.webp', '.jpg', '.jpeg', '.gif', '.ico'}
 
@@ -60,7 +80,7 @@ def interface(root):
             d[k] = value
         return d
     if text.lstrip().startswith('{'):
-        data = json.loads(text, object_pairs_hook=unique)
+        data = strict_json_loads(text, object_pairs_hook=unique)
         require(isinstance(data,dict) and isinstance(data.get('interface', {}), dict), 'interface must be mapping')
         return {k: data['interface'][k] for k in FIELDS if k in data.get('interface', {})}
     require('\t' not in text, 'tabbed YAML is unsupported; parse actual UI first')
@@ -69,7 +89,7 @@ def interface(root):
         match = key_pattern.fullmatch(line)
         require(match is not None, 'unsupported YAML mapping key; preserve by explicit parser')
         raw, double, single, value = match.groups()
-        key = raw if raw is not None else json.loads(double) if double is not None else single[1:-1].replace("''", "'")
+        key = raw if raw is not None else strict_json_loads(double) if double is not None else single[1:-1].replace("''", "'")
         return key, value
     lines=text.splitlines(); blocks=[]; roots=set()
     for i,line in enumerate(lines):
@@ -96,7 +116,7 @@ def interface(root):
             continue
         require(bool(value) and value[0] not in '&*!|>{[', 'complex icon value unsupported')
         if value.startswith('"'):
-            value=json.loads(value)
+            value=strict_json_loads(value)
         elif value.startswith("'"):
             require(value.endswith("'"), 'invalid quoted icon value')
             value=value[1:-1].replace("''", "'")
@@ -145,7 +165,7 @@ def main():
         if a.command=='create-project':out=create(root,a.glyph)
         elif a.command=='freeze':out=freeze(root,a.kind)
         else:
-            require(not a.lock.is_symlink(),'linked snapshot');old=json.loads(a.lock.read_text())
+            require(not a.lock.is_symlink(),'linked snapshot');old=strict_json_loads(a.lock.read_text())
             require(old.get('schema')=='visual-identity/1' and old.get('class') in ('system','project'),'unsupported snapshot')
             current=freeze(root,old['class']);require(current==old,'visual identity changed')
             out={'valid':True,'identity_preserved':True,'snapshot':current}

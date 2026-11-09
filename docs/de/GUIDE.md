@@ -2,10 +2,41 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**Grundlage dieses Leitfadens:** Agent System 5.0.0, 7. November 2026. **Wiederverwendbares Paket:** 33 Skills. Dieser Leitfaden behandelt eine neue Installation, die tägliche Arbeit, die gemeinsame Arbeit an einem Projekt in Work und Codex sowie die Aktualisierung eines bestehenden Projekts. Die Repository-Dokumentation und Paketrevisionen können sich ändern, ohne dass sich die zugrunde liegende Skill-Version ändert; lies vor einer Aktualisierung den Release-Eintrag.
+**Grundlage dieses Leitfadens:** Agent System 6.0.0, 9. November 2026. **Wiederverwendbares Paket:** 33 Skills. Dieser Leitfaden behandelt eine neue Installation, die tägliche Arbeit, die gemeinsame Arbeit an einem Projekt in Work und Codex sowie die Aktualisierung eines bestehenden Projekts. Die Repository-Dokumentation und Paketrevisionen können sich ändern, ohne dass sich die zugrunde liegende Skill-Version ändert; lies vor einer Aktualisierung den Release-Eintrag.
 
 
-**Kampagne und Repository-Edition 1.1.0:** [Englische Werbung](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). Die Kampagne umfasst zehn entsprechende Materialien je Sprache zu Anwendungen, Spielen, Chatbots, Plattformen, Automatisierung und eigenen Spezialisten. Werbung ist nur auf Englisch und Ukrainisch verfügbar; jeder Leitfaden bleibt in seiner angegebenen Sprache vollständig. Diese Edition ändert Präsentationsmaterial, Dokumentation und kompatible Repository-Werkzeuge; die wiederverwendbare Suite bleibt 5.0.0. Bestehende verifizierte Installationen benötigen keine Neuinstallation und kein Zurücksetzen des Produkts. Setze dasselbe Projekt mit seinen Anforderungen, seiner Designidentität, seinen Entscheidungen und seinem Checkpoint fort und lies vor der nächsten davon abhängigen Aufgabe die aktuellen Repository-Anweisungen.
+**Aktuelles Release:** Suite 6.0.0, Repository 1.2.0, optional Atelier Orchestrator 1.0.0 und lokaler Agent Atelier 0.1.0. Lies vor der Aktualisierung [die genaue 6.0-Migration](../../releases/migrations/6.0.0.md). Die frühere 1.1.0-Kampagne bleibt unverändert: [englische Werbung](../../marketing/campaign/README.md) und [ukrainische Werbung](../../marketing/campaign/README.uk.md), zehn Materialien je Sprache. Werbung ist EN/UK; Leitfäden und Dienstoberfläche decken alle sieben angegebenen Sprachen ab. Live-Audit, Aktualisierung, Installation und Steuerung in Work werden in einer separaten Aufgabe behandelt; ein Quellarchiv oder eine Repository-Verbindung ist kein Installationsbeleg.
+
+## 0. Auf 6.0 aktualisieren und den lokalen Arbeitsbereich öffnen
+
+1. Wähle einen exakten verifizierten Release-Commit. Bewahre die aktuellen Quellen der 33 Skills, Icon-Dateien/-Bindungen/-Farben/-Klassen, lokale Änderungen und Besitznachweise. Sichere native Projektanforderungen, angenommene Identität/Persona, Entscheidungen, Berechtigungen, offene Aufgaben und ungeklärte Effekte. Eine Installation migriert kein Produkt.
+2. Lies in `kit/` die Hilfe des portablen Updaters und prüfe dann den exakten Kandidaten. Kontrolliere vor apply alle 33 Einträge, Konflikte und die visuelle Erhaltung. Pläne und Backups gehören außerhalb der Skill-Erkennungsverzeichnisse.
+
+```bash
+python3 portable/update_skill_suite.py --help
+python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+```
+
+3. Ersetze den Journal-Platzhalter ausschließlich durch den tatsächlich von apply zurückgegebenen Pfad. Unbekannte Abweichungen müssen geklärt werden; erzwinge kein Überschreiben. Prüfe tatsächliche Erkennung/Quellenladung und eine begrenzte Aufgabe getrennt. Bestehende Icons und andere Skills bleiben erhalten.
+4. Prüfe das Codex-Hostprofil getrennt vom Repository-Stamm aus: `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Wende es mit `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json` an, danach mit `verify --journal /absolute/host-journal.json` prüfen. Der verwaltete Block erhält bestehende globale Anweisungen; die zwölf begrenzten Rollen behalten ihre Modelle und Beschränkungen externer Effekte. Das tatsächliche Laden im Host ist eine eigene Prüfung.
+5. Installiere optional `atelier-orchestrator` mit dem unterstützten Skill-Manager aus `optional-skills/atelier-orchestrator` des gewählten Commits. Er gehört nicht zum33-Core-Updater; vorhandene Quellen belegen weder Installation noch erfolgreiche Ausführung. Der bestehende Wartungs-Skill bleibt ebenfalls separat optional.
+6. Baue den lokalen Dienst aus den Quellen mit der festgeschriebenen Lockdatei und Node.js 24.22.2 oder einer unterstützten neueren Laufzeit. Führe in `apps/agent-atelier/` Folgendes aus. Für die erste Abhängigkeitsinstallation ist Netzwerkzugriff erforderlich; ein neuer kostenpflichtiger Dienst ist damit nicht verbunden.
+
+```bash
+npm ci --ignore-scripts
+npm run build
+node launcher/atelier.mjs start
+node launcher/atelier.mjs status
+node launcher/atelier.mjs doctor
+node launcher/atelier.mjs stop
+```
+
+7. Auf dem Mac startet nach dem Build ein Doppelklick auf `apps/agent-atelier/launcher/Agent Atelier.command` den Dienst. Der Launcher öffnet Loopback, verwendet seine eigene laufende Instanz erneut und aktiviert keinen Anmeldungs-Autostart. Wähle einen konkreten Projektstamm, prüfe dessen Vorschau und verbinde ihn dann. Die Zuordnung ist schreibgeschützte Projekterkennung, keine Produktübernahme und keine Erlaubnis für alle künftigen Aufgaben. Der Demomodus enthält erfundene Daten und führt keine Befehle aus.
+8. Bereite eine Aufgabe mit exaktem Umfang, Eingaben, Abnahme und Grenzen vor und starte sie über den unterstützten Codex-Adapter. Quelle, handwerkliche Qualität, Integration, Gerät, unabhängige Prüfung und Eigentümerabnahme haben unterschiedliche Zustände. Ein Abbruch ist erst nach dem tatsächlichen Host-Ergebnis bestätigt. Bestehende Chats benötigen genaue Identität/cwd und eine Übergabe im Ruhezustand; ein Dienst-Lease sperrt keinen anderen Desktop-Schreibprozess. Gleiche einen ungeklärten Effekt vor einem erneuten Versuch ab.
+9. Bestehende Foundry-Sitzungen verwenden `suite-update-plan` und einen geprüften `refresh --accept-suite-update`-Datensatz mit exakten Quellzustands-/Ziel-Hashes. App state/1 benötigt keine toolkitbedingte Formatmigration. Integrierte Chat-Nachweise benötigen aktuelle Bindungen des Vertragsgegenstands und eine echte neue Beobachtung; alte Beweise werden nicht rückwirkend ergänzt. Game verwendet das unterstützte Workflow-Upgrade 5→6 und behält runtime2/model4/handoff1 bei. Erzeugte Agenten benötigen einen Quell-Ziel-Vergleich und eine Wiederaufnahme ohne verborgenen Chatkontext; kein Projekt wird zurückgesetzt.
+10. Dienstsicherung und -wiederherstellung betreffen nur den Dienstzustand: Prüfe die exakte Sicherung vorab, gleiche Aufträge ab und erhalte widerrufene Berechtigungen; Produktdatenbanken oder externe Effekte werden nicht wiederhergestellt. Skill-Rollback verwendet das tatsächliche Updater-Journal; Hostprofil-Rollback verwendet sein eigenes Journal und weist spätere Abweichungen zurück. Live-Installation/-Steuerung in WORK bleibt zurückgestellt. Lies die [ausführliche Migration](../../releases/migrations/6.0.0.md) und die [Dienstanleitung](../../apps/agent-atelier/README.md) zu Wiederherstellung und unterstützten Grenzen.
 
 ## 1. Was du damit erhältst
 
@@ -348,7 +379,7 @@ Ein festgefahrenes Gespräch ist kein Nachweis dafür, dass dessen letzter Vorga
 
 Jedes Release soll erklären, was sich geändert hat, welche Nutzer betroffen sind, Voraussetzungen, Installationsschritte, Übernahmeschritte für Projekte, Überprüfung, bekannte Einschränkungen und Rückabwicklung. Auch der allgemeine Leitfaden muss sich ändern, wenn sich der normale Ablauf ändert. Verlasse dich nicht allein auf eine Versionsnummer.
 
-Das gemeinsame Release 5.0.0 führt Konstruktoren und alle drei Familien unter einer sichtbaren Paketversion zusammen. Es ergänzt einen gemeinsamen adaptiven Arbeitsansatz, Fachrecherche und Synthese, die Behandlung visueller Identität sowie einen gemeinsamen Work↔Codex-Weg. Historische Protokoll- und Laufzeitschema-Nummern bleiben getrennt. Ein altes Schema ohne tatsächliche Migration in „5.0.0“ umzubenennen, würde die Kompatibilität brechen, statt das Projekt zu modernisieren.
+Release 6.0.0 erhält die 33 stabilen Namen und die Icon-Identität und stärkt zugleich Nachweise, Quellabhängigkeiten, JSON-Annahme und Zustandsschreibvorgänge. Es ergänzt eigenständig nutzbare Produktions-/Kontextprofile und explizite Referenztreue. Historische Protokoll- und native Laufzeitschema-Nummern bleiben getrennt; ein altes Schema ohne Migration in die Suite-Nummer umzubenennen, bricht die Kompatibilität.
 
 ### Bestehende Projekte aus Agent Systems 2.3 / Game 4.3
 
@@ -361,7 +392,7 @@ Das gemeinsame Release 5.0.0 führt Konstruktoren und alle drei Familien unter e
 7. Prüfe jede betroffene Anforderung und die Abnahmekriterien der aktuellen Phase erneut. Führe eine kleine reale Fortsetzungsaufgabe aus und sichere ihre Nachweise.
 8. Halte die übernommene Toolkit-Version im Produktcheckpoint fest. Bewahre den Migrationseintrag auf, damit der nächste Chat den Übergang erklären kann.
 
-Game 5.0.0 enthält einen geprüften Weg zur Aktualisierung des Arbeitsablaufs für Projekte aus 4.2.0/4.3.0 und behält dabei Laufzeitschema 2.0.0 bei. Die Verwendung hängt vom tatsächlichen Projektzustand und den unterstützten Eingaben des Werkzeugs ab. Auch App- und ChatBot-Projekte brauchen ihre eigene Zustands- und Kompatibilitätsprüfung; sie dürfen nicht allein deshalb durch eine Spielmigration geleitet werden, weil das Paket eine gemeinsame Version hat.
+Game6.0.0 enthält einen geprüften Weg zur Aktualisierung des Arbeitsablaufs für Projekte aus 4.2.0/4.3.0/5.0.0 und behält dabei Laufzeitschema 2.0.0 bei. Die Verwendung hängt vom tatsächlichen Projektzustand und den unterstützten Eingaben des Werkzeugs ab. Auch App- und ChatBot-Projekte brauchen ihre eigene Zustands- und Kompatibilitätsprüfung; sie dürfen nicht allein deshalb durch eine Spielmigration geleitet werden, weil das Paket eine gemeinsame Version hat.
 
 ### Zuvor mit einem Konstruktor erstellte Agenten
 

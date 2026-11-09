@@ -15,6 +15,26 @@ import re
 import sys
 from zipfile import BadZipFile, ZipFile
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 TYPES = {
     'apk': ('android', False),
     'aab': ('android', False),
@@ -148,7 +168,7 @@ def main() -> int:
         root = args.package.resolve(strict=True)
         if not root.is_dir():
             raise ValueError('package must be a directory')
-        document = json.loads(args.receipts_json.read_text())
+        document = strict_json_loads(args.receipts_json.read_text())
         errors = verify(root, document)
     except (ValueError, OSError) as exc:
         errors = [str(exc)]

@@ -15,6 +15,26 @@ import sys
 from pathlib import Path
 
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 DEFAULT_SCHEMA = Path(__file__).resolve().parents[1] / "assets" / "systemic-passport.schema.json"
 REVIEW_SCOPE = "pre_illustration_systemic_passport"
 
@@ -522,8 +542,8 @@ def validate_passports(value, schema, profiles=None, evidence=None, reviews=None
 
 def _load(path):
     if path == "-":
-        return json.load(sys.stdin)
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+        return strict_json_loads(sys.stdin.read(256 * 1024 * 1024 + 1))
+    return strict_json_loads(Path(path).read_text(encoding="utf-8"))
 
 
 def main(argv=None):

@@ -5,6 +5,25 @@ import json
 import sys
 from pathlib import Path
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 EVIDENCE_RESULTS = {'pass', 'passed', 'accept', 'accepted', 'observed', 'fail', 'failed', 'reject', 'rejected',
                     'pending', 'not_run', 'running', 'unknown', 'uncertain', 'cancelled', 'inconclusive', 'blocked'}
 ACCEPTED_RESULTS = {'pass', 'passed', 'accept', 'accepted'}
@@ -18,7 +37,7 @@ def _check(data, source_root=None):
         return ['round must be an object']
     def text(value):
         return isinstance(value, str) and bool(value.strip())
-    profile = json.loads((Path(__file__).resolve().parents[1] / 'assets/requirements.json').read_text())
+    profile = strict_json_loads((Path(__file__).resolve().parents[1] / 'assets/requirements.json').read_text())
     baseline = {r['id'] for r in profile['requirements']}
     require(data.get('schema_version') == 'chatbot.round/1', 'schema_version must be chatbot.round/1')
     brief = data.get('brief', {})
@@ -142,6 +161,21 @@ def _check(data, source_root=None):
             for eid in refs if valid_refs else []:
                 item = evidence_map.get(eid, {})
                 require(item.get('result') in ('pass', 'passed', 'accept', 'accepted'), 'passed readiness axis has unsuccessful evidence: ' + str(axis))
+                admissible = {
+                    'specification': {'source', 'specification', 'code', 'execution', 'integration', 'independent'},
+                    'code': {'code', 'execution', 'integration', 'device', 'live_provider'},
+                    'integration': {'integration', 'device', 'live_provider'},
+                    'device': {'device'},
+                    'human': {'human'},
+                }
+                require(item.get('kind') in admissible.get(axis, set()),
+                        'readiness axis needs admissible ' + str(axis) + ' evidence kind')
+                if axis in {'code', 'integration'}:
+                    require(text(item.get('build_ref')) and text(item.get('environment')),
+                            'readiness axis needs exact build and environment: ' + str(axis))
+                if axis == 'integration':
+                    require(text(item.get('actual_observation_ref')),
+                            'integration readiness needs actual execution observation evidence')
                 if axis == 'human':
                     require(item.get('kind') == 'human' and text(item.get('actual_observation_ref')),
                             'human readiness needs actual human observation evidence')
@@ -163,7 +197,7 @@ if __name__ == '__main__':
     parser.add_argument('file', type=Path)
     args = parser.parse_args()
     try:
-        data = json.loads(args.file.read_text())
+        data = strict_json_loads(args.file.read_text())
         issues = check(data, source_root=args.file.parent)
     except (OSError, ValueError, IndexError, KeyError, TypeError, AttributeError) as error:
         print('INVALID: ' + str(error))

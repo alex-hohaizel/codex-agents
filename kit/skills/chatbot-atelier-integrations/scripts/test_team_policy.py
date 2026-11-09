@@ -52,7 +52,7 @@ def fixture(directory, local=False):
 
 class AdaptiveTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
         self.plan,self.runs,self.ids,self.profile=fixture(self.root)
     def check(self,plan=None,runs=None):

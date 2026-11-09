@@ -5,6 +5,25 @@ import hashlib
 import json
 from pathlib import Path
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 LEVEL = {"draft": 0, "design": 1, "production": 2}
 KINDS = {"source", "calculation", "local", "integration", "independent", "human", "device", "external"}
 
@@ -260,7 +279,7 @@ def main():
     parser.add_argument("--root", type=Path)
     args = parser.parse_args()
     try:
-        data = json.loads(args.project.read_text(encoding="utf-8"))
+        data = strict_json_loads(args.project.read_text(encoding="utf-8"))
         errors = validate(data, args.root or args.project.parent, args.gate)
     except (ValueError, OSError, TypeError, KeyError) as exc:
         errors = [str(exc)]

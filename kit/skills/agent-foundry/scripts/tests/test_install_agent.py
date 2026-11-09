@@ -26,7 +26,7 @@ def module(path):
 
 class PortableTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
+        self.tmp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.base = Path(self.tmp.name)
         self.tools = self.base / "constructor/scripts"
         self.tools.mkdir(parents=True)
@@ -472,14 +472,33 @@ class PortableTests(unittest.TestCase):
         for n, name in enumerate(("C:drive", "NUL.txt", "trailing.", "line\nname")):
             root = self.base / ("invalid" + str(n));root.mkdir();(root / name).write_text("bytes")
             with self.subTest(name=name), self.assertRaises(ValueError):package.write_archive(root, self.base / ("bad" + str(n) + ".zip"), self.api)
-        root = self.base / "case-conflict";(root / "A").mkdir(parents=True);(root / "a").mkdir();(root / "A/one").write_text("one");(root / "a/two").write_text("two")
-        with self.assertRaises(ValueError):package.write_archive(root, self.base / "collision.zip", self.api)
+        root = self.base / "case-conflict";(root / "A").mkdir(parents=True);(root / "A/one").write_text("one")
+        if (root / "a").exists():
+            # APFS cannot hold both entries. Exercise the real portable-prefix
+            # admission guard with the equivalent inventory, before the second
+            # conflicting path can be opened. Other files retain real bytes.
+            inventory={'A/one':self.api.digest(b'one'),'a/two':self.api.digest(b'two')}
+            with mock.patch.object(self.api,'file_map',return_value=inventory),self.assertRaisesRegex(ValueError,'Case/normalization'):
+                package.write_archive(root, self.base / 'collision.zip', self.api)
+        else:
+            (root / "a").mkdir();(root / "a/two").write_text("two")
+            with self.assertRaises(ValueError):package.write_archive(root, self.base / "collision.zip", self.api)
 
     def test_manifest_paths_names_emptyset_and_unknown_extra_skill(self):
         self.skills(1);self.build();path = self.kit / "manifest.json";original = json.loads(path.read_text())
         for change in ({"agent_id": "../outside"}, {"skills": []}, {"entry_skill": "missing"}, {"version": "1.0.0-01"}):
             value = dict(original, **change);path.write_text(json.dumps(value));self.install(expected=2)
         path.write_text(json.dumps(original));(self.kit / "skills/undeclared").mkdir();self.install(expected=2)
+
+    def test_historical_operating_standard_keeps_its_exact_eight_resource_contract(self):
+        self.skills(1);self.build()
+        manifest=json.loads((self.kit/'manifest.json').read_text())
+        standard=manifest['operating_standard'];standard['release']='5.0.0'
+        standard['resources']={key:value for key,value in standard['resources'].items() if key in self.api.LEGACY_OPERATING_RESOURCES}
+        self.assertTrue(self.api.validate_manifest(manifest))
+        standard['release']='6.0.0'
+        with self.assertRaisesRegex(self.api.InstallError,'every portable resource'):
+            self.api.validate_manifest(manifest)
 
     def test_gate_pending_changed_skillset_and_identity_cannot_export(self):
         self.skills(3);self.gate(False)

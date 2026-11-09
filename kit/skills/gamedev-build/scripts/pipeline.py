@@ -12,8 +12,27 @@ import types
 import zipfile
 from pathlib import Path, PurePosixPath
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 VERSION = "1.0.0"
-TOOLKIT_VERSION = "5.0.0"
+TOOLKIT_VERSION = "6.0.0"
 KINDS = {
     "studio": "studio_identity brand_master brand_rules setup_runbook rights_ledger",
     "concepts": "studio_identity concept_comparison selected_concept progression_model economy_model visual_baseline validation_plan",
@@ -35,7 +54,7 @@ def required_decisions(stage):
     return result
 
 def read_json(path):
-    return json.loads(path.read_text(encoding="utf-8"))
+    return strict_json_loads(path.read_text(encoding="utf-8"))
 
 def write_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)

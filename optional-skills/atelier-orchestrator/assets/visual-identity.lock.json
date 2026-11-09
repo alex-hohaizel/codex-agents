@@ -1,0 +1,13 @@
+{
+  "schema": "visual-identity/1",
+  "class": "system",
+  "interface": {
+    "icon_small": "./assets/icon.svg",
+    "icon_large": "./assets/icon.svg",
+    "brand_color": "#21CFC4"
+  },
+  "files": {
+    "assets/icon.svg": "ae3dcf423dcdf7acfd84e3d299b8abb1242daf4b1817e6d7f1941922d49c1051"
+  },
+  "regenerate_on_update": false
+}

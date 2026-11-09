@@ -115,13 +115,13 @@ class BlueprintV2Tests(unittest.TestCase):
         d['brief'] = []
         self.assertTrue(b.check(d))
     def test_removed_migration_command_rejects_without_changing_source(self):
-        with tempfile.TemporaryDirectory() as t:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as t:
             src=Path(t)/'previous.json'; original=json.dumps(dict(fixture(),schema_version='skill.blueprint/1'));src.write_text(original)
             dst=Path(t)/'current.json'
             result=subprocess.run([sys.executable,str(Path(b.__file__)),'migrate',str(src),'--output',str(dst)],capture_output=True)
             self.assertNotEqual(result.returncode,0);self.assertEqual(src.read_text(),original);self.assertFalse(dst.exists())
     def test_hash_cli_rejects_previous_format(self):
-        with tempfile.TemporaryDirectory() as t:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as t:
             src=Path(t)/'previous.json';src.write_text(json.dumps(dict(fixture(),schema_version='skill.blueprint/1')))
             result=subprocess.run([sys.executable,str(Path(b.__file__)),'hash',str(src)],capture_output=True)
             self.assertNotEqual(result.returncode,0)

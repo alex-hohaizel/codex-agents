@@ -6,6 +6,26 @@ import json
 import re
 from pathlib import Path
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 SELECTORS = {"app": "app-atelier-director", "chatbot": "chatbot-atelier-director", "agent_skill": "design-specialist-skills"}
 ALLOWED_SELECTORS = {
     "app": {"app-atelier-" + stage for stage in ("director", "research", "concepts", "specification", "experience", "build", "support", "qa", "release", "growth", "operations")},
@@ -242,7 +262,7 @@ def main():
     parser.add_argument("--ready", action="store_true", help="Check receiving readiness, not product completion")
     args = parser.parse_args()
     try:
-        errors = check(json.loads(args.file.read_text(encoding="utf-8")), args.root or args.file.parent, args.ready)
+        errors = check(strict_json_loads(args.file.read_text(encoding="utf-8")), args.root or args.file.parent, args.ready)
     except (OSError, ValueError) as exc:
         errors = [str(exc)]
     print(json.dumps({"structurally_valid": not errors, "quality_certified": False, "errors": errors}, ensure_ascii=False, indent=2))

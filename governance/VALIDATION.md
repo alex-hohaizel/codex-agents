@@ -1,37 +1,32 @@
 # Repository verification record
 
-Repository edition **1.1.0**; reusable suite **5.0.0**. Current task date: 2026-11-08. Final observed results and remote revision belong in `governance/TASK_CLOSEOUT.json`.
+Repository edition 1.2.0; reusable suite 6.0.0. Current scoped results belong in [RELEASE_6_VERIFICATION.json](RELEASE_6_VERIFICATION.json). Historical campaign closeout remains under `history/TASK_CLOSEOUT-1.1.0.json`.
 
-## Source and identity scope
+## Source and identity
 
-The canonical suite baseline contains 33 stable skills and 2,955 skill files. Its release verifier covers 2,962 curated source/support files; manifest SHA-256 is `489c59fa08cccb77ecdfb0d609521320e1d16504b72494f3866ec845e8d50b07`. The edition must preserve the canonical skill and installed-icon baseline bytes. Guide files intentionally change to add localized campaign/compatibility entries, so the former comparison that included unchanged guide files is not evidence for this edition.
+The current kit contains33 stable skills,3,088 declared skill files and3,095 curated source/support files. `releases/current.json` binds the exact current manifest. Its predecessor 5.0.0 manifest descriptors, original interfaces and historical trees remain available for exact updater admission. Existing core icon bytes/bindings/colors remain bound to `ICON_BASELINE.json`;6.0.0 intentionally changes reviewed instructions/helpers.
 
-The original Ukrainian campaign cover is preserved with SHA-256 `ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f`. English artwork is a corresponding lettering localization. Intended 1:1 composition is separate from measured pixel identity; the localization review must state what was actually inspected.
+No product state is reset or adopted merely by installation. Native format versions, generated-agent toolkit locks, service state and repository edition remain separate.
 
-## Current required checks
+## Required release checks
 
 ```sh
+python3 -B scripts/materialize_standards.py --check
 python3 -B kit/verify_release.py
 python3 -B scripts/check_repository.py
 python3 -B marketing/campaign/check_campaign.py
-python3 -m unittest discover -s scripts/tests -v
+python3 -B -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-Run against the final source tree after localization and cleanup. The campaign check covers both language inventories, artifact receipts/page counts and source-image correspondence. Visual review of translated content, composition preservation and rendered PDFs is separate from file-hash checks. Record actual browser testing separately; source parsing alone is not browser layout acceptance.
+After reviewed core edits, use `scripts/refresh_kit_manifest.py --predecessor EXACT_COMMIT --write` to bind the exact prior Git source and recompute descriptors/integrity. The tool does not establish semantic approval; review source changes before using it. Run domain tests appropriate to changed contracts and the local service check/test/build described in its README.
 
-The full guides remain complete in seven languages. Equivalent localized campaign/compatibility paragraphs were added without changing installation commands, numbered steps or stable skill identifiers; `docs/translations.json` records their current English source hash and localized hashes. Advertising is EN/UK only.
+Check both archive CRC/inventories/hashes; exclude private project/audit/account material, local state, dependencies and built transient files. Source packages do not install skills or prove Work parity. Exact installed updater journals, host-profile receipt, optional skill discovery, model behavior, browser/craft review, publication and remote CI are separate observations.
 
-Current packages must include the new campaign and exclude deleted draft advertising, private product agents, credentials, chat histories and host-specific evidence. Check both archive inventories and hashes, and record reproducibility only when actually compared. Work/Codex source bundles do not perform installation merely by existing or being extracted.
+Seven full guides preserve translated steps/commands and corresponding hashes. Seven UI catalogs must cover all current keys; actual language/layout review remains separate from key parity. The current marketing images are historical accepted references, not screenshots of a live product or certification of all illustrated capabilities.
 
-## Publication and task closeout
+## Publication
 
-Read the current remote head before writing, reconcile intervening changes, publish the authorized cleanup with the expected parent, and read back the final ref/tree and affected paths. An attempted upload or local passing check is not publication. Record actual remote CI separately; a workflow file is not proof of a successful run. Do not mark remote publication or CI completed before observing their results.
+Read the current remote ref, reconcile intervening changes, publish authorized reusable files, then verify the actual ref/tree/changed paths. Observe CI for that exact commit before recording success. Retain private raw evidence outside reusable sources; publish only sanitized scope/results/limitations.
 
-`TASK_CLOSEOUT.json` starts with pending evidence fields and is finalized by the publishing executor. This record intentionally does not fabricate final commit IDs, remote paths or CI outcomes.
-
-## Historical baseline evidence
-
-The original 1.0.0 release recorded a successful isolated portable-updater audit/apply/verify/rollback using its actual journal, seven repository-tool tests and a successful source check. Those historical results establish that baseline only; they do not prove execution on the final 1.1.0 candidate, current host discovery, device testing or product acceptance.
-
-No product-state migration, production deployment or user-host installation is performed by this presentation/documentation task.
+The5.0.0 campaign release and its tests are historical. The current verification record does not reuse them as proof of6.0.0 source behavior, installation or model operation.

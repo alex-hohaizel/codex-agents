@@ -13,3 +13,8 @@
 Фіксувати finding/severity/repro/input/output hashes і вплив. Автор усуває причину; незалежний reviewer повторює зачеплені checks. Старий fail не переписувати pass. Зміна source/artifact/proof відкриває відповідний verdict. Не повторювати весь набір після локальної зміни без відповідного impact.
 
 Completion вимагає всіх due must і конкретних outputs; file count, красивий звіт і середній score не закривають незадоволений критерій. Future proof залишається pending із owner/due gate. Чесно розділяти self-check, structural pass, independent review, owner acceptance, device proof і live observation.
+
+
+## Admission6.0
+
+Нова реєстрація evidence відхиляє supplied старі artifact/requirement/proof pins; не переприв’язувати незмінне старе спостереження до current bytes. Due artifact/build/observer/actual target proof зберігає власний scope. Strict JSON readers відхиляють duplicate keys до mutation.

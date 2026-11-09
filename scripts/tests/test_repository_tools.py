@@ -91,6 +91,17 @@ class RepositoryToolsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "symlink"):
             collect(self.root, ["templates"])
 
+    def test_excluded_dependency_links_are_not_sources_but_included_links_still_reject(self):
+        self.write("apps/example/server.mjs", "// source")
+        self.write("apps/example/node_modules/library/index.mjs", "// dependency")
+        binary = self.root / "apps/example/node_modules/.bin/tool"
+        binary.parent.mkdir(); binary.symlink_to("../library/index.mjs")
+        paths = {p.relative_to(self.root).as_posix() for p in collect(self.root, ["apps"])}
+        self.assertEqual(paths, {"apps/example/server.mjs"})
+        (self.root / "apps/example/linked-source.mjs").symlink_to("server.mjs")
+        with self.assertRaisesRegex(ValueError, "symlink"):
+            collect(self.root, ["apps"])
+
     def test_missing_migration_and_broken_link_are_detected(self):
         (self.root / "releases/migrations/5.0.0.md").unlink()
         self.write("README.md", "[missing instructions](docs/no-such-guide.md)\n")

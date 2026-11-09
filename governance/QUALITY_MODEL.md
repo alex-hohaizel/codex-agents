@@ -2,7 +2,7 @@
 
 “High quality” must become a concrete agreement about the requested result. For a narrow backend repair, this may mean preserving the API, proving a concurrency invariant and measuring the affected query. A mobile product needs additional user journeys, platform behavior, visual and language checks. A game needs actual controls, progression, save recovery and performance on representative devices. The task determines the applicable depth.
 
-This model summarizes existing 5.0.0 contracts; it does not add a new universal product specification. Record each dimension as **required**, **conditional**, **absent by design**, or **unknown**, with a reason and the stage at which evidence is due. Missing access or a device is an unresolved proof obligation for a required feature. It is not a reason to silently remove the feature.
+This model carries the existing5.0.0 domain obligations into6.0.0 and its production/context contracts; it does not add a new universal product specification. Record each dimension as **required**, **conditional**, **absent by design**, or **unknown**, with a reason and the stage at which evidence is due. Missing access or a device is an unresolved proof obligation for a required feature. It is not a reason to silently remove the feature.
 
 ## From a promise to an observable result
 

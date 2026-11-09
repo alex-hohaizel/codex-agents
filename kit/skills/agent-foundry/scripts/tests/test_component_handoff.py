@@ -15,7 +15,7 @@ c=importlib.util.module_from_spec(spec);spec.loader.exec_module(c)
 
 class ComponentHandoffTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
+        self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.root=Path(self.temp.name)
         (self.root/'input.md').write_text('synthetic accepted product requirements')
         (self.root/'skill.md').write_text('---\nname: app-atelier-director\ndescription: fixture\n---\nFixture method.')
         (self.root/'contract.md').write_text('Shared identity and user consent contract, one owner.')

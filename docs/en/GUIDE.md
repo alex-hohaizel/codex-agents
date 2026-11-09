@@ -2,10 +2,41 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**Guide baseline:** Agent System 5.0.0, 7 November 2026. **Reusable suite:** 33 skills. This guide covers a new installation, everyday work, sharing a project between Work and Codex, and updating an existing project. Repository documentation and package revisions can change without changing the underlying skill version; consult the release record before updating.
+**Guide baseline:** Agent System6.0.0, 9 November2026. **Reusable suite:** 33 skills. This guide covers a new installation, everyday work, sharing a project between Work and Codex, and updating an existing project. Repository documentation and package revisions can change without changing the underlying skill version; consult the release record before updating.
 
 
-**Campaign and repository edition 1.1.0:** [English advertising](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). The campaign contains ten matching materials per language, covering applications, games, chatbots, platforms, automation and custom specialists. Advertising is available in English and Ukrainian only; every guide remains complete in its stated language. This edition changes presentation, documentation and compatible repository tooling; the reusable suite stays 5.0.0. Existing verified installations need no reinstall or product reset. Continue the same project from its requirements, design identity, decisions and checkpoint, and read the current repository instructions before the next dependent task.
+**Current release:** suite6.0.0, repository1.2.0, optional Atelier Orchestrator1.0.0 and local Agent Atelier0.1.0. Read [the exact6.0 migration](../../releases/migrations/6.0.0.md) before updating. The previous1.1.0 campaign remains unchanged: [English advertising](../../marketing/campaign/README.md) and [Ukrainian advertising](../../marketing/campaign/README.uk.md), ten materials per language. Advertising is EN/UK; guides and the service UI cover all seven advertised locales. Work live audit, update, installation and control are deferred to a separate task; a source archive or repository connection is not an installation receipt.
+
+## 0. Update to6.0 and open the local workbench
+
+1. Select an exact verified release commit. Preserve the current33-skill sources, icon files/bindings/colors/classes, local changes and ownership. Save native project requirements, accepted identity/persona, decisions, permissions, pending tasks and unknown effects. Installation does not migrate a product.
+2. From `kit/`, read the portable updater help, then audit the exact candidate. Inspect all33 entries, conflicts and visual preservation before apply. Keep plans/backups outside skill-discovery roots.
+
+```bash
+python3 portable/update_skill_suite.py --help
+python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+```
+
+3. Replace the journal placeholder only with the actual path returned by apply. Unknown drift must be reconciled; do not force an overwrite. Check actual discovery/source loading and one bounded task separately. Existing icons and unrelated skills remain preserved.
+4. Audit the Codex host profile separately from the repository root: `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Apply with `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json`, then `verify --journal /absolute/host-journal.json`. The managed block preserves existing global instructions; the twelve bounded roles retain their models and external-effect restrictions. Loading in an actual host is a separate check.
+5. Install optional `atelier-orchestrator` through the supported skill manager from `optional-skills/atelier-orchestrator` at the selected commit. It is separate from the33-core updater; source presence does not establish installation or successful execution. The existing maintenance skill remains separately optional.
+6. To build the local service from source, use the pinned lockfile with Node.js24.22.2 or a supported later runtime. From `apps/agent-atelier/`, run the following. Network access is needed for first dependency installation, with no new paid service implied.
+
+```bash
+npm ci --ignore-scripts
+npm run build
+node launcher/atelier.mjs start
+node launcher/atelier.mjs status
+node launcher/atelier.mjs doctor
+node launcher/atelier.mjs stop
+```
+
+7. On Mac, `apps/agent-atelier/launcher/Agent Atelier.command` provides the double-click launch after building. The launcher opens loopback, reuses its own running instance and does not enable login auto-start. Select and preview an explicit project root, then bind it. A binding is read-only project discovery, not product adoption or permission for every future task. Demo mode contains fictional data and performs no commands.
+8. Prepare a task with exact scope, inputs, acceptance and bounds, then dispatch through the supported Codex adapter. Source, craft, integration, device, independent review and owner acceptance are different states. Cancellation is confirmed only after the actual host outcome. Existing chats require exact identity/cwd and an idle handoff; another desktop writer is not fenced by a service lease. Reconcile an unknown effect before retrying.
+9. Existing Foundry sessions use `suite-update-plan` and a reviewed `refresh --accept-suite-update` record with exact source-state/target hashes. App state/1 needs no toolkit-format migration. Chat integrated evidence needs current contract subject pins and a real new observation; old proof is not retrofitted. Game uses its supported5-to6 workflow upgrade while retaining runtime2/model4/handoff1. Generated agents require source-to-target comparison and cold continuation; no project is reset.
+10. Service backup/restore is service-owned only: preview and validate the exact backup, reconcile jobs and preserve revoked authority; it does not restore product databases or external effects. Skill rollback uses the actual updater journal; host-profile rollback uses its own journal and rejects later drift. Work live installation/control remains deferred. Read [the detailed migration](../../releases/migrations/6.0.0.md) and [service guide](../../apps/agent-atelier/README.md) for recovery and supported limits.
 
 ## 1. What this gives you
 
@@ -348,7 +379,7 @@ A stalled conversation is not evidence that its last operation failed. Recovery 
 
 Each release should explain what changed, which users are affected, prerequisites, installation steps, project adoption steps, verification, known limitations and rollback. The general guide must also change when the normal workflow changes. Do not rely on a version number alone.
 
-The shared 5.0.0 release brings the constructors and all three families under one visible suite version. It adds a common adaptive working approach, domain research and synthesis, visual-identity handling and a shared Work↔Codex route. Historical protocol and runtime schema numbers remain distinct. Renaming an old schema to “5.0.0” without an actual migration would break compatibility rather than modernize the project.
+The6.0.0 release preserves the33 stable names and icon identity while hardening evidence, source dependencies, JSON admission and state writes. It adds self-contained production/context profiles and explicit reference fidelity. Historical protocol and native runtime schema numbers remain distinct; renaming an old schema to the suite number without a migration breaks compatibility.
 
 ### Existing Agent Systems 2.3 / Game 4.3 projects
 
@@ -361,7 +392,7 @@ The shared 5.0.0 release brings the constructors and all three families under on
 7. Recheck every affected requirement and the current stage's acceptance criteria. Run a small real continuation task and save its evidence.
 8. Record the adopted toolkit version in the product checkpoint. Keep the migration record so the next chat can explain the transition.
 
-Game 5.0.0 contains a reviewed workflow-upgrade route for 4.2.0/4.3.0 projects while keeping runtime schema 2.0.0. Its use depends on the actual project state and the tool's supported inputs. App and ChatBot projects likewise need their own state and compatibility review; they must not be passed through a game migration merely because the suite has one shared version.
+Game6.0.0 contains a reviewed workflow-upgrade route for4.2.0/4.3.0/5.0.0 projects while keeping runtime schema 2.0.0. Its use depends on the actual project state and the tool's supported inputs. App and ChatBot projects likewise need their own state and compatibility review; they must not be passed through a game migration merely because the suite has one shared version.
 
 ### Agents previously built with a constructor
 

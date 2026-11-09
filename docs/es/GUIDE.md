@@ -2,10 +2,41 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**Versión de referencia de la guía:** Agent System 5.0.0, 7 de noviembre de 2026. **Suite reutilizable:** 33 habilidades. Esta guía abarca una instalación nueva, el trabajo diario, compartir un proyecto entre Work y Codex y actualizar un proyecto existente. Las revisiones de la documentación y los paquetes del repositorio pueden cambiar sin modificar la versión de las habilidades subyacentes; consulta el registro de la versión antes de actualizar.
+**Versión de referencia de la guía:** Agent System 6.0.0, 9 de noviembre de 2026. **Suite reutilizable:** 33 habilidades. Esta guía abarca una instalación nueva, el trabajo diario, compartir un proyecto entre Work y Codex y actualizar un proyecto existente. Las revisiones de la documentación y los paquetes del repositorio pueden cambiar sin modificar la versión de las habilidades subyacentes; consulta el registro de la versión antes de actualizar.
 
 
-**Campaña y edición del repositorio 1.1.0:** [Publicidad en inglés](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). La campaña contiene diez materiales correspondientes por idioma sobre aplicaciones, juegos, chatbots, plataformas, automatización y especialistas propios. La publicidad está disponible solo en inglés y ucraniano; cada guía sigue completa en su idioma declarado. Esta edición cambia la presentación, la documentación y herramientas compatibles del repositorio; la suite reutilizable sigue en 5.0.0. Las instalaciones existentes verificadas no necesitan reinstalación ni reinicio del producto. Continúa el mismo proyecto conservando sus requisitos, identidad de diseño, decisiones y checkpoint y lee las instrucciones actuales del repositorio antes de la siguiente tarea dependiente.
+**Versión actual:** suite 6.0.0, repositorio 1.2.0, Atelier Orchestrator 1.0.0 opcional y Agent Atelier 0.1.0 local. Antes de actualizar, lee [la migración exacta a 6.0](../../releases/migrations/6.0.0.md). La campaña anterior 1.1.0 permanece sin cambios: [publicidad en inglés](../../marketing/campaign/README.md) y [publicidad en ucraniano](../../marketing/campaign/README.uk.md), diez materiales por idioma. La publicidad es EN/UK; las guías y la interfaz del servicio cubren los siete idiomas anunciados. La auditoría, actualización, instalación y control reales de Work se aplazan a otra tarea; un archivo de fuentes o una conexión al repositorio no es un comprobante de instalación.
+
+## 0. Actualizar a 6.0 y abrir el espacio operativo local
+
+1. Selecciona un commit exacto y verificado de la versión. Conserva las fuentes actuales de las 33 competencias, los archivos/vínculos/colores/clases de los iconos, los cambios locales y los registros de propiedad. Guarda los requisitos del proyecto, identidad/persona aceptadas, decisiones, permisos, tareas pendientes y efectos inciertos. La instalación no migra un producto.
+2. Desde `kit/`, lee la ayuda del actualizador portátil y audita el candidato exacto. Antes de apply, examina las 33 entradas, los conflictos y la conservación visual. Mantén planes y copias fuera de las carpetas de detección de competencias.
+
+```bash
+python3 portable/update_skill_suite.py --help
+python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+```
+
+3. Sustituye el marcador del registro únicamente por la ruta real devuelta por apply. Las diferencias desconocidas deben aclararse; no fuerces la sobrescritura. Verifica por separado la detección/carga real de fuentes y una tarea acotada. Se conservan los iconos existentes y las competencias ajenas al cambio.
+4. Audita el perfil del entorno Codex por separado desde la raíz del repositorio: `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Aplica con `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json` y después verifica con `verify --journal /absolute/host-journal.json`. El bloque gestionado conserva las instrucciones globales existentes; los doce roles acotados mantienen sus modelos y restricciones de efectos externos. La carga en un entorno real se verifica por separado.
+5. Instala el componente opcional `atelier-orchestrator` mediante el gestor de competencias compatible desde `optional-skills/atelier-orchestrator` en el commit seleccionado. Es independiente del actualizador de las 33 competencias de base; la presencia de fuentes no demuestra instalación ni ejecución correcta. La competencia de mantenimiento existente sigue siendo opcional y separada.
+6. Para compilar el servicio local desde las fuentes, usa el archivo de bloqueo fijado con Node.js 24.22.2 o una versión posterior compatible. Desde `apps/agent-atelier/`, ejecuta lo siguiente. La primera instalación de dependencias requiere acceso a la red, sin implicar un nuevo servicio de pago.
+
+```bash
+npm ci --ignore-scripts
+npm run build
+node launcher/atelier.mjs start
+node launcher/atelier.mjs status
+node launcher/atelier.mjs doctor
+node launcher/atelier.mjs stop
+```
+
+7. En Mac, tras compilar, `apps/agent-atelier/launcher/Agent Atelier.command` permite iniciar con doble clic. El lanzador abre loopback, reutiliza su propia instancia activa y no habilita el inicio automático al acceder al sistema. Selecciona y previsualiza una raíz de proyecto concreta y después vincúlala. La vinculación descubre el proyecto en solo lectura: no adopta el nuevo método en el producto ni autoriza todas las tareas futuras. La demostración contiene datos ficticios y no ejecuta comandos.
+8. Prepara una tarea con ámbito, entradas, aceptación y límites exactos y ejecútala mediante el adaptador Codex compatible. Fuente, calidad del trabajo, integración, dispositivo, revisión independiente y aceptación del propietario son estados distintos. La cancelación solo se confirma tras el resultado real del entorno. Los chats existentes necesitan identidad/cwd exactos y una transferencia en reposo; el control del servicio no bloquea otro cliente de escritorio que escribe. Concilia un efecto incierto antes de reintentar.
+9. Las sesiones Foundry existentes usan `suite-update-plan` y un registro revisado `refresh --accept-suite-update` con huellas exactas del estado de origen y del destino. App state/1 no necesita migración de formato por el toolkit. Las pruebas de integración Chat necesitan referencias actuales al objeto del contrato y una nueva observación real; las pruebas antiguas no se completan retroactivamente. Game usa la actualización de flujo 5→6 compatible y mantiene runtime2/model4/handoff1. Los agentes generados necesitan comparación origen-destino y continuación sin historial oculto; ningún proyecto se reinicia.
+10. La copia y restauración del servicio afecta solo a su estado: previsualiza y valida la copia exacta, concilia los trabajos y conserva las revocaciones de permisos; no restaura bases de datos de productos ni efectos externos. El rollback de competencias usa el registro real del actualizador; el del perfil de entorno usa su propio registro y rechaza cambios posteriores. La instalación y el control reales de WORK siguen aplazados. Lee la [migración detallada](../../releases/migrations/6.0.0.md) y la [guía del servicio](../../apps/agent-atelier/README.md) para recuperación y límites compatibles.
 
 ## 1. Qué te ofrece
 
@@ -356,7 +387,7 @@ Una conversación bloqueada no demuestra que su última operación haya fallado.
 
 Cada versión debe explicar qué cambió, a qué usuarios afecta, requisitos previos, pasos de instalación, pasos de adopción en el proyecto, verificación, limitaciones conocidas y reversión. La guía general también debe cambiar cuando cambie el flujo habitual. No te bases solo en un número de versión.
 
-La versión compartida 5.0.0 reúne los constructores y las tres familias bajo una única versión visible de la suite. Añade un enfoque de trabajo adaptativo común, investigación y síntesis del dominio, gestión de la identidad visual y una vía Work↔Codex compartida. Los números históricos de protocolos y esquemas de runtime siguen siendo distintos. Renombrar un esquema antiguo como «5.0.0» sin una migración real rompería la compatibilidad en lugar de modernizar el proyecto.
+La versión 6.0.0 conserva los 33 nombres estables y la identidad de los iconos, y refuerza las pruebas, dependencias de fuentes, lectura JSON y escrituras de estado. Añade perfiles de producción/contexto autónomos y fidelidad explícita a las referencias. Los números históricos de protocolos y esquemas de ejecución del proyecto siguen siendo distintos; renombrar un esquema antiguo con el número de la suite sin migración rompe la compatibilidad.
 
 ### Proyectos existentes de Agent Systems 2.3 / Game 4.3
 
@@ -369,7 +400,7 @@ La versión compartida 5.0.0 reúne los constructores y las tres familias bajo u
 7. Vuelve a comprobar todos los requisitos afectados y los criterios de aceptación de la fase actual. Ejecuta una tarea real pequeña de continuación y guarda sus pruebas.
 8. Registra la versión adoptada del toolkit en el checkpoint del producto. Conserva el registro de migración para que la próxima conversación pueda explicar la transición.
 
-Game 5.0.0 contiene una vía revisada de actualización del flujo para proyectos 4.2.0/4.3.0 que conserva el esquema de runtime 2.0.0. Su uso depende del estado real del proyecto y de las entradas admitidas por la herramienta. Los proyectos App y ChatBot necesitan igualmente su propia revisión de estado y compatibilidad; no deben pasar por una migración Game solo porque la suite tenga una versión compartida.
+Game6.0.0 contiene una vía revisada de actualización del flujo para proyectos 4.2.0/4.3.0/5.0.0 que conserva el esquema de runtime 2.0.0. Su uso depende del estado real del proyecto y de las entradas admitidas por la herramienta. Los proyectos App y ChatBot necesitan igualmente su propia revisión de estado y compatibilidad; no deben pasar por una migración Game solo porque la suite tenga una versión compartida.
 
 ### Agentes creados anteriormente con un constructor
 

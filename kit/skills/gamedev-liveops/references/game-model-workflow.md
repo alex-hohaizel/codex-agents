@@ -32,7 +32,7 @@ Project-owned `design/game-model.json` або чинний equivalent має sta
 
 ## Handoff
 
-`pipeline.py` використовує чинний transport/schema/suite **1.0.0**, `atelier.py` — чинний state **2.0.0**; обидва вимагають toolkit **4.3.0**. Nonstudio accepted handoff має `game_model:{path,sha256}` з поточною моделлю **4.0.0** й належним stage proof. Попередній формат результату відхиляється також у draft. `seal` hashes не є дозволом чи review. Companion modelplan/report/traces входять як звичайні artifacts.
+`pipeline.py` використовує чинний transport/schema/suite **1.0.0**, `atelier.py` — чинний state **2.0.0**; обидва вимагають toolkit **6.0.0**. Nonstudio accepted handoff має `game_model:{path,sha256}` з поточною моделлю **4.0.0** й належним stage proof. Попередній формат результату відхиляється також у draft. `seal` hashes не є дозволом чи review. Companion modelplan/report/traces входять як звичайні artifacts.
 
 Defaultstage→gate: concepts→concept; preproduction→preproduction; assets/build→slice; qa→beta; release/liveops→release. QA може мати design_review/contract_review/slice_review/beta_review/release_readiness; liveops incident_analysis/design_change/runtime_change/player_experiment/release_change. Scope потребує scope_ref на поточну requirement/decision і опис; scopedreview не обирає productionconcept/engine. Release таrelease_change не знижуються доslice. Деталі — [handoff](handoff-contract.md).
 

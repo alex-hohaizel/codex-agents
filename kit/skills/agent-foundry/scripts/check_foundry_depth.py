@@ -8,6 +8,25 @@ import re
 import stat
 import types
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 SUBJECT_FIELDS = ('blueprint_id', 'blueprint_revision', 'blueprint_sha256', 'authority_source')
 RUNTIME = Path(__file__).absolute().with_name('foundry.py')
 
@@ -288,7 +307,7 @@ def main():
     try:
         raw = a.model.read_bytes()
         model_hash = hashlib.sha256(raw).hexdigest()
-        model = json.loads(raw)
+        model = strict_json_loads(raw)
         if a.ready or a.session is not None:
             current = read_current_subject(a.session or a.root)
         errors = validate(model, a.root, a.ready, current)

@@ -1,0 +1,106 @@
+{
+  "schema": "adaptive-task/1",
+  "project": {
+    "id": "existing-project-id"
+  },
+  "task": {
+    "id": "task-id",
+    "revision": 1,
+    "goal": "Уточнений фактичний результат",
+    "scope": "Поточне дозволене доручення",
+    "owner": "actual-actor-id",
+    "host": "current-verified-host",
+    "status": "planned"
+  },
+  "assessment": {
+    "scale": "local",
+    "uncertainty": "low",
+    "consequence": "reversible",
+    "coupling": "isolated",
+    "depth": "quick",
+    "rationale": "Точний обмежений результат; замінити фактичним обґрунтуванням",
+    "escalate_when": [
+      "Виявлено ширший причинний вплив"
+    ],
+    "reduce_when": [
+      "Отримано достатній адресний доказ"
+    ]
+  },
+  "sources": [
+    {
+      "id": "SRC-1",
+      "kind": "obligation",
+      "authority": "user",
+      "path": "docs/raw-request.txt",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "obligations": [
+    {
+      "id": "REQ-1",
+      "source_ids": [
+        "SRC-1"
+      ],
+      "text": "Повний фактичний обов’язок, виділений із джерела",
+      "status": "included",
+      "due": "current-scope",
+      "output_ids": [
+        "OUT-1"
+      ],
+      "acceptance": "Предметний спостережуваний критерій"
+    }
+  ],
+  "strategy": {
+    "mode": "direct",
+    "reuse_choice": "reuse",
+    "rationale": "Чинний метод і компетенція достатні для обмеженого результату",
+    "competencies": [
+      {
+        "id": "COMP-1",
+        "method": "Назвати фактичний метод",
+        "provider": "actual-actor-or-tool",
+        "availability": "verified",
+        "source_ids": [
+          "SRC-1"
+        ],
+        "output_ids": [
+          "OUT-1"
+        ]
+      }
+    ],
+    "stop": "Завершити після належної адресної перевірки; розширення за матеріальним новим фактом"
+  },
+  "outputs": [
+    {
+      "id": "OUT-1",
+      "description": "Фактичний очікуваний артефакт",
+      "status": "planned",
+      "author": "actual-actor-id",
+      "evidence_ids": []
+    }
+  ],
+  "evidence": [],
+  "effects": [],
+  "authority": {
+    "scope": "Чинне точне доручення",
+    "grant_source_ids": [
+      "SRC-1"
+    ]
+  },
+  "registration": {
+    "state": "not_required"
+  },
+  "next": {
+    "action": "Виконати поточний дозволений крок",
+    "owner": "actual-actor-id",
+    "requires_user": false
+  },
+  "review": {
+    "state": "pending",
+    "actor": "reviewer-to-be-resolved-if-required",
+    "source_ids": [],
+    "source_bindings": [],
+    "raw_sources_reviewed": false,
+    "findings": []
+  }
+}

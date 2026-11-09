@@ -16,7 +16,7 @@ SPEC.loader.exec_module(briefing)
 
 class BriefingTests(unittest.TestCase):
     def setUp(self):
-        self.temporary = tempfile.TemporaryDirectory()
+        self.temporary = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         self.record_path = self.root / "briefing.json"

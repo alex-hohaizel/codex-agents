@@ -15,22 +15,30 @@ from pathlib import Path
 
 from check_repository import check
 
-EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".DS_Store"}
+EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".DS_Store", "node_modules",
+                  "dist", ".atelier-local", "test-results", "playwright-report"}
 COMMON = ["AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md", "RIGHTS.md", "locales.json", "maintenance-skill",
-          "docs", "templates", "governance", "releases", "scripts", "marketing", "assets"]
+          "docs", "templates", "governance", "releases", "scripts", "marketing", "assets",
+          "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps"]
 
 
 def collect(root: Path, relative_roots: list[str]) -> list[Path]:
     files = set()
     for relative in relative_roots:
         p = root / relative
+        if EXCLUDED_PARTS.intersection(p.relative_to(root).parts):
+            continue
+        if p.is_symlink():
+            raise ValueError(f"refusing symlink in package: {relative}")
         if not p.exists():
             continue
         for candidate in ([p] if p.is_file() else p.rglob("*")):
             rel = candidate.relative_to(root)
+            if EXCLUDED_PARTS.intersection(rel.parts):
+                continue
             if candidate.is_symlink():
                 raise ValueError(f"refusing symlink in package: {rel}")
-            if not candidate.is_file() or EXCLUDED_PARTS.intersection(rel.parts) or candidate.suffix == ".pyc":
+            if not candidate.is_file() or candidate.suffix == ".pyc":
                 continue
             if any(part.startswith(".env") for part in rel.parts):
                 raise ValueError(f"refusing possible secret file: {rel}")

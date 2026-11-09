@@ -1,5 +1,5 @@
 interface:
-  display_name: GAME · Директор · 5.0.0
+  display_name: GAME · Директор · 6.0.0
   short_description: Повний цикл системної нативної мобільної гри
   default_prompt: $gamedev-director Прийми актуальні матеріали, звір вимоги й виконай погоджений наступний крок із належними доказами.
   icon_small: ./assets/family-icon-small.png

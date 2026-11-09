@@ -1,5 +1,5 @@
 interface:
-  display_name: BOT · Інтеграції · 5.0.0
+  display_name: BOT · Інтеграції · 6.0.0
   short_description: Надійні дії, callbacks, jobs та інтеграції
   default_prompt: Використай $chatbot-atelier-integrations для завершення потрібного етапу створення або розвитку чатбота.
   icon_small: ./assets/family-icon-small.png

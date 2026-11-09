@@ -9,7 +9,7 @@ from check_consistency import check
 
 class ConsistencyTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
         for name in ('scripts','assets','references'):(self.root/name).mkdir()
         self.skill='---\nname: fixture\ndescription: Offline fixture.\n---\n\n# Fixture\n\nRun `python3 scripts/check.py record.json --ready`.\n'

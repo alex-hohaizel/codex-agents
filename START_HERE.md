@@ -24,9 +24,11 @@ The guides are complete in all seven languages. Advertising artwork is available
 
 For a product you already work on, open that existing project and continue from its accepted requirements, decisions, identity and checkpoint. A new conversation is not a new product.
 
-## What edition 1.1.0 changes for current users
+## What suite 6.0.0 and edition 1.2.0 change
 
-This edition updates the campaign, documentation entry points and compatible repository tooling. The reusable suite stays **5.0.0**. Existing verified installations do not need a reinstall, icon replacement, global duplicate, product reset or native-state migration. Read the [edition-specific migration](releases/migrations/repository-1.1.0.md), then continue the next real task from the same project checkpoint.
+The 33 stable core skills now carry production-quality and context-continuity contracts, stronger evidence/source admission and explicit compatible adoption. Existing names, icons, accepted product requirements and native state remain preserved. Read the [6.0.0 migration](releases/migrations/6.0.0.md), audit the exact installed sources, then use the reviewed updater plan. Existing generated agents need their own source-to-target adoption; no product is reset.
+
+The [local Mac workbench](apps/agent-atelier/README.md) and optional `atelier-orchestrator` are separate components. Follow the ten-step section0 in your full guide. WORK live audit/update/installation is deferred to the owner's separate task; reusable source bundles do not certify a live Work installation.
 
 ## Change the interaction language
 

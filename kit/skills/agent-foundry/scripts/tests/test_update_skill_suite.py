@@ -19,7 +19,7 @@ SPEC.loader.exec_module(U)
 
 class SuiteUpdateTests(unittest.TestCase):
     def setUp(self):
-        tmp = Path(os.environ.get('TMPDIR', tempfile.gettempdir()))
+        tmp = Path(os.environ.get('TMPDIR', tempfile.gettempdir())).resolve()
         tmp.mkdir(parents=True, exist_ok=True)
         self.temp = tempfile.TemporaryDirectory(prefix='suite-fixture-', dir=str(tmp))
         self.addCleanup(self.temp.cleanup)
@@ -561,7 +561,11 @@ class VisualIdentityTests(unittest.TestCase):
 
     def test_case_alias_cannot_make_nonportable_effective_payload(self):
         target = self.visual_old(); self.customize(target, 'assets/Icon.svg')
-        with self.assertRaisesRegex(U.SuiteError, 'case/Unicode'):self.plan()
+        # APFS may retain the existing lowercase directory entry when the
+        # uppercase alias is written. Both admission failures are deliberate:
+        # absent exact icon name on APFS; duplicate portable name elsewhere.
+        expected = 'case/Unicode' if 'Icon.svg' in {p.name for p in (target/'assets').iterdir()} else 'Referenced icon is missing'
+        with self.assertRaisesRegex(U.SuiteError, expected):self.plan()
 
     def test_custom_icons_resume_after_old_tree_move(self):
         target = self.visual_old(); self.customize(target); self.plan()

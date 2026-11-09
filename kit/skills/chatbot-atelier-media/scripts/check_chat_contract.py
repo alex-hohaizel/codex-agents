@@ -8,6 +8,25 @@ import re
 import sys
 from check_platform_adapter import validate as validate_adapter, PLATFORMS
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 MATURITIES = {'draft', 'specified', 'integrated'}
 STATES = {'active', 'conditional', 'not_applicable', 'unknown'}
 REQUIREMENT_STATES = {'active', 'deferred', 'excluded', 'not_applicable'}
@@ -39,6 +58,23 @@ def brief_hash(brief):
 def attempt_hash(attempt):
     """Freeze the declared run, inputs, parameters, operations and outcome."""
     return brief_hash(attempt)
+
+
+def contract_hash(data):
+    """Pin the declared semantic contract, excluding observations about it.
+
+    This conservative scope is the complete current blueprint. Attempts and
+    evidence must be renewed after a normative definition changes; historical
+    records remain readable and are never silently re-signed.
+    """
+    fields = ('brief', 'applicability', 'requirements', 'systems', 'interactions',
+              'journeys', 'operations', 'recipes', 'platform_adapters')
+    subject = {field: data.get(field) for field in fields}
+    subject['journeys'] = [{key: value for key, value in row.items()
+                            if key not in {'attempt_ids', 'evidence_ids', 'verification'}}
+                           if isinstance(row, dict) else row
+                           for row in data.get('journeys', [])]
+    return brief_hash(subject)
 
 
 def _validate(data):
@@ -192,7 +228,8 @@ def _validate(data):
                 error(key + ' has no matching operation/recipe binding')
     if maturity == 'integrated':
         if not tables['attempts'] or not tables['evidence']: error('integrated maturity needs actual attempts and evidence')
-        subject = {'brief_id': brief.get('id'), 'brief_version': brief.get('version'), 'brief_sha256': brief_hash(brief)}
+        subject = {'brief_id': brief.get('id'), 'brief_version': brief.get('version'), 'brief_sha256': brief_hash(brief),
+                   'contract_sha256': contract_hash(data)}
         for key, row in tables['journeys'].items():
             if not row.get('attempt_ids') or not row.get('evidence_ids'): error(key + ' integrated journey missing actual attempt/evidence links')
             if row.get('verification') != 'passed': error(key + ' integrated journey not passed')
@@ -202,7 +239,7 @@ def _validate(data):
             for aid in j_attempts:
                 attempt = tables['attempts'].get(aid, {})
                 if attempt.get('result') != 'passed': error(key + ' linked attempt not passed: ' + aid)
-                if attempt.get('subject') != subject: error(key + ' attempt subject differs from current brief: ' + aid)
+                if attempt.get('subject') != subject: error(key + ' attempt subject differs from current brief or semantic contract: ' + aid)
                 attempt_ops = set(ids(attempt, 'operation_ids'))
                 if not attempt_ops or not attempt_ops <= set(j_operations):
                     error(key + ' attempt outside journey operation scope: ' + aid)
@@ -247,9 +284,18 @@ def validate(data):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('path', type=Path)
+    parser.add_argument('--subject', action='store_true', help='Read-only current brief/semantic-contract pins; not execution evidence')
     args = parser.parse_args()
     try:
-        data = json.loads(args.path.read_text())
+        data = strict_json_loads(args.path.read_text())
+        if args.subject:
+            if not isinstance(data, dict) or data.get('schema_version') != 'chatbot.blueprint/3' or not isinstance(data.get('brief'), dict):
+                raise ValueError('Current chatbot.blueprint/3 object and brief required for subject pins')
+            brief = data.get('brief', {})
+            print(json.dumps({'brief_id': brief.get('id'), 'brief_version': brief.get('version'),
+                              'brief_sha256': brief_hash(brief), 'contract_sha256': contract_hash(data)},
+                             ensure_ascii=False, indent=2))
+            return 0
         errors = validate(data)
     except (OSError, ValueError, TypeError) as exc:
         errors = ['cannot read valid record: ' + str(exc)]

@@ -1,5 +1,5 @@
 interface:
-  display_name: APP · Реалізація · 5.0.0
+  display_name: APP · Реалізація · 6.0.0
   short_description: Предметна робота над одним корисним застосунком
   default_prompt: Застосуй $app-atelier-build до поточного проєкту й виконай дозволений наступний крок.
   icon_small: ./assets/family-icon-small.png

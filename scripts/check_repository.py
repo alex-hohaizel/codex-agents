@@ -198,7 +198,9 @@ def check(root: Path, *, links: bool = True) -> dict:
     if links:
         for p in root.rglob("*.md"):
             rel = p.relative_to(root)
-            if rel.parts[0] in {"kit", "dist", ".git"}:
+            if rel.parts[0] in {"kit", "dist", ".git"} or any(
+                    part in {"node_modules", ".atelier-local", "test-results", "playwright-report"}
+                    for part in rel.parts):
                 continue
             text = re.sub(r"```.*?```", "", p.read_text(encoding="utf-8"), flags=re.S)
             for target in re.findall(r"!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)", text):

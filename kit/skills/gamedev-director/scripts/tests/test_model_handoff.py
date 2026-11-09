@@ -19,7 +19,7 @@ def load(name):
 
 class ModelHandoffTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.root = Path(self.temp.name) / 'handoff'
         self.pipeline = load('pipeline')
         self.pipeline.init(self.root, 'concepts', 'test-game')
@@ -63,9 +63,9 @@ class ModelHandoffTests(unittest.TestCase):
 
     def test_scoped_qa_and_incident_keep_actual_gate(self):
         model = {'path': 'model.json', 'sha256': '0'*64, 'acceptance_scope': 'slice_review', 'scope_ref': 'REQ-SLICE', 'scope_description': 'Review the accepted representative slice only'}
-        self.assertEqual(self.pipeline.model_gate({'stage': 'qa', 'toolkit_version':'5.0.0', 'game_model': model}), ('slice', 'slice_review'))
+        self.assertEqual(self.pipeline.model_gate({'stage': 'qa', 'toolkit_version':'6.0.0', 'game_model': model}), ('slice', 'slice_review'))
         model['acceptance_scope'] = 'incident_analysis'
-        self.assertEqual(self.pipeline.model_gate({'stage': 'liveops', 'toolkit_version':'5.0.0', 'game_model': model}), ('concept', 'incident_analysis'))
+        self.assertEqual(self.pipeline.model_gate({'stage': 'liveops', 'toolkit_version':'6.0.0', 'game_model': model}), ('concept', 'incident_analysis'))
 
     def test_release_gate_cannot_be_downgraded_by_scope_label(self):
         self.assertEqual(self.pipeline.model_gate({'stage': 'release'}), ('release', 'full_stage'))
@@ -149,7 +149,7 @@ class ModelHandoffTests(unittest.TestCase):
         self.assertTrue(any('acceptance_scope is not allowed' in error for error in result['errors']))
 
     def test_current_manifest_rejects_previous_model_even_in_draft(self):
-        self.assertEqual(self.manifest()['toolkit_version'], '5.0.0')
+        self.assertEqual(self.manifest()['toolkit_version'], '6.0.0')
         p = self.root/'model.json'
         data=json.loads((SOURCE.parent/'assets/examples/model-no-enemy.json').read_text());data['schema_version']='3.0.0'
         p.write_text(json.dumps(data))

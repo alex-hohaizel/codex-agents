@@ -7,6 +7,26 @@ import re
 from pathlib import Path
 
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 def check(root):
     root = Path(root).resolve()
     errors = []
@@ -14,7 +34,7 @@ def check(root):
         if not ok:
             errors.append(message)
     def load(path):
-        return json.loads(path.read_text(encoding='utf-8'))
+        return strict_json_loads(path.read_text(encoding='utf-8'))
     skill = root / 'SKILL.md'
     if not skill.is_file():
         return ['SKILL.md missing']

@@ -2,10 +2,41 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**Référence du guide :** Agent System 5.0.0, 7 novembre 2026. **Suite réutilisable :** 33 compétences. Ce guide couvre une nouvelle installation, le travail quotidien, le partage d'un projet entre Work et Codex et la mise à jour d'un projet existant. Les révisions de la documentation et des paquets du dépôt peuvent changer sans modifier la version des compétences sous-jacentes ; consultez la fiche de version avant toute mise à jour.
+**Référence du guide :** Agent System 6.0.0, 9 novembre 2026. **Suite réutilisable :** 33 compétences. Ce guide couvre une nouvelle installation, le travail quotidien, le partage d'un projet entre Work et Codex et la mise à jour d'un projet existant. Les révisions de la documentation et des paquets du dépôt peuvent changer sans modifier la version des compétences sous-jacentes ; consultez la fiche de version avant toute mise à jour.
 
 
-**Campagne et édition du dépôt 1.1.0 :** [Publicité en anglais](../../marketing/campaign/README.md) · [Українська реклама](../../marketing/campaign/README.uk.md). La campagne comprend dix supports correspondants par langue sur les applications, jeux, chatbots, plateformes, l’automatisation et les spécialistes personnalisés. La publicité est disponible uniquement en anglais et en ukrainien ; chaque guide reste complet dans sa langue annoncée. Cette édition modifie la présentation, la documentation et des outils compatibles du dépôt ; la suite réutilisable reste en version 5.0.0. Les installations existantes vérifiées n’exigent ni réinstallation ni réinitialisation du produit. Poursuivez le même projet avec ses exigences, son identité visuelle, ses décisions et son checkpoint et lisez les instructions actuelles du dépôt avant la prochaine tâche dépendante.
+**Version actuelle :** suite 6.0.0, dépôt 1.2.0, Atelier Orchestrator 1.0.0 facultatif et Agent Atelier 0.1.0 local. Lisez [la migration exacte vers 6.0](../../releases/migrations/6.0.0.md) avant la mise à jour. La campagne 1.1.0 précédente reste inchangée : [publicité anglaise](../../marketing/campaign/README.md) et [publicité ukrainienne](../../marketing/campaign/README.uk.md), dix supports par langue. La publicité est EN/UK ; les guides et l’interface du service couvrent les sept langues annoncées. L’audit, la mise à jour, l’installation et le contrôle réels de Work sont reportés à une tâche distincte ; une archive source ou une connexion au dépôt ne constitue pas un reçu d’installation.
+
+## 0. Passer à 6.0 et ouvrir l’espace opérationnel local
+
+1. Choisissez un commit de version exact et vérifié. Conservez les sources actuelles des 33 compétences, fichiers/liens/couleurs/classes des icônes, modifications locales et preuves de propriété. Sauvegardez les exigences propres au projet, l’identité/persona acceptées, les décisions, autorisations, tâches en attente et effets incertains. L’installation ne migre pas un produit.
+2. Depuis `kit/`, lisez l’aide de l’outil de mise à jour portable, puis auditez le candidat exact. Avant apply, examinez les 33 entrées, les conflits et la conservation visuelle. Gardez plans et sauvegardes hors des dossiers de détection des compétences.
+
+```bash
+python3 portable/update_skill_suite.py --help
+python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
+python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+```
+
+3. Remplacez le chemin indicatif du journal uniquement par celui réellement renvoyé par apply. Les écarts inconnus doivent être rapprochés ; ne forcez pas l’écrasement. Vérifiez séparément la détection/le chargement réels de la source et une tâche délimitée. Les icônes existantes et les compétences sans rapport sont conservées.
+4. Auditez séparément le profil d’environnement Codex depuis la racine du dépôt : `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Appliquez avec `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json`, puis vérifiez avec `verify --journal /absolute/host-journal.json`. Le bloc géré préserve les instructions globales existantes ; les douze rôles délimités conservent leurs modèles et restrictions sur les effets externes. Le chargement dans un environnement réel se vérifie séparément.
+5. Installez le composant facultatif `atelier-orchestrator` au moyen du gestionnaire de compétences pris en charge, depuis `optional-skills/atelier-orchestrator` au commit choisi. Il est distinct de l’outil de mise à jour des 33 compétences de base ; la présence des sources ne prouve ni installation ni exécution réussie. La compétence de maintenance existante reste elle aussi facultative et séparée.
+6. Pour compiler le service local à partir des sources, utilisez le fichier de verrouillage figé avec Node.js 24.22.2 ou une version ultérieure prise en charge. Depuis `apps/agent-atelier/`, exécutez ce qui suit. La première installation des dépendances nécessite le réseau, sans impliquer de nouveau service payant.
+
+```bash
+npm ci --ignore-scripts
+npm run build
+node launcher/atelier.mjs start
+node launcher/atelier.mjs status
+node launcher/atelier.mjs doctor
+node launcher/atelier.mjs stop
+```
+
+7. Sur Mac, après compilation, `apps/agent-atelier/launcher/Agent Atelier.command` permet le lancement par double-clic. Le lanceur ouvre l’adresse de bouclage, réutilise sa propre instance active et n’active aucun démarrage automatique à la connexion. Sélectionnez une racine de projet précise, examinez son aperçu, puis liez-la. Cette liaison découvre le projet en lecture seule : elle ne constitue ni adoption du nouveau fonctionnement par le produit, ni autorisation de toutes les tâches futures. La démonstration contient des données fictives et n’exécute aucune commande.
+8. Préparez une tâche avec périmètre, entrées, acceptation et limites exacts, puis lancez-la via l’adaptateur Codex pris en charge. Source, qualité de réalisation, intégration, appareil, révision indépendante et acceptation du propriétaire sont des états distincts. L’annulation n’est confirmée qu’après le résultat réel de l’environnement. Les chats existants demandent une identité/cwd exacts et un passage de relais à l’arrêt ; le contrôle du service ne verrouille pas un autre client de bureau qui écrit. Rapprochez tout effet incertain avant de réessayer.
+9. Les sessions Foundry existantes utilisent `suite-update-plan` et un enregistrement examiné `refresh --accept-suite-update` avec empreintes exactes de l’état source et de la cible. App state/1 ne nécessite aucune migration de format liée au toolkit. Les preuves d’intégration Chat demandent les références actuelles de l’objet contractuel et une véritable nouvelle observation ; les anciennes preuves ne sont pas complétées rétroactivement. Game utilise la mise à niveau de procédure 5→6 prise en charge en conservant runtime2/model4/handoff1. Les agents générés demandent comparaison source-cible et reprise sans historique caché ; aucun projet n’est réinitialisé.
+10. Sauvegarde et restauration du service ne concernent que son propre état : prévisualisez et validez la sauvegarde exacte, rapprochez les travaux et préservez les révocations d’autorisation ; elles ne restaurent ni bases de données produit ni effets externes. Le retour arrière des compétences utilise le journal réel de mise à jour ; celui du profil d’environnement utilise son propre journal et refuse toute dérive ultérieure. L’installation et le contrôle réels de WORK restent reportés. Lisez la [migration détaillée](../../releases/migrations/6.0.0.md) et le [guide du service](../../apps/agent-atelier/README.md) pour la récupération et les limites prises en charge.
 
 ## 1. Ce que cela vous apporte
 
@@ -358,7 +389,7 @@ Une conversation bloquée ne prouve pas que sa dernière opération a échoué. 
 
 Chaque version doit expliquer ce qui a changé, les utilisateurs concernés, les prérequis, les étapes d'installation, les étapes d'adoption dans les projets, la vérification, les limites connues et le retour arrière. Le guide général doit aussi évoluer quand la procédure normale change. Ne vous fiez pas uniquement à un numéro de version.
 
-La version commune 5.0.0 réunit les constructeurs et les trois familles sous une même version visible de suite. Elle ajoute une approche de travail adaptative commune, la recherche et la synthèse dans le domaine, la gestion de l'identité visuelle et un parcours Work↔Codex partagé. Les numéros historiques de protocoles et de schémas d'exécution restent distincts. Renommer un ancien schéma « 5.0.0 » sans véritable migration romprait la compatibilité au lieu de moderniser le projet.
+La version 6.0.0 conserve les 33 noms stables et l’identité des icônes, tout en renforçant les preuves, dépendances de source, contrôles JSON et écritures d’état. Elle ajoute des profils de production/contexte autonomes et une fidélité explicite aux références. Les numéros historiques des protocoles et des schémas d’exécution propres aux projets restent distincts ; renommer un ancien schéma avec le numéro de la suite sans migration rompt la compatibilité.
 
 ### Projets existants Agent Systems 2.3 / Game 4.3
 
@@ -371,7 +402,7 @@ La version commune 5.0.0 réunit les constructeurs et les trois familles sous un
 7. Revérifiez chaque exigence affectée et les critères d'acceptation de l'étape actuelle. Effectuez une petite tâche réelle de continuation et conservez ses preuves.
 8. Enregistrez la version de la boîte à outils adoptée dans le point de contrôle produit. Conservez la fiche de migration afin que le chat suivant puisse expliquer la transition.
 
-Game 5.0.0 contient un parcours de mise à niveau de procédure examiné pour les projets 4.2.0/4.3.0 tout en conservant le schéma d'exécution 2.0.0. Son utilisation dépend de l'état réel du projet et des entrées acceptées par l'outil. Les projets App et ChatBot nécessitent eux aussi leur propre revue d'état et de compatibilité ; ils ne doivent pas passer par une migration de jeu simplement parce que la suite partage une version commune.
+Game6.0.0 contient un parcours de mise à niveau de procédure examiné pour les projets 4.2.0/4.3.0/5.0.0 tout en conservant le schéma d'exécution 2.0.0. Son utilisation dépend de l'état réel du projet et des entrées acceptées par l'outil. Les projets App et ChatBot nécessitent eux aussi leur propre revue d'état et de compatibilité ; ils ne doivent pas passer par une migration de jeu simplement parce que la suite partage une version commune.
 
 ### Agents déjà créés avec un constructeur
 

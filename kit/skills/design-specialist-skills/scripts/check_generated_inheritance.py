@@ -14,8 +14,27 @@ import stat
 import types
 import xml.etree.ElementTree as ET
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 SCHEMA = "agent-operating-standard/1"
-RELEASE = "5.0.0"
+RELEASE = "6.0.0"
 RESOURCES = (
     "references/adaptive-work.md",
     "references/research-and-synthesis.md",
@@ -25,6 +44,10 @@ RESOURCES = (
     "scripts/visual_identity.py",
     "assets/adaptive-task.schema.json",
     "assets/adaptive-task.example.json",
+    "references/production-quality.md",
+    "references/context-capsule.md",
+    "assets/production-profiles.json",
+    "scripts/context_capsule.py",
 )
 ENTRY_LINKS = tuple(p for p in RESOURCES if p.startswith("references/"))
 VISUAL_LOCK = "assets/visual-identity.lock.json"
@@ -99,14 +122,14 @@ def visual_errors(root, source_root):
     module = types.ModuleType("trusted_visual_identity")
     module.__file__ = str(path)
     exec(compile(read_regular(path), str(path), "exec"), module.__dict__)
-    lock = json.loads(read_regular(Path(root) / VISUAL_LOCK))
+    lock = strict_json_loads(read_regular(Path(root) / VISUAL_LOCK))
     kind = lock.get("class") if isinstance(lock, dict) else None
     if kind not in ("project", "system"):
         return ["Visual class must be project or system, chosen from the accepted task's purpose"]
     current = module.freeze(module.safe_root(root), kind)
     if lock != current or not current.get("files"):
         return ["Visual lock must equal actual declared-class icon paths/bytes/colors"]
-    origin = json.loads(read_regular(Path(root) / VISUAL_ORIGIN))
+    origin = strict_json_loads(read_regular(Path(root) / VISUAL_ORIGIN))
     if not isinstance(origin, dict) or origin.get("schema") != "visual-identity-origin/1":
         return ["Generated icon requires explicit created/preserved provenance"]
     if kind == "system" and not reusable_system_basis(origin):
@@ -128,7 +151,7 @@ def visual_errors(root, source_root):
         if rel.is_absolute() or ".." in rel.parts or "\\" in binding["path"] or rel.as_posix() != binding["path"] or not rel.parts or rel.parts[0] != "assets":
             return ["Prior visual snapshot must have a portable bundled assets path"]
         prior = read_regular(Path(root) / rel)
-        if hashlib.sha256(prior).hexdigest() != binding["sha256"] or json.loads(prior) != current:
+        if hashlib.sha256(prior).hexdigest() != binding["sha256"] or strict_json_loads(prior) != current:
             return ["Preserved icon differs from its bound prior snapshot"]
     else:
         return ["Visual origin kind must be created or preserved"]

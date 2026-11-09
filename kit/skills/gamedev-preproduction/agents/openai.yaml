@@ -1,5 +1,5 @@
 interface:
-  display_name: GAME · Дизайн · 5.0.0
+  display_name: GAME · Дизайн · 6.0.0
   short_description: Виконуваний TDD, каталоги, правила й точні передачі
   default_prompt: $gamedev-preproduction Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
   icon_small: ./assets/family-icon-small.png

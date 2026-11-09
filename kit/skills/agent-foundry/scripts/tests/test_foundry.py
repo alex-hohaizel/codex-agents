@@ -43,9 +43,10 @@ def blueprint():
 
 class FoundryTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory();self.base=Path(self.temp.name)
+        self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.base=Path(self.temp.name)
         self.bundle=self.base/'bundle';(self.bundle/'scripts').mkdir(parents=True);(self.bundle/'assets').mkdir();(self.bundle/'references').mkdir()
         shutil.copyfile(SOURCE/'foundry.py',self.bundle/'scripts/foundry.py')
+        shutil.copyfile(SOURCE/'check_foundry_depth.py',self.bundle/'scripts/check_foundry_depth.py')
         shutil.copyfile(SOURCE.parent/'assets/blueprint.template.json',self.bundle/'assets/blueprint.template.json')
         shutil.copyfile(SOURCE.parent/'assets/discovery-topics.json',self.bundle/'assets/discovery-topics.json')
         (self.bundle/'references/generated-agent-contract.md').write_text('Fixed fixture contract.')
@@ -165,6 +166,31 @@ class FoundryTests(unittest.TestCase):
         self.ready_design();self.artifact();self.evidence(observer='maker',expected=2);self.evidence(status='observed',expected=2);self.evidence()
     def test_evidence_must_cover_declared_artifacts(self):
         self.ready_design();self.artifact();self.evidence(artifact='OTHER',expected=2)
+
+    def test_supplied_old_observation_is_never_rebound_to_new_bytes(self):
+        self.ready_design();self.artifact();self.evidence()
+        old = self.state()['evidence']['EV-1']
+        self.write('deliverable/skills/target-agent/SKILL.md', 'materially changed output')
+        record = self.state()['artifacts']['ART-1']
+        for key in ('sha256', 'definition_sha256', 'revision', 'status'): record.pop(key, None)
+        self.call('artifact', record=record)
+        self.assertEqual(self.state()['evidence']['EV-1']['status'], 'stale')
+        old.update(id='EV-2', status='pass')
+        self.call('evidence', record=old, expected=2)
+        self.assertNotIn('EV-2', self.state()['evidence'])
+
+    def test_operating_source_changes_outside_old_eleven_pins_block_execution(self):
+        self.ready_design()
+        self.bundle.joinpath('SKILL.md').write_text('Material operating instruction')
+        self.assertFalse(self.call('build-gate', expected=1)['ready'])
+
+    def test_duplicate_json_keys_are_rejected_before_record_mutation(self):
+        payload = '{"id":"GOOD","id":"CONTRADICTORY"}'
+        command = [sys.executable, str(self.script), 'requirement', str(self.root), '--record', '-']
+        result = subprocess.run(command, input=payload, text=True, capture_output=True, timeout=8)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('duplicate JSON key', result.stderr + result.stdout)
+        self.assertFalse(self.state()['requirements'])
     def test_immutable_artifact_cannot_be_replaced(self):
         self.ready_design();self.artifact(immutable=True);self.write('deliverable/skills/target-agent/SKILL.md','changed');self.call('artifact',record={'id':'ART-1','path':'deliverable/skills/target-agent/SKILL.md','bundle_path':'skills/target-agent/SKILL.md','phase_id':'PHASE-1','kind':'instruction','author_ids':['maker'],'capability_ids':['CAP-1'],'immutable':False},expected=2)
     def test_design_approval_does_not_authorize_product_execution(self):
@@ -251,7 +277,34 @@ class FoundryTests(unittest.TestCase):
         os.mkfifo(p);self.call('context',expected=2)
     def test_compatible_suite_review_does_not_reask_design_approval(self):
         self.ready_design();p=self.bundle/'references/generated-agent-contract.md';p.write_text('Compatible editorial cleanup.');self.call('build-gate',expected=1)
-        self.call('refresh','--accept-suite-update',record={'source':'actual compatibility review','verbatim':'Only editorial clarification changed.','review':'Reviewed exact diff.','impact_ids':[],'material':False});self.assertTrue(self.call('build-gate')['ready'])
+        plan=self.call('suite-update-plan')
+        review={'source':'actual compatibility review','verbatim':'Only editorial clarification changed.','review':'Reviewed exact diff.','impact_ids':[],'material':False,
+                'expected_state_sha256':plan['expected_state_sha256'],'target_suite_sha256':plan['target_suite_sha256']}
+        before=(self.root/'.agent-foundry/state.json').read_bytes()
+        result=self.call('refresh','--accept-suite-update',record=review)
+        self.assertEqual((self.root/result['backup_path']).read_bytes(),before)
+        self.assertTrue(self.call('build-gate')['ready'])
+        current=(self.root/'.agent-foundry/state.json').read_bytes()
+        self.assertTrue(self.call('refresh','--accept-suite-update',record=review)['replayed'])
+        self.assertEqual((self.root/'.agent-foundry/state.json').read_bytes(),current)
+
+    def test_suite_update_plan_is_read_only_and_rejects_changed_target(self):
+        self.ready_design();path=self.root/'.agent-foundry/state.json';before=path.read_bytes()
+        plan=self.call('suite-update-plan');self.assertEqual(path.read_bytes(),before)
+        self.assertFalse((self.root/'.agent-foundry/backups').exists())
+        self.bundle.joinpath('references/generated-agent-contract.md').write_text('Changed after exact preview')
+        review={'source':'SYNTHETIC','verbatim':'Review exact snapshot only','review':'Fixture review','impact_ids':[],'material':False,
+                'expected_state_sha256':plan['expected_state_sha256'],'target_suite_sha256':plan['target_suite_sha256']}
+        self.call('refresh','--accept-suite-update',record=review,expected=2)
+        self.assertEqual(self.state()['suite_reviews'],[])
+
+    def test_suite_adoption_rejects_stale_project_state(self):
+        self.ready_design();plan=self.call('suite-update-plan')
+        self.requirement('NEW-MUST')
+        review={'source':'SYNTHETIC','verbatim':'Review exact snapshot only','review':'Fixture review','impact_ids':[],'material':False,
+                'expected_state_sha256':plan['expected_state_sha256'],'target_suite_sha256':plan['target_suite_sha256']}
+        self.call('refresh','--accept-suite-update',record=review,expected=2)
+        self.assertIn('NEW-MUST',self.state()['requirements'])
     def test_bundle_check_exact_approved_skills_proofs_and_bytes(self):
         self.ready_design();self.artifact();self.call('bundle-check','--directory',self.root/'deliverable',expected=1);self.evidence();self.assertTrue(self.call('bundle-check','--directory',self.root/'deliverable')['valid'])
         self.write('deliverable/skills/unapproved/SKILL.md','---\nname: unapproved\ndescription: Unexpected scope.\n---\n\nUnexpected instruction.\n');self.call('bundle-check','--directory',self.root/'deliverable',expected=1)

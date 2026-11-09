@@ -21,6 +21,25 @@ from urllib.parse import unquote, urlsplit
 import uuid
 import xml.etree.ElementTree as ET
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 LOCK = Path(".agents/.agent-install.lock")
 BACKUPS = Path(".agents/agent-install-backups")
 NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -44,7 +63,10 @@ OPERATING_RESOURCES = (
     "references/adaptive-work.md", "references/research-and-synthesis.md",
     "references/visual-identity.md", "references/joint-work-codex.md",
     "scripts/adaptive_work.py", "scripts/visual_identity.py", "assets/adaptive-task.schema.json", "assets/adaptive-task.example.json",
+    "references/production-quality.md", "references/context-capsule.md",
+    "assets/production-profiles.json", "scripts/context_capsule.py",
 )
+LEGACY_OPERATING_RESOURCES = OPERATING_RESOURCES[:8]
 VISUAL_FIELDS = ("icon_small", "icon_large", "brand_color")
 
 
@@ -103,7 +125,7 @@ def read_bytes(path):
 
 def read_json(path):
     try:
-        return json.loads(read_bytes(path).decode("utf-8"))
+        return strict_json_loads(read_bytes(path).decode("utf-8"))
     except (ValueError, UnicodeError) as error:
         raise InstallError("Invalid UTF-8 JSON: " + str(path)) from error
 
@@ -275,7 +297,8 @@ def validate_manifest(value):
         if not isinstance(standard, dict) or standard.get("schema") != OPERATING_SCHEMA or not isinstance(standard.get("release"), str) or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", standard["release"]):
             raise InstallError("Unsupported generated-agent operating standard")
         resources = standard.get("resources")
-        if not isinstance(resources, dict) or set(resources) != set(OPERATING_RESOURCES) or any(not isinstance(h, str) or not HEX.fullmatch(h) for h in resources.values()):
+        required_resources = OPERATING_RESOURCES if int(standard['release'].split('.')[0]) >= 6 else LEGACY_OPERATING_RESOURCES
+        if not isinstance(resources, dict) or set(resources) != set(required_resources) or any(not isinstance(h, str) or not HEX.fullmatch(h) for h in resources.values()):
             raise InstallError("Operating standard must pin every portable resource")
         for name, entry in by_name.items():
             if any(entry["files"].get(path) != wanted for path, wanted in resources.items()):
@@ -306,7 +329,7 @@ def load_kit(kit):
         validate_skill(kit, name)
         if manifest.get("operating_standard") is not None:
             content = read_bytes(kit / entry["path"] / "SKILL.md").decode("utf-8")
-            for path in OPERATING_RESOURCES:
+            for path in manifest['operating_standard']['resources']:
                 if path.startswith("references/") and not re.search(r"\]\((?:\./)?" + re.escape(path) + r"\)", content):
                     raise InstallError("Missing local operating-standard entry link: " + name + ": " + path)
             validate_project_identity(kit / entry["path"])
@@ -328,7 +351,7 @@ def visual_ui(data):
                     raise InstallError("Duplicate JSON UI field: " + key)
                 result[key] = value
             return result
-        value = json.loads(text, object_pairs_hook=unique)
+        value = strict_json_loads(text, object_pairs_hook=unique)
         if not isinstance(value, dict) or not isinstance(value.get("interface", {}), dict):
             raise InstallError("JSON UI interface must be a mapping")
         fields = {key: value["interface"].pop(key) for key in VISUAL_FIELDS if key in value.get("interface", {})}
@@ -394,7 +417,7 @@ def icon_paths(fields):
 def overlay_ui(data, fields):
     _, cleaned = visual_ui(data)
     if data.decode("utf-8").lstrip().startswith("{"):
-        value = json.loads(cleaned)
+        value = strict_json_loads(cleaned)
         value.setdefault("interface", {}).update(fields)
         return encode(value)
     additions = "".join("  " + key + ": " + json.dumps(fields[key], ensure_ascii=False) + "\n" for key in VISUAL_FIELDS if key in fields)
@@ -457,7 +480,7 @@ def validate_project_identity(root):
         if not rel.parts or rel.parts[0] != "assets":
             raise InstallError("Prior icon snapshot must be bundled under assets/")
         prior = read_bytes(root / rel)
-        if digest(prior) != binding["sha256"] or json.loads(prior) != current:
+        if digest(prior) != binding["sha256"] or strict_json_loads(prior) != current:
             raise InstallError("Preserved project icon differs from its bound prior snapshot")
     else:
         raise InstallError("Generated icon origin must be created or preserved")
@@ -610,7 +633,7 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
     operations = []
     overlays = {}
     preserved_visuals = []
-    observed_old_manifest = json.loads(json.dumps(old_state["manifest"])) if old_state else None
+    observed_old_manifest = strict_json_loads(json.dumps(old_state["manifest"])) if old_state else None
     for name in sorted(set(entries) | removed):
         target = safe_path(project / ".agents/skills" / name)
         actual = fingerprint(target, "skill")
@@ -742,6 +765,8 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
     warnings = ["Use one active source per agent; host discovery and execution are separate from file installation."]
     if manifest.get("operating_standard") is None:
         warnings.append("Legacy package has no declared operating standard; no upgraded-inheritance or behavior claim is made.")
+    elif int(manifest['operating_standard']['release'].split('.')[0]) < 6:
+        warnings.append('Historical operating standard retained; installation does not claim current6.0 quality/context inheritance or project adoption.')
     if preserved_visuals:
         warnings.append("Existing project icons/colors preserved: " + ", ".join(preserved_visuals))
     warnings.extend("Known additional active source: " + source + "; nothing disabled." for source in other_sources)

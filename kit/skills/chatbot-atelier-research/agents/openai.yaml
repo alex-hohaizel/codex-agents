@@ -1,5 +1,5 @@
 interface:
-  display_name: BOT · Дослідження · 5.0.0
+  display_name: BOT · Дослідження · 6.0.0
   short_description: Потреби, джерела й здійсненність чатбота
   default_prompt: Використай $chatbot-atelier-research для завершення потрібного етапу створення або розвитку чатбота.
   icon_small: ./assets/family-icon-small.png

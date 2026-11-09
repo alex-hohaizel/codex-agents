@@ -1,5 +1,5 @@
 interface:
-  display_name: GAME · Випуск · 5.0.0
+  display_name: GAME · Випуск · 6.0.0
   short_description: Точні збірки, перевірені платежі й керований випуск
   default_prompt: $gamedev-release Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
   icon_small: ./assets/family-icon-small.png

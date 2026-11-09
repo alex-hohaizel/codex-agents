@@ -1,7 +1,12 @@
 """Negative controls for chatbot formal-contract consistency and readiness."""
 import copy
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
-from check_chat_contract import validate, brief_hash, attempt_hash
+from check_chat_contract import validate, brief_hash, attempt_hash, contract_hash
 from test_platform_adapter import fixture as adapter_fixture
 
 
@@ -37,7 +42,8 @@ def integrated():
                       'actual_run_id': 'SYNTHETIC-A1', 'input_snapshot': {'hash': 'a' * 64},
                       'effective_parameters': {'scope': 'synthetic'}, 'result': 'passed',
                       'subject': {'brief_id': d['brief']['id'], 'brief_version': d['brief']['version'],
-                                  'brief_sha256': brief_hash(d['brief'])}}]
+                                  'brief_sha256': brief_hash(d['brief']),
+                                  'contract_sha256': contract_hash(d)}}]
     d['evidence'] = [{'id': 'E1', 'kind': 'execution', 'artifact': 'synthetic-output.log',
                       'sha256': 'b' * 64, 'procedure': 'synthetic consistency probe',
                       'result': 'passed', 'limitations': ['SYNTHETIC; no actual product or provider run'],
@@ -51,6 +57,15 @@ class FormalContractTests(unittest.TestCase):
 
     def test_valid_spec_does_not_need_fake_execution(self):
         self.assertEqual(validate(specified()), [])
+
+    def test_read_only_subject_command_returns_current_normative_pins(self):
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
+            path=Path(directory)/'contract.json';data=specified();path.write_text(json.dumps(data));before=path.read_bytes()
+            command=[sys.executable,'-B',str(Path(__file__).with_name('check_chat_contract.py')),str(path),'--subject']
+            result=subprocess.run(command,capture_output=True,text=True,timeout=5)
+            self.assertEqual(result.returncode,0,result.stderr+result.stdout)
+            self.assertEqual(json.loads(result.stdout)['contract_sha256'],contract_hash(data))
+            self.assertEqual(path.read_bytes(),before)
 
     def test_unknown_system_blocks_specified(self):
         d = specified(); d['applicability'][0]['state'] = 'unknown'
@@ -165,6 +180,24 @@ class FormalContractTests(unittest.TestCase):
     def test_changed_attempt_inputs_cannot_reuse_previous_proof(self):
         d = integrated(); d['attempts'][0]['input_snapshot']['hash'] = 'c' * 64
         self.assert_rejects(d, 'attempt snapshot differs')
+
+    def test_normative_contract_changes_cannot_reuse_previous_observation(self):
+        changes = [
+            ('systems', lambda d: d['systems'][0]['rules'][0].update(algorithm='skip authorization')),
+            ('requirements', lambda d: d['requirements'][0].update(acceptance='any actor may read')),
+            ('recipes', lambda d: d['recipes'][0].update(steps=['skip validation', 'commit'])),
+            ('operations', lambda d: d['operations'][0].update(outputs=['unscoped secret'])),
+            ('platform_adapters', lambda d: d['platform_adapters'][0].update(authorization='allow all')),
+        ]
+        for name, change in changes:
+            with self.subTest(contract=name):
+                d = integrated(); change(d)
+                self.assert_rejects(d, 'semantic contract')
+
+    def test_old_integration_without_contract_pin_requires_new_observation(self):
+        d = integrated(); d['attempts'][0]['subject'].pop('contract_sha256')
+        d['evidence'][0]['attempt_sha256s']['A1'] = attempt_hash(d['attempts'][0])
+        self.assert_rejects(d, 'semantic contract')
 
     def test_parameterless_operation_records_empty_actual_parameter_object(self):
         d = integrated(); d['attempts'][0]['effective_parameters'] = {}

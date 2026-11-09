@@ -20,7 +20,7 @@ def requirement(ident,priority='must'):
 
 class LedgerTests(unittest.TestCase):
     def setUp(self):
-        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.serial=0
         self.profile={'schema_version':'app-atelier-profile/1','id':'fixture','constraints':{'no_human_experiments':False,'owner_operational_work':True},'requirements':[]}
     def file(self,obj):
@@ -70,6 +70,10 @@ class LedgerTests(unittest.TestCase):
                 else:
                     (self.root/'replacement.proof').write_text('Different synthetic observation')
                     e['proof_path']='replacement.proof'
+                # This case deliberately records a new observation of its new
+                # subject/proof. Carrying old pins instead is tested below.
+                e['artifact_hashes']={aid:self.ledger()['artifact'][aid]['sha256'] for aid in e['artifact_ids']}
+                e['proof_sha256']=state.file_sha(self.root/e['proof_path'])
                 self.put('evidence',e)
                 ledger=self.ledger()
                 self.assertTrue(state.fresh_evidence(self.root,ledger,ledger['evidence']['E-'+jid]))
@@ -106,7 +110,8 @@ class LedgerTests(unittest.TestCase):
         e=self.ledger()['evidence']['E-J'];e.update(independent=False,observer='author');self.put('evidence',e)
         result=self.cli('complete','--job','J',code=2)
         self.assertIn('independent review required for every declared output',result['error'])
-        e.update(independent=True,observer='reviewer');e['artifact_ids']=[self.proof('OTHER')[0]];self.put('evidence',e)
+        e.update(independent=True,observer='reviewer');e['artifact_ids']=[self.proof('OTHER')[0]]
+        e['artifact_hashes']={aid:self.ledger()['artifact'][aid]['sha256'] for aid in e['artifact_ids']};self.put('evidence',e)
         result=self.cli('complete','--job','J',code=2)
         self.assertIn('evidence does not cover every output',result['error'])
 
@@ -177,7 +182,7 @@ class LedgerTests(unittest.TestCase):
     def test_global_constraint_and_unknown_field_changes_are_conservative(self):
         for change in ({'constraints':{'no_human_experiments':True}},{'unclassified_product_rule':'new behavior'}):
             # A separate ledger per variation, preserving explicit true isolation.
-            with tempfile.TemporaryDirectory() as folder:
+            with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as folder:
                 oldroot=self.root;self.root=Path(folder)
                 try:
                     self.init();self.job('J');p=copy.deepcopy(self.profile);p.update(change);r=self.amend(p)
@@ -189,5 +194,20 @@ class LedgerTests(unittest.TestCase):
         self.init();self.job('J');p=copy.deepcopy(self.profile);p['unknown_rule']='changed';self.amend(p)
         p['metadata']={'note':'annotation'};self.amend(p)
         self.assertEqual(self.cli('status')['stale_completed_jobs'],['J'])
+
+    def test_old_supplied_evidence_bindings_are_rejected_without_rewrite(self):
+        self.init();aid,eid=self.proof('OBS')
+        old=copy.deepcopy(self.ledger()['evidence'][eid])
+        (self.root/'OBS.txt').write_text('Materially different subject')
+        self.put('artifact',{'id':aid,'path':'OBS.txt','author_ids':['author']})
+        old.update(id='E-NEW',status='pass')
+        result=self.put('evidence',old,code=2)
+        self.assertIn('supplied observation snapshot',result['error'])
+        self.assertNotIn('E-NEW',self.ledger()['evidence'])
+
+    def test_duplicate_policy_keys_reject_before_interpretation(self):
+        p=self.root/'ambiguous.json';p.write_text('{"no_human_experiments":true,"no_human_experiments":false}')
+        with self.assertRaisesRegex(ValueError,'duplicate JSON key'):
+            state.read_json(p)
 
 if __name__=='__main__':unittest.main()

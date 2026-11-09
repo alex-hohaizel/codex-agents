@@ -11,6 +11,26 @@ import json
 from pathlib import Path
 
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
+
 def round_even(value):
     q, r = divmod(value.numerator, value.denominator)
     twice = 2 * r
@@ -77,7 +97,7 @@ def ideal_contact():
 
 
 def verify(path):
-    expected = json.loads(Path(path).read_text(encoding='utf-8'))
+    expected = strict_json_loads(Path(path).read_text(encoding='utf-8'))
     actual = {'channel_hit': channel_hit(), 'periodic_damage': periodic_damage(),
               'ttk_two_successes': ttk_two_successes(), 'ideal_contact': ideal_contact()}
     errors = [name + ': golden output mismatch' for name, result in actual.items()

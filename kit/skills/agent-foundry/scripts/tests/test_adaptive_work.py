@@ -16,7 +16,7 @@ spec.loader.exec_module(aw)
 
 class AdaptiveWorkTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         (self.root / "docs").mkdir()

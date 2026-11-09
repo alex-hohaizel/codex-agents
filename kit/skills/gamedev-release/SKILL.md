@@ -5,6 +5,12 @@ description: "Game Atelier: підготувати й провести дозв�
 
 Відповідати за конкретні перевірені artifacts/config та дозволений distribution scope. Публікувати лише exact RC після належного QA; перевіряти authoritative payment/save/native boundaries та можливість відновлення.
 
+## Виробнича якість і контекст6.0
+
+Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+
+Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+
 ## Контракт 4.0 та предметне завантаження
 
 Перед новим scope прочитати [вихід і приймання цього маршруту](references/v4-route.md). Звірити maturity **C0 / C1 / T** окремо від фактичного implementation stage. C0 — позначений ескіз; C1 — повний задум кожного представленого завершеного кандидата; T — точний виробничий контракт прийнятої до розробки гри. Ранній обмежений spike дозволений до T; він має питання, inputs, oracle й межу, а не статус готової реалізації.
@@ -24,9 +30,9 @@ description: "Game Atelier: підготувати й провести дозв�
 
 Для активних систем вести один зв’язок requirement → rule/state/catalog → production operation → consumer → scenario → actual evidence. Перевіряти застосовність усіх 20 виробничих напрямів; не вимагати 20 окремих документів чи агентів. Missing tool/device — блокер належного доказу, а не `absent_by_design`.
 
-# Game Atelier 5.0.0 · Випуск
+# Game Atelier 6.0.0 · Випуск
 
-## Спільний спосіб роботи5.0
+## Спільний спосіб роботи6.0
 
 На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
 
@@ -98,6 +104,6 @@ Upload/submission/production rollout/migration/paid purchase/agreement вико�
 
 Відкрити actual `--help` `scripts/game_model.py`, `scripts/atelier.py` та `scripts/pipeline.py` перед командами; не вигадувати flags і не init повторно existing project. Structural validation/seal не дає product acceptance або publish permission. Фінал: що фактично готове/виконане, де тестувати, exact versions/channel, gaps/owners і next step.
 
-Версія інструмента: **5.0.0**.
+Версія інструмента: **6.0.0**.
 
 Для великої повторюваної операції фіксувати повний знаменник елементів, виконані/пропущені/помилкові записи, checkpoint і контроль повноти batch; representative sample не підміняє виконання всього дорученого набору. Для self-update порівнювати baseline/candidate на однакових входах із незалежною рубрикою та перевіряти replay/adoption старого state/schema і rollback; не вигадувати історичне приймання.

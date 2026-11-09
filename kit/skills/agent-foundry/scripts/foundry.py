@@ -17,6 +17,25 @@ import zipfile
 from contextlib import contextmanager
 from pathlib import Path, PurePosixPath
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 VERSION = "1.0.0"
 SPECIALIST_SELECTORS = {"app": "app-atelier-director", "chatbot": "chatbot-atelier-director", "agent_skill": "design-specialist-skills"}
 SPECIALIST_STAGES = {
@@ -112,12 +131,57 @@ def sha(path):
 
 
 def input_json(path):
-    return json.load(sys.stdin) if str(path) == "-" else json.loads(read_bytes(Path(path)).decode("utf-8"))
+    return strict_json_loads(sys.stdin.read(MAX_BYTES + 1)) if str(path) == "-" else strict_json_loads(read_bytes(Path(path)).decode("utf-8"))
 
 
 def suite():
     root = SCRIPT_ROOT.parent
-    return {name: sha(root / name) if (root / name).is_file() else None for name in ("scripts/foundry.py", "assets/blueprint.template.json", "assets/discovery-topics.json", "references/generated-agent-contract.md", "references/adaptive-work.md", "references/research-and-synthesis.md", "references/visual-identity.md", "scripts/adaptive_work.py", "scripts/visual_identity.py", "assets/adaptive-task.schema.json", "assets/adaptive-task.example.json")}
+    # The operating standard includes instructions, contracts, schemas and the
+    # validators that interpret them. Tests/cache are not runtime dependencies.
+    required = {"scripts/foundry.py", "assets/blueprint.template.json", "assets/discovery-topics.json", "references/generated-agent-contract.md", "references/adaptive-work.md", "references/research-and-synthesis.md", "references/visual-identity.md", "scripts/adaptive_work.py", "scripts/visual_identity.py", "assets/adaptive-task.schema.json", "assets/adaptive-task.example.json"}
+    if (root / "SKILL.md").exists():
+        required.add("SKILL.md")
+    for directory in ("scripts", "references", "assets"):
+        for path in (root / directory).rglob("*"):
+            relative_name = path.relative_to(root).as_posix()
+            if any(part in {"tests", "__pycache__"} for part in path.relative_to(root).parts) or path.name.startswith("test_") or path.suffix in {".pyc", ".pyo"}:
+                continue
+            if path.is_file() or path.is_symlink():
+                required.add(relative_name)
+    return {name: sha(root / name) if (root / name).is_file() else None for name in sorted(required)}
+
+
+def suite_update_plan(state, home):
+    target = suite()
+    previous = state['suite']
+    return {'project_id': state['project_id'], 'native_schema': state['schema_version'],
+            'revision': state['revision'], 'expected_state_sha256': sha(home/'state.json'),
+            'from_suite_sha256': digest(previous), 'target_suite_sha256': digest(target),
+            'changed_sources': [name for name in sorted(set(previous)|set(target)) if previous.get(name) != target.get(name)],
+            'target_complete': all(value is not None for value in target.values()),
+            'review_required': True, 'applied': False, 'executes': False,
+            'pending_or_unknown_actions': sorted(key for key,row in state['actions'].items() if row.get('status') in {'pending','unknown'}),
+            'limits': 'Source-to-target preview only. Review actual semantic impact; acceptance and external outcomes remain separate.'}
+
+
+def suite_backup(root, expected):
+    raw = read_bytes(safe(root, '.agent-foundry/state.json'))
+    need(hashlib.sha256(raw).hexdigest() == expected, 'source state changed during suite adoption; repeat preview')
+    folder = safe(root, '.agent-foundry/backups')
+    folder.mkdir(mode=0o700, exist_ok=True)
+    need(folder.is_dir(), 'suite backup directory missing')
+    relative_name = '.agent-foundry/backups/suite-' + expected + '.json'
+    path = safe(root, relative_name)
+    if path.exists():
+        need(read_bytes(path) == raw, 'existing suite backup differs; reconcile before adoption')
+    else:
+        fd = os.open(path, os.O_CREAT|os.O_EXCL|os.O_WRONLY|getattr(os,'O_NOFOLLOW',0), 0o600)
+        with os.fdopen(fd,'wb') as stream:
+            stream.write(raw);stream.flush();os.fsync(stream.fileno())
+        directory_fd = os.open(folder, os.O_RDONLY)
+        try: os.fsync(directory_fd)
+        finally: os.close(directory_fd)
+    return {'backup_path': relative_name, 'backup_sha256': expected}
 
 
 @contextmanager
@@ -145,7 +209,7 @@ def lock(root, create=False):
 
 
 def read_state(home):
-    state = json.loads(read_bytes(home / "state.json").decode())
+    state = strict_json_loads(read_bytes(home / "state.json").decode())
     need(state.get("schema_version") == VERSION, "unsupported state schema")
     previous = None
     for index, event in enumerate(state.get("journal", []), 1):
@@ -317,7 +381,7 @@ def check_blueprint(bp, root):
             need(q.get("due_phase") in groups["phases"], "future question needs exact due phase")
     catalog = SCRIPT_ROOT.parent / "assets/discovery-topics.json"
     need(bp.get("discovery_catalog_sha256") == sha(catalog), "blueprint must pin current discovery topic catalog")
-    topics = {r["id"] for r in json.loads(read_bytes(catalog).decode())["topics"]}
+    topics = {r["id"] for r in strict_json_loads(read_bytes(catalog).decode())["topics"]}
     evaluations = bp.get("discovery_coverage")
     need(isinstance(evaluations, list), "explicit discovery_coverage required")
     ids = [r.get("topic_id") for r in evaluations if isinstance(r, dict)]
@@ -473,7 +537,7 @@ def authority_current(root, record, subject):
         path = safe(root, binding["path"], public=True)
         if sha(path) != binding["sha256"]:
             return False
-        data = json.loads(read_bytes(path).decode())
+        data = strict_json_loads(read_bytes(path).decode())
         if data.get("schema_version") != "foundry-authority/1":
             return False
         matches = [x for x in data.get("items", []) if x.get("id") == binding["record_id"]]
@@ -831,7 +895,10 @@ def dispatch(state, root, args, record):
         if test["independent"]:
             need(record["status"] != "observed" and all(record["observer"] not in state["artifacts"][x]["author_ids"] for x in ids), "independent test cannot use author/self-observation")
         proof = safe(root, record["proof_path"], public=True)
-        return put(state, "evidence", dict(record, proof_sha256=sha(proof), artifact_hashes={x: state["artifacts"][x]["sha256"] for x in ids}, test_sha256=digest(test)))
+        bindings = {"proof_sha256": sha(proof), "artifact_hashes": {x: state["artifacts"][x]["sha256"] for x in ids}, "test_sha256": digest(test)}
+        for key, value in bindings.items():
+            need(key not in record or record[key] == value, "evidence " + key + " differs from supplied observation snapshot; record a new observation")
+        return put(state, "evidence", dict(record, **bindings))
     if cmd == "execution":
         authority(record)
         preserve_authority_binding(state["executions"].get(record.get("id")), record)
@@ -1073,23 +1140,38 @@ def dispatch(state, root, args, record):
     if cmd == "refresh":
         if args.accept_suite_update:
             source(record)
-            fields(record, "review")
+            fields(record, "review", "expected_state_sha256", "target_suite_sha256")
             strings(record.get("impact_ids"), "impact_ids")
             need(type(record.get("material")) is bool, "explicit suite material-impact verdict required")
-            state["suite"] = suite()
-            state["suite_reviews"].append(record)
+            target = suite()
+            need(all(value is not None for value in target.values()), 'target operating standard incomplete')
+            need(record['target_suite_sha256'] == digest(target), 'target operating standard changed; repeat suite-update-plan')
+            replay = next((review for review in reversed(state['suite_reviews'])
+                           if state['suite'] == target and all(review.get(key) == value for key,value in record.items())), None)
+            if replay is not None:
+                return {'suite_adopted': True, 'replayed': True, 'executes': False,
+                        'backup_path': replay['backup_path'], 'backup_sha256': replay['backup_sha256']}
+            need(record['expected_state_sha256'] == args._source_state_sha256,
+                 'source state changed since suite-update-plan; reread current state')
+            backup = suite_backup(root, record['expected_state_sha256'])
+            need(suite() == target, 'target operating standard changed during adoption; repeat suite-update-plan')
+            state["suite"] = target
+            state["suite_reviews"].append(dict(record, **backup))
             mark_impact(state, set(record["impact_ids"]), set())
             if record["material"] and state.get("approval"):
                 state["approval"]["status"] = "stale"
         refresh(state, root)
-        return {"ready": not state["integrity_errors"], "integrity_errors": state["integrity_errors"], "approval": state.get("approval")}
+        result = {"ready": not state["integrity_errors"], "integrity_errors": state["integrity_errors"], "approval": state.get("approval")}
+        if args.accept_suite_update:
+            result.update(suite_adopted=True, replayed=False, executes=False, **backup)
+        return result
     raise ValueError("unsupported command")
 
 
 def parser():
     p = argparse.ArgumentParser(description=__doc__)
     commands = p.add_subparsers(dest="command", required=True)
-    names = ("init", "blueprint", "check", "approve", "build-gate", "context", "lesson", "artifact", "test", "evidence", "execution", "requirement", "decision", "task", "readiness", "start", "complete", "phase-check", "bundle-check", "intake", "pause", "resume", "capability", "grant", "action", "dispatch", "receipt", "refresh")
+    names = ("init", "blueprint", "check", "approve", "build-gate", "context", "lesson", "artifact", "test", "evidence", "execution", "requirement", "decision", "task", "readiness", "start", "complete", "phase-check", "bundle-check", "intake", "pause", "resume", "capability", "grant", "action", "dispatch", "receipt", "refresh", "suite-update-plan")
     records = {"blueprint", "approve", "lesson", "artifact", "test", "evidence", "execution", "requirement", "decision", "task", "intake", "pause", "capability", "grant", "action", "receipt"}
     for name in names:
         q = commands.add_parser(name)
@@ -1141,8 +1223,12 @@ def main():
                 state = {"schema_version": VERSION, "project_id": args.project_id, "purpose": args.purpose, "revision": 0, "design_revision": 0, "suite": suite(), "blueprint": None, "blueprint_history": [], "requirement_history": [], "decision_history": [], "record_history": [], "amendments": [], "approval": None, "intakes": [], "suite_reviews": [], "integrity_errors": [], "pause": {"active": False, "boundary": None, "reason": "new session"}, "journal": [], **{g: {} for g in GROUPS}}
                 save(home, state, "init")
                 result = {"project_id": args.project_id, "purpose": args.purpose, "initialized": True, "project_revision": state["revision"]}
+            elif args.command == 'suite-update-plan':
+                # Planning must not persist a routine refresh or create consent.
+                result = suite_update_plan(read_state(home), home)
             else:
                 state = read_state(home)
+                args._source_state_sha256 = sha(home/'state.json')
                 before = copy.deepcopy(state)
                 refresh(state, root)
                 refreshed = copy.deepcopy(state)

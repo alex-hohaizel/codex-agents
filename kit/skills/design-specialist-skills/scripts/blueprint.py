@@ -7,6 +7,25 @@ from pathlib import Path
 import re
 
 
+
+
+def strict_json_loads(raw, **kwargs):
+    """Reject ambiguous/nonfinite JSON before hashing, validation or mutation."""
+    if len(raw) > 256 * 1024 * 1024:
+        raise ValueError("JSON exceeds bounded input limit")
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate JSON key: " + key)
+            result[key] = value
+        return result
+    def finite(value):
+        raise ValueError("nonfinite JSON value: " + value)
+    kwargs.setdefault("object_pairs_hook", unique)
+    kwargs.setdefault("parse_constant", finite)
+    return json.loads(raw, **kwargs)
+
 def proposal_hash(data):
     content = {k: v for k, v in data.items() if k not in {'approval', 'checkpoint'}}
     return hashlib.sha256(json.dumps(content, sort_keys=True, ensure_ascii=False, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
@@ -217,7 +236,7 @@ def main():
                 stream.write(template.read_text())
             print('Draft created; not approved and not ready to create skills.')
             return 0
-        data = json.loads(args.file.read_text())
+        data = strict_json_loads(args.file.read_text())
         if not isinstance(data, dict) or data.get('schema_version') != 'skill.blueprint/2':
             raise ValueError('unsupported blueprint schema; prepare a current blueprint from actual sources')
         if args.command == 'hash':

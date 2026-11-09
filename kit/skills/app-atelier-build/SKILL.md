@@ -3,9 +3,15 @@ name: app-atelier-build
 description: "App Atelier: реалізувати або продовжити погоджений застосунок як самостійні Android, iOS і web клієнти одного продукту. Використовуй для репозиторію, наскрізного технічного зрізу, клієнтів, backend за потребою, data/auth contracts, billing/entitlements, інтеграцій, CI, налагодження та підготовки перевірюваних збірок. Не фіксуй стек або сервер до предметної специфікації."
 ---
 
-# App Atelier 5.0.0 · Реалізація
+# App Atelier 6.0.0 · Реалізація
 
-## Спільний спосіб роботи5.0
+## Виробнича якість і контекст6.0
+
+Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+
+Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+
+## Спільний спосіб роботи6.0
 
 На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
 
@@ -23,9 +29,9 @@ description: "App Atelier: реалізувати або продовжити п
 
 Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
 
-Редакція інструментарію **5.0.0**. Перед залежною предметною роботою прочитати [наскрізний контракт](references/cross-domain-core.md) та [виробничу глибину етапу](references/app-depth.md) і [модель систем застосунку](references/app-system-contract.md). Інстанціювати потрібні [рецепти й матрицю покриття](assets/app-depth.templates.json) у проєктних artifacts і реєструвати їх у чинному canonical state; шаблон не є виконаною операцією або доказом.
+Редакція інструментарію **6.0.0**. Перед залежною предметною роботою прочитати [наскрізний контракт](references/cross-domain-core.md) та [виробничу глибину етапу](references/app-depth.md) і [модель систем застосунку](references/app-system-contract.md). Інстанціювати потрібні [рецепти й матрицю покриття](assets/app-depth.templates.json) у проєктних artifacts і реєструвати їх у чинному canonical state; шаблон не є виконаною операцією або доказом.
 
-Обов’язок входу: До тиражування закрити inventory всіх класів станів/варіантів трьох клієнтів, exact domain/state/error contracts, ризикові capability probes та репрезентативний integration slice. Для кожного launch output потрібні recipe і consumer; missing tool не є N/A.
+Обов’язок входу: До тиражування закрити inventory всіх класів станів/варіантів погоджених клієнтів, exact domain/state/error contracts, ризикові capability probes та репрезентативний integration slice. Для кожного launch output потрібні recipe і consumer; missing tool не є N/A.
 
 Обов’язок виходу: До передачі QA прив’язати current source/build/config hashes до actual attempts і assembly scenarios, зберегти golden vectors, data migration/recovery, editable masters/rights та належні platform proofs. Відсутній due proof залишити blocked; compile pass не є device proof.
 
@@ -43,7 +49,7 @@ description: "App Atelier: реалізувати або продовжити п
 5. Перед залежностями/сервісами прочитати [бюджет](references/budget-contract.md).
 6. Для реалізації завантажити [workflow](references/workflow.md); для завершення — [acceptance](references/acceptance.md).
 
-Входи: чинні PRD/TDD, accepted masters, core journeys трьох клієнтів, data/API/auth contracts.
+Входи: чинні PRD/TDD, accepted masters, core journeys погодженого набору клієнтів, data/API/auth contracts.
 Додати resource plan, bill/entitlement model за застосовності, capability inventory і release feasibility.
 Визначити поточний repo/branch/worktree, фактичні зміни, owner paths та доступні SDK/пристрої.
 Не трактувати історію чату або назву плагіна як доказ доступу, версії чи готового коду.
@@ -52,10 +58,10 @@ description: "App Atelier: реалізувати або продовжити п
 ## 1. Перевірити готовність виробничого scope
 
 До значної реалізації звірити accepted напрям/концепцію/дизайн, ресурсний план і економіку.
-Перевірити ранній маршрут Android/iOS/web, store/account/cost/testing prerequisites та no-human constraint.
+Перевірити ранній маршрут кожного accepted client, store/account/cost/testing prerequisites та чинні profile constraints. Android/iOS/web реалізувати саме за погодженим platform set.
 Недоступний акаунт/SDK/signing або конфлікт правил позначити blocked для відповідного scope.
-Не обходити store-вимогу синтетичними «людьми» й не запускати рекрутинг тестувальників.
-Власник тільки керує агентом; не додавати ручні продажі, модерацію або контент як приховану функцію продукту.
+Не обходити store-вимогу синтетичними «людьми». Рекрутинг/людські досліди дозволені лише коли входять до actual accepted profile і чинної scoped authority; без цього зберігати conservative defaults.
+Якщо accepted profile обмежує власника керуванням агентом, не додавати ручні продажі, модерацію чи контент. Для іншого profile звірити дозволену участь; не переносити обмеження попереднього продукту на новий.
 Не витрачати нові зовнішні кошти поза погодженим бюджетом; free tier має ліміти й умови.
 Не виконувати публікацію, production міграцію чи live оплату лише на підставі доручення написати код.
 
