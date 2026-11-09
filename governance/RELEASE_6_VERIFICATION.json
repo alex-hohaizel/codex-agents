@@ -3,10 +3,10 @@
   "suite_version": "6.0.0",
   "repository_version": "1.2.0",
   "date": "2026-11-09",
-  "status": "verified_source_and_local_installation_pending_publication_and_model_gate",
+  "status": "delivered_source_local_installation_and_service_with_explicit_model_gate_pending",
   "baseline_commit": "5acde284853c7fb65a1cff8a0d71f28bfcf99676",
   "preserved": [
-    "33corestable names and icon bytes/bindings/colors",
+    "33 core stable names and icon bytes/bindings/colors",
     "Native product formats, accepted requirements/identity/permissions and existing product state",
     "Exact previous trees for verified5.0.0 predecessor"
   ],
@@ -88,9 +88,7 @@
     }
   },
   "pending": [
-    "Exact optional skill installation and fresh host discovery",
-    "Final source bundles and publication/read-back/CI",
-    "One final restricted-profile model smoke: explicit owner reapproval pending"
+    "One final restricted-profile model smoke: explicit owner reapproval pending after automatic review rejection"
   ],
   "model_route": {
     "earlier_read_only_temp_fixture_succeeded": true,
@@ -116,7 +114,18 @@
       "cause": "Cold CI ran launcher tests before building the client",
       "correction": "Build the client before launcher tests",
       "recheck": "pending"
-    }
+    },
+    "validated_code_commit": "d7078bbc650865ccbc265a7dd1ed1951324b9ea4",
+    "code_ci": {
+      "run_id": 42558627948,
+      "conclusion": "success",
+      "url": "https://github.com/alex-hohaizel/codex-agents/actions/runs/42558627948",
+      "service_build_tests": true,
+      "core_contract_tests": true,
+      "source_campaign_recovery_and_packages": true,
+      "artifacts_uploaded": true
+    },
+    "metadata_followup": "This record is a metadata-only continuation. Its own commit and CI are observed separately by the executor; no self-referential commit hash is fabricated."
   },
   "host_installation": {
     "status": "33_core_and_13_host_profile_files_applied_and_verified",
@@ -129,9 +138,18 @@
       "source_commit": "9598c54b979c27e26faa25f21df06c62476f49d2",
       "source_files": 28,
       "exact_file_set_and_hashes_verified": true,
-      "host_discovery": "pending"
+      "host_discovery": "observed in fresh skills/list at exact installed source path"
     },
-    "private_receipts_published": false
+    "private_receipts_published": false,
+    "actual_host_discovery": {
+      "host_rows": 183,
+      "core_expected": 33,
+      "core_discovered": 33,
+      "missing_core": [],
+      "orchestrator_discovered": true,
+      "unexpected_source_paths": [],
+      "model_calls": 0
+    }
   },
   "local_service": {
     "version": "0.1.0",
@@ -141,7 +159,14 @@
     "restart_and_same_binding_verified": true,
     "login_auto_start_enabled": false,
     "model_dispatch_during_persistent_setup": false,
-    "database": "SQLite with WAL"
+    "database": "SQLite with WAL",
+    "supported_codex_connection": {
+      "protocol_initialized": true,
+      "account_mode": "chatgpt",
+      "version": "0.166.0",
+      "model_execution_tested": false
+    }
   },
-  "comparison_scope": "Actual deterministic baseline/candidate pairs are separate from creative/model-dependent output comparison. All media scenarios are not treated as executed or certified."
+  "comparison_scope": "Actual deterministic baseline/candidate pairs are separate from creative/model-dependent output comparison. All media scenarios are not treated as executed or certified.",
+  "completed_at": "2026-11-09T03:58:04.865684+00:00"
 }

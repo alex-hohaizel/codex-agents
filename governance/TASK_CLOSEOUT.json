@@ -3,11 +3,27 @@
   "date": "2026-11-09",
   "repository_version": "1.2.0",
   "suite_version": "6.0.0",
-  "status": "in_progress",
+  "status": "delivered_with_explicit_model_test_gate_pending",
   "verification": "governance/RELEASE_6_VERIFICATION.json",
   "historical_campaign_closeout": "governance/history/TASK_CLOSEOUT-1.1.0.json",
   "publication": {
-    "status": "pending"
+    "payload_commit": "9598c54b979c27e26faa25f21df06c62476f49d2",
+    "validated_code_commit": "d7078bbc650865ccbc265a7dd1ed1951324b9ea4",
+    "main_push_and_payload_readback_observed": true,
+    "code_ci_conclusion": "success",
+    "code_ci_run_id": 42558627948,
+    "metadata_followup_own_commit_intentionally_not_embedded": true
   },
-  "work": "Deferred separate task"
+  "local_effects": {
+    "core_skills_applied_verified": 33,
+    "host_profile_files_applied_verified": 13,
+    "optional_orchestrator_installed_source_verified_discovered": true,
+    "actual_global_profile_observed_in_chat": true,
+    "local_service_running": true,
+    "persistent_setup_model_calls": 0,
+    "active_product_migrations": 0,
+    "core_icon_identity_preserved": true
+  },
+  "remaining_gate": "Automatic review requires explicit owner reapproval for one final restricted-profile read-only synthetic model smoke; not run indirectly",
+  "work": "Live audit/update/install/control deferred to a separate owner task"
 }
