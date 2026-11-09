@@ -1,5 +1,5 @@
 import { readFile, lstat, readdir } from "node:fs/promises";
-import { realpathSync } from "node:fs";
+import { realpathSync, lstatSync } from "node:fs";
 import { basename, resolve, relative } from "node:path";
 import { execFile } from "node:child_process";
 import { runtimeEnvironment } from "./environment.mjs";
@@ -22,6 +22,32 @@ import {
   ServiceError,
 } from "./utils.mjs";
 const run = promisify(execFile);
+// A recorded binding is an ownership boundary, not an invitation to resolve a
+// replacement link. Explicit project previews canonicalize a user-selected root.
+export function assertProjectRoot(root) {
+  fail(
+    resolve(root) === root,
+    "SOURCE_DRIFT",
+    "Recorded project root is not canonical",
+    409,
+  );
+  for (let path = root; ; path = resolve(path, "..")) {
+    fail(
+      !lstatSync(path).isSymbolicLink(),
+      "SOURCE_DRIFT",
+      "A recorded project path was replaced by a link; review its identity again",
+      409,
+    );
+    if (path === resolve(path, "..")) break;
+  }
+  fail(
+    realpathSync(root) === root && lstatSync(root).isDirectory(),
+    "SOURCE_DRIFT",
+    "The recorded project root changed",
+    409,
+  );
+  return root;
+}
 const stateRefs = [
   ".agent-foundry/state.json",
   ".agent-foundry/blueprint.json",
@@ -49,7 +75,211 @@ const instructionRefs = [
   "docs/checkpoint.json",
   "docs/decisions.json",
   "docs/identity.json",
+  "docs/project/CHECKPOINT_UA.md",
+  "docs/project/CHECKPOINT.md",
+  "docs/project/checkpoint.json",
 ];
+const recordText = (row) =>
+  typeof row === "string"
+    ? row
+    : row && typeof row === "object"
+      ? ([
+          row.text,
+          row.title,
+          row.objective,
+          row.goal,
+          row.mission,
+          row.description,
+        ].find((x) => typeof x === "string") ?? "")
+      : "";
+const section = (raw, pattern, { excludeCompleted = false } = {}) => {
+  const lines = raw.split(/\r?\n/);
+  const start = lines.findIndex(
+    (line) => /^#{1,5}\s/.test(line) && pattern.test(line),
+  );
+  if (start < 0) return [];
+  const result = [];
+  for (const line of lines.slice(start + 1)) {
+    if (/^#{1,5}\s/.test(line)) break;
+    if (
+      excludeCompleted &&
+      /^\s*(?:(?:[-*+]|\d+[.)])\s+)?\[[xX]\](?:\s|$)/.test(line)
+    )
+      continue;
+    const clean = line.replace(/^\s*(?:[-*]|\d+[.)])\s+/, "").trim();
+    if (clean) result.push(clean);
+    if (result.length >= 6) break;
+  }
+  return result;
+};
+export function projectSignals(documents, sources) {
+  const goals = [],
+    next_actions = [],
+    work_records = [],
+    agents = [];
+  const sourceMap = new Map(sources.map((x) => [x.path, x.sha256]));
+  for (const document of documents) {
+    const data = document.data,
+      source_ref = document.path,
+      source_sha256 = sourceMap.get(source_ref);
+    if (typeof data.markdown === "string") {
+      const goalLines = section(
+        data.markdown,
+        /(?:мета|місія|mission|objective|goal)/i,
+      );
+      if (goalLines.length)
+        goals.push({
+          text: goalLines.join(" ").slice(0, 1400),
+          status: "declared",
+          source_ref,
+          source_sha256,
+          basis: "source-document; approval not inferred",
+        });
+      for (const line of section(
+        data.markdown,
+        /(?:наступн|next\s+(?:step|action)|продовжен)/i,
+        { excludeCompleted: true },
+      ))
+        next_actions.push({
+          text: line.slice(0, 700),
+          status: "declared",
+          source_ref,
+          source_sha256,
+        });
+      for (const match of data.markdown.matchAll(
+        /^\s*[-*]\s+\[([xX])\]\s+(.+)$/gm,
+      ))
+        work_records.push({
+          id: `record-${sha(source_ref + match[0]).slice(0, 16)}`,
+          objective: match[2].slice(0, 800),
+          status: "recorded",
+          native_status: "checked",
+          source: "native-project",
+          source_ref,
+          source_sha256,
+          evidence_refs: [{ path: source_ref, sha256: source_sha256 }],
+          skills: [],
+        });
+      continue;
+    }
+    const blueprint = data.blueprint?.data;
+    const approval = data.approval;
+    const authority = approval?.canonical_authority;
+    const authorityDocument =
+      authority && documents.find((row) => row.path === authority.path);
+    const authorityItems =
+      authorityDocument?.data?.items?.filter(
+        (row) => row.id === authority.record_id,
+      ) ?? [];
+    const authorityCurrent = !!(
+      authority &&
+      sourceMap.get(authority.path) === authority.sha256 &&
+      authorityDocument?.data?.schema_version === "foundry-authority/1" &&
+      authorityItems.length === 1 &&
+      authorityItems[0].actor === "user" &&
+      authorityItems[0].decision === "approve" &&
+      authorityItems[0].scope === approval.scope &&
+      authorityItems[0].subject_sha256 === data.blueprint?.sha256
+    );
+    const approvedBlueprint = !!(
+      blueprint &&
+      data.blueprint.sha256 &&
+      digest(blueprint) === data.blueprint.sha256 &&
+      approval?.actor === "user" &&
+      approval?.status === "confirmed" &&
+      approval.decision === "approve" &&
+      approval.revoked !== true &&
+      approval.blueprint_sha256 === data.blueprint.sha256 &&
+      approval.blueprint_revision === blueprint.revision &&
+      approval.design_revision === data.design_revision &&
+      authorityCurrent
+    );
+    const goal = [
+      blueprint?.goal,
+      data.goal,
+      data.objective,
+      data.mission,
+      data.profile?.goal,
+      data.project?.objective,
+    ]
+      .map(recordText)
+      .find(Boolean);
+    if (goal)
+      goals.push({
+        text: goal.slice(0, 3000),
+        status: approvedBlueprint ? "accepted" : "declared",
+        source_ref,
+        source_sha256,
+        basis: approvedBlueprint
+          ? "current-native-approval-record"
+          : "native-source; acceptance not inferred",
+        ...(approvedBlueprint
+          ? {
+              approval_ref: source_ref + "#/approval",
+              subject_sha256: data.blueprint.sha256,
+            }
+          : {}),
+      });
+    const actions = data.next_actions ?? data.next_action ?? data.next_steps;
+    for (const row of typeof actions === "string"
+      ? [{ text: actions }]
+      : rows(actions)) {
+      const value = recordText(row) || recordText(row.value);
+      if (value)
+        next_actions.push({
+          text: value.slice(0, 700),
+          status: "declared",
+          source_ref,
+          source_sha256,
+        });
+    }
+    for (const key of ["tasks", "task", "jobs", "job", "milestones"]) {
+      for (const row of rows(data[key]).slice(0, 500)) {
+        const objective = recordText(row);
+        if (objective)
+          work_records.push({
+            id: `record-${sha(source_ref + key + row.id + objective).slice(0, 16)}`,
+            native_id: row.id,
+            objective: objective.slice(0, 1000),
+            outcome: recordText(row.result ?? row.output).slice(0, 1600),
+            status: "recorded",
+            native_status:
+              typeof row.status === "string" ? row.status : "unknown",
+            source: "native-project",
+            source_ref,
+            source_sha256,
+            evidence_refs: [{ path: source_ref, sha256: source_sha256 }],
+            skills: [],
+          });
+      }
+    }
+    const entry =
+      data.project_agent ??
+      data.entry_skill ??
+      blueprint?.entry_skill ??
+      blueprint?.agent_name;
+    const name = typeof entry === "string" ? entry : entry?.name;
+    if (typeof name === "string" && /^[a-z0-9][a-z0-9-]{1,100}$/.test(name))
+      agents.push({
+        name,
+        status: "declared",
+        availability: "planned",
+        discovery_status: "unverified",
+        source_ref,
+        source_sha256,
+      });
+  }
+  const goal = goals.find((x) => x.status === "accepted") ??
+    goals.find((x) => x.basis.startsWith("native")) ??
+    goals[0] ?? {
+      text: "",
+      status: "unknown",
+      source_ref: null,
+      source_sha256: null,
+      basis: "No current goal source found",
+    };
+  return { goal, goals, next_actions, work_records, agents };
+}
 function csvRecords(raw) {
   const records = [];
   let rows = [],
@@ -114,12 +344,48 @@ const projectKind = (sources) =>
         : sources.some((x) => x.path.startsWith(".agent-foundry"))
           ? "agent"
           : "generic";
-export async function inspectProject(rootValue) {
+export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
   const root = await projectRoot(rootValue);
+  fail(
+    Array.isArray(sourceRefs) &&
+      sourceRefs.length <= 40 &&
+      sourceRefs.every((x) => typeof x === "string" && x.length <= 4096),
+    "INVALID_INPUT",
+    "Use at most40 explicit relative native source locators",
+  );
+  for (const ref of sourceRefs) await safeFile(root, ref);
   const sources = [];
   const documents = [];
   const warnings = [];
-  for (const ref of [...stateRefs, ...instructionRefs])
+  const additionalRefs = [];
+  for (const folder of ["docs/project", "docs/agent", "docs/requirements"]) {
+    try {
+      const entries = await readdir(
+        await safeFile(root, folder, { directory: true }),
+        { withFileTypes: true },
+      );
+      for (const entry of entries
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .slice(0, 50)) {
+        if (
+          entry.isFile() &&
+          /\.(?:md|json)$/i.test(entry.name) &&
+          /checkpoint|passport|pasport|requirements|decision|identity|roadmap|prd|implementation.scenario|plan/i.test(
+            entry.name,
+          )
+        )
+          additionalRefs.push(folder + "/" + entry.name);
+      }
+    } catch {}
+  }
+  for (const ref of [
+    ...new Set([
+      ...stateRefs,
+      ...instructionRefs,
+      ...additionalRefs,
+      ...sourceRefs,
+    ]),
+  ])
     if (await exists(resolve(root, ref))) {
       try {
         const source = await readSource(root, ref);
@@ -148,6 +414,8 @@ export async function inspectProject(rootValue) {
             });
           }
         }
+        if (/\.md$/i.test(ref))
+          documents.push({ path: ref, data: { markdown: source.text } });
       } catch (error) {
         warnings.push({
           path: ref,
@@ -157,6 +425,32 @@ export async function inspectProject(rootValue) {
       }
     }
   const artifacts = await listArtifacts(root);
+  for (const document of [...documents]) {
+    const binding = document.data?.approval?.canonical_authority;
+    if (
+      typeof binding?.path !== "string" ||
+      documents.some((x) => x.path === binding.path)
+    )
+      continue;
+    try {
+      const source = await readSource(root, binding.path);
+      const data = parseStrictJson(source.text);
+      documents.push({ path: binding.path, data });
+      sources.push({
+        path: binding.path,
+        sha256: source.sha256,
+        bytes: source.bytes,
+        kind: "native-authority",
+      });
+    } catch (error) {
+      warnings.push({
+        path: binding.path,
+        code: error.code ?? "READ_FAILED",
+        message:
+          "Native approval source is unavailable; accepted goal not inferred",
+      });
+    }
+  }
   let repository = { present: false };
   if (await exists(resolve(root, ".git"))) {
     try {
@@ -202,10 +496,10 @@ export async function inspectProject(rootValue) {
     const data = document.data;
     append(
       requirements,
-      data.requirements ?? data.requirement_registry,
+      data.requirements ?? data.requirement_registry ?? data.requirement,
       document.path,
     );
-    append(decisions, data.decisions, document.path);
+    append(decisions, data.decisions ?? data.decision, document.path);
     if (data.identity) append(identity, data.identity, document.path);
     if (data.readiness) append(readiness, data.readiness, document.path);
   }
@@ -213,10 +507,47 @@ export async function inspectProject(rootValue) {
     path: x.path,
     schema: schemaOf(x.data),
   }));
-  const revision = digest({
-    sources,
-    repository,
-  });
+  const signals = projectSignals(documents, sources);
+  try {
+    for (const entry of (
+      await readdir(
+        await safeFile(root, ".agents/skills", { directory: true }),
+        { withFileTypes: true },
+      )
+    )
+      .filter((x) => x.isDirectory())
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .slice(0, 50)) {
+      try {
+        const ref = `.agents/skills/${entry.name}/SKILL.md`;
+        const source = await readSource(root, ref);
+        const frontmatter =
+          /^---[ \t]*\r?\n([\s\S]*?)\r?\n---(?:[ \t]*\r?\n|[ \t]*$)/.exec(
+            source.text,
+          )?.[1];
+        const name =
+          frontmatter &&
+          /^name:[ \t]*["']?([a-z0-9-]+)["']?[ \t]*$/m.exec(frontmatter)?.[1];
+        if (name) {
+          sources.push({
+            path: ref,
+            sha256: source.sha256,
+            bytes: source.bytes,
+            kind: "project-agent",
+          });
+          signals.agents.push({
+            name,
+            status: "observed",
+            availability: "installed",
+            source_ref: ref,
+            source_sha256: source.sha256,
+            discovery_status: "unverified",
+          });
+        }
+      } catch {}
+    }
+  } catch {}
+  const revision = digest({ sources, repository });
   return {
     root,
     name: basename(root),
@@ -250,6 +581,7 @@ export async function inspectProject(rootValue) {
     artifacts,
     repository,
     warnings,
+    ...redact(signals),
     native_state_present: native.length > 0,
     projection_notice:
       "Read-only projection. Product state is authoritative; binding does not migrate or adopt a project.",
@@ -273,10 +605,13 @@ export class ProjectAdapter {
       "Select a product root disjoint from the service's private data directory",
       403,
     );
-    const view = await inspectProject(root);
+    const view = await inspectProject(root, {
+      sourceRefs: payload.source_refs ?? [],
+    });
     const preview_id = id("preview");
     this.previews.set(preview_id, {
       view,
+      source_refs: payload.source_refs ?? [],
       expires: Date.now() + 10 * 60 * 1e3,
     });
     return {
@@ -292,7 +627,9 @@ export class ProjectAdapter {
       "Preview expired; inspect the project again",
       409,
     );
-    const view = await inspectProject(preview.view.root);
+    const view = await inspectProject(preview.view.root, {
+      sourceRefs: preview.source_refs,
+    });
     fail(
       view.revision === preview.view.revision,
       "SOURCE_DRIFT",
@@ -302,6 +639,14 @@ export class ProjectAdapter {
     const existing = this.store
       .list("project")
       .find((x) => x.root === view.root);
+    if (
+      existing &&
+      JSON.stringify(existing.source_refs ?? []) !==
+        JSON.stringify(preview.source_refs)
+    ) {
+      existing.source_refs = preview.source_refs;
+      existing.revision = view.revision;
+    }
     if (
       existing &&
       [
@@ -355,6 +700,7 @@ export class ProjectAdapter {
       summary: view.summary,
       repository: view.repository,
       native_schema: view.native_schema,
+      source_refs: preview.source_refs,
       capabilities: view.capabilities,
       created_at: stamp,
       updated_at: stamp,
@@ -365,7 +711,9 @@ export class ProjectAdapter {
   }
   async workspace(projectId) {
     const project = this.get(projectId);
-    const current = await inspectProject(project.root);
+    const current = await inspectProject(project.root, {
+      sourceRefs: project.source_refs ?? [],
+    });
     return {
       ...current,
       project: {
@@ -395,6 +743,7 @@ export class ProjectAdapter {
   get(projectId) {
     const project = this.store.get("project", projectId);
     fail(project, "PROJECT_NOT_FOUND", "Project binding not found", 404);
+    assertProjectRoot(project.root);
     fail(
       !this.privateDataRoot ||
         (!isWithin(this.privateDataRoot, project.root) &&
@@ -414,7 +763,9 @@ export class ProjectAdapter {
         "Binding revision changed; refresh",
         409,
       );
-    const view = await inspectProject(project.root);
+    const view = await inspectProject(project.root, {
+      sourceRefs: project.source_refs ?? [],
+    });
     return {
       project: this.store.put(
         "project",

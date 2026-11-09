@@ -1,0 +1,67 @@
+{
+  "schema_version": "atelier.orchestrator-routing/1",
+  "purpose": "Validate an agent-authored task projection; no keyword routing, execution or new authority",
+  "routes": [
+    "direct",
+    "specialist",
+    "project_agent",
+    "director",
+    "compose",
+    "create_agent",
+    "maintain_system",
+    "bridge"
+  ],
+  "source_required_routes": [
+    "specialist",
+    "project_agent",
+    "director",
+    "compose",
+    "create_agent"
+  ],
+  "maintenance_targets": [
+    "self",
+    "skill",
+    "constructor",
+    "family",
+    "project_agent",
+    "host_profile",
+    "service"
+  ],
+  "execution_states": [
+    "prepared",
+    "target_checked",
+    "delivered",
+    "received",
+    "started",
+    "result",
+    "reviewed",
+    "accepted",
+    "blocked",
+    "unknown"
+  ],
+  "receipt_kinds": [
+    "target_check",
+    "delivery",
+    "readback",
+    "execution_start",
+    "execution_result",
+    "review",
+    "owner_acceptance"
+  ],
+  "required_receipts_by_state": {
+    "prepared": [],
+    "target_checked": ["target_check"],
+    "delivered": ["delivery"],
+    "received": ["delivery", "readback"],
+    "started": ["execution_start"],
+    "result": ["execution_result"],
+    "reviewed": ["execution_result", "review"],
+    "accepted": ["execution_result", "review", "owner_acceptance"],
+    "blocked": [],
+    "unknown": []
+  },
+  "execution_performed": false,
+  "semantic_fit_certified": false,
+  "human_authority_authenticated": false,
+  "quality_certified": false
+}

@@ -1,5 +1,9 @@
 # Change log
 
+## Repository 1.3.0 / Atelier Orchestrator 1.1.0 / Agent Atelier 0.2.0 — 2026-11-09
+
+Make the existing optional orchestrator a universal entry for tasks, project-agent continuation and maintenance of skills/constructors/agents. Preserve one brief, existing authority, native state and original identity; distinguish factory output from the owner's original result. Bundle missing documented helper dependencies and add explicit routing/evidence projection checks. Extend the local workbench with source-backed Codex portfolio discovery, grouped native work, goal/acceptance provenance, next actions and route preparation. Protected native-state changes use a reviewed controller path. Keep core6.0.0 unchanged and reconcile all seven guides/UI locales. WORK live changes remain deferred until access recovers. See [release notes](releases/repository-1.3.0.md) and [exact migration](releases/migrations/repository-1.3.0.md); implementation, installed discovery, actual execution and owner acceptance remain separate observations.
+
 ## Repository 1.2.2 / Atelier Orchestrator 1.0.1 — 2026-11-09
 
 Align the optional orchestration skill's entrypoint and UI text with the Ukrainian core-skill presentation. Bind PNG renderings of its preserved original SVG for icon compatibility, and explain the difference between the coordinating skill and the independently launched Agent Atelier application. Core 6.0.0, service 0.1.1, client behaviour, stable identity and permissions remain unchanged. Reconcile all seven guides; live WORK installation still needs its own manager/readback evidence. See [patch notes](releases/repository-1.2.2.md) and [targeted migration](releases/migrations/repository-1.2.2.md).

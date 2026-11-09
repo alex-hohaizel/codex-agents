@@ -216,6 +216,27 @@ export async function createServer({
         );
         if (url.pathname === "/api/v1/bootstrap")
           return json(res, 200, await app.bootstrap(csrf));
+        if (url.pathname === "/api/v1/portfolio")
+          return json(res, 200, app.portfolio.get());
+        const portfolioMatch = url.pathname.match(
+          /^\/api\/v1\/portfolio\/projects\/([^/]+)$/,
+        );
+        if (portfolioMatch)
+          return json(
+            res,
+            200,
+            await app.portfolio.project(decodeURIComponent(portfolioMatch[1]), {
+              thread_offset: Number(url.searchParams.get("thread_offset") ?? 0),
+              snapshot_checked_at:
+                url.searchParams.get("snapshot_checked_at") ?? undefined,
+              max_threads: url.searchParams.has("max_threads")
+                ? Number(url.searchParams.get("max_threads"))
+                : 40,
+              max_turn_pages: url.searchParams.has("max_turn_pages")
+                ? Number(url.searchParams.get("max_turn_pages"))
+                : 4,
+            }),
+          );
         if (url.pathname === "/api/v1/doctor")
           return json(res, 200, app.doctor());
         if (url.pathname === "/api/v1/skills")

@@ -5,11 +5,15 @@ import { join, resolve, relative } from "node:path";
 import { randomUUID } from "node:crypto";
 import { Store } from "./store.mjs";
 import { ProjectAdapter } from "./projects.mjs";
-import { CodexAdapter } from "./codex.mjs";
+import { CodexAdapter, CodexHistoryAdapter } from "./codex.mjs";
 import { SkillsManager } from "./skills.mjs";
 import { RetentionManager } from "./retention.mjs";
 import { compileContext } from "./context.mjs";
 import { InstructionsManager, instructionSettings } from "./instructions.mjs";
+import { PortfolioManager } from "./portfolio.mjs";
+import { proposeRoute } from "./routing.mjs";
+import { NativeControllers } from "./controllers.mjs";
+import { OptionalUpdates } from "./optional_updates.mjs";
 import {
   ACTIVE_JOB_STATES,
   API_VERSION,
@@ -35,7 +39,7 @@ import {
   containsObviousCredential,
 } from "./utils.mjs";
 export class Application extends EventEmitter {
-  constructor({ dataDir, repoRoot, store, codex } = {}) {
+  constructor({ dataDir, repoRoot, store, codex, historyCodex } = {}) {
     super();
     mkdirSync(dataDir, { recursive: true, mode: 0o700 });
     dataDir = realpathSync(dataDir);
@@ -52,6 +56,26 @@ export class Application extends EventEmitter {
     this.instructions = new InstructionsManager({ dataDir });
     this.codex =
       codex ?? new CodexAdapter({ dataDir, instructions: this.instructions });
+    // Native paginated history lives in the native index. Its read-only
+    // transport cannot dispatch; model jobs retain their isolated index.
+    this.historyCodex =
+      historyCodex ?? (codex || new CodexHistoryAdapter({ dataDir }));
+    this.portfolio = new PortfolioManager({
+      store: this.store,
+      codex: this.historyCodex,
+      dataDir,
+    });
+    this.controllers = new NativeControllers({
+      store: this.store,
+      repoRoot,
+      dataDir,
+      projects: this.projects,
+    });
+    this.optionalUpdates = new OptionalUpdates({
+      store: this.store,
+      repoRoot,
+      dataDir,
+    });
     this.instanceId = id("instance");
     this.timers = new Map();
     this.previewRestores = new Map();
@@ -75,6 +99,14 @@ export class Application extends EventEmitter {
           status: "outcome_unknown",
           unknown_reason:
             "Service restarted before a terminal receipt; reconcile the actual thread/turn before retrying",
+        });
+    for (const operation of this.store.list("native-controller"))
+      if (operation.status === "pending")
+        this.store.put("native-controller", operation.id, {
+          ...operation,
+          status: "outcome_unknown",
+          unknown_reason:
+            "Service restarted before a terminal native controller receipt; reconcile without replay",
         });
     this.codex.on("notification", (event) => this.#notification(event));
     this.codex.on("request", (request) => this.#request(request));
@@ -133,8 +165,17 @@ export class Application extends EventEmitter {
           status: row.status,
           files_pending: row.files.length,
         })),
+      portfolio: this.portfolio.get(),
       projects: this.store.list("project"),
       jobs: this.store.list("job"),
+      native_controllers: this.store.list("native-controller"),
+      optional_updates: this.store.list("optional-update").map((x) => ({
+        id: x.id,
+        name: x.name ?? x.skill_name,
+        status: x.status,
+        started_at: x.started_at,
+        completed_at: x.completed_at,
+      })),
       tasks: this.store.list("task"),
       skills: await this.skills.list(),
       capabilities: {
@@ -152,9 +193,15 @@ export class Application extends EventEmitter {
         projects: this.store.list("project").length,
         jobs: this.store.list("job").length,
         active_jobs: this.activeJobs().length,
-        unknown_outcomes: this.store
-          .list("job")
-          .filter((x) => x.status === "outcome_unknown").length,
+        unknown_outcomes:
+          this.store.list("job").filter((x) => x.status === "outcome_unknown")
+            .length +
+          this.activeNativeControllers().filter(
+            (x) => x.status === "outcome_unknown",
+          ).length +
+          this.activeOptionalUpdates().filter(
+            (x) => x.status === "outcome_unknown",
+          ).length,
       },
       notice:
         "Live local data. No project is connected until explicitly bound.",
@@ -165,13 +212,26 @@ export class Application extends EventEmitter {
       .list("job")
       .filter((x) => ACTIVE_JOB_STATES.includes(x.status));
   }
+  activeOptionalUpdates() {
+    return this.store
+      .list("optional-update")
+      .filter((x) => ["pending", "outcome_unknown"].includes(x.status));
+  }
+  activeNativeControllers() {
+    return this.store
+      .list("native-controller")
+      .filter((x) => ["pending", "outcome_unknown"].includes(x.status));
+  }
   doctor() {
     const jobs = this.activeJobs();
     return {
       instance_id: this.instanceId,
-      status: jobs.some((x) => x.status === "outcome_unknown")
-        ? "attention"
-        : "healthy",
+      status:
+        jobs.some((x) => x.status === "outcome_unknown") ||
+        this.activeNativeControllers().length ||
+        this.activeOptionalUpdates().length
+          ? "attention"
+          : "healthy",
       database: {
         schema: "agent-atelier.db/1",
         engine: "SQLite",
@@ -188,6 +248,8 @@ export class Application extends EventEmitter {
         native_mutation: "read-only-projection",
       })),
       active_jobs: jobs,
+      active_native_controllers: this.activeNativeControllers(),
+      active_optional_updates: this.activeOptionalUpdates(),
       checks: [
         {
           id: "loopback",
@@ -284,6 +346,51 @@ export class Application extends EventEmitter {
       409,
     );
     switch (command.operation) {
+      case "skills.optional-preview":
+        return this.optionalUpdates.preview(payload);
+      case "skills.optional-verify": {
+        const result = await this.optionalUpdates.verify(payload);
+        this.skills.hostSources.clear();
+        return result;
+      }
+      case "skills.optional-apply":
+        return this.maintain("optional-update", async () => {
+          try {
+            return await this.optionalUpdates.apply(payload);
+          } finally {
+            this.skills.hostSources.clear();
+          }
+        });
+      case "skills.optional-rollback":
+        return this.maintain("optional-rollback", async () => {
+          try {
+            return await this.optionalUpdates.rollback(payload);
+          } finally {
+            this.skills.hostSources.clear();
+          }
+        });
+      case "controller.preview":
+        return this.controllers.preview(projectId, payload);
+      case "controller.apply":
+        return this.maintain("native-controller", () =>
+          this.controllers.apply(projectId, payload),
+        );
+      case "controller.reconcile":
+        return payload.confirmed === true
+          ? this.maintain("native-controller-reconcile", () =>
+              this.controllers.reconcile(projectId, payload),
+            )
+          : this.controllers.reconcile(projectId, payload);
+      case "portfolio.refresh": {
+        const result = await this.portfolio.refresh(payload);
+        this.event("portfolio.changed", {
+          summary: result.summary,
+          coverage: result.coverage,
+        });
+        return result;
+      }
+      case "task.route":
+        return this.route(projectId, payload);
       case "project.preview":
         return this.projects.preview(payload);
       case "project.bind": {
@@ -577,10 +684,23 @@ export class Application extends EventEmitter {
       "Thread identity/cwd does not match the explicitly bound project",
       409,
     );
+    let execution_context_available = null;
+    if (thread.historyMode === "paginated") {
+      // The global read-only reader may see history that this isolated
+      // executor cannot resume. Metadata and an idle handoff cannot replace it.
+      try {
+        const page = await this.codex.historyTurns(threadId, { limit: 1 });
+        execution_context_available =
+          Array.isArray(page.data) && page.data.length > 0;
+      } catch {
+        execution_context_available = false;
+      }
+    }
     return {
       thread,
       host_status: thread.status?.type ?? thread.status ?? "unknown",
       project,
+      execution_context_available,
     };
   }
   async previewThread(projectId, payload) {
@@ -596,8 +716,11 @@ export class Application extends EventEmitter {
       updated_at: observed.thread.updatedAt ?? null,
       preview: observed.thread.preview ?? "",
       global_owner_verified: false,
+      execution_context_available: observed.execution_context_available,
       warning:
-        "This client cannot fence an independent desktop client. Close other writers and explicitly hand off an idle thread before execution.",
+        observed.execution_context_available === false
+          ? "This isolated executor cannot restore this native paginated history. Continue that chat in its capable native host, or prepare a fresh bounded project task from reviewed sources. Read-only portfolio access is not execution context."
+          : "This client cannot fence an independent desktop client. Close other writers and explicitly hand off an idle thread before execution.",
       expires_at: Date.now() + 3e5,
     };
     this.threadPreviews.set(preview_id, preview);
@@ -622,6 +745,12 @@ export class Application extends EventEmitter {
       409,
     );
     const observed = await this.checkedThread(projectId, preview.thread_id);
+    fail(
+      observed.execution_context_available !== false,
+      "CAPABILITY_UNVERIFIED",
+      "Native paginated history is unavailable to the isolated executor; use the native host or a fresh bounded project task with reviewed sources",
+      409,
+    );
     fail(
       ["idle", "notLoaded"].includes(observed.host_status),
       "WRITER_CONFLICT",
@@ -659,6 +788,49 @@ export class Application extends EventEmitter {
       notice: preview.warning,
     };
   }
+  async route(projectId, payload) {
+    const project = this.projects.get(projectId),
+      workspace = await this.projects.workspace(projectId);
+    if (this.codex.skills) {
+      const catalog = await this.codex.skills([project.root]);
+      await this.skills.adoptHostCatalog(catalog.entries, [project.root]);
+    }
+    return {
+      routing: proposeRoute({
+        project,
+        workspace,
+        skills: await this.skills.list(),
+        payload,
+        controllerAvailable: !!this.controllers,
+      }),
+    };
+  }
+  async universalSource() {
+    const catalog = await this.skills.list();
+    const canonicalSource = catalog.entries.find(
+      (x) => x.name === "atelier-orchestrator" && x.managed_by === "optional",
+    );
+    const installed = [...this.skills.hostSources.values()].find(
+      (x) =>
+        x.name === "atelier-orchestrator" &&
+        x.enabled !== false &&
+        x.execution_supported === true &&
+        x.discovery_status === "host_discovered",
+    );
+    fail(
+      installed,
+      "CAPABILITY_UNVERIFIED",
+      "Connect Codex and discover the installed orchestration skill before universal task preparation",
+      409,
+    );
+    fail(
+      installed.source_sha256 === canonicalSource?.source_sha256,
+      "SOURCE_DRIFT",
+      "Installed orchestration source differs from this release; update and refresh discovery first",
+      409,
+    );
+    return installed.source_id;
+  }
   async prepare(projectId, payload, expected) {
     const project = this.projects.get(projectId),
       workspace = await this.projects.workspace(projectId);
@@ -677,10 +849,37 @@ export class Application extends EventEmitter {
         ? await this.codex.instructionSettings(project.root)
         : instructionSettings(),
     );
-    const selections = await this.skills.selections(
-      payload.selected_skills ?? [],
-      taskId,
-    );
+    let routing = null;
+    let selected = payload.selected_skills ?? [];
+    if (payload.universal_entry === true) {
+      fail(
+        Array.isArray(selected),
+        "INVALID_INPUT",
+        "selected_skills must be an array",
+      );
+      routing = (await this.route(projectId, payload)).routing;
+      fail(
+        routing.native_revision === workspace.project.revision,
+        "SOURCE_DRIFT",
+        "Native context changed during route preparation; refresh again",
+        409,
+      );
+      const orchestratorSource = await this.universalSource();
+      selected = [
+        orchestratorSource,
+        ...selected.filter(
+          (x) => x !== orchestratorSource && x !== "atelier-orchestrator",
+        ),
+      ];
+      if (payload.routing_sha256)
+        fail(
+          payload.routing_sha256 === routing.routing_sha256,
+          "SOURCE_DRIFT",
+          "The reviewed route or its inputs changed; inspect a fresh route",
+          409,
+        );
+    }
+    const selections = await this.skills.selections(selected, taskId);
     if (payload.planning_only === true)
       fail(
         (payload.scope ?? "read-only") === "read-only",
@@ -719,6 +918,19 @@ export class Application extends EventEmitter {
       capsule.capsule_sha256 = digest(capsule);
     }
     capsule.selected_skills = selections;
+    if (routing) {
+      capsule.entry = {
+        surface: "local-panel",
+        universal: true,
+        original_objective: capsule.objective,
+      };
+      capsule.routing = routing;
+      capsule.original_result_acceptance = capsule.acceptance;
+      capsule.maintenance = routing.maintenance;
+      capsule.creation_scope = routing.creation_scope;
+      capsule.execution_scope = routing.execution_scope;
+      capsule.continuation = routing.continuation;
+    }
     capsule.planning_only = payload.planning_only === true;
     delete capsule.capsule_sha256;
     capsule.capsule_sha256 = digest(capsule);
@@ -756,8 +968,25 @@ export class Application extends EventEmitter {
       "Raw thread overrides are not accepted",
       409,
     );
+    fail(
+      this.activeOptionalUpdates().length === 0,
+      "OUTCOME_UNKNOWN",
+      "Verify or roll back the unknown global skill update before task dispatch",
+      409,
+    );
     const task = this.task(payload.task_id, projectId),
       project = this.projects.get(task.project_id);
+    fail(
+      !this.activeNativeControllers().some(
+        (row) =>
+          !row.root ||
+          isWithin(row.root, project.root) ||
+          isWithin(project.root, row.root),
+      ),
+      "OUTCOME_UNKNOWN",
+      "Reconcile the overlapping native controller before dispatching another task",
+      409,
+    );
     fail(
       !task.input_cache_pruned && !task.requires_prepare,
       "TASK_NOT_READY",
@@ -856,6 +1085,12 @@ export class Application extends EventEmitter {
       }
       if (resumeThreadId) {
         const observed = await this.checkedThread(project.id, resumeThreadId);
+        fail(
+          observed.execution_context_available !== false,
+          "CAPABILITY_UNVERIFIED",
+          "The isolated executor cannot restore this native thread context; do not resume it from metadata alone",
+          409,
+        );
         fail(
           ["idle", "notLoaded"].includes(observed.host_status),
           "WRITER_CONFLICT",
@@ -1352,7 +1587,9 @@ export class Application extends EventEmitter {
   }
   async backup() {
     fail(
-      this.activeJobs().length === 0,
+      this.activeJobs().length === 0 &&
+        this.activeNativeControllers().length === 0 &&
+        this.activeOptionalUpdates().length === 0,
       "OUTCOME_UNKNOWN",
       "Pause/reconcile active or unknown jobs before backing up",
       409,
@@ -1458,6 +1695,9 @@ export class Application extends EventEmitter {
     return preview;
   }
   invalidatePrivatePreviews() {
+    this.portfolio.invalidate();
+    this.controllers.clear();
+    this.optionalUpdates.clear();
     this.projects.previews.clear();
     this.threadPreviews.clear();
     this.previewRestores.clear();
@@ -1474,9 +1714,13 @@ export class Application extends EventEmitter {
       409,
     );
     fail(
-      this.activeJobs().length === 0,
+      this.activeJobs().length === 0 &&
+        (name === "native-controller-reconcile" ||
+          this.activeNativeControllers().length === 0) &&
+        (["optional-rollback", "native-controller-reconcile"].includes(name) ||
+          this.activeOptionalUpdates().length === 0),
       "OUTCOME_UNKNOWN",
-      "Finish or reconcile active/unknown jobs before maintenance",
+      "Finish or reconcile active/unknown jobs and native controller operations before maintenance",
       409,
     );
     this.maintenanceOperation = name;
@@ -1494,7 +1738,9 @@ export class Application extends EventEmitter {
       409,
     );
     fail(
-      this.activeJobs().length === 0,
+      this.activeJobs().length === 0 &&
+        this.activeNativeControllers().length === 0 &&
+        this.activeOptionalUpdates().length === 0,
       "OUTCOME_UNKNOWN",
       "Reconcile all active/unknown jobs before restore",
       409,
@@ -1521,6 +1767,7 @@ export class Application extends EventEmitter {
       );
       const snapshot = parseStrictJson(bytes.toString(), 32 * 1024 * 1024);
       await this.codex.close();
+      if (this.historyCodex !== this.codex) await this.historyCodex.close();
       const restoredEpoch = randomUUID();
       // Revocation and restored jobs become safe in the same SQLite commit as the restore.
       this.store.restore(
@@ -1533,6 +1780,26 @@ export class Application extends EventEmitter {
               ...record,
               authority_epoch: restoredEpoch,
               restored_at: now(),
+            };
+          if (
+            kind === "optional-update" &&
+            ["pending", "outcome_unknown"].includes(record.status)
+          )
+            return {
+              ...record,
+              status: "outcome_unknown",
+              unknown_reason:
+                "Restored global skill update requires exact source verification; never replay automatically",
+            };
+          if (
+            kind === "native-controller" &&
+            ["pending", "outcome_unknown"].includes(record.status)
+          )
+            return {
+              ...record,
+              status: "outcome_unknown",
+              unknown_reason:
+                "Restored native controller requires authoritative reconciliation",
             };
           if (kind === "task")
             return { ...record, status: "restored_requires_preparation" };
@@ -1595,6 +1862,7 @@ export class Application extends EventEmitter {
         } catch {}
       }
     await this.codex.close();
+    if (this.historyCodex !== this.codex) await this.historyCodex.close();
     this.codex.removeAllListeners();
     this.store.close();
   }

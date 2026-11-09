@@ -1,6 +1,6 @@
-# Agent Atelier 0.1.1 — local Mac workbench
+# Agent Atelier 0.2.0 — local Mac workbench
 
-Agent Atelier binds explicitly selected product roots, shows their native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
+Agent Atelier provides a universal task entry and a source-backed portfolio of native Codex work. It pages active and archived thread metadata through the supported app-server, groups work by canonical project root and loads individual work groups on demand. It shows observed responses, accepted or declared goals with their provenance, installed versus planned agents and source-backed next actions. Available native history does not expose empty desktop projects without threads; pagination and inaccessible sources stay visible. Explicit binding is required before project control. It shows native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
 
 The 33-core skill suite, optional orchestrator and this service have separate versions and installation facts. A binding does not migrate a product or grant every future job. Work audit/update/installation/control is deferred. Existing desktop chat adoption requires exact identity/cwd, an idle handoff and current task scope; the service does not fence independent desktop writers.
 
@@ -30,13 +30,15 @@ For development run the backend and Vite in separate terminals. Set an explicit 
 
 ## First useful task
 
-1. Open the live workbench, choose your language and preview the exact project directory. Inspect its detected schema/source/revision/warnings, then bind it. There is no automatic Home scan.
+1. Open the live workbench, choose your language and refresh the native Codex portfolio. Open a project to inspect its work groups, target, observed agents and next steps. Preview the exact directory and bind it before control. Existing direct-Codex work can appear through native history; there is no automatic Home scan.
 2. Open actual sources, requirements/context and identity. Source-only, observed integration, independent review and owner acceptance are distinct. Unsupported schemas/capabilities retain explicit warnings rather than reset state.
-3. Prepare a bounded task with objective, acceptance, filesystem scope and deadline. Review its exact capsule/source pins, obligations, allowed roots and current capability scope. Missing required access blocks dispatch or produces a concrete handoff.
+3. Use the universal task entry with your objective and acceptance. Review its routing proposal and available project agent; the actual orchestrator interprets context and can reuse a specialist, continue through a verified project agent, invoke the agent constructor for a genuine gap or coordinate system maintenance. A matching label alone does not verify an agent. Prepare a bounded task with filesystem scope and deadline. Review its exact capsule/source pins, obligations, allowed roots and current capability scope. Missing required access blocks dispatch or produces a concrete handoff.
 4. Dispatch only the approved scope. Follow actual host/thread/turn receipts and outputs. Pause prevents new dependent work; interruption is `cancel_requested` until the host confirms a terminal outcome.
 5. Review the actual result against the original task and accepted references. Owner review is not independent QA. A completed model turn does not establish a successful build, artifact delivery or production acceptance.
 
 The default job profile denies sibling projects, native approval/state roots, credentials, private service data, unrelated temporary files and ambient external tools. Exactly selected verified skill snapshots are separate read grants. Extra read grants currently require a service data directory without glob metacharacters; the default location is supported. Unsupported plugin/tool routes stay visible as requiring a capable host. Enabling public-web read is an explicit task choice; there is no deterministic filter guaranteeing that every outbound query is free of private text.
+
+Shell scratch files must remain within the approved writable paths; use an output-local TMPDIR or a temp-free command. Ambient system temp is not an additional write grant. Read-only jobs retain no scratch write permission.
 
 The local executor's default scopes prohibit ambient production/publication/spending and do not silently inherit every external plugin. Actual supported capability/permission policies are reported by the adapter. If the task needs another host/API/tool, preserve the requirement and use the exact supported bridge; do not downgrade the requested result or advertise an unavailable operation.
 
@@ -52,7 +54,15 @@ Input-cache cleanup also unlinks reviewed instruction aliases without following 
 
 Search competence/source metadata, audit the exact canonical candidate, inspect the native updater plan/diff, and apply only the ready reviewed plan. Global skill mutations have one writer and use actual journals. Verify installation separately from discovery/use; preserve unrelated records and unknown customizations. Rollback requires the actual unchanged-target journal.
 
-`optional-skills/atelier-orchestrator` is installed through the supported skill manager at an exact release revision, separately from the 33-core updater. Its loopback client supports status, context and correlated task commands; mutating calls require a persisted command identity. It can also coordinate approved work through actual native skills when the service is unavailable, without inventing runtime access.
+`optional-skills/atelier-orchestrator`1.1.0 is a universal conversational entry and panel entry, separately from the 33-core updater. It preserves direct specialist calls and an existing project owner; construction of an agent and execution of its product retain distinct scope and authority. The panel provides exact preview/apply/verify/rollback for the two declared optional sources. Known installed predecessors are hash-bound; unknown local changes, icon/policy drift and ambiguous sources block overwrite. Every staging copy is journal-owned before creation. Actual host discovery is refreshed separately after installation. Its loopback client supports status, context and correlated task commands; mutating calls require a persisted command identity. It can also coordinate approved work through actual native skills when the service is unavailable, without inventing runtime access.
+
+Native history uses a separate public read-only transport against the native index; its RPC allowlist prohibits model execution, resume and mutation. The model executor retains its isolated index. Empty paginated history with existing metadata is incomplete coverage. A native chat can only be adopted when the executor can restore its persisted context; otherwise continue that chat in the native host or prepare a fresh bounded project task from reviewed sources. Portfolio read access alone does not grant safe continuation.
+
+## Native controller operations
+
+The project workbench can review and apply the existing Foundry controller operations through a fixed catalog. It shows the exact source, current state/revision, input record and approval subject before confirmation. The native controller runs from an exact staged copy of its reviewed source closure, under its unchanged validation and exclusive state lock. Approval derives its subject from the real registered blueprint; it cannot fabricate a missing blueprint or execution grant. The adapter launches no model, provider, deployment or product runtime.
+
+Unknown native outcomes block dependent writers. Reconciliation first checks the previous process lease; a live or uncertain writer keeps the barrier. Confirmed reconciliation revokes a delayed invocation under that same lease, then observes current state. It never automatically repeats an operation or certifies the original result. Private operation copies and receipts follow their independent reviewed retention policies.
 
 ## Backup, restore and update
 

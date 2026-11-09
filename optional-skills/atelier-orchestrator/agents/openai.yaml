@@ -1,7 +1,7 @@
 interface:
-  display_name: "Atelier · Оркестратор · 1.0.1"
-  short_description: "Координація погоджених проєктів, контексту й результатів"
+  display_name: "Atelier · Оркестратор · 1.1.0"
+  short_description: "Єдиний вхід у задачі, проєкти й розвиток агентів"
   icon_small: "./assets/icon-small.png"
   icon_large: "./assets/icon-large.png"
   brand_color: "#21CFC4"
-  default_prompt: "Застосуй $atelier-orchestrator: продовж погоджений проєкт із його фактичних джерел, контексту й поточної контрольної точки."
+  default_prompt: "Застосуй $atelier-orchestrator: зрозумій потрібний результат, віднови контекст і обери достатній маршрут через наявні навички або проєктного агента; виконай погоджений обсяг і перевір результат."

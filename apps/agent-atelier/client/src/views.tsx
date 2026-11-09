@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Activity,
   Archive,
@@ -20,6 +20,7 @@ import {
   FileText,
   Fingerprint,
   FolderGit2,
+  FolderOpen,
   GitCompareArrows,
   GitPullRequest,
   Globe2,
@@ -42,6 +43,7 @@ import {
 } from "lucide-react";
 import {
   api,
+  mergePortfolioPage,
   pretty,
   rows,
   shortHash,
@@ -82,80 +84,281 @@ export interface ViewProps {
   selected: Project | null;
   workspace: Workspace | null;
   boot: Bootstrap | null;
+  portfolio?: Data | null;
+  nativeDetail?: Data | null;
+  nativeHistoryLoading?: boolean;
+  nativeHistoryError?: string;
+  loadMoreNativeHistory?: () => void;
+  observePortfolio?: () => Promise<void>;
   busy: string;
   command: CommandFn;
   inspect: (value: Inspection) => void;
   expand: (title: string, value: unknown) => void;
   selectProject: (id: string) => void;
   connectProject: () => void;
+  connectDiscovered: (root: string) => void;
   newTask: (preset?: Data) => void;
   navigate: (view: View) => void;
 }
 
 export function Portfolio(p: ViewProps) {
-  const projects = p.boot?.projects ?? [];
-  const jobs = p.boot?.jobs ?? [];
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
-  const filtered = projects.filter(
-    (project) =>
-      (filter === "all" || project.kind === filter) &&
-      `${project.name} ${project.summary}`
+  const [focus, setFocus] = useState<Data | null>(null);
+  const [detail, setDetail] = useState<Data | null>(null);
+  const [detailError, setDetailError] = useState("");
+  const [detailLoading, setDetailLoading] = useState(false);
+  const detailIdentityRef = useRef("");
+  const detailMoreRef = useRef(false);
+  const catalog = p.demo ? null : p.portfolio;
+  const detailIdentity = `${p.demo}:${focus?.id ?? ""}:${catalog?.checked_at ?? ""}`;
+  detailIdentityRef.current = detailIdentity;
+  const activeDetail =
+    detail?.project?.id === focus?.id &&
+    detail?.coverage?.snapshot_checked_at === catalog?.checked_at
+      ? detail
+      : null;
+  const discovered = rows(catalog?.projects);
+  const roots = new Set(discovered.map((item) => item.root));
+  const projects: Data[] = [
+    ...discovered,
+    ...(p.boot?.projects ?? [])
+      .filter((item) => !roots.has(item.root))
+      .map((item) => ({
+        ...item,
+        binding_id: item.id,
+        goal: { status: "unknown", text: "" },
+        next_actions: [],
+        agents: [],
+        work_groups: [],
+        thread_count: 0,
+      })),
+  ];
+  const filtered = projects.filter((project) => {
+    const kind =
+      project.kind === "application"
+        ? "app"
+        : project.kind === "chatbot"
+          ? "bot"
+          : (project.kind ?? "generic");
+    return (
+      (filter === "all" || kind === filter) &&
+      `${project.name} ${project.goal?.text ?? ""} ${project.root}`
         .toLowerCase()
-        .includes(query.toLowerCase()),
+        .includes(query.toLowerCase())
+    );
+  });
+  useEffect(() => {
+    const identity = detailIdentity;
+    detailMoreRef.current = false;
+    if (!focus || p.demo || !discovered.some((item) => item.id === focus.id)) {
+      setDetail(null);
+      setDetailLoading(false);
+      setDetailError("");
+      return;
+    }
+    let cancelled = false;
+    setDetailLoading(true);
+    setDetailError("");
+    setDetail(null);
+    api
+      .portfolioProject(focus.id, { snapshot_checked_at: catalog?.checked_at })
+      .then((value) => {
+        if (!cancelled && detailIdentityRef.current === identity) {
+          setDetail(mergePortfolioPage(null, value));
+          void p.observePortfolio?.();
+        }
+      })
+      .catch((error) => {
+        if (!cancelled && detailIdentityRef.current === identity)
+          setDetailError(error.message);
+      })
+      .finally(() => {
+        if (!cancelled && detailIdentityRef.current === identity)
+          setDetailLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [detailIdentity]);
+  async function loadMoreDetail() {
+    const offset = detail?.coverage?.next_thread_offset;
+    if (
+      !focus ||
+      !detail ||
+      detail.project?.id !== focus.id ||
+      detail.coverage?.snapshot_checked_at !== catalog?.checked_at ||
+      !Number.isInteger(offset) ||
+      detailMoreRef.current
+    )
+      return;
+    const identity = detailIdentity;
+    detailMoreRef.current = true;
+    setDetailLoading(true);
+    setDetailError("");
+    try {
+      const page = await api.portfolioProject(focus.id, {
+        thread_offset: offset,
+        snapshot_checked_at: detail.coverage.snapshot_checked_at,
+      });
+      if (detailIdentityRef.current === identity) {
+        setDetail(mergePortfolioPage(detail, page));
+        void p.observePortfolio?.();
+      }
+    } catch (error) {
+      if (detailIdentityRef.current === identity)
+        setDetailError(error instanceof Error ? error.message : String(error));
+    } finally {
+      if (detailIdentityRef.current === identity) {
+        detailMoreRef.current = false;
+        setDetailLoading(false);
+      }
+    }
+  }
+  const attention = projects.filter(
+    (project) =>
+      project.warnings?.length ||
+      ["blocked", "attention", "outcome_unknown"].includes(project.status) ||
+      project.goal?.status === "unknown",
   );
+  function open(item: Data) {
+    setFocus(item);
+    p.inspect({ title: item.name, kind: "project", data: item });
+  }
+  if (focus)
+    return (
+      <div className="page-content portfolio-view">
+        <button className="back-to-portfolio" onClick={() => setFocus(null)}>
+          <ArrowRight size={14} />
+          {p.t("backToPortfolio")}
+        </button>
+        <NativeProjectDetail
+          {...p}
+          project={activeDetail?.project ?? focus}
+          detail={activeDetail}
+          loading={detailLoading}
+          error={detailError}
+          loadMore={loadMoreDetail}
+        />
+      </div>
+    );
   return (
     <div className="page-content portfolio-view">
       <PageHeading
         eyebrow={p.t("personal")}
-        title={p.t("products")}
-        description={p.t("firstDescription")}
+        title={p.t("portfolioTitle")}
+        description={p.t("portfolioDescription")}
         action={
-          <Button
-            tone="primary"
-            icon={Plus}
-            onClick={p.connectProject}
-            disabled={p.demo}
-          >
-            {p.t("connectProject")}
-          </Button>
+          <div className="heading-actions">
+            <Button
+              icon={FolderGit2}
+              onClick={p.connectProject}
+              disabled={p.demo}
+            >
+              {p.t("connectProject")}
+            </Button>
+            <Button
+              tone="primary"
+              icon={RefreshCw}
+              disabled={p.demo || Boolean(p.busy)}
+              onClick={() =>
+                void p
+                  .command("portfolio.refresh", { max_pages: 20 })
+                  .catch(() => {})
+              }
+            >
+              {p.busy === "portfolio.refresh"
+                ? p.t("processing")
+                : p.t("discoverCodex")}
+            </Button>
+          </div>
         }
       />
-      <div className="metric-strip">
+      <div className="portfolio-entry">
+        <span className="portfolio-entry__symbol">
+          <Workflow size={25} strokeWidth={1.3} />
+        </span>
+        <div>
+          <span className="eyebrow">{p.t("universalEntry")}</span>
+          <h2>{p.t("entryQuestion")}</h2>
+          <p>{p.t("entryDescription")}</p>
+        </div>
+        <Button
+          icon={ArrowRight}
+          tone="primary"
+          disabled={p.demo}
+          onClick={() =>
+            p.selected
+              ? p.newTask({ universal_entry: true })
+              : p.connectProject()
+          }
+        >
+          {p.selected ? p.t("describeOutcome") : p.t("connectFirstProject")}
+        </Button>
+      </div>
+      <div className="metric-strip portfolio-metrics">
+        <Metric icon={Boxes} value={projects.length} label={p.t("products")} />
         <Metric
-          icon={Boxes}
-          value={projects.length}
-          label={p.t("projectCount")}
+          icon={FileStack}
+          value={catalog?.summary?.work_items ?? "—"}
+          label={p.t("documentedWork")}
         />
         <Metric
           icon={Activity}
           value={
-            jobs.filter((j) =>
-              ["running", "queued", "dispatching"].includes(j.status),
-            ).length
+            catalog?.summary?.active ??
+            p.boot?.jobs.filter((item) =>
+              ["running", "queued", "dispatching"].includes(item.status),
+            ).length ??
+            0
           }
           label={p.t("activeJobs")}
         />
         <Metric
           icon={ShieldCheck}
-          value={
-            jobs.filter((j) =>
-              [
-                "review_pending",
-                "awaiting_approval",
-                "awaiting_input",
-              ].includes(j.status),
-            ).length
-          }
-          label={p.t("pendingReview")}
-        />
-        <Metric
-          icon={Braces}
-          value={p.boot?.skills.entries.length ?? 0}
-          label={p.t("skillCount")}
+          value={attention.length}
+          label={p.t("needsAttention")}
         />
       </div>
-      <div className="portfolio-grid">
+      {!catalog?.checked_at && !p.demo && (
+        <div className="catalog-onboarding">
+          <Network size={24} />
+          <div>
+            <strong>{p.t("discoverFirst")}</strong>
+            <p>{p.t("discoverFirstHelp")}</p>
+          </div>
+          <span className="step-number">01 → 02 → 03</span>
+        </div>
+      )}
+      {catalog?.checked_at && (
+        <div className="coverage-line">
+          <span
+            className={`status__dot ${catalog.coverage?.truncated ? "coverage-warning" : ""}`}
+          />
+          <span>
+            {p.t("historyCoverage")} · {catalog.coverage?.native_threads ?? 0}{" "}
+            {p.t("threads")}
+          </span>
+          <span>
+            {catalog.coverage?.complete
+              ? p.t("coverageComplete")
+              : p.t("coveragePartial")}
+          </span>
+          <button
+            onClick={() =>
+              p.expand(p.t("coverageDetails"), {
+                checked_at: catalog.checked_at,
+                coverage: catalog.coverage,
+                warnings: catalog.warnings,
+              })
+            }
+          >
+            {p.t("coverageDetails")}
+            <ChevronRight size={12} />
+          </button>
+        </div>
+      )}
+      <div className="portfolio-layout">
         <Panel
           title={p.t("allProducts")}
           icon={Boxes}
@@ -175,11 +378,12 @@ export function Portfolio(p: ViewProps) {
           <div className="filter-tabs">
             {[
               "all",
-              "application",
-              "chatbot",
+              "app",
+              "bot",
               "game",
               "research",
               "document",
+              "agent",
               "generic",
             ].map((kind) => (
               <button
@@ -187,92 +391,594 @@ export function Portfolio(p: ViewProps) {
                 onClick={() => setFilter(kind)}
                 className={filter === kind ? "is-active" : ""}
               >
-                {p.t(kind as "all")}
+                {kind === "app"
+                  ? p.t("application")
+                  : kind === "bot"
+                    ? p.t("chatbot")
+                    : kind === "agent"
+                      ? p.t("agents")
+                      : p.t(kind as MessageKey)}
                 {kind === "all" && <span>{projects.length}</span>}
               </button>
             ))}
           </div>
-          {!projects.length ? (
-            <Welcome {...p} compact />
-          ) : (
-            <div className="product-table">
-              <div className="product-table__head">
-                <span>{p.t("product")}</span>
-                <span>{p.t("phase")}</span>
-                <span>{p.t("sourceIdentity")}</span>
-                <span>{p.t("status")}</span>
-              </div>
-              {filtered.map((project) => (
-                <button
-                  className="product-table__row"
-                  key={project.id}
-                  onClick={() => p.selectProject(project.id)}
-                >
-                  <span className="product-table__identity">
-                    <span
-                      className={`project-icon project-icon--${project.kind}`}
-                    >
-                      <ProductSymbol kind={project.kind} />
-                    </span>
-                    <span>
-                      <strong>{project.name}</strong>
-                      <small>{project.summary ?? project.kind}</small>
-                    </span>
+          <div className="portfolio-card-grid">
+            {filtered.map((project) => (
+              <button
+                className={`portfolio-project-card ${project.goal?.status === "accepted" ? "has-accepted-goal" : ""}`}
+                key={project.id}
+                onClick={() => open(project)}
+              >
+                <div className="portfolio-card-heading">
+                  <span
+                    className={`project-icon project-icon--${project.kind ?? "generic"}`}
+                  >
+                    <ProductSymbol kind={project.kind ?? "generic"} />
                   </span>
                   <span>
-                    <i className="stage-marker" />
-                    {text(project.phase, p.t("sourceReview"))}
+                    <strong>{project.name}</strong>
+                    <small>
+                      {project.phase && project.phase !== "not_recorded"
+                        ? project.phase
+                        : p.t("sourceReview")}
+                    </small>
                   </span>
-                  <code title={project.revision}>
-                    {shortHash(project.revision)}
-                  </code>
+                  <ChevronRight size={15} />
+                </div>
+                <div className="portfolio-card-goal">
+                  <small>
+                    <ShieldCheck size={11} />
+                    {goalLabel(project.goal, p.t)}
+                  </small>
+                  <p>{project.goal?.text || p.t("goalUnknownHelp")}</p>
+                </div>
+                <div className="portfolio-card-stats">
                   <span>
-                    <Status value={project.status ?? "source_only"} />
-                    <ChevronRight size={15} />
+                    <FileStack size={12} />
+                    {project.thread_count ?? 0} {p.t("threads")}
                   </span>
-                </button>
-              ))}
-            </div>
+                  <span>
+                    <Braces size={12} />
+                    {project.agents?.length ?? 0} {p.t("agents")}
+                  </span>
+                  <span className={project.binding_id ? "binding-ready" : ""}>
+                    {project.binding_id
+                      ? p.t("connected")
+                      : p.t("discoveredOnly")}
+                  </span>
+                </div>
+                <div className="portfolio-card-next">
+                  <ArrowRight size={12} />
+                  <span>{nextActionText(project.next_actions?.[0], p.t)}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+          {!filtered.length && (
+            <Empty icon={FolderGit2} title={p.t("noPortfolioMatches")}>
+              <p>
+                {projects.length
+                  ? p.t("changePortfolioFilter")
+                  : p.t("discoverFirstHelp")}
+              </p>
+            </Empty>
           )}
         </Panel>
-        <Panel
-          title={p.t("activity")}
-          icon={Activity}
-          className="portfolio-activity"
-        >
-          <ActivityList items={p.boot?.activity ?? []} {...p} />
-        </Panel>
+        <div className="portfolio-side">
+          <Panel
+            title={p.t("needsAttention")}
+            icon={ShieldCheck}
+            tools={<span className="tag">{attention.length}</span>}
+          >
+            <div className="attention-list">
+              {attention.slice(0, 8).map((item) => (
+                <button key={item.id} onClick={() => open(item)}>
+                  <span className="attention-marker" />
+                  <span>
+                    <strong>{item.name}</strong>
+                    <small>
+                      {text(
+                        item.warnings?.[0]?.message ?? item.warnings?.[0],
+                        p.t("goalUnknownHelp"),
+                      )}
+                    </small>
+                  </span>
+                  <ChevronRight size={13} />
+                </button>
+              ))}
+              {!attention.length && (
+                <p className="panel-padding muted">
+                  {p.t("noObservedAttention")}
+                </p>
+              )}
+            </div>
+          </Panel>
+          <Panel title={p.t("activity")} icon={Activity}>
+            <ActivityList items={p.boot?.activity ?? []} {...p} />
+          </Panel>
+        </div>
       </div>
       <Panel
-        title={p.t("topology")}
+        title={p.t("portfolioMap")}
         icon={Network}
-        tools={
-          <Status
-            value={p.demo ? "example_only" : "source_only"}
-            label={p.demo ? p.t("exampleOnly") : p.t("sourceOnly")}
-          />
-        }
+        tools={<span className="tag tag--subtle">{p.t("actualRecords")}</span>}
       >
-        <Topology
-          sources={projects.map((project) => ({
-            id: project.id,
-            name: project.name,
-            status: project.status,
-          }))}
-          taskCount={jobs.length}
-          t={p.t}
-          projectName={p.t("personal")}
-          onSelect={(record) =>
-            p.inspect({
-              title: text(record.name),
-              kind: "project",
-              data: record,
-            })
-          }
-        />
+        <div className="portfolio-map" aria-label={p.t("portfolioMap")}>
+          <div className="portfolio-map-root">
+            <Boxes size={25} />
+            <strong>{p.t("personal")}</strong>
+            <span>
+              {projects.length} {p.t("products")}
+            </span>
+          </div>
+          <div className="portfolio-map-projects">
+            {projects.map((item) => (
+              <button key={item.id} onClick={() => open(item)}>
+                <ProductSymbol kind={item.kind ?? "generic"} />
+                <span>
+                  <strong>{item.name}</strong>
+                  <small>
+                    {item.thread_count ?? 0} {p.t("threads")} ·{" "}
+                    {goalLabel(item.goal, p.t)}
+                  </small>
+                </span>
+                <ChevronRight size={13} />
+              </button>
+            ))}
+            {!projects.length && (
+              <p className="muted">{p.t("discoverFirstHelp")}</p>
+            )}
+          </div>
+        </div>
       </Panel>
     </div>
   );
+}
+
+export function nextActionText(action: Data | undefined, t: T) {
+  if (!action?.text) return t("reviewProjectSources");
+  if (action.status === "proposed" && !action.source_ref) {
+    if (action.text.startsWith("Establish the current project goal"))
+      return t("reviewProjectSources");
+    if (action.text.startsWith("Review and bind this discovered project"))
+      return t("connectThis");
+    if (action.text.startsWith("Reconcile the unknown native job"))
+      return t("restoreUnknown");
+  }
+  return text(action.text);
+}
+function goalLabel(goal: Data | undefined, t: T) {
+  return t(
+    goal?.status === "accepted"
+      ? "acceptedTarget"
+      : goal?.status === "declared"
+        ? "declaredTarget"
+        : "goalNotConfirmed",
+  );
+}
+
+function NativeProjectDetail(
+  p: ViewProps & {
+    project: Data;
+    detail: Data | null;
+    loading?: boolean;
+    error?: string;
+    loadMore?: () => void;
+  },
+) {
+  const project = p.project;
+  const bound = (p.boot?.projects ?? []).find(
+    (item) => item.id === project.binding_id || item.root === project.root,
+  );
+  const goal = p.detail?.goal ?? project.goal;
+  const next = p.detail?.next_actions ?? project.next_actions ?? [];
+  const agents = p.detail?.project?.agents ?? project.agents ?? [];
+  return (
+    <>
+      <PageHeading
+        eyebrow={p.t("nativeCodexProject")}
+        title={project.name}
+        description={project.root}
+        action={
+          <div className="heading-actions">
+            {bound ? (
+              <>
+                <Button
+                  icon={FolderOpen}
+                  onClick={() => p.selectProject(bound.id)}
+                >
+                  {p.t("openProject")}
+                </Button>
+                <Button
+                  tone="primary"
+                  icon={Workflow}
+                  onClick={() => {
+                    p.selectProject(bound.id);
+                    p.newTask({
+                      universal_entry: true,
+                      objective: next[0] ? nextActionText(next[0], p.t) : "",
+                    });
+                  }}
+                >
+                  {p.t("continueWithOrchestrator")}
+                </Button>
+              </>
+            ) : (
+              <Button
+                tone="primary"
+                icon={FolderGit2}
+                onClick={() => p.connectDiscovered(project.root)}
+              >
+                {p.t("connectThis")}
+              </Button>
+            )}
+          </div>
+        }
+      />
+      {!bound && <SurfaceNotice>{p.t("discoveryReadOnly")}</SurfaceNotice>}
+      {p.error && <SurfaceNotice tone="warning">{p.error}</SurfaceNotice>}
+      <div className="project-direction-grid">
+        <section
+          className={`project-target ${goal?.status === "accepted" ? "project-target--accepted" : ""}`}
+        >
+          <div className="target-label">
+            <ShieldCheck size={16} />
+            <span>{goalLabel(goal, p.t)}</span>
+            <span className="tag">{goal?.status ?? "unknown"}</span>
+          </div>
+          <h2>{goal?.text || p.t("goalUnknownHelp")}</h2>
+          {goal?.source_ref && (
+            <button
+              className="source-ref-button"
+              onClick={() =>
+                p.inspect({
+                  title: p.t("targetSource"),
+                  kind: "goal",
+                  data: goal,
+                  sourcePath: goal.source_ref,
+                })
+              }
+            >
+              <FileText size={12} />
+              <span>{goal.source_ref}</span>
+              <code>{shortHash(goal.source_sha256)}</code>
+              <ChevronRight size={12} />
+            </button>
+          )}
+          <p>{p.t("targetProvenanceHelp")}</p>
+        </section>
+        <Panel title={p.t("nextActions")} icon={ArrowRight}>
+          <div className="next-action-list">
+            {next.length ? (
+              next.map((action: Data, index: number) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    if (bound) {
+                      p.selectProject(bound.id);
+                      p.newTask({
+                        universal_entry: true,
+                        objective: nextActionText(action, p.t),
+                      });
+                    } else p.connectDiscovered(project.root);
+                  }}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <strong>{nextActionText(action, p.t)}</strong>
+                    <small>
+                      {action.status === "declared"
+                        ? p.t("fromProjectSource")
+                        : p.t("proposedNextAction")}
+                    </small>
+                  </div>
+                  <ChevronRight size={14} />
+                </button>
+              ))
+            ) : (
+              <p className="panel-padding muted">
+                {p.t("reviewProjectSources")}
+              </p>
+            )}
+          </div>
+        </Panel>
+      </div>
+      <div className="project-team-strip">
+        <Braces size={16} />
+        <strong>{p.t("projectAgents")}</strong>
+        {agents.length ? (
+          agents.map((agent: Data) => (
+            <button
+              key={agent.name}
+              onClick={() =>
+                p.inspect({
+                  title: agent.name,
+                  kind: "agent",
+                  data: agent,
+                  sourcePath: agent.source_ref,
+                })
+              }
+            >
+              <span>{agent.name}</span>
+              <small>
+                {agent.availability === "installed"
+                  ? p.t("installed")
+                  : agent.availability === "planned"
+                    ? p.t("plannedAgent")
+                    : p.t("notTested")}
+              </small>
+            </button>
+          ))
+        ) : (
+          <span className="muted">{p.t("noProjectAgentRecorded")}</span>
+        )}
+      </div>
+      <Panel
+        title={p.t("projectWorkMap")}
+        icon={Network}
+        tools={
+          <span className="tag">
+            {p.loading ? p.t("loading") : p.t("actualRecords")}
+          </span>
+        }
+      >
+        <WorkMap
+          groups={p.detail?.work_groups ?? []}
+          goal={goal}
+          projectName={project.name}
+          {...p}
+          bound={bound}
+        />
+        <HistoryPagination
+          {...p}
+          detail={p.detail}
+          loading={p.loading}
+          loadMore={p.loadMore}
+        />
+      </Panel>
+      <div className="native-history-boundary">
+        <FileCheck2 size={14} />
+        <p>{p.t("nativeWorkBoundary")}</p>
+        <button
+          onClick={() =>
+            p.expand(
+              p.t("coverageDetails"),
+              p.detail
+                ? { coverage: p.detail.coverage, warnings: p.detail.warnings }
+                : project,
+            )
+          }
+        >
+          {p.t("coverageDetails")}
+          <ChevronRight size={12} />
+        </button>
+      </div>
+    </>
+  );
+}
+
+function HistoryPagination(
+  p: ViewProps & {
+    detail?: Data | null;
+    loading?: boolean;
+    error?: string;
+    loadMore?: () => void;
+  },
+) {
+  if (!p.detail && !p.loading && !p.error) return null;
+  const coverage = p.detail?.coverage;
+  return (
+    <div className="panel-padding">
+      {p.error && <SurfaceNotice tone="warning">{p.error}</SurfaceNotice>}
+      {coverage && (
+        <div className="coverage-line">
+          <span
+            className={`status__dot ${coverage.complete ? "" : "coverage-warning"}`}
+          />
+          <span>
+            {p.t("historyCoverage")} · {coverage.threads_read ?? 0}/
+            {coverage.threads_total ?? 0}
+          </span>
+          <span>
+            {coverage.complete
+              ? p.t("coverageComplete")
+              : p.t("coveragePartial")}
+          </span>
+          <button
+            onClick={() =>
+              p.expand(p.t("coverageDetails"), {
+                coverage,
+                warnings: p.detail?.warnings ?? [],
+              })
+            }
+          >
+            {p.t("coverageDetails")}
+            {p.detail?.warnings?.length ? ` · ${p.detail.warnings.length}` : ""}
+            <ChevronRight size={12} />
+          </button>
+        </div>
+      )}
+      {Number.isInteger(coverage?.next_thread_offset) && (
+        <Button
+          disabled={p.loading}
+          onClick={p.loadMore}
+          icon={ArrowDownToLine}
+        >
+          {p.loading ? p.t("loading") : p.t("loadMoreThreads")}
+        </Button>
+      )}
+      {!coverage && p.loading && (
+        <span className="muted">{p.t("loading")}</span>
+      )}
+    </div>
+  );
+}
+
+function WorkMap(
+  p: ViewProps & { groups: Data[]; goal?: Data; bound?: Project; projectName?: string },
+) {
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  if (!p.groups.length)
+    return (
+      <Empty compact icon={Network} title={p.t("noWorkReadYet")}>
+        <p>{p.t("noWorkReadHelp")}</p>
+      </Empty>
+    );
+  return (
+    <div className="work-map">
+      <div className="work-map-origin">
+        <span>
+          <Fingerprint size={17} />
+        </span>
+        <strong>{p.goal?.text || p.projectName || p.selected?.name || p.t("product")}</strong>
+        <small>{goalLabel(p.goal, p.t)}</small>
+      </div>
+      <div className="work-map-lanes">
+        {p.groups.map((group) => {
+          const items = rows(group.items);
+          const systemChecks = group.id === "system_checks";
+          const visible = expanded[group.id] ? items : systemChecks ? [] : items.slice(0, 4);
+          return (
+            <section className="work-map-lane" key={group.id}>
+              <header>
+                <span className="work-lane-node" />
+                <strong>{workGroupTitle(group, p.t)}</strong>
+                <span>{items.length}</span>
+              </header>
+              <div className="work-map-items">
+                {visible.map((item) => (
+                  <article className="work-map-item" key={item.id}>
+                    <button
+                      className="work-item-main"
+                      onClick={() =>
+                        p.inspect({
+                          title: item.objective || item.id,
+                          kind: "work",
+                          data: item,
+                        })
+                      }
+                    >
+                      <div>
+                        <Status
+                          value={item.status}
+                          label={workStatus(item.status, p.t, item.work_type)}
+                        />
+                        <small>
+                          {item.source === "native-history"
+                            ? p.t("nativeHistory")
+                            : item.source === "service"
+                              ? p.t("serviceStore")
+                              : p.t("nativeFiles")}
+                        </small>
+                      </div>
+                      <strong>{item.objective || p.t("noDescription")}</strong>
+                      {item.outcome && <p>{text(item.outcome)}</p>}
+                    </button>
+                    {item.skills?.length > 0 && (
+                      <div className="work-item-skills">
+                        {item.skills.map((skill: Data) => (
+                          <span key={skill.name}>
+                            <Braces size={10} />
+                            {skill.name}
+                            <small>
+                              {skill.status === "selected"
+                                ? p.t("skillSelected")
+                                : p.t("skillMentioned")}
+                            </small>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <footer>
+                      <button
+                        onClick={() =>
+                          p.expand(p.t("evidence"), {
+                            source: item.source,
+                            evidence_refs: item.evidence_refs,
+                            thread_id: item.thread_id,
+                            turn_id: item.turn_id,
+                            status: item.status,
+                          })
+                        }
+                      >
+                        <FileCheck2 size={11} />
+                        {p.t("provenance")}
+                      </button>
+                      {p.bound && (
+                        <button
+                          onClick={() => {
+                            p.selectProject(p.bound!.id);
+                            p.newTask({
+                              universal_entry: true,
+                              objective: item.objective || "",
+                              ...(item.thread_id
+                                ? { thread_id: item.thread_id }
+                                : {}),
+                            });
+                          }}
+                        >
+                          {p.t("continue")}
+                          <ArrowRight size={12} />
+                        </button>
+                      )}
+                    </footer>
+                  </article>
+                ))}
+                {!items.length && (
+                  <span className="muted">{p.t("noRecords")}</span>
+                )}
+                {(items.length > 4 || (systemChecks && items.length > 0)) && (
+                  <button
+                    className="work-map-more"
+                    onClick={() =>
+                      setExpanded((value) => ({
+                        ...value,
+                        [group.id]: !value[group.id],
+                      }))
+                    }
+                  >
+                    {expanded[group.id]
+                      ? p.t("collapse")
+                      : `${p.t("showAllWork")} · ${items.length}`}
+                  </button>
+                )}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+function workStatus(value: string, t: T, workType?: string) {
+  if (workType === "permission_review") return t("systemChecks");
+  const keys: Record<string, MessageKey> = {
+    answer_received: "answerReceived",
+    in_progress: "running",
+    failed: "failed",
+    interrupted: "interruptedWork",
+    recorded: "recordedWork",
+  };
+  return t(keys[value] ?? "unknown");
+}
+function workGroupTitle(group: Data, t: T) {
+  const keys: Record<string, MessageKey> = {
+    completed: "completedWork",
+    answers: "completedWork",
+    active: "activeWork",
+    running: "activeWork",
+    results: "completedWork",
+    prepared: "preparedTask",
+    other: "documentedWork",
+    attention: "needsAttention",
+    recorded: "recordedWork",
+    native: "nativeHistory",
+    service: "serviceStore",
+    system_checks: "systemChecks",
+  };
+  return keys[group.id]
+    ? t(keys[group.id])
+    : text(group.title, t("documentedWork"));
 }
 
 export function WorkspaceView(p: ViewProps) {
@@ -377,6 +1083,7 @@ export function WorkspaceView(p: ViewProps) {
     p.workspace?.context?.git?.diff;
   return (
     <div className="workbench-content">
+      {!p.demo && <WorkspaceDirection {...p} />}
       <div className="domain-mode">
         <span>
           <Layers3 size={14} />
@@ -756,19 +1463,35 @@ export function WorkspaceView(p: ViewProps) {
           className="topology-panel"
           tools={<span className="tag tag--subtle">{p.t("sourceTruth")}</span>}
         >
-          <Topology
-            sources={sources}
-            taskCount={jobs.length}
-            t={p.t}
-            projectName={p.selected.name}
-            onSelect={(source) =>
-              p.inspect({
-                title: text(source.name ?? source.path),
-                kind: "source",
-                data: source,
-                sourcePath: source.path,
-              })
-            }
+          {p.nativeDetail?.work_groups?.length ? (
+            <WorkMap
+              {...p}
+              groups={p.nativeDetail.work_groups}
+              goal={p.nativeDetail.goal}
+              bound={p.selected ?? undefined}
+            />
+          ) : (
+            <Topology
+              sources={sources}
+              taskCount={jobs.length}
+              t={p.t}
+              projectName={p.selected.name}
+              onSelect={(source) =>
+                p.inspect({
+                  title: text(source.name ?? source.path),
+                  kind: "source",
+                  data: source,
+                  sourcePath: source.path,
+                })
+              }
+            />
+          )}
+          <HistoryPagination
+            {...p}
+            detail={p.nativeDetail}
+            loading={p.nativeHistoryLoading}
+            error={p.nativeHistoryError}
+            loadMore={p.loadMoreNativeHistory}
           />
         </Panel>
         <Panel
@@ -1892,6 +2615,8 @@ export function SkillsView(p: ViewProps) {
   const [result, setResult] = useState<Data | null>(null);
   const [error, setError] = useState("");
   const [skillSource, setSkillSource] = useState<Data | null>(null);
+  const [optionalUpdate, setOptionalUpdate] = useState<string | null>(null);
+  const [optionalJournal, setOptionalJournal] = useState<string | null>(null);
   const [sourceTab, setSourceTab] = useState<"canonical" | "installed">(
     "canonical",
   );
@@ -2060,6 +2785,20 @@ export function SkillsView(p: ViewProps) {
                 >
                   {p.t("useSkill")}
                 </Button>
+                {["atelier-orchestrator", "codex-agents-maintenance"].includes(
+                  selected.name,
+                ) && (
+                  <Button
+                    icon={GitCompareArrows}
+                    disabled={p.demo || Boolean(p.busy)}
+                    onClick={() => {
+                      setOptionalJournal(null);
+                      setOptionalUpdate(selected.name);
+                    }}
+                  >
+                    {p.t("reviewOptionalUpdate")}
+                  </Button>
+                )}
                 <RecordDetails value={selected} t={p.t} />
                 <Button
                   small
@@ -2118,6 +2857,35 @@ export function SkillsView(p: ViewProps) {
               </Empty>
             )}
           </Panel>
+          {rows(p.boot?.optional_updates).length > 0 && (
+            <Panel title={p.t("commandReceipt")} icon={ShieldCheck}>
+              <div className="optional-journal-list">
+                {rows(p.boot?.optional_updates)
+                  .slice(-10)
+                  .reverse()
+                  .map((journal) => (
+                    <div key={journal.id}>
+                      <span>
+                        <strong>{journal.name}</strong>
+                        <small>{journal.id}</small>
+                      </span>
+                      <Status value={journal.status} />
+                      <Button
+                        small
+                        icon={ShieldCheck}
+                        disabled={Boolean(p.busy) || p.demo}
+                        onClick={() => {
+                          setOptionalJournal(journal.id);
+                          setOptionalUpdate(journal.name);
+                        }}
+                      >
+                        {p.t("verify")}
+                      </Button>
+                    </div>
+                  ))}
+              </div>
+            </Panel>
+          )}
           <Panel title={p.t("operations")} icon={GitCompareArrows}>
             <div className="operation-selector">
               {(
@@ -2246,6 +3014,14 @@ export function SkillsView(p: ViewProps) {
           </Panel>
         </div>
       </div>
+      {optionalUpdate && (
+        <OptionalUpdateDialog
+          {...p}
+          name={optionalUpdate}
+          journalId={optionalJournal}
+          onClose={() => setOptionalUpdate(null)}
+        />
+      )}
       {construction && (
         <Modal
           title={p.t(
@@ -2293,6 +3069,248 @@ export function SkillsView(p: ViewProps) {
         </Modal>
       )}
     </div>
+  );
+}
+
+function OptionalUpdateDialog(
+  p: ViewProps & {
+    name: string;
+    journalId?: string | null;
+    onClose: () => void;
+  },
+) {
+  const [preview, setPreview] = useState<Data | null>(null);
+  const [receipt, setReceipt] = useState<Data | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
+  const [rollbackConfirmed, setRollbackConfirmed] = useState(false);
+  const [error, setError] = useState("");
+  const [catalog, setCatalog] = useState<Data | null>(null);
+  const journal = receipt?.id;
+  async function run(operation: string, payload: Data) {
+    setError("");
+    try {
+      const result = await p.command(operation, payload);
+      if (operation === "skills.optional-preview") {
+        setPreview(result);
+        setConfirmed(false);
+        setReceipt(null);
+      } else {
+        setReceipt(result);
+        setRollbackConfirmed(false);
+      }
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
+  useEffect(() => {
+    if (p.journalId)
+      void run("skills.optional-verify", { journal_id: p.journalId });
+    else void run("skills.optional-preview", { name: p.name });
+  }, [p.name, p.journalId]);
+  return (
+    <Modal
+      title={`${p.t("reviewOptionalUpdate")} · ${p.name}`}
+      onClose={p.onClose}
+      footer={
+        <>
+          <Button onClick={p.onClose}>{p.t("close")}</Button>
+          {!receipt && preview && (
+            <Button
+              tone="primary"
+              disabled={
+                p.demo || Boolean(p.busy) || !preview.ready || !confirmed
+              }
+              onClick={() =>
+                void run("skills.optional-apply", {
+                  preview_id: preview.preview_id,
+                  sha256: preview.sha256,
+                  confirmed: true,
+                })
+              }
+            >
+              {p.t("applyOptionalUpdate")}
+            </Button>
+          )}
+        </>
+      }
+    >
+      <SurfaceNotice>{p.t("optionalUpdateHelp")}</SurfaceNotice>
+      {error && <SurfaceNotice tone="error">{error}</SurfaceNotice>}
+      {!preview && !receipt && !error && (
+        <p className="muted">{p.t("loading")}</p>
+      )}
+      {preview && (
+        <div className="optional-update-preview">
+          <div className="optional-version-pair">
+            <span>
+              <small>{p.t("installed")}</small>
+              <strong>{preview.installed_version ?? p.t("notTested")}</strong>
+            </span>
+            <ArrowRight size={18} />
+            <span>
+              <small>{p.t("candidateVersion")}</small>
+              <strong>{preview.candidate_version}</strong>
+            </span>
+            <Status
+              value={preview.ready ? "pass" : "blocked"}
+              label={
+                preview.noop
+                  ? p.t("matched")
+                  : preview.ready
+                    ? p.t("ready")
+                    : p.t("needsAttention")
+              }
+            />
+          </div>
+          <Field label={p.t("source")}>
+            <code className="optional-source-path">{preview.source_root}</code>
+          </Field>
+          <Field label={p.t("targetSourcePaths")}>
+            <code className="optional-source-path">{preview.target_root}</code>
+          </Field>
+          <Field label={p.t("sourceDigest")}>
+            <code className="optional-source-path">
+              {preview.source_sha256}
+            </code>
+          </Field>
+          <p className="muted">{p.t("optionalPreservation")}</p>
+          <Disclosure
+            title={`${p.t("optionalChangedFiles")} · ${preview.changes?.length ?? 0}`}
+            initialOpen
+          >
+            <div className="optional-file-list">
+              {rows(preview.changes).map((item) => (
+                <div key={item.path}>
+                  <Status
+                    value={item.change}
+                    label={p.t(
+                      item.change === "added"
+                        ? "optionalFileAdded"
+                        : item.change === "removed"
+                          ? "optionalFileRemoved"
+                          : "optionalFileChanged",
+                    )}
+                  />
+                  <code>{item.path}</code>
+                </div>
+              ))}
+            </div>
+          </Disclosure>
+          {rows(preview.conflicts).length > 0 && (
+            <SurfaceNotice tone="warning">
+              <strong>{p.t("optionalLocalConflict")}</strong>
+              {rows(preview.conflicts).map((item, index) => (
+                <p key={index}>{text(item.value ?? item)}</p>
+              ))}
+            </SurfaceNotice>
+          )}
+          <Disclosure title={p.t("optionalExactPreview")}>
+            <CodeViewer
+              value={preview}
+              fileName="optional-source-preview.json"
+              locale={p.locale}
+            />
+          </Disclosure>
+          {!receipt && (
+            <label className="confirmation-check">
+              <input
+                type="checkbox"
+                checked={confirmed}
+                disabled={!preview.ready || Boolean(p.busy)}
+                onChange={(e) => setConfirmed(e.target.checked)}
+              />
+              <span>{p.t("confirmOptionalUpdate")}</span>
+            </label>
+          )}
+        </div>
+      )}
+      {receipt && (
+        <div className="optional-update-result">
+          <SurfaceNotice
+            tone={receipt.installed_source_verified ? "good" : "warning"}
+          >
+            {receipt.installed_source_verified
+              ? p.t("optionalSourceVerified")
+              : p.t("optionalReviewReceipt")}
+          </SurfaceNotice>
+          <div className="heading-actions">
+            {journal && (
+              <Button
+                disabled={Boolean(p.busy)}
+                icon={ShieldCheck}
+                onClick={() =>
+                  void run("skills.optional-verify", { journal_id: journal })
+                }
+              >
+                {p.t("verify")}
+              </Button>
+            )}
+            <Button
+              disabled={Boolean(p.busy)}
+              icon={RefreshCw}
+              onClick={() => {
+                setError("");
+                void p
+                  .command("codex.skills")
+                  .then(setCatalog)
+                  .catch((e) => setError(e.message));
+              }}
+            >
+              {p.t("refreshHostCatalog")}
+            </Button>
+          </div>
+          {catalog && (
+            <SurfaceNotice>
+              {p.t("hostCatalogRead")}{" "}
+              <button
+                className="text-button"
+                onClick={() => p.expand(p.t("inventory"), catalog)}
+              >
+                {p.t("showRaw")}
+              </button>
+            </SurfaceNotice>
+          )}
+          <Disclosure title={p.t("commandReceipt")}>
+            <CodeViewer
+              value={receipt}
+              fileName="optional-source-receipt.json"
+              locale={p.locale}
+            />
+          </Disclosure>
+          {journal && receipt.status !== "rolled_back" && (
+            <Disclosure title={p.t("rollback")}>
+              <p className="muted">{p.t("optionalRollbackHelp")}</p>
+              <label className="confirmation-check">
+                <input
+                  type="checkbox"
+                  checked={rollbackConfirmed}
+                  onChange={(e) => setRollbackConfirmed(e.target.checked)}
+                  disabled={!receipt.current_sha256}
+                />
+                <span>{p.t("confirmOptionalRollback")}</span>
+              </label>
+              <Button
+                tone="danger"
+                disabled={
+                  Boolean(p.busy) ||
+                  !rollbackConfirmed ||
+                  !receipt.current_sha256
+                }
+                onClick={() =>
+                  void run("skills.optional-rollback", {
+                    journal_id: journal,
+                    current_sha256: receipt.current_sha256,
+                    confirmed: true,
+                  })
+                }
+              >
+                {p.t("rollback")}
+              </Button>
+            </Disclosure>
+          )}
+        </div>
+      )}
+    </Modal>
   );
 }
 
@@ -2672,61 +3690,477 @@ function Topology({
   onSelect: (source: Data) => void;
 }) {
   return (
-    <div className="topology">
-      <div className="topology-map" aria-label={t("contextGraph")}>
-        <svg
-          className="topology-lines"
-          viewBox="0 0 620 180"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="edge-gradient">
-              <stop stopColor="#00d6cb" stopOpacity=".65" />
-              <stop offset="1" stopColor="#3e728c" stopOpacity=".2" />
-            </linearGradient>
-          </defs>
-          <path d="M75 45H160Q185 45 185 90H280M75 135H160Q185 135 185 90M340 90H415Q435 90 435 45H555M435 90V135H555" />
-          <circle cx="185" cy="90" r="3" />
-          <circle cx="435" cy="90" r="3" />
-        </svg>
-        <button
-          onClick={() =>
-            onSelect(
-              sources[0] ?? { name: projectName, status: "not_observed" },
-            )
-          }
-          className="topology-node topology-node--one"
-        >
-          <FileCode2 size={17} />
-          <span>{t("sources")}</span>
-          <small>{sources.length}</small>
-        </button>
-        <div className="topology-node topology-node--two">
-          <Fingerprint size={17} />
-          <span>{t("identity")}</span>
-        </div>
-        <div className="topology-node topology-node--core">
-          <Boxes size={23} strokeWidth={1.3} />
-          <strong>{projectName}</strong>
-          <span>{t("sourceTruth")}</span>
-        </div>
-        <div className="topology-node topology-node--three">
-          <Workflow size={17} />
-          <span>{t("execution")}</span>
-          <small>{taskCount}</small>
-        </div>
-        <div className="topology-node topology-node--four">
-          <ShieldCheck size={17} />
-          <span>{t("evidence")}</span>
-        </div>
+    <div className="source-map">
+      <div className="source-map-heading">
+        <Fingerprint size={18} />
+        <strong>{projectName}</strong>
+        <span>
+          {sources.length} {t("sources")} · {taskCount} {t("jobs")}
+        </span>
       </div>
+      {sources.length ? (
+        <div className="source-map-nodes">
+          {sources.map((source, index) => (
+            <button
+              key={source.path ?? source.id ?? index}
+              onClick={() => onSelect(source)}
+            >
+              <FileCode2 size={15} />
+              <span>
+                <strong>{text(source.name ?? source.path ?? source.id)}</strong>
+                <small>{shortHash(source.sha256 ?? source.revision)}</small>
+              </span>
+              <ChevronRight size={12} />
+            </button>
+          ))}
+        </div>
+      ) : (
+        <Empty compact icon={Network} title={t("noRecords")}>
+          <p>{t("noWorkReadHelp")}</p>
+        </Empty>
+      )}
       <div className="topology-caption">
         <span className="status__dot" />
-        {t("contextGraph")}
-        <span>{t("displayOnly")}</span>
+        {t("sourceRelationships")}
       </div>
     </div>
+  );
+}
+
+function WorkspaceDirection(p: ViewProps) {
+  const [controllerOpen, setControllerOpen] = useState(false);
+  const summary =
+    p.nativeDetail?.project ??
+    p.portfolio?.projects?.find(
+      (item: Data) =>
+        item.binding_id === p.selected?.id || item.root === p.selected?.root,
+    );
+  const goal = p.nativeDetail?.goal ?? summary?.goal;
+  const next = p.nativeDetail?.next_actions ?? summary?.next_actions ?? [];
+  const agents = summary?.agents ?? [];
+  return (
+    <>
+      <div className="workspace-direction">
+        <div
+          className={`workspace-goal ${goal?.status === "accepted" ? "is-accepted" : ""}`}
+        >
+          <span className="target-label">
+            <ShieldCheck size={14} />
+            {goalLabel(goal, p.t)}
+          </span>
+          <strong>{goal?.text || p.t("goalUnknownHelp")}</strong>
+          {goal?.source_ref && (
+            <button
+              onClick={() =>
+                p.inspect({
+                  title: p.t("targetSource"),
+                  kind: "goal",
+                  data: goal,
+                  sourcePath: goal.source_ref,
+                })
+              }
+            >
+              <FileText size={11} />
+              <span>{goal.source_ref}</span>
+              <code>{shortHash(goal.source_sha256)}</code>
+            </button>
+          )}
+        </div>
+        <div className="workspace-direction-next">
+          <span className="eyebrow">{p.t("nextStep")}</span>
+          <p>{nextActionText(next[0], p.t)}</p>
+          <Button
+            small
+            icon={ArrowRight}
+            tone="primary"
+            onClick={() =>
+              p.newTask({
+                universal_entry: true,
+                objective: next[0] ? nextActionText(next[0], p.t) : "",
+              })
+            }
+            disabled={Boolean(p.busy)}
+          >
+            {p.t("continueWithOrchestrator")}
+          </Button>
+          {agents.length > 0 && (
+            <div className="workspace-agent-hint">
+              <Braces size={12} />
+              <span>
+                {agents
+                  .map(
+                    (item: Data) =>
+                      `${item.name} · ${item.availability === "installed" ? p.t("installed") : item.availability === "planned" ? p.t("plannedAgent") : p.t("notTested")}`,
+                  )
+                  .join(" / ")}
+              </span>
+            </div>
+          )}
+          <button
+            className="native-controller-link"
+            onClick={() => setControllerOpen(true)}
+          >
+            <Braces size={12} />
+            {p.t("nativeAgentWorkflow")}
+            <ChevronRight size={11} />
+          </button>
+        </div>
+      </div>
+      {controllerOpen && p.selected && (
+        <NativeControllerDialog
+          {...p}
+          project={p.selected}
+          onClose={() => setControllerOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
+function NativeControllerDialog(
+  p: ViewProps & { project: Project; onClose: () => void },
+) {
+  const [operation, setOperation] = useState("context");
+  const [sessionPath, setSessionPath] = useState(".");
+  const [recordPath, setRecordPath] = useState("");
+  const [projectSlug, setProjectSlug] = useState("");
+  const [ownerText, setOwnerText] = useState("");
+  const [preview, setPreview] = useState<Data | null>(null);
+  const [receipt, setReceipt] = useState<Data | null>(null);
+  const [reviewed, setReviewed] = useState(false);
+  const [error, setError] = useState("");
+  const [reconciliation, setReconciliation] = useState<Data | null>(null);
+  const [reconcileReviewed, setReconcileReviewed] = useState(false);
+  const labels = {
+    context: "controllerContext",
+    check: "controllerCheck",
+    "build-gate": "controllerGate",
+    init: "controllerInit",
+    blueprint: "controllerBlueprint",
+    approve: "controllerApprove",
+  } as const;
+  async function prepare() {
+    setError("");
+    try {
+      const value = await p.command(
+        "controller.preview",
+        {
+          controller: "foundry",
+          session_path: sessionPath,
+          operation,
+          ...(recordPath.trim() ? { record_path: recordPath.trim() } : {}),
+          ...(operation === "approve"
+            ? { owner_approval_text: ownerText.trim() }
+            : {}),
+          params:
+            operation === "init"
+              ? { project_id: projectSlug.trim(), purpose: "factory" }
+              : {},
+        },
+        p.project,
+      );
+      setPreview(value);
+      setReviewed(false);
+      setReceipt(null);
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  }
+  async function apply() {
+    if (!preview) return;
+    setError("");
+    try {
+      const value = await p.command(
+        "controller.apply",
+        {
+          preview_id: preview.preview_id,
+          sha256: preview.sha256,
+          confirmed: reviewed,
+        },
+        p.project,
+      );
+      setReceipt(value);
+      setPreview(null);
+      setReviewed(false);
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  }
+  async function reconcile(confirm = false) {
+    if (!receipt?.id) return;
+    setError("");
+    try {
+      const value = await p.command(
+        "controller.reconcile",
+        {
+          receipt_id: receipt.id,
+          ...(confirm && reconciliation
+            ? { sha256: reconciliation.sha256, confirmed: reconcileReviewed }
+            : {}),
+        },
+        p.project,
+      );
+      if (confirm) {
+        setReceipt(value);
+        setReconciliation(null);
+      } else {
+        setReconciliation(value);
+        setReconcileReviewed(false);
+      }
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  }
+  return (
+    <Modal
+      wide
+      title={p.t("nativeAgentWorkflow")}
+      onClose={p.onClose}
+      footer={
+        <>
+          <Button onClick={p.onClose}>{p.t("close")}</Button>
+          {preview ? (
+            <Button
+              tone="primary"
+              icon={Check}
+              disabled={!reviewed || Boolean(p.busy)}
+              onClick={() => void apply()}
+            >
+              {p.t("applyControllerPreview")}
+            </Button>
+          ) : !receipt ? (
+            <Button
+              tone="primary"
+              icon={ShieldCheck}
+              disabled={
+                Boolean(p.busy) ||
+                !sessionPath.trim() ||
+                (operation === "blueprint" && !recordPath.trim()) ||
+                (operation === "approve" && !ownerText.trim()) ||
+                (operation === "init" && !projectSlug.trim())
+              }
+              onClick={() => void prepare()}
+            >
+              {p.t("reviewControllerAction")}
+            </Button>
+          ) : null}
+        </>
+      }
+    >
+      <p className="dialog-lead">{p.t("nativeControllerHelp")}</p>
+      {!preview && !receipt && (
+        <>
+          <div className="form-grid">
+            <Field label={p.t("nativeControllerAction")}>
+              <select
+                value={operation}
+                onChange={(event) => {
+                  setOperation(event.target.value);
+                  setRecordPath("");
+                }}
+              >
+                {Object.entries(labels).map(([value, key]) => (
+                  <option key={value} value={value}>
+                    {p.t(key)}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field
+              label={p.t("factorySessionPath")}
+              help={p.t("factorySessionPathHelp")}
+            >
+              <input
+                value={sessionPath}
+                onChange={(event) => setSessionPath(event.target.value)}
+                spellCheck={false}
+              />
+            </Field>
+          </div>
+          {operation === "init" && (
+            <Field label={p.t("nativeProjectId")}>
+              <input
+                value={projectSlug}
+                onChange={(event) => setProjectSlug(event.target.value)}
+                placeholder="my-agent"
+                spellCheck={false}
+              />
+            </Field>
+          )}
+          {operation === "blueprint" && (
+            <Field
+              label={p.t("passportRecordPath")}
+              help={p.t("passportRecordPathHelp")}
+            >
+              <input
+                value={recordPath}
+                onChange={(event) => setRecordPath(event.target.value)}
+                placeholder="records/blueprint.json"
+                spellCheck={false}
+              />
+            </Field>
+          )}
+          {operation === "approve" && (
+            <Field
+              label={p.t("ownerApprovalText")}
+              help={p.t("ownerApprovalTextHelp")}
+            >
+              <textarea
+                rows={3}
+                value={ownerText}
+                onChange={(event) => setOwnerText(event.target.value)}
+              />
+            </Field>
+          )}
+        </>
+      )}
+      {preview && (
+        <>
+          <div className="controller-subject">
+            <span className="eyebrow">{p.t("exactControllerSubject")}</span>
+            <h3>
+              {preview.subject?.goal ||
+                p.t(labels[operation as keyof typeof labels])}
+            </h3>
+            <Field label={p.t("projectName")}>
+              <strong>{p.project.name}</strong>
+            </Field>
+            <Field label={p.t("projectRoot")}>
+              <code className="optional-source-path">{preview.root}</code>
+            </Field>
+            <Field label={p.t("factorySessionPath")}>
+              <code className="optional-source-path">
+                {preview.session_path === "."
+                  ? preview.root
+                  : `${preview.root}/${preview.session_path}`}
+              </code>
+            </Field>
+            {preview.operation === "init" && (
+              <div className="form-grid">
+                <Field label={p.t("nativeProjectId")}>
+                  <code>{preview.params?.project_id}</code>
+                </Field>
+                <Field label={p.t("scope")}>
+                  <code>{preview.params?.purpose ?? "factory"}</code>
+                </Field>
+              </div>
+            )}
+            <Field label={p.t("sourceDigest")}>
+              <code className="optional-source-path">
+                {preview.controller_source_sha256}
+              </code>
+            </Field>
+            <RecordDetails
+              value={
+                preview.subject ?? {
+                  operation: preview.operation,
+                  session: preview.session_path,
+                  native_revision: preview.native_revision,
+                  native_state_sha256: preview.native_state_sha256,
+                }
+              }
+              t={p.t}
+              compact
+            />
+            <Disclosure title={p.t("exactPlan")}>
+              <CodeViewer
+                value={preview}
+                fileName="native-controller-preview.json"
+                locale={p.locale}
+              />
+            </Disclosure>
+          </div>
+          <SurfaceNotice>{p.t("controllerEffectsHelp")}</SurfaceNotice>
+          {preview.record && (
+            <Disclosure title={p.t("request")}>
+              <CodeViewer
+                value={preview.record}
+                fileName="reviewed-record.json"
+                locale={p.locale}
+              />
+            </Disclosure>
+          )}
+          <label className="checkbox-field">
+            <input
+              type="checkbox"
+              checked={reviewed}
+              onChange={(event) => setReviewed(event.target.checked)}
+            />
+            <span>{p.t("confirmControllerAction")}</span>
+          </label>
+          <Button
+            small
+            tone="quiet"
+            onClick={() => {
+              setPreview(null);
+              setReviewed(false);
+            }}
+          >
+            {p.t("back")}
+          </Button>
+        </>
+      )}
+      {receipt && (
+        <>
+          <Status value={receipt.status} />
+          <CodeViewer
+            value={receipt.result ?? receipt}
+            fileName="native-controller-receipt.json"
+            locale={p.locale}
+          />
+          <SurfaceNotice>{p.t("controllerReceiptHelp")}</SurfaceNotice>
+          {receipt.status === "outcome_unknown" ? (
+            <>
+              <Button
+                small
+                icon={RefreshCw}
+                onClick={() => void reconcile(false)}
+                disabled={Boolean(p.busy)}
+              >
+                {p.t("reconcileControllerState")}
+              </Button>
+              {reconciliation && (
+                <>
+                  <RecordDetails value={reconciliation} t={p.t} />
+                  <label className="checkbox-field">
+                    <input
+                      type="checkbox"
+                      checked={reconcileReviewed}
+                      onChange={(event) =>
+                        setReconcileReviewed(event.target.checked)
+                      }
+                    />
+                    <span>{p.t("confirmControllerReconcile")}</span>
+                  </label>
+                  <Button
+                    small
+                    disabled={!reconcileReviewed || Boolean(p.busy)}
+                    onClick={() => void reconcile(true)}
+                  >
+                    {p.t("recordReconciliation")}
+                  </Button>
+                </>
+              )}
+            </>
+          ) : (
+            <Button
+              small
+              onClick={() => {
+                setReceipt(null);
+                setError("");
+              }}
+            >
+              {p.t("nextActions")}
+            </Button>
+          )}
+        </>
+      )}
+      {error && (
+        <p className="dialog-error" role="alert">
+          {error}
+        </p>
+      )}
+    </Modal>
   );
 }
 

@@ -22,5 +22,44 @@
   "recovery": null,
   "unknown_effects": [],
   "next_action": null,
-  "quality_certified": false
+  "quality_certified": false,
+  "entry": {
+    "surface": null,
+    "request_ref": null,
+    "original_objective": null
+  },
+  "routing": {
+    "route": null,
+    "reason": null,
+    "execution_owner": null,
+    "source_pins": [],
+    "capability_gaps": []
+  },
+  "creation_scope": {
+    "requested": false,
+    "stage": null,
+    "authority_ref": null,
+    "acceptance": []
+  },
+  "execution_scope": {
+    "requested": false,
+    "activity": null,
+    "authority_ref": null,
+    "acceptance": []
+  },
+  "original_result_acceptance": [],
+  "continuation": {
+    "preferred_project_agent": null,
+    "project_agent_status": null,
+    "project_agent_source_pin": null,
+    "recommendation": null,
+    "return_to": null,
+    "next_action": null
+  },
+  "maintenance": null,
+  "execution": {
+    "state": "prepared",
+    "executor_ref": null,
+    "receipt_refs": []
+  }
 }

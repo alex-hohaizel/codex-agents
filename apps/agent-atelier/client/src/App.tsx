@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Activity,
   Archive,
@@ -32,6 +32,7 @@ import {
 import {
   api,
   ApiError,
+  mergePortfolioPage,
   shortHash,
   text,
   type Bootstrap,
@@ -63,6 +64,7 @@ import {
 import { BindingDialog, TaskDialog, SearchDialog } from "./dialogs";
 import {
   Portfolio,
+  nextActionText,
   WorkspaceView,
   ContextView,
   RequirementsView,
@@ -91,6 +93,7 @@ export type Inspection = {
   kind: string;
   data: Data;
   sourcePath?: string;
+  projectRoot?: string;
 };
 export type CommandFn = (
   operation: string,
@@ -123,7 +126,18 @@ export default function App() {
   const [live, setLive] = useState<Bootstrap | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [projectId, setProjectId] = useState(initialQuery.get("project") || "");
-  const [view, setView] = useState<View>("workspace");
+  const [view, setView] = useState<View>(
+    initialQuery.get("project") ? "workspace" : "overview",
+  );
+  const [portfolio, setPortfolio] = useState<Data | null>(null);
+  const [nativeDetailState, setNativeDetail] = useState<Data | null>(null);
+  const [nativeHistoryLoading, setNativeHistoryLoading] = useState(false);
+  const [nativeHistoryError, setNativeHistoryError] = useState("");
+  const nativeIdentityRef = useRef("");
+  const nativeMoreRef = useRef(false);
+  const portfolioSnapshotRef = useRef<string | undefined>(undefined);
+  portfolioSnapshotRef.current = portfolio?.checked_at;
+  const [bindingRoot, setBindingRoot] = useState("");
   const [loading, setLoading] = useState(true);
   const [workspaceLoading, setWorkspaceLoading] = useState(false);
   const [connectionError, setConnectionError] = useState<ApiError | null>(null);
@@ -160,7 +174,41 @@ export default function App() {
         }
       : bindingProject;
   const selectedProfile = projectProfile(selected);
+  const nativeDiscovery = portfolio?.projects?.find(
+    (item: Data) =>
+      item.binding_id === projectId || item.root === selected?.root,
+  );
+  const nativeIdentity = `${demo}:${projectId}:${nativeDiscovery?.id ?? ""}:${portfolio?.checked_at ?? ""}`;
+  nativeIdentityRef.current = nativeIdentity;
+  const nativeDetail =
+    nativeDetailState?.project?.id === nativeDiscovery?.id &&
+    nativeDetailState?.coverage?.snapshot_checked_at === portfolio?.checked_at
+      ? nativeDetailState
+      : null;
   const ProjectIcon = projectIcons[selectedProfile] ?? Layers3;
+  const inspectedProject =
+    inspection?.kind === "project" && typeof inspection.data?.root === "string"
+      ? inspection.data
+      : inspection?.projectRoot
+        ? (portfolio?.projects?.find(
+            (project: Data) => project.root === inspection.projectRoot,
+          ) ??
+          projects.find((project) => project.root === inspection.projectRoot))
+        : null;
+  const contextProject =
+    view === "overview" && inspectedProject ? inspectedProject : selected;
+  const contextRevision =
+    contextProject?.revision ?? contextProject?.source_revision;
+  const inspectorProject = inspectedProject
+    ? (projects.find((project) => project.root === inspectedProject.root) ??
+      null)
+    : selected;
+  const inspectorNextActions = inspectedProject
+    ? (inspectedProject.next_actions ??
+      (inspectedProject.root === selected?.root
+        ? nativeDetail?.next_actions
+        : []))
+    : nativeDetail?.next_actions;
 
   const refresh = useCallback(
     async (quiet = false) => {
@@ -172,6 +220,11 @@ export default function App() {
       try {
         const data = await api.bootstrap();
         setLive(data);
+        try {
+          setPortfolio(await api.portfolio());
+        } catch {
+          /* preserve the last observed catalog */
+        }
         setConnectionError(null);
         if (!initialQuery.get("locale") && data.locale && !live)
           setLocale(data.locale as Locale);
@@ -189,6 +242,85 @@ export default function App() {
     [demo, initialQuery, Boolean(live)],
   );
 
+  useEffect(() => {
+    const identity = nativeIdentity;
+    nativeMoreRef.current = false;
+    setNativeHistoryError("");
+    if (demo || !nativeDiscovery) {
+      setNativeDetail(null);
+      setNativeHistoryLoading(false);
+      return;
+    }
+    let cancelled = false;
+    setNativeDetail(null);
+    setNativeHistoryLoading(true);
+    api
+      .portfolioProject(nativeDiscovery.id, {
+        snapshot_checked_at: portfolio?.checked_at,
+      })
+      .then((result) => {
+        if (!cancelled && nativeIdentityRef.current === identity) {
+          setNativeDetail(mergePortfolioPage(null, result));
+          void observePortfolio();
+        }
+      })
+      .catch((error) => {
+        if (!cancelled && nativeIdentityRef.current === identity)
+          setNativeHistoryError(asError(error).message);
+      })
+      .finally(() => {
+        if (!cancelled && nativeIdentityRef.current === identity)
+          setNativeHistoryLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [nativeIdentity]);
+  async function loadMoreNativeHistory() {
+    const offset = nativeDetail?.coverage?.next_thread_offset;
+    if (
+      !nativeDiscovery ||
+      !nativeDetail ||
+      !Number.isInteger(offset) ||
+      nativeMoreRef.current
+    )
+      return;
+    const identity = nativeIdentity;
+    nativeMoreRef.current = true;
+    setNativeHistoryLoading(true);
+    setNativeHistoryError("");
+    try {
+      const page = await api.portfolioProject(nativeDiscovery.id, {
+        thread_offset: offset,
+        snapshot_checked_at: nativeDetail.coverage.snapshot_checked_at,
+      });
+      if (nativeIdentityRef.current === identity) {
+        setNativeDetail(mergePortfolioPage(nativeDetail, page));
+        void observePortfolio();
+      }
+    } catch (error) {
+      if (nativeIdentityRef.current === identity)
+        setNativeHistoryError(asError(error).message);
+    } finally {
+      if (nativeIdentityRef.current === identity) {
+        nativeMoreRef.current = false;
+        setNativeHistoryLoading(false);
+      }
+    }
+  }
+  async function observePortfolio() {
+    const snapshot = portfolioSnapshotRef.current;
+    try {
+      const observed = await api.portfolio();
+      if (
+        snapshot === portfolioSnapshotRef.current &&
+        observed.checked_at === snapshot
+      )
+        setPortfolio(observed);
+    } catch {
+      /* Preserve the current catalog if the observation cannot be refreshed. */
+    }
+  }
   useEffect(() => {
     void refresh();
   }, [demo]);
@@ -282,8 +414,8 @@ export default function App() {
   }, []);
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.title = `${selected?.name ? `${selected.name} · ` : ""}Agent Atelier`;
-  }, [locale, selected?.name]);
+    document.title = `${contextProject?.name ? `${contextProject.name} · ` : ""}Agent Atelier`;
+  }, [locale, contextProject?.name]);
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
@@ -326,6 +458,8 @@ export default function App() {
           result.error?.details,
         );
       await refresh(true);
+      if (operation === "portfolio.refresh")
+        setPortfolio(result.result ?? result);
       if (project) {
         try {
           setWorkspace(await api.workspace(project.id));
@@ -358,7 +492,17 @@ export default function App() {
     setTaskOpen(true);
   }
   function inspect(next: Inspection) {
-    setInspection(next);
+    const root =
+      next.kind === "project" && typeof next.data?.root === "string"
+        ? next.data.root
+        : view === "overview"
+          ? (inspection?.projectRoot ?? inspectedProject?.root)
+          : selected?.root;
+    if (next.kind === "project" && root) {
+      const binding = projects.find((project) => project.root === root);
+      if (binding) setProjectId(binding.id);
+    }
+    setInspection({ ...next, ...(root ? { projectRoot: root } : {}) });
     setInspectorTab("details");
     setInspectorOpen(true);
   }
@@ -397,12 +541,22 @@ export default function App() {
     selected,
     workspace,
     boot,
+    portfolio,
+    nativeDetail,
+    nativeHistoryLoading,
+    nativeHistoryError,
+    loadMoreNativeHistory,
+    observePortfolio,
     busy,
     command,
     inspect,
     expand: (title: string, value: unknown) => setExpanded({ title, value }),
     selectProject,
     connectProject: () => setBinding(true),
+    connectDiscovered: (root: string) => {
+      setBindingRoot(root);
+      setBinding(true);
+    },
     newTask: openTask,
     navigate,
   };
@@ -572,7 +726,9 @@ export default function App() {
               return (
                 <button
                   key={project.id}
-                  className={selected?.id === project.id ? "is-selected" : ""}
+                  className={
+                    contextProject?.root === project.root ? "is-selected" : ""
+                  }
                   onClick={() => selectProject(project.id)}
                 >
                   <span
@@ -584,7 +740,9 @@ export default function App() {
                     <strong>{project.name}</strong>
                     <small>{project.kind}</small>
                   </span>
-                  {selected?.id === project.id && <ChevronRight size={13} />}
+                  {contextProject?.root === project.root && (
+                    <ChevronRight size={13} />
+                  )}
                 </button>
               );
             })}
@@ -653,7 +811,7 @@ export default function App() {
                 {t("products")}
               </button>
               <ChevronRight size={11} />
-              <span>{selected?.name ?? t("personal")}</span>
+              <span>{contextProject?.name ?? t("personal")}</span>
               <ChevronRight size={11} />
               <strong>{t(viewTitle)}</strong>
             </div>
@@ -665,8 +823,14 @@ export default function App() {
               <IconButton
                 icon={RefreshCw}
                 label={t("refresh")}
-                onClick={() => void refresh()}
-                disabled={loading}
+                onClick={() =>
+                  portfolio?.checked_at && !demo
+                    ? void command("portfolio.refresh", {
+                        max_pages: 20,
+                      }).catch(() => {})
+                    : void refresh()
+                }
+                disabled={loading || Boolean(busy)}
               />
               <IconButton
                 icon={inspectorOpen ? PanelRightClose : PanelRightOpen}
@@ -810,12 +974,12 @@ export default function App() {
             </span>
             <span>
               <FolderOpen size={12} />
-              {selected?.name ?? t("noProject")}
+              {contextProject?.name ?? t("noProject")}
             </span>
-            {selected && (
-              <span className="statusbar-revision" title={selected.revision}>
+            {contextRevision && (
+              <span className="statusbar-revision" title={contextRevision}>
                 <GitMark />
-                {shortHash(selected.revision)}
+                {shortHash(contextRevision)}
               </span>
             )}
             <button onClick={() => navigate("integrations")}>
@@ -891,8 +1055,12 @@ export default function App() {
                     <>
                       <div className="inspector-callout">
                         <ShieldCheck size={20} />
-                        <strong>{t("sourceTruth")}</strong>
-                        <p>{t("aboutHelp")}</p>
+                        <strong>
+                          {nativeDetail?.goal?.status === "accepted"
+                            ? t("acceptedTarget")
+                            : t("sourceTruth")}
+                        </strong>
+                        <p>{nativeDetail?.goal?.text || t("aboutHelp")}</p>
                       </div>
                       {selected ? (
                         <RecordDetails
@@ -922,12 +1090,34 @@ export default function App() {
                   )}
                   <div className="inspector-section">
                     <h3>{t("nextStep")}</h3>
+                    {inspectorNextActions?.[0]?.text && (
+                      <p className="inspector-next-copy">
+                        {nextActionText(inspectorNextActions[0], t)}
+                      </p>
+                    )}
                     <button
                       className="inspector-action"
-                      onClick={() => (selected ? openTask() : setBinding(true))}
+                      onClick={() => {
+                        if (inspectorProject) {
+                          setProjectId(inspectorProject.id);
+                          openTask({
+                            universal_entry: true,
+                            objective: inspectorNextActions?.[0]
+                              ? nextActionText(inspectorNextActions[0], t)
+                              : "",
+                          });
+                        } else {
+                          setBindingRoot(inspectedProject?.root ?? "");
+                          setBinding(true);
+                        }
+                      }}
                       disabled={demo}
                     >
-                      {selected ? t("prepareTask") : t("connectProject")}
+                      {inspectorProject
+                        ? t("continueWithOrchestrator")
+                        : inspectedProject
+                          ? t("connectThis")
+                          : t("connectProject")}
                       <ArrowRight size={15} />
                     </button>
                   </div>
@@ -1043,12 +1233,17 @@ export default function App() {
 
         {binding && (
           <BindingDialog
+            initialRoot={bindingRoot}
             t={t}
             command={command}
             busy={busy}
-            onClose={() => setBinding(false)}
+            onClose={() => {
+              setBinding(false);
+              setBindingRoot("");
+            }}
             onConnected={(id) => {
               setBinding(false);
+              setBindingRoot("");
               selectProject(id);
             }}
           />
@@ -1058,6 +1253,8 @@ export default function App() {
             preset={taskPreset}
             t={t}
             selected={selected}
+            projects={projects}
+            onProjectSelected={(id) => setProjectId(id)}
             demo={demo}
             command={command}
             busy={busy}

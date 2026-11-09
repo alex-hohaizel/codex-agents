@@ -744,6 +744,49 @@ test("existing thread preview/adoption rejects wrong cwd and active host status"
   }
 });
 
+test("idle native metadata cannot grant continuation when the isolated executor lacks paginated history", async () => {
+  const f = await fixture();
+  try {
+    f.codex.readThread = async (threadId) => ({
+      thread: {
+        id: threadId,
+        cwd: f.project,
+        status: { type: "idle" },
+        historyMode: "paginated",
+      },
+    });
+    f.codex.historyTurns = async () => ({ data: [] });
+    const preview = await f.command(
+      "thread.preview",
+      { thread_id: "existing" },
+      { project_id: f.binding.id },
+    );
+    assert.equal(preview.result.execution_context_available, false);
+    const rejected = await f.command(
+      "thread.adopt",
+      { preview_id: preview.result.preview_id, confirmed_idle_handoff: true },
+      { project_id: f.binding.id },
+    );
+    assert.equal(rejected.error.code, "CAPABILITY_UNVERIFIED");
+    assert.equal(f.app.store.list("thread-binding").length, 0);
+    f.codex.historyTurns = async () => ({ data: [{ id: "persisted-turn" }] });
+    const available = await f.command(
+      "thread.preview",
+      { thread_id: "existing" },
+      { project_id: f.binding.id },
+    );
+    assert.equal(available.result.execution_context_available, true);
+    const adopted = await f.command(
+      "thread.adopt",
+      { preview_id: available.result.preview_id, confirmed_idle_handoff: true },
+      { project_id: f.binding.id },
+    );
+    assert.equal(adopted.status, "completed");
+  } finally {
+    await f.close();
+  }
+});
+
 test("atomic reservation survives concurrent dispatch awaits and consumes each task once", async () => {
   const f = await fixture();
   try {

@@ -24,7 +24,7 @@ The guides are complete in all seven languages. Advertising artwork is available
 
 For a product you already work on, open that existing project and continue from its accepted requirements, decisions, identity and checkpoint. A new conversation is not a new product.
 
-## What suite 6.0.0 and edition 1.2.2 change
+## What suite 6.0.0 and edition 1.3.0 change
 
 The 33 stable core skills now carry production-quality and context-continuity contracts, stronger evidence/source admission and explicit compatible adoption. Existing names, icons, accepted product requirements and native state remain preserved. Read the [6.0.0 migration](releases/migrations/6.0.0.md), audit the exact installed sources, then use the reviewed updater plan. Existing generated agents need their own source-to-target adoption; no product is reset.
 
@@ -33,6 +33,8 @@ The [local Mac workbench](apps/agent-atelier/README.md) and optional `atelier-or
 The [1.2.1 service patch](releases/repository-1.2.1.md) preserves the6.0.0 core and existing products; old unpinned tasks need fresh preparation.
 
 The [1.2.2 presentation patch](releases/repository-1.2.2.md) updates optional Orchestrator to1.0.1 with Ukrainian entry/UI text and PNG renderings of its unchanged SVG icon. Agent Atelier0.1.1 remains the separate local application; no core reinstall, service restart or product migration is needed. Follow the [targeted update and rollback](releases/migrations/repository-1.2.2.md).
+
+The current [1.3.0 feature release](releases/repository-1.3.0.md) provides optional Orchestrator1.1.0 as a universal entry and Agent Atelier0.2.0 as the separate portfolio workbench. Describe an outcome once; it can use existing skills or a project agent, construct an agent when justified, or review changes to the system itself. Discover available native Codex work, inspect goal/work/source provenance, connect an exact project folder and review the next route. The original identity/settings and core6.0.0 remain preserved. Follow the [exact update/rollback](releases/migrations/repository-1.3.0.md); WORK live changes remain deferred until access recovers.
 
 ## Change the interaction language
 

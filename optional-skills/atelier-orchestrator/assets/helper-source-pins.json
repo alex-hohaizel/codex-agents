@@ -1,0 +1,26 @@
+{
+  "schema": "orchestrator-helper-source-pins/1",
+  "source_ref": "bcc25058117cf442351b3959ce0c8ca1147ae57b",
+  "purpose": "Self-contained local commands referenced by discovery and typed component handoff contracts",
+  "files": [
+    {
+      "path": "scripts/discover_specialists.py",
+      "source": "kit/skills/agent-foundry/scripts/discover_specialists.py",
+      "sha256": "faf6576b6b0974ee8b0a7f8192ecfea7b846907940c899cf5d22917593181086",
+      "mode": 420
+    },
+    {
+      "path": "scripts/check_component_handoff.py",
+      "source": "kit/skills/agent-foundry/scripts/check_component_handoff.py",
+      "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
+      "mode": 420
+    },
+    {
+      "path": "assets/component-handoff.template.json",
+      "source": "kit/skills/agent-foundry/assets/component-handoff.template.json",
+      "sha256": "21dbf4e83eb99e3e51888fc99f12752eff95c5b58ec6bd8e323227f93099bc73",
+      "mode": 420
+    }
+  ],
+  "execution_performed": false
+}

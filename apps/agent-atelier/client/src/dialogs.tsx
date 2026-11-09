@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Boxes,
@@ -29,19 +29,21 @@ import type { Locale } from "./i18n";
 import { profileLabel, type Profile } from "./profiles";
 
 export function BindingDialog({
+  initialRoot = "",
   t,
   command,
   busy,
   onClose,
   onConnected,
 }: {
+  initialRoot?: string;
   t: T;
   command: CommandFn;
   busy: string;
   onClose: () => void;
   onConnected: (id: string) => void;
 }) {
-  const [root, setRoot] = useState("");
+  const [root, setRoot] = useState(initialRoot);
   const [name, setName] = useState("");
   const [kind, setKind] = useState("generic");
   const [preview, setPreview] = useState<Data | null>(null);
@@ -167,6 +169,8 @@ export function TaskDialog({
   preset,
   t,
   selected,
+  projects,
+  onProjectSelected,
   demo,
   command,
   busy,
@@ -177,6 +181,8 @@ export function TaskDialog({
   preset?: Data | null;
   t: T;
   selected: Project | null;
+  projects: Project[];
+  onProjectSelected: (id: string) => void;
   demo: boolean;
   command: CommandFn;
   busy: string;
@@ -193,6 +199,48 @@ export function TaskDialog({
   const [prepared, setPrepared] = useState<Data | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [error, setError] = useState("");
+  const universal =
+    preset?.universal_entry !== false && !preset?.selected_skills;
+  const [intent, setIntent] = useState(preset?.route ?? "auto");
+  const [routePreview, setRoutePreview] = useState<Data | null>(null);
+  const [maintenanceKind, setMaintenanceKind] = useState(
+    preset?.maintenance?.target_kind ?? "orchestrator",
+  );
+  const [maintenanceRefs, setMaintenanceRefs] = useState(
+    (preset?.maintenance?.target_refs ?? []).join("\n"),
+  );
+  useEffect(() => {
+    setRoutePreview(null);
+  }, [objective, intent, maintenanceKind, maintenanceRefs]);
+  async function previewRoute() {
+    if (!selected) return;
+    setError("");
+    try {
+      setRoutePreview(
+        await command(
+          "task.route",
+          {
+            objective,
+            ...(intent !== "auto" ? { route: intent } : {}),
+            ...(intent === "maintain_system"
+              ? {
+                  maintenance: {
+                    target_kind: maintenanceKind,
+                    target_refs: maintenanceRefs
+                      .split("\n")
+                      .map((value: string) => value.trim())
+                      .filter(Boolean),
+                  },
+                }
+              : {}),
+          },
+          selected,
+        ),
+      );
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  }
   async function prepare() {
     if (!selected) return;
     try {
@@ -202,6 +250,19 @@ export function TaskDialog({
         {
           objective,
           acceptance,
+          universal_entry: universal,
+          ...(intent !== "auto" ? { route: intent } : {}),
+          ...(intent === "maintain_system"
+            ? {
+                maintenance: {
+                  target_kind: maintenanceKind,
+                  target_refs: maintenanceRefs
+                    .split("\n")
+                    .map((value: string) => value.trim())
+                    .filter(Boolean),
+                },
+              }
+            : {}),
           scope,
           allowed_paths: paths
             .split("\n")
@@ -228,13 +289,43 @@ export function TaskDialog({
   const [threadBinding, setThreadBinding] = useState<Data | null>(null);
   const [handoff, setHandoff] = useState(false);
   const [loadingThreads, setLoadingThreads] = useState(false);
-  async function loadThreads() {
+  const [threadCursor, setThreadCursor] = useState<string | undefined>();
+  useEffect(() => {
+    setPrepared(null);
+    setReviewed(false);
+    setRoutePreview(null);
+    setThreadBinding(null);
+    setThreadPreview(null);
+    setThreads(null);
+    setThreadCursor(undefined);
+  }, [selected?.id]);
+  useEffect(() => {
+    if (preset?.thread_id && selected && !demo)
+      void previewThread(preset.thread_id);
+  }, [preset?.thread_id, selected?.id]);
+  async function loadThreads(append = false) {
     if (!selected) return;
     setLoadingThreads(true);
     setError("");
     try {
-      const result = await api.threads(selected.id);
-      setThreads(rows(result.data ?? result.threads ?? result));
+      const result = await api.threads(
+        selected.id,
+        append ? threadCursor : undefined,
+      );
+      const incoming = rows(result.data ?? result.threads ?? result);
+      setThreads((previous) =>
+        append
+          ? [
+              ...new Map(
+                [...(previous ?? []), ...incoming].map((item) => [
+                  item.id,
+                  item,
+                ]),
+              ).values(),
+            ]
+          : incoming,
+      );
+      setThreadCursor(result.nextCursor ?? result.next_cursor ?? undefined);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -284,7 +375,13 @@ export function TaskDialog({
   }
   return (
     <Modal
-      title={prepared ? t("preparedTask") : t("newTask")}
+      title={
+        prepared
+          ? t("preparedTask")
+          : universal
+            ? t("universalEntry")
+            : t("newTask")
+      }
       onClose={onClose}
       wide
       footer={
@@ -325,9 +422,15 @@ export function TaskDialog({
                 Boolean(busy) ||
                 (scope === "workspace-write" && !paths.trim())
               }
-              onClick={() => void prepare()}
+              onClick={() =>
+                void (universal && !routePreview ? previewRoute() : prepare())
+              }
             >
-              {busy ? t("processing") : t("prepareTask")}
+              {busy
+                ? t("processing")
+                : universal && !routePreview
+                  ? t("reviewRoute")
+                  : t("prepareTask")}
             </Button>
           )}
         </>
@@ -337,6 +440,15 @@ export function TaskDialog({
         labels={[t("objective"), t("scopeReview"), t("execution")]}
         current={prepared ? 1 : 0}
       />
+      {universal && (
+        <div className="universal-task-intro">
+          <Workflow size={22} />
+          <div>
+            <strong>{t("entryQuestion")}</strong>
+            <p>{t("entryDescription")}</p>
+          </div>
+        </div>
+      )}
       {preset?.selected_skills && (
         <div className="selected-competencies">
           <Braces size={15} />
@@ -360,6 +472,20 @@ export function TaskDialog({
           <code title={selected.root}>{selected.root}</code>
           <Status value="read-only" label={t("statePreserved")} />
         </div>
+      )}
+      {!prepared && projects.length > 1 && (
+        <Field label={t("projectSelection")}>
+          <select
+            value={selected?.id ?? ""}
+            onChange={(event) => onProjectSelected(event.target.value)}
+          >
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))}
+          </select>
+        </Field>
       )}
       {prepared ? (
         <>
@@ -404,6 +530,90 @@ export function TaskDialog({
               placeholder={t("objectivePlaceholder")}
             />
           </Field>
+          {universal && (
+            <Field label={t("workIntent")} help={t("intentHelp")}>
+              <select
+                value={intent}
+                onChange={(event) => setIntent(event.target.value)}
+              >
+                {[
+                  "auto",
+                  "direct",
+                  "specialist",
+                  "project_agent",
+                  "director",
+                  "compose",
+                  "create_agent",
+                  "maintain_system",
+                  "bridge",
+                ].map((value) => (
+                  <option key={value} value={value}>
+                    {t(
+                      (
+                        {
+                          auto: "routeAuto",
+                          direct: "routeDirect",
+                          specialist: "routeSpecialist",
+                          project_agent: "routeProjectAgent",
+                          director: "routeDirector",
+                          compose: "routeCompose",
+                          create_agent: "routeCreateAgent",
+                          maintain_system: "routeMaintain",
+                          bridge: "routeBridge",
+                        } as const
+                      )[value as "auto"],
+                    )}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
+          {universal && intent === "maintain_system" && (
+            <div className="maintenance-target-fields">
+              <Field label={t("maintenanceTarget")}>
+                <select
+                  value={maintenanceKind}
+                  onChange={(event) => setMaintenanceKind(event.target.value)}
+                >
+                  {[
+                    "orchestrator",
+                    "skill",
+                    "constructor",
+                    "project_agent",
+                    "agent",
+                    "system",
+                  ].map((value) => (
+                    <option key={value} value={value}>
+                      {t(
+                        (
+                          {
+                            orchestrator: "targetOrchestrator",
+                            skill: "targetSkill",
+                            constructor: "targetConstructor",
+                            project_agent: "targetProjectAgent",
+                            agent: "targetAgent",
+                            system: "targetSystem",
+                          } as const
+                        )[value as "orchestrator"],
+                      )}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field
+                label={t("targetSourcePaths")}
+                help={t("targetSourcePathsHelp")}
+              >
+                <textarea
+                  value={maintenanceRefs}
+                  rows={2}
+                  onChange={(event) => setMaintenanceRefs(event.target.value)}
+                  placeholder="optional-skills/atelier-orchestrator"
+                  spellCheck={false}
+                />
+              </Field>
+            </div>
+          )}
           <Field label={t("acceptance")}>
             <textarea
               rows={3}
@@ -453,7 +663,58 @@ export function TaskDialog({
               <small>{t("readOnly")}</small>
             </span>
           </label>
-          <details className="thread-binding">
+          {routePreview && (
+            <div className="route-preview">
+              <div>
+                <NetworkRoute />
+                <span>
+                  <small>{t("proposedRoute")}</small>
+                  <strong>
+                    {routeLabel(
+                      routePreview.routing?.route ?? routePreview.route,
+                      t,
+                    )}
+                  </strong>
+                </span>
+                <Status value="prepared" label={t("proposed")} />
+              </div>
+              <p>
+                {(routePreview.routing ?? routePreview).requested_route
+                  ? `${t("workIntent")}: ${routeLabel((routePreview.routing ?? routePreview).route, t)}`
+                  : (routePreview.routing ?? routePreview)
+                        .preferred_project_agent
+                    ? `${t("routeProjectAgent")}: ${(routePreview.routing ?? routePreview).preferred_project_agent}`
+                    : t("intentHelp")}
+              </p>
+              {(routePreview.routing ?? routePreview).capability_gaps?.length >
+                0 && (
+                <SurfaceNotice tone="warning">
+                  {(routePreview.routing ?? routePreview).capability_gaps.map(
+                    (gap: Data) => (
+                      <p key={gap.code}>
+                        <code>{gap.code}</code> ·{" "}
+                        {gap.code === "PROJECT_AGENT_UNVERIFIED"
+                          ? t("notTested")
+                          : t("nativeControllerHelp")}
+                      </p>
+                    ),
+                  )}
+                </SurfaceNotice>
+              )}
+              <dl>
+                <dt>{t("responsibleExecutor")}</dt>
+                <dd>
+                  {text(
+                    routePreview.routing?.execution_owner ??
+                      routePreview.execution_owner,
+                    "atelier-orchestrator",
+                  )}
+                </dd>
+              </dl>
+              <SurfaceNotice>{t("routePreviewHelp")}</SurfaceNotice>
+            </div>
+          )}
+          <details className="thread-binding" open={Boolean(preset?.thread_id)}>
             <summary>
               <Workflow size={15} />
               {t("threads")}
@@ -512,6 +773,15 @@ export function TaskDialog({
                         <p>{t("noThreads")}</p>
                       )}
                     </div>
+                  )}
+                  {threadCursor && (
+                    <Button
+                      small
+                      disabled={loadingThreads || Boolean(busy)}
+                      onClick={() => void loadThreads(true)}
+                    >
+                      {t("loadMoreThreads")}
+                    </Button>
                   )}
                   {threadPreview && (
                     <div className="thread-handoff">
@@ -662,4 +932,21 @@ export function SearchDialog({
       </div>
     </Modal>
   );
+}
+
+function NetworkRoute() {
+  return <Workflow size={20} />;
+}
+function routeLabel(value: string, t: T) {
+  const keys = {
+    direct: "routeDirect",
+    specialist: "routeSpecialist",
+    project_agent: "routeProjectAgent",
+    director: "routeDirector",
+    compose: "routeCompose",
+    create_agent: "routeCreateAgent",
+    maintain_system: "routeMaintain",
+    bridge: "routeBridge",
+  } as const;
+  return t(keys[value as keyof typeof keys] ?? "routeAuto");
 }

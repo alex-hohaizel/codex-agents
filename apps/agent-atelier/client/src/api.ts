@@ -54,6 +54,179 @@ export class ApiError extends Error {
   }
 }
 
+export function mergePortfolioPage(previous: Data | null, page: Data): Data {
+  const incoming = page.coverage ?? {};
+  const offset = Number(incoming.thread_offset ?? 0);
+  const prior = previous?.coverage ?? {};
+  if (previous && offset !== 0) {
+    if (
+      previous.project?.id !== page.project?.id ||
+      prior.snapshot_checked_at !== incoming.snapshot_checked_at ||
+      (previous.project?.source_revision &&
+        page.project?.source_revision &&
+        previous.project.source_revision !== page.project.source_revision)
+    )
+      throw new ApiError(
+        "Project history changed; refresh before reading another page.",
+        "SOURCE_DRIFT",
+      );
+    if ((prior.loaded_thread_offsets ?? []).includes(offset)) return previous;
+    if (prior.next_thread_offset !== offset)
+      throw new ApiError(
+        "Read the next project history page in order.",
+        "SOURCE_DRIFT",
+      );
+  }
+  const base = offset === 0 ? null : previous;
+  if (!base && offset !== 0)
+    throw new ApiError(
+      "Read the first project history page again.",
+      "SOURCE_DRIFT",
+    );
+  const groups = new Map<string, Data>();
+  const items = new Map<string, { group: string; item: Data }>();
+  for (const group of [
+    ...(base?.work_groups ?? []),
+    ...(page.work_groups ?? []),
+  ]) {
+    groups.set(group.id, { ...group, items: [], count: 0 });
+    for (const item of group.items ?? []) {
+      const key =
+        item.thread_id && item.turn_id
+          ? `turn:${JSON.stringify([item.thread_id, item.turn_id])}`
+          : `id:${item.id}`;
+      const old = items.get(key);
+      if (!old)
+        items.set(key, {
+          group:
+            item.work_type === "permission_review" ? "system_checks" : group.id,
+          item,
+        });
+      else {
+        const native =
+          item.source === "native-history"
+            ? item
+            : old.item.source === "native-history"
+              ? old.item
+              : null;
+        const merged = { ...old.item, ...item, ...(native ?? {}) };
+        for (const field of ["job_id", "service_job_id", "task_id"])
+          merged[field] = item[field] ?? old.item[field] ?? null;
+        merged.service_job_id ??= merged.job_id;
+        merged.owner_review =
+          item.owner_review ?? old.item.owner_review ?? null;
+        const reviewedAcceptance =
+          item.owner_review != null ? item.acceptance : old.item.acceptance;
+        merged.acceptance =
+          merged.owner_review === "accepted"
+            ? "owner-review"
+            : merged.owner_review != null
+              ? reviewedAcceptance === "owner-review"
+                ? "not_inferred"
+                : (reviewedAcceptance ?? "not_inferred")
+              : (item.acceptance ?? old.item.acceptance ?? "not_inferred");
+        for (const field of ["evidence_refs", "skills", "warnings"])
+          merged[field] = [
+            ...new Map(
+              [...(old.item[field] ?? []), ...(item[field] ?? [])].map(
+                (value: unknown) => [stableJson(value), value],
+              ),
+            ).values(),
+          ];
+        merged.response_observed =
+          old.item.response_observed === true ||
+          item.response_observed === true;
+        merged.execution_observed =
+          old.item.execution_observed === true ||
+          item.execution_observed === true;
+        items.set(key, {
+          group:
+            merged.work_type === "permission_review"
+              ? "system_checks"
+              : native === old.item
+                ? old.group
+                : group.id,
+          item: merged,
+        });
+      }
+    }
+  }
+  for (const { group, item } of items.values()) {
+    if (!groups.has(group))
+      groups.set(group, { id: group, title: group, items: [], count: 0 });
+    groups.get(group)!.items.push(item);
+  }
+  const work_groups = [...groups.values()]
+    .filter((group) => group.items.length)
+    .map((group): Data => ({ ...group, count: group.items.length }))
+    .sort(
+      (a, b) =>
+        Number(a.id === "system_checks") - Number(b.id === "system_checks"),
+    );
+  const threads = [
+    ...new Map(
+      [...(base?.threads ?? []), ...(page.threads ?? [])].map(
+        (thread: Data) => [thread.id, thread],
+      ),
+    ).values(),
+  ];
+  const warnings = [
+    ...new Map(
+      [...(base?.warnings ?? []), ...(page.warnings ?? [])].map(
+        (warning: Data) => [stableJson(warning), warning],
+      ),
+    ).values(),
+  ];
+  const pageComplete = incoming.page_complete === true;
+  const allPagesComplete =
+    (base ? prior.accumulated_page_complete === true : true) && pageComplete;
+  const complete =
+    allPagesComplete &&
+    incoming.discovery_complete !== false &&
+    incoming.next_thread_offset == null &&
+    threads.length >= (incoming.threads_total ?? 0);
+  const coverage: Data = {
+    ...incoming,
+    thread_offset: 0,
+    latest_thread_offset: offset,
+    loaded_thread_offsets: [
+      ...(base ? (prior.loaded_thread_offsets ?? []) : []),
+      offset,
+    ],
+    accumulated_page_complete: allPagesComplete,
+    complete,
+    truncated: !complete,
+    items: items.size,
+  };
+  for (const key of [
+    "threads_read",
+    "threads_attempted",
+    "turns_observed",
+    "empty_history_threads",
+    "turn_pages",
+  ])
+    coverage[key] =
+      (base ? Number(prior[key] ?? 0) : 0) + Number(incoming[key] ?? 0);
+  return {
+    ...page,
+    project: { ...page.project, known_work_items: items.size },
+    threads,
+    work_groups,
+    warnings,
+    coverage,
+  };
+}
+
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value !== null && typeof value === "object")
+    return `{${Object.entries(value)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([key, child]) => `${JSON.stringify(key)}:${stableJson(child)}`)
+      .join(",")}}`;
+  return JSON.stringify(value) ?? "undefined";
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`/api/v1${path}`, {
     credentials: "same-origin",
@@ -173,8 +346,24 @@ export const api = {
     ),
   job: (id: string) => request<Data>(`/jobs/${encodeURIComponent(id)}`),
   receipt: (id: string) => request<Data>(`/commands/${encodeURIComponent(id)}`),
-  threads: (projectId: string) =>
-    request<Data>(`/projects/${encodeURIComponent(projectId)}/threads`),
+  portfolio: () => request<Data>("/portfolio"),
+  portfolioProject: (
+    id: string,
+    options: { thread_offset?: number; snapshot_checked_at?: string } = {},
+  ) => {
+    const query = new URLSearchParams();
+    if (options.thread_offset !== undefined)
+      query.set("thread_offset", String(options.thread_offset));
+    if (options.snapshot_checked_at)
+      query.set("snapshot_checked_at", options.snapshot_checked_at);
+    return request<Data>(
+      `/portfolio/projects/${encodeURIComponent(id)}${query.size ? `?${query}` : ""}`,
+    );
+  },
+  threads: (projectId: string, cursor?: string) =>
+    request<Data>(
+      `/projects/${encodeURIComponent(projectId)}/threads${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,
+    ),
   async command(
     operation: string,
     payload: Data,

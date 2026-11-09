@@ -1,17 +1,17 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+  "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
   "default_locale": "en",
   "guide_editions": 7,
   "translation_editions": 6,
-  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction. Patch1.2.2/optional1.0.1 updates the current release line and adds equivalent skill/application and icon-delivery explanations in all seven guides. These changed passages were self-reviewed against final English; structural parity, stable-name counts, command blocks and exact retention of all other baseline bytes were checked. No Work installation, host display or new runtime verification follows from this translation review.",
+  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction. Patch1.2.2/optional1.0.1 updates the current release line and adds equivalent skill/application and icon-delivery explanations in all seven guides. These changed passages were self-reviewed against final English; structural parity, stable-name counts, command blocks and exact retention of all other baseline bytes were checked. No Work installation, host display or new runtime verification follows from this translation review. Edition1.3.0/Orchestrator1.1.0/AgentAtelier0.2.0 updates current version literals, universal-entry and maintenance passages, source-backed native portfolio/goal/evidence guidance and one entry-table row in all seven complete guides. Changed passages were compared with English; commands, heading/step/table structure and stable identifiers match. Unrelated guide bodies are byte-preserved after the reviewed version-literal changes. Actual UI layouts, installation, model behavior and live Work are separate evidence. The final1.3.0 addendum distinguishes available native history from empty desktop projects and documents the known optional-source preview/apply/verify/rollback flow in all seven guides; source-target semantics and unchanged command/structure parity reviewed. Final1.3.0 native-history addendum in all seven guides explains readonly inspection, restored persisted-context requirement for isolated chat continuation, reviewed-source/new-task or capable-native-host fallback, and unchanged execution isolation with no native database migration. Paragraph semantics self-reviewed against English; exact other-body bytes and command/step/name parity preserved.",
   "translations": [
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -26,8 +26,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "b5a7703e3898a54aaa2165f99ea5d21ac0b7236a3d8d197ebecc727541dc5752",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "e57a3153fceadd72b853027247956cb21d47a572221e3cb11db3a3d40aa313b7",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -42,8 +42,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "924543b0a7c171a40bbcd21588d7cfc60df1a67ece755eb21213ce1e31b6499b",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "fc2afc52817cf4ee8d2dfe5afa0a86a41718a9c09148026b7e84bf439587f42e",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -58,8 +58,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "293e2cfe6546f397401ce8ce0592a7cbeffb33d6f49b3124e549972a0d4a337f",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "64abd8ad342623b25eef66c29de9287ac2005b247858ea4125ae4a977a6e9ab0",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "8f87eff3167a87a9ce09e54f10e29e0dbae48c7222782b8d8930559fc933c696",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "e6b3395d26c4a732cf12546de9ba36c6358d2430a821ea4fe35c85662ed51d9b",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -90,8 +90,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "c1ebb01c0cf6adb3a245fd1310e2ee397d4932fb3ceeef84229c9624139c75f8",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "ca8441f3c68ae22d3b7550e7daaaf1065ad137881634d3aada6461fa19480e87",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -106,8 +106,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315",
-      "sha256": "84a343be79131e0768477c2f16d17bd3f94fee60531bb856316c40b83a046107",
+      "source_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28",
+      "sha256": "85b65265a1cfcb3f9b9e8a77345f612466a55169b10f894c84e00ac3f33099a2",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -120,14 +120,14 @@
       }
     }
   ],
-  "repository_version": "1.2.2",
+  "repository_version": "1.3.0",
   "campaign_languages": [
     "en",
     "uk"
   ],
   "language_review": {
-    "method": "Model-authored translation and source-to-target self-review of the changed 1.2.2 release and skill/application/icon paragraphs; exact untouched-body and structural/command parity checked; independent release review remains separate",
+    "method": "Model-authored translation and source-to-target self-review of the1.3.0 universal entry, system maintenance and Codex portfolio passages. Structural/command/stable-name parity and unchanged-body reversal checked. Independent release review remains separate. The final native-history continuation limitation and fallback paragraph was also translated and self-reviewed equivalently in all six editions; unchanged bodies and structural/command parity checked.",
     "native_human_review": "not_performed",
-    "source_freeze_sha256": "9cce9c073df2bc0dbffe16046e6ecea349ae6c05bded6bfb6015dc5002dfc315"
+    "source_freeze_sha256": "fb8897e2df3010a8c122466b85126d95b00420fd1911b32d0c466b54d63ede28"
   }
 }

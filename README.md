@@ -18,8 +18,9 @@ Open the campaign README in your language for its PDF, lightweight download and 
 
 | Your goal | Start with | Useful outcome |
 | --- | --- | --- |
-| Review retries, consistency or performance in a backend | Agent constructor | A scoped specialist, evidence and a reviewable change |
-| Reconcile spreadsheets and prepare shipping documents | Agent constructor | A tailored workflow with clear data, actions and exception handling |
+| Describe any task, continue a project or improve the agent system | Atelier Orchestrator | An appropriate route through direct work, existing skills/project agents or justified agent construction |
+| Review retries, consistency or performance in a backend | Orchestrator or an appropriate existing specialist | A scoped investigation, evidence and a reviewable change |
+| Reconcile spreadsheets and prepare shipping documents | Orchestrator or an appropriate existing specialist | A tailored workflow with clear data, actions and exception handling |
 | Create or improve an Android, iOS or web application | App director | Product decisions, specification, UX, implementation, QA and release preparation |
 | Improve a support bot or conversational product | ChatBot director | Preserved personality and memory rules, knowledge, actions, media and verification |
 | Develop a mobile game | Game director | Studio identity, concepts, game systems, assets, native implementation, QA and live operations |
@@ -40,7 +41,7 @@ Continuity comes from the same source revision, requirements, decisions, selecte
 | ChatBot | 11 | Conversation, knowledge, integration and continued service |
 | Game | 9 | Studio creation through native games and live operations |
 
-The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Atelier orchestrator](optional-skills/atelier-orchestrator/SKILL.md) are separate from the 33 baseline skills. The [Agent Atelier local Mac workbench](apps/agent-atelier/README.md) shows actual projects, sources, context, tasks, outcomes and reviewed skill updates.
+The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Atelier orchestrator](optional-skills/atelier-orchestrator/SKILL.md) are separate from the 33 baseline skills. The [Agent Atelier local Mac workbench](apps/agent-atelier/README.md) shows a source-backed portfolio of available native Codex work, grouped project/task records, goal provenance, next actions and bounded work preparation. Coverage and actual operation receipts remain visible; discovery does not take over another writer.
 
 ## Installation and existing projects
 
@@ -50,9 +51,9 @@ The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Ate
 4. Verify source integrity, actual discovery and a small real task separately.
 5. For an existing product, keep its requirements, design identity, native state, decisions and checkpoint, then follow its applicable adoption instructions.
 
-**Suite6.0.0 / repository edition 1.2.2** includes production/context contracts, stronger evidence and writer admission, supported Codex host profiles and a real local workbench. Preserve the 33 names/icons and all existing accepted product state. Use the exact [6.0.0 migration](releases/migrations/6.0.0.md); installation is separate from project adoption, discovery and behavior. WORK live audit/update/install/control remains a separate host task.
+**Suite6.0.0 / repository edition 1.3.0** includes production/context contracts, stronger evidence and writer admission, supported Codex host profiles, universal entry and the local workbench. Preserve the 33 names/icons and all existing accepted product state. Use the exact [6.0.0 migration](releases/migrations/6.0.0.md); installation is separate from project adoption, discovery and behavior. WORK live audit/update/install/control remains deferred until access is restored.
 
-Optional `atelier-orchestrator`1.0.1 is the coordinating skill with Ukrainian entry/UI text and PNG bindings derived from its original SVG icon. Agent Atelier0.1.1 is the separately launched local application/server. See [the presentation patch](releases/repository-1.2.2.md) and [targeted update/rollback](releases/migrations/repository-1.2.2.md); neither core reinstallation nor product migration is required.
+Optional `atelier-orchestrator`1.1.0 accepts an outcome, routes through appropriate available capabilities and keeps project-agent continuity. It also handles reviewed maintenance of itself, skills, constructors and existing agents. Agent Atelier0.2.0 is the separately launched local application/server with portfolio and universal-entry views. See [the feature release](releases/repository-1.3.0.md) and [targeted update/rollback](releases/migrations/repository-1.3.0.md). Original icons, settings and core6.0.0 remain preserved; no unrelated product migration is implied.
 
 ## Verify and package
 
@@ -66,7 +67,7 @@ python3 -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-Source bundles identify suite 6.0.0 and repository edition 1.2.2. They include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
+Source bundles identify suite 6.0.0 and repository edition 1.3.0. They include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
 
 [Update contract](governance/UPDATE_CONTRACT.md) · [Requirements](governance/requirements.csv) · [Validation](governance/VALIDATION.md) · [Quality model](governance/QUALITY_MODEL.md) · [Source provenance](kit/PROVENANCE.md) · [Rights](RIGHTS.md)
 

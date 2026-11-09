@@ -20,7 +20,7 @@ The `dist/` directory will contain:
 
 The Work and Codex bundles deliberately carry the same canonical sources, complete guides, migrations, templates and the current bilingual campaign. Each has a different `PACKAGE.json` and `PACKAGE_README.md` identifying its installation workflow. Work installation uses the supported personal-skill manager. Codex installation uses the portable updater. Extracting either archive alone performs no installation.
 
-Obsolete advertising and rejected draft renderers are excluded from the current tree and packages. The exact build metadata records repository edition 1.2.2 separately from suite version 6.0.0.
+Obsolete advertising and rejected draft renderers are excluded from the current tree and packages. The exact build metadata records repository edition 1.3.0 separately from suite version 6.0.0. Optional Orchestrator1.1.0 includes its routing/maintenance contracts and pinned local helper dependencies; Agent Atelier0.2.0 remains separate service source, not another skill.
 
 The optional `maintenance-skill/` and `optional-skills/atelier-orchestrator/` sources are separate from the 33 baseline skills and are not installed by the baseline updater. The source bundles exclude private project-specific agents, host backups and project histories.
 

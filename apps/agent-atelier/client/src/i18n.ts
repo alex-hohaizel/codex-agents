@@ -8,6 +8,159 @@ import zhCN from "./locales/zh-CN";
 export const LocaleContext = createContext("uk");
 
 export const en = {
+  systemChecks: "System checks",
+  reviewOptionalUpdate: "Review this skill update",
+  optionalUpdateHelp:
+    "Review the exact reusable optional source before applying. The existing identity and invocation settings are preserved; a private before-copy is created for rollback.",
+  candidateVersion: "Candidate version",
+  optionalPreservation:
+    "Existing icon bytes, icon bindings, brand color, invocation policy and dependencies are checked before any change.",
+  optionalChangedFiles: "Files that change",
+  optionalLocalConflict:
+    "Local changes need reconciliation before this update can be applied.",
+  optionalExactPreview: "Exact optional-source preview",
+  confirmOptionalUpdate:
+    "I reviewed this exact source, target, changes and before-copy, and approve this skill update.",
+  applyOptionalUpdate: "Apply this reviewed skill update",
+  optionalSourceVerified:
+    "Installed source bytes were verified. Host discovery and actual execution remain separate checks.",
+  optionalReviewReceipt:
+    "Review the actual optional-source receipt and current state before continuing.",
+  refreshHostCatalog: "Refresh the actual host skill catalog",
+  hostCatalogRead:
+    "The actual host catalog was read. Inspect its source and discovery status; this does not certify execution.",
+  optionalRollbackHelp:
+    "First verify the journal to pin the current source. Rollback restores the exact before-copy and refuses later unknown edits.",
+  confirmOptionalRollback:
+    "I reviewed the verified current source and approve restoring this exact before-copy.",
+  optionalFileAdded: "Added",
+  optionalFileChanged: "Changed",
+  optionalFileRemoved: "Removed",
+  nativeAgentWorkflow: "Agent construction and acceptance",
+  nativeControllerHelp:
+    "Manage the native agent factory through reviewed operations. Preparation shows the exact source and effect; applying it preserves native validators and does not run a model or product.",
+  nativeControllerAction: "Factory action",
+  controllerContext: "Read the current factory context",
+  controllerCheck: "Check the passport",
+  controllerGate: "Check readiness to build",
+  controllerInit: "Start a new factory session",
+  controllerBlueprint: "Register a prepared passport",
+  controllerApprove: "Approve the current exact passport",
+  factorySessionPath: "Factory session folder",
+  factorySessionPathHelp:
+    "Relative to the connected project. A dot selects the project root. Existing sessions are preserved.",
+  nativeProjectId: "New factory identifier",
+  passportRecordPath: "Prepared passport file",
+  passportRecordPathHelp:
+    "The actual JSON record prepared inside this session. The preview pins its content before any native change.",
+  ownerApprovalText: "Your approval statement",
+  ownerApprovalTextHelp:
+    "State which passport and scope you approve. Review the exact current subject and confirmation before applying.",
+  exactControllerSubject: "Exact native subject",
+  controllerEffectsHelp:
+    "This action changes only the reviewed native factory state. Existing permissions, external effects and product acceptance keep their separate boundaries.",
+  confirmControllerAction:
+    "I reviewed this exact operation, source revision and scope, and confirm its application.",
+  applyControllerPreview: "Apply this reviewed operation",
+  reviewControllerAction: "Review the exact operation",
+  controllerReceiptHelp:
+    "This is the native controller receipt. It is not model execution, an installed agent or product acceptance. Verify the resulting gate before continuing.",
+  reconcileControllerState: "Read the current native state",
+  confirmControllerReconcile:
+    "I reviewed the current state. Recording this observation does not certify the original operation as successful.",
+  recordReconciliation: "Record the reviewed state",
+  portfolioTitle: "Your work, connected",
+  portfolioDescription:
+    "See the intended result, documented work and next useful step across your Codex projects.",
+  discoverCodex: "Discover Codex work",
+  universalEntry: "Universal entry",
+  entryQuestion: "What outcome do you need?",
+  entryDescription:
+    "Describe the goal. Atelier reviews the project context and proposes a path through existing skills, a project agent or a new specialist.",
+  describeOutcome: "Describe an outcome",
+  connectFirstProject: "Connect the first project",
+  documentedWork: "Documented work",
+  needsAttention: "Needs attention",
+  discoverFirst: "Bring your existing work into view",
+  discoverFirstHelp:
+    "Discover reads available Codex history and groups it by project. Review a project, connect its exact folder, then prepare your next task.",
+  historyCoverage: "Codex history",
+  coverageComplete: "History pages read",
+  coveragePartial: "Coverage is partial",
+  coverageDetails: "Coverage and sources",
+  noPortfolioMatches: "No projects in this view",
+  changePortfolioFilter: "Try another filter or search term.",
+  acceptedTarget: "Accepted result",
+  declaredTarget: "Result declared in source",
+  goalNotConfirmed: "Result not confirmed",
+  goalUnknownHelp:
+    "Read the project sources to establish the intended result and its acceptance.",
+  discoveredOnly: "Discovered · read-only",
+  reviewProjectSources:
+    "Review the project context and confirm the next useful action.",
+  noObservedAttention:
+    "No attention item was recorded in the available sources.",
+  portfolioMap: "Project and work map",
+  actualRecords: "Actual records",
+  backToPortfolio: "Back to portfolio",
+  nativeCodexProject: "Project found in Codex",
+  discoveryReadOnly:
+    "This is a read-only discovery. Connect the exact project folder before preparing or continuing work. Existing chats require a separate idle handoff.",
+  targetSource: "Source of the intended result",
+  targetProvenanceHelp:
+    "Source declarations and recorded acceptance remain distinct. A completed answer alone does not establish product acceptance.",
+  nextActions: "Next useful actions",
+  fromProjectSource: "From the project source",
+  proposedNextAction: "Proposed · review before execution",
+  projectAgents: "Project agents",
+  plannedAgent: "Planned · not installed",
+  noProjectAgentRecorded:
+    "No project agent is recorded in the available sources.",
+  projectWorkMap: "Documented work map",
+  nativeWorkBoundary:
+    "Work is grouped from actual native history and project records. An answer received, a recorded result and an accepted product are different states.",
+  noWorkReadYet: "Work records are not available yet",
+  noWorkReadHelp:
+    "Discover or refresh Codex work to inspect available history. Missing access or history is shown as a gap, not completed work.",
+  showAllWork: "Show all work",
+  answerReceived: "Answer received",
+  interruptedWork: "Interrupted",
+  recordedWork: "Recorded in source",
+  completedWork: "Received results",
+  activeWork: "Work in progress",
+  nativeHistory: "Native Codex history",
+  skillSelected: "Selected in context",
+  skillMentioned: "Mentioned",
+  sourceRelationships: "Documented project-to-source links",
+  continueWithOrchestrator: "Continue through Atelier",
+  workIntent: "Type of result",
+  intentHelp:
+    "Automatic proposes a route from the request and current context. You can state a specific intent without choosing internal skill names.",
+  routeAuto: "Let Atelier propose the route",
+  routeDirect: "Complete a focused task",
+  routeSpecialist: "Use an existing specialist",
+  routeProjectAgent: "Continue with the project agent",
+  routeDirector: "Develop a product",
+  routeCompose: "Coordinate components",
+  routeCreateAgent: "Create an agent",
+  routeMaintain: "Improve skills or agents",
+  routeBridge: "Prepare a host handoff",
+  maintenanceTarget: "What should be improved?",
+  targetOrchestrator: "Atelier Orchestrator",
+  targetSkill: "A skill",
+  targetConstructor: "A constructor",
+  targetProjectAgent: "A project agent",
+  targetAgent: "An agent",
+  targetSystem: "The reusable system",
+  targetSourcePaths: "Target sources",
+  targetSourcePathsHelp:
+    "Paths relative to the selected project, one per line. Review the exact target and preservation requirements before applying changes.",
+  proposedRoute: "Proposed working route",
+  responsibleExecutor: "Responsible coordinator",
+  routePreviewHelp:
+    "This preview proposes a route. Preparing context and starting an actual job remain separate actions; no output or acceptance is implied.",
+  loadMoreThreads: "Read more conversations",
+  reviewRoute: "Review the route",
   privacyStorage: "Privacy & retention",
   manualRetention: "Manual policy · no automatic TTL or background deletion.",
   policyReviewed: "Policy reviewed",
@@ -510,6 +663,158 @@ export type MessageKey = keyof typeof en;
 export type Locale = "uk" | "en" | "de" | "it" | "es" | "fr" | "zh-CN";
 
 export const uk: Record<MessageKey, string> = {
+  systemChecks: "Системні перевірки",
+  reviewOptionalUpdate: "Перевірити оновлення навички",
+  optionalUpdateHelp:
+    "Перегляньте точне джерело додаткової навички перед застосуванням. Чинна ідентичність і налаштування виклику зберігаються; для відкату створюється приватна копія попереднього стану.",
+  candidateVersion: "Запропонована версія",
+  optionalPreservation:
+    "Перед змінами перевіряються байти й прив’язки іконок, колір, політика виклику та залежності.",
+  optionalChangedFiles: "Файли зі змінами",
+  optionalLocalConflict: "Перед оновленням потрібно узгодити локальні зміни.",
+  optionalExactPreview: "Точний попередній огляд джерела",
+  confirmOptionalUpdate:
+    "Я перевірив це точне джерело, ціль, зміни й попередню копію та погоджую оновлення навички.",
+  applyOptionalUpdate: "Застосувати перевірене оновлення",
+  optionalSourceVerified:
+    "Байти встановленого джерела перевірено. Виявлення хостом і фактичне виконання перевіряються окремо.",
+  optionalReviewReceipt:
+    "Перегляньте фактичний запис операції та поточний стан джерела перед продовженням.",
+  refreshHostCatalog: "Оновити фактичний каталог навичок хоста",
+  hostCatalogRead:
+    "Фактичний каталог хоста прочитано. Перевірте джерело й стан виявлення; це не підтвердження виконання.",
+  optionalRollbackHelp:
+    "Спочатку перевірте журнал, щоб зафіксувати поточне джерело. Відкат відновлює точну попередню копію й відхиляється за невідомих пізніших змін.",
+  confirmOptionalRollback:
+    "Я перевірив поточне джерело й погоджую відновлення цієї точної попередньої копії.",
+  optionalFileAdded: "Додано",
+  optionalFileChanged: "Змінено",
+  optionalFileRemoved: "Видалено",
+  nativeAgentWorkflow: "Створення й приймання агента",
+  nativeControllerHelp:
+    "Керуйте нативним конструктором через перевірені операції. Попередній огляд показує точні джерела й дію; застосування зберігає предметні перевірки та не запускає модель чи продукт.",
+  nativeControllerAction: "Дія конструктора",
+  controllerContext: "Прочитати поточний контекст конструктора",
+  controllerCheck: "Перевірити паспорт",
+  controllerGate: "Перевірити готовність до створення",
+  controllerInit: "Почати нову сесію конструктора",
+  controllerBlueprint: "Зареєструвати підготовлений паспорт",
+  controllerApprove: "Погодити чинну точну редакцію паспорта",
+  factorySessionPath: "Тека сесії конструктора",
+  factorySessionPathHelp:
+    "Відносно підключеного проєкту. Крапка означає корінь проєкту. Чинні сесії зберігаються.",
+  nativeProjectId: "Ідентифікатор нового конструктора",
+  passportRecordPath: "Файл підготовленого паспорта",
+  passportRecordPathHelp:
+    "Фактичний JSON-запис, підготовлений у цій сесії. Попередній огляд фіксує його вміст до зміни нативного стану.",
+  ownerApprovalText: "Ваш текст погодження",
+  ownerApprovalTextHelp:
+    "Зазначте, який паспорт і обсяг ви погоджуєте. Перед застосуванням звірте чинний точний предмет і підтвердження.",
+  exactControllerSubject: "Точний нативний предмет дії",
+  controllerEffectsHelp:
+    "Дія змінює лише перевірений нативний стан конструктора. Чинні права, зовнішні дії та приймання продукту зберігають власні межі.",
+  confirmControllerAction:
+    "Я звірив цю точну операцію, ревізію джерела та обсяг і підтверджую застосування.",
+  applyControllerPreview: "Застосувати перевірену операцію",
+  reviewControllerAction: "Переглянути точну операцію",
+  controllerReceiptHelp:
+    "Це квитанція нативного контролера. Вона не доводить виконання моделлю, встановлення агента або приймання продукту. Перед продовженням звірте отриманий стан.",
+  reconcileControllerState: "Зчитати поточний нативний стан",
+  confirmControllerReconcile:
+    "Я звірив поточний стан. Запис цього спостереження не підтверджує успіх початкової операції.",
+  recordReconciliation: "Зафіксувати звірений стан",
+  portfolioTitle: "Портфель ваших робіт",
+  portfolioDescription:
+    "Прийнятий результат, задокументовані роботи й наступний потрібний крок у всіх ваших проєктах Codex.",
+  discoverCodex: "Знайти роботи Codex",
+  universalEntry: "Універсальний вхід",
+  entryQuestion: "Який результат вам потрібний?",
+  entryDescription:
+    "Опишіть мету. Atelier звірить контекст проєкту й запропонує шлях через наявні навички, проєктного агента або створення спеціаліста.",
+  describeOutcome: "Описати результат",
+  connectFirstProject: "Підключити перший проєкт",
+  documentedWork: "Задокументовані роботи",
+  needsAttention: "Потребує уваги",
+  discoverFirst: "Побачте вже розпочаті роботи",
+  discoverFirstHelp:
+    "Пошук читає доступну історію Codex та групує роботи за проєктами. Перегляньте проєкт, підключіть його точну теку й підготуйте наступне завдання.",
+  historyCoverage: "Історія Codex",
+  coverageComplete: "Сторінки історії прочитано",
+  coveragePartial: "Покриття часткове",
+  coverageDetails: "Покриття та джерела",
+  noPortfolioMatches: "У цьому поданні проєктів немає",
+  changePortfolioFilter: "Змініть фільтр або пошуковий запит.",
+  acceptedTarget: "Погоджений результат",
+  declaredTarget: "Результат зазначено в джерелі",
+  goalNotConfirmed: "Результат не підтверджено",
+  goalUnknownHelp:
+    "Потрібно звірити джерела проєкту, щоб визначити ціль і її приймання.",
+  discoveredOnly: "Знайдено · лише огляд",
+  reviewProjectSources:
+    "Звірити контекст проєкту та визначити наступну потрібну дію.",
+  noObservedAttention:
+    "У доступних джерелах не зафіксовано окремих питань для уваги.",
+  portfolioMap: "Карта проєктів і робіт",
+  actualRecords: "Фактичні записи",
+  backToPortfolio: "До портфеля робіт",
+  nativeCodexProject: "Проєкт, знайдений у Codex",
+  discoveryReadOnly:
+    "Це огляд знайдених записів. Для підготовки й продовження підключіть точну теку проєкту. Чинний чат потребує окремої передачі в неактивному стані.",
+  targetSource: "Джерело цільового результату",
+  targetProvenanceHelp:
+    "Опис у джерелі та зафіксоване погодження — різні факти. Завершена відповідь сама собою не доводить приймання продукту.",
+  nextActions: "Наступні потрібні дії",
+  fromProjectSource: "Із джерела проєкту",
+  proposedNextAction: "Пропозиція · звірте перед виконанням",
+  projectAgents: "Агенти проєкту",
+  plannedAgent: "Запланований · не встановлений",
+  noProjectAgentRecorded:
+    "У доступних джерелах проєктного агента не зафіксовано.",
+  projectWorkMap: "Карта задокументованих робіт",
+  nativeWorkBoundary:
+    "Роботи згруповано з фактичної історії й записів проєкту. Отримана відповідь, задокументований результат і прийнятий продукт мають різні стани.",
+  noWorkReadYet: "Записи робіт поки недоступні",
+  noWorkReadHelp:
+    "Знайдіть або оновіть роботи Codex для огляду доступної історії. Відсутній доступ чи історія залишаються видимою прогалиною.",
+  showAllWork: "Показати всі роботи",
+  answerReceived: "Відповідь отримано",
+  interruptedWork: "Перервано",
+  recordedWork: "Зафіксовано в джерелі",
+  completedWork: "Отримані результати",
+  activeWork: "Поточні роботи",
+  nativeHistory: "Історія Codex",
+  skillSelected: "Обрано в контексті",
+  skillMentioned: "Згадано",
+  sourceRelationships: "Зв’язки проєкту з фактичними джерелами",
+  continueWithOrchestrator: "Продовжити через Atelier",
+  workIntent: "Тип результату",
+  intentHelp:
+    "Автоматичний вибір пропонує маршрут за запитом і поточним контекстом. За потреби задайте намір без вибору внутрішніх навичок.",
+  routeAuto: "Доручити Atelier запропонувати шлях",
+  routeDirect: "Виконати окреме завдання",
+  routeSpecialist: "Залучити наявного спеціаліста",
+  routeProjectAgent: "Продовжити з агентом проєкту",
+  routeDirector: "Розвивати продукт",
+  routeCompose: "Узгодити компоненти",
+  routeCreateAgent: "Створити агента",
+  routeMaintain: "Покращити навички або агентів",
+  routeBridge: "Підготувати перехід у потрібне середовище",
+  maintenanceTarget: "Що потрібно покращити?",
+  targetOrchestrator: "Оркестратор Atelier",
+  targetSkill: "Навичку",
+  targetConstructor: "Конструктор",
+  targetProjectAgent: "Проєктного агента",
+  targetAgent: "Агента",
+  targetSystem: "Багаторазову систему",
+  targetSourcePaths: "Цільові джерела",
+  targetSourcePathsHelp:
+    "Шляхи відносно обраного проєкту, по одному на рядок. Перед змінами потрібно звірити точну ціль і вимоги збереження.",
+  proposedRoute: "Запропонований робочий шлях",
+  responsibleExecutor: "Відповідальний координатор",
+  routePreviewHelp:
+    "Цей огляд пропонує маршрут. Підготовка контексту та фактичний запуск залишаються окремими діями; результат чи приймання ще не підтверджені.",
+  loadMoreThreads: "Прочитати ще розмови",
+  reviewRoute: "Переглянути маршрут",
   privacyStorage: "Приватність і зберігання",
   manualRetention:
     "Ручна політика · без автоматичного TTL або фонового видалення.",

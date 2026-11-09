@@ -1,7 +1,16 @@
 export const API_VERSION = "agent-atelier.api/1";
-export const SERVICE_VERSION = "0.1.1";
+export const SERVICE_VERSION = "0.2.0";
 export const LOCALES = ["en", "uk", "de", "it", "es", "fr", "zh-CN"];
 export const OPERATIONS = [
+  "skills.optional-preview",
+  "skills.optional-apply",
+  "skills.optional-verify",
+  "skills.optional-rollback",
+  "controller.preview",
+  "controller.apply",
+  "controller.reconcile",
+  "portfolio.refresh",
+  "task.route",
   "project.preview",
   "project.bind",
   "project.refresh",
