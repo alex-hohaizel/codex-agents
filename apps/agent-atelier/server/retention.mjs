@@ -1,6 +1,7 @@
 import { lstat, readdir, rm, readFile, readlink } from "node:fs/promises";
 import { join, resolve, dirname, basename } from "node:path";
 import { ACTIVE_JOB_STATES } from "../shared/contracts.mjs";
+import { verifyExecutionInputTask } from "./skills.mjs";
 import {
   atomicWrite,
   canonical,
@@ -39,15 +40,22 @@ const copyOwner = (kind, row) => ({
   backup_id: row.backup_id,
   relative: `${operationCopies[kind].category}/${row.id}`,
 });
-const relatedRootHashes = (row) => [...new Set(
-  [row.root, row.source_root].filter(value => typeof value === "string" && value.startsWith("/")).flatMap(value => {
-    let prefix = "";
-    return value.split("/").filter(Boolean).map(part => {
-      prefix += "/" + part;
-      return sha(prefix);
-    });
-  }),
-)];
+const relatedRootHashes = (row) => [
+  ...new Set(
+    [row.root, row.source_root]
+      .filter((value) => typeof value === "string" && value.startsWith("/"))
+      .flatMap((value) => {
+        let prefix = "";
+        return value
+          .split("/")
+          .filter(Boolean)
+          .map((part) => {
+            prefix += "/" + part;
+            return sha(prefix);
+          });
+      }),
+  ),
+];
 const older = (value, days, at) =>
   days !== null &&
   Number.isFinite(Date.parse(value)) &&
@@ -157,7 +165,7 @@ export class RetentionManager {
     );
     fail(
       Object.entries(operationCopies).every(([kind, spec]) =>
-        this.store.list(kind).every(row => spec.terminal.has(row.status)),
+        this.store.list(kind).every((row) => spec.terminal.has(row.status)),
       ),
       "WRITER_CONFLICT",
       "Reconcile unfinished native controller and optional maintenance operations before cleanup",
@@ -165,7 +173,12 @@ export class RetentionManager {
     );
   }
 
-  async file(relative, reviewedAliases = null, reviewedOperation = null) {
+  async file(
+    relative,
+    reviewedAliases = null,
+    reviewedOperation = null,
+    reviewedExecution = null,
+  ) {
     fail(
       typeof relative === "string" &&
         !relative.startsWith("/") &&
@@ -177,30 +190,108 @@ export class RetentionManager {
       403,
     );
     fail(
-      ["task-inputs", "instruction-aliases", "codex-logs", "backups", "controller-backups", "optional-updates"].includes(
-        relative.split("/")[0],
-      ),
+      [
+        "task-inputs",
+        "instruction-aliases",
+        "execution-inputs",
+        "codex-logs",
+        "backups",
+        "controller-backups",
+        "optional-updates",
+      ].includes(relative.split("/")[0]),
       "OUTSIDE_ROOT",
       "Only service-owned cache/log/backup paths are eligible",
       403,
     );
     const parts = relative.split("/");
-    const operationKind = Object.keys(operationCopies).find(kind => operationCopies[kind].category === parts[0]);
+    const operationKind = Object.keys(operationCopies).find(
+      (kind) => operationCopies[kind].category === parts[0],
+    );
     let ownedOperation = null;
     if (operationKind) {
-      fail(parts.length === 2 && identifier(parts[1]), "OUTSIDE_ROOT", "Only a complete owned operation copy can be reviewed", 403);
+      fail(
+        parts.length === 2 && identifier(parts[1]),
+        "OUTSIDE_ROOT",
+        "Only a complete owned operation copy can be reviewed",
+        403,
+      );
       const live = this.store.get(operationKind, parts[1]);
-      const retained = this.store.get("operation-copy", copyKey(operationKind, parts[1]));
-      ownedOperation = reviewedOperation ?? (live ? copyOwner(operationKind, live) : retained?.owner);
-      fail(ownedOperation && ownedOperation.kind === operationKind &&
-        ownedOperation.record_id === parts[1] && ownedOperation.backup_id === parts[1] &&
-        ownedOperation.relative === relative,
-      "OUTSIDE_ROOT", "Operation copy needs its exact original receipt or reviewed cleanup descriptor", 403);
-      fail(!live || operationCopies[operationKind].terminal.has(live.status), "WRITER_CONFLICT", "Unreconciled operation copies cannot be removed", 409);
+      const retained = this.store.get(
+        "operation-copy",
+        copyKey(operationKind, parts[1]),
+      );
+      ownedOperation =
+        reviewedOperation ??
+        (live ? copyOwner(operationKind, live) : retained?.owner);
+      fail(
+        ownedOperation &&
+          ownedOperation.kind === operationKind &&
+          ownedOperation.record_id === parts[1] &&
+          ownedOperation.backup_id === parts[1] &&
+          ownedOperation.relative === relative,
+        "OUTSIDE_ROOT",
+        "Operation copy needs its exact original receipt or reviewed cleanup descriptor",
+        403,
+      );
+      fail(
+        !live || operationCopies[operationKind].terminal.has(live.status),
+        "WRITER_CONFLICT",
+        "Unreconciled operation copies cannot be removed",
+        409,
+      );
     }
-    const path = join(this.dataDir, relative);
-    let current = this.dataDir;
-    for (const part of relative.split("/")) {
+    let ownedExecution = null;
+    let executionLocation = null;
+    if (parts[0] === "execution-inputs") {
+      fail(
+        parts.length === 2 && identifier(parts[1]),
+        "OUTSIDE_ROOT",
+        "Only a complete owned execution-input task can be reviewed",
+        403,
+      );
+      const selections =
+        this.store.get("task", parts[1])?.capsule?.selected_skills ?? [];
+      const selected = selections.filter((entry) => entry.execution_transport);
+      if (!selected.length && reviewedExecution === null) return null;
+      const transport = selected[0]?.execution_transport;
+      ownedExecution = reviewedExecution ?? {
+        schema_version: "atelier.execution-input-transport/1",
+        task_id: parts[1],
+        data_dir_sha256: transport.data_dir_sha256,
+        task_binding_sha256: transport.task_binding_sha256,
+      };
+      fail(
+        ownedExecution.schema_version ===
+          "atelier.execution-input-transport/1" &&
+          ownedExecution.task_id === parts[1] &&
+          ownedExecution.data_dir_sha256 === sha(this.dataDir) &&
+          /^[a-f0-9]{64}$/.test(ownedExecution.task_binding_sha256) &&
+          selected.every(
+            (entry) =>
+              entry.execution_transport.task_id === parts[1] &&
+              entry.execution_transport.data_dir_sha256 ===
+                ownedExecution.data_dir_sha256 &&
+              entry.execution_transport.task_binding_sha256 ===
+                ownedExecution.task_binding_sha256,
+          ),
+        "OUTSIDE_ROOT",
+        "Execution-input cleanup needs its original task ownership binding",
+        403,
+      );
+      try {
+        executionLocation = await verifyExecutionInputTask(
+          this.dataDir,
+          parts[1],
+          ownedExecution.task_binding_sha256,
+        );
+      } catch (error) {
+        if (error.code === "ENOENT") return null;
+        throw error;
+      }
+    }
+    const path = executionLocation?.taskRoot ?? join(this.dataDir, relative);
+    let current = executionLocation?.namespace ?? this.dataDir;
+    for (const part of executionLocation ? [parts[1]] : relative.split("/")) {
       current = join(current, part);
       try {
         fail(
@@ -340,6 +431,7 @@ export class RetentionManager {
       contents_sha256: digest(entries),
       ...(aliasMode ? { alias_targets: aliasTargets } : {}),
       ...(ownedOperation ? { owned_operation: ownedOperation } : {}),
+      ...(ownedExecution ? { owned_execution: ownedExecution } : {}),
     };
   }
 
@@ -421,10 +513,20 @@ export class RetentionManager {
     const operationHistory = new Set();
     for (const [kind, spec] of Object.entries(operationCopies)) {
       for (const row of this.store.list(kind)) {
-        fail(identifier(row.id) && row.backup_id === row.id && spec.terminal.has(row.status),
-          "REVISION_CONFLICT", "Operation copy receipt has invalid ownership or is not terminal", 409);
-        const key = copyKey(kind, row.id), end = row.completed_at ?? row.reconciled_at ?? row.updated_at;
-        ownedCopies.set(key, { owner: copyOwner(kind, row), row, end,
+        fail(
+          identifier(row.id) &&
+            row.backup_id === row.id &&
+            spec.terminal.has(row.status),
+          "REVISION_CONFLICT",
+          "Operation copy receipt has invalid ownership or is not terminal",
+          409,
+        );
+        const key = copyKey(kind, row.id),
+          end = row.completed_at ?? row.reconciled_at ?? row.updated_at;
+        ownedCopies.set(key, {
+          owner: copyOwner(kind, row),
+          row,
+          end,
           explicit: references(row, ids, 0, roots),
           backup_due: older(end, policy.backup_days, at),
         });
@@ -436,13 +538,34 @@ export class RetentionManager {
     }
     for (const row of this.store.list("operation-copy")) {
       const owner = row.owner;
-      fail(owner && Object.hasOwn(operationCopies, owner.kind) && identifier(owner.record_id) && owner.backup_id === owner.record_id &&
-        row.id === copyKey(owner.kind, owner.record_id) && owner.relative === `${operationCopies[owner.kind].category}/${owner.record_id}` &&
-        Array.isArray(row.related_root_sha256s) && row.related_root_sha256s.length <= 4096 && row.related_root_sha256s.every(hash => /^[a-f0-9]{64}$/.test(hash)),
-      "REVISION_CONFLICT", "Retained operation copy lost its original ownership descriptor", 409);
-      const explicit = (row.project_id && ids.has(row.project_id)) || row.related_root_sha256s?.some(hash => rootHashSet.has(hash));
+      fail(
+        owner &&
+          Object.hasOwn(operationCopies, owner.kind) &&
+          identifier(owner.record_id) &&
+          owner.backup_id === owner.record_id &&
+          row.id === copyKey(owner.kind, owner.record_id) &&
+          owner.relative ===
+            `${operationCopies[owner.kind].category}/${owner.record_id}` &&
+          Array.isArray(row.related_root_sha256s) &&
+          row.related_root_sha256s.length <= 4096 &&
+          row.related_root_sha256s.every((hash) => /^[a-f0-9]{64}$/.test(hash)),
+        "REVISION_CONFLICT",
+        "Retained operation copy lost its original ownership descriptor",
+        409,
+      );
+      const explicit =
+        (row.project_id && ids.has(row.project_id)) ||
+        row.related_root_sha256s?.some((hash) => rootHashSet.has(hash));
       const end = row.completed_at ?? row.created_at;
-      if (!ownedCopies.has(row.id)) ownedCopies.set(row.id, { owner, row, marker: true, end, explicit, backup_due: older(end, policy.backup_days, at) });
+      if (!ownedCopies.has(row.id))
+        ownedCopies.set(row.id, {
+          owner,
+          row,
+          marker: true,
+          end,
+          explicit,
+          backup_due: older(end, policy.backup_days, at),
+        });
       if (explicit || older(end, policy.backup_days, at)) ids.add(row.id);
     }
     const candidates = this.store.db
@@ -469,7 +592,10 @@ export class RetentionManager {
           !dependent.has(key) &&
           (ids.has(row.id) ||
             references(parseStrictJson(row.data), ids, 0, roots) ||
-            (row.kind === "operation-copy" && parseStrictJson(row.data).related_root_sha256s?.some(hash => rootHashSet.has(hash))))
+            (row.kind === "operation-copy" &&
+              parseStrictJson(row.data).related_root_sha256s?.some((hash) =>
+                rootHashSet.has(hash),
+              )))
         ) {
           dependent.set(key, {
             kind: row.kind,
@@ -507,16 +633,26 @@ export class RetentionManager {
       );
     const files = [];
     for (const taskId of cacheTasks) {
-      for (const category of ["task-inputs", "instruction-aliases"]) {
+      for (const category of [
+        "task-inputs",
+        "instruction-aliases",
+        "execution-inputs",
+      ]) {
         const file = await this.file(`${category}/${taskId}`);
         if (file) files.push(file);
       }
     }
-    const removedRecords = new Set(recordRows.map(row => copyKey(row.kind, row.id)));
-    const retainedCopies = [], prunedCopies = [];
+    const removedRecords = new Set(
+      recordRows.map((row) => copyKey(row.kind, row.id)),
+    );
+    const retainedCopies = [],
+      prunedCopies = [];
     for (const [key, copy] of ownedCopies) {
-      const rowRemoved = removedRecords.has(copy.marker ? copyKey("operation-copy", copy.row.id) : key);
-      const explicitlyForgotten = copy.explicit || (rowRemoved && !operationHistory.has(key));
+      const rowRemoved = removedRecords.has(
+        copy.marker ? copyKey("operation-copy", copy.row.id) : key,
+      );
+      const explicitlyForgotten =
+        copy.explicit || (rowRemoved && !operationHistory.has(key));
       const removeCopy = explicitlyForgotten || copy.backup_due;
       const historyRemoved = !copy.marker && rowRemoved;
       if (!removeCopy && !historyRemoved) continue;
@@ -528,9 +664,13 @@ export class RetentionManager {
         // History and raw-copy policies are independent. Preserve only a small
         // association index when the receipt expires before its retained copy.
         retainedCopies.push({
-          id: key, owner: copy.owner, project_id: copy.row.project_id ?? null,
-          related_root_sha256s: relatedRootHashes(copy.row), completed_at: copy.end,
-          created_at: new Date(at).toISOString(), history_removed: true,
+          id: key,
+          owner: copy.owner,
+          project_id: copy.row.project_id ?? null,
+          related_root_sha256s: relatedRootHashes(copy.row),
+          completed_at: copy.end,
+          created_at: new Date(at).toISOString(),
+          history_removed: true,
         });
       }
     }
@@ -689,22 +829,43 @@ export class RetentionManager {
           .prepare("DELETE FROM records WHERE kind='backup' AND id=?")
           .run(recordId);
       for (const marker of plan.retained_operation_copies) {
-        this.store.db.prepare(
-          "INSERT INTO records(kind,id,data,revision,updated_at) VALUES('operation-copy',?,?,1,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data,revision=records.revision+1,updated_at=excluded.updated_at",
-        ).run(marker.id, canonical(marker), now());
+        this.store.db
+          .prepare(
+            "INSERT INTO records(kind,id,data,revision,updated_at) VALUES('operation-copy',?,?,1,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data,revision=records.revision+1,updated_at=excluded.updated_at",
+          )
+          .run(marker.id, canonical(marker), now());
       }
       for (const owner of plan.pruned_operation_copies) {
         const key = copyKey(owner.kind, owner.record_id);
-        const tombstone = { id: `operation-copy:${key}`, kind: "operation-copy", record_id: key,
-          backup_pruned: true, forgotten_at: now() };
-        this.store.db.prepare(
-          "INSERT INTO records(kind,id,data,revision,updated_at) VALUES('privacy-tombstone',?,?,1,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data,revision=records.revision+1,updated_at=excluded.updated_at",
-        ).run(tombstone.id, canonical(tombstone), now());
+        const tombstone = {
+          id: `operation-copy:${key}`,
+          kind: "operation-copy",
+          record_id: key,
+          backup_pruned: true,
+          forgotten_at: now(),
+        };
+        this.store.db
+          .prepare(
+            "INSERT INTO records(kind,id,data,revision,updated_at) VALUES('privacy-tombstone',?,?,1,?) ON CONFLICT(kind,id) DO UPDATE SET data=excluded.data,revision=records.revision+1,updated_at=excluded.updated_at",
+          )
+          .run(tombstone.id, canonical(tombstone), now());
         const live = this.store.get(owner.kind, owner.record_id);
         if (live) {
           delete live.record_revision;
-          this.store.db.prepare("UPDATE records SET data=?,revision=revision+1,updated_at=? WHERE kind=? AND id=?")
-            .run(canonical({ ...live, backup_pruned: true, backup_pruned_at: now() }), now(), owner.kind, owner.record_id);
+          this.store.db
+            .prepare(
+              "UPDATE records SET data=?,revision=revision+1,updated_at=? WHERE kind=? AND id=?",
+            )
+            .run(
+              canonical({
+                ...live,
+                backup_pruned: true,
+                backup_pruned_at: now(),
+              }),
+              now(),
+              owner.kind,
+              owner.record_id,
+            );
         }
       }
       const eventCutoff =
@@ -796,6 +957,7 @@ export class RetentionManager {
         expected.relative,
         expected.alias_targets ?? null,
         expected.owned_operation ?? null,
+        expected.owned_execution ?? null,
       );
       if (!current) continue; // Already removed before interruption.
       fail(
@@ -804,16 +966,31 @@ export class RetentionManager {
         "Cleanup target changed after interruption; review a new preview",
         409,
       );
-      targets.push(expected.relative);
+      targets.push({
+        relative: expected.relative,
+        ownedExecution: current.owned_execution,
+      });
     }
-    for (const relative of targets)
-      await rm(join(this.dataDir, relative), { recursive: true, force: false });
+    for (const { relative, ownedExecution } of targets) {
+      const target = ownedExecution
+        ? (
+            await verifyExecutionInputTask(
+              this.dataDir,
+              ownedExecution.task_id,
+              ownedExecution.task_binding_sha256,
+            )
+          ).taskRoot
+        : join(this.dataDir, relative);
+      await rm(target, { recursive: true, force: false });
+    }
     for (const task of this.store.list("task"))
       if (
         pending.files.some((file) =>
-          [`task-inputs/${task.id}`, `instruction-aliases/${task.id}`].includes(
-            file.relative,
-          ),
+          [
+            `task-inputs/${task.id}`,
+            `instruction-aliases/${task.id}`,
+            `execution-inputs/${task.id}`,
+          ].includes(file.relative),
         )
       )
         this.store.put("task", task.id, {
@@ -832,9 +1009,16 @@ export class RetentionManager {
 
   sanitizeRestored(kind, value) {
     if (kind === "operation-copy") {
-      if (this.store.get("privacy-tombstone", `operation-copy:${value?.id}`)) return null;
-      const forgottenRoots = new Set(this.store.list("privacy-tombstone").map(row => row.root_sha256).filter(Boolean));
-      if (value?.related_root_sha256s?.some(hash => forgottenRoots.has(hash))) return null;
+      if (this.store.get("privacy-tombstone", `operation-copy:${value?.id}`))
+        return null;
+      const forgottenRoots = new Set(
+        this.store
+          .list("privacy-tombstone")
+          .map((row) => row.root_sha256)
+          .filter(Boolean),
+      );
+      if (value?.related_root_sha256s?.some((hash) => forgottenRoots.has(hash)))
+        return null;
       // The owning receipt was deliberately forgotten before this retained raw
       // copy expired. That receipt's own tombstone must not orphan the index.
       const { owner, ...context } = value ?? {};
@@ -861,7 +1045,13 @@ export class RetentionManager {
     )
       return null;
     if (kind === "settings") return { ...value, retention: this.policy() };
-    if (Object.hasOwn(operationCopies, kind) && this.store.get("privacy-tombstone", `operation-copy:${copyKey(kind, value?.id)}`))
+    if (
+      Object.hasOwn(operationCopies, kind) &&
+      this.store.get(
+        "privacy-tombstone",
+        `operation-copy:${copyKey(kind, value?.id)}`,
+      )
+    )
       return { ...value, backup_pruned: true };
     return value;
   }

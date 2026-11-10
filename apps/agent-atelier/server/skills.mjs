@@ -4,8 +4,7 @@ import {
   mkdir,
   realpath,
   lstat,
-  cp,
-  chmod,
+  writeFile,
 } from "node:fs/promises";
 import { resolve, join, dirname } from "node:path";
 import { homedir } from "node:os";
@@ -17,6 +16,7 @@ import {
   exists,
   fail,
   id,
+  isWithin,
   now,
   parseStrictJson,
   readSource,
@@ -26,6 +26,339 @@ import {
   ServiceError,
 } from "./utils.mjs";
 const run = promisify(execFile);
+const transportSchema = "atelier.execution-input-transport/1";
+const taskIdentifier = (value) =>
+  typeof value === "string" && /^[A-Za-z0-9_-]{1,180}$/.test(value);
+const inputPath = (value) =>
+  typeof value === "string" &&
+  value.length <= 4096 &&
+  !value.includes("\0") &&
+  !value.includes("\\") &&
+  !value.startsWith("/") &&
+  value.split("/").every((part) => part && ![".", ".."].includes(part));
+
+export function executionInputPaths(dataDir, taskId) {
+  fail(
+    taskIdentifier(taskId),
+    "INVALID_INPUT",
+    "Invalid execution-input task identity",
+  );
+  const canonicalDataDir = resolve(dataDir);
+  const namespace = join(
+    dirname(canonicalDataDir),
+    "AgentAtelierExecutionInputs-" + sha(canonicalDataDir).slice(0, 24),
+  );
+  return { namespace, taskRoot: join(namespace, taskId) };
+}
+
+async function plainDirectory(path, owned = false) {
+  const stat = await lstat(path);
+  fail(
+    stat.isDirectory() &&
+      !stat.isSymbolicLink() &&
+      (await realpath(path)) === path &&
+      (!owned ||
+        ((stat.mode & 0o077) === 0 &&
+          (typeof process.getuid !== "function" ||
+            stat.uid === process.getuid()))),
+    "SOURCE_DRIFT",
+    "Execution-input directory identity changed; prepare again",
+    409,
+  );
+}
+
+async function ownedDirectories(base, relative) {
+  await plainDirectory(base);
+  let current = base;
+  for (const part of relative.split("/").filter(Boolean)) {
+    fail(
+      ![".", ".."].includes(part),
+      "SOURCE_DRIFT",
+      "Invalid owned input directory",
+      409,
+    );
+    current = join(current, part);
+    try {
+      await mkdir(current, { mode: 0o700 });
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+    }
+    await plainDirectory(current);
+  }
+  return current;
+}
+
+export async function executionInputLocation(
+  dataDir,
+  taskId,
+  nativeHome = process.env.CODEX_HOME ?? join(homedir(), ".codex"),
+) {
+  const { namespace, taskRoot } = executionInputPaths(dataDir, taskId);
+  dataDir = resolve(dataDir);
+  await plainDirectory(dataDir);
+  await plainDirectory(dirname(namespace));
+  fail(
+    !/[?*\[\]{}\\\0]/.test(namespace),
+    "CAPABILITY_UNVERIFIED",
+    "Execution-input namespace cannot be represented by the supported native permission parser",
+    409,
+  );
+  nativeHome = resolve(nativeHome);
+  const denied = [
+    dataDir,
+    join(nativeHome, "memories"),
+    join(nativeHome, "memories_v2"),
+  ];
+  for (const path of [...denied]) {
+    try {
+      denied.push(await realpath(path));
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+      try {
+        await lstat(path);
+      } catch (missing) {
+        if (missing.code === "ENOENT") continue;
+        throw missing;
+      }
+      throw new ServiceError(
+        "CAPABILITY_UNVERIFIED",
+        "A dangling native memory-store link prevents a safe execution-input namespace",
+        409,
+      );
+    }
+  }
+  fail(
+    denied.every(
+      (path) => !isWithin(path, namespace) && !isWithin(namespace, path),
+    ),
+    "CAPABILITY_UNVERIFIED",
+    "Execution inputs must be separate from service control and native memory stores",
+    409,
+  );
+  return {
+    namespace,
+    taskRoot,
+    namespaceOwner: {
+      schema_version: transportSchema,
+      data_dir_sha256: sha(dataDir),
+    },
+  };
+}
+
+async function ownerFile(path, expected) {
+  const stat = await lstat(path);
+  fail(
+    stat.isFile() &&
+      !stat.isSymbolicLink() &&
+      (await realpath(path)) === path &&
+      (stat.mode & 0o222) === 0 &&
+      stat.size <= 32 * 1024 * 1024,
+    "SOURCE_DRIFT",
+    "Execution-input ownership file changed",
+    409,
+  );
+  const bytes = await readFile(path);
+  const owner = parseStrictJson(bytes.toString(), 32 * 1024 * 1024);
+  fail(
+    owner &&
+      typeof owner === "object" &&
+      !Array.isArray(owner) &&
+      digest(owner) === expected,
+    "SOURCE_DRIFT",
+    "Execution-input ownership binding changed",
+    409,
+  );
+  return owner;
+}
+
+/** Only a deterministic namespace and the original task-binding hash can own cleanup. */
+export async function verifyExecutionInputTask(dataDir, taskId, binding) {
+  fail(
+    typeof binding === "string" && /^[a-f0-9]{64}$/.test(binding),
+    "SOURCE_DRIFT",
+    "Execution-input task has no exact ownership binding",
+    409,
+  );
+  const location = await executionInputLocation(dataDir, taskId);
+  await plainDirectory(location.namespace, true);
+  await ownerFile(
+    join(location.namespace, "OWNERSHIP.json"),
+    digest(location.namespaceOwner),
+  );
+  await plainDirectory(location.taskRoot, true);
+  const owner = await ownerFile(join(location.taskRoot, "TASK.json"), binding);
+  fail(
+    owner.schema_version === transportSchema &&
+      owner.task_id === taskId &&
+      owner.data_dir_sha256 === sha(resolve(dataDir)) &&
+      Array.isArray(owner.selections) &&
+      owner.selections.length > 0 &&
+      owner.selections.length <= 4 &&
+      new Set(owner.selections.map((entry) => entry.directory_name)).size ===
+        owner.selections.length &&
+      owner.selections.every(
+        (entry) =>
+          /^[a-z0-9][a-z0-9-]{1,100}$/.test(entry.directory_name) &&
+          typeof entry.source_locator === "string" &&
+          /^[a-f0-9]{64}$/.test(entry.source_tree_sha256) &&
+          Array.isArray(entry.manifest) &&
+          entry.manifest.length <= 5000 &&
+          entry.manifest.every(
+            (row) =>
+              inputPath(row.path) &&
+              Number.isSafeInteger(row.bytes) &&
+              row.bytes >= 0 &&
+              /^[a-f0-9]{64}$/.test(row.sha256),
+          ) &&
+          digest(entry.manifest) === entry.source_tree_sha256,
+      ),
+    "SOURCE_DRIFT",
+    "Invalid execution-input task ownership",
+    409,
+  );
+  const members = owner.selections.flatMap((entry) =>
+    entry.manifest.map((row) => ({
+      ...row,
+      path: "skills/" + entry.directory_name + "/" + row.path,
+    })),
+  );
+  const taskBytes = await readFile(join(location.taskRoot, "TASK.json"));
+  members.push({
+    path: "TASK.json",
+    bytes: taskBytes.length,
+    sha256: sha(taskBytes),
+  });
+  await selectedInputTree(location.taskRoot, { exactManifest: members });
+  return { ...location, owner };
+}
+
+export async function selectedInputTree(root, { exactManifest = null } = {}) {
+  await plainDirectory(root, exactManifest !== null);
+  const expected =
+    exactManifest && new Map(exactManifest.map((row) => [row.path, row]));
+  const expectedDirs = new Set();
+  for (const row of exactManifest ?? []) {
+    fail(
+      inputPath(row.path),
+      "SOURCE_DRIFT",
+      "Invalid execution-input member path",
+      409,
+    );
+    const parts = row.path.split("/");
+    for (let index = 1; index < parts.length; index++)
+      expectedDirs.add(parts.slice(0, index).join("/"));
+  }
+  const manifest = [];
+  let total = 0;
+  const visit = async (folder, prefix = "") => {
+    for (const entry of (await readdir(folder, { withFileTypes: true })).sort(
+      (a, b) => (a.name < b.name ? -1 : 1),
+    )) {
+      if (
+        !expected &&
+        ["__pycache__", ".DS_Store", ".git", "node_modules"].includes(
+          entry.name,
+        )
+      )
+        continue;
+      fail(
+        !entry.isSymbolicLink(),
+        "SOURCE_DRIFT",
+        "Linked skill input is unsupported",
+        409,
+      );
+      const path = join(folder, entry.name),
+        ref = prefix ? prefix + "/" + entry.name : entry.name;
+      if (entry.isDirectory()) {
+        fail(
+          !expected || expectedDirs.has(ref),
+          "SOURCE_DRIFT",
+          "Unexpected execution-input directory",
+          409,
+        );
+        await plainDirectory(path, exactManifest !== null);
+        await visit(path, ref);
+      } else {
+        fail(
+          entry.isFile(),
+          "SOURCE_DRIFT",
+          "Special skill input is unsupported",
+          409,
+        );
+        const stat = await lstat(path);
+        total += stat.size;
+        fail(
+          manifest.length < (expected ? 20_001 : 5000) &&
+            total < (expected ? 288 : 64) * 1024 * 1024,
+          "CAPACITY_LIMIT",
+          "Selected skill input exceeds bounded snapshot size",
+          409,
+        );
+        const bytes = await readFile(path);
+        fail(
+          bytes.length === stat.size,
+          "SOURCE_DRIFT",
+          "Skill input changed while reading",
+          409,
+        );
+        const row = { path: ref, bytes: bytes.length, sha256: sha(bytes) };
+        fail(
+          !expected ||
+            (expected.has(ref) &&
+              digest(row) === digest(expected.get(ref)) &&
+              (stat.mode & 0o222) === 0),
+          "SOURCE_DRIFT",
+          "Execution-input bytes, membership or read-only mode changed",
+          409,
+        );
+        manifest.push(row);
+      }
+    }
+  };
+  await visit(root);
+  fail(
+    !expected || manifest.length === expected.size,
+    "SOURCE_DRIFT",
+    "Execution input is missing approved members; prepare again",
+    409,
+  );
+  return { manifest, tree_sha256: digest(manifest), bytes: total };
+}
+
+async function copyApprovedInput(sourceRoot, targetRoot, manifest) {
+  await mkdir(targetRoot, { mode: 0o700 });
+  await plainDirectory(targetRoot);
+  for (const row of manifest) {
+    fail(
+      inputPath(row.path),
+      "SOURCE_DRIFT",
+      "Invalid approved skill member",
+      409,
+    );
+    const source = join(sourceRoot, row.path);
+    const stat = await lstat(source);
+    fail(
+      stat.isFile() &&
+        !stat.isSymbolicLink() &&
+        (await realpath(source)) === source,
+      "SOURCE_DRIFT",
+      "Approved skill member identity changed",
+      409,
+    );
+    const bytes = await readFile(source);
+    fail(
+      bytes.length === row.bytes && sha(bytes) === row.sha256,
+      "SOURCE_DRIFT",
+      "Approved skill member changed while copying",
+      409,
+    );
+    const destination = join(targetRoot, row.path);
+    const parent = row.path.split("/").slice(0, -1).join("/");
+    await ownedDirectories(targetRoot, parent);
+    await writeFile(destination, bytes, { flag: "wx", mode: 0o400 });
+  }
+  await selectedInputTree(targetRoot, { exactManifest: manifest });
+}
 export async function readInstalledSource(root, name) {
   fail(
     /^[a-z0-9][a-z0-9-]{1,100}$/.test(name),
@@ -306,49 +639,7 @@ export class SkillsManager {
     return resolve(this.repoRoot, "kit/skills", name);
   }
   async tree(root) {
-    fail(
-      (await realpath(root)) === root,
-      "SOURCE_DRIFT",
-      "Linked skill source root requires explicit identity review",
-      409,
-    );
-    const manifest = [];
-    let total = 0;
-    const visit = async (folder, prefix = "") => {
-      for (const entry of (await readdir(folder, { withFileTypes: true })).sort(
-        (a, b) => (a.name < b.name ? -1 : 1),
-      )) {
-        if (
-          ["__pycache__", ".DS_Store", ".git", "node_modules"].includes(
-            entry.name,
-          )
-        )
-          continue;
-        fail(
-          !entry.isSymbolicLink(),
-          "SOURCE_DRIFT",
-          "Linked skill source cannot be snapshotted",
-          409,
-        );
-        const path = join(folder, entry.name),
-          ref = prefix ? prefix + "/" + entry.name : entry.name;
-        if (entry.isDirectory()) await visit(path, ref);
-        else if (entry.isFile()) {
-          const stat = await lstat(path);
-          total += stat.size;
-          fail(
-            manifest.length < 5000 && total < 64 * 1024 * 1024,
-            "CAPACITY_LIMIT",
-            "Selected skill source exceeds bounded snapshot size",
-            409,
-          );
-          const bytes = await readFile(path);
-          manifest.push({ path: ref, bytes: bytes.length, sha256: sha(bytes) });
-        }
-      }
-    };
-    await visit(root);
-    return { manifest, tree_sha256: digest(manifest), bytes: total };
+    return selectedInputTree(root);
   }
   async selections(names, taskId) {
     fail(
@@ -358,13 +649,15 @@ export class SkillsManager {
       "INVALID_INPUT",
       "Select at most four distinct competencies",
     );
-    const result = [];
+    fail(
+      taskIdentifier(taskId),
+      "INVALID_INPUT",
+      "Invalid selected-input task identity",
+    );
+    if (!names.length) return [];
+    const plans = [];
     for (const name of names) {
       const sourceRoot = this.skillRoot(name, { execution: true });
-      const entryName = this.hostSources.get(name)?.name ?? name;
-      const directoryName = this.hostSources.has(name)
-        ? "host-" + sha(name).slice(0, 16)
-        : name;
       fail(
         await exists(join(sourceRoot, "SKILL.md")),
         "CAPABILITY_UNVERIFIED",
@@ -372,62 +665,252 @@ export class SkillsManager {
         409,
       );
       const before = await this.tree(sourceRoot);
-      const snapshotRoot = join(
+      plans.push({
+        selection_id: name,
+        name: this.hostSources.get(name)?.name ?? name,
+        directory_name: this.hostSources.has(name)
+          ? "host-" + sha(name).slice(0, 16)
+          : name,
+        source_locator: sourceRoot,
+        source_tree_sha256: before.tree_sha256,
+        manifest: before.manifest,
+      });
+    }
+    const location = await executionInputLocation(this.dataDir, taskId);
+    let createdNamespace = false;
+    try {
+      await mkdir(location.namespace, { mode: 0o700 });
+      createdNamespace = true;
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+    }
+    await plainDirectory(location.namespace, true);
+    const namespaceFile = join(location.namespace, "OWNERSHIP.json");
+    if (createdNamespace)
+      await writeFile(namespaceFile, JSON.stringify(location.namespaceOwner), {
+        flag: "wx",
+        mode: 0o400,
+      });
+    await ownerFile(namespaceFile, digest(location.namespaceOwner));
+    // Never adopt or overwrite a partial/replaced task namespace.
+    await mkdir(location.taskRoot, { mode: 0o700 });
+    await mkdir(join(location.taskRoot, "skills"), { mode: 0o700 });
+    const owner = {
+      schema_version: transportSchema,
+      data_dir_sha256: sha(resolve(this.dataDir)),
+      task_id: taskId,
+      selections: plans,
+    };
+    const binding = digest(owner);
+    await writeFile(
+      join(location.taskRoot, "TASK.json"),
+      JSON.stringify(owner),
+      { flag: "wx", mode: 0o400 },
+    );
+    const result = [];
+    for (const plan of plans) {
+      const archiveRoot = join(
         this.dataDir,
         "task-inputs",
         taskId,
         "skills",
-        directoryName,
+        plan.directory_name,
       );
-      await mkdir(dirname(snapshotRoot), { recursive: true, mode: 0o700 });
-      await cp(sourceRoot, snapshotRoot, {
-        recursive: true,
-        errorOnExist: true,
-        force: false,
-        filter: (source) =>
-          !source
-            .split(/[\\/]/)
-            .some((part) =>
-              ["__pycache__", ".DS_Store", ".git", "node_modules"].includes(
-                part,
-              ),
-            ),
-      });
-      const snapshot = await this.tree(snapshotRoot),
-        after = await this.tree(sourceRoot);
+      await ownedDirectories(
+        resolve(this.dataDir),
+        "task-inputs/" + taskId + "/skills",
+      );
+      const snapshotRoot = join(
+        location.taskRoot,
+        "skills",
+        plan.directory_name,
+      );
+      await copyApprovedInput(plan.source_locator, archiveRoot, plan.manifest);
+      await copyApprovedInput(plan.source_locator, snapshotRoot, plan.manifest);
       fail(
-        before.tree_sha256 === snapshot.tree_sha256 &&
-          before.tree_sha256 === after.tree_sha256,
+        (await this.tree(plan.source_locator)).tree_sha256 ===
+          plan.source_tree_sha256,
         "SOURCE_DRIFT",
         "Skill source changed during snapshot; prepare again",
         409,
       );
-      for (const row of snapshot.manifest)
-        await chmod(join(snapshotRoot, row.path), 0o400);
       result.push({
-        name: entryName,
-        selection_id: name,
-        source_locator: sourceRoot,
-        source_tree_sha256: before.tree_sha256,
+        name: plan.name,
+        selection_id: plan.selection_id,
+        source_locator: plan.source_locator,
+        source_tree_sha256: plan.source_tree_sha256,
+        archive_root: archiveRoot,
         snapshot_root: snapshotRoot,
         path: join(snapshotRoot, "SKILL.md"),
-        sha256: snapshot.manifest.find((row) => row.path === "SKILL.md").sha256,
-        manifest: snapshot.manifest,
+        sha256: plan.manifest.find((row) => row.path === "SKILL.md").sha256,
+        manifest: plan.manifest,
+        execution_transport: {
+          schema_version: transportSchema,
+          task_id: taskId,
+          data_dir_sha256: sha(resolve(this.dataDir)),
+          task_binding_sha256: binding,
+          namespace_owner_sha256: digest(location.namespaceOwner),
+          directory_name: plan.directory_name,
+        },
         delivery_fact:
-          "Pinned canonical execution input snapshot, not a personal-skill installation",
+          "Pinned execution-only input copy; private control archive retained separately, not a personal-skill installation or file-backup receipt",
       });
     }
+    await this.verifySelections(result, taskId);
     return result;
   }
-  async verifySelections(selections) {
-    for (const selected of selections ?? []) {
-      const canonical = await this.tree(selected.source_locator),
-        snapshot = await this.tree(selected.snapshot_root);
+  async verifySelections(selections, expectedTaskId = undefined) {
+    const supplied = selections ?? [];
+    fail(
+      Array.isArray(supplied),
+      "INVALID_INPUT",
+      "Selected inputs must be an array",
+    );
+    if (expectedTaskId !== undefined) {
       fail(
-        canonical.tree_sha256 === selected.source_tree_sha256 &&
-          snapshot.tree_sha256 === selected.source_tree_sha256,
+        taskIdentifier(expectedTaskId),
+        "INVALID_INPUT",
+        "Invalid execution-input task identity",
+      );
+      const ownerPath = join(
+        executionInputPaths(this.dataDir, expectedTaskId).taskRoot,
+        "TASK.json",
+      );
+      let hasTaskBinding = false;
+      try {
+        await lstat(ownerPath);
+        hasTaskBinding = true;
+      } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+      }
+      // Once a task owns the new transport, an empty or stripped supplied set
+      // cannot silently opt that task back into the historical verifier.
+      fail(
+        !hasTaskBinding ||
+          (supplied.length > 0 &&
+            supplied.every(
+              (entry) =>
+                entry?.execution_transport?.schema_version ===
+                  transportSchema &&
+                entry.execution_transport.task_id === expectedTaskId,
+            )),
         "SOURCE_DRIFT",
-        "Selected competence or immutable snapshot changed; prepare again",
+        "The existing task binding requires its complete execution-input set; prepare again",
+        409,
+      );
+    }
+    const verified = new Map();
+    for (const selected of supplied) {
+      if (!selected.execution_transport) {
+        // Existing capsules retain their original snapshot contract and paths.
+        fail(
+          selected.execution_transport === undefined &&
+            selected.archive_root === undefined &&
+            !isWithin(
+              executionInputPaths(this.dataDir, "legacy").namespace,
+              resolve(selected.snapshot_root),
+            ),
+          "SOURCE_DRIFT",
+          "A derived execution input cannot be downgraded to a legacy snapshot",
+          409,
+        );
+        const canonical = await this.tree(selected.source_locator),
+          snapshot = await this.tree(selected.snapshot_root);
+        fail(
+          canonical.tree_sha256 === selected.source_tree_sha256 &&
+            snapshot.tree_sha256 === selected.source_tree_sha256,
+          "SOURCE_DRIFT",
+          "Selected competence or immutable snapshot changed; prepare again",
+          409,
+        );
+        continue;
+      }
+      const transport = selected.execution_transport;
+      fail(
+        transport.schema_version === transportSchema &&
+          transport.data_dir_sha256 === sha(resolve(this.dataDir)) &&
+          (expectedTaskId === undefined ||
+            transport.task_id === expectedTaskId),
+        "SOURCE_DRIFT",
+        "Execution-input transport belongs to another service",
+        409,
+      );
+      let location = verified.get(transport.task_id);
+      try {
+        if (!location) {
+          location = await verifyExecutionInputTask(
+            this.dataDir,
+            transport.task_id,
+            transport.task_binding_sha256,
+          );
+          verified.set(transport.task_id, location);
+        }
+        const plan = location.owner.selections.find(
+          (entry) => entry.directory_name === transport.directory_name,
+        );
+        const archive = join(
+          this.dataDir,
+          "task-inputs",
+          transport.task_id,
+          "skills",
+          transport.directory_name,
+        );
+        const execution = join(
+          location.taskRoot,
+          "skills",
+          transport.directory_name,
+        );
+        fail(
+          plan &&
+            transport.task_binding_sha256 === digest(location.owner) &&
+            transport.namespace_owner_sha256 ===
+              digest(location.namespaceOwner) &&
+            selected.archive_root === archive &&
+            selected.snapshot_root === execution &&
+            selected.path === join(execution, "SKILL.md") &&
+            selected.name === plan.name &&
+            selected.selection_id === plan.selection_id &&
+            selected.source_locator === plan.source_locator &&
+            selected.source_tree_sha256 === plan.source_tree_sha256 &&
+            digest(selected.manifest) === digest(plan.manifest) &&
+            selected.sha256 ===
+              plan.manifest.find((row) => row.path === "SKILL.md")?.sha256,
+          "SOURCE_DRIFT",
+          "Execution-input task/source binding changed; prepare again",
+          409,
+        );
+        const canonical = await this.tree(selected.source_locator);
+        fail(
+          canonical.tree_sha256 === selected.source_tree_sha256,
+          "SOURCE_DRIFT",
+          "Selected canonical skill changed; prepare again",
+          409,
+        );
+        await selectedInputTree(archive, { exactManifest: selected.manifest });
+        await selectedInputTree(execution, {
+          exactManifest: selected.manifest,
+        });
+      } catch (error) {
+        if (error.code === "ENOENT")
+          throw new ServiceError(
+            "SOURCE_DRIFT",
+            "An execution input or its control archive is missing; prepare the task again",
+            409,
+          );
+        throw error;
+      }
+    }
+    for (const [taskId, location] of verified) {
+      const actual = (selections ?? []).filter(
+        (entry) => entry.execution_transport?.task_id === taskId,
+      );
+      fail(
+        actual.length === location.owner.selections.length &&
+          new Set(
+            actual.map((entry) => entry.execution_transport.directory_name),
+          ).size === actual.length,
+        "SOURCE_DRIFT",
+        "Approved execution-input selection membership changed; prepare again",
         409,
       );
     }

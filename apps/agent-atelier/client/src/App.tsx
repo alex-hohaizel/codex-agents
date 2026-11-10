@@ -146,6 +146,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [workspaceLoading, setWorkspaceLoading] = useState(false);
   const [workspaceReadAttempt, setWorkspaceReadAttempt] = useState(0);
+  const workspaceReadSequence = useRef(0);
   const workspaceReadError = useRef<{
     projectId: string;
     error: ApiError;
@@ -378,6 +379,7 @@ export default function App() {
     }
   }, [demo]);
   useEffect(() => {
+    const readSequence = ++workspaceReadSequence.current;
     if (!selected) {
       setWorkspace(null);
       setWorkspaceLoading(false);
@@ -394,7 +396,7 @@ export default function App() {
     api
       .workspace(selected.id)
       .then((data) => {
-        if (!cancelled) {
+        if (!cancelled && readSequence === workspaceReadSequence.current) {
           setWorkspace(data);
           const recoveredFailure = workspaceReadError.current;
           setActionError((current) =>
@@ -406,7 +408,7 @@ export default function App() {
         }
       })
       .catch((error) => {
-        if (!cancelled) {
+        if (!cancelled && readSequence === workspaceReadSequence.current) {
           const readError = asError(error);
           workspaceReadError.current = {
             projectId: selected.id,
@@ -416,7 +418,8 @@ export default function App() {
         }
       })
       .finally(() => {
-        if (!cancelled) setWorkspaceLoading(false);
+        if (!cancelled && readSequence === workspaceReadSequence.current)
+          setWorkspaceLoading(false);
       });
     return () => {
       cancelled = true;
@@ -424,17 +427,42 @@ export default function App() {
   }, [projectId, demo, bindingProject?.revision, workspaceReadAttempt]);
   useEffect(() => {
     if (demo) return;
+    let cancelled = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const events = new EventSource("/api/v1/events");
     const update = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
         void refresh(true);
-        if (projectId)
+        if (projectId) {
+          const readSequence = ++workspaceReadSequence.current;
           api
             .workspace(projectId)
-            .then(setWorkspace)
-            .catch(() => {});
+            .then((data) => {
+              if (cancelled || readSequence !== workspaceReadSequence.current)
+                return;
+              setWorkspace(data);
+              const recoveredFailure = workspaceReadError.current;
+              setActionError((current) =>
+                recoveredWorkspaceError(current, recoveredFailure, data.project.id),
+              );
+              if (recoveredFailure?.projectId === data.project.id)
+                workspaceReadError.current = null;
+            })
+            .catch((error) => {
+              if (cancelled || readSequence !== workspaceReadSequence.current)
+                return;
+              const readError = asError(error);
+              workspaceReadError.current = { projectId, error: readError };
+              setWorkspace(null);
+              setInspection(null);
+              setActionError(readError);
+            })
+            .finally(() => {
+              if (!cancelled && readSequence === workspaceReadSequence.current)
+                setWorkspaceLoading(false);
+            });
+        }
       }, 250);
     };
     events.onmessage = update;
@@ -446,6 +474,7 @@ export default function App() {
       if (document.visibilityState === "visible") update();
     }, 6000);
     return () => {
+      cancelled = true;
       events.close();
       clearInterval(interval);
       clearTimeout(timer);

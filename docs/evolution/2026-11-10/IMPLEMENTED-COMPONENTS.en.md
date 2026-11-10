@@ -1,5 +1,9 @@
 # Candidate components: what they do and how to use them
 
+The optional task-memory field has its own [purpose, source paths, triggers, input/output, access limits and recovery card](REAL-WORLD.en.md). It is an additive advanced API contract, not a new installed skill or an accepted cold-context result.
+
+Current rc.3 real-task additions, all34evaluation files, inputs/outputs/consumers/access and recovery are documented separately in [the real-task handbook](REAL-WORLD.en.md). The recorded priority implementation below retains its original source/proof scope.
+
 [Українська](IMPLEMENTED-COMPONENTS.uk.md) · [Implementation status](IMPLEMENTATION.en.md) · [Source cards](implementation-components.json)
 
 This is the implementation overlay for source candidate **1.4.0-rc.2 / core 6.1.0**. The earlier [component catalogue](CURRENT-SYSTEM.en.md) and [helper catalogue](HELPERS.en.md) describe their recorded audit baseline. They remain useful history; this overlay records the additions rather than silently rebinding their old proofs. None of the following files establishes host installation, model accuracy, deployment or owner acceptance.
@@ -129,3 +133,7 @@ The [optional-source controller](../../../apps/agent-atelier/server/optional_upd
 The consumer is the reviewed update preview/apply/verify route. It reads exact installed/source snapshots and preservation facts; a ready preview is not apply, installation/discovery or behavior proof. The current core33 plan has no blockers. The host audit has13 rows: one managed-block proposal and12 role files unchanged. No host apply is inferred. Maintenance1.1 source exists but was not installed, and that absence is preserved rather than inventing an extra installation.
 
 A bounded context/design/panel update needs its own affected-invariant ledger, closed material defects, fresh exact-source read-only task and CI. At this checkpoint admission is not yet granted; full17-capability/29-case acceptance remains open even if a narrower update is later admitted. Retain backups, identity, settings and unknown edits; use the exact source-target plan, then verify actual applied bytes and discovery separately.
+
+## Compatible execution-input custody
+
+[skills.mjs](../../../apps/agent-atelier/server/skills.mjs) retains canonical manifests/private archives and prepares a separate immutable selected-input namespace; [retention.mjs](../../../apps/agent-atelier/server/retention.mjs) removes only explicitly reviewed task-owned copies. Complete task/input ownership and exact bytes govern dispatch; true legacy capsules are preserved. Purpose, trigger, input/output, consumer, access, generic tests, limits and recovery are in the [transport card](REAL-WORLD.en.md). STORE JSON backup excludes archive payload files. All three R4 continuations passed G01–G10 and each read all 43 selected files. The initial, R2 and R3 trials retain their NOT_ADMITTED verdicts. The handbook describes the observed memory controls and their measurement limits.
