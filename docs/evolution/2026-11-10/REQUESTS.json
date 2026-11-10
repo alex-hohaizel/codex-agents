@@ -1,19 +1,21 @@
 {
   "schema": "ai-data-production.request-register/1",
-  "passport": "ai-data-production-evolution/0.1",
+  "passport": "ai-data-production-evolution/0.2",
   "baseline_commit": "8951398b38a9610854823302ea612cb3844d52e6",
-  "scope_note": "R01-R17 owner capability list; R18-R23 current whole-system/documentation and preserved constraints. Role labels and claims of human experience are translated into reproducible competence, never invented employment history. All private product instances are not claimed inventoried or migrated.",
+  "scope_note": "R01-R17 original full capability scope, R18-R23 preservation/documentation/authority retained; R24-R27 current owner revision priorities, minimal composition, strict no-regression adoption and real-task proof. Priority changes sequence only, never scope. Seven internal competence profiles do not mean seven new skill installations.",
   "requirements": [
     {
       "id": "R01",
       "source_text_uk": "Будувати AI-інструменти end-to-end: від збору даних і ML/LLM-логіки до бекенду, UI та деплою, щоб нетехнічні команди користувалися ними самостійно;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "End-to-end AI products independently usable by nontechnical teams",
-      "owner": "Product directors + data/LLM/ML + backend + QA",
+      "owner": "Current product integrator with backend/integration/QA work packages",
       "stages": [
+        "S1",
         "S3",
         "S4",
-        "S6",
+        "S5",
+        "S7",
         "S8"
       ],
       "acceptance_cases": [
@@ -22,79 +24,105 @@
         "A07",
         "A15",
         "A16",
-        "A23"
+        "A23",
+        "A27"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "DATA",
+        "ANALYSIS",
+        "LLM",
+        "PREDICTION",
+        "ADAPTATION",
+        "MEDIA",
+        "EVALUATION"
+      ]
     },
     {
       "id": "R02",
       "source_text_uk": "Налаштовувати надійні системи збору даних із зовнішніх джерел — гнучкий скрейпінг платформ та інтеграції з API;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Reliable flexible collection through scraping and APIs",
-      "owner": "ai-atelier-data + integrations",
+      "owner": "Current integration/backend/knowledge owner",
       "stages": [
-        "S1",
-        "S3"
+        "S4",
+        "S5"
       ],
       "acceptance_cases": [
         "A02",
         "A03",
         "A04"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "DATA"
+      ]
     },
     {
       "id": "R03",
       "source_text_uk": "Автоматизувати обробку даних: кластеризація, NLP-аналіз відгуків, моніторинг трендів;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Clustering, review NLP and trend monitoring",
-      "owner": "ai-atelier-analysis",
+      "owner": "Current research/growth/knowledge owner",
       "stages": [
-        "S3"
+        "S4",
+        "S5"
       ],
       "acceptance_cases": [
         "A05",
         "A06"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "ANALYSIS"
+      ]
     },
     {
       "id": "R04",
       "source_text_uk": "Розробляти кост-ефективні пайплайни для масштабної генерації ідей, текстів, зображень і відео під бізнес-задачі;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Cost-effective scalable business generation",
-      "owner": "ai-atelier-media + llm + cost",
+      "owner": "Current creative/product owner with cost review",
       "stages": [
-        "S3",
-        "S5"
+        "S4",
+        "S6"
       ],
       "acceptance_cases": [
         "A07",
         "A12",
-        "A13"
+        "A13",
+        "A26"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "MEDIA",
+        "LLM"
+      ]
     },
     {
       "id": "R05",
       "source_text_uk": "Будувати предиктивні моделі для прогнозування бізнес-метрик — наприклад, CPA рекламного креативу ще до запуску;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Honest business forecasts including prelaunch CPA",
-      "owner": "ai-atelier-prediction",
+      "owner": "Current implementation owner with ML work package and independent QA",
       "stages": [
-        "S4"
+        "S4",
+        "S5"
       ],
       "acceptance_cases": [
         "A08",
         "A09",
         "A10"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "PREDICTION"
+      ]
     },
     {
       "id": "R06",
@@ -104,16 +132,17 @@
       "owner": "Product integrator + backend/reliability + evaluation",
       "stages": [
         "S3",
-        "S6",
+        "S7",
         "S8"
       ],
       "acceptance_cases": [
         "A15",
         "A16",
         "A17",
-        "A23"
+        "A23",
+        "A27"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -123,18 +152,20 @@
       "requirement_en": "Full stack ML/backend/UI/deployment competence",
       "owner": "Orchestrator + dynamic product team",
       "stages": [
-        "S2",
         "S3",
         "S4",
-        "S6"
+        "S5",
+        "S6",
+        "S7"
       ],
       "acceptance_cases": [
         "A01",
         "A15",
         "A16",
-        "A23"
+        "A23",
+        "A27"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -146,15 +177,22 @@
       "stages": [
         "S1",
         "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
         "S8"
       ],
       "acceptance_cases": [
         "A01",
         "A14",
         "A15",
-        "A23"
+        "A23",
+        "A27",
+        "A28"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -162,17 +200,22 @@
       "source_text_uk": "Практичний досвід із LLM (OpenAI API, LangChain або LlamaIndex, prompt engineering) та розуміння ML-концепцій — кластеризація, класифікація, ембеддінги;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Reproducible LLM/ML practice and reasoned tool choice",
-      "owner": "ai-atelier-llm + analysis",
+      "owner": "Current AI application/knowledge owner",
       "stages": [
-        "S3"
+        "S4",
+        "S5"
       ],
       "acceptance_cases": [
         "A05",
         "A06",
         "A07"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "LLM",
+        "ANALYSIS"
+      ]
     },
     {
       "id": "R10",
@@ -181,15 +224,16 @@
       "requirement_en": "Use available coding assistants as normal production aid with honest host boundaries",
       "owner": "Orchestrator + constructors + coding-assistants contract",
       "stages": [
-        "S2",
-        "S8"
+        "S1",
+        "S4",
+        "S7"
       ],
       "acceptance_cases": [
         "A18",
         "A19",
         "A23"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -199,7 +243,9 @@
       "requirement_en": "Business idea to MVP or full product, collaborative specification",
       "owner": "Orchestrator + existing product integrator + constructors",
       "stages": [
-        "S2",
+        "S1",
+        "S3",
+        "S7",
         "S8"
       ],
       "acceptance_cases": [
@@ -207,7 +253,7 @@
         "A19",
         "A23"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -215,51 +261,65 @@
       "source_text_uk": "Досвід створення складних AI-агентів (Agentic workflows, LangGraph) або мультимодальних пайплайнів як для згаданих вже видів задач, предметних областей, так і із генерацією зображень, моделей, аудіо будь якої складності і призначення, асетів для додатків, ігор, засутнків, і відео;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Durable agentic and multimodal workflows including 3D/audio/assets/video",
-      "owner": "ai-atelier-llm + media + domain craft owners",
+      "owner": "Current integration and domain creative owners",
       "stages": [
-        "S3",
-        "S5"
+        "S4",
+        "S5",
+        "S6"
       ],
       "acceptance_cases": [
         "A07",
         "A12",
         "A13",
-        "A14"
+        "A14",
+        "A26"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "LLM",
+        "MEDIA"
+      ]
     },
     {
       "id": "R13",
       "source_text_uk": "Практика побудови предиктивних ML-моделей (XGBoost, LightGBM, нейромережі) на табличних даних чи часових рядах;",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Tabular and time-series predictive modelling with justified algorithms",
-      "owner": "ai-atelier-prediction",
+      "owner": "Current implementation owner with ML work package",
       "stages": [
-        "S4"
+        "S4",
+        "S5"
       ],
       "acceptance_cases": [
         "A08",
         "A09",
         "A10"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "PREDICTION"
+      ]
     },
     {
       "id": "R14",
       "source_text_uk": "Досвід оптимізації або донавчання open-source моделей (LoRA тощо);",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Measured open-model adaptation and serving",
-      "owner": "ai-atelier-adaptation",
+      "owner": "Current implementation owner with ML adaptation work package",
       "stages": [
-        "S4"
+        "S4",
+        "S5"
       ],
       "acceptance_cases": [
         "A11"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "ADAPTATION"
+      ]
     },
     {
       "id": "R15",
@@ -269,7 +329,9 @@
       "owner": "App/ChatBot/Game directors + release/operations",
       "stages": [
         "S2",
-        "S5",
+        "S3",
+        "S6",
+        "S7",
         "S8",
         "S9"
       ],
@@ -279,7 +341,7 @@
         "A16",
         "A23"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -287,38 +349,57 @@
       "source_text_uk": "Відчуття стилю дизайна створення асетів будь якої складності з повним циклом їх використання і розвитку у продукті згідно усіх сучасних методологій",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Professional style and full asset identity/consumer lifecycle",
-      "owner": "Domain experience/media/assets owners + ai-atelier-media",
+      "owner": "Existing App experience Game assets or ChatBot media owner",
       "stages": [
-        "S5",
-        "S6"
+        "S2",
+        "S3",
+        "S6",
+        "S8"
       ],
       "acceptance_cases": [
         "A12",
         "A13",
         "A14",
-        "A15"
+        "A15",
+        "A26",
+        "A27"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "MEDIA"
+      ]
     },
     {
       "id": "R17",
       "source_text_uk": "Розуміння складу сабагентів необхідних команд у агентах, їх продуктивної взаємодії і спільної роботи з розумінням повного циклу створення, супроводу і розвитку продукту",
       "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
       "requirement_en": "Dynamic competent teams and coherent lifecycle collaboration",
-      "owner": "Constructors + Orchestrator + product integrator",
+      "owner": "Existing constructors and current product integrator",
       "stages": [
-        "S2",
+        "S1",
+        "S4",
+        "S7",
         "S8"
       ],
       "acceptance_cases": [
         "A01",
         "A18",
         "A19",
-        "A23"
+        "A23",
+        "A28"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
-      "implementation_evidence": []
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "DATA",
+        "ANALYSIS",
+        "LLM",
+        "PREDICTION",
+        "ADAPTATION",
+        "MEDIA",
+        "EVALUATION"
+      ]
     },
     {
       "id": "R18",
@@ -327,15 +408,24 @@
       "requirement_en": "Preserve existing capabilities, identity, settings, authority and unfinished work",
       "owner": "Maintenance + installers + QA",
       "stages": [
+        "S0",
         "S1",
-        "S7"
+        "S2",
+        "S3",
+        "S4",
+        "S7",
+        "S8",
+        "S9"
       ],
       "acceptance_cases": [
         "A20",
         "A21",
-        "A22"
+        "A22",
+        "A25",
+        "A28",
+        "A29"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -346,7 +436,7 @@
       "owner": "Orchestrator + constructors + maintenance",
       "stages": [
         "S1",
-        "S2",
+        "S4",
         "S7",
         "S9"
       ],
@@ -355,9 +445,13 @@
         "A19",
         "A20",
         "A21",
-        "A24"
+        "A24",
+        "A25",
+        "A27",
+        "A28",
+        "A29"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -372,7 +466,7 @@
       "acceptance_cases": [
         "A24"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -386,7 +480,9 @@
         "S3",
         "S4",
         "S5",
-        "S6"
+        "S6",
+        "S7",
+        "S9"
       ],
       "acceptance_cases": [
         "A04",
@@ -395,7 +491,7 @@
         "A13",
         "A17"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -413,7 +509,7 @@
         "A18",
         "A24"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
       "implementation_evidence": []
     },
     {
@@ -421,9 +517,15 @@
       "source_text_uk": "Implement and verify actual capabilities; a static demo does not close the service target.",
       "source_fidelity": "current request or preserved session/project requirement",
       "requirement_en": "Separate declared/source/installed/discovered/executed/reviewed/accepted evidence; no fictional experience",
-      "owner": "All owners + independent QA",
+      "owner": "All current artifact owners and independent QA",
       "stages": [
         "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
         "S8",
         "S9"
       ],
@@ -434,10 +536,160 @@
         "A15",
         "A19",
         "A23",
-        "A24"
+        "A24",
+        "A26",
+        "A27",
+        "A29"
       ],
-      "current_status": "audited; target implementation awaits exact passport approval",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "EVALUATION"
+      ]
+    },
+    {
+      "id": "R24",
+      "source_text_uk": "пріоритет — контекст, дизайн і робоча панель",
+      "source_fidelity": "Exact excerpt of current owner revision request in this conversation, 2026-11-10",
+      "requirement_en": "Prioritize context continuity, accepted design and a working panel before unrelated AI complexity",
+      "owner": "Current product integrator + experience + QA",
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A12",
+        "A15",
+        "A19",
+        "A21",
+        "A23",
+        "A25",
+        "A26",
+        "A27",
+        "A29"
+      ],
+      "current_status": "revision documented; target proof planned not executed",
       "implementation_evidence": []
+    },
+    {
+      "id": "R25",
+      "source_text_uk": "збережи всі можливості, прибери зайву складність",
+      "source_fidelity": "Exact excerpt of current owner revision request in this conversation, 2026-11-10",
+      "requirement_en": "Preserve all capabilities while reusing35existing sources/12roles and activating seven internal profiles only as needed; no mandatory new skills roles or frameworks",
+      "owner": "Orchestrator + constructors + architecture",
+      "stages": [
+        "S0",
+        "S1",
+        "S4",
+        "S7",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A07",
+        "A11",
+        "A18",
+        "A19",
+        "A20",
+        "A24",
+        "A28",
+        "A29"
+      ],
+      "current_status": "revision documented; target proof planned not executed",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R26",
+      "source_text_uk": "Якщо буде мати місце десь щодо регрессії, тоді не треба додавати такі покращення в жертву чомусь іншому, що вже працювало.",
+      "source_fidelity": "Exact excerpt of current owner revision request in this conversation, 2026-11-10",
+      "requirement_en": "Reject any candidate that degrades any applicable existing working capability, including noncritical or previously undocumented working behavior; no aggregate gain or other benefit can offset loss; unknown affected invariants block adoption",
+      "owner": "Current integrator + independent QA + release",
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06",
+        "A07",
+        "A08",
+        "A09",
+        "A10",
+        "A11",
+        "A12",
+        "A13",
+        "A14",
+        "A15",
+        "A16",
+        "A17",
+        "A18",
+        "A19",
+        "A20",
+        "A21",
+        "A22",
+        "A23",
+        "A24",
+        "A25",
+        "A26",
+        "A27",
+        "A28",
+        "A29"
+      ],
+      "current_status": "revision documented; target proof planned not executed",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R27",
+      "source_text_uk": "Додай перевірку покращень на реальних задачах і збережи все в GitHub.",
+      "source_fidelity": "Exact excerpt of current owner revision request in this conversation, 2026-11-10",
+      "requirement_en": "Prove claimed improvement on bound actual owner tasks against a frozen working baseline and accepted quality target, with raw outputs independent review and preserved invariants; publish revised documentation",
+      "owner": "Current product integrator independent QA and maintenance",
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S7",
+        "S8",
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A12",
+        "A15",
+        "A19",
+        "A21",
+        "A23",
+        "A24",
+        "A25",
+        "A26",
+        "A27",
+        "A28",
+        "A29"
+      ],
+      "current_status": "revision documented; target proof planned not executed",
+      "implementation_evidence": [],
+      "conditional_profiles": [
+        "EVALUATION"
+      ]
     }
-  ]
+  ],
+  "revision_baseline_commit": "27c074a93120631f82f373a6b6050eb25f7e4d24",
+  "profile_mapping_policy": "These are logical requirement-to-profile associations, not installed selectors, actors or mandatory runtime activation. Reuse current owners and select only applicable profile inputs for the concrete task."
 }

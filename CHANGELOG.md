@@ -1,5 +1,9 @@
 # Change log
 
+## Repository 1.3.2 — 2026-11-10
+
+Revise the AI/data/production passport to0.2 at the owner's instruction. Preserve all17 capabilities; keep the existing35sources/12roles with seven conditional internal profiles instead of mandatory new skills/roles. Prioritize context continuity, actual-reference design and a working panel before unrelated AI complexity. Require genuine actual-task comparisons and reject every confirmed protected regression without compensation by other gains. Retain all24 previous acceptance cases and add five; preserve the original0.1 via immutable source links. Reconcile English/Ukrainian handbook, native blueprint,27requirements/29planned cases, seven-guide notices and both source bundles. Runtime/installed skills/settings remain unchanged. See [release](releases/repository-1.3.2.md), [documentation migration](releases/migrations/repository-1.3.2.md) and [passport](docs/evolution/2026-11-10/PASSPORT.en.md).
+
 ## Repository 1.3.1 — 2026-11-10
 
 Publish the source-backed AI/data/ML/creative system audit, exhaustive current-component and helper catalogues, primary-source technology recipes and a complete proposed evolution passport0.1 with23 traced requirements and24 planned acceptance cases. Add equivalent seven-guide notices and explicit current/proposed state. Preserve all core/optional/role/host/service implementation bytes, existing identity and settings. No target skill update, training, paid provider operation, deployment, product migration or live WORK work is performed by this documentation release. See [release notes](releases/repository-1.3.1.md), [documentation adoption](releases/migrations/repository-1.3.1.md) and [the handbook](docs/evolution/2026-11-10/README.md).

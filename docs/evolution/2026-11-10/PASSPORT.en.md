@@ -1,164 +1,183 @@
-# AI, data and production evolution — passport 0.1
+# AI, data and production evolution — passport 0.2
 
-**Proposed for owner approval. No target skill has been created, installed or updated under this passport.** Prepared on 2026-11-10 against commit `8951398b38a9610854823302ea612cb3844d52e6`. This is a new passport; it does not amend the historical universal-entry passport 0.2 or borrow its approval.
+**Revised proposal; target implementation is not approved or performed.** Revision date: 2026-11-10. Current documentation baseline: commit `27c074a93120631f82f373a6b6050eb25f7e4d24`. Current implementation remains core6.0.0, Orchestrator1.1.0, maintenance1.0.0 where installed and Agent Atelier0.2.0. Repository1.3.2 publishes this revision only.
 
-## 1. What you receive
+The owner authorized correcting and publishing the passport: preserve every capability, remove unnecessary complexity, prioritize context/design/a working panel, accept no improvement at the expense of working behavior, and add real-task evidence. This authorizes the present documentation work, not creation or installation of the proposed runtime update. [Revision history](REVISIONS.en.md) preserves the exact0.1 record; the unrelated historical universal-entry passport0.2 is not approval of this passport.
 
-One entry for a business idea, a difficult technical task or an existing product. It restores the accepted outcome and project context, selects the needed expertise, produces and verifies the result, and explains what remains. The new competence covers the whole path from external data through AI/ML processing to an API, a usable interface, deployment preparation and continued operation. A nontechnical team should be able to use the delivered product without operating Codex or understanding its internal agents.
+## 1. Complete outcome and priorities
 
-The requested end state is the full capability set in [REQUESTS.json](REQUESTS.json), R01–R17, with preservation and documentation obligations R18–R23. A representative implementation proves the common route; it does not reduce the requested scope to a demonstration or certify every future domain, language, model, asset or platform.
+Keep one understandable entry for a business idea, a difficult task or an existing product. Restore its agreed result and current project state, select sufficient expertise, produce an editable usable result, verify it, and explain the next useful action. Nontechnical users of a delivered product receive its own usable interface and operating path.
 
-## 2. Why extend the current system
+**Priority: context continuity → professional design and accepted identity → a working source-backed panel.** Deep AI/data/ML work follows when its task needs it. These first priorities must not wait for unrelated model training or a new framework. All17 original capability requirements remain in scope; lower sequence priority never means removal, substitution by a demo or silent deferral of the final outcome. [REQUESTS.json](REQUESTS.json) retains R01–R23 and adds the owner's R24–R27 refinement.
 
-The existing constructors, context contracts, product directors, media methods, bounded execution and adoption controls are useful and should remain. The main missing part is a reusable data/model lifecycle with operational implementations and appropriate evidence. Several existing App rules also contradict their own platform and research profiles. See [the audit](AUDIT.en.md) and [the current catalogue](CURRENT-SYSTEM.en.md).
+A useful first integrated slice is a checkpoint for the next stage, not completion of the whole requested system.
 
-We considered three options. Adding more instructions alone is cheap but does not supply repeatable connectors, evaluation or recovery. Rebuilding everything as version 7 would put stable projects and identity at unnecessary risk. **The recommendation is a compatible extension with an optional AI competence pack**, shared standards and scoped execution. A genuine incompatible requirement discovered during implementation must be explained and returned for a revised decision; it must not be hidden under a minor version.
+## 2. What changes from0.1
 
-## 3. Exact proposed composition and versions
+Keep the existing constructors, context/production controls, product directors, knowledge/media methods, native state and recovery. Extend them instead of rebuilding the system.
 
-These are target versions, not installed versions. Current versions remain core 6.0.0, Orchestrator 1.1.0, service 0.2.0 and repository 1.3.0 until an actual release changes them. Repository 1.3.1 publishes this audit and proposal only.
+Revision0.1 proposed seven new skills and four role profiles before their organizational benefit was demonstrated. Revision0.2 retains seven competence areas as **conditional internal profiles**, using the existing35 owned sources and12 role profiles. There are **zero mandatory additional installed skills, zero mandatory additional roles, and no compulsory framework or global vector index**.
 
-| Component | Proposed change | Reason and activation |
+A later separate module or role is justified only by a distinct reusable output/consumer or necessary expertise/access boundary, measured benefit on a real task, preserved baseline and maintainability. A new name, another actor or a longer instruction is insufficient. If extraction changes the exact installable composition, prepare a revised composition passport and obtain its exact approval before creating/installing that target. This is not permission to drop the capability while waiting for a packaging decision.
+
+## 3. Proposed composition and versions
+
+These remain proposals, not installation receipts.
+
+| Part | Target | Preservation and purpose |
 | --- | --- | --- |
-| Core suite | 6.0.0 → 6.1.0; all 33 stable names retained | Shared conditional AI/data lifecycle, clearer contracts, App contradictions repaired; ordinary non-AI work stays lightweight |
-| `atelier-orchestrator` | 1.1.0 → 1.2.0 | Recognizes AI/data/ML/creative work, selects usable specialists, preserves one brief and original product scope |
-| `codex-agents-maintenance` | 1.0.0 → 1.1.0 | Manages reviewed new pack inventory and adoption with existing preservation controls |
-| AI competence pack | 1.0.0; seven optional skills listed below | Separate installable sources; the core denominator remains 33 |
-| Host role profiles | Preserve 12; add four optional profiles | Actual expertise and artifact ownership, selected per task; up to 16 declared roles, never a mandatory team of 16 |
-| Agent Atelier | 0.2.0 → 0.3.0 | Inspect and run the available capability routes; show real data/model/job/cost evidence and useful failures |
-| Repository | Target 1.4.0 | Verified sources, all affected guides, migration, packages, catalogues and evidence |
+| Core | 6.0.0 →6.1.0; same33 stable names | Context/craft/nonregression corrections and applicable AI/data methods |
+| `atelier-orchestrator` | 1.1.0 →1.2.0 | One brief/owner, sufficient existing route, conditional profiles and outcome continuity |
+| `codex-agents-maintenance` | 1.0.0 →1.1.0 | Compatible source/adoption verification and rejection of degrading candidates |
+| Owned reusable sources | Same35:33 core +2 existing optional | No mandatory new `ai-atelier-*` selectors or separate AI pack |
+| Host roles | Same12 | Preserve model/settings/policies; select actual competent actors per task |
+| Agent Atelier | 0.2.0 →0.3.0 | Actual context/design/portfolio/task flows and relevant later data/model/media views |
+| Final implemented repository | 1.4.0 | Full verified sources, documentation, adoption and evidence |
 
-Seven new stable selectors, proposed under `optional-skills/`:
+The seven profiles preserve the full specialist scope:
 
-| Skill | Its owned work | When it is useful |
+| Internal profile | Work and result | Reuse first |
 | --- | --- | --- |
-| `ai-atelier-data` | Connectors, normalization, dataset versions, lineage, quality and recovery | Repeated API/import/scraping ingestion or data reused downstream |
-| `ai-atelier-analysis` | Text extraction, classification, clustering, source-backed themes and trends | Reviews, support material, segmentation and monitoring |
-| `ai-atelier-llm` | LLM/RAG/agentic application logic, tool contracts, prompting, workflow recovery | A product needs model decisions, retrieval or multi-step AI actions |
-| `ai-atelier-prediction` | Feature/label definitions, baselines, tabular/time-series training, validation and inference | A business decision needs an honest forecast, including a conditional CPA case |
-| `ai-atelier-adaptation` | Open-model feasibility, LoRA/other tuning, model bundle and serving comparison | A measured gap justifies adapting a model rather than prompting/retrieval alone |
-| `ai-atelier-media` | Costed multimodal production graphs, approved masters, variants and consumer delivery | Repeatable image/vector/3D/audio/video/document/UI asset work at product quality |
-| `ai-atelier-evaluation` | Task-specific AI evaluation, release evidence, drift and productionization checks | Model/data/generated-output claims need a reproducible independent check |
+| DATA | Reliable API/import/scraping connectors, normalization, quality, datasets, lineage, replay | Current integrator, integration/backend/knowledge owners |
+| ANALYSIS | Evaluated extraction/classification, embeddings/clustering, source-backed themes and trends | Research/growth/knowledge with data and independent QA competence |
+| LLM | Provider/tool contracts, prompts, conditional RAG, agentic workflows, recovery and consumer logic | Current product/project agent and integration/knowledge/build owners |
+| PREDICTION | Labels/features, baselines, tabular/time-series learning, honest CPA, validation and inference | Current implementation owner with ML work package and independent evaluation |
+| ADAPTATION | Open-model feasibility, LoRA/other optimization, exact model bundle and serving comparison | Shared ML competence with distinct training/export/serving acceptance |
+| MEDIA | Costed text/image/vector/3D/audio/video/document/UI production, batches, masters and delivery | Existing App experience, Game assets and ChatBot media owners |
+| EVALUATION | Real-task comparisons, data/model/craft/consumer evidence, drift and productionization | Current QA/domain reviewers; independence requires an actual different actor |
 
-Each skill has `SKILL.md`, `agents/openai.yaml`, its own appropriate new icon, scoped references, templates, examples and executable helpers where relevant. Existing icons, names and colours are preserved. The final inventory is **33 core + nine optional sources = 42 reusable skills**; nine means the existing orchestrator and maintenance skill plus seven new specialists. A skill is neither a running process nor a credential.
+Generic data or technical work can use the orchestrator directly; it is not forced through an unrelated product director. A product keeps its current integrator. AI work introduces no competing director, backlog or authority store. An internal profile is neither a discovered skill nor a launched subagent. The35-source denominator counts the reusable system catalogue; existing Foundry creation of justified project-specific agents remains available under its actual passport/authority/install/original-task rules and is not removed by this composition.
 
-Four proposed role sources are `agent-profiles/foundry-data-engineer.toml`, `foundry-ai-engineer.toml`, `foundry-ml-engineer.toml` and `foundry-creative-engineer.toml`. Data owns ingestion and dataset engineering; AI owns model/tool workflows; ML owns features, learning and serving; creative engineering owns repeatable multimodal production and delivery. Existing product, architecture, backend, QA, privacy, reliability, integrations, platform, conversation, skeptic, judge and cost expertise remains. Models/settings of the existing 12 are not replaced. New roles inherit the available host model policy unless the owner makes a specific choice.
+## 4. Context: literal baseline and intended improvement
 
-## 4. How a task moves through the system
+There are two supported mechanisms. In direct skill work the agent reads native requirements/decisions/checkpoints and may use the portable Python capsule helper from an explicit projection. The panel separately reads admitted project sources, compiles its JavaScript service capsule after task preparation and stores task/job/command records. The service does not run the Python helper as a memory stage.
 
-The orchestrator restores the project first: outcome, accepted references, native state, scope, current agent, unfinished work, rights and actual capabilities. A narrow repair can go directly to an existing specialist. A product request goes through its current product integrator. Agent construction happens only when reuse is insufficient and the necessary passport is agreed. AI specialists support that integrator; there is no second AI director with a competing product plan.
+Neither mechanism records every word automatically or proves that an omitted original requirement was captured. The current owned code has no configured global Atelier embedding index over all projects/chats. Native Codex history coverage and the isolated worker's real ability to restore a chat remain separate; metadata cannot substitute for persisted conversation context.
 
-The task graph is selected from discovery → specification → representative proof → full production → integration → independent verification → allowed release → operation. Phases can be parallel where their inputs and writers are independent. A defect returns to the affected branch with new source/evidence bindings. A product request remains open after the agent package is built: create → install → discover → use the agent for the original product outcome must remain traceable.
+Improve this route by reconciling the original brief with stable requirement/decision IDs, current approved references, unfinished/deferred work and current authority. Load applicable mandatory decisions independently of search ranking. Pin the actual originals and editable masters; a filename or hash alone does not communicate their design. Provide enough sources for a clean receiver to resume a real bounded task without hidden history. Changed inputs reopen dependent proof.
 
-Every delegated work package carries requirement IDs, exact inputs, permitted paths/actions, owner, expected outputs, interfaces, resource caps, stopping condition, verification and return format. The host's actual concurrency limits prevail. Without subagent capability, work can proceed sequentially, with self-check honestly separated from independent review.
+Use exact/ordinary search where adequate. Add scoped semantic retrieval only for an actual measured corpus/search need, with version/freshness, access/deletion, evaluation and cost. A knowledge index supplies relevant evidence; it does not decide which old statement overrides a newer approved decision or grant authority. Global background indexing and broad account/Home scans are not part of this proposal.
 
-## 5. Where implementation will live
+## 5. Implementation locations and portable reuse
 
-| Planned source | Deliverable |
+| Planned source | Concrete deliverable |
 | --- | --- |
-| `standards/ai-data-production.md` | Shared activation, lineage, datasets/features/models, quality, deletion and downstream ownership |
-| `standards/ai-workflows.md` | LLM/tools/RAG/workflow boundaries, effect identity, interruption and reconciliation |
-| `standards/ai-evaluation.md` | Dataset/split/evaluation contracts, task metrics, limitations and release/adoption |
-| `standards/ai-generation.md` | Multimodal batch manifests, craft proof, identity, cost, rights and consumer integration |
-| `standards/coding-assistants.md` | Codex/Cursor/Claude Code capability discovery, context and permission-preserving handoff |
-| `standards/ai-schemas/` | Versioned SourceContract, DatasetManifest, SplitManifest, FeatureManifest, PredictionContract, WorkflowRun, EvaluationPlan, EvaluationReport, TrainingRecipe, ModelBundle, BatchPlan, ItemManifest and GenerationBatch schemas with valid/invalid examples |
-| `optional-skills/ai-atelier-*/` | The seven specialist sources, recipes, fixtures and runnable task-specific helpers |
-| Existing constructors and family references | Activation and inheritance of applicable shared contracts, portable generated-agent resources, preserved native formats |
-| Existing materializer/updaters/installers | Manifest-controlled admission, propagation, preservation, install/verify/rollback for the new inventory |
-| `apps/agent-atelier/server/` and `shared/` | Typed scoped capability adapters, job/evidence/status projections and API contracts |
-| `apps/agent-atelier/client/src/` | Adaptive project workbench for actual available routes, data/model/media runs, decisions and recovery |
-| `evaluations/ai-production/` | Small reproducible execution cases and source-pinned expected boundaries; no private datasets |
-| `docs/`, `releases/`, `governance/` | Complete operating documentation, requirements, migrations and release verification |
+| `standards/context-capsule.md`, existing helpers and native controllers | Better source-to-requirement reconciliation, cold-resume and unchanged native authority |
+| `standards/production-quality.md`, applicable domain references | Actual-reference/medium/consumer proof and strict preservation |
+| `standards/ai-profiles/` | Conditional DATA/ANALYSIS/LLM/PREDICTION/ADAPTATION/MEDIA/EVALUATION profile resources; no SKILL entrypoints |
+| `standards/ai-data-production.md`, `ai-workflows.md`, `ai-evaluation.md`, `ai-generation.md`, `coding-assistants.md` | Shared lifecycle rules with actual activation and sufficient implementation choices |
+| `standards/ai-schemas/` | SourceContract, DatasetManifest, SplitManifest, FeatureManifest, PredictionContract, WorkflowRun, EvaluationPlan, EvaluationReport, TrainingRecipe, ModelBundle, BatchPlan, ItemManifest, GenerationBatch |
+| `standards/ai-production/` and scoped materializations inside current bundles | Reusable runnable data/analysis/LLM/ML/batch helpers, fixtures and actual interfaces where needed |
+| Existing Foundry/skill constructor/directors/owned skills | Applicable profile selection, task contracts, full original-task continuation and generated-agent inheritance |
+| Existing materializer/installers/updaters | Explicit checked resource manifests and migration for affected resources; preserve existing inventory guards |
+| `apps/agent-atelier/server/`, `shared/`, `client/src/` | Scoped execution, source-backed project/work map, accepted-goal/evidence/next-action and meaningful state |
+| `evaluations/ai-production/`, docs/release/governance | Reproducible cases, private real-task bindings, sanitized comparison evidence, adoption and clear operating instructions |
 
-Shared files are materialized through an explicit checked resource manifest, including portable standalone bundles and generated agents. Existing four shared resources and 12 inherited resources must be reconciled deliberately; a link to a resource absent after packaging is not sufficient. The optional updater's two-item allowlist and host installer's fixed 12-role check must become reviewed bounded manifests, with path/identity/hash validation. The 33-core protection is retained. Unknown local edits require a reviewable conflict plan, not replacement or invented historical receipts.
+Do not create a second copy of the business logic or a new control service when an existing owner can supply the operation. Existing four shared resources and12 portable inherited resources remain traceable. Add conditional resources through an explicit dependency/materialization manifest, copy the actually required self-contained resources into standalone/generated bundles, and verify them after packaging. A reference to an absent shared file is not a capability.
 
-## 6. Data and model lifecycle
+Preserve the33-core guard, two-source optional allowlist and12-role admission. This revision supplies no reason to remove or widen them. Unknown local edits are conflicts; current ownership cannot be invented from a matching folder name.
 
-The product's native checkpoint and requirements remain authoritative. Dataset, model, evaluation and generation records are versioned component artifacts referenced there; they do not create another product backlog or authority store.
+## 6. Design and working panel first
 
-The path is actual source → permitted acquisition → raw/normalized dataset → feature or LLM/media processing → independent evaluation → consumer API/UI → monitoring/repair/rollback. Records pin the relevant bytes, code, schema, model/tokenizer/adapter, environment, split and event/observation/availability times. Transformations fit on training data only. Deletion and revocation propagate through applicable embeddings, features, caches, outputs, jobs and backups with explicit limits. External source text is data, never an instruction granting the worker new tools or permissions.
+Read the actual accepted references and distinguish them from rejected outputs. Extract composition/scale, information depth, typography/material, illustration/3D/audio language, motion, interactions and function. Preserve approved originals/masters through derivatives and integrated use. Same colours and labels with lost mechanism or functionality must fail.
 
-For CPA, a prelaunch claim may use only features available before launch. Labels need attribution window, spend/conversion definitions, currency and delayed/censored outcomes. Campaign/account/time/group splits, selection effects and drift must be examined. Compare simple baselines; report error, calibration/intervals, uncertainty and abstention. Synthetic fixtures prove mechanics and leakage detection, not commercial predictive accuracy. Zero-conversion campaigns with undefined or censored CPA stay visible; silently excluding them would bias the result. No accuracy target is invented before a suitable authorized dataset and business decision exist.
+The actual owner-supplied rich operational-platform reference and rejected simpler layout form a concrete comparison case. The rejected design is not the accepted quality target. Use real relevant project content and a representative actual-medium slice before multiplication. Images require inspection; audio listening; motion playback; UI interaction; game assets engine/device use. Existing expert domain methods remain.
 
-See [the seven capability recipes](CAPABILITIES.en.md) for operations, choices, artifacts and negative cases.
+The panel must expose the actual agreed outcome, available projects grouped into meaningful work, existing project-agent/skill provenance, completed and remaining work, evidence and a justified next action. Actual selection/prepare/start/continue/interrupt/reconcile flows must work within current authority. Unsupported controls show an honest gap, not a decorative success.
 
-## 7. Tools, environments and choices
+Prove a complete real project journey before unrelated ML views. Data/model/media views later appear only when relevant and actually implemented. Preserve the accepted operational identity, accessibility, desktop/mobile usability, service data and partial/missing/error/unknown states. Read-only native history discovery does not authorize native writes or give the isolated executor missing context.
 
-Use the smallest adequate maintainable stack, chosen from the task and measured constraints. API/export precedes more fragile scraping when it supplies the required data; static HTTP parsing precedes a browser when sufficient. Scrapy/Playwright are possible implementations, not universal dependencies or source permissions.
+Keep four selected skill snapshots per prepared task, current bounded Codex execution and one native integration owner. Split longer workflows into dependent tasks; do not enlarge permissions, retry/time limits or network access because more profile names exist.
 
-Direct provider SDKs and explicit state are enough for many LLM tasks. LangGraph is considered for genuinely durable branching/stateful work; LangChain or LlamaIndex where their integration/retrieval mechanisms improve a measured need. Embeddings are useful for retrieval or clustering under their own evaluation. Framework choice needs a short explanation and a maintained exit path, not a fashion-based default.
+## 7. Full AI/data scope and tool choices
 
-For predictions compare a naive/statistical baseline, appropriate linear/tree methods, then XGBoost/LightGBM or a neural approach where justified. For adaptation compare prompting/retrieval/smaller models first; MLX-LM may suit compatible Apple silicon and PEFT a suitable PyTorch environment. Device memory, model licence, training rights, time and serving feasibility must be checked before weights or jobs are acquired. No CUDA, GPU service or large download is silently assumed. Adapter, merged/quantized export and actual serving consumer each need separate proof against their own bytes.
+Retain source→permitted acquisition→versioned dataset→analysis/feature/model or LLM/media work→independent evaluation→API/UI consumer→operation/repair/rollback. The seven [capability recipes](CAPABILITIES.en.md) keep complete inputs, eight-step methods, outputs, failure cases, cost and choice rules.
 
-Coding assistants are the normal production aid when actually available. Codex, Cursor and Claude Code have different rules, state, tools and approval semantics. Keep their native configuration; export only the needed source-bound task/context, not credentials or a blind translation of permissions. An executable on PATH is not account readiness; a profile file is not a launched subagent. The local coding assistant and the agentic workflow inside a delivered product are different runtimes.
+Dataset/model/evaluation/batch artifacts are referenced by current native project state. Pin source/code/schema/transform, model/tokenizer/adapter, environment, splits, event/observation/availability times and actual consumer. Fit transformations on training data only. Propagate revocation/deletion through applicable derivatives/caches/jobs/outputs/backups with stated limits. External content never grants tools or permissions.
 
-Local owner Codex/ChatGPT access may support the personal development workbench within its actual terms and capabilities. A hosted/commercial AI product needs its own supported production authentication and service architecture; it must not share the owner's coding login with end users. API keys remain secret handles outside manifests and logs. [Official sources](SOURCES.json) are checked again at implementation for unstable operations, models, limits and prices.
+For prelaunch CPA use only prelaunch-available features, defined spend/conversions/currency/attribution and mature/censored labels, including zero-conversion/undefined CPA campaigns. Use time/group holdouts, leakage checks, simple baselines, uncertainty and abstention; disclose selection/drift limits. No invented market accuracy from a synthetic fixture.
 
-A hash identifies model bytes; it does not make their loader trustworthy. Admit model/data formats and loaders explicitly, keep unreviewed dynamic remote code disabled, and review any required custom implementation in its isolated resource-limited environment. Test malicious serialized input/manifest, path escape and oversized allocation before serving. Pickle-based loaders can execute code; custom model code is a separate trust decision. [Model persistence](https://scikit-learn.org/stable/model_persistence.html), [custom model loading](https://huggingface.co/docs/transformers/en/models).
+Tools remain conditional: sufficient API/export/HTTP before more fragile scraping; direct SDK/code when adequate; LangGraph for justified durable branching; LangChain/LlamaIndex for needed integration/ingestion/retrieval; appropriate statistical/linear/tree baselines, XGBoost/LightGBM or neural candidates by measured suitability. Prompting/retrieval/smaller models can precede adaptation. MLX-LM/PEFT require actual compatible hardware, data/model rights and finite budgets. Adapter, merged/quantized export and serving consumer need separate exact-byte proof.
 
-## 8. Usable products and professional creative work
+Admit model/data loaders and formats explicitly. A source hash does not establish trust in code-executing deserialization. Keep unreviewed remote model code disabled; review required custom code in an isolated resource-limited environment and test malicious input/manifest/path/allocation. [Primary sources](SOURCES.json) support the technical choices and are refreshed before unstable operations.
 
-Nontechnical users receive a product interface with understandable input, progress, result, source/evidence, correction, permission and recovery paths. Errors identify the next useful action. Appropriate authentication, tenancy, export/deletion, background work, operator support and deployment runbooks are designed when the actual product requires them. There is no compulsory microservice architecture, telemetry platform or all-platform build.
+Mass generation keeps requested/attempted/succeeded/failed/rejected/cancelled/unresolved counts, item/job identity, accepted-master lineage and actual accepted-output total cost. Reconcile uncertain consumption before retry. Professional craft and all requested media/consumer routes stay in scope.
 
-Accepted visual references are read before work. Establish the product's composition, information depth, typography, interaction, illustration/3D/audio language, approved masters and derivative rules. A candidate retaining colours/labels but losing the reference’s defining composition, scale, information depth, interaction or function must fail. Prove a representative output in the actual medium before a batch. Images need visual inspection; animation/video need playback; sound needs listening; UI needs interaction; game assets need target-engine/device use at the relevant scale. Existing Game and ChatBot craft methods remain in force. No provider operation is claimed for an unsupported medium; lack of a rigging, voice, video or engine tool stays a concrete missing route.
+## 8. Team, products and authority
 
-For a batch, preserve a complete denominator: requested, attempted, succeeded, failed, rejected, cancelled and unresolved items. Use stable job/item identity, cache keys, quality acceptance and real cost receipts. The cheapest usable accepted output matters; low cost must not buy identity drift or unusable assets. Retry only after reconciling unknown consuming outcomes.
+Choose work packages from actual outputs and risks. Keep one integrator, bounded artifact ownership, interfaces, caps, stopping conditions and returns; use the host's actual slots. Current roles can receive domain-specific profile inputs. Without supported subagents work can proceed sequentially, with self-check honestly separated from independent review. A separate profile label is not independence or expertise proof.
 
-## 9. What changes in the local panel
+Codex/Cursor/Claude Code remain normal development aids when available, with native settings and permissions preserved. A delivered product's AI workflow has its own runtime. Nontechnical users need clear input/progress/result/correction/recovery, appropriate access/tenant/export/delete/background/support/deployment paths and maintainable code for the agreed product. No mandatory language, microservice design or three-platform build is introduced.
 
-Preserve the accepted operational-platform visual identity and current portfolio/continuation protections. The panel must connect a requested outcome with real project tasks, used skills/agents, accepted decisions, source artifacts, jobs, evidence and next actions. It must distinguish a declared capability, installed source, host discovery, actual access, observed execution and owner acceptance.
+Use existing access first. Approval of this passport would allow the described Codex implementation, isolated verification, reviewed installation and same-repository publication. It grants no new spending, production deployment, unrelated product/data migration, licence/visibility change, other-product chat messages or live WORK work. Concrete operations still require actual schema/target/right/recipient/credentials/cost and reconciliation. Production users do not share the owner's coding login.
 
-When applicable a project gets data-source health and dataset versions, analysis/trend results, workflow runs, model comparisons/validation, generation batches with reviewable previews, cost/limits and deployment readiness. These views appear for relevant work, not as empty mandatory tabs. Loading, missing access, partial history, errors, cancellation and unknown outcomes are designed states. A visual map uses real project/work relationships and can navigate to the actual work and evidence; it is not a fabricated graph.
+Set task-appropriate finite runtime, items/tokens/media, CPU/GPU/memory/storage/network and money caps before expensive work. Preserve native authority, one writer and real receipts.
 
-The service adds typed, narrowly scoped adapters for admitted local data/ML/LLM/media jobs and their evidence. No unrestricted shell, arbitrary MCP server or ambient account privilege is exposed through a button. Preserve the current maximum of four selected skill snapshots per prepared task; split longer workflows into dependent jobs under the same integrator rather than silently raising permissions or limits. The existing isolated Codex executor and native-history constraints remain. Dataset/model records link to real artifacts and owning native state. Old native chat context cannot be manufactured from metadata. Local-only bind, access protection, size/path/resource limits and evidence redaction must be verified for every new endpoint.
+## 9. Strict nonregression and measured improvement
 
-## 10. Resources and authority
+**A confirmed degradation of any applicable existing working capability, including noncritical or previously undocumented working behavior, rejects the affected candidate. An improvement elsewhere, lower cost, a new feature or a higher overall score cannot compensate for that loss.**
 
-Use existing access first. This passport permits preparation, source changes and isolated local verification after approval; it does not approve new spending, production deployment, product-data migration, commercial licensing decisions or sending messages to other product chats. Each concrete external operation checks current schema, target, right, recipient, scope, cost and consuming-response reconciliation. A safe dry run must be clearly labelled as a dry run.
+Here the preserved set means every applicable existing working capability, not only named critical functions or already written tests. A newly discovered working function joins the invariant register and reopens affected acceptance. Before changing behavior inventory all applicable existing functions, accepted identity/settings/decisions, original requirements, privacy/permission boundaries, recovery/continuation, editable delivery, accessibility and declared cost/latency/resource envelopes. Freeze their observable invariants and the complete affected dependency scope. Record known baseline defects separately; a rejected old design is not a quality ceiling and an old defect is not a new acceptable requirement.
 
-Before costly work set runtime, item/token/media count, CPU/GPU/memory/storage/network and money caps suitable for the task. Fixed universal budgets would be misleading. Cost estimates show their assumptions and current provider reference; actual receipts remain separate. A provider timeout can mean unknown consumption; local checkpoints alone do not guarantee exactly-once external effects.
+Compare baseline and candidate per invariant. A failed invariant is fail; an untested/ambiguous affected invariant is unknown and blocks adoption. Handle model/provider variability with predeclared comparable conditions, repetition and uncertainty; do not change the rubric or envelope afterward to disguise loss. Tests also show an actual useful gain in the property the change was intended to improve.
 
-## 11. Implementation stages and exit conditions
+Keep the verified baseline active when a candidate fails. Diagnose/repair or discard that change, then recheck affected dependencies. An independently separable improvement can be proposed as a new bounded candidate with its own complete preservation proof; it cannot inherit the rejected candidate's acceptance. Unknown later user edits block automatic rollback.
 
-| Stage | Work and dependency | Reviewable exit |
+This is a strict adoption rule, not a claim that finite testing can guarantee every possible future outcome. A newly observed post-adoption regression reopens acceptance and triggers guarded isolation/rollback while preserving user data/new work, followed by repair. No “accept a little regression” exception is provided by this passport.
+
+## 10. Real tasks and acceptance
+
+[ACCEPTANCE.json](ACCEPTANCE.json) retains A01–A24 and adds A25–A29. [The real-task protocol](REAL-TASKS.en.md) binds actual source availability, raw briefs/references, baseline, candidate, conditions, observations, independent review and exact adoption decision.
+
+Priority real cases are current project cold-resume/context continuity; the owner's actual rich Atelier reference versus rejected simplification; and actual panel journeys using real project/work/evidence/agent/task state. AI/data/ML/media cases then prove the relevant full routes on suitable authorized actual tasks. The original Svitlobot failure remains unbound if its raw brief/source/references are unavailable; a synthetic example cannot close that specific failure.
+
+Freeze the actual task inputs, accepted quality target and current working invariants before candidate production. Run baseline/candidate under the same or explicitly accounted model/tools/access/resources; retain raw outputs, meaningful negative and held-out cases, cost/time and variation, with a suitably competent independent reviewer. Inspect the actual target medium and consumer. Count covered/failed/unknown obligations; an average hides none.
+
+Synthetic fixtures remain valuable for repeatable failure, replay, leakage and loader checks. They do not replace the real tasks or prove business accuracy, provider/device readiness or owner acceptance. All new comparisons are **planned, not executed by this documentation revision**.
+
+## 11. Implementation order and exits
+
+| Stage | Work | Exit and dependency |
 | --- | --- | --- |
-| S0 — baseline and approval | Freeze this passport, current manifests/settings/identity, requirements and actual installation | Exact owner decision; no inherited approval from another passport |
-| S1 — contracts and compatibility | Shared lifecycle/schemas; App rule corrections; manifest/resource/inheritance design | Valid/invalid examples, contract review, preserved old fixtures/native state |
-| S2 — specialist sources and teams | Seven skills, four role profiles, constructor/director/orchestrator activation | Complete source catalogue and task routing/handoff examples, independent semantic review |
-| S3 — executable data/analysis/LLM route | Connector replay, datasets, NLP and workflow execution/evaluation/recovery | Actual local representative runs plus explicit unavailable provider states |
-| S4 — prediction and adaptation | Features/splits/baselines/training/inference, CPA leakage checks, tuning feasibility and bundle loading | Real bounded CPU learning case; authorized compatible tuning/serving case or visible unmet capability gate |
-| S5 — creative and product integration | Multimodal batch/review/delivery, consumed output in a real product slice | Actual available-medium production/playback/render/consumer proof; other media status separate |
-| S6 — useful workbench | Scoped adapters, dynamic views, map, cost and recovery; retain service data | API and interactive desktop/mobile checks on real source-backed cases, no placeholder success |
-| S7 — adoption and installation | Core/optional/role plans, before copies, known/unknown local edits, generated-agent inheritance | Actual apply journals, exact verification, preserved identity/settings and guarded rollback |
-| S8 — full-route independent acceptance | Use created/discovered project agent to complete original scoped product case | Acceptance suite below with independent findings resolved or precisely left open |
-| S9 — documentation and release | All affected seven guides, handbook, migration, two source bundles, Git/CI read-back | Exact commit/artifact/CI and installation/runtime/owner statuses; WORK remains deferred |
+| S0 | Exact approval; preserve baseline, requirements, settings/identity, invariant register and actual-task input bindings | Scope/authority fixed, no fabricated availability or acceptance |
+| S1 | Context reconciliation, direct/panel paths, current decisions, source pins, generated inheritance/cold receiver | Actual priority context case, no lost must/identity/authority; after S0 |
+| S2 | Actual-reference design and medium/consumer proof using existing craft owners | Actual design comparison, full reference mechanism and working behavior; after S1 |
+| S3 | Working source-backed panel and meaningful project/work/goal/agent/evidence/next-action plus bounded real task flow | Actual interactive desktop/mobile/keyboard/error/recovery journeys; after S1/S2, no dependency on unrelated LoRA |
+| S4 | Conditional shared profiles/resources/schemas/recipes and constructor activation | All seven capabilities mapped to sufficient existing owners and portable actual resources; after S3 |
+| S5 | Full data/analysis/LLM/prediction/adaptation execution, evaluation and consumer route | Actual bounded operations and domain cases; missing required proof stays open; after S4 |
+| S6 | Multimodal batches/cost/identity and integrated product delivery | Actual available-medium consumer proof across required scope; after S4, independent work can parallel S5 |
+| S7 | Whole-product integration, generated-agent original-task loop, compatible source/install/adoption plans | All applicable preservation/real-task checks and guarded rollback; after S5/S6 |
+| S8 | Independent complete requirement and nonregression acceptance | All required cases and actual-task gains proven; fail/unknown cannot close release; after S7 |
+| S9 | Exact documentation/packages/installation/discovery/release read-back and continued monitoring | Actual separate evidence for every claimed outcome; WORK deferred; after S8 |
 
-Stages are a dependency graph, not a promise to install everything before any useful verification. Begin with a representative real route before multiplying templates. Complete the remaining requested capabilities and document their individual proof state; a successful first slice does not close S8 or the whole upgrade.
+These stages retain the full outcome while delivering the priority foundation first. They do not force unrelated profiles into a narrow task.
 
-## 12. Acceptance and honest limits
+## 12. Installation, adoption and rollback
 
-The [acceptance register](ACCEPTANCE.json) specifies 24 concrete cases A01–A24, inputs, expected observations and requirements. Core cases include schema drift/replay, multilingual NLP, durable LLM effects, honest forecasting, adapter identity, rejected media variants, UI recovery, generated-agent adoption and complete product use. Checks bind exact inputs and outputs; changed bytes reopen dependent proof. Freeze raw baseline/candidate cases and the task rubric before an improvement claim; include held-out/adversarial cases and different-style references, and reduce author/order bias. App profile regression covers all eleven phases and applicable references/templates/generated cases, including concepts.
+Audit the actual installed33 core, two existing optional sources and12 role/global profiles. Preserve stable names, icons/bindings/colours, class, invocation/model settings, unknown local edits, native formats, accepted requirements/decisions and unfinished/deferred work. Keep immutable before copies and actual journals outside discovery roots. This composition needs no new optional/role inventory or broad installer permission.
 
-Structural/source checks, deterministic execution, external-provider results, device/media experience, independent review and owner acceptance remain different facts. Existing historical verification is not rebound to new code. The release must not call an unavailable model, unexecuted LoRA job, unsupported medium or untested platform production-ready. A useful instruction can still be shipped with a precise not-yet-executed status; the requested complete implementation remains open wherever its required runtime proof is missing.
+Generated agents receive a source-to-target adoption plan, applicable portable profile resources and unchanged domain/owner rules. Keep a private denominator of actually discovered owned agents: inspected/adopted/conflicted/deferred/not inspected. Use authorized explicit sources/bindings and supported history; do not claim an all-private-agent inventory or migrate unrelated products. Toolkit installation is not project adoption.
 
-## 13. Existing installations and rollback
+Existing platform subsets and owner research bans remain authoritative; general App contradiction repair covers all eleven phases/references/templates/generated cases without reversing an owner's decision. Prove a bounded original task after actual discovery. Rollback compares exact post-update bytes and protects later unknown edits and product data. Source rollback is not reversal of provider effects.
 
-Before update audit all 33 core sources, nine proposed optional targets and role/global profiles against the actual installed revision. Existing stable names, UI files, icon bindings, colours, system/project class, model settings, local edits, native checkpoints and accepted decisions are kept. Absent optional sources are installed through reviewed admission; an unknown source never acquires ownership by matching a folder name. Preserve immutable before copies and actual apply journals outside discovery roots.
+Both source bundles preserve Work/Codex handoff. Live WORK remains deferred. No installed target changes occur in this documentation task.
 
-Existing generated agents receive a source-to-target adoption plan with applicable new resources and their own unchanged domain rules. A toolkit update is not project adoption. Keep a private denominator of actually discovered owned generated agents: inspected, adopted, conflicted, deferred and not inspected. Discover only through authorized explicit sources/bindings and supported host history; do not invent a complete private-project inventory or scan unrelated folders. Existing projects retain their platform set, research permissions and owner bans; correction of general App rules cannot reverse a particular owner's decision. No bulk migration of unrelated products is implied. Check one bounded original task after discovery. Rollback restores only owned changed files after comparing the exact post-update state; later unknown edits stop automatic rollback.
+## 13. Documentation and continued operation
 
-WORK live audit/install/control remains deferred. Both source bundles include the same reusable sources and handoff instructions; neither is evidence of installation in WORK. Cursor/Claude Code bridges are documented and capability-checked if available, with no claim of current installation or host parity.
+Each logical element needs clear purpose/source/trigger/input/output/consumer/dependencies/access/cost/checks/limits/repair, plus real activation/evidence status. Current component/helper catalogues remain the implementation baseline. Update their affected fields only when implementation changes. Label internal profiles by their actual parent source; never display seven fictitious installed skills or actors.
 
-## 14. Documentation and continuing operation
+English is the default and the full handbook is EN/UK. Every changed operating-guide passage is translated equivalently into all seven advertised guide languages. Code/IDs remain stable, and actual project language follows every handoff. Hash freshness is not linguistic/artistic certification.
 
-For every logical element provide its plain-language purpose, source, trigger, inputs, actions, output, consumer, dependencies, cost/access, tests, limits and repair/rollback route. The current [component catalogue](CURRENT-SYSTEM.en.md) and [helper catalogue](HELPERS.en.md) establish the baseline. New implementation updates those records and adds runnable examples and per-capability evidence. The complete machine index retains all helper paths, including exact duplicate groups; it does not pretend thousands of repeated resources are independent capabilities.
+Keep original request, revisions, accepted sources, exact dependencies, proof states and next action through direct/delegated/resumed work. Observe only authorized product quality/value/cost/drift signals. Self-maintenance follows the same rejection, authority, scope and evidence rules.
 
-English remains the repository default. Ukrainian explanations are complete; all changed installation/operating guide passages are translated equivalently into every advertised guide language. Code/IDs stay stable, and the user's project language takes precedence during work. Source hashes are not linguistic or artistic certification.
+## 14. Unknowns with exact due gates
 
-After delivery monitor the product-specific failure, quality, drift, cost and user-value signals that were actually authorized. Repair compares baseline/candidate, diagnoses cause, invalidates affected proof and supports rollback. Self-maintenance follows the same authority and review rules; the orchestrator cannot authorize itself or erase an unresolved requirement.
+Implementation approval is pending. Real-task data/credentials/runtime/medium/independent reviewer/cost caps are bound before their concrete operations; unavailable required proof remains open. Svitlobot inputs are not invented. Conditional tools and future extraction decisions do not remove capability requirements or permit background work.
 
-## 15. What approval means
+The documentation revision can pass its own source/consistency/package checks while all future real-task results remain unexecuted. The final implemented release cannot claim completion where a required adoption/consumer/device/provider/owner gate is missing.
 
-The exact subject is **passport `ai-data-production-evolution/0.1`**, its seven specialist selectors, four optional role profiles, compatible core/Orchestrator/service extension, full R01–R23 scope, acceptance cases and preservation boundaries. `STATUS.json` binds the final document and register hashes after review. Approval authorizes implementing, verifying, installing the reviewed Codex update and publishing it in the existing repository, within the stated limits. New paid operations and production actions still need their own concrete decisions. Implementation must not be declared complete by publishing this proposal.
+## 15. Exact decision subject
 
-Recommended reply: **“Approve AI/data/production passport 0.1 with its composition and boundaries.”** A substantive change to this passport requires a new exact revision and decision.
+The subject for a later implementation decision is **`ai-data-production-evolution/0.2`**, same35 reusable sources and12 current roles, seven internal conditional profiles, all R01–R27, all A01–A29 and the real-task/nonregression protocol. `STATUS.json` binds the final human/native records and hashes. Native blueprint revision index2 corresponds to this human passport0.2 and retains `approval: null` until an actual exact owner decision.
+
+This turn corrects and publishes the passport as requested. It does not record implementation approval. Any material later composition change needs its own revised exact decision; no regression exception follows from agreeing to implement.

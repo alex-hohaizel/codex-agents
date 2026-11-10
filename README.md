@@ -8,7 +8,7 @@ A reusable system of **33 specialized skills** for research, requirements, desig
 
 **[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Existing-project adoption](releases/migrations/6.0.0.md)
 
-**[AI/data/ML system audit and proposed evolution](docs/evolution/2026-11-10/README.md)** · [Український довідник і паспорт](docs/evolution/2026-11-10/README.uk.md). Repository1.3.1 is a documentation release; the proposed core6.1.0 / Orchestrator1.2.0 / service0.3.0 is pending approval and is not installed.
+**[AI/data/ML system audit and proposed evolution](docs/evolution/2026-11-10/README.md)** · [Український довідник і паспорт](docs/evolution/2026-11-10/README.uk.md). Repository1.3.2 publishes revised passport0.2: retain all capabilities, use existing35sources/12roles with conditional profiles, prioritize context/design/working panel, and require real-task gains without accepted regressions. Target implementation remains pending approval.
 
 ![Agent System: English campaign cover](assets/marketing/campaign/en/01-original.png)
 

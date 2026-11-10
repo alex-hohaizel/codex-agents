@@ -44,6 +44,6 @@ Persist the setting in [project context](templates/project-context.json) and car
 
 [What the system does](README.md) · [English campaign](marketing/campaign/README.md) · [Українська реклама](marketing/campaign/README.uk.md) · [Current release](releases/current.json)
 
-## AI/data/ML audit and next system proposal
+## AI/data/ML audit and revised system proposal
 
-Repository1.3.1 publishes the [complete current-system audit and proposed passport0.1](docs/evolution/2026-11-10/README.md), also [in Ukrainian](docs/evolution/2026-11-10/README.uk.md). It changes documentation only. Current core6.0.0, Orchestrator1.1.0 and service0.2.0 need no reinstall for this edition. The proposed new capability release is not implemented or installed; read the exact passport before approving it. WORK live work remains deferred.
+Repository1.3.2 publishes the [revised complete passport0.2](docs/evolution/2026-11-10/README.md), also [in Ukrainian](docs/evolution/2026-11-10/README.uk.md). Preserve all17 capabilities using the existing35 sources/12roles and conditional profiles. Context, professional design and a working panel come first. Confirmed protected regressions reject adoption; actual-task comparisons are required and currently planned. This edition changes documentation only. Current core6.0.0, Orchestrator1.1.0 and service0.2.0 need no reinstall. Target implementation requires the exact later decision. WORK live work remains deferred.

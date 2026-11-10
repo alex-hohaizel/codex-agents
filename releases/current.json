@@ -1,6 +1,6 @@
 {
   "schema_version": "codex-agents.release/1",
-  "repository_version": "1.3.1",
+  "repository_version": "1.3.2",
   "suite_version": "6.0.0",
   "release_date": "2026-11-10",
   "release_notes": "releases/6.0.0.md",
@@ -58,10 +58,10 @@
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
     }
   ],
-  "repository_release_notes": "releases/repository-1.3.1.md",
+  "repository_release_notes": "releases/repository-1.3.2.md",
   "marketing_showcase": "marketing/campaign/README.md",
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
-  "repository_migration": "releases/migrations/repository-1.3.1.md",
+  "repository_migration": "releases/migrations/repository-1.3.2.md",
   "marketing_artwork_languages": [
     "en",
     "uk"
@@ -73,7 +73,7 @@
     "scope": "Personal Mac; universal entry and supported source-backed Codex portfolio; WORK live audit/control deferred until access recovers"
   },
   "evolution_proposal": {
-    "passport": "ai-data-production-evolution/0.1",
+    "passport": "ai-data-production-evolution/0.2",
     "documentation": "docs/evolution/2026-11-10/README.md",
     "status": "awaiting-owner-selection",
     "implementation_performed": false

@@ -1,14 +1,20 @@
 {
   "schema": "ai-data-production.proposal-status/1",
-  "passport": "ai-data-production-evolution/0.1",
+  "passport": "ai-data-production-evolution/0.2",
   "date": "2026-11-10",
   "status": "awaiting-owner-selection",
+  "revision_preparation": {
+    "authorized": true,
+    "scope": "Owner requested passport simplification, full capability preservation, context/design/working-panel priority, no accepted regressions, actual-task proof and GitHub publication. This is documentation-only authority."
+  },
   "owner_approval": {
     "received": false,
-    "source": null
+    "source": null,
+    "scope": "No implementation approval recorded for this exact0.2."
   },
   "current_implementation": {
-    "baseline_commit": "8951398b38a9610854823302ea612cb3844d52e6",
+    "source_baseline_commit": "8951398b38a9610854823302ea612cb3844d52e6",
+    "documentation_baseline_commit": "27c074a93120631f82f373a6b6050eb25f7e4d24",
     "core": "6.0.0",
     "orchestrator": "1.1.0",
     "maintenance": "1.0.0",
@@ -17,73 +23,153 @@
     "optional_sources": 2,
     "role_profiles": 12
   },
-  "documentation_release": "1.3.1",
+  "documentation_release": "1.3.2",
   "proposed_target": {
     "repository": "1.4.0",
     "core": "6.1.0",
     "orchestrator": "1.2.0",
     "maintenance": "1.1.0",
-    "ai_pack": "1.0.0",
     "service": "0.3.0",
     "core_sources": 33,
-    "optional_sources": 9,
-    "role_profiles": 16
+    "optional_sources": 2,
+    "reusable_sources_total": 35,
+    "role_profiles": 12,
+    "conditional_internal_profiles": [
+      "DATA",
+      "ANALYSIS",
+      "LLM",
+      "PREDICTION",
+      "ADAPTATION",
+      "MEDIA",
+      "EVALUATION"
+    ],
+    "mandatory_additional_skills": 0,
+    "mandatory_additional_roles": 0,
+    "mandatory_frameworks": [],
+    "separate_ai_pack": false,
+    "later_extraction": "Requires distinct reusable output and actual-task benefit over current reuse, every working capability preserved, justified maintenance/access boundary and exact revised composition approval before new installable target creation/install."
+  },
+  "priorities": [
+    "context continuity",
+    "accepted professional design and identity",
+    "working source-backed panel",
+    "complete remaining requested AI/data/ML/media/product capabilities when applicable; no scope reduction"
+  ],
+  "adoption_rule": {
+    "preserved_set": "Every applicable existing working capability, including noncritical and previously undocumented behavior; newly discovered working functions join invariants and reopen affected acceptance. Known baseline defects are not new acceptable requirements.",
+    "confirmed_degradation": "reject affected candidate; keep verified baseline active; repair or discard",
+    "unknown_affected_invariant": "blocks adoption",
+    "aggregate_compensation_allowed": false,
+    "rubric_or_envelope_retcon_allowed": false,
+    "isolated_candidate_trial": "Only after exact implementation approval within approved existing-owner scope; proof gates production/operational admission/merge/release/install/activation, not writing the bounded trial.",
+    "absolute_future_zero_bug_guarantee": false
   },
   "target_sources_changed": false,
   "target_installation_performed": false,
   "new_model_training_or_provider_runs_performed": false,
+  "actual_task_comparisons": {
+    "status": "planned-not-executed",
+    "cases": 29,
+    "executed": 0,
+    "protocol": "REAL-TASKS.en.md",
+    "priority_tasks": [
+      "RT01 actual current-project cold resume",
+      "RT02 actual owner reference/rejected layout comparison",
+      "RT03 ten actual panel journeys"
+    ],
+    "additional_cases": [
+      "RT04 original Svitlobot failure blocked/unbound until original inputs",
+      "RT05 actual full-scope AI/data/ML/media product task selection unselected/unbound"
+    ],
+    "fixtures_replace_actual_task_proof": false
+  },
   "WORK": "deferred",
   "review": {
     "status": "reviewed-for-owner-decision",
-    "method": "Three subject-specific source audits; independent core, AI/data and product/craft reading of root proposal; findings addressed with exact private review records. New catalogues received source/index/parity checks. This is document/source review, not model execution, target runtime certification or owner acceptance.",
+    "method": "Independent AI/data and product/craft semantic review of root proposal and linked records, with exact private scoped hashes. Authors self-checked own recipes/acceptance/native plan; root integrated source/hash/mapping checks. No model, actual-task, target-runtime or owner-acceptance certification.",
     "closed_findings": [
-      "actual client/src path",
-      "preserve2existing optional+7new",
-      "private generated-agent adoption denominator",
-      "model loader/remote-code trust",
-      "zero-conversion CPA",
-      "separate adapter/export/serving proof",
-      "all11App phases including concepts",
-      "reference mechanism negative and derivative identity",
-      "raw baseline/candidate rubric/heldout/bias policy",
-      "actual four selected skill snapshots per prepared task",
-      "Ukrainian prose clarity"
+      "removed unproven mandatory7skills/4roles and fixed non-existent requirement owners",
+      "preserved all original17 capabilities and23source/intent records",
+      "retained24old case IDs/titles/reqrefs; added5plannedcases",
+      "priority context/design/panel not blocked on unrelated training",
+      "self-contained profile resources and current35/12 guards",
+      "actual references and rejected layout vs accepted target distinguished",
+      "strict ANY working function inclnoncritical/undocumented with discovery reopening",
+      "isolated trial versus production-admission/extraction approval clarified",
+      "obsolete helper-catalog packaging advice aligned"
     ],
-    "final_editorial_deltas": "Two launcher URLs percent-encoded with document hashes refreshed; the four-skill-snapshot terminology and zero-conversion Ukrainian phrase clarified. These do not change the reviewed architecture.",
     "independent_native_blueprint_quality_certification": false
+  },
+  "native_blueprint": {
+    "path": "BLUEPRINT.json",
+    "schema": "skill.blueprint/2",
+    "version_index": 2,
+    "proposal_hash": "b913c9ebc1fb2f1bfb0182c1078f24ec96c0f6973b09691dc22e050b1af0e6df",
+    "unapproved_structural_check": "passed",
+    "approved_check": "rejected as expected: exact implementation approval/provenance absent",
+    "quality_certified": false,
+    "target_sources_materialized": false
+  },
+  "observed_documentation_checks": {
+    "requirements": 27,
+    "planned_acceptance_cases": 29,
+    "original17capabilities_preserved": true,
+    "original24case_ids_titles_and_requirement_references_retained": true,
+    "all13typed_contracts_and_operations_retained": true,
+    "native_source_pins": 18,
+    "repository_tests": {
+      "count": 47,
+      "result": "passed with temporary loopback fixtures outside sandbox; current implementation unchanged",
+      "actual_new_capability_proof": false
+    },
+    "seven_guide_notices": "Equivalent scope self-review; exact other-body reversal and unchanged bash blocks verified",
+    "detailed_handbook_languages": [
+      "en",
+      "uk"
+    ],
+    "native_human_translation_review": "not_performed",
+    "private_path_scan": "passed",
+    "runtime_source_diff": "none"
+  },
+  "previous_revision": {
+    "passport": "ai-data-production-evolution/0.1",
+    "immutable_commit": "27c074a93120631f82f373a6b6050eb25f7e4d24",
+    "native_proposal_hash": "dad0a85f2338ffb7641fa71d150bb0811b6471f6c89afe15d93a4cf36ee408b8",
+    "history": "REVISIONS.en.md",
+    "old_approval_or_proof_rebound": false
   },
   "document_bindings": {
     "ACCEPTANCE.en.md": {
-      "sha256": "8a909ce45f702c2b651f15e146bf64ef159513cae76c00a84334bf871134350c",
-      "bytes": 13194
+      "sha256": "1b189dd8499f7e96f0fde460112a4469cce1a3f6b52c308ace4c2e2d5fbf814d",
+      "bytes": 32632
     },
     "ACCEPTANCE.json": {
-      "sha256": "77a53f66632c7e311c64c3bb3e42ecfdb2ff0c67e3722343ff2dd9ec50b3d976",
-      "bytes": 33229
+      "sha256": "3fe494687cf9b4234cca3d03a60694dc60ba2859cafe20322cbb46376fa2ff7f",
+      "bytes": 87747
     },
     "ACCEPTANCE.uk.md": {
-      "sha256": "8723c557b4799bb0abf0b2117c96aa6e33717412b3c46a98f0340a40f3443a65",
-      "bytes": 21222
+      "sha256": "a541050026a9ddda0edd0385b369ff5fc651b270f7ca040edb08aabcdbd8affb",
+      "bytes": 58149
     },
     "AUDIT.en.md": {
-      "sha256": "452d74a8d81609970cebd3f06341ce1149cc07bd351913f2795fcf3ea1b6e392",
-      "bytes": 9444
+      "sha256": "8e96aff459a765951944d7171b79129e0f01506a97a77eea16a4ec4624bae0a0",
+      "bytes": 9805
     },
     "AUDIT.uk.md": {
-      "sha256": "58ece664e0b49804f6027072e613d38415d79abaa50c606be9843b30987379c6",
-      "bytes": 15055
+      "sha256": "916d91919fd7cb1528b29da84fed7e7d4f7e7ad7f2cacce804509234fde6f003",
+      "bytes": 15611
     },
     "BLUEPRINT.json": {
-      "sha256": "41d7fe9cf5617a4e94b2afff930c67fa504bba12639788b59fab89ede3953547",
-      "bytes": 408387
+      "sha256": "d6d88742bbb1fba12a63cacc6e0e4d23fdd28e25b3775b3be04b8e79e0798d64",
+      "bytes": 921282
     },
     "CAPABILITIES.en.md": {
-      "sha256": "ba97584813835db959558111586767992083a4ddcc17c71379a2908b7e73d655",
-      "bytes": 35101
+      "sha256": "e186854693edd8502efce3fcbd052383274071d54380af4d4276ba18ed546f9e",
+      "bytes": 39531
     },
     "CAPABILITIES.uk.md": {
-      "sha256": "9d736265eb04eacebfc9ee924ecd105c851fc5d2ebd8fd8504ca0cd46efcb306",
-      "bytes": 61097
+      "sha256": "91eb0b0d941c05f32b61c774010ab8d152232e24df5d81a9c6257202c03ffbe6",
+      "bytes": 69003
     },
     "CURRENT-SYSTEM.en.md": {
       "sha256": "f798951917626bf2d410880d625eb82c526441648e1640c08b01a2acee1af689",
@@ -94,84 +180,69 @@
       "bytes": 108442
     },
     "HELPERS.en.md": {
-      "sha256": "136a4893dfc3e750a62046198cc86f43e64b6906e557a3d724f201c338f2505e",
-      "bytes": 38496
+      "sha256": "131d1f1f99a53b58c7f6e8ec002217b4b159ea2fb105bae5009579976a62b316",
+      "bytes": 37983
     },
     "HELPERS.uk.md": {
-      "sha256": "ca6f1e2acb8e81381e3ad350d37868036614796a497a3b028feecde8e0d66fff",
-      "bytes": 64011
+      "sha256": "449e4eaec56ec7e2da7d6f6e1454aa77c1c9d69c5053ef180d9081783a1ee19b",
+      "bytes": 62739
     },
     "MATRIX.en.md": {
-      "sha256": "8c1b2a96d5ec274966f9115813091b5fc499e7ab99c17de33d7eeb0a3005c07d",
-      "bytes": 3676
+      "sha256": "bae685ae4143cf30a5e1fc940e20508ad151c7609e1ab94b8e49ea90d49aef30",
+      "bytes": 5720
     },
     "MATRIX.uk.md": {
-      "sha256": "33c4cc31825e99ed4c2c066a6731d4ccf99ef3b46db8c05c2dafd0d1f8b80668",
-      "bytes": 7842
+      "sha256": "d427d9fe9d55850e4680771e02d5e37c5697d265c3dd68b73f23b8e8e4db7ff0",
+      "bytes": 9740
     },
     "PASSPORT.en.md": {
-      "sha256": "edeebab8d6e57072329ede7a08e4e2dbd250eb74ac06c9c7421297540604b43e",
-      "bytes": 26724
+      "sha256": "cbf0af4c81a999a766d304021872ea30cbcbc0fd297462061899805c78406b16",
+      "bytes": 25842
     },
     "PASSPORT.uk.md": {
-      "sha256": "46b62fa7b581aa099053e152cbc9111f6c945d2b4597bb900f95d2b24950e04c",
-      "bytes": 44157
+      "sha256": "efd31ffa746d45d93f167cbb89386b303b216639e2fbb731af0e85db9e598c52",
+      "bytes": 42907
     },
     "README.md": {
-      "sha256": "cf5329669ae4f0ae8d133d761bf1f4010dc9599c02c8ebce6c906ff2d3fa382c",
-      "bytes": 6596
+      "sha256": "1f71f4d5e0d479af64232e6692097c078bc0de80210897e37988a200b3414b55",
+      "bytes": 6951
     },
     "README.uk.md": {
-      "sha256": "72ba14587cdcbf0b471d05a81a5ea9fc362708352949635c6555d8dda34aa484",
-      "bytes": 10826
+      "sha256": "970b1a05fc6d767e06ae8a8dff2b6c71f227f78014f15cd0f9f8fa34162300eb",
+      "bytes": 11356
+    },
+    "REAL-TASKS.en.md": {
+      "sha256": "132aef6d5940ecd8b3426e156e6334a5b3ce12d28a2c2b08fac563b35806b107",
+      "bytes": 23026
+    },
+    "REAL-TASKS.uk.md": {
+      "sha256": "e59e54e0b589edee7b85be9bf649dcb37b53f3ba41aa043015c89cc7c92ef5f0",
+      "bytes": 41681
     },
     "REQUESTS.json": {
-      "sha256": "0e4a5bf14b9eff49362ecba6c5a996c55db5aae80a26a3e75a6479c679a4ef33",
-      "bytes": 20125
+      "sha256": "a1e2aedaa5e338b16bae732b59bfa400cca7bb88791594c42270216fddc3c524",
+      "bytes": 27257
+    },
+    "REVISIONS.en.md": {
+      "sha256": "93580112881bbbb204df3c78b411a275e550dae47bb6e3a3e43f6411e5d326f7",
+      "bytes": 3531
+    },
+    "REVISIONS.uk.md": {
+      "sha256": "fb253dba8d41a290ee91399f181b7b466658652169dc5c52afe209dd13b52842",
+      "bytes": 5226
     },
     "SOURCES.json": {
-      "sha256": "aecec87c5ec3f3e43889c3c7eb03351c6e491258e16909488cfb8561e42010e1",
-      "bytes": 31611
+      "sha256": "28a8a72fde929a37f427ebd90deca39e18c569a18a43c620407f3584c1293fff",
+      "bytes": 32993
     },
     "current-components.json": {
       "sha256": "bf212491bebf7a78f10642b22fa0889ae236bd8f4ad9b6461290a9ab8fc30f7c",
       "bytes": 149773
     },
     "helper-catalog.json": {
-      "sha256": "15765c4a74d6d471d05cdaf2e78568bc4e811422cfa96280f8d80b672ae5f323",
-      "bytes": 655827
+      "sha256": "593dc3c8de6d9e8b8414217f50e9f8019016e151bfbcb8242cde56b2310791ff",
+      "bytes": 655956
     }
   },
-  "evidence_boundary": "This release documents a source audit and proposed complete update. It does not implement or install the new capability layer, prove real predictive accuracy, paid-provider/device availability or product acceptance.",
-  "native_blueprint": {
-    "path": "BLUEPRINT.json",
-    "schema": "skill.blueprint/2",
-    "version_index": 1,
-    "proposal_hash": "dad0a85f2338ffb7641fa71d150bb0811b6471f6c89afe15d93a4cf36ee408b8",
-    "unapproved_structural_check": "passed",
-    "approved_check": "rejected as expected: exact owner decision and provenance absent",
-    "quality_certified": false,
-    "target_sources_materialized": false
-  },
-  "observed_documentation_checks": {
-    "current_source_inventory": "35owned reusable sources,12role profiles,75logical component cards",
-    "helper_inventory": "429tracked non-test paths,70exact-content groups",
-    "source_pins": "122current-component anchors and14native blueprint inputs checked; full helper paths/hashes indexed",
-    "requirements_acceptance": "23requirements mutually mapped to24planned-not-executed cases",
-    "primary_sources": 33,
-    "repository_tests": {
-      "count": 47,
-      "result": "passed; temporary local HTTP fixtures required execution outside sandbox",
-      "new_target_runtime_proof": false
-    },
-    "shared_resource_check": "passed for current four resources in all33core bundles",
-    "seven_guide_notices": "equivalent source/target scope self-review; exact other-body preservation and unchanged bash blocks checked",
-    "detailed_handbook_languages": [
-      "en",
-      "uk"
-    ],
-    "native_human_translation_review": "not_performed",
-    "private_path_scan": "passed on new public docs",
-    "runtime_source_diff": "none"
-  }
+  "evidence_boundary": "This release revises/publishes a complete plan. Future improvements, all real-task comparisons, target implementation/installation and owner acceptance remain unperformed."
 }

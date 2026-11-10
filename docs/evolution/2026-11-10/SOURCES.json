@@ -1,7 +1,7 @@
 {
   "schema": "agent-system.evolution-capability-sources/1",
   "observed_date": "2026-11-10",
-  "purpose": "Dated primary-source evidence for proposed AI/data/ML and creative recipes. Proposal pending approval; no target skills, installed updates, training or deployment are certified.",
+  "purpose": "Dated primary-source evidence for proposed AI/data/ML and creative recipes in passport 0.2. Documentation revision only; no source, installed skill, role, training or deployment is certified.",
   "canonical_baseline": {
     "repository": "https://github.com/alex-hohaizel/codex-agents",
     "commit": "8951398b38a9610854823302ea612cb3844d52e6",
@@ -12,7 +12,7 @@
   },
   "interpretation": {
     "vendor_docs": "Verify the actual operation, model, API/schema, supported platform, rights, cost and version again when binding a project recipe. A current web page is not proof that a package, account or model is available locally.",
-    "proposal_status": "The seven ai-atelier selectors, shared record formats and recipes in CAPABILITIES.en.md and CAPABILITIES.uk.md are proposed. No specialist skill, pipeline, trained model, external service, paid resource or product deployment is established by these documents.",
+    "proposal_status": "Seven conditional competence profiles/recipes operate within the existing 35 reusable sources and 12 host roles. No new mandatory skill, role, framework or installed selector is proposed. Any later separately packaged skill/module/role requires demonstrated reusable distinct output, benefit on a real task, full baseline preservation and revised exact-composition approval. Source/runtime implementation is not authorized by this documentation revision.",
     "claim_levels": [
       "instructions",
       "structural_helper",
@@ -662,5 +662,29 @@
     "BatchPlan",
     "ItemManifest",
     "GenerationBatch"
-  ]
+  ],
+  "passport": "ai-data-production-evolution/0.2",
+  "composition": {
+    "existing_reusable_sources": 35,
+    "existing_host_roles": 12,
+    "conditional_profiles": [
+      "DATA",
+      "ANALYSIS",
+      "LLM",
+      "PREDICTION",
+      "ADAPTATION",
+      "MEDIA",
+      "EVALUATION"
+    ],
+    "mandatory_new_skills": 0,
+    "mandatory_new_roles": 0,
+    "mandatory_frameworks": [],
+    "all_17_capabilities_retained": true,
+    "priority": "Context continuity, professional design and a genuinely working source-backed panel; lower priority does not remove or defer the full data/ML/LoRA/creative scope."
+  },
+  "adoption_gate": "Compare current and candidate routes on an authorized real task under the same accepted scope, inputs, references, rights, environment and resource envelope. Reject every demonstrated regression in a preserved property or agreed limit; no averaging or compensating tradeoff. Missing evidence keeps the affected gate open.",
+  "document_hashes": {
+    "CAPABILITIES.en.md": "e186854693edd8502efce3fcbd052383274071d54380af4d4276ba18ed546f9e",
+    "CAPABILITIES.uk.md": "91eb0b0d941c05f32b61c774010ab8d152232e24df5d81a9c6257202c03ffbe6"
+  }
 }

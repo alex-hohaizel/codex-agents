@@ -2,22 +2,23 @@
 
 [Українська версія](README.uk.md)
 
-**Audit and proposal, 10 November 2026.** The active implementation remains core 6.0.0 / Orchestrator 1.1.0 / Agent Atelier 0.2.0. Repository edition 1.3.1 adds this documentation, not the proposed capabilities. [STATUS.json](STATUS.json) records the reviewed passport hashes and its pending approval state.
+**Revised passport0.2, 10 November 2026.** Active implementation remains core6.0.0 / Orchestrator1.1.0 / Agent Atelier0.2.0. Repository1.3.2 revises documentation only. [STATUS.json](STATUS.json) binds the current proposal and pending implementation approval; [revision history](REVISIONS.en.md) preserves0.1.
 
-The recommendation is a compatible extension: keep the existing constructors and product families; add seven reusable AI/data specialists, four optional host-role profiles, shared lifecycle/evaluation contracts and scoped panel execution. The proposed target is core 6.1.0 / Orchestrator 1.2.0 / service 0.3.0 / repository 1.4.0. These target sources have not been created or installed.
+The recommendation is a compatible extension of the same35 owned sources and12 role profiles. Seven AI/data competence areas are conditional internal profiles with existing owners; no mandatory additional skill, role, pack or framework. Priority is context continuity, accepted professional design and a working source-backed panel. All17 original capabilities remain. Every claimed improvement needs actual-task evidence; any confirmed degradation of any existing working behavior rejects the candidate without compensation. Target core6.1.0 / Orchestrator1.2.0 / service0.3.0 / repository1.4.0 remains unimplemented.
 
 ## Read in this order
 
 | Your question | Read |
 | --- | --- |
 | What did the audit actually find? | [Findings and limits](AUDIT.en.md) |
-| What will change, why, where and with whose authority? | [Complete passport 0.1](PASSPORT.en.md) |
+| What will change, why, where and with whose authority? | [Complete passport 0.2](PASSPORT.en.md) |
 | Is every item of the request covered? | [Request matrix](MATRIX.en.md) and [machine register](REQUESTS.json) |
 | How will each capability work? | [Seven operational recipes and cross-cutting rules](CAPABILITIES.en.md) |
 | What exists today in each skill, role and service component? | [Current component handbook](CURRENT-SYSTEM.en.md) and [source cards](current-components.json) |
 | What do all the helper scripts actually do? | [Helper reference](HELPERS.en.md) and [complete index](helper-catalog.json) |
-| How can we tell it works? | [24 acceptance cases](ACCEPTANCE.en.md) and [machine register](ACCEPTANCE.json) |
-| What is the machine-checkable construction plan? | [Native skill.blueprint/2 proposal](BLUEPRINT.json), revision index1 corresponding to passport0.1; approval is empty |
+| How can we tell it works? | [29 acceptance cases](ACCEPTANCE.en.md) and [machine register](ACCEPTANCE.json) |
+| What proves practical improvement without loss? | [Actual-task protocol and strict adoption](REAL-TASKS.en.md) |
+| What is the machine-checkable construction plan? | [Native skill.blueprint/2 proposal](BLUEPRINT.json), revision index2 corresponding to passport0.2; approval is empty |
 | What informed technology choices? | [Dated primary sources](SOURCES.json) |
 | How do I use the current system? | [Current full guide](../../en/GUIDE.md), [installation entry](../../../START_HERE.md) |
 
@@ -33,7 +34,7 @@ flowchart TD
   O --> F[Agent or skill constructor when reuse is insufficient]
   F --> P
   P --> T[Task-specific team and owned artifacts]
-  T --> A[Proposed AI specialists: data, analysis, LLM, prediction, adaptation, media, evaluation]
+  T --> A[Conditional internal profiles: data, analysis, LLM, prediction, adaptation, media, evaluation]
   A --> T
   T --> Q[Independent applicable verification]
   Q --> R[Integrated product, allowed release and operation]

@@ -14705,27 +14705,28 @@
     {
       "source": "apps/agent-atelier/server/optional_updates.mjs:24-27",
       "current": "Two source allowlist entries.",
-      "proposed": "Manifest-controlled optional competence pack needs reviewed source/skill identities, hashes, compatibility, bounded paths, preservation, exact plan/apply/verify/recovery and unknown-edit handling. Existing core33 remains separate."
+      "proposed": "Retain the two-source optional allowlist. Seven conditional internal profiles use current owners; no new optional pack in0.2. Later extraction needs evidence and exact revised composition before admission."
     },
     {
       "source": "scripts/install_host_profile.py:100-109",
       "current": "Exactly twelve role profiles, pinned source hashes and prior-known customization guard.",
-      "proposed": "A sixteen-role proposal needs a validated bounded manifest with unique safe filenames/exact hashes/preservation and tests, replacing the fixed cardinality deliberately rather than removing admission checks."
+      "proposed": "Retain exactly12 current roles, identities/model settings and admission guards. No four additional profiles in0.2; conditional expertise is assigned to current bounded actors."
     },
     {
       "source": "kit/portable/update_skill_suite.py:360,628",
       "current": "Exact core33 admission and rollback journal inventory.",
-      "proposed": "Keep unchanged core roster separate from optional pack; adding optional skills is not a reason to bypass the exact-core guard."
+      "proposed": "Retain exact33core admission and rollback journals; the two existing optional sources remain separate."
     },
     {
       "source": "scripts/materialize_standards.py:8-13",
       "current": "Four source resources copied into stable core bundles.",
-      "proposed": "Explicitly add conditional/new shared resources and inheritance pins where claimed; a standards file alone is not distribution."
+      "proposed": "Explicitly materialize only applicable self-contained profile resources, dependencies and inheritance pins; keep existing required resources. A standards file alone is not distribution."
     },
     {
       "source": "kit/prepare_existing_project_update.py:107-113",
       "current": "Specific historical WORK5.0.0 maintenance-authority provenance.",
-      "proposed": "Preserve historical provenance; use a separate exact-current source of authority for new adoption, never reinterpret this quote as a new grant."
+      "proposed": "Preserve historical provenance; use actual current authority for a new adoption, never reinterpret the old WORK5.0.0 quote as a new grant."
     }
-  ]
+  ],
+  "proposal_interpretation": "Passport0.2 supersedes0.1 packaging advice; all current source/hash/AST/group/card data remain the implementation baseline."
 }
