@@ -7,6 +7,9 @@ The launcher verifies a listener HMAC proof and opens a 60-second one-use token 
 - `GET /health`: liveness/instance ID; optional bounded `owner_probe` nonce returns `owner_proof`, never a session/key.
 - `GET /api/v1/bootstrap`: `{api_version,version,instance_id,csrf_token,locale,projects,jobs,tasks,skills:{entries,summary},capabilities:{codex,work},activity,metrics}`.
 - `GET /api/v1/projects/:id/workspace`: `{project,sources,requirements,decisions,artifacts,identity,readiness,jobs,tasks,context,warnings,service_decisions,service_evidence}`. Native records stay authoritative/read-only.
+
+The workspace also exposes `current_checkpoint:{phase,completed,in_progress,next,source_ref,source_sha256,status:'declared'}` only from one explicitly bound, required `role:'checkpoint'` JSON source whose loaded bytes match its current pin. It preserves bounded source text and text arrays under the existing privacy redaction policy; it does not change native `project.phase`, task status, authority or acceptance. Missing, ambiguous, stale or unsupported checkpoint data yields `current_checkpoint:null` and a nonblocking `current_checkpoint_gap`; existing context-binding gates remain separate. No checkpoint is guessed for legacy projects. Phase is bounded to 2,000 characters, each of the two arrays to 100 text entries of 4,000 characters, and `next` to 4,000 characters.
+
 - `GET /api/v1/projects/:id/source?path=...`: bounded `{path,sha256,bytes,content}`; no traversal, linked escape, credentials or private service-root overlap.
 - `GET /api/v1/projects/:id/artifact?path=...`: image/audio/video/PDF bytes; active HTML/SVG never runs.
 - `GET /api/v1/projects/:id/diff?path=optionalRelativeFile`: real bounded Git working-tree `{diff,truncated,source,path}`; external diff/textconv disabled. Missing Git is typed unavailable.

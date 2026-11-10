@@ -2,7 +2,7 @@
 
 [Українська](IMPLEMENTED-COMPONENTS.uk.md) · [Implementation status](IMPLEMENTATION.en.md) · [Source cards](implementation-components.json)
 
-This is the implementation overlay for source candidate **1.4.0-rc.1 / core 6.1.0**. The earlier [component catalogue](CURRENT-SYSTEM.en.md) and [helper catalogue](HELPERS.en.md) describe their recorded audit baseline. They remain useful history; this overlay records the additions rather than silently rebinding their old proofs. None of the following files establishes host installation, model accuracy, deployment or owner acceptance.
+This is the implementation overlay for source candidate **1.4.0-rc.2 / core 6.1.0**. The earlier [component catalogue](CURRENT-SYSTEM.en.md) and [helper catalogue](HELPERS.en.md) describe their recorded audit baseline. They remain useful history; this overlay records the additions rather than silently rebinding their old proofs. None of the following files establishes host installation, model accuracy, deployment or owner acceptance.
 
 ## 1. Original sources and task continuity
 
@@ -25,6 +25,11 @@ This activates when the user opens a bound project; it grants no new rights. The
 Until the matching project workspace is loaded, the UI shows loading or unavailable state with recovery. It does not present an absent object as verified zero sources/requirements. A successful retry clears only its own read error; a newer unrelated task/controller error remains visible. Full mobile navigation includes the existing views, keyboard focus containment, Enter activation and Escape return. Seven locales retain their existing values and receive the new labels.
 
 The source is React/TypeScript/CSS on the existing lockfile, with no new UI framework, font service or paid design dependency. Actual desktop/mobile renders and bounded interactions were inspected against the accepted rich direction. Those observations support the named candidate builds, not every future page, device or task. A mismatch is repaired in the actual view, then the affected source/build/interaction proof is renewed.
+
+
+The design revision makes the operator work map the normal project's first view. Select a real work/result to inspect evidence and choose a next action; its inspector starts closed. Source documents / Compare changes explicitly opens the complete technical workspace. Native history is loaded on demand, with partial coverage visible. Only a corresponding active runtime job can establish running work; a historical dispatched task cannot. Human profile labels and seven locales remain, with initial Ukrainian UI and saved preferences respected. A source grouping or file count cannot become a delivered-result claim.
+
+The owner rejected8c3a557, then accepted the shown revision6 visual foundation: “Так, цю основу приймаю”. Earlier CI/craft proof remains bound to its old bytes. Actual revision6 service checks passed179/179, with49 client checks, real report/source links, all29 requirements, mobile navigation, seven locale selection and corrected cold/reflow routes observed in their bounded scope. Later helper changes need their own exact checks; visual acceptance does not close the full A26 case or any complete case/adoption gate.
 
 ## 3. Large native work histories
 
@@ -91,3 +96,36 @@ The reproduced P1 was repaired and retested on the actual macOS/Codex0.166 route
 Inventory is limited to200000 entries and128 levels. Ambiguity, protected symlinks, unreadable traversal and unsupported relative literal glob characters block dispatch. Choose a supported narrower artifact directory or reconcile the actual source, then reprepare; do not bypass the check. The pre-turn comparison is not an atomic fence against an external concurrent writer. The synthetic OS probe used local canaries without network, provider/model calls or real native-state mutation. Another OS, CLI parser or native schema needs its corresponding evidence.
 
 The current state is a prepared source candidate with bounded actual context/panel observations, independent source/craft review and the [real feedback analysis](REVIEW-STUDY.en.md). Full R01–R27/A01–A29 acceptance, relevant remaining model/media/provider/device cases, installation, final release and owner acceptance remain open where unproved. WORK remains deferred. No component silently trades an existing working feature for a new one.
+
+
+## 9. Source-declared current checkpoint
+
+[projects.mjs](../../../apps/agent-atelier/server/projects.mjs) adds current_checkpoint without replacing the native project phase or state format. It activates only when an explicit project binding contains exactly one required source with role checkpoint, its current bytes match all declared/loaded pins and its bounded JSON shape is supported. The input is that source's phase, completed and in_progress text arrays and next text. The output retains those values with source_ref, source_sha256 and status declared. The operator workspace consumes this view; it may present the source's next action without turning it into permission or acceptance.
+
+Absent, optional, wrong-role, multiple, changed or unsupported checkpoint declarations return null with a visible nonblocking projection gap. The ordinary native workflow stays usable; an existing required-source drift issue retains its own blocking effect. Text is redacted through the existing privacy route. The projection needs only existing local service reads, no extra API, framework or cost. Repair by reconciling the actual native checkpoint and explicit binding, then reread; never infer a current stage from a convenient filename or old proposal.
+
+The [seven focused cases](../../../apps/agent-atelier/tests/server/checkpoint-projection.test.mjs) passed with13 existing context cases:20/20 for that subset. The actual first slice read16 sources/29 requirements and showed five source-declared work records, four completed and one current, with zero active runtime jobs. These are declarations, not verified runtime completions or owner-accepted deliverables;250 inventoried files are not250 results. Revision6 has its own bounded full-service/browser observations; later helper/data changes require new applicable proof. The current source snapshot has17 bound sources/29 requirements and7 declared work records,6completed/1compatibleupdateinprogress; source declarations are not runtime or accepted deliverables.
+
+
+## 10. What the actual design failure changes for every applicable UI task
+
+The owner-rejected Atelier screen exposed a reusable failure: the code pane and visual shell of the rich reference were copied while the operator's real work remained secondary. The shared [production-quality.md](../../../standards/production-quality.md) and UI profile in [production-profiles.json](../../../standards/production-profiles.json) now require an intended-user demonstration: identify the outcome, actual work/result, attention and useful next action; select a record, read an understandable result/proof and continue within the correct scope. A promotional code pane or map must be translated into the current task's working mechanism. Irrelevant technical hierarchy, repeated brief text, invented edges/progress or a file-count-as-results display fails this test.
+
+The rule activates when a loaded skill creates or reviews a human interface and proves its representative slice. Its inputs are the actual task, intended user, accepted reference and real state; its output is a task-specific view and observable journey, consumed by the integrator and independent reviewer. The supported materializer copied these current rules into the existing33 core bundles and optional orchestrator. This is shared behavior guidance, not a new framework, role or background service; no new access or spending is granted.
+
+Exact source hashes and their materialization are inspectable in the candidate source card. A loaded instruction cannot guarantee model behavior, certify a design or retrospectively overturn rejection of older bytes. Actual new UI evidence and owner acceptance remain separate. Repair a failed representative view by changing its composition/mechanism on real records, retain accepted functionality/identity, then rerender and repeat the intended-user journey.
+
+
+## 11. Current work must survive a source update
+
+[workbench.ts](../../../apps/agent-atelier/client/src/workbench.ts) merges the current workspace and optionally read native history. It uses actual source/native/service identifiers, not a mutable task title, to correlate work where identity exists. Source-revision mismatches or missing current provenance stay in history instead of recreating an obsolete active task. Cached history may add correlated transcript/evidence, but cannot overwrite current status, owner review or authority.
+
+The inputs are the selected current workspace, source pins and supported history records; the output is a traceable operator work map, with current versus historical observations kept distinct. This uses existing local records and adds no service or provider cost. Helper7 had53 client checks and a5/5 replay of actual earlier/current source snapshots. Helper8 repairs prepared/paused service-origin correlation and history duplication; final source8 passed184/184 service checks,54 client plus130 server. A fresh actual read-only source8 task completed using a candidate source snapshot; independent response review passed9/9 for the exact bound-source continuation; exact Git/CI/admission remains pending. This is not host installation or discovery. If correlation is uncertain, retain history with its gap; do not guess an alias from a similar objective or claim the old activity is current. Layout acceptance only carries over unchanged visual dependencies.
+
+## 12. Compatible update preflight and known predecessors
+
+The [optional-source controller](../../../apps/agent-atelier/server/optional_updates.mjs) uses [UPDATE_BASELINES.json](../../../optional-skills/UPDATE_BASELINES.json) to recognize exact reusable predecessors. The installed optional orchestrator1.1.0 matched the canonical Git predecessor with40 files, including bytes and modes. Its previous unknown-source conflict was caused by a missing known predecessor entry, not local edits. Restoring that exact canonical entry made the1.1.0→1.2.0 preview ready; unknown edits still block overwrite.
+
+The consumer is the reviewed update preview/apply/verify route. It reads exact installed/source snapshots and preservation facts; a ready preview is not apply, installation/discovery or behavior proof. The current core33 plan has no blockers. The host audit has13 rows: one managed-block proposal and12 role files unchanged. No host apply is inferred. Maintenance1.1 source exists but was not installed, and that absence is preserved rather than inventing an extra installation.
+
+A bounded context/design/panel update needs its own affected-invariant ledger, closed material defects, fresh exact-source read-only task and CI. At this checkpoint admission is not yet granted; full17-capability/29-case acceptance remains open even if a narrower update is later admitted. Retain backups, identity, settings and unknown edits; use the exact source-target plan, then verify actual applied bytes and discovery separately.

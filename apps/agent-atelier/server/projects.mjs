@@ -352,6 +352,81 @@ const projectKind = (sources) =>
         : sources.some((x) => x.path.startsWith(".agent-foundry"))
           ? "agent"
           : "generic";
+function currentCheckpoint(root, binding, documents, sources) {
+  const checkpoints = binding.source_checks.filter(
+    (row) => row.role === "checkpoint",
+  );
+  const gap = (code, message) => ({
+    current_checkpoint: null,
+    current_checkpoint_gap: {
+      code,
+      message,
+      blocking: false,
+      source_refs: checkpoints.map((row) => row.path),
+    },
+  });
+  const manifest = documents.find((row) => row.path === binding.manifest?.path);
+  if (!manifest || manifest.data?.project_root !== root)
+    return gap(
+      "CHECKPOINT_NOT_DECLARED",
+      "A current checkpoint needs one explicit context binding for this project",
+    );
+  if (checkpoints.length !== 1)
+    return gap(
+      checkpoints.length ? "CHECKPOINT_AMBIGUOUS" : "CHECKPOINT_NOT_DECLARED",
+      "Declare exactly one checkpoint source; a current phase is not guessed from other files",
+    );
+  const check = checkpoints[0];
+  const source = sources.find((row) => row.path === check.path);
+  const loaded = binding.loaded.find((row) => row.path === check.path);
+  if (
+    !check.required ||
+    check.status !== "verified" ||
+    !source ||
+    !loaded ||
+    source.sha256 !== check.expected_sha256 ||
+    loaded.sha256 !== source.sha256 ||
+    check.observed_sha256 !== source.sha256
+  )
+    return gap(
+      "CHECKPOINT_SOURCE_UNVERIFIED",
+      "The required checkpoint source must match its declared current bytes",
+    );
+  const data = documents.find((row) => row.path === check.path)?.data;
+  const boundedText = (value, maximum) =>
+    typeof value === "string" &&
+    value.trim().length > 0 &&
+    value.length <= maximum;
+  const boundedRows = (value) =>
+    Array.isArray(value) &&
+    value.length <= 100 &&
+    value.every((row) => boundedText(row, 4000));
+  if (
+    !data ||
+    typeof data !== "object" ||
+    Array.isArray(data) ||
+    !boundedText(data.phase, 2000) ||
+    !boundedRows(data.completed) ||
+    !boundedRows(data.in_progress) ||
+    !boundedText(data.next, 4000)
+  )
+    return gap(
+      "CHECKPOINT_SHAPE_UNSUPPORTED",
+      "Checkpoint phase/next must be bounded text and completed/in_progress must be bounded text arrays",
+    );
+  return {
+    current_checkpoint: redact({
+      phase: data.phase,
+      completed: data.completed,
+      in_progress: data.in_progress,
+      next: data.next,
+      source_ref: check.path,
+      source_sha256: source.sha256,
+      status: "declared",
+    }),
+    current_checkpoint_gap: null,
+  };
+}
 export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
   const root = await projectRoot(rootValue);
   fail(
@@ -657,6 +732,7 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
     native_state_present: native.length > 0,
     projection_notice:
       "Read-only projection. Product state is authoritative; binding does not migrate or adopt a project.",
+    ...currentCheckpoint(root, binding, documents, sources),
   };
 }
 export class ProjectAdapter {

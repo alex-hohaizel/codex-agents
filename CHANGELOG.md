@@ -1,5 +1,13 @@
 # Change log
 
+## Candidate repository1.4.0-rc.2 — scoped visual acceptance, compatible update in preparation
+
+Rework the operator interface after rejection of8c3a557. The owner accepted the shown revision6 visual foundation: “Так, цю основу приймаю”. Preserve the operator-first real-record work/result map, evidence/next-action selection and explicit technical workspace. Actual revision6 service checks passed179/179 with49 client checks; proper720CSSpx/DPR2 reflow and corrected mandatory cold discovery each passed their separate8-check routes. These are bounded observations, not native browser zoom/WCAG certification, every API execution or full-case acceptance. Later helper7 freshness work has53 client checks and a5/5 real-snapshot replay; the helper8 prepared-task repair is implemented and its fresh read-only candidate task completed, with final source8 service checks184/184 (54client+130server); independent response review passed9/9 for the exact bound-source task; Git/CI and bounded-priority admission remain pending.
+
+The shared production-quality contract and UI profile now require an intended-user outcome/work/result/attention/next-action demonstration and actual selection → readable proof → scoped action. Materialize the changed rule in all33 core bundles and optional orchestrator. Reject an irrelevant copied shell or invented progress; this source update does not certify future quality.
+
+The optional orchestrator updater now recognizes the exact40-file/mode1.1.0 canonical Git predecessor, resolving an unknown-predecessor false conflict without authorizing unknown edits. Core33 and host-profile plans are ready in their named scope; these are previews, not application. Maintenance remains absent unless separately requested. Full17-capability/29-case adoption is not implied by scoped visual acceptance or a bounded priority update.
+
 ## Candidate repository1.4.0-rc.1 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / Agent Atelier0.3.0 — 2026-11-10
 
 Implement the approved passport0.2 priority work: explicit source bindings, native/direct/service context continuity, readable requirements/current decisions/deferred work, recoverable panel reads and bounded native-history paging. Add seven conditional production profiles, thirteen optional artifact types and a read-only invariant checker within the same33 core skills,35 total reusable sources and12 roles. New generated agents include15 common resources; older agents retain their historical contracts until exact compatible adoption. Preserve accepted identity, settings and native formats.

@@ -159,7 +159,8 @@ export default function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const navigationRef = useRef<HTMLElement | null>(null);
-  const [inspectorOpen, setInspectorOpen] = useState(window.innerWidth >= 1170);
+  const inspectorRef = useRef<HTMLElement | null>(null);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   const [inspectorTab, setInspectorTab] = useState<
     "details" | "provenance" | "recovery"
   >("details");
@@ -508,6 +509,52 @@ export default function App() {
         previous.focus();
     };
   }, [mobileNav]);
+  useEffect(() => {
+    if (!inspectorOpen || window.innerWidth >= 1170 || expanded) return;
+    const previous =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    const panel = inspectorRef.current;
+    const focusable = () =>
+      Array.from(
+        panel?.querySelectorAll<HTMLElement>(
+          'button:not(:disabled),a[href],select:not(:disabled),input:not(:disabled),[tabindex="0"]',
+        ) ?? [],
+      ).filter((item) => item.getClientRects().length);
+    const frame = requestAnimationFrame(() => focusable()[0]?.focus());
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setInspectorOpen(false);
+      }
+      if (event.key !== "Tab") return;
+      const items = focusable(),
+        first = items[0],
+        last = items.at(-1);
+      if (
+        event.shiftKey &&
+        (document.activeElement === first ||
+          !panel?.contains(document.activeElement))
+      ) {
+        event.preventDefault();
+        last?.focus();
+      } else if (
+        !event.shiftKey &&
+        (document.activeElement === last ||
+          !panel?.contains(document.activeElement))
+      ) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("keydown", onKey);
+      if (previous?.isConnected) previous.focus();
+    };
+  }, [inspectorOpen, expanded]);
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = `${contextProject?.name ? `${contextProject.name} · ` : ""}Agent Atelier`;
@@ -896,7 +943,7 @@ export default function App() {
                   </span>
                   <span>
                     <strong>{project.name}</strong>
-                    <small>{project.kind}</small>
+                    <small>{t(profileLabel(projectProfile(project)))}</small>
                   </span>
                   {contextProject?.root === project.root && (
                     <ChevronRight size={13} />
@@ -1053,7 +1100,9 @@ export default function App() {
             ) : (
               <>
                 {!globalView && selected && (
-                  <header className="product-heading">
+                  <header
+                    className={`product-heading ${view === "workspace" && !demo ? "is-operator" : ""}`}
+                  >
                     <div className="product-heading__identity">
                       <span
                         className={`product-emblem product-emblem--${selected.kind}`}
@@ -1096,11 +1145,7 @@ export default function App() {
                             ? "example_only"
                             : (selected.status ?? "source_only")
                         }
-                        label={
-                          demo
-                            ? t("exampleOnly")
-                            : text(selected.status, t("sourceOnly"))
-                        }
+                        label={demo ? t("exampleOnly") : undefined}
                       />
                       <Button
                         tone="primary"
@@ -1189,7 +1234,13 @@ export default function App() {
         </div>
 
         {inspectorOpen && (
-          <aside className="context-inspector">
+          <aside
+            className="context-inspector"
+            ref={inspectorRef}
+            role={window.innerWidth < 1170 ? "dialog" : undefined}
+            aria-modal={window.innerWidth < 1170 ? true : undefined}
+            aria-label={t("inspector")}
+          >
             <header>
               <div>
                 <span className="eyebrow">{t("inspector")}</span>

@@ -2,9 +2,11 @@
 
 [Українська версія](README.uk.md)
 
-**Approved passport0.2, implementation checkpoint, 10 November2026.** Prepared source candidate: repository1.4.0-rc.1 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / Agent Atelier0.3.0. This is not final1.4.0, host installation or full acceptance. The earlier core6.0.0 / Orchestrator1.1.0 / service0.2.0 catalogues are historical baseline. [STATUS.json](STATUS.json) and the [implementation record](IMPLEMENTATION.en.md) distinguish current source and observed evidence; [revision history](REVISIONS.en.md) preserves0.1.
+**Approved passport0.2, implementation checkpoint, 10 November2026.** Prepared source candidate: repository1.4.0-rc.2 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / Agent Atelier0.3.0. This is not final1.4.0, host installation or full acceptance. The earlier core6.0.0 / Orchestrator1.1.0 / service0.2.0 catalogues are historical baseline. [STATUS.json](STATUS.json) and the [implementation record](IMPLEMENTATION.en.md) distinguish current source and observed evidence; [revision history](REVISIONS.en.md) preserves0.1.
 
 The candidate compatibly extends the same35 owned sources and12 role profiles. Seven AI/data areas are conditional profiles with existing owners; no mandatory additional skill, role, pack or framework. Priority is context continuity, accepted professional design and a working source-backed panel. All17 original capabilities remain in scope. Any confirmed degradation of existing working behavior rejects the candidate without compensation. Source materialization, bounded cold/UI checks and actual review analysis are documented; all full acceptance cases and final1.4.0 adoption remain open. WORK remains deferred.
+
+After rejecting8c3a557, the owner accepted the shown revision6 visual foundation: “Так, цю основу приймаю”. This scope is visual only: all29 full cases and adoption remain open. Actual operator/report/requirements/mobile/locale observations, corrected cold discovery and a proper reflow-equivalent check are bounded to revision6. The final source task has independent9/9 bounded-source review; exact Git/CI and admission of the compatible priority update remain separate. The shared UI rule learned from this actual failure does not guarantee future quality.
 
 ## Read in this order
 

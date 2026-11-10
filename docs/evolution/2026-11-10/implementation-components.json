@@ -2,7 +2,7 @@
   "schema_version": "codex-agents.implementation-components/1",
   "checkpoint": "2026-11-10",
   "edition": {
-    "repository": "1.4.0-rc.1",
+    "repository": "1.4.0-rc.2",
     "core": "6.1.0",
     "orchestrator": "1.2.0",
     "maintenance": "1.1.0",
@@ -19,7 +19,7 @@
     "WORK": "deferred"
   },
   "authority": "Later exact owner approval applies; immutable earlier audit/proposal registers remain historical. This is a candidate overlay, not a rewrite or final-release/installation receipt.",
-  "runtime_boundary": "Latest isolated candidate restart at13:38:50 served0.3.0 with the direction build; earlier13:04 restart served the recovery build. Current goal/next-action/source were observed at three viewports. Two read-only Codex jobs used a preceding0.2-labelled feature build and do not certify later bytes. Stable0.2 remains isolated with preserved data; no candidate adoption, host-profile apply or database migration follows. The reproduced P1 was repaired and actual macOS/Codex0.166 retest closed only its exact checked scope.",
+  "runtime_boundary": "Actual revision6 UI/service0.3 has179/179service and49client checks, corrected mandatorycold8/8 and proper720CSS/DPR2reflow8/8; this is not nativebrowserzoom/WCAG certification. Owner accepted only the shown visual foundation, not fullA26/all29cases or installation. Later helper7 has53client and5/5real-snapshot replay; helper8 repairs the newer prepared-task duplication case and a fresh read-only candidate task completed; final source8 service184/184 (54client+130server) passed; independent source-bound task review9/9 passed; exact Git/CI/admission remain pending. Earlier0.2modeljobs and prior8c3CI do not certify changed bytes. Stable0.2 remains separate until an admitted exact update.",
   "components": [
     {
       "id": "context-portable",
@@ -93,8 +93,8 @@
     {
       "id": "context-workbench",
       "purpose": {
-        "en": "Make requirements, decisions, deferred work and source gaps readable and actionable.",
-        "uk": "Зробити вимоги, рішення, відкладене й джерельні прогалини читабельними та придатними до дій."
+        "en": "Operate real project work/results and next actions, with full technical sources available through an explicit alternate workspace.",
+        "uk": "Керувати справжніми роботами/результатами й наступними діями, з повним технічним простором через явне перемикання."
       },
       "sources": [
         "apps/agent-atelier/client/src/context-workbench.tsx",
@@ -102,15 +102,17 @@
         "apps/agent-atelier/client/src/views.tsx",
         "apps/agent-atelier/client/src/App.tsx"
       ],
-      "trigger": "Open context or the selected project ledger.",
+      "trigger": "Normal bound-project view opens operator canvas; select work to open initially closed inspector; select source/change view for the full technical workspace.",
       "inputs": [
         "Actual service context and project identity",
         "Explicit loading/error state"
       ],
       "outputs": [
-        "Readable rows and source details",
-        "Current/deferred view",
-        "Visible retry and recovery"
+        "Real-record work/result map",
+        "Source-labelled results, evidence and next action",
+        "Selected-object inspector",
+        "Explicit full source/change workspace",
+        "On-demand history and visible partial coverage"
       ],
       "consumer": "Owner managing a project",
       "dependencies": [
@@ -119,14 +121,13 @@
       ],
       "access_cost": "Local UI; provider actions retain their own permissions and costs.",
       "checks": [
-        "159 final service tests",
-        "37 independent craft fixtures",
-        "11views/41UIcommands/48APIoperations retained statically",
-        "Actual browser:20focusables/loadingfailure/retry/28requirementrows",
-        "2 fresh-workspace direction tests; actual current goal/next/source in3viewports"
+        "Revision6:179service/49client; actualreport/sourceURLs,29requirements,11mobileviews,7selectedlocales,Escape/selection",
+        "Corrected mandatorycold8/8; first40trace skipped-history premise excluded",
+        "Proper720CSS/DPR2reflow8/8, not nativezoom/WCAG certification",
+        "Static41command/48API retention is not execution of every operation"
       ],
-      "limits_repair": "Source status is not automatically latest authority; present dates and corrections. Static retention does not prove all operations executed. Retry matching failed load; preserve unrelated errors. Earlier craft/browser observations retain their old byte binding; fresh selected-project workspace overrides stale portfolio goal/action.",
-      "activation": "Implemented and bounded desktop/mobile/browser observations of candidate bytes; full owner acceptance open."
+      "limits_repair": "Source status is not automatically latest authority; present dates and corrections. Static retention does not prove all operations executed. Retry matching failed load; preserve unrelated errors. Earlier craft/browser observations retain their old byte binding; fresh selected-project workspace overrides stale portfolio goal/action. Owner rejected the prior visual foundation. The fullA26 case remains open; shown revision6 visual foundation alone was accepted. Inventory file counts are not delivered-result totals; only actual active jobs establish runtime activity.",
+      "activation": "Shown revision6 visual foundation accepted by owner; fullA26/29case/adoption not accepted. Later helper/data changes need exact proof."
     },
     {
       "id": "native-history-pages",
@@ -348,6 +349,153 @@
         "apps/agent-atelier/server/context.mjs": "1d1911a53c7e546a7af169e7088fc401839026853645215ff50ba3b78b3bb3cd",
         "apps/agent-atelier/server/codex.mjs": "3092def9d7587bc86b3aad1c8fe1da5298b13875532a56bdfb7c63a1ab78bb56"
       }
+    },
+    {
+      "id": "source-current-checkpoint",
+      "purpose": {
+        "en": "Expose the source-declared current stage, recorded work and next action without guessing or overwriting native state.",
+        "uk": "Показувати заявлені в джерелі поточний етап, записану роботу й наступну дію без здогадок і перезапису рідного стану."
+      },
+      "sources": [
+        "apps/agent-atelier/server/projects.mjs",
+        "apps/agent-atelier/tests/server/checkpoint-projection.test.mjs",
+        "apps/agent-atelier/client/src/workbench.ts"
+      ],
+      "trigger": "Inspect a project with exactly one explicit required verified context-binding source whose role is checkpoint.",
+      "inputs": [
+        "Verified project/source bytes and pins",
+        "Bounded phase/next text",
+        "Bounded completed/in_progress text arrays"
+      ],
+      "outputs": [
+        "Additive current_checkpoint with unchanged source values,source_ref,source_sha256,status declared",
+        "Otherwise null plus a visible nonblocking projection gap"
+      ],
+      "consumer": "Existing operator workspace and source-backed next-action presentation",
+      "dependencies": [
+        "Existing context-bindings reader and privacy redaction",
+        "Existing native project state; no phase/schema overwrite"
+      ],
+      "access_cost": "Existing bounded local reads only; no API, framework, training or provider cost introduced.",
+      "checks": [
+        "7focusedcheckpointcases plus13existingcontextcases:20/20subset",
+        "Actual firstslice16sources/29requirements/5declaredworkrecords;4completed1current,0activejobs",
+        "Current snapshot17bound sources/29requirements/7declaredworkrecords,6completed1compatibleupdateinprogress; no runtime inference"
+      ],
+      "limits_repair": "Missing/optional/wrong-role/ambiguous/changed/unsupported checkpoint cannot become guessed current authority. Existing required-source drift keeps its own blocking effect. Source-declared completed work is not runtime or owner-accepted success. Reconcile actual checkpoint/binding and reread; no new global blockade or product reset.",
+      "activation": "Additive source and bounded subset observation; exact new-build UI/full-case adoption remains open."
+    },
+    {
+      "id": "intended-user-ui-quality",
+      "purpose": {
+        "en": "Turn the observed design failure into a shared task-first interface production rule instead of copying an irrelevant reference shell.",
+        "uk": "Перетворити спостережений провал дизайну на спільне правило інтерфейсу під задачу замість копіювання недоречної оболонки референсу."
+      },
+      "sources": [
+        "standards/production-quality.md",
+        "standards/production-profiles.json",
+        "scripts/materialize_standards.py"
+      ],
+      "trigger": "A loaded skill creates/reviews a human interface and its representative slice.",
+      "inputs": [
+        "Actual task and intended user role",
+        "Accepted reference mechanism",
+        "Real work/result/proof/action records"
+      ],
+      "outputs": [
+        "Task-specific outcome/work/result/attention/next-action hierarchy",
+        "Observed selection→readableproof→correctlyscopedaction journey",
+        "Explicit failure if shell/irrelevant technical records replace the task"
+      ],
+      "consumer": "Existing integrator, UI owner and independent reviewer across33corebundles and optional orchestrator",
+      "dependencies": [
+        "Actual loaded production contract/profile",
+        "Actual UI renderer/interaction route",
+        "Existing source materializer"
+      ],
+      "access_cost": "Guidance/source materialization itself adds no service, API, role, framework, permission or provider spending.",
+      "checks": [
+        "New3UIacceptance clauses and1criticalfailure in existingUIprofile",
+        "34bundle materialization of exact reviewed masters",
+        "Revision6 bounded actual craft/browser proof and scoped visual acceptance exist; future/helper/whole-case checks remain separate"
+      ],
+      "limits_repair": "Loaded rules do not enforce every host/chat or guarantee model behavior/quality. Old CI/tests cannot overturn owner rejection. Preserve actual source meanings; file counts are not results and recorded work is not runtime. Repair composition/mechanism on actual records and rerender the representative journey.",
+      "activation": "Shared source rule materialized after owner-rejected8c3a557 design; no new-UI/owner-acceptance certification from instructions.",
+      "source_sha256": {
+        "standards/production-quality.md": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
+        "standards/production-profiles.json": "3d01f44f9b4d41eb904e7286efcefc175b9240aa4e0e1a6206b855827cb02b9e"
+      }
+    },
+    {
+      "id": "work-record-freshness",
+      "purpose": {
+        "en": "Keep current source work authoritative across title/status changes while retaining older history honestly.",
+        "uk": "Зберігати авторитет чинних робіт після зміни назви/статусу та чесно залишати стару історію."
+      },
+      "sources": [
+        "apps/agent-atelier/client/src/workbench.ts",
+        "apps/agent-atelier/tests/client/workbench-context.test.mjs"
+      ],
+      "trigger": "Merge a selected current workspace with optionally loaded native/service history.",
+      "inputs": [
+        "Current source records/pins",
+        "Stable native/service IDs when present",
+        "Older same-root history"
+      ],
+      "outputs": [
+        "Current work state with correlated evidence",
+        "Distinct stale/unresolved historical observations"
+      ],
+      "consumer": "Operator work map and selected-object proof display",
+      "dependencies": [
+        "Current workspace/source identity",
+        "Supported history coverage and task/job correlation"
+      ],
+      "access_cost": "Existing local data only; no new model/service/provider permission or spend.",
+      "checks": [
+        "Helper7:53clientchecks",
+        "Actual old/current source snapshot replay5/5",
+        "Final source8:184service=54client+130server; prepared/paused/history-unique cases pass. Fresh readonly bound-source task independently passed9/9; exactGitCI/admission pending."
+      ],
+      "limits_repair": "Do not merge by mutable objective or treat unresolved no-native-ID aliases as authority. Old cached status/ownerreview cannot replace current workspace; source-revision gaps stay visible. A later helper fix does not inherit runtime/CI from older bytes.",
+      "activation": "Exact source8 helper/test result and independent9/9 bound-source native continuation observed. ExactGit/CI/admission pending; no installed/discovered skill proof.",
+      "independent_task_receipt_sha256": "06136a47d586d0d0b4d04c03fcfed6a4aa62b0057c0bdca7708f6f96a3c72768"
+    },
+    {
+      "id": "optional-known-predecessor",
+      "purpose": {
+        "en": "Recognize an exact reusable predecessor without mistaking an absent compatibility entry for local edits or overwriting unknown changes.",
+        "uk": "Розпізнавати точного багаторазового попередника без плутання відсутнього запису сумісності з локальними змінами чи перезапису невідомих правок."
+      },
+      "sources": [
+        "optional-skills/UPDATE_BASELINES.json",
+        "apps/agent-atelier/server/optional_updates.mjs",
+        "apps/agent-atelier/tests/server/optional_updates.test.mjs"
+      ],
+      "trigger": "Reviewed optional-source update preview compares installed and candidate source snapshots.",
+      "inputs": [
+        "Exact canonical predecessor file bytes/modes",
+        "Actual installed snapshot",
+        "Candidate preservation/before-copy plan"
+      ],
+      "outputs": [
+        "Recognized1.1.0→1.2.0preview or explicit conflict",
+        "Separate apply/verify/rollback plan"
+      ],
+      "consumer": "Existing optional-skill update controller and owner",
+      "dependencies": [
+        "Canonical Git predecessor",
+        "Original identity/settings preservation",
+        "Actual allowed installation scope"
+      ],
+      "access_cost": "Local comparison/preview only; ready does not perform installation or grant external effects.",
+      "checks": [
+        "Actual optionalOrchestrator1.1 matched canonical40file/mode source",
+        "Missing known predecessor entry repaired from exact Git baseline; preview ready",
+        "Core33ready;host13rows=1proposal12unchangedroles;noapply fromaudit"
+      ],
+      "limits_repair": "Never accept unknown content by changing hashes or forcing overwrite. Preserve absence of unrequested maintenance installation. Actual apply/discovery/task proof remains separate; bounded priority admission does not close full17/29 programme.",
+      "activation": "Source baseline repair and reviewed previews ready; installation not performed at this checkpoint."
     }
   ],
   "records": [
@@ -637,7 +785,7 @@
   "proof_limits": [
     "No new paid model API or training observed",
     "No causal benefit or validated accuracy from single-AI review agreement",
-    "No fullS5/S6/S8, CPA/LoRA/serving/device/provider/owner-acceptance completion",
+    "FullS5/S6/S8,CPA/LoRA/serving/device/provider and full29case acceptance remain open; shown revision6 visual foundation alone accepted",
     "No global context/memory index or default framework"
   ]
 }

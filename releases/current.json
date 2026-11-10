@@ -1,6 +1,6 @@
 {
   "schema_version": "codex-agents.release/1",
-  "repository_version": "1.4.0-rc.1",
+  "repository_version": "1.4.0-rc.2",
   "suite_version": "6.1.0",
   "release_date": "2026-11-10",
   "release_notes": "releases/6.1.0.md",
@@ -41,7 +41,7 @@
     "gamedev-release",
     "gamedev-studio"
   ],
-  "source_manifest_sha256": "1fe1bf6ad96b1e021f6653a4b596b60fcec0434b15aa8be55ee788a349c62961",
+  "source_manifest_sha256": "7fc4f4296cd5a10547933aa9078614fe3ef6f5ff918b170c2dcd76e2dbf366bc",
   "optional_skills": [
     {
       "name": "codex-agents-maintenance",
@@ -58,7 +58,7 @@
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
     }
   ],
-  "repository_release_notes": "releases/repository-1.4.0-rc.1.md",
+  "repository_release_notes": "releases/repository-1.4.0-rc.2.md",
   "marketing_showcase": "marketing/campaign/README.md",
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
   "repository_migration": "releases/migrations/6.1.0.md",
@@ -80,5 +80,5 @@
     "final_adoption_performed": false,
     "implementation_status": "docs/evolution/2026-11-10/IMPLEMENTATION.en.md"
   },
-  "release_status": "candidate; priority-source-and-runtime observations exist; full-scope acceptance and operational adoption remain open"
+  "release_status": "candidate; revised visual foundation accepted by owner; bounded priority admission awaits exact final closure; full original capability/case adoption remains open"
 }

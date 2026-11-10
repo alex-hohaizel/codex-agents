@@ -1,6 +1,22 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  operatorUnassigned: "未分配阶段",
+  operatorOverview: "工作概览",
+  operatorSources: "来源与更改",
+  operatorMap: "工作地图",
+  operatorStages: "需求中的阶段",
+  operatorStagesHelp: "连线表示需求中声明的归属关系，并不确认阶段已完成。",
+  operatorAcceptance: "检查与验收",
+  operatorSelectedWork: "所选工作",
+  operatorPrepareNext: "准备下一步操作",
+  operatorReadResult: "阅读结果",
+  operatorFiles: "项目文件",
+  operatorInventoryHelp: "可用文件清单。文件本身不等于已完成或已验收的结果。",
+  operatorSourceState: "来源中的当前状态",
+  operatorFullRecord: "完整记录与证据",
+  operatorNextDetails: "下一步操作的完整范围",
+  operatorPriorChecks: "面板此前的检查",
   loadMoreHistoryItems: "继续读取此聊天",
   historyItemsRemaining: "仍有已记录的消息和事件。此处结果仅涵盖已读取的页面。",
   workLedger: "项目工作台账",

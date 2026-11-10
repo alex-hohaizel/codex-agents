@@ -14,6 +14,8 @@ Before batch production, implement one representative slice with real applicable
 
 Separate semantic reuse from presentation reuse during exploration. Shared data/time/auth rules do not require every concept to use the same cards, scene, voice, transitions or template. Conversely, once an identity is accepted, novelty or a model change does not authorize redesign. Do not repeatedly ask for preferences when the user already delegated creative decisions.
 
+For a human interface, test the representative view from the intended user's role: what outcome are we pursuing, what work or result is real, what needs attention, and what can I usefully do next? Demonstrate selection → readable result/proof → the correctly scoped next action on actual records. A promotional reference's code pane or map serves its depicted task; translate that mechanism to the current task rather than copying the depicted subject. Technical sources remain reachable when useful, with progressive detail appropriate to the user. An attractive shell around irrelevant records, repeated brief text or raw implementation data fails this check. Grouping, graph edges and progress must retain their actual source meaning; file counts are not completed results and recorded work is not proof of a running agent.
+
 ## Preserve identity and deliver usable output
 
 Pin approved originals/editable masters, relevant tokens/rules, voice/persona, layout/motion grammar, recipes and allowed adaptations. A derivative records its master, transformation, intentional losses, export/import and consumer. Test identity at the integrated destination, not only at generation. Raster mockups, vectors, models, slides, audio and working interfaces are distinct output contracts.

@@ -287,6 +287,105 @@ try {
     );
     await pause(1300);
     checks.push({
+      name: "Live project opens the operator work map, with technical sources behind an explicit tab",
+      pass: await evaluate(
+        `!!document.querySelector('.operator-canvas')&&!document.querySelector('.operator-canvas .code-viewer')&&!document.querySelector('.task-ribbon')&&document.querySelector('[data-operator-mode="work"]')?.getAttribute('aria-pressed')==='true'`,
+      ),
+    });
+    const actualWorkSelection = await evaluate(
+      `(()=>{const button=document.querySelector('.operator-work-lane>button');if(!button)return {available:false};button.click();return {available:true}})()`,
+    );
+    const laneDisclosure = await evaluate(
+      `(()=>{const b=document.querySelector('[data-expand-work-lane]');if(!b)return {available:false};const lane=b.closest('.operator-work-lane');const count=lane.querySelectorAll('.operator-work-node').length;b.click();return {available:true,selector:'.operator-work-lane--'+b.dataset.expandWorkLane,before:count}})()`,
+    );
+    if (laneDisclosure.available) {
+      await pause(80);
+      checks.push({
+        name: "All loaded source work in a lane is reachable beyond its collapsed preview",
+        pass: await evaluate(
+          `(()=>{const lane=document.querySelector(${JSON.stringify(laneDisclosure.selector)});return lane.querySelector('[data-expand-work-lane]')?.getAttribute('aria-expanded')==='true'&&lane.querySelectorAll('.operator-work-node').length>${Number(laneDisclosure.before)}})()`,
+        ),
+      });
+    }
+    if (actualWorkSelection.available) {
+      await pause(80);
+      checks.push({
+        name: "Selecting a real recorded work node opens its focused human result",
+        pass: await evaluate(
+          `!!document.querySelector('.operator-work-lane>button.is-selected')&&document.querySelector('.operator-focus h3')?.textContent===document.querySelector('.operator-work-lane>button.is-selected strong')?.textContent`,
+        ),
+      });
+    }
+    const coldSourceCount = await evaluate(
+      `(()=>{window.__operatorColdCommands=[];const original=window.fetch;window.__restoreOperatorFetch=()=>{window.fetch=original;delete window.__restoreOperatorFetch};window.fetch=async(...args)=>{const url=typeof args[0]==='string'?args[0]:args[0]?.url;if(String(url).endsWith('/api/v1/commands')&&typeof args[1]?.body==='string'){try{const body=JSON.parse(args[1].body);window.__operatorColdCommands.push({operation:body.operation,max_pages:body.payload?.max_pages})}catch{}}return original.apply(window,args)};const count=Number(document.querySelector('.operator-work-map')?.dataset.sourceWorkCount??0);document.querySelector('[data-open-native-history]').click();return count})()`,
+    );
+    await pause(700);
+    checks.push({
+      name: "History action reveals its region and moves keyboard focus to visible feedback",
+      pass: await evaluate(
+        `(()=>{const region=document.querySelector('#operator-native-history');const rect=region.getBoundingClientRect();return region.querySelector('.operator-history-toggle')?.getAttribute('aria-expanded')==='true'&&document.activeElement===region&&rect.top>=0&&rect.top<innerHeight})()`,
+      ),
+    });
+    const coldButtonAvailable = await evaluate(
+      `!!document.querySelector('[data-discover-native-history]')`,
+    );
+    if (coldButtonAvailable) {
+      await evaluate(
+        `document.querySelector('[data-discover-native-history]').click()`,
+      );
+      let discoveryChecked = false;
+      for (let attempt = 0; attempt < 60; attempt++) {
+        await pause(200);
+        discoveryChecked = await evaluate(
+          `fetch('/api/v1/portfolio').then(r=>r.json()).then(p=>!!p.checked_at&&p.status!=='not_checked')`,
+        );
+        if (discoveryChecked) break;
+      }
+      await pause(300);
+      checks.push({
+        name: "Cold history invokes the bounded refresh operation rather than rereading empty cache",
+        pass: await evaluate(
+          `window.__operatorColdCommands.some(c=>c.operation==='portfolio.refresh'&&c.max_pages===20)`,
+        ),
+      });
+      checks.push({
+        name: "Cold discovery returns an observed map or explicit gap and retains the fresh source-work map",
+        pass:
+          discoveryChecked &&
+          (await evaluate(
+            `Number(document.querySelector('.operator-work-map')?.dataset.sourceWorkCount??0)===${Number(coldSourceCount)}&&!!document.querySelector('#operator-native-history .work-map,#operator-native-history .empty')`,
+          )),
+      });
+    }
+    await evaluate(
+      `window.__restoreOperatorFetch?.();delete window.__operatorColdCommands;document.querySelector('#main-content').scrollTo({top:0,behavior:'instant'})`,
+    );
+    await screenshot("operator-repository-1440.png", 1440, 1080);
+    await screenshot("operator-repository-1920.png", 1920, 1200);
+    await screenshot("operator-repository-390.png", 390, 1000, true);
+    await call(
+      "Emulation.setDeviceMetricsOverride",
+      { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false },
+      session,
+    );
+    await evaluate(
+      `document.querySelector('.operator-action>.button')?.click()`,
+    );
+    await pause(100);
+    checks.push({
+      name: "Next useful action opens scoped preparation without dispatch",
+      pass: await evaluate(
+        `document.querySelector('dialog')?.open===true&&document.querySelector('dialog textarea')?.value.length>0`,
+      ),
+    });
+    await evaluate(
+      `document.querySelector('dialog .modal__header .icon-button')?.click()`,
+    );
+    await evaluate(
+      `document.querySelector('[data-operator-mode="sources"]').click()`,
+    );
+    await pause(300);
+    checks.push({
       name: "Live source panel populated",
       pass: await evaluate(
         `document.querySelector('.code-viewer__scroll')?.innerText.length>100`,

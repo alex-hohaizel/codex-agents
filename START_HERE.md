@@ -16,7 +16,7 @@ The guides are complete in all seven languages. Advertising artwork is available
 
 ## Before installation
 
-The repository currently describes **source candidate1.4.0-rc.1 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / service0.3.0**, not an automatically adopted stable update. Read the [6.1 migration and current gates](releases/migrations/6.1.0.md) first. All29 full acceptance cases remain open. The reproduced P1 nested native-state write issue was repaired and retested with93 filesystem readbacks for the named macOS/Codex route; that narrow result does not adopt the candidate. Keep the verified stable installation active where a gate is unknown or failed. WORK live work remains deferred.
+The repository currently describes **source candidate1.4.0-rc.2 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / service0.3.0**, not an automatically adopted stable update. Read the [6.1 migration and current gates](releases/migrations/6.1.0.md) first. All29 full acceptance cases remain open. The reproduced P1 nested native-state write issue was repaired and retested with93 filesystem readbacks for the named macOS/Codex route; that narrow result does not adopt the candidate. Keep the verified stable installation active where a gate is unknown or failed. WORK live work remains deferred.
 
 1. Sign in to the Work or Codex surface available to your account.
 2. Enable the GitHub connection and grant `alex-hohaizel/codex-agents` access. Repository visibility remains private.
@@ -25,6 +25,8 @@ The repository currently describes **source candidate1.4.0-rc.1 / core6.1.0 / Or
 5. Follow Work or Codex installation, then verify source integrity, saved installation, discovery and a bounded real task separately.
 
 For a product you already work on, open that existing project and continue from its accepted requirements, decisions, identity and checkpoint. A new conversation is not a new product.
+
+The owner accepted the shown revision6 visual foundation, not every function or an installation. Start with its documented work map: select real work/result, read evidence, then choose an admitted next action. Source documents / Compare changes retains the full technical view. Source-declared checkpoint progress is distinct from runtime or accepted deliverables. The completed fresh task passed9/9 independent bound-source checks. Compatible-update admission still needs its affected-invariant ledger and exact-source CI; all29 full cases remain open.
 
 ## Historical baseline: suite6.0.0 and edition1.3.0
 

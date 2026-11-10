@@ -1,6 +1,24 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  operatorUnassigned: "Sin etapa",
+  operatorOverview: "Resumen del trabajo",
+  operatorSources: "Fuentes y cambios",
+  operatorMap: "Mapa del trabajo",
+  operatorStages: "Etapas de los requisitos",
+  operatorStagesHelp:
+    "Los enlaces muestran las relaciones declaradas en los requisitos. No confirman que las etapas estén terminadas.",
+  operatorAcceptance: "Comprobaciones y aceptación",
+  operatorSelectedWork: "Trabajo seleccionado",
+  operatorPrepareNext: "Preparar la siguiente acción",
+  operatorReadResult: "Leer el resultado",
+  operatorFiles: "Archivos del proyecto",
+  operatorInventoryHelp:
+    "Inventario de archivos disponibles. Un archivo por sí solo no es un resultado terminado o aceptado.",
+  operatorSourceState: "Estado actual en la fuente",
+  operatorFullRecord: "Registro completo y pruebas",
+  operatorNextDetails: "Alcance completo de la siguiente acción",
+  operatorPriorChecks: "Comprobaciones anteriores del panel",
   loadMoreHistoryItems: "Leer más de este chat",
   historyItemsRemaining:
     "Quedan mensajes y eventos registrados. Los resultados mostrados solo cubren las páginas leídas.",

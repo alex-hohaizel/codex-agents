@@ -24,14 +24,18 @@
         "working target flow",
         "normal/empty/loading/error/offline/permission/recovery",
         "actual render vs accepted benchmark",
-        "readable data and operational controls"
+        "readable data and operational controls",
+        "intended user can identify outcome, real work/result, attention and useful next action in the representative view",
+        "actual selection -> readable result/proof -> correctly scoped continuation with technical detail reachable",
+        "source-backed grouping/edges/progress; file counts and recorded work do not imply delivered results or running agents"
       ],
       "critical_failures": [
         "lost accepted must/reference mechanism",
         "false runtime/quality success",
         "unapproved identity drift",
         "any lost applicable accepted working function",
-        "lower required craft quality or unauthorized setting/permission change"
+        "lower required craft quality or unauthorized setting/permission change",
+        "reference shell copied around a subject or default information hierarchy that does not serve the actual user task"
       ],
       "unavailable_required_operation": "blocked with exact bridge; never silently lower quality"
     },
