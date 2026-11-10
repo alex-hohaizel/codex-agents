@@ -8,6 +8,8 @@ A reusable system of **33 specialized skills** for research, requirements, desig
 
 **[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Existing-project adoption](releases/migrations/6.0.0.md)
 
+**[AI/data/ML system audit and proposed evolution](docs/evolution/2026-11-10/README.md)** · [Український довідник і паспорт](docs/evolution/2026-11-10/README.uk.md). Repository1.3.1 is a documentation release; the proposed core6.1.0 / Orchestrator1.2.0 / service0.3.0 is pending approval and is not installed.
+
 ![Agent System: English campaign cover](assets/marketing/campaign/en/01-original.png)
 
 The campaign contains **ten matching materials in English and Ukrainian**: applications, game/studio creation, conversational products, platforms, automation, both constructors, product lifecycle, project continuity and a useful next task. The English artwork localizes the corresponding Ukrainian composition. The exact Ukrainian source cover remains preserved. These are conceptual examples of capabilities, not evidence of real customers, orders or released products.

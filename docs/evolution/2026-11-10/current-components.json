@@ -1,0 +1,2436 @@
+{
+  "baseline": "8951398b38a9610854823302ea612cb3844d52e6",
+  "skills": [
+    {
+      "id": "C01",
+      "name": "agent-foundry",
+      "source": "kit/skills/agent-foundry/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Design and deliver a reusable specialist agent, including its lifecycle, tools, memory, team and verification.",
+        "uk": "Спроєктувати й передати багаторазового спеціалізованого агента: його життєвий цикл, інструменти, пам’ять, команду та перевірки."
+      },
+      "activation": {
+        "en": "An explicit request to create/adapt an agent, or a verified capability gap routed by the orchestrator. Target creation requires approval of the exact versioned passport.",
+        "uk": "Пряме доручення створити/адаптувати агента або підтверджена прогалина, передана оркестратором. Створення цільового агента потребує погодження точної версії паспорта."
+      },
+      "input_output": {
+        "en": "Plain-language objective, existing sources and constraints → researched domain, M0 sketch, M1 full passport, M2 delivery with inherited requirements, sources and launch/return instructions.",
+        "uk": "Задум звичайною мовою, чинні джерела й обмеження → досліджена область, начерк M0, повний паспорт M1, передача M2 з успадкованими вимогами, джерелами й інструкцією запуску/повернення."
+      },
+      "evidence_boundary": {
+        "en": "The constructor, generated agent and its eventual product are separate objects. Structural/depth checks do not prove expert quality, installation, execution or deployment.",
+        "uk": "Конструктор, створений агент і його майбутній продукт — різні об’єкти. Structural/depth checks не доводять експертної якості, установлення, виконання чи деплою."
+      }
+    },
+    {
+      "id": "C02",
+      "name": "design-specialist-skills",
+      "source": "kit/skills/design-specialist-skills/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Create a focused reusable skill or coherent skill family with specialist ownership and inherited quality contracts.",
+        "uk": "Створити вузьку багаторазову навичку або узгоджене сімейство з предметними відповідальними й успадкованими контрактами якості."
+      },
+      "activation": {
+        "en": "A skill/family creation request or an approved Foundry child assignment; read Skill Creator and approve the exact blueprint before target creation.",
+        "uk": "Доручення створити навичку/сімейство або погоджене дочірнє завдання Foundry; перед створенням прочитати Skill Creator й погодити точний blueprint."
+      },
+      "input_output": {
+        "en": "Task, requirements, competencies and current tools → versioned skill.blueprint/2, self-contained skills, UI metadata, references/helpers and checked handoff.",
+        "uk": "Задача, вимоги, компетенції й чинні tools → версійований skill.blueprint/2, самодостатні навички, UI metadata, references/helpers і перевірена передача."
+      },
+      "evidence_boundary": {
+        "en": "Blueprint approval records are not authenticated consent. Current tooling does not read/convert every historic blueprint format; creating a skill is not running its product.",
+        "uk": "Запис погодження blueprint не автентифікує згоду. Чинні tools не читають/конвертують кожний історичний формат; створити навичку не означає виконати її продукт."
+      }
+    },
+    {
+      "id": "C03",
+      "name": "app-atelier-director",
+      "source": "kit/skills/app-atelier-director/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Coordinate the complete application lifecycle and keep one product owner.",
+        "uk": "Координувати повний цикл застосунку та зберігати одного власника продуктового стану."
+      },
+      "activation": {
+        "en": "A new application, multi-stage continuation or cross-component decision.",
+        "uk": "Новий застосунок, продовження кількох стадій або міжкомпонентне рішення."
+      },
+      "input_output": {
+        "en": "Idea/current checkpoint → selected stage owners, scoped tasks, integrated evidence and next action.",
+        "uk": "Задум/чинний checkpoint → відповідальні за стадії, обмежені завдання, інтегровані докази й наступна дія."
+      },
+      "evidence_boundary": {
+        "en": "Coordination instructions do not start an app runtime or prove a release.",
+        "uk": "Інструкції координації не запускають runtime застосунку й не доводять реліз."
+      }
+    },
+    {
+      "id": "C04",
+      "name": "app-atelier-research",
+      "source": "kit/skills/app-atelier-research/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Find actual user needs and credible opportunities; compare existing alternatives.",
+        "uk": "Знайти реальні потреби й обґрунтовані напрями; порівняти наявні альтернативи."
+      },
+      "activation": {
+        "en": "An opportunity search, market question or missing domain evidence.",
+        "uk": "Пошук напряму, питання ринку або нестача предметних доказів."
+      },
+      "input_output": {
+        "en": "Audience/markets/limits → source and claim ledger, alternatives, need map, shortlist, counterarguments and unknowns.",
+        "uk": "Аудиторія/ринки/ліміти → реєстр джерел і тверджень, альтернативи, карта потреб, shortlist, контраргументи й невідоме."
+      },
+      "evidence_boundary": {
+        "en": "Public reviews and synthetic scenarios are not validated demand, paying customers or causal market evidence.",
+        "uk": "Публічні відгуки й синтетичні сценарії не доводять попит, наявність платників або причинні ринкові висновки."
+      }
+    },
+    {
+      "id": "C05",
+      "name": "app-atelier-concepts",
+      "source": "kit/skills/app-atelier-concepts/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Turn research into complete product options with useful core, commercial model and operating economics.",
+        "uk": "Перетворити дослідження на цілісні варіанти продукту з корисним core, комерційною моделлю та економікою експлуатації."
+      },
+      "activation": {
+        "en": "A researched direction needs comparison and owner selection.",
+        "uk": "Досліджений напрям потребує порівняння та вибору власника."
+      },
+      "input_output": {
+        "en": "Need/alternatives/constraints → concepts, journeys, monetization options, unit economics, automation/dependency map and selection brief.",
+        "uk": "Потреба/альтернативи/обмеження → концепції, шляхи користувача, варіанти монетизації, unit economics, карта автоматизації/залежностей і матеріал для вибору."
+      },
+      "evidence_boundary": {
+        "en": "Forecasts remain assumptions. A selected concept does not authorize build, campaigns, paid tools or publication.",
+        "uk": "Прогнози лишаються припущеннями. Вибір концепції не дозволяє автоматично build, кампанії, платні tools або публікацію."
+      }
+    },
+    {
+      "id": "C06",
+      "name": "app-atelier-specification",
+      "source": "kit/skills/app-atelier-specification/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Translate the accepted concept into implementable product and technical contracts.",
+        "uk": "Перетворити прийняту концепцію на придатні до реалізації продуктові й технічні контракти."
+      },
+      "activation": {
+        "en": "The owner has selected a concept, or an existing specification needs a bounded change.",
+        "uk": "Власник обрав концепцію або чинна специфікація потребує обмеженої зміни."
+      },
+      "input_output": {
+        "en": "Accepted intent → PRD/TDD, entities, data/auth/API/payment/support contracts, platform journeys, estimates, dependencies and acceptance matrix.",
+        "uk": "Прийнятий задум → PRD/TDD, сутності, контракти даних/auth/API/оплат/підтримки, платформні сценарії, оцінки, залежності й матриця приймання."
+      },
+      "evidence_boundary": {
+        "en": "A complete specification is not working code, provider access, store feasibility or proven economics.",
+        "uk": "Повна специфікація не є робочим кодом, доступом до provider, здійсненним store-випуском або доведеною економікою."
+      }
+    },
+    {
+      "id": "C07",
+      "name": "app-atelier-experience",
+      "source": "kit/skills/app-atelier-experience/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Produce the application brand, UX/UI, interactive prototype and production design materials.",
+        "uk": "Створити бренд, UX/UI, інтерактивний прототип та виробничі дизайн-матеріали застосунку."
+      },
+      "activation": {
+        "en": "A new design, state/flow repair or accepted design needs production handoff.",
+        "uk": "Новий дизайн, ремонт стану/сценарію або виробнича передача прийнятого дизайну."
+      },
+      "input_output": {
+        "en": "Requirements, real references and current masters → journeys/states, style rules/tokens, editable assets, prototype, representative integrated slice and handoff.",
+        "uk": "Вимоги, фактичні референси й чинні masters → сценарії/стани, правила стилю/tokens, редаговані assets, прототип, представницький інтегрований зріз і передача."
+      },
+      "evidence_boundary": {
+        "en": "A screenshot is not interaction; matching colors is not identity. Actual medium, accessibility and native/device fidelity need their own observations.",
+        "uk": "Скриншот не доводить взаємодію; збіг кольорів не доводить ідентичність. Фактичний носій, доступність і native/device відповідність потребують окремих спостережень."
+      }
+    },
+    {
+      "id": "C08",
+      "name": "app-atelier-build",
+      "source": "kit/skills/app-atelier-build/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Implement the accepted application with proportionate architecture, data, access, billing and recovery.",
+        "uk": "Реалізувати прийнятий застосунок із пропорційною архітектурою, даними, доступом, оплатами й відновленням."
+      },
+      "activation": {
+        "en": "Approved implementation scope and actual source/toolchain are available.",
+        "uk": "Є погоджений scope реалізації та фактичні source/toolchain."
+      },
+      "input_output": {
+        "en": "PRD/TDD, masters and current repository → real end-to-end slice, client/backend implementation, tests, reproducible builds and delivery package.",
+        "uk": "PRD/TDD, masters і чинний репозиторій → справжній наскрізний зріз, клієнти/backend, тести, відтворювані builds і пакет передачі."
+      },
+      "evidence_boundary": {
+        "en": "Compilation, simulator, physical device and production are different proof levels. Known platform/research contradictions below remain unresolved in this baseline.",
+        "uk": "Компіляція, simulator, фізичний пристрій і production — різні рівні доказу. Описані нижче суперечності платформ/досліджень у цій базі ще не усунені."
+      }
+    },
+    {
+      "id": "C09",
+      "name": "app-atelier-support",
+      "source": "kit/skills/app-atelier-support/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Build and maintain product help, support knowledge and a safely scoped support bot.",
+        "uk": "Створити й супроводжувати допомогу продукту, базу підтримки та support bot з належними межами дій."
+      },
+      "activation": {
+        "en": "A product needs support design, implementation, integration or repair.",
+        "uk": "Продукт потребує проєктування, реалізації, інтеграції чи ремонту підтримки."
+      },
+      "input_output": {
+        "en": "Actual product versions, cases and chosen channels → authenticated channel linking, scoped knowledge, support flows/actions, cost caps and recovery.",
+        "uk": "Фактичні версії продукту, cases і вибрані канали → автентифіковане зв’язування каналів, scoped knowledge, сценарії/дії підтримки, ліміти витрат і відновлення."
+      },
+      "evidence_boundary": {
+        "en": "Knowledge files alone do not start support service. A user-supplied name/email is not authorization; RAG is conditional, not a required stack.",
+        "uk": "Файли knowledge самі не запускають support service. Надані ім’я/email не є повноваженням; RAG застосовується за потреби, а не як обов’язковий стек."
+      }
+    },
+    {
+      "id": "C10",
+      "name": "app-atelier-qa",
+      "source": "kit/skills/app-atelier-qa/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Independently evaluate requirements, agent behavior and the actual application.",
+        "uk": "Незалежно перевірити вимоги, поведінку агента та фактичний застосунок."
+      },
+      "activation": {
+        "en": "A frozen artifact/change reaches an applicable acceptance gate.",
+        "uk": "Заморожений матеріал/зміна досяг належного етапу приймання."
+      },
+      "input_output": {
+        "en": "Exact sources, raw cases, builds and author identity → positive/negative tests, findings, coverage, scoped verdict and repair handoff.",
+        "uk": "Точні джерела, сирі cases, builds та автор → позитивні/негативні перевірки, findings, покриття, висновок у межах scope й передача ремонту."
+      },
+      "evidence_boundary": {
+        "en": "Author self-check is not independent QA; schema PASS is not device proof, market demand or permission to release.",
+        "uk": "Авторський self-check не є незалежним QA; schema PASS не доводить пристрій, ринковий попит або дозвіл на випуск."
+      }
+    },
+    {
+      "id": "C11",
+      "name": "app-atelier-release",
+      "source": "kit/skills/app-atelier-release/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Prepare and perform an authorized application release, including early feasibility checks.",
+        "uk": "Підготувати й провести дозволений випуск застосунку, включно з ранньою перевіркою здійсненності."
+      },
+      "activation": {
+        "en": "Early store/account feasibility or a specific approved release candidate.",
+        "uk": "Рання перевірка store/account або конкретний погоджений release candidate."
+      },
+      "input_output": {
+        "en": "Exact RC/source/assets, QA and target permissions → signing/store materials, migration/rollback plan, actual submission/readback receipts and operational handoff.",
+        "uk": "Точні RC/source/assets, QA та права цілі → signing/store матеріали, план міграції/відкату, фактичні submission/readback квитанції й передача супроводу."
+      },
+      "evidence_boundary": {
+        "en": "Submitted, approved, available and observed are separate states. No new spending/publication follows merely from selecting this skill.",
+        "uk": "Надіслано, схвалено, доступно й спостережено — різні стани. Вибір навички сам не дозволяє нових витрат/публікації."
+      }
+    },
+    {
+      "id": "C12",
+      "name": "app-atelier-growth",
+      "source": "kit/skills/app-atelier-growth/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Plan and operate permitted acquisition with truthful content, automation and measurable economics.",
+        "uk": "Спроєктувати й виконувати дозволене залучення з правдивим контентом, автоматизацією та вимірюваною економікою."
+      },
+      "activation": {
+        "en": "Before substantial build, or for an explicitly scoped post-release channel/measurement task.",
+        "uk": "До значного build або для явно обмеженої післярелізної роботи з каналом/вимірюванням."
+      },
+      "input_output": {
+        "en": "Segments, product value, budget and actual channel access → funnel, channel/content plan, automation jobs/caps, approved activation receipts and observations.",
+        "uk": "Сегменти, користь продукту, бюджет і фактичний доступ до каналів → funnel, план каналів/контенту, jobs/caps автоматизації, дозволені activation receipts і спостереження."
+      },
+      "evidence_boundary": {
+        "en": "A plan is not an active campaign; publishing/outreach/spend require their actual scope. Correlation and estimates do not establish uplift or future CPA.",
+        "uk": "План не є активною кампанією; публікація/outreach/витрати потребують чинного scope. Кореляція й оцінки не доводять uplift або майбутній CPA."
+      }
+    },
+    {
+      "id": "C13",
+      "name": "app-atelier-operations",
+      "source": "kit/skills/app-atelier-operations/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Maintain an existing application, investigate incidents and manage actual operating costs and continuity.",
+        "uk": "Супроводжувати чинний застосунок, розслідувати інциденти й керувати фактичними витратами та безперервністю."
+      },
+      "activation": {
+        "en": "A real incident, maintenance request, approved monitoring task or lifecycle change.",
+        "uk": "Реальний інцидент, запит на супровід, дозволений моніторинг або зміна життєвого циклу."
+      },
+      "input_output": {
+        "en": "Current source/deploy, symptom, logs and authority → causal diagnosis, bounded repair, measured metrics/costs, restore/export/end-of-life steps.",
+        "uk": "Чинні source/deploy, симптом, logs і повноваження → причинна діагностика, обмежений ремонт, виміряні метрики/витрати, restore/export/end-of-life кроки."
+      },
+      "evidence_boundary": {
+        "en": "Old status is not current health. Monitoring runs only through a real authorized scheduler/runtime; binary rollback does not undo data or provider effects.",
+        "uk": "Старий status не доводить чинне здоров’я. Моніторинг працює лише через фактичний дозволений scheduler/runtime; відкат binary не скасовує дані чи provider effects."
+      }
+    },
+    {
+      "id": "C14",
+      "name": "chatbot-atelier-director",
+      "source": "kit/skills/chatbot-atelier-director/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Coordinate a complete chatbot while retaining its domain, persona and native project state.",
+        "uk": "Координувати повний чатбот, зберігаючи його домен, persona й native state."
+      },
+      "activation": {
+        "en": "A chatbot idea, continuation or multi-part change.",
+        "uk": "Задум чатбота, продовження або складена зміна."
+      },
+      "input_output": {
+        "en": "Intent/current checkpoint → system applicability, dynamic team, stage tasks, integrated result and continuation.",
+        "uk": "Задум/чинний checkpoint → застосовність систем, адаптивна команда, завдання стадій, інтегрований результат і продовження."
+      },
+      "evidence_boundary": {
+        "en": "A stage report does not prove a live bot, natural conversation or delivered action.",
+        "uk": "Звіт стадії не доводить live bot, природної розмови чи доставленої дії."
+      }
+    },
+    {
+      "id": "C15",
+      "name": "chatbot-atelier-research",
+      "source": "kit/skills/chatbot-atelier-research/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Research user needs, domain mechanisms, platforms and feasible operations.",
+        "uk": "Дослідити потреби, механізми домену, платформи й здійсненні операції."
+      },
+      "activation": {
+        "en": "An unclear domain or missing evidence/capability.",
+        "uk": "Нечіткий домен або нестача доказів/можливості."
+      },
+      "input_output": {
+        "en": "Audience/current workflow/constraints → JTBD, alternatives, primary sources, operation passports, gaps and recommendation.",
+        "uk": "Аудиторія/чинний workflow/обмеження → JTBD, альтернативи, primary sources, паспорти операцій, прогалини й рекомендація."
+      },
+      "evidence_boundary": {
+        "en": "A listed API/model is not a verified callable/integrated route; research does not authorize external actions.",
+        "uk": "Перелічений API/model не доводить callable/integrated route; research не дозволяє зовнішні дії."
+      }
+    },
+    {
+      "id": "C16",
+      "name": "chatbot-atelier-specification",
+      "source": "kit/skills/chatbot-atelier-specification/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Define the bot’s causal rules and typed contracts across state, tools and delivery.",
+        "uk": "Визначити причинні правила й typed contracts стану, інструментів і доставки чатбота."
+      },
+      "activation": {
+        "en": "An accepted direction needs implementation detail or a contract repair.",
+        "uk": "Прийнятий напрям потребує деталей реалізації або ремонту контракту."
+      },
+      "input_output": {
+        "en": "Requirements and domain sources → actors/scopes, units/algorithms, lifecycle guards, transactions, memory/time/media contracts, vectors and acceptance.",
+        "uk": "Вимоги й джерела домену → actors/scopes, одиниці/алгоритми, lifecycle guards, транзакції, memory/time/media контракти, vectors і приймання."
+      },
+      "evidence_boundary": {
+        "en": "Specified behavior is not execution. LLM outcomes retain uncertainty; exactly-once claims need a proven bounded meaning.",
+        "uk": "Специфікована поведінка не є виконанням. LLM outcomes зберігають невизначеність; exactly-once потребує доведеного обмеженого значення."
+      }
+    },
+    {
+      "id": "C17",
+      "name": "chatbot-atelier-conversation",
+      "source": "kit/skills/chatbot-atelier-conversation/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Design natural conversation, persona, listening, initiative and shared interaction.",
+        "uk": "Спроєктувати природну розмову, persona, слухання, ініціативу й спільну взаємодію."
+      },
+      "activation": {
+        "en": "A new conversation policy or a real dialogue defect.",
+        "uk": "Нова розмовна політика або фактичний дефект діалогу."
+      },
+      "input_output": {
+        "en": "Actual intent/recipient/context and approved persona → conversation rules, meaningful buttons, examples, minimal pairs and multi-turn evaluation.",
+        "uk": "Фактичні намір/адресат/контекст і прийнята persona → правила розмови, змістовні кнопки, приклади, minimal pairs і multi-turn evaluation."
+      },
+      "evidence_boundary": {
+        "en": "A conversational claim cannot replace a completed tool effect. LLM ratings are not human naturalness evidence.",
+        "uk": "Розмовне твердження не замінює виконаного tool effect. LLM ratings не є людським доказом природності."
+      }
+    },
+    {
+      "id": "C18",
+      "name": "chatbot-atelier-knowledge",
+      "source": "kit/skills/chatbot-atelier-knowledge/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Implement scoped memory, sources, retrieval and correction/forget/restore lifecycle.",
+        "uk": "Реалізувати scoped memory, джерела, retrieval та життєвий цикл виправлення/забуття/відновлення."
+      },
+      "activation": {
+        "en": "The bot needs durable knowledge or an existing memory/privacy path changes.",
+        "uk": "Боту потрібні тривалі знання або змінюється чинний memory/privacy маршрут."
+      },
+      "input_output": {
+        "en": "Sources, ACL, purpose and retention → memory/knowledge schemas, conditional RAG, retrieval/attribution tests, deletion lineage and restore limits.",
+        "uk": "Джерела, ACL, мета й retention → memory/knowledge schemas, умовний RAG, retrieval/attribution перевірки, deletion lineage і restore limits."
+      },
+      "evidence_boundary": {
+        "en": "Embeddings/summaries inherit source access. A tombstone does not certify immediate physical erasure of every immutable backup.",
+        "uk": "Embeddings/summaries успадковують доступ до джерела. Tombstone не засвідчує миттєвого фізичного стирання кожного immutable backup."
+      }
+    },
+    {
+      "id": "C19",
+      "name": "chatbot-atelier-integrations",
+      "source": "kit/skills/chatbot-atelier-integrations/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Connect platform events, tools, reliable jobs, groups and provider operations.",
+        "uk": "З’єднати platform events, інструменти, надійні jobs, групи й provider operations."
+      },
+      "activation": {
+        "en": "A real action, callback, schedule, payment or external integration is required.",
+        "uk": "Потрібна фактична дія, callback, schedule, payment або зовнішня інтеграція."
+      },
+      "input_output": {
+        "en": "Actor/scope/spec and actual API → adapters, dedup/fence/retry, uncertain-outcome reconciliation, schedules, receipts and failure tests.",
+        "uk": "Actor/scope/spec і фактичний API → adapters, dedup/fence/retry, reconciliation невідомого outcome, schedules, receipts і failure tests."
+      },
+      "evidence_boundary": {
+        "en": "Transport acknowledgement is not domain success or human reading. Mocks do not prove provider delivery or group consent.",
+        "uk": "Transport acknowledgement не є доменним успіхом або прочитанням людиною. Mocks не доводять provider delivery чи згоди групи."
+      }
+    },
+    {
+      "id": "C20",
+      "name": "chatbot-atelier-media",
+      "source": "kit/skills/chatbot-atelier-media/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Produce and integrate images, character motion, audio/music/voice and video.",
+        "uk": "Виготовити й інтегрувати зображення, рух персонажа, audio/music/voice та video."
+      },
+      "activation": {
+        "en": "The task calls for a new/changed media artifact or delivery repair.",
+        "uk": "Задача потребує нового/зміненого media artifact або ремонту доставки."
+      },
+      "input_output": {
+        "en": "Purpose, approved originals, rights and exact operation capability → recipes/attempts, editable sources, final files/manifest, playback/decode and integration/readback evidence.",
+        "uk": "Мета, прийняті originals, права й точна capability операції → recipes/attempts, редаговані sources, final files/manifest, playback/decode та integration/readback докази."
+      },
+      "evidence_boundary": {
+        "en": "Source track, full motion/audio playback and runtime membership are separate. A PNG or frame count cannot prove rig, action or sound.",
+        "uk": "Source track, повний motion/audio playback і runtime membership — окремі факти. PNG або frame count не доводить rig, дію чи звук."
+      }
+    },
+    {
+      "id": "C21",
+      "name": "chatbot-atelier-build",
+      "source": "kit/skills/chatbot-atelier-build/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Implement the actual chatbot from source through action and delivery/recovery.",
+        "uk": "Реалізувати фактичний чатбот від source до дії та delivery/recovery."
+      },
+      "activation": {
+        "en": "Approved build/repair scope with actual repository and runtime context.",
+        "uk": "Погоджений build/repair scope з фактичним repository і runtime context."
+      },
+      "input_output": {
+        "en": "Contracts/current source/toolchain → event→authorized state→effect→verified outcome→delivery slice, production code, isolated tests and handoff.",
+        "uk": "Контракти/чинні source/toolchain → event→authorized state→effect→verified outcome→delivery зріз, production code, ізольовані тести й передача."
+      },
+      "evidence_boundary": {
+        "en": "No required Redis/vector/workflow stack by default. Mock boundaries and local tests are not live platform proof.",
+        "uk": "За замовчуванням немає обов’язкового Redis/vector/workflow стека. Mock boundaries й локальні тести не доводять live platform."
+      }
+    },
+    {
+      "id": "C22",
+      "name": "chatbot-atelier-qa",
+      "source": "kit/skills/chatbot-atelier-qa/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Independently test conversation, state, memory, actions, media and runtime together.",
+        "uk": "Незалежно перевірити разом розмову, стан, пам’ять, дії, медіа й runtime."
+      },
+      "activation": {
+        "en": "A frozen change/result is due for acceptance.",
+        "uk": "Заморожена зміна/результат потребує належного приймання."
+      },
+      "input_output": {
+        "en": "Raw cases, sources/config/assets and actors → negative/race/restart/privacy tests, eight conversation strata, media checks and scoped verdict.",
+        "uk": "Сирі cases, sources/config/assets та actors → negative/race/restart/privacy перевірки, вісім conversation strata, media checks і висновок у межах scope."
+      },
+      "evidence_boundary": {
+        "en": "A high conversation score cannot compensate for privacy/authority/false-success defects. Human, live and device gates require actual access.",
+        "uk": "Високий conversation score не компенсує privacy/authority/false-success дефекти. Human, live і device gates потребують фактичного доступу."
+      }
+    },
+    {
+      "id": "C23",
+      "name": "chatbot-atelier-release",
+      "source": "kit/skills/chatbot-atelier-release/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Perform an authorized compatible bot release with exact source/assets and rollback limits.",
+        "uk": "Провести дозволений сумісний випуск бота з точними source/assets і межами відкату."
+      },
+      "activation": {
+        "en": "A prepared release/migration or an approved publication operation.",
+        "uk": "Підготовлений release/migration або дозволена publication operation."
+      },
+      "input_output": {
+        "en": "Frozen RC, QA, migrations and target authority → rollout/stop/rollback, actual deploy/publication identity, bounded smoke/readback and operations handoff.",
+        "uk": "Заморожений RC, QA, міграції й повноваження цілі → rollout/stop/rollback, фактична deploy/publication identity, обмежений smoke/readback і передача супроводу."
+      },
+      "evidence_boundary": {
+        "en": "Deployment, message delivery, media membership and human satisfaction are separate; uncertain remote writes are reconciled before retry.",
+        "uk": "Deployment, доставка повідомлення, media membership і людська задоволеність — різні факти; невідомі remote writes звіряються до retry."
+      }
+    },
+    {
+      "id": "C24",
+      "name": "chatbot-atelier-operations",
+      "source": "kit/skills/chatbot-atelier-operations/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Repair and evolve an existing bot without losing its capabilities or identity.",
+        "uk": "Ремонтувати й розвивати чинного бота без втрати його можливостей та ідентичності."
+      },
+      "activation": {
+        "en": "An incident, real defect, scoped enhancement or requested operational review.",
+        "uk": "Інцидент, фактичний дефект, обмежене вдосконалення або запитаний операційний огляд."
+      },
+      "input_output": {
+        "en": "Current source/provider/checkpoint and symptom → causal repair, dependency-based retest, cost/quality metrics, support/restore/export and next action.",
+        "uk": "Чинні source/provider/checkpoint і симптом → причинний ремонт, retest за залежностями, cost/quality метрики, support/restore/export і наступна дія."
+      },
+      "evidence_boundary": {
+        "en": "No imaginary background monitoring. Prompt/model/generator updates invalidate affected evidence while unchanged evidence can carry forward with proof.",
+        "uk": "Немає уявного фонового моніторингу. Prompt/model/generator зміни інвалідують зачеплені докази, а незмінені можуть переноситися з обґрунтуванням."
+      }
+    },
+    {
+      "id": "C25",
+      "name": "gamedev-director",
+      "source": "kit/skills/gamedev-director/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Coordinate a game from studio/concept through design, craft, native implementation, release and evolution.",
+        "uk": "Координувати гру від studio/concept через дизайн, craft, нативну реалізацію, випуск і розвиток."
+      },
+      "activation": {
+        "en": "A game idea, resumed project or cross-system decision.",
+        "uk": "Задум гри, відновлення проєкту або міжсистемне рішення."
+      },
+      "input_output": {
+        "en": "Intent/current Game Model → applicable domains, dynamic competencies, production graph, integrated acceptance and next stage.",
+        "uk": "Задум/чинна Game Model → застосовні домени, адаптивні компетенції, production graph, інтегроване приймання й наступна стадія."
+      },
+      "evidence_boundary": {
+        "en": "Game Model4, handoff1 and runtime2 are separate contracts. Director instructions and model validation are not a playable game or proof of fun.",
+        "uk": "Game Model4, handoff1 і runtime2 — окремі контракти. Інструкції директора й model validation не є playable game або доказом цікавості."
+      }
+    },
+    {
+      "id": "C26",
+      "name": "gamedev-studio",
+      "source": "kit/skills/gamedev-studio/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Preserve/create studio identity and prepare lawful masters, derivatives and operational setup.",
+        "uk": "Зберегти/створити ідентичність студії та підготувати законні masters, derivatives й операційну основу."
+      },
+      "activation": {
+        "en": "New studio setup, brand continuation, asset derivation or account-readiness review.",
+        "uk": "Початкова організація студії, продовження бренду, похідні assets або перевірка account-readiness."
+      },
+      "input_output": {
+        "en": "Accepted originals/rights and current accounts → style/master catalogue, exact derivatives, setup dependencies, human guide and studio payload.",
+        "uk": "Прийняті originals/права й чинні accounts → style/master catalogue, точні derivatives, setup dependencies, людська інструкція й studio payload."
+      },
+      "evidence_boundary": {
+        "en": "Approved name, graphic master, legal entity and configured account are distinct. A redraw is not the byte-identical approved original.",
+        "uk": "Прийнята назва, graphic master, legal entity і configured account — різні об’єкти. Redraw не є byte-identical прийнятим original."
+      }
+    },
+    {
+      "id": "C27",
+      "name": "gamedev-concepts",
+      "source": "kit/skills/gamedev-concepts/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Research and compare complete game concepts with causal depth and feasible visual direction.",
+        "uk": "Дослідити й порівняти цілісні концепції гри з причинною глибиною та здійсненним visual direction."
+      },
+      "activation": {
+        "en": "A new concept search, repair or explicit owner selection task.",
+        "uk": "Новий пошук концепцій, ремонт або явна задача вибору власником."
+      },
+      "input_output": {
+        "en": "Intent/studio/profile → diverse C0 sketches, complete C1 candidates, mechanics/world/progression/economics, camera/art production envelope and comparison.",
+        "uk": "Задум/studio/profile → різні C0 начерки, повні C1 candidates, mechanics/world/progression/economics, camera/art production envelope і порівняння."
+      },
+      "evidence_boundary": {
+        "en": "Concept count, recolors or many mechanics do not prove diversity/depth. A concept frame is not runtime, full world scope or a production permission.",
+        "uk": "Кількість концепцій, recolors або багато механік не доводять різноманітності/глибини. Кадр концепції не є runtime, повним світом або production permission."
+      }
+    },
+    {
+      "id": "C28",
+      "name": "gamedev-preproduction",
+      "source": "kit/skills/gamedev-preproduction/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Define the complete implementable game and its source→runtime contracts.",
+        "uk": "Визначити повну придатну до реалізації гру й контракти source→runtime."
+      },
+      "activation": {
+        "en": "An accepted concept needs GDD/TDD or rules require a controlled change.",
+        "uk": "Прийнята концепція потребує GDD/TDD або правила потребують контрольованої зміни."
+      },
+      "input_output": {
+        "en": "Accepted C1/model/studio → rules/state/units/oracles, camera/input/world/reward/commerce contracts, asset scope, representative native slice plan and handoff.",
+        "uk": "Прийняті C1/model/studio → rules/state/units/oracles, camera/input/world/reward/commerce контракти, asset scope, план representative native slice і передача."
+      },
+      "evidence_boundary": {
+        "en": "Simulation tests a named hypothesis, not human comprehension, sensory comfort, retention or revenue. No genre/economy/engine preset is mandatory.",
+        "uk": "Simulation перевіряє названу гіпотезу, а не людське розуміння, sensory comfort, retention чи revenue. Жодний genre/economy/engine preset не є обов’язковим."
+      }
+    },
+    {
+      "id": "C29",
+      "name": "gamedev-assets",
+      "source": "kit/skills/gamedev-assets/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Produce the full game art, animation, UI, sound and haptics and integrate their real consumers.",
+        "uk": "Виготовити повний art, animation, UI, sound і haptics гри та інтегрувати їхніх фактичних consumers."
+      },
+      "activation": {
+        "en": "Accepted model states and production assets need creation, repair or integration.",
+        "uk": "Прийняті model states і production assets потребують створення, ремонту чи інтеграції."
+      },
+      "input_output": {
+        "en": "Model IDs, exact references, rights and available operations → editable masters, 2D/vector/3D/rig/clips/VFX/UI/audio, exports/catalogue, actual assembly and modality evidence.",
+        "uk": "Model IDs, точні референси, права й доступні операції → editable masters, 2D/vector/3D/rig/clips/VFX/UI/audio, exports/catalogue, actual assembly і modality evidence."
+      },
+      "evidence_boundary": {
+        "en": "PNG generation does not supply mesh/rig/physics. Actual source reopen/export/import, motion/listening and device haptics have separate proof gates.",
+        "uk": "PNG generation не створює mesh/rig/physics автоматично. Source reopen/export/import, motion/listening і device haptics мають окремі proof gates."
+      }
+    },
+    {
+      "id": "C30",
+      "name": "gamedev-build",
+      "source": "kit/skills/gamedev-build/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Implement native gameplay, systems, persistence and platform integration from the accepted model.",
+        "uk": "Реалізувати нативні gameplay, systems, persistence та platform integration з прийнятої моделі."
+      },
+      "activation": {
+        "en": "Approved implementation scope and a verified engine/export/toolchain route.",
+        "uk": "Погоджений scope реалізації та перевірений engine/export/toolchain маршрут."
+      },
+      "input_output": {
+        "en": "Model/GDD/TDD, assets and real project → native slice, finite launch scope, tests, save/recovery, actual build files and receipts.",
+        "uk": "Model/GDD/TDD, assets і фактичний project → native slice, finite launch scope, tests, save/recovery, actual build files і receipts."
+      },
+      "evidence_boundary": {
+        "en": "An APK, AAB, simulator app, archive and TestFlight availability differ. Structural build receipts do not prove signing, thermal behavior, physical input or fun.",
+        "uk": "APK, AAB, simulator app, archive та TestFlight availability — різні результати. Structural build receipts не доводять signing, thermal behavior, physical input або fun."
+      }
+    },
+    {
+      "id": "C31",
+      "name": "gamedev-qa",
+      "source": "kit/skills/gamedev-qa/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Independently test the game’s rules, experience, craft and actual native implementation.",
+        "uk": "Незалежно перевірити правила, досвід, craft і фактичну native implementation гри."
+      },
+      "activation": {
+        "en": "A named design/slice/release gate is due.",
+        "uk": "Настав названий design/slice/release gate."
+      },
+      "input_output": {
+        "en": "Frozen model/source/build/assets and raw scenarios → design-derived positives/negatives, interactions, commerce/save/privacy tests, sensory/device/human limits and verdict.",
+        "uk": "Заморожені model/source/build/assets і сирі scenarios → design-derived positives/negatives, interactions, commerce/save/privacy tests, sensory/device/human межі й verdict."
+      },
+      "evidence_boundary": {
+        "en": "A schema/byte PASS cannot establish balance, touch comfort or human enjoyment. Author, independent QA and final judge are distinct actors.",
+        "uk": "Schema/byte PASS не доводить balance, touch comfort або людську цікавість. Автор, незалежний QA та final judge — різні actors."
+      }
+    },
+    {
+      "id": "C32",
+      "name": "gamedev-release",
+      "source": "kit/skills/gamedev-release/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Prepare and execute an authorized native game release against current platform rules.",
+        "uk": "Підготувати й виконати дозволений native game release за чинними platform rules."
+      },
+      "activation": {
+        "en": "Early release feasibility or a specific frozen release candidate.",
+        "uk": "Рання release feasibility або конкретний frozen release candidate."
+      },
+      "input_output": {
+        "en": "Exact binaries/config/content/QA, target accounts and rights → compliance snapshot, store/privacy/commerce material, controlled rollout, receipts and recovery handoff.",
+        "uk": "Точні binaries/config/content/QA, target accounts і права → compliance snapshot, store/privacy/commerce матеріали, controlled rollout, receipts і recovery handoff."
+      },
+      "evidence_boundary": {
+        "en": "Upload, review, approval, tester availability and live release differ. Store rollback may need a forward fix; SDK/account/device prerequisites remain real.",
+        "uk": "Upload, review, approval, tester availability і live release відрізняються. Store rollback може потребувати forward fix; SDK/account/device prerequisites залишаються фактичними."
+      }
+    },
+    {
+      "id": "C33",
+      "name": "gamedev-liveops",
+      "source": "kit/skills/gamedev-liveops/SKILL.md",
+      "version": "6.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Maintain and evolve a released/beta game using observed player and runtime evidence.",
+        "uk": "Супроводжувати й розвивати released/beta гру за спостереженими player і runtime evidence."
+      },
+      "activation": {
+        "en": "An incident, player-experience problem, approved measurement or scoped evolution.",
+        "uk": "Інцидент, проблема player experience, дозволене вимірювання або обмежений розвиток."
+      },
+      "input_output": {
+        "en": "Actual build/store/config/economy/save versions and observations → diagnostics, causal repair proposals, retests, permitted changes, support and checkpoint.",
+        "uk": "Фактичні build/store/config/economy/save versions і спостереження → diagnostics, причинні repair proposals, retests, дозволені зміни, support і checkpoint."
+      },
+      "evidence_boundary": {
+        "en": "Observational cohorts and simulations are not causal retention/LTV proof. Recurring operation and human research require actual task scope.",
+        "uk": "Observational cohorts і simulations не є причинним доказом retention/LTV. Регулярна експлуатація й human research потребують чинного task scope."
+      }
+    },
+    {
+      "id": "O01",
+      "name": "atelier-orchestrator",
+      "source": "optional-skills/atelier-orchestrator/SKILL.md",
+      "version": "1.1.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Provide one conversational entry, select a sufficient route and integrate the original result.",
+        "uk": "Надати один розмовний вхід, обрати достатній маршрут та інтегрувати первинний результат."
+      },
+      "activation": {
+        "en": "Explicit invocation accepts any request; also project continuation, multiple components, portfolio or system maintenance.",
+        "uk": "Явний виклик приймає будь-який запит; також продовження проєкту, кілька компонентів, портфель або супровід системи."
+      },
+      "input_output": {
+        "en": "User outcome and actual sources → direct work, specialist/director/project-agent reuse, composition, approved construction/maintenance or an exact host bridge; optional loopback commands.",
+        "uk": "Результат користувача й фактичні джерела → пряме виконання, specialist/director/project-agent reuse, композиція, погоджене створення/супровід або точний host bridge; optional loopback commands."
+      },
+      "evidence_boundary": {
+        "en": "It does not require a new agent for every request, replace the project owner, grant permissions or create panel availability. check_routing.py validates declarations only.",
+        "uk": "Не вимагає нового агента для кожного запиту, не замінює власника проєкту, не надає прав і не створює доступності панелі. check_routing.py перевіряє лише декларації."
+      }
+    },
+    {
+      "id": "O02",
+      "name": "codex-agents-maintenance",
+      "source": "maintenance-skill/SKILL.md",
+      "version": "1.0.0",
+      "kind": "instruction",
+      "purpose": {
+        "en": "Keep authorized reusable-system changes, documentation, migration, packages and publication coherent.",
+        "uk": "Узгоджувати дозволені зміни reusable system, документацію, міграцію, пакети й публікацію."
+      },
+      "activation": {
+        "en": "Creating/changing/releasing the owner’s agent system, or recovering incomplete publication.",
+        "uk": "Створення/зміна/випуск агентної системи власника або відновлення незавершеної публікації."
+      },
+      "input_output": {
+        "en": "Actual repository/source diff and current policy → version/impact decision, compatible update/adoption/rollback instructions, equivalent docs and verified distribution/publication record.",
+        "uk": "Фактичні repository/source diff і чинна policy → version/impact рішення, сумісні update/adoption/rollback інструкції, рівнозначні docs і перевірений distribution/publication record."
+      },
+      "evidence_boundary": {
+        "en": "Repository presence is not installation; local commit/archive is not remote publication. It grants no new spending, product deployment, visibility or license change.",
+        "uk": "Наявність у repository не є установленням; local commit/archive не є remote publication. Не надає нових витрат, product deployment, зміни visibility чи license."
+      }
+    }
+  ],
+  "roles": [
+    {
+      "id": "R01",
+      "name": "foundry-architecture",
+      "source": "agent-profiles/foundry-architecture.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "System architecture and state-machine lead.",
+        "uk": "Архітектура й причинна модель"
+      },
+      "purpose": {
+        "en": "Compare 2–3 feasible designs; own module boundaries, ERD, API/events, concurrency, idempotency, recovery, resource and rollout. Prefer simplest coherent vertical slice.",
+        "uk": "Порівнює2–3 здійсненні архітектури; визначає межі модулів, ERD, API/events, concurrency, idempotency, recovery, resources і rollout. Обирає найпростіший достатній наскрізний зріз."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R02",
+      "name": "foundry-backend",
+      "source": "agent-profiles/foundry-backend.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Backend and data implementation specialist.",
+        "uk": "Backend і дані"
+      },
+      "purpose": {
+        "en": "Implement only assigned files and tests. Keep state ownership, schema, migrations, idempotency, privacy lineage and error handling coherent.",
+        "uk": "Реалізує лише доручені файли й перевірки; узгоджує власність стану, schema/migrations, idempotency, privacy lineage та errors."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R03",
+      "name": "foundry-conversation",
+      "source": "agent-profiles/foundry-conversation.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Conversation, personality and social interaction specialist.",
+        "uk": "Розмова й характер"
+      },
+      "purpose": {
+        "en": "Design natural, context-aware conversation, listening, clarification, initiative, humor, consent, tone, temporary preferences and human evaluation.",
+        "uk": "Проєктує доречну розмову, слухання, уточнення, ініціативу, гумор, згоду, tone, тимчасові побажання й людське оцінювання."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R04",
+      "name": "foundry-cost",
+      "source": "agent-profiles/foundry-cost.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Cost and performance auditor.",
+        "uk": "Вартість і продуктивність"
+      },
+      "purpose": {
+        "en": "Reduce context, agents, retries, unnecessary media processing and test duplication; measure real costs, never sacrifice hard gates.",
+        "uk": "Скорочує зайвий контекст, агентів, retries, media processing і дубльовані перевірки; вимірює реальні витрати без послаблення must."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": "gpt-6-luna",
+      "reasoning_override": "medium"
+    },
+    {
+      "id": "R05",
+      "name": "foundry-integrations",
+      "source": "agent-profiles/foundry-integrations.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "External tools, provider contracts and permission specialist.",
+        "uk": "Інтеграції й контракти provider"
+      },
+      "purpose": {
+        "en": "Verify provider APIs, auth scopes, failure modes, actual receipts, retries, quotas and cost. Never treat an API stub as a working integration.",
+        "uk": "Перевіряє provider API, auth scopes, failure modes, фактичні receipts, retries, quotas і cost. Не видає API stub за робочу інтеграцію."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R06",
+      "name": "foundry-judge",
+      "source": "agent-profiles/foundry-judge.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Independent evidence and release judge.",
+        "uk": "Незалежний суддя доказів"
+      },
+      "purpose": {
+        "en": "Separate hypothesis, code inspection, isolated test, integration, provider observation and human feedback. Reject unknown hard gates and fabricated completion.",
+        "uk": "Розділяє гіпотезу, code inspection, isolated test, integration, provider observation і human feedback. Відхиляє невідомі hard gates та вигадане завершення."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R07",
+      "name": "foundry-platform",
+      "source": "agent-profiles/foundry-platform.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Telegram/Discord/Slack platform UX and API specialist.",
+        "uk": "Платформа та її UX/API"
+      },
+      "purpose": {
+        "en": "Check platform-specific callback/interaction semantics, permissions, message formatting, rate limits, transport receipts, group roles and device behavior.",
+        "uk": "Перевіряє callbacks/interactions, permissions, формат повідомлень, rate limits, transport receipts, ролі груп і поведінку пристрою."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R08",
+      "name": "foundry-privacy",
+      "source": "agent-profiles/foundry-privacy.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Security, privacy and adversarial access reviewer.",
+        "uk": "Безпека й приватність"
+      },
+      "purpose": {
+        "en": "Threat-model data scopes, consent, secrets, prompt injection, forget, revoke, restore, logging and cross-user leakage. Return exploit scenarios or honest unknowns.",
+        "uk": "Моделює загрози data scopes, consent, secrets, prompt injection, forget/revoke/restore, logging і cross-user leakage. Повертає exploit scenarios або чесні невідомі."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R09",
+      "name": "foundry-product",
+      "source": "agent-profiles/foundry-product.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Product discovery and user-value lead.",
+        "uk": "Потреби й користь продукту"
+      },
+      "purpose": {
+        "en": "Define audience, concrete value, JTBD, user journeys, non-goals, success metrics, ethical boundaries and acceptance; challenge decorative features.",
+        "uk": "Визначає аудиторію, конкретну користь, JTBD, шляхи користувача, non-goals, success metrics, етичні межі та приймання; відсіює декоративні функції."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R10",
+      "name": "foundry-qa",
+      "source": "agent-profiles/foundry-qa.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Independent quality assurance lead.",
+        "uk": "Незалежна якість"
+      },
+      "purpose": {
+        "en": "Independently review frozen contract and diff. Produce positive, negative, race, stale, wrong-actor, duplicate, cancel, restart, privacy tests with actual evidence.",
+        "uk": "Незалежно перевіряє frozen contract/diff; готує positive/negative/race/stale/wrong-actor/duplicate/cancel/restart/privacy перевірки з фактичними доказами."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R11",
+      "name": "foundry-reliability",
+      "source": "agent-profiles/foundry-reliability.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Reliability and operations specialist.",
+        "uk": "Надійність і супровід"
+      },
+      "purpose": {
+        "en": "Design bounded queues, retries, recovery, cancellation, timeouts, health, metrics, backup/restore and deploy safety.",
+        "uk": "Проєктує bounded queues/retries, recovery/cancel/timeouts, health/metrics, backup/restore та безпечний випуск."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    },
+    {
+      "id": "R12",
+      "name": "foundry-skeptic",
+      "source": "agent-profiles/foundry-skeptic.toml",
+      "kind": "role_configuration",
+      "version": null,
+      "title": {
+        "en": "Independent skeptic and design challenger.",
+        "uk": "Незалежний опонент"
+      },
+      "purpose": {
+        "en": "Find the strongest concrete counterexamples and alternative explanations; focus on correctness, user burden, hidden cost and regression.",
+        "uk": "Шукає найсильніші контрприклади й альтернативні пояснення; перевіряє коректність, тягар для людини, приховану вартість і регресії."
+      },
+      "activation": {
+        "en": "The parent selects this competence when its concrete deliverable or independent review is needed; a supported host must actually launch the assigned actor.",
+        "uk": "Parent обирає цю компетенцію, коли потрібний її конкретний результат або незалежний review; підтриманий host має фактично запустити дорученого actor."
+      },
+      "input_output": {
+        "en": "Assigned raw task, exact sources/contracts and owned scope → the domain output described above, negative scenarios, actual evidence, uncertainties and handoff.",
+        "uk": "Доручена сира задача, точні sources/contracts і належний scope → описаний вище предметний результат, negative scenarios, фактичні докази, невідоме й передача."
+      },
+      "evidence_boundary": {
+        "en": "A role profile is instructions, not a standalone skill, separate sandbox, licensed human expert or proof a review occurred. Its instructions prohibit secrets/private chats and production/publication/deployment/paid/irreversible external effects.",
+        "uk": "Role profile — інструкції, а не самостійна навичка, окрема sandbox, ліцензований експерт-людина або доказ проведеного review. Його інструкції забороняють secrets/private chats і production/publication/deployment/paid/irreversible external effects."
+      },
+      "model_override": null,
+      "reasoning_override": null
+    }
+  ],
+  "helpers": [
+    {
+      "id": "H01",
+      "name": "Foundry native controller",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/foundry.py"
+      ],
+      "kind": "local_controller",
+      "purpose": {
+        "en": "Manage local approval subjects, coverage and workflow state.",
+        "uk": "Керувати локальними предметами погодження, покриттям і workflow state."
+      },
+      "activation": {
+        "en": "A supported native operation; inspect actual --help first.",
+        "uk": "Підтримана native operation; спочатку прочитати actual --help."
+      },
+      "input_output": {
+        "en": "Current session and exact record → validated local state/receipt under native locks and gates.",
+        "uk": "Чинна session і точний record → перевірений local state/receipt з native locks і gates."
+      },
+      "evidence_boundary": {
+        "en": "No model or external executor; stored approval needs actual user authority.",
+        "uk": "Не виконує model або external executor; збережене погодження потребує actual user authority."
+      }
+    },
+    {
+      "id": "H02",
+      "name": "Packaging and project installation",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/package_agent.py",
+        "kit/skills/agent-foundry/scripts/install_agent.py"
+      ],
+      "kind": "filesystem_tool",
+      "purpose": {
+        "en": "Package authored agent content and install a declared set into one project.",
+        "uk": "Пакувати створений agent content і встановлювати declared set в один проєкт."
+      },
+      "activation": {
+        "en": "A reviewed delivery/install task with exact build gate and target.",
+        "uk": "Перевірена delivery/install задача з точними build gate і target."
+      },
+      "input_output": {
+        "en": "Authored source/manifest → delivery kit; reviewed kit/project → managed files/receipts.",
+        "uk": "Створені source/manifest → delivery kit; перевірені kit/project → managed files/receipts."
+      },
+      "evidence_boundary": {
+        "en": "No expert-content generation, registration, upload/deploy or product-state migration. Same-user ancestor replacement is outside its security boundary.",
+        "uk": "Не генерує expert content, не реєструє, не upload/deploy і не мігрує product-state. Same-user ancestor replacement поза його security boundary."
+      }
+    },
+    {
+      "id": "H03",
+      "name": "Core suite updater",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/update_skill_suite.py"
+      ],
+      "kind": "filesystem_tool",
+      "purpose": {
+        "en": "Audit, plan, apply, verify and roll back the exact33-core personal suite.",
+        "uk": "Аудитувати, планувати, застосовувати, перевіряти й відкочувати точний personal suite із33 core skills."
+      },
+      "activation": {
+        "en": "Reviewed install/update with actual ownership/journal and preservation checks.",
+        "uk": "Перевірені install/update з actual ownership/journal і preservation checks."
+      },
+      "input_output": {
+        "en": "Candidate and installed tree → plan/diff, before-copy, managed update/verification or qualified rollback.",
+        "uk": "Candidate та installed tree → plan/diff, before-copy, managed update/verification або належний rollback."
+      },
+      "evidence_boundary": {
+        "en": "Does not manage optional sources, plugins, model defaults, AGENTS.md or product data. Files are not host discovery.",
+        "uk": "Не керує optional sources, plugins, model defaults, AGENTS.md або product data. Файли не доводять host discovery."
+      }
+    },
+    {
+      "id": "H04",
+      "name": "App ledger and checks",
+      "sources": [
+        "kit/skills/app-atelier-director/scripts/state.py",
+        "kit/skills/app-atelier-director/scripts/check_model.py",
+        "kit/skills/app-atelier-director/scripts/doctor.py"
+      ],
+      "kind": "local_controller",
+      "purpose": {
+        "en": "Record App requirements, decisions, work/effects, authority and evidence; inspect consistency.",
+        "uk": "Фіксувати App requirements, decisions, work/effects, authority й evidence; перевіряти узгодженість."
+      },
+      "activation": {
+        "en": "An applicable App native state/check operation and accepted profile.",
+        "uk": "Застосовна App native state/check operation і прийнятий profile."
+      },
+      "input_output": {
+        "en": "Profile/state and typed records → ledger, status/coverage and consistency findings.",
+        "uk": "Profile/state і typed records → ledger, status/coverage та consistency findings."
+      },
+      "evidence_boundary": {
+        "en": "No remote/model execution, UI rendering, support runtime or market proof.",
+        "uk": "Не виконує remote/model, UI rendering, support runtime і не доводить ринок."
+      }
+    },
+    {
+      "id": "H05",
+      "name": "ChatBot round/team/domain checks",
+      "sources": [
+        "kit/skills/chatbot-atelier-director/scripts/teamctl.py",
+        "kit/skills/chatbot-atelier-director/scripts/team_policy.py",
+        "kit/skills/chatbot-atelier-director/scripts/check_round.py",
+        "kit/skills/chatbot-atelier-director/scripts/check_chat_contract.py",
+        "kit/skills/chatbot-atelier-director/scripts/check_platform_adapter.py"
+      ],
+      "kind": "structural_helper",
+      "purpose": {
+        "en": "Plan/freeze rounds and validate declared bot/domain/platform records.",
+        "uk": "Планувати/freeze-ити rounds і перевіряти declared bot/domain/platform records."
+      },
+      "activation": {
+        "en": "A gate applicable to current chatbot.round/1 and native contracts.",
+        "uk": "Gate, застосовний до чинних chatbot.round/1 та native contracts."
+      },
+      "input_output": {
+        "en": "Requirements, team plan, hashes and fixtures → structural errors/validity and frozen round metadata.",
+        "uk": "Requirements, team plan, hashes і fixtures → structural errors/validity та frozen round metadata."
+      },
+      "evidence_boundary": {
+        "en": "Does not execute roles, authenticate consent or prove natural conversation/provider delivery.",
+        "uk": "Не запускає ролі, не автентифікує згоду й не доводить natural conversation/provider delivery."
+      }
+    },
+    {
+      "id": "H06",
+      "name": "Game state/model/production/build checks",
+      "sources": [
+        "kit/skills/gamedev-director/scripts/atelier.py",
+        "kit/skills/gamedev-director/scripts/game_model.py",
+        "kit/skills/gamedev-director/scripts/pipeline.py",
+        "kit/skills/gamedev-director/scripts/production_contract.py",
+        "kit/skills/gamedev-director/scripts/check_build_receipts.py",
+        "kit/skills/gamedev-director/scripts/concept_gate.py"
+      ],
+      "kind": "local_controller",
+      "purpose": {
+        "en": "Maintain workflow/handoff and check model, production, concepts and exact build receipts.",
+        "uk": "Вести workflow/handoff і перевіряти model, production, concepts та exact build receipts."
+      },
+      "activation": {
+        "en": "Applicable concept/slice/release gate; preserve model4/handoff1/runtime2 and read actual help.",
+        "uk": "Застосовний concept/slice/release gate; зберегти model4/handoff1/runtime2 і прочитати actual help."
+      },
+      "input_output": {
+        "en": "Model/state and linked files/receipts → consistency, coverage, impact and workflow records.",
+        "uk": "Model/state і linked files/receipts → consistency, coverage, impact та workflow records."
+      },
+      "evidence_boundary": {
+        "en": "No engine execution, model/API generation, signing/device performance, fun or retention certification.",
+        "uk": "Не виконує engine, model/API generation і не засвідчує signing/device performance, fun або retention."
+      }
+    },
+    {
+      "id": "H07",
+      "name": "Context and adaptive task helpers",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/context_capsule.py",
+        "kit/skills/agent-foundry/scripts/adaptive_work.py",
+        "kit/skills/agent-foundry/scripts/verify_depth.py"
+      ],
+      "kind": "structural_helper",
+      "purpose": {
+        "en": "Compile declared task context and check dependency/depth/adaptive-work structure.",
+        "uk": "Компілювати declared task context і перевіряти dependency/depth/adaptive-work структуру."
+      },
+      "activation": {
+        "en": "Material direct/delegated/resumed work; load only the applicable profile.",
+        "uk": "Матеріальна пряма/делегована/відновлена робота; завантажувати лише застосовний profile."
+      },
+      "input_output": {
+        "en": "Native requirements/decisions/identity/authority and input pins → derived capsule/checks for a named consumer.",
+        "uk": "Native requirements/decisions/identity/authority та input pins → похідні capsule/checks для названого consumer."
+      },
+      "evidence_boundary": {
+        "en": "No new permission, replacement native truth, job execution or quality certificate. Skill-local copies are self-contained.",
+        "uk": "Не створює дозволів, не замінює native truth, не виконує job і не сертифікує якість. Skill-local copies самодостатні."
+      }
+    },
+    {
+      "id": "H08",
+      "name": "Briefing, status and identity helpers",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/briefing.py",
+        "kit/skills/agent-foundry/scripts/interaction.py",
+        "kit/skills/agent-foundry/scripts/visual_identity.py"
+      ],
+      "kind": "local_controller",
+      "purpose": {
+        "en": "Bind briefing/script/decision files, show recorded status and freeze/check icon identity.",
+        "uk": "Пов’язувати briefing/script/decision files, показувати recorded status і freeze/check icon identity."
+      },
+      "activation": {
+        "en": "A material briefing, status/continuation question or identity-preserving update.",
+        "uk": "Матеріальний бриф, питання status/продовження або оновлення зі збереженням identity."
+      },
+      "input_output": {
+        "en": "Exact records or existing icons → bound records, read-only views and identity checks; SVG creation only when absent.",
+        "uk": "Точні records або existing icons → bound records, read-only views та identity checks; SVG створюється лише за відсутності."
+      },
+      "evidence_boundary": {
+        "en": "No interview/consent authentication, paused-job resume, craft certification, UI installation or monitoring.",
+        "uk": "Не проводить інтерв’ю/автентифікації згоди, не resume paused jobs, не засвідчує craft, не встановлює UI й не створює monitoring."
+      }
+    },
+    {
+      "id": "H09",
+      "name": "Discovery, proposal, inheritance and routing checks",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/discover_specialists.py",
+        "kit/skills/agent-foundry/scripts/check_generated_inheritance.py",
+        "kit/skills/agent-foundry/scripts/check_component_handoff.py",
+        "optional-skills/atelier-orchestrator/scripts/check_routing.py",
+        "kit/skills/design-specialist-skills/scripts/blueprint.py"
+      ],
+      "kind": "structural_helper",
+      "purpose": {
+        "en": "Inventory specialist sources and check proposal/inheritance/handoff/routing records.",
+        "uk": "Інвентаризувати specialist sources і перевіряти proposal/inheritance/handoff/routing records."
+      },
+      "activation": {
+        "en": "Source-backed reuse, construction, component handoff or a material route.",
+        "uk": "Source-backed reuse, створення, component handoff або матеріальний route."
+      },
+      "input_output": {
+        "en": "Source metadata, requirement IDs and exact blueprint/route → inventory and declared completeness/conflict findings.",
+        "uk": "Source metadata, requirement IDs і точні blueprint/route → inventory та declared completeness/conflict findings."
+      },
+      "evidence_boundary": {
+        "en": "Metadata match is not semantic competence, invocation, approval authentication or execution.",
+        "uk": "Metadata match не доводить semantic competence, invocation, автентифікацію погодження або виконання."
+      }
+    },
+    {
+      "id": "H10",
+      "name": "Shared production and tool contracts",
+      "sources": [
+        "standards/production-quality.md",
+        "standards/production-profiles.json",
+        "standards/context-capsule.md",
+        "kit/skills/agent-foundry/references/tool-compatibility.md",
+        "kit/skills/gamedev-director/references/v4/production.md",
+        "kit/skills/chatbot-atelier-media/references/production-recipes.md"
+      ],
+      "kind": "instruction",
+      "purpose": {
+        "en": "Preserve references/masters and select operation-specific production, rights, transformation and acceptance.",
+        "uk": "Зберігати references/masters та обирати предметні production, rights, transformation і acceptance для операції."
+      },
+      "activation": {
+        "en": "Any material artifact; select actual medium/consumer before batching.",
+        "uk": "Будь-який material artifact; до batch обрати actual medium/consumer."
+      },
+      "input_output": {
+        "en": "Task/reference/medium/tool schema → representative slice, recipes, lineage, actual playback/import/assembly requirements and distinct gates.",
+        "uk": "Task/reference/medium/tool schema → representative slice, recipes, lineage, вимоги actual playback/import/assembly та окремі gates."
+      },
+      "evidence_boundary": {
+        "en": "Contracts are not installed DCC/renderer/media models or proof of sensory quality; missing must capability is blocked, not N/A.",
+        "uk": "Контракти не є встановленими DCC/renderer/media models або доказом sensory quality; missing must capability — blocked, а не N/A."
+      }
+    },
+    {
+      "id": "H11",
+      "name": "Repository materialization, packaging and validation",
+      "sources": [
+        "scripts/materialize_standards.py",
+        "scripts/refresh_kit_manifest.py",
+        "scripts/build_packages.py",
+        "scripts/check_repository.py",
+        "kit/verify_release.py",
+        "scripts/install_host_profile.py"
+      ],
+      "kind": "filesystem_tool",
+      "purpose": {
+        "en": "Synchronize reviewed common copies, compute manifests, build/check distribution and install a selected host profile.",
+        "uk": "Узгоджувати перевірені common copies, обчислювати manifests, будувати/перевіряти distribution та встановлювати selected host profile."
+      },
+      "activation": {
+        "en": "A scoped repository release/check or explicit host-profile installation.",
+        "uk": "Обмежений repository release/check або явне встановлення host profile."
+      },
+      "input_output": {
+        "en": "Reviewed sources/requirements/identity baseline → materialized copies, hashes, archives/checks or managed host profile.",
+        "uk": "Перевірені sources/requirements/identity baseline → materialized copies, hashes, archives/checks або managed host profile."
+      },
+      "evidence_boundary": {
+        "en": "Integrity PASS is not remote publication, host discovery, unchanged products or all future output quality.",
+        "uk": "Integrity PASS не доводить remote publication, host discovery, незмінність продуктів або якість усіх майбутніх результатів."
+      }
+    }
+  ],
+  "service_components": [
+    {
+      "id": "S01",
+      "name": "Mac launcher and instance ownership",
+      "sources": [
+        "apps/agent-atelier/launcher/atelier.mjs",
+        "apps/agent-atelier/launcher/Agent Atelier.command",
+        "apps/agent-atelier/server/instance.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Start/open, inspect and stop the personal loopback instance.",
+        "uk": "Запускати/відкривати, перевіряти й зупиняти особистий loopback instance."
+      },
+      "activation": {
+        "en": "After pinned dependency install/build: start, status, doctor or stop; optional --no-open/--port/--data-dir.",
+        "uk": "Після pinned dependency install/build: start, status, doctor або stop; optional --no-open/--port/--data-dir."
+      },
+      "input_output": {
+        "en": "Built local sources and explicit instance directory → verified listener, one-use60-second owner link, browser or conflict/status result.",
+        "uk": "Зібрані local sources і explicit instance directory → verified listener, одноразове60-second owner посилання, browser або conflict/status result."
+      },
+      "evidence_boundary": {
+        "en": "Does not enable login auto-start. Same-OS-owner credential readers are within the local trust boundary.",
+        "uk": "Не вмикає login auto-start. Процеси того самого OS owner із доступом до credential перебувають у local trust boundary."
+      }
+    },
+    {
+      "id": "S02",
+      "name": "HTTP API and owner session",
+      "sources": [
+        "apps/agent-atelier/server/index.mjs",
+        "apps/agent-atelier/server/session.mjs",
+        "apps/agent-atelier/shared/API.md",
+        "apps/agent-atelier/shared/contracts.mjs",
+        "apps/agent-atelier/client/src/api.ts"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Serve the UI/API and authenticate local owner commands.",
+        "uk": "Обслуговувати UI/API та автентифікувати локальні owner commands."
+      },
+      "activation": {
+        "en": "Launcher claim; supported /api/v1 reads or durable POST commands.",
+        "uk": "Launcher claim; підтримані /api/v1 reads або durable POST commands."
+      },
+      "input_output": {
+        "en": "Verified launch token → HttpOnly SameSite session/CSRF; exact command_id+input → durable response.",
+        "uk": "Verified launch token → HttpOnly SameSite session/CSRF; точні command_id+input → durable response."
+      },
+      "evidence_boundary": {
+        "en": "Static page/plain URL grants no control session. No external CORS; a command receipt is not proof its long-running job succeeded.",
+        "uk": "Static page/plain URL не надає control session. Немає external CORS; command receipt не доводить успіх тривалого job."
+      }
+    },
+    {
+      "id": "S03",
+      "name": "Service-owned store and receipts",
+      "sources": [
+        "apps/agent-atelier/server/store.mjs",
+        "apps/agent-atelier/server/utils.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Persist service projects, tasks, jobs, commands, evidence and event ordering.",
+        "uk": "Зберігати service projects, tasks, jobs, commands, evidence й порядок events."
+      },
+      "activation": {
+        "en": "Normal service operations and actual database migrations/transactions.",
+        "uk": "Звичайні service operations і фактичні database migrations/transactions."
+      },
+      "input_output": {
+        "en": "Validated commands/native observations → service-owned SQLite records, monotonic events and durable receipts.",
+        "uk": "Validated commands/native observations → service-owned SQLite records, monotonic events і durable receipts."
+      },
+      "evidence_boundary": {
+        "en": "This database is not the native product source of truth or a private Codex database. Known redaction patterns do not detect every arbitrary secret.",
+        "uk": "Ця database не є native product source of truth або private Codex database. Known redaction patterns не знаходять кожний довільний secret."
+      }
+    },
+    {
+      "id": "S04",
+      "name": "Project preview, binding and source views",
+      "sources": [
+        "apps/agent-atelier/server/projects.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Inspect an exact project and expose bounded source/context/identity/artifact/diff views.",
+        "uk": "Оглядати точний проєкт і надавати bounded source/context/identity/artifact/diff views."
+      },
+      "activation": {
+        "en": "project.preview → project.bind; explicit profile/source_refs and refresh.",
+        "uk": "project.preview → project.bind; explicit profile/source_refs і refresh."
+      },
+      "input_output": {
+        "en": "Reviewed folder and known native records → binding, revision pins, requirements/decisions/readiness, source hashes and safe media/diff views.",
+        "uk": "Перевірена тека й відомі native records → binding, revision pins, requirements/decisions/readiness, source hashes і safe media/diff views."
+      },
+      "evidence_boundary": {
+        "en": "No Home scan or product migration. Unsupported schemas remain warnings; title/Markdown claims are not authenticated owner acceptance.",
+        "uk": "Немає Home scan або product migration. Unsupported schemas лишаються warnings; title/Markdown claims не є authenticated owner acceptance."
+      }
+    },
+    {
+      "id": "S05",
+      "name": "Native Codex portfolio and work map",
+      "sources": [
+        "apps/agent-atelier/server/portfolio.mjs",
+        "apps/agent-atelier/server/codex.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Discover native work and group actual outcomes by canonical project rather than show only chat titles.",
+        "uk": "Знаходити native work і групувати фактичні результати за canonical project, а не показувати лише назви чатів."
+      },
+      "activation": {
+        "en": "portfolio.refresh; on-demand project/work-group history and bounded pagination.",
+        "uk": "portfolio.refresh; on-demand project/work-group history і bounded pagination."
+      },
+      "input_output": {
+        "en": "Public read-only app-server history → active/archived project groups, source-backed turns/outcomes, goal/agent status, next-action proposals and coverage gaps.",
+        "uk": "Public read-only app-server history → active/archived project groups, source-backed turns/outcomes, goal/agent status, next-action proposals і coverage gaps."
+      },
+      "evidence_boundary": {
+        "en": "Read transport rejects mutation/model execution. Empty projects without threads are invisible; unavailable pages remain incomplete coverage. Discovery does not authorize safe chat continuation.",
+        "uk": "Read transport забороняє mutation/model execution. Empty projects без threads невидимі; unavailable pages лишаються incomplete coverage. Discovery не дозволяє автоматично безпечне продовження чату."
+      }
+    },
+    {
+      "id": "S06",
+      "name": "Universal route proposal",
+      "sources": [
+        "apps/agent-atelier/server/routing.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Store a source-backed route proposal while the actual orchestrator makes the semantic choice.",
+        "uk": "Зберігати source-backed route proposal, тоді як actual orchestrator робить semantic choice."
+      },
+      "activation": {
+        "en": "task.route; universal_entry preparation with reviewed route pins.",
+        "uk": "task.route; universal_entry preparation з reviewed route pins."
+      },
+      "input_output": {
+        "en": "Objective, current project/agent sources and creation/maintenance scope → direct/specialist/project_agent/director/compose/create_agent/maintain_system/bridge proposal.",
+        "uk": "Objective, current project/agent sources і creation/maintenance scope → direct/specialist/project_agent/director/compose/create_agent/maintain_system/bridge proposal."
+      },
+      "evidence_boundary": {
+        "en": "A route is not invocation or consent. No keyword classifier is advertised as expert reasoning; ambiguous sources require a choice.",
+        "uk": "Route не є invocation або consent. Keyword classifier не видається за expert reasoning; ambiguous sources потребують вибору."
+      }
+    },
+    {
+      "id": "S07",
+      "name": "Context, instructions and source snapshots",
+      "sources": [
+        "apps/agent-atelier/server/context.mjs",
+        "apps/agent-atelier/server/instructions.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Prepare exact governing instructions, native must/dependency closure and verified selected-skill snapshots.",
+        "uk": "Готувати точні governing instructions, native must/dependency closure й verified selected-skill snapshots."
+      },
+      "activation": {
+        "en": "task.prepare; current instruction/source rechecks before dispatch.",
+        "uk": "task.prepare; current instruction/source rechecks до dispatch."
+      },
+      "input_output": {
+        "en": "Objective/acceptance/scope, native sources and up to4 selected skills → bounded capsule with hashes, source set, aliases and capability constraints.",
+        "uk": "Objective/acceptance/scope, native sources і до4 selected skills → bounded capsule з hashes, source set, aliases та capability constraints."
+      },
+      "evidence_boundary": {
+        "en": "Changed pins or unsupported source loading block/reprepare; snapshots are read grants, not global installation or permission expansion.",
+        "uk": "Changed pins або unsupported source loading спричиняють block/reprepare; snapshots — read grants, а не global installation або permission expansion."
+      }
+    },
+    {
+      "id": "S08",
+      "name": "Codex execution adapter and permission profile",
+      "sources": [
+        "apps/agent-atelier/server/codex.mjs",
+        "apps/agent-atelier/server/permissions.mjs",
+        "apps/agent-atelier/server/environment.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Run a bounded real model turn through the supported public app-server with isolated executor state.",
+        "uk": "Запускати обмежений actual model turn через supported public app-server з isolated executor state."
+      },
+      "activation": {
+        "en": "codex.connect/skills and explicit task.dispatch after supported existing ChatGPT access and exact task checks.",
+        "uk": "codex.connect/skills та explicit task.dispatch після перевірки supported existing ChatGPT access і exact task."
+      },
+      "input_output": {
+        "en": "Prepared task, verified skills and limits → actual thread/turn/tool requests, outputs and terminal/unknown receipts.",
+        "uk": "Prepared task, verified skills і limits → actual thread/turn/tool requests, outputs і terminal/unknown receipts."
+      },
+      "evidence_boundary": {
+        "en": "Default denies ambient MCP/apps/shell network/web and unrelated/private roots. Explicit public-web read is narrower than arbitrary APIs. Custom providers/billing and unavailable tools need reviewed routes.",
+        "uk": "За замовчуванням заборонено ambient MCP/apps/shell network/web і unrelated/private roots. Explicit public-web read вужчий за довільні APIs. Custom providers/billing і unavailable tools потребують reviewed routes."
+      }
+    },
+    {
+      "id": "S09",
+      "name": "Task/job lifecycle and chat handoff",
+      "sources": [
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/shared/contracts.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Coordinate prepare/dispatch/continue/pause/interrupt/reconcile and owner review with writer reservations.",
+        "uk": "Координувати prepare/dispatch/continue/pause/interrupt/reconcile та owner review із writer reservations."
+      },
+      "activation": {
+        "en": "Task/job commands; exact idle thread.preview/adopt for existing chats.",
+        "uk": "Task/job commands; exact idle thread.preview/adopt для чинних чатів."
+      },
+      "input_output": {
+        "en": "Approved bounded task and source revision → correlated running/terminal/unknown states, outputs, durable events and owner review.",
+        "uk": "Approved bounded task і source revision → correlated running/terminal/unknown states, outputs, durable events та owner review."
+      },
+      "evidence_boundary": {
+        "en": "Interrupt is pending until terminal evidence. Unknown outcome is not replayed. Independent desktop writers are not fenced; model completion/owner review is not product acceptance/independent QA.",
+        "uk": "Interrupt очікує terminal evidence. Unknown outcome не replay-иться. Independent desktop writers не fenced; model completion/owner review не дорівнює product acceptance/independent QA."
+      }
+    },
+    {
+      "id": "S10",
+      "name": "Source-pinned native Foundry operations",
+      "sources": [
+        "apps/agent-atelier/server/controllers.mjs",
+        "apps/agent-atelier/server/foundry_cas.py"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Preview and apply a fixed native controller catalog without broad model write permissions.",
+        "uk": "Попередньо оглядати й застосовувати fixed native controller catalog без broad model write permissions."
+      },
+      "activation": {
+        "en": "controller.preview/apply; receipt-specific reconcile after unknown outcomes.",
+        "uk": "controller.preview/apply; receipt-specific reconcile після unknown outcomes."
+      },
+      "input_output": {
+        "en": "Exact trusted source closure, current state and input hashes → reviewed argv/authority subject, native locked validation/write and actual receipt.",
+        "uk": "Exact trusted source closure, current state та input hashes → reviewed argv/authority subject, native locked validation/write і actual receipt."
+      },
+      "evidence_boundary": {
+        "en": "No model/provider/deploy/product runtime. Reconciliation observes state and revokes delayed invocation only under the reviewed lease; it does not replay or certify the original result.",
+        "uk": "Не виконує model/provider/deploy/product runtime. Reconciliation спостерігає state й revokes delayed invocation лише під reviewed lease; не replay і не сертифікує original result."
+      }
+    },
+    {
+      "id": "S11",
+      "name": "Core skills discovery and update UI",
+      "sources": [
+        "apps/agent-atelier/server/skills.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Inspect canonical/installed/discovered sources and expose native33-core updater operations.",
+        "uk": "Оглядати canonical/installed/discovered sources і надавати native33-core updater operations."
+      },
+      "activation": {
+        "en": "skills audit/update-plan/diff/apply/verify/rollback; codex.skills refresh after installation.",
+        "uk": "skills audit/update-plan/diff/apply/verify/rollback; codex.skills refresh після installation."
+      },
+      "input_output": {
+        "en": "Exact candidate/installed source and journal → source/diff/plan, managed update receipts and verified rollback conditions.",
+        "uk": "Exact candidate/installed source і journal → source/diff/plan, managed update receipts і verified rollback conditions."
+      },
+      "evidence_boundary": {
+        "en": "One global writer; unknown customization is a conflict. Installed files and host discovery/use are separate; WORK has no implied control route.",
+        "uk": "Один global writer; unknown customization — conflict. Installed files і host discovery/use відокремлені; WORK не отримує implied control route."
+      }
+    },
+    {
+      "id": "S12",
+      "name": "Optional-source maintenance",
+      "sources": [
+        "apps/agent-atelier/server/optional_updates.mjs"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Manage only the declared optional orchestrator and maintenance sources with full-tree preservation.",
+        "uk": "Керувати лише declared optional orchestrator і maintenance sources з full-tree preservation."
+      },
+      "activation": {
+        "en": "skills.optional-preview/apply/verify/rollback with exact preview/journal hashes.",
+        "uk": "skills.optional-preview/apply/verify/rollback з exact preview/journal hashes."
+      },
+      "input_output": {
+        "en": "Known canonical source and exact installed predecessor → reviewed changes, owned staging/before-copy, apply/verify/qualified rollback.",
+        "uk": "Known canonical source і exact installed predecessor → reviewed changes, owned staging/before-copy, apply/verify/qualified rollback."
+      },
+      "evidence_boundary": {
+        "en": "Unknown local edits/icon/policy drift block overwrite. Unknown outcomes block shared-skill dispatch until reconciled; installed files still need discovery refresh.",
+        "uk": "Unknown local edits/icon/policy drift блокують overwrite. Unknown outcomes блокують shared-skill dispatch до reconciliation; installed files ще потребують discovery refresh."
+      }
+    },
+    {
+      "id": "S13",
+      "name": "Service backup, restore and update boundary",
+      "sources": [
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/server/store.mjs",
+        "apps/agent-atelier/README.md"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Create exact service backups and preview controlled restore/update.",
+        "uk": "Створювати exact service backups і попередньо перевіряти controlled restore/update."
+      },
+      "activation": {
+        "en": "service.backup/restore-preview/restore at an idle/reconciled boundary.",
+        "uk": "service.backup/restore-preview/restore на idle/reconciled boundary."
+      },
+      "input_output": {
+        "en": "Current service-owned records and approved backup digest → backup/restore receipts with newer durable receipts retained and old dispatch authority invalidated.",
+        "uk": "Current service-owned records і approved backup digest → backup/restore receipts зі збереженням newer durable receipts та invalidation старої dispatch authority."
+      },
+      "evidence_boundary": {
+        "en": "Does not restore native project files/databases, external effects or independent chats. Test restore on an isolated instance.",
+        "uk": "Не відновлює native project files/databases, external effects або independent chats. Restore перевіряється в isolated instance."
+      }
+    },
+    {
+      "id": "S14",
+      "name": "Retention, forgetting and cleanup",
+      "sources": [
+        "apps/agent-atelier/server/retention.mjs",
+        "apps/agent-atelier/client/src/privacy.tsx"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Preview/apply service-local retention and cleanup with tombstones and resumable file cleanup.",
+        "uk": "Попередньо оглядати/застосовувати service-local retention і cleanup з tombstones та resumable file cleanup."
+      },
+      "activation": {
+        "en": "service.retention; cleanup-preview/apply/resume with current digest and idle/reconciled work.",
+        "uk": "service.retention; cleanup-preview/apply/resume з current digest та idle/reconciled work."
+      },
+      "input_output": {
+        "en": "Reviewed policy or forget IDs → exact scope/counts, private cleanup receipt, logical invalidation and preserved recovery boundaries.",
+        "uk": "Reviewed policy або forget IDs → exact scope/counts, private cleanup receipt, logical invalidation і збережені recovery boundaries."
+      },
+      "evidence_boundary": {
+        "en": "No automatic TTL is claimed. Does not delete native/provider data or guarantee secure physical erasure; newest two retained backups remain protected by policy.",
+        "uk": "Немає обіцянки automatic TTL. Не видаляє native/provider data й не гарантує secure physical erasure; newest two retained backups захищені policy."
+      }
+    },
+    {
+      "id": "S15",
+      "name": "Adaptive multilingual workbench",
+      "sources": [
+        "apps/agent-atelier/client/src/App.tsx",
+        "apps/agent-atelier/client/src/views.tsx",
+        "apps/agent-atelier/client/src/dialogs.tsx",
+        "apps/agent-atelier/client/src/profiles.ts",
+        "apps/agent-atelier/client/src/i18n.ts",
+        "apps/agent-atelier/client/src/app.css",
+        "apps/agent-atelier/client/src/demo.ts"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Present portfolio, task/source/diff/outcome panes, evidence, updates and recovery for the selected project profile.",
+        "uk": "Показувати portfolio, task/source/diff/outcome panes, evidence, updates і recovery для selected project profile."
+      },
+      "activation": {
+        "en": "Open the live owner session; choose language and app/bot/game/agent/research/document/mixed/generic view.",
+        "uk": "Відкрити live owner session; обрати мову й app/bot/game/agent/research/document/mixed/generic view."
+      },
+      "input_output": {
+        "en": "Actual API state → usable project/work navigation, inspection, reviewable commands and localized operational status.",
+        "uk": "Actual API state → project/work navigation, inspection, reviewable commands і localized operational status."
+      },
+      "evidence_boundary": {
+        "en": "Seven locales are existing runtime catalogs, not proof of perfect linguistic/craft quality. ?demo=1 is fictional and executes no real commands. Presentation profile does not mutate native product state.",
+        "uk": "Сім мов — existing runtime catalogs, а не доказ бездоганної linguistic/craft якості. ?demo=1 — fictional і не виконує real commands. Presentation profile не змінює native product state."
+      }
+    },
+    {
+      "id": "S16",
+      "name": "Orchestrator loopback client",
+      "sources": [
+        "optional-skills/atelier-orchestrator/scripts/atelier_client.py"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Let the orchestration skill use supported service operations from the current host.",
+        "uk": "Дозволяти orchestration skill користуватися supported service operations із current host."
+      },
+      "activation": {
+        "en": "Read --help, then status/doctor; prepare/dispatch/interrupt only for an available instance and current scope.",
+        "uk": "Прочитати --help, потім status/doctor; prepare/dispatch/interrupt лише для available instance і current scope."
+      },
+      "input_output": {
+        "en": "Fresh local session/CSRF and persisted command identity → bounded correlated HTTP command/status receipts.",
+        "uk": "Fresh local session/CSRF і persisted command identity → bounded correlated HTTP command/status receipts."
+      },
+      "evidence_boundary": {
+        "en": "Loopback only; no credential searching or implicit authority. If the service is absent, continue supported native work or give an exact bridge.",
+        "uk": "Лише loopback; немає credential searching або implicit authority. За відсутності service продовжити supported native work або дати exact bridge."
+      }
+    },
+    {
+      "id": "S17",
+      "name": "Reviewed diagnostic export",
+      "sources": [
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/shared/API.md"
+      ],
+      "kind": "service_runtime",
+      "version": "0.2.0",
+      "purpose": {
+        "en": "Prepare an aggregate service diagnostic without transmitting private project content.",
+        "uk": "Готувати aggregate service diagnostic без передавання private project content."
+      },
+      "activation": {
+        "en": "service.diagnostic-preview then diagnostic-export with the reviewed digest.",
+        "uk": "service.diagnostic-preview, потім diagnostic-export із reviewed digest."
+      },
+      "input_output": {
+        "en": "Current aggregate counts/capabilities → reviewable sanitized JSON and approved private local export.",
+        "uk": "Current aggregate counts/capabilities → reviewable sanitized JSON і approved private local export."
+      },
+      "evidence_boundary": {
+        "en": "Omits project paths, task text, account/chat IDs, source/output and credentials; export is local, not external transmission or universal secret detection.",
+        "uk": "Не містить project paths, task text, account/chat IDs, source/output і credentials; export локальний, не external transmission і не universal secret detection."
+      }
+    }
+  ],
+  "schema": "codex-agents.current-components/1",
+  "status": "current-baseline-catalogue-not-new-implementation",
+  "date": "2026-11-10",
+  "baseline_versions": {
+    "repository": "1.3.0",
+    "suite": "6.0.0",
+    "orchestrator": "1.1.0",
+    "maintenance": "1.0.0",
+    "service": "0.2.0"
+  },
+  "coverage": {
+    "owned_reusable_sources": 35,
+    "core": 33,
+    "optional": 2,
+    "role_profiles": 12,
+    "helper_groups": 11,
+    "service_groups": 17,
+    "unique_source_files": 122,
+    "groups_may_share_sources": true
+  },
+  "source_pins": [
+    {
+      "path": "agent-profiles/foundry-architecture.toml",
+      "sha256": "f68fc276b4480b927f8a6480561822974e62b076286ab41e1bba96fcd82825bf"
+    },
+    {
+      "path": "agent-profiles/foundry-backend.toml",
+      "sha256": "756df1e217ebd180c58a898d14f3ef78fbf9b52cbe539919d0730a92130f8901"
+    },
+    {
+      "path": "agent-profiles/foundry-conversation.toml",
+      "sha256": "3750c6eca26697ae363510a819e2060d632495544cac17ef6bcfe642e4aeff0c"
+    },
+    {
+      "path": "agent-profiles/foundry-cost.toml",
+      "sha256": "a36ee992e32fa4fd56e944f79ab05f41beb06bbabdeb83a9e6e5311521755245"
+    },
+    {
+      "path": "agent-profiles/foundry-integrations.toml",
+      "sha256": "963e5ab3832f0bbe893ce55365bc4d95cc5df28506cfd9116758571131190bb5"
+    },
+    {
+      "path": "agent-profiles/foundry-judge.toml",
+      "sha256": "2e8ef451556d60e83544330a45a046a117cd6d33d4e0b0115bd96752bf1d990f"
+    },
+    {
+      "path": "agent-profiles/foundry-platform.toml",
+      "sha256": "defb1e9d2fd4cb9f50b82bdb3e7a2ff062fd650baa8253d7652f578ce605363f"
+    },
+    {
+      "path": "agent-profiles/foundry-privacy.toml",
+      "sha256": "583e5f3ca05974007d18ce8c12a8fa81999d1da0e8d41bbc13aeadc52c9122ab"
+    },
+    {
+      "path": "agent-profiles/foundry-product.toml",
+      "sha256": "31cd0847c7c00c37edc6908cec26f9d367e112afbfcf66e9e9c4564343b838a4"
+    },
+    {
+      "path": "agent-profiles/foundry-qa.toml",
+      "sha256": "2c0fd90e1f1550413e8acb3e2b0f91417c78e846eeebddcc4c93d55924a3965a"
+    },
+    {
+      "path": "agent-profiles/foundry-reliability.toml",
+      "sha256": "e6cc134d2e3041fb9a6c1ae98805ce4f74c0f4b937f4f74cab9cbfe5ebf5175f"
+    },
+    {
+      "path": "agent-profiles/foundry-skeptic.toml",
+      "sha256": "a46bb8a597c1e536db4f214e716d10b83eebd3de2a0bb2c00e5c54d6565895ad"
+    },
+    {
+      "path": "apps/agent-atelier/README.md",
+      "sha256": "b6b76377f6a4a2aa2a8dfcb321aeb633c5bbef51a155b87ab1b1aaf5b330b617"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/App.tsx",
+      "sha256": "14d174d4e4ba39b8f41ba0daed40af1d0c8b42b9a4064bf62f42ac79e0a42454"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/api.ts",
+      "sha256": "94eec28c24dbaa668f7117d8a297169f8644de9d12aef871aaf7ad53d269cd25"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/app.css",
+      "sha256": "2eb18bd5bdb98509786a039379f15d1cd4cbe3310622d5eef6eb7ae1a06b4675"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/demo.ts",
+      "sha256": "988db949c4e813c303c18ecea4b327949fc802442f917cbed9314109458c3a9d"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/dialogs.tsx",
+      "sha256": "f82334c739e5ef9d8d768114a8f83806891c47caaa383199b14ac94e81fede33"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/i18n.ts",
+      "sha256": "af405219905135302c879b04e37610172dcb35b1ebedad6a2d7ec5dcbaf8bd05"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/privacy.tsx",
+      "sha256": "99c9ba560ec1333bb35b038e063b0f3616b31e5cd3cc6ea84023b804b5658055"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/profiles.ts",
+      "sha256": "38702ccb64041fda7b9d1b2e38c16f85624966db54c8025ab52dc588c43da356"
+    },
+    {
+      "path": "apps/agent-atelier/client/src/views.tsx",
+      "sha256": "79b856152145e459ddde4bed8bc68d3ee052e7f631194a7897285bb116fea26b"
+    },
+    {
+      "path": "apps/agent-atelier/launcher/Agent Atelier.command",
+      "sha256": "e1a58d9f6895531bea82dcffd4192de2194fc9d5a632d15662552a1f9c225169"
+    },
+    {
+      "path": "apps/agent-atelier/launcher/atelier.mjs",
+      "sha256": "25b9d3c960500b700a6b1b36d70a80f6bc42663829facd03f408298c077b4709"
+    },
+    {
+      "path": "apps/agent-atelier/server/application.mjs",
+      "sha256": "d2c5d73fbe50840f2cf06c2fd3627008ed9bad5d6c46e7a5646ef627e74855c5"
+    },
+    {
+      "path": "apps/agent-atelier/server/codex.mjs",
+      "sha256": "be9d058a6fe4e3f9d2deb4595de41530ec09764fa0edf49160177b4dd0ecb6f9"
+    },
+    {
+      "path": "apps/agent-atelier/server/context.mjs",
+      "sha256": "405f9299a86903616625e52d03bc1e237a388e1db4188ece4a1e3fb7f17b2002"
+    },
+    {
+      "path": "apps/agent-atelier/server/controllers.mjs",
+      "sha256": "4bf255082f5966a8b6492542fb4dae58acb663eaea947db66175778e436e4538"
+    },
+    {
+      "path": "apps/agent-atelier/server/environment.mjs",
+      "sha256": "43608d5c5447f09013527e0ee994ceb162076a4eb7a40b28d62ec52d74106d39"
+    },
+    {
+      "path": "apps/agent-atelier/server/foundry_cas.py",
+      "sha256": "055bcc00df5e8bc7e9cad550a443868c31ec777ca70dc4d5f3139c9161dbc8a7"
+    },
+    {
+      "path": "apps/agent-atelier/server/index.mjs",
+      "sha256": "2c7b3fc68c77d23a973f45cd728830089179bb29c62b7c74247533f0502a1b82"
+    },
+    {
+      "path": "apps/agent-atelier/server/instance.mjs",
+      "sha256": "d6cfe80570d19181c6210251a641434a3562885b8ffc50aa9bd552d4ccbf2d40"
+    },
+    {
+      "path": "apps/agent-atelier/server/instructions.mjs",
+      "sha256": "b65b798872934b861fc184aba8804f6ec83356fec71950d0b6df329748900b49"
+    },
+    {
+      "path": "apps/agent-atelier/server/optional_updates.mjs",
+      "sha256": "7a73fe51392fa0729d940f51474465085a95ff8f9a7c4fe25d66cc3d9882c02b"
+    },
+    {
+      "path": "apps/agent-atelier/server/permissions.mjs",
+      "sha256": "ef657f977713aafd13f61185f7532b817dbcb33cc9dd7f2ae11c3e8ddc6a8164"
+    },
+    {
+      "path": "apps/agent-atelier/server/portfolio.mjs",
+      "sha256": "4c63aa95655fec32ec39e1a9d0fc468c631ba4355357876449d4d1dd97e75ef2"
+    },
+    {
+      "path": "apps/agent-atelier/server/projects.mjs",
+      "sha256": "2699db7af5e80ac24bccbb66061131092f5c8f8b423013221c148ef552e78f34"
+    },
+    {
+      "path": "apps/agent-atelier/server/retention.mjs",
+      "sha256": "fcf71e784a9994574d5a7708965f29fbb175fdeb73e8959c64aa645141e1e50f"
+    },
+    {
+      "path": "apps/agent-atelier/server/routing.mjs",
+      "sha256": "607c99a20b126f1a862a82cb3b4a67d066df899a48fc3fe143edeef1629c8bf4"
+    },
+    {
+      "path": "apps/agent-atelier/server/session.mjs",
+      "sha256": "d1d6dc3f8d7ae8c9a16efd406caaf1cbb14a33769d1f4f5168b9a5c735844f77"
+    },
+    {
+      "path": "apps/agent-atelier/server/skills.mjs",
+      "sha256": "a678a0a2fb8e81b19e2ee3e72570e9f81cf0a11d2419bff2b21db11b8bcaaa14"
+    },
+    {
+      "path": "apps/agent-atelier/server/store.mjs",
+      "sha256": "7ecb1d005ed8027b65a55a331df58bb433ed767af5f0e985b5a47f396a4f8f9a"
+    },
+    {
+      "path": "apps/agent-atelier/server/utils.mjs",
+      "sha256": "34476a49aa67b469194c1ce3a7672cda69ded745a90d465570a73c247b993355"
+    },
+    {
+      "path": "apps/agent-atelier/shared/API.md",
+      "sha256": "1a55cffbe7309d2fc1ea84b7405173c09bddadef0e07f26a65b53cae1e653085"
+    },
+    {
+      "path": "apps/agent-atelier/shared/contracts.mjs",
+      "sha256": "1d66a822677df1201ffbbc34fe8eec9314ad2bb28232b114b27d55b4cafa2b2c"
+    },
+    {
+      "path": "kit/skills/agent-foundry/SKILL.md",
+      "sha256": "199c3badc90dadc398f41425e9fcd96582236d2da07c3abd50ab8c52c831f04a"
+    },
+    {
+      "path": "kit/skills/agent-foundry/references/tool-compatibility.md",
+      "sha256": "98a5e7de2ec46f4a26ec62179f79c87a48dd3ffcc67d400ab1b88f9f9600b3fe"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/adaptive_work.py",
+      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/briefing.py",
+      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/check_component_handoff.py",
+      "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/check_generated_inheritance.py",
+      "sha256": "2b81c42afec2401187e7e2e22189654e7fb38dd4ad6f61a1b4b463bf41cf730f"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/context_capsule.py",
+      "sha256": "a2614457a169599a6fc6407bf87f02dacc004fffa6c7d154665c6a3bcbd3559a"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/discover_specialists.py",
+      "sha256": "faf6576b6b0974ee8b0a7f8192ecfea7b846907940c899cf5d22917593181086"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/foundry.py",
+      "sha256": "e8e2aecf538e59cedae3d2ad36b10d5262bfb2aa0e936dcde8cd3cd1e5057073"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/install_agent.py",
+      "sha256": "84f18e8ba4fcdcf673febd19836e22fe42ac89dafd7be30fb072f65d9c9732c0"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/interaction.py",
+      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/package_agent.py",
+      "sha256": "169035002ea8aaf1119193ae276486d3b37c432c5511e03dc291be73409b4826"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/update_skill_suite.py",
+      "sha256": "b9dacee5a231121ab90027ca415918e63f97bac63a8b5b1912f34a65a2f4c92b"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/verify_depth.py",
+      "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/visual_identity.py",
+      "sha256": "6883adc2ef7cc06b935a64f4c6ce5ee7ab4097b7215e46d83002a0bd5219d918"
+    },
+    {
+      "path": "kit/skills/app-atelier-build/SKILL.md",
+      "sha256": "5386e5025a83dc7f39dd07fcf4bb15f01cecc0c01c8740605f0ef958f5b4dd81"
+    },
+    {
+      "path": "kit/skills/app-atelier-concepts/SKILL.md",
+      "sha256": "b1e00d353c1d050f6e71c0d455fdc90a391a1e764d4c6eb4d319df79c24605a6"
+    },
+    {
+      "path": "kit/skills/app-atelier-director/SKILL.md",
+      "sha256": "477f6b3bd3dcb115454c2fb8deb9a4b1f6f7b63da26c059da396e3d1c2e5f117"
+    },
+    {
+      "path": "kit/skills/app-atelier-director/scripts/check_model.py",
+      "sha256": "eb6493c43bfdd7ba1aad034eadae6f356bec5520a75e4cf001bae75ddd4e36da"
+    },
+    {
+      "path": "kit/skills/app-atelier-director/scripts/doctor.py",
+      "sha256": "637a022fa6617ca8a4201cfe374fe149bcdf0afb8b0b6ee11d2025bdb5e583da"
+    },
+    {
+      "path": "kit/skills/app-atelier-director/scripts/state.py",
+      "sha256": "fabed5d1e92661757b30f9948eccebfa708eb0d014c0f7462745fcddf124f675"
+    },
+    {
+      "path": "kit/skills/app-atelier-experience/SKILL.md",
+      "sha256": "9628279a65fcd457f92bc186b5eb37cdf4cd7c324d7d162e5734e92f5839f1e2"
+    },
+    {
+      "path": "kit/skills/app-atelier-growth/SKILL.md",
+      "sha256": "f3fb918f01c515be49fb4268a3f4060b698300f818e00c7a924dfe3eb74655c9"
+    },
+    {
+      "path": "kit/skills/app-atelier-operations/SKILL.md",
+      "sha256": "87371100ea940891aa7ac4daab44d1f9f4709599d9ba27e586213b600bb8ba0a"
+    },
+    {
+      "path": "kit/skills/app-atelier-qa/SKILL.md",
+      "sha256": "e61a53abd7fb7c710f7de3a05e87e81c066e3e7e3aef0805b94d2f0fe6c32018"
+    },
+    {
+      "path": "kit/skills/app-atelier-release/SKILL.md",
+      "sha256": "c3ffe608104f5e2c89d376d761b49ef78dd44a7d08dfdcc5afc63fcdecd5f2df"
+    },
+    {
+      "path": "kit/skills/app-atelier-research/SKILL.md",
+      "sha256": "27cc100090213a073a5d49d78e980f1765c8a96b7dba3c9c399d1adcb664189a"
+    },
+    {
+      "path": "kit/skills/app-atelier-specification/SKILL.md",
+      "sha256": "a8a7c8f307e889dc5311325eef7bbfc88893d938e414b51a42da763a965884cd"
+    },
+    {
+      "path": "kit/skills/app-atelier-support/SKILL.md",
+      "sha256": "f1d0752abc12bf9d608868ed86711b1bda14f2c67a81a4254fe23e5fd8d4152f"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-build/SKILL.md",
+      "sha256": "77c47a46b692eaeebd133bb42f856ec26d45af833b524b8d1d97638818480bac"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-conversation/SKILL.md",
+      "sha256": "20eae787a7ccaae2bfa4ccf0e0e2e0166e9c4e7a93ff9a231346f069192ec9a3"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/SKILL.md",
+      "sha256": "b92515ca8a81ad0a054a25e21350e36e890f9ee57f301cf41c972666858d2f65"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/scripts/check_chat_contract.py",
+      "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/scripts/check_platform_adapter.py",
+      "sha256": "6ec3cd36e9c92478c9002f0c2b3fe2721a4207bae887b0200930f3e3fc93ea1f"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/scripts/check_round.py",
+      "sha256": "1daf73dfa258a83127699a8326a1a59b119d5f528654952c584b19592633fca0"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/scripts/team_policy.py",
+      "sha256": "db300c7f97b75d74815749d9fc7235c0c88d75ccc4112b5c7a540e7fdc8ce8f9"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-director/scripts/teamctl.py",
+      "sha256": "d1e40208e7bc3009f1c641cd3969c1fbeeade6b4b70209d19fb9240ce8983a5f"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-integrations/SKILL.md",
+      "sha256": "3fa34ebb077ef0b3a82510c4722a600019767a5c7737927937cbe081144ebf2f"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-knowledge/SKILL.md",
+      "sha256": "430efdad60cf71f3a3768d4a9a1bc11fb8384a59353864c60fbf8e50eb845bd7"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-media/SKILL.md",
+      "sha256": "56fc6ea3ad06f816bc5cddb6f3814074549defd74b5e678b83e170d7e345aebe"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-media/references/production-recipes.md",
+      "sha256": "72a063ace0fe8cd96325aa513a28c677083efd2d6344099e4d26e0e6b422130c"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-operations/SKILL.md",
+      "sha256": "c3049846be678eddfded295075a37cb99e93c4f046f8332d45aad1cdccefc221"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-qa/SKILL.md",
+      "sha256": "5e8b365b0021fbd7ff7a26f287f44424321614db1306aea0238d57e695bf6d9a"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-release/SKILL.md",
+      "sha256": "4703ed1e61cadc0f8d664b40da6e79b11347f09f8820e495a5ae2eca4811ef24"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-research/SKILL.md",
+      "sha256": "62d05d1851c6457a729796f83c954fd6260c88ef4a6b44e9b5965e8ed6b61d0a"
+    },
+    {
+      "path": "kit/skills/chatbot-atelier-specification/SKILL.md",
+      "sha256": "4731f705b08f5046cd00b81a3ae91d2f6c8f088b489856982e28d2409487debc"
+    },
+    {
+      "path": "kit/skills/design-specialist-skills/SKILL.md",
+      "sha256": "f4f2364314becd0c25b8935603ae8a06935f99796f566d01272bc2c0723370a4"
+    },
+    {
+      "path": "kit/skills/design-specialist-skills/scripts/blueprint.py",
+      "sha256": "88622874d813f5174c010ac4ef4dc249d4c5d9e7fc111bac6fe61b28ae3022dd"
+    },
+    {
+      "path": "kit/skills/gamedev-assets/SKILL.md",
+      "sha256": "7a203a62b45b8d17c9e5cd301bfdf30b69ea3737110ce0caa253c660c28347fe"
+    },
+    {
+      "path": "kit/skills/gamedev-build/SKILL.md",
+      "sha256": "399e8395372e780f2ffe3502b810bfa75b7af9f0c5664aa1c9ffc73719d177e4"
+    },
+    {
+      "path": "kit/skills/gamedev-concepts/SKILL.md",
+      "sha256": "63a6d06bddd44224359a05a2dde7da964df84551bf82f42c74c310ba04e77de3"
+    },
+    {
+      "path": "kit/skills/gamedev-director/SKILL.md",
+      "sha256": "8a4283d595c51b9006b7aa828c2a31f366b24b8344b811a08cef64541b362c93"
+    },
+    {
+      "path": "kit/skills/gamedev-director/references/v4/production.md",
+      "sha256": "47ac26bc6e2ac80777e45e14c799e08080a16112c51cffecd9f9be8043e77878"
+    },
+    {
+      "path": "kit/skills/gamedev-director/scripts/atelier.py",
+      "sha256": "692c40a027d784daf66dcfb86419a3c6bfc7a3c50bf3e4b597463d1be11f3b19"
+    },
+    {
+      "path": "kit/skills/gamedev-director/scripts/check_build_receipts.py",
+      "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44"
+    },
+    {
+      "path": "kit/skills/gamedev-director/scripts/concept_gate.py",
+      "sha256": "f7adfe4eb872cc190aaa0049415f00392d67fea23255704234179f73202c40d9"
+    },
+    {
+      "path": "kit/skills/gamedev-director/scripts/game_model.py",
+      "sha256": "268eb8c2692a3325138b9c55b01623511be07514dca0dfc9a9200bc6d711c403"
+    },
+    {
+      "path": "kit/skills/gamedev-director/scripts/pipeline.py",
+      "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3"
+    },
+    {
+      "path": "kit/skills/gamedev-director/scripts/production_contract.py",
+      "sha256": "18f72e84d51a359dbe3f066c2d78aceddd09ba1681960007a1d10eff57fa65b4"
+    },
+    {
+      "path": "kit/skills/gamedev-liveops/SKILL.md",
+      "sha256": "308bc602f00c16bbb921cb88610f3dba328c58d9d928fd6830872b85b5bda643"
+    },
+    {
+      "path": "kit/skills/gamedev-preproduction/SKILL.md",
+      "sha256": "f691ed50be1688e3675ed4a113778f520f007d17429c2c592a23431e84dec649"
+    },
+    {
+      "path": "kit/skills/gamedev-qa/SKILL.md",
+      "sha256": "13cad286f23df05619377a04fb2fdbeca5fa3fbab410681e7cb3858b446ee2ab"
+    },
+    {
+      "path": "kit/skills/gamedev-release/SKILL.md",
+      "sha256": "6c3174c8ffb3ec1e7e590be26e626578cb284b9172d7b9b7d8e82de5d1bc5e4f"
+    },
+    {
+      "path": "kit/skills/gamedev-studio/SKILL.md",
+      "sha256": "05d8a0ae68f59afa57a4411e2f5985f881494bcf270e5fcf36c29782ffe520bc"
+    },
+    {
+      "path": "kit/verify_release.py",
+      "sha256": "1775b0aa85ee4a3ef692476b346ca1845ca21fe8a5c390fd19a76ac9a870a797"
+    },
+    {
+      "path": "maintenance-skill/SKILL.md",
+      "sha256": "f23547616120f49919cb7b3555c456f3c46ec5306f54a3b1ada4ea5d44bee3c8"
+    },
+    {
+      "path": "optional-skills/atelier-orchestrator/SKILL.md",
+      "sha256": "886c04588da273e49225a1d529c4f9eae7249102242da06fe4b9f47372071b71"
+    },
+    {
+      "path": "optional-skills/atelier-orchestrator/scripts/atelier_client.py",
+      "sha256": "3a901ba2c97f6e65115a59ac61af9abf5d4504ac480cc9b6e6d9756f0d928458"
+    },
+    {
+      "path": "optional-skills/atelier-orchestrator/scripts/check_routing.py",
+      "sha256": "14e686ac6bbea38aed5999ea9c82010018ae810151c5bddf32e22f658d4649b6"
+    },
+    {
+      "path": "scripts/build_packages.py",
+      "sha256": "c60737932615439cbb8bb94edf47ad57fcc4410998bfbe4f73b3d65a4a6a8589"
+    },
+    {
+      "path": "scripts/check_repository.py",
+      "sha256": "58d332758fbc0439f42357722240dd2f3d1f9e3e674f38dbd07b6d0b0b91857d"
+    },
+    {
+      "path": "scripts/install_host_profile.py",
+      "sha256": "5cd9e3a4b6f89d864b702f01a7203b74b52f484ac5afd93701ad53132302a87a"
+    },
+    {
+      "path": "scripts/materialize_standards.py",
+      "sha256": "b044dc12650bb237c8bd2f2a62aab5d3c5f46394b8514d5649c492c0a82a2d47"
+    },
+    {
+      "path": "scripts/refresh_kit_manifest.py",
+      "sha256": "39ab21e65e3288b54f15356a0cf1c9d5517fcdd699866df36138809a1e52dcc5"
+    },
+    {
+      "path": "standards/context-capsule.md",
+      "sha256": "c5e0a797f6e95392199c91e364483467b4a6bcfd2d96a1a0363a405c9217b9ba"
+    },
+    {
+      "path": "standards/production-profiles.json",
+      "sha256": "a1db1ea55bb6f5a3f9d02ef314623e5a9ddb2eab4468733107a07df0b137fed9"
+    },
+    {
+      "path": "standards/production-quality.md",
+      "sha256": "7ebe6f7fb8834de7741f328d48cf5fb44d7e4b8344b73cd10e97b051b8815d41"
+    }
+  ],
+  "verification": {
+    "source_paths_exist": true,
+    "referenced_sources_equal_baseline_commit": true,
+    "stable_core_names_match_current_release": true,
+    "new_runtime_or_model_or_device_execution_claimed": false,
+    "host_installation_or_discovery_reverified_by_this_documentation": false,
+    "work_live_control": "deferred"
+  },
+  "documents": {
+    "english": {
+      "path": "docs/evolution/2026-11-10/CURRENT-SYSTEM.en.md",
+      "sha256": "f798951917626bf2d410880d625eb82c526441648e1640c08b01a2acee1af689"
+    },
+    "ukrainian": {
+      "path": "docs/evolution/2026-11-10/CURRENT-SYSTEM.uk.md",
+      "sha256": "cf434b8b547f417203bb03eaee5f2bb0e584cd40d85e8be6e37a346e8442f905",
+      "english_source_sha256": "f798951917626bf2d410880d625eb82c526441648e1640c08b01a2acee1af689"
+    },
+    "parity": "same75 component IDs and complete four-field cards; commands and source locators retained"
+  }
+}

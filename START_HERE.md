@@ -43,3 +43,7 @@ Tell the agent: “Change preferred_language to [language code] in the current p
 Persist the setting in [project context](templates/project-context.json) and carry it through handoffs. Opening a translated page does not by itself change a chat's saved preference.
 
 [What the system does](README.md) · [English campaign](marketing/campaign/README.md) · [Українська реклама](marketing/campaign/README.uk.md) · [Current release](releases/current.json)
+
+## AI/data/ML audit and next system proposal
+
+Repository1.3.1 publishes the [complete current-system audit and proposed passport0.1](docs/evolution/2026-11-10/README.md), also [in Ukrainian](docs/evolution/2026-11-10/README.uk.md). It changes documentation only. Current core6.0.0, Orchestrator1.1.0 and service0.2.0 need no reinstall for this edition. The proposed new capability release is not implemented or installed; read the exact passport before approving it. WORK live work remains deferred.

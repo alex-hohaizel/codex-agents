@@ -1,0 +1,443 @@
+{
+  "schema": "ai-data-production.request-register/1",
+  "passport": "ai-data-production-evolution/0.1",
+  "baseline_commit": "8951398b38a9610854823302ea612cb3844d52e6",
+  "scope_note": "R01-R17 owner capability list; R18-R23 current whole-system/documentation and preserved constraints. Role labels and claims of human experience are translated into reproducible competence, never invented employment history. All private product instances are not claimed inventoried or migrated.",
+  "requirements": [
+    {
+      "id": "R01",
+      "source_text_uk": "Будувати AI-інструменти end-to-end: від збору даних і ML/LLM-логіки до бекенду, UI та деплою, щоб нетехнічні команди користувалися ними самостійно;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "End-to-end AI products independently usable by nontechnical teams",
+      "owner": "Product directors + data/LLM/ML + backend + QA",
+      "stages": [
+        "S3",
+        "S4",
+        "S6",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A02",
+        "A07",
+        "A15",
+        "A16",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R02",
+      "source_text_uk": "Налаштовувати надійні системи збору даних із зовнішніх джерел — гнучкий скрейпінг платформ та інтеграції з API;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Reliable flexible collection through scraping and APIs",
+      "owner": "ai-atelier-data + integrations",
+      "stages": [
+        "S1",
+        "S3"
+      ],
+      "acceptance_cases": [
+        "A02",
+        "A03",
+        "A04"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R03",
+      "source_text_uk": "Автоматизувати обробку даних: кластеризація, NLP-аналіз відгуків, моніторинг трендів;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Clustering, review NLP and trend monitoring",
+      "owner": "ai-atelier-analysis",
+      "stages": [
+        "S3"
+      ],
+      "acceptance_cases": [
+        "A05",
+        "A06"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R04",
+      "source_text_uk": "Розробляти кост-ефективні пайплайни для масштабної генерації ідей, текстів, зображень і відео під бізнес-задачі;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Cost-effective scalable business generation",
+      "owner": "ai-atelier-media + llm + cost",
+      "stages": [
+        "S3",
+        "S5"
+      ],
+      "acceptance_cases": [
+        "A07",
+        "A12",
+        "A13"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R05",
+      "source_text_uk": "Будувати предиктивні моделі для прогнозування бізнес-метрик — наприклад, CPA рекламного креативу ще до запуску;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Honest business forecasts including prelaunch CPA",
+      "owner": "ai-atelier-prediction",
+      "stages": [
+        "S4"
+      ],
+      "acceptance_cases": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R06",
+      "source_text_uk": "Доводити внутрішні прототипи, зокрема створені нетехнічними колегами за допомогою AI-асистентів, до production-ready інструментів.",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Prototype-to-production hardening",
+      "owner": "Product integrator + backend/reliability + evaluation",
+      "stages": [
+        "S3",
+        "S6",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A15",
+        "A16",
+        "A17",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R07",
+      "source_text_uk": "Здатність вільно рухатися по всьому стеку: від ML-моделей і бекенду до UI та деплою, без прив’язки до вузької спеціалізації;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Full stack ML/backend/UI/deployment competence",
+      "owner": "Orchestrator + dynamic product team",
+      "stages": [
+        "S2",
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A15",
+        "A16",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R08",
+      "source_text_uk": "Міцний технічний фундамент: мова чи фреймворк не принципові, важливі системний дизайн, структури даних, дизайн, якість результату, і смак до чистого коду;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Maintainable system design, data structures and craft without fixed language/framework",
+      "owner": "Architecture + backend + product craft owners",
+      "stages": [
+        "S1",
+        "S2",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A14",
+        "A15",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R09",
+      "source_text_uk": "Практичний досвід із LLM (OpenAI API, LangChain або LlamaIndex, prompt engineering) та розуміння ML-концепцій — кластеризація, класифікація, ембеддінги;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Reproducible LLM/ML practice and reasoned tool choice",
+      "owner": "ai-atelier-llm + analysis",
+      "stages": [
+        "S3"
+      ],
+      "acceptance_cases": [
+        "A05",
+        "A06",
+        "A07"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R10",
+      "source_text_uk": "Впевнене та постійне використання AI-кодинг-асистентів (Cursor, Claude Code, Codex) як базового стандарту роботи;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Use available coding assistants as normal production aid with honest host boundaries",
+      "owner": "Orchestrator + constructors + coding-assistants contract",
+      "stages": [
+        "S2",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A18",
+        "A19",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R11",
+      "source_text_uk": "Проактивність і швидкість: здатність взяти задачу на рівні бізнес-ідеї та зібрати з неї MVP, або продукт будь якого рівня складгості і предметної області як без детального ТЗ, так і супроводжувати у його проектуванні протягом розробкт",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Business idea to MVP or full product, collaborative specification",
+      "owner": "Orchestrator + existing product integrator + constructors",
+      "stages": [
+        "S2",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A19",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R12",
+      "source_text_uk": "Досвід створення складних AI-агентів (Agentic workflows, LangGraph) або мультимодальних пайплайнів як для згаданих вже видів задач, предметних областей, так і із генерацією зображень, моделей, аудіо будь якої складності і призначення, асетів для додатків, ігор, засутнків, і відео;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Durable agentic and multimodal workflows including 3D/audio/assets/video",
+      "owner": "ai-atelier-llm + media + domain craft owners",
+      "stages": [
+        "S3",
+        "S5"
+      ],
+      "acceptance_cases": [
+        "A07",
+        "A12",
+        "A13",
+        "A14"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R13",
+      "source_text_uk": "Практика побудови предиктивних ML-моделей (XGBoost, LightGBM, нейромережі) на табличних даних чи часових рядах;",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Tabular and time-series predictive modelling with justified algorithms",
+      "owner": "ai-atelier-prediction",
+      "stages": [
+        "S4"
+      ],
+      "acceptance_cases": [
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R14",
+      "source_text_uk": "Досвід оптимізації або донавчання open-source моделей (LoRA тощо);",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Measured open-model adaptation and serving",
+      "owner": "ai-atelier-adaptation",
+      "stages": [
+        "S4"
+      ],
+      "acceptance_cases": [
+        "A11"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R15",
+      "source_text_uk": "Повноцінне створення та запуску власних продуктів з нуля: мікро-SaaS, Telegram-боти чи пет-проєкти, застосунки, ігри для будь якої платформи мобільної з будь яким рівнем складності і якості візуалу з реальними користувачами.",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Complete app/bot/game/SaaS lifecycle and permitted real-user release",
+      "owner": "App/ChatBot/Game directors + release/operations",
+      "stages": [
+        "S2",
+        "S5",
+        "S8",
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A14",
+        "A16",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R16",
+      "source_text_uk": "Відчуття стилю дизайна створення асетів будь якої складності з повним циклом їх використання і розвитку у продукті згідно усіх сучасних методологій",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Professional style and full asset identity/consumer lifecycle",
+      "owner": "Domain experience/media/assets owners + ai-atelier-media",
+      "stages": [
+        "S5",
+        "S6"
+      ],
+      "acceptance_cases": [
+        "A12",
+        "A13",
+        "A14",
+        "A15"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R17",
+      "source_text_uk": "Розуміння складу сабагентів необхідних команд у агентах, їх продуктивної взаємодії і спільної роботи з розумінням повного циклу створення, супроводу і розвитку продукту",
+      "source_fidelity": "Owner bullet transcribed for traceability; whitespace/formatting normalized. The original conversation remains the authority.",
+      "requirement_en": "Dynamic competent teams and coherent lifecycle collaboration",
+      "owner": "Constructors + Orchestrator + product integrator",
+      "stages": [
+        "S2",
+        "S8"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A18",
+        "A19",
+        "A23"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R18",
+      "source_text_uk": "Зберегти чинні можливості, ідентичність і налаштування.",
+      "source_fidelity": "current request or preserved session/project requirement",
+      "requirement_en": "Preserve existing capabilities, identity, settings, authority and unfinished work",
+      "owner": "Maintenance + installers + QA",
+      "stages": [
+        "S1",
+        "S7"
+      ],
+      "acceptance_cases": [
+        "A20",
+        "A21",
+        "A22"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R19",
+      "source_text_uk": "Мені потрібне системне оновлення тебе, усіх агентів, навичок, пов'язаних конструкторів агентів тощо. Усього, що ми зробили.",
+      "source_fidelity": "current request or preserved session/project requirement",
+      "requirement_en": "Cover all owned reusable system elements and generated-agent adoption mechanism",
+      "owner": "Orchestrator + constructors + maintenance",
+      "stages": [
+        "S1",
+        "S2",
+        "S7",
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A18",
+        "A19",
+        "A20",
+        "A21",
+        "A24"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R20",
+      "source_text_uk": "Повна детальна подробна і головне вичерпна документація щодо кожного елемента, як саме він реалізован, де, і що це дає, як він активується за якими вимогами. Доступною людською не ші мовою. І все це має бути збережено в документацію гіт хаб проекту агентної системи",
+      "source_fidelity": "current request or preserved session/project requirement",
+      "requirement_en": "Complete human-readable component/activation documentation published to GitHub",
+      "owner": "Documentation owner + independent review",
+      "stages": [
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A24"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R21",
+      "source_text_uk": "Спершу наявні доступи; нові витрати погоджувати",
+      "source_fidelity": "current request or preserved session/project requirement",
+      "requirement_en": "Existing access first; new spending requires concrete approval",
+      "owner": "Integrator + cost + provider adapters",
+      "stages": [
+        "S0",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "acceptance_cases": [
+        "A04",
+        "A07",
+        "A11",
+        "A13",
+        "A17"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R22",
+      "source_text_uk": "WORK продовжимо після відновлення доступу.",
+      "source_fidelity": "current request or preserved session/project requirement",
+      "requirement_en": "Keep live WORK deferred until explicitly resumed after access recovery",
+      "owner": "Maintenance + host bridge",
+      "stages": [
+        "S0",
+        "S7",
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A18",
+        "A24"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    },
+    {
+      "id": "R23",
+      "source_text_uk": "Implement and verify actual capabilities; a static demo does not close the service target.",
+      "source_fidelity": "current request or preserved session/project requirement",
+      "requirement_en": "Separate declared/source/installed/discovered/executed/reviewed/accepted evidence; no fictional experience",
+      "owner": "All owners + independent QA",
+      "stages": [
+        "S1",
+        "S8",
+        "S9"
+      ],
+      "acceptance_cases": [
+        "A01",
+        "A11",
+        "A12",
+        "A15",
+        "A19",
+        "A23",
+        "A24"
+      ],
+      "current_status": "audited; target implementation awaits exact passport approval",
+      "implementation_evidence": []
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 # Change log
 
+## Repository 1.3.1 — 2026-11-10
+
+Publish the source-backed AI/data/ML/creative system audit, exhaustive current-component and helper catalogues, primary-source technology recipes and a complete proposed evolution passport0.1 with23 traced requirements and24 planned acceptance cases. Add equivalent seven-guide notices and explicit current/proposed state. Preserve all core/optional/role/host/service implementation bytes, existing identity and settings. No target skill update, training, paid provider operation, deployment, product migration or live WORK work is performed by this documentation release. See [release notes](releases/repository-1.3.1.md), [documentation adoption](releases/migrations/repository-1.3.1.md) and [the handbook](docs/evolution/2026-11-10/README.md).
+
 ## Repository 1.3.0 / Atelier Orchestrator 1.1.0 / Agent Atelier 0.2.0 — 2026-11-09
 
 Make the existing optional orchestrator a universal entry for tasks, project-agent continuation and maintenance of skills/constructors/agents. Preserve one brief, existing authority, native state and original identity; distinguish factory output from the owner's original result. Bundle missing documented helper dependencies and add explicit routing/evidence projection checks. Extend the local workbench with source-backed Codex portfolio discovery, grouped native work, goal/acceptance provenance, next actions and route preparation. Protected native-state changes use a reviewed controller path. Keep core6.0.0 unchanged and reconcile all seven guides/UI locales. WORK live changes remain deferred until access recovers. See [release notes](releases/repository-1.3.0.md) and [exact migration](releases/migrations/repository-1.3.0.md); implementation, installed discovery, actual execution and owner acceptance remain separate observations.

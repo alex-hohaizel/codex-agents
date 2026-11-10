@@ -1,0 +1,424 @@
+{
+  "schema": "ai-data-production.acceptance/1",
+  "passport": "ai-data-production-evolution/0.1",
+  "cases": [
+    {
+      "id": "A01",
+      "title_en": "Business idea through original product outcome",
+      "inputs_en": "Business idea, accepted scope/references, requirement register, initially no detailed spec",
+      "required_observations_en": "Restore/clarify only material gaps; select existing owner; version decisions; complete the agreed product case; do not stop at skill creation",
+      "owner": "Orchestrator + product director",
+      "requirements": [
+        "R01",
+        "R07",
+        "R08",
+        "R11",
+        "R15",
+        "R17",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Від бізнес-ідеї до початкового продукту",
+      "inputs_uk": "Бізнес-ідея, прийняті межі/референси, вимоги, спочатку без детального ТЗ.",
+      "required_observations_uk": "Відновити задум, уточнити лише суттєві прогалини, обрати чинного власника, фіксувати рішення й завершити погоджений продуктовий випадок; створення навички не закриває продукт."
+    },
+    {
+      "id": "A02",
+      "title_en": "API ingestion and replay",
+      "inputs_en": "Controlled paginated API fixture with duplicates, 429, partial fetch and crash before cursor commit",
+      "required_observations_en": "Actual adapter produces correct deduplicated dataset, full counts/quarantine, stable restart and visible partial state",
+      "owner": "Data + integrations",
+      "requirements": [
+        "R01",
+        "R02"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "API-збір і повтор після збою",
+      "inputs_uk": "Керований API-приклад із пагінацією, дублями, 429, неповною відповіддю та падінням до запису курсора.",
+      "required_observations_uk": "Справжній адаптер дає правильний набір без дублів, повні кількості/карантин, стале відновлення й видимий неповний стан."
+    },
+    {
+      "id": "A03",
+      "title_en": "Scraping and schema drift",
+      "inputs_en": "Permitted static/dynamic source fixtures, login HTML, changed type/unit/selector and missing page",
+      "required_observations_en": "Appropriate acquisition mode; no bypass; drift detected/quarantined; no false empty success; repeatable parser/browser evidence",
+      "owner": "Data + privacy reviewer",
+      "requirements": [
+        "R02"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Скрейпінг і зміна схеми",
+      "inputs_uk": "Дозволені статичні/динамічні приклади, HTML логіна, змінені тип/одиниця/селектор, пропущена сторінка.",
+      "required_observations_uk": "Доречний спосіб отримання без обходу доступу; drift виявлено/ізольовано; порожній успіх не вигадано; парсер/браузер мають відтворюваний доказ."
+    },
+    {
+      "id": "A04",
+      "title_en": "Lineage, revoke and hostile source",
+      "inputs_en": "Dataset versions, downstream embedding/feature/cache/job, revoked source and injected tool instruction in source text",
+      "required_observations_en": "Dependent proof invalidates on changed bytes; revocation propagates with explicit limits; source cannot gain execution rights; rates/budgets honored",
+      "owner": "Data + privacy + QA",
+      "requirements": [
+        "R02",
+        "R21"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Походження, відкликання й ворожий текст",
+      "inputs_uk": "Версії набору, похідні embedding/ознака/cache/job, відкликане джерело та інструментальна інструкція всередині даних.",
+      "required_observations_uk": "Змінені байти скасовують залежний доказ; відкликання поширюється з явними межами; джерело не отримує прав виконання; діють rates/budgets."
+    },
+    {
+      "id": "A05",
+      "title_en": "Multilingual NLP classification/extraction",
+      "inputs_en": "Versioned multilingual labelled review sample, held-out labels, duplicates/noise",
+      "required_observations_en": "Baseline vs candidate, language subgroup/error review, source-grounded outputs and separate training/evaluation; no invented ground truth",
+      "owner": "Analysis + independent evaluation",
+      "requirements": [
+        "R03",
+        "R09"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Багатомовний NLP",
+      "inputs_uk": "Версійована розмічена вибірка відгуків різними мовами, відкладені мітки, дублі/шум.",
+      "required_observations_uk": "Порівняння основи й кандидата, мовні підгрупи/помилки, прив'язані до джерел виходи, окремі training/evaluation; справжні мітки не вигадуються."
+    },
+    {
+      "id": "A06",
+      "title_en": "Clustering and real trends",
+      "inputs_en": "Timed corpus with duplicated authors, coverage shift, outliers and stable underlying theme",
+      "required_observations_en": "Interpretable memberships incl noise, stability/sensitivity, coverage-aware trend interpretation; similarity score is not business/causal truth",
+      "owner": "Analysis + product reviewer",
+      "requirements": [
+        "R03",
+        "R09"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Кластеризація й справжні тренди",
+      "inputs_uk": "Часовий корпус із дублями авторів, зміною покриття, викидами та незмінною базовою темою.",
+      "required_observations_uk": "Зрозумілі групи включно з шумом, стійкість/чутливість, урахування покриття; similarity score не видається за бізнесову чи причинну істину."
+    },
+    {
+      "id": "A07",
+      "title_en": "LLM/agentic durable effects",
+      "inputs_en": "Task rubric, prompt/model version, fake provider timeout after consumption plus available real host/model route",
+      "required_observations_en": "Actual bounded model case if access available; typed tool inputs, spend/rate caps; pause/restart/cancel; reconcile unknown outcome before retry; checkpoint alone never claims external exactly-once",
+      "owner": "AI + integrations + evaluation",
+      "requirements": [
+        "R01",
+        "R04",
+        "R09",
+        "R12",
+        "R21"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Відновлювані LLM-ефекти",
+      "inputs_uk": "Предметна рубрика, версія prompt/model, тестовий provider timeout після споживання та доступний справжній model/host route.",
+      "required_observations_uk": "Фактичний обмежений модельний випадок за доступності; типізовані tools, ліміти витрат/rate; pause/restart/cancel; звірка невідомого outcome до повтору; checkpoint не гарантує одноразовості зовні."
+    },
+    {
+      "id": "A08",
+      "title_en": "Tabular baseline and candidate",
+      "inputs_en": "Licensed small fixture, target/grain/features with availability, groups/time split",
+      "required_observations_en": "Actual fitted baseline and justified candidate, training-only transforms, reproducible inference/model bundle, error/subgroup/uncertainty report; fixture accuracy not market claim",
+      "owner": "ML + independent evaluation",
+      "requirements": [
+        "R05",
+        "R13"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Таблична модель і база порівняння",
+      "inputs_uk": "Малий ліцензований набір, ціль/одиниця/ознаки з часом доступності, груповий/часовий поділ.",
+      "required_observations_uk": "Реально навчені база й обґрунтований кандидат, перетворення лише на training, відтворювані прогноз/пакет, помилки/підгрупи/невизначеність; точність прикладу не є ринковою."
+    },
+    {
+      "id": "A09",
+      "title_en": "Time series and cold start",
+      "inputs_en": "Chronological dataset with delayed values, held-out horizon, missing series and sparse target",
+      "required_observations_en": "Walk-forward appropriate validation, no future leakage, naive forecast comparison, explicit abstention/fallback for insufficient data",
+      "owner": "ML + evaluation",
+      "requirements": [
+        "R05",
+        "R13"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Часові ряди й холодний старт",
+      "inputs_uk": "Хронологічні дані із затримками, відкладеним горизонтом, відсутніми рядами й рідкісною ціллю.",
+      "required_observations_uk": "Доречна послідовна валідація без знання майбутнього, наївна база порівняння, явна відмова чи запасний шлях за нестачі даних."
+    },
+    {
+      "id": "A10",
+      "title_en": "Prelaunch CPA honesty",
+      "inputs_en": "Feature available_at, campaign/account IDs, spend/conversions/currency/attribution windows, delayed/censored labels",
+      "required_observations_en": "Reject postlaunch signals; time/group holdout, baseline and uncertainty/calibration; articulate selection bias; no claimed CPA accuracy without representative authorized data Include zero-conversion campaigns: CPA can be undefined or censored; do not silently discard them or report survivor-only accuracy.",
+      "owner": "ML + growth + evaluation",
+      "requirements": [
+        "R05",
+        "R13"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Чесність прогнозу CPA до запуску",
+      "inputs_uk": "Час доступності ознак, IDs кампаній/акаунтів, spend/conversions/currency/вікна атрибуції, затримані/цензуровані мітки.",
+      "required_observations_uk": "Відкинути післязапускові сигнали, часовий/груповий holdout, база та uncertainty/calibration, пояснення selection bias; не заявляти точності CPA без репрезентативних дозволених даних. Включити кампанії з нулем конверсій: CPA може бути невизначеним чи цензурованим; не відкидати їх мовчки й не звітувати точність лише кампаній із конверсіями."
+    },
+    {
+      "id": "A11",
+      "title_en": "Adaptation feasibility to consumer",
+      "inputs_en": "Exact compatible base/tokenizer/adapter, rights, device/resource probe, isolated training/evaluation set",
+      "required_observations_en": "Compare simpler alternatives; bounded real permitted tuning/load/inference where feasible; mismatch rejected; serving regression/rollback; missing model/hardware/cost approval leaves runtime gate open; reject untrusted code-executing deserialization or unreviewed remote custom code, malicious manifest/path and excessive allocation before any unintended effect Accept adapter, merged and quantized exports, and the serving consumer separately against their actual bytes; adapter success never proves a changed export.",
+      "owner": "ML + reliability + evaluation",
+      "requirements": [
+        "R14",
+        "R21",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Адаптація від здійсненності до споживання",
+      "inputs_uk": "Точні сумісні base/tokenizer/adapter, права, перевірка пристрою/ресурсів, окремі training/evaluation.",
+      "required_observations_uk": "Порівняти простіші альтернативи; реальні обмежені дозволені tuning/load/inference за здійсненності; несумісність відхиляється; serving-регресії/відкат; відсутні модель/пристрій/дозвіл витрат лишають gate відкритим. До небажаного ефекту відхиляються недовірена десеріалізація з виконанням коду, неперевірений remote custom code, шкідливий manifest/path і надмірна пам’ять. Окремо приймати adapter, merged і quantized exports та serving-споживача за їхніми фактичними байтами; успішний adapter не доводить змінений export."
+    },
+    {
+      "id": "A12",
+      "title_en": "Reference identity and actual medium",
+      "inputs_en": "Accepted original/editable master plus requested image/vector/3D/audio/video/UI/document outputs and consumer profile",
+      "required_observations_en": "Read actual reference; approved representative slice, render/playback/listen/interaction as applicable; derivative lineage and target-consumer proof; unsupported medium explicitly unproven Reject a palette/label-matching candidate that loses the accepted composition, scale, information depth, interaction or function; reject later derivative identity drift.",
+      "owner": "Creative + domain craft + QA",
+      "requirements": [
+        "R04",
+        "R12",
+        "R16",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Ідентичність референсу та реальне середовище",
+      "inputs_uk": "Прийнятий оригінал/редагований master і запитані image/vector/3D/audio/video/UI/document виходи, профіль споживача.",
+      "required_observations_uk": "Прочитаний референс, прийнятий зріз, доречні render/playback/listen/interaction, походження похідних і використання цільовим споживачем; непідтримуваний medium явно недоведений. Відхилити варіант із тими самими кольорами/підписами, що втрачає визначальні композицію, масштаб, інформаційну глибину, взаємодію чи функцію референсу; відхилити дрейф ідентичності в наступних похідних."
+    },
+    {
+      "id": "A13",
+      "title_en": "Costed batch with failures",
+      "inputs_en": "Versioned batch manifest, duplicate items, partial provider result, rejected variant, cancel and unknown billing response",
+      "required_observations_en": "Complete denominator and per-item state, accepted-output total cost, stable IDs/cache, no blind retry; rejected aesthetic/identity output not counted accepted",
+      "owner": "Creative + cost + integrations",
+      "requirements": [
+        "R04",
+        "R12",
+        "R16",
+        "R21"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Серія генерацій із витратами та збоями",
+      "inputs_uk": "Версійований batch manifest, дублікати, частковий provider result, відхилений варіант, cancel і невідома billing-відповідь.",
+      "required_observations_uk": "Повний знаменник і стан елементів, сукупна ціна прийнятого виходу, сталі IDs/cache, без сліпого повтору; відхилений за стилем/ідентичністю результат не рахується прийнятим."
+    },
+    {
+      "id": "A14",
+      "title_en": "App/bot/game asset consumer",
+      "inputs_en": "Domain fixtures with persona/identity, platform set, game engine asset constraints or bot playback",
+      "required_observations_en": "Existing domain depth retained; asset consumed in actual relevant runtime; mesh/rig/UV/audio/UI constraints checked when applicable; source file alone insufficient",
+      "owner": "Domain director + media/assets + QA",
+      "requirements": [
+        "R08",
+        "R12",
+        "R15",
+        "R16"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Споживання асета застосунком, ботом чи грою",
+      "inputs_uk": "Предметні приклади з persona/identity, набором платформ, engine-вимогами до асета чи програванням у боті.",
+      "required_observations_uk": "Чинна глибина домену збережена; асет використано у справжньому відповідному runtime; mesh/rig/UV/audio/UI перевіряються за потребою; одного файла недостатньо."
+    },
+    {
+      "id": "A15",
+      "title_en": "Useful nontechnical interface",
+      "inputs_en": "Working data/model result and source-backed project/work set with accepted goals, errors and partial access",
+      "required_observations_en": "Interactive complete input→progress→result→correction/recovery flow; readable agreed outcome, real map/evidence/next actions; desktop/mobile visual/keyboard checks; no dummy success controls A generic simpler layout retaining colours/labels but dropping agreed information/navigation/function must fail.",
+      "owner": "Product + experience + independent QA",
+      "requirements": [
+        "R01",
+        "R06",
+        "R07",
+        "R08",
+        "R16",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Корисний інтерфейс нетехнічної людини",
+      "inputs_uk": "Робочий data/model-результат і проєкти/роботи з реальними джерелами, прийнятими цілями, помилками й частковим доступом.",
+      "required_observations_uk": "Повний інтерактивний input→progress→result→correction/recovery; зрозумілі погоджений результат, справжня карта/докази/наступні дії; desktop/mobile/keyboard перевірки; без фальшивих кнопок успіху. Спрощений типовий макет із кольорами/підписами референсу, але без погоджених інформації/навігації/функції, має провалити приймання."
+    },
+    {
+      "id": "A16",
+      "title_en": "Prototype productionization and release",
+      "inputs_en": "Existing prototype with real invariants, access boundaries, jobs/data, build and operator needs",
+      "required_observations_en": "Reproducible build, API/UI seam tests, failure/recovery, deployment preparation, support/runbook/rollback; actual external deployment/users only if authorized and observed",
+      "owner": "Product + backend + reliability + QA",
+      "requirements": [
+        "R01",
+        "R06",
+        "R07",
+        "R15"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Прототип до production і випуску",
+      "inputs_uk": "Чинний прототип зі справжніми інваріантами, правами, jobs/data, build і потребами оператора.",
+      "required_observations_uk": "Відтворювана збірка, API/UI seam tests, помилки/відновлення, підготовка деплою, support/runbook/rollback; фактичний зовнішній деплой/користувачі лише за дозволу й спостереження."
+    },
+    {
+      "id": "A17",
+      "title_en": "Scoped execution and production auth",
+      "inputs_en": "Service endpoints, credential handles, path/resource limits, hostile payload, network denial, commercial consumer scenario",
+      "required_observations_en": "No arbitrary shell/MCP/ambient account access; provider auth separate from owner coding login; secrets absent logs; finite cost/time/rate limits, interrupt/reconcile and unavailable states",
+      "owner": "Reliability + privacy + integrations",
+      "requirements": [
+        "R06",
+        "R21"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Обмежене виконання та production-auth",
+      "inputs_uk": "Service endpoints, секретні посилання, path/resource caps, ворожі inputs, відмова мережі, комерційний споживач.",
+      "required_observations_uk": "Без довільних shell/MCP/прав акаунта; provider-auth окрема від coding login власника; секретів немає в logs; скінченні ліміти витрат/часу/rate, interrupt/reconcile й стани недоступності."
+    },
+    {
+      "id": "A18",
+      "title_en": "Host and team boundary",
+      "inputs_en": "Existing12 + proposed4 profile manifest, real host availability, Codex/Cursor/Claude task capsules",
+      "required_observations_en": "Bounded validated roles and actual slots; precise ownership/handoff; independent reviewer separate actor; native host config/permissions preserved; absent host/access honestly unavailable",
+      "owner": "Constructors + Orchestrator + QA",
+      "requirements": [
+        "R10",
+        "R17",
+        "R19",
+        "R22"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Межі хостів і команди",
+      "inputs_uk": "Маніфест 12 чинних і 4 пропонованих профілів, фактична доступність, Codex/Cursor/Claude capsules.",
+      "required_observations_uk": "Обмежені перевірені ролі й справжні slots, точне володіння/передача, незалежний reviewer — інший актор; рідні config/права збережено; відсутній доступ чесно недоступний."
+    },
+    {
+      "id": "A19",
+      "title_en": "Construct to install to original task",
+      "inputs_en": "Approved fixture project-agent passport and original product request, generated portable bundle, actual supported discovery root",
+      "required_observations_en": "Create/validate/package, reviewed install, actual host discovery and invocation; generated agent completes bounded original product task with source/tool receipts; no structural-only substitution",
+      "owner": "Foundry + Orchestrator + independent QA",
+      "requirements": [
+        "R10",
+        "R11",
+        "R17",
+        "R19",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Від конструктора через установку до початкової задачі",
+      "inputs_uk": "Погоджений паспорт тестового project-agent, початковий продуктовий запит, переносний пакет і справжній підтримуваний discovery root.",
+      "required_observations_uk": "Створити/перевірити/запакувати, переглянути установку, фактично виявити й викликати; агент завершує обмежену початкову задачу з source/tool receipts; структура не підміняє виконання."
+    },
+    {
+      "id": "A20",
+      "title_en": "Core/optional/role preservation and rollback",
+      "inputs_en": "Known installed baseline, custom icon/color/settings/local edits, unknown source and interrupted apply",
+      "required_observations_en": "33 core remain; two existing optional sources preserved and seven new sources admitted only by manifest (nine optional targets total); before copies/journal, exact verify; unknown edits conflict notoverwrite; guarded rollback; no invented receipts",
+      "owner": "Maintenance + installer + QA",
+      "requirements": [
+        "R18",
+        "R19"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Збереження core/optional/roles та відкат",
+      "inputs_uk": "Відома встановлена основа, власні icon/color/settings/правки, невідоме джерело й перерваний apply.",
+      "required_observations_uk": "Залишаються 33 core; два чинні optional збережено, сім нових допускаються лише маніфестом (разом дев'ять optional-цілей); before copies/journal/точний verify; невідомі правки — конфлікт, не перезапис; захищений відкат без вигаданих квитанцій."
+    },
+    {
+      "id": "A21",
+      "title_en": "Existing generated-agent adoption",
+      "inputs_en": "Old native state/ownership/requirements/permissions/identity, custom agent changes, unfinished/deferred work",
+      "required_observations_en": "Source-to-target plan, applicable inherited resources actually portable, native state/owner constraints retained, one real bounded continued task; unrelated products untouched; private scope register counts actually discovered owned agents as inspected/adopted/conflicted/deferred/not inspected, without claiming all private agents migrated",
+      "owner": "Foundry + maintenance + product owner",
+      "requirements": [
+        "R18",
+        "R19"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Прийняття чинним створеним агентом",
+      "inputs_uk": "Старий рідний стан/власність/вимоги/права/ідентичність, власні зміни агента, незавершене/відкладене.",
+      "required_observations_uk": "Source-to-target план, справді переносні доречні ресурси, збережені native state/рішення власника, одна реальна продовжена задача; сторонні продукти не змінюються. Приватний реєстр рахує фактично виявлених власних агентів за станами перевірено/прийнято/конфлікт/відкладено/не перевірено; міграція всіх приватних агентів не вигадується."
+    },
+    {
+      "id": "A22",
+      "title_en": "App profile contradiction regression",
+      "inputs_en": "Platform subsets Android-only/iOS-only/web-only and multiple; authorized/banned human research profiles",
+      "required_observations_en": "No unconditional allthree or general human-testban overrides actual accepted profile; existing project-specific owner bans preserved in specification/build/QA/release Cover concepts and all eleven App phases, including applicable references/templates and generated cases.",
+      "owner": "App director + independent QA",
+      "requirements": [
+        "R18"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Регресія профілів App",
+      "inputs_uk": "Окремо Android-only/iOS-only/web-only і кілька платформ; дозволені/заборонені профілі human research.",
+      "required_observations_uk": "Безумовні allthree чи загальна human-test заборона не переважають прийнятий профіль; чинні проєктні заборони власника збережено в specification/build/QA/release. Покрити concepts і всі одинадцять App-фаз, включно з доречними references/templates та згенерованими сценаріями."
+    },
+    {
+      "id": "A23",
+      "title_en": "Independent full route acceptance",
+      "inputs_en": "Exact artifacts/bytes of data→analysis/model/LLM→API/UI→operation representative product and unresolved requirement ledger",
+      "required_observations_en": "Independent semantic and seam review, original outcome traceability; change invalidates dependentproof; structural/runtime/device/provider/owner evidence separate; no claim everyfutureproduct certified Freeze the task rubric and raw baseline/candidate cases before an improvement claim; include held-out/adversarial cases, reduce order/author bias and retain actual independent verdicts.",
+      "owner": "Independent QA + judge + current integrator",
+      "requirements": [
+        "R01",
+        "R06",
+        "R07",
+        "R08",
+        "R10",
+        "R11",
+        "R15",
+        "R17",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Незалежне наскрізне приймання",
+      "inputs_uk": "Точні байти data→analysis/model/LLM→API/UI→operation продуктового випадку й реєстр відкритих вимог.",
+      "required_observations_uk": "Незалежні змістовний і seam review, зв'язок з початковим результатом; зміни відкривають залежні докази; structure/runtime/device/provider/owner стани окремі; майбутні продукти не сертифікуються. До твердження про покращення зафіксувати предметну рубрику й сирі baseline/candidate випадки, додати відкладені/негативні сценарії, зменшити вплив порядку/авторства та зберегти фактичні незалежні висновки."
+    },
+    {
+      "id": "A24",
+      "title_en": "Complete documentation and exact release",
+      "inputs_en": "All35 current then42 proposed sources,16 profiles, resource/helper catalogues, seven affected guides, packages/Git/CI",
+      "required_observations_en": "Human purpose/path/trigger/I-O/consumer/access/tests/limits/recovery for everylogicalelement; requirements coverage; source/hash/link/translation/privacy checks; both packages CRC/hash; exact remote commit/CI readback; WORK source≠installation",
+      "owner": "Documentation + maintenance + independent review",
+      "requirements": [
+        "R19",
+        "R20",
+        "R22",
+        "R23"
+      ],
+      "status": "planned-not-executed",
+      "evidence": [],
+      "title_uk": "Повна документація та точний випуск",
+      "inputs_uk": "Усі 35 чинних, далі 42 пропоновані джерела, 16 профілів, resource/helper каталоги, сім зачеплених guides, packages/Git/CI.",
+      "required_observations_uk": "Людські purpose/path/trigger/I-O/consumer/access/tests/limits/recovery для кожного логічного елемента; покриття вимог; hash/link/translation/privacy; CRC/hash двох пакетів; точний remote commit/CI; WORK source не є установкою."
+    }
+  ],
+  "execution_rule": "Each case needs exact source/input/output/tool/runtime bindings. An unavailable required operation stays open; fixtures and source checks are not real provider, device, business accuracy or owner acceptance proof."
+}
