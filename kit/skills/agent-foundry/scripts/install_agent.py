@@ -65,13 +65,27 @@ OPERATING_RESOURCES = (
     "scripts/adaptive_work.py", "scripts/visual_identity.py", "assets/adaptive-task.schema.json", "assets/adaptive-task.example.json",
     "references/production-quality.md", "references/context-capsule.md",
     "assets/production-profiles.json", "scripts/context_capsule.py",
+    "references/ai-production.md", "assets/ai-production.schema.json", "scripts/ai_production.py",
 )
 LEGACY_OPERATING_RESOURCES = OPERATING_RESOURCES[:8]
+V6_0_OPERATING_RESOURCES = OPERATING_RESOURCES[:12]
 VISUAL_FIELDS = ("icon_small", "icon_large", "brand_color")
 
 
 class InstallError(Exception):
     pass
+
+
+def operating_resources_for_release(release):
+    """Preserve each known declared contract; never infer future inheritance."""
+    version = tuple(int(part) for part in release.split('.'))
+    if version[0] < 6:
+        return LEGACY_OPERATING_RESOURCES
+    if version[:2] == (6, 0):
+        return V6_0_OPERATING_RESOURCES
+    if version[:2] == (6, 1):
+        return OPERATING_RESOURCES
+    raise InstallError("Unsupported future generated-agent operating standard")
 
 
 def encode(value):
@@ -297,7 +311,7 @@ def validate_manifest(value):
         if not isinstance(standard, dict) or standard.get("schema") != OPERATING_SCHEMA or not isinstance(standard.get("release"), str) or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", standard["release"]):
             raise InstallError("Unsupported generated-agent operating standard")
         resources = standard.get("resources")
-        required_resources = OPERATING_RESOURCES if int(standard['release'].split('.')[0]) >= 6 else LEGACY_OPERATING_RESOURCES
+        required_resources = operating_resources_for_release(standard['release'])
         if not isinstance(resources, dict) or set(resources) != set(required_resources) or any(not isinstance(h, str) or not HEX.fullmatch(h) for h in resources.values()):
             raise InstallError("Operating standard must pin every portable resource")
         for name, entry in by_name.items():
@@ -765,8 +779,8 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
     warnings = ["Use one active source per agent; host discovery and execution are separate from file installation."]
     if manifest.get("operating_standard") is None:
         warnings.append("Legacy package has no declared operating standard; no upgraded-inheritance or behavior claim is made.")
-    elif int(manifest['operating_standard']['release'].split('.')[0]) < 6:
-        warnings.append('Historical operating standard retained; installation does not claim current6.0 quality/context inheritance or project adoption.')
+    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 1, 0):
+        warnings.append('Historical operating standard retained; installation does not claim current6.1 context/AI-production inheritance or project adoption.')
     if preserved_visuals:
         warnings.append("Existing project icons/colors preserved: " + ", ".join(preserved_visuals))
     warnings.extend("Known additional active source: " + source + "; nothing disabled." for source in other_sources)

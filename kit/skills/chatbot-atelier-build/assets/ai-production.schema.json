@@ -1,0 +1,2545 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:atelier:ai-production:1",
+  "title": "Declared AI/data/media artifacts; structure is not execution or quality proof",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/SourceContract"
+    },
+    {
+      "$ref": "#/$defs/DatasetManifest"
+    },
+    {
+      "$ref": "#/$defs/SplitManifest"
+    },
+    {
+      "$ref": "#/$defs/FeatureManifest"
+    },
+    {
+      "$ref": "#/$defs/PredictionContract"
+    },
+    {
+      "$ref": "#/$defs/WorkflowRun"
+    },
+    {
+      "$ref": "#/$defs/EvaluationPlan"
+    },
+    {
+      "$ref": "#/$defs/EvaluationReport"
+    },
+    {
+      "$ref": "#/$defs/TrainingRecipe"
+    },
+    {
+      "$ref": "#/$defs/ModelBundle"
+    },
+    {
+      "$ref": "#/$defs/BatchPlan"
+    },
+    {
+      "$ref": "#/$defs/ItemManifest"
+    },
+    {
+      "$ref": "#/$defs/GenerationBatch"
+    }
+  ],
+  "$defs": {
+    "SourceContract": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "SourceContract",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "locator": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "acquisition": {
+              "type": "string",
+              "enum": [
+                "api",
+                "export",
+                "http",
+                "browser",
+                "local"
+              ]
+            },
+            "rights_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "privacy_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "schema_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "consumer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "rate_limit": {
+              "type": "object",
+              "properties": {
+                "requests": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "period_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "requests",
+                "period_seconds"
+              ],
+              "additionalProperties": false
+            },
+            "bounds": {
+              "type": "object",
+              "properties": {
+                "requests": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "bytes": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "retries": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "requests",
+                "bytes",
+                "retries"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "locator",
+            "acquisition",
+            "rights_ref",
+            "privacy_ref",
+            "schema_ref",
+            "consumer",
+            "rate_limit",
+            "bounds"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "DatasetManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "DatasetManifest",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "source_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 1000
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 100000
+            },
+            "dedup_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "transform_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "counts": {
+              "type": "object",
+              "properties": {
+                "received": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "accepted": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "duplicates": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "quarantined": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "excluded": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "received",
+                "accepted",
+                "duplicates",
+                "quarantined",
+                "excluded"
+              ],
+              "additionalProperties": false
+            },
+            "quarantine": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  }
+                },
+                "required": [
+                  "id",
+                  "reason"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100000
+            },
+            "coverage": {
+              "type": "object",
+              "properties": {
+                "scope": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "complete",
+                    "partial"
+                  ]
+                },
+                "expected": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "observed": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "gaps": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "maxItems": 1000
+                },
+                "next_cursor": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "scope",
+                "status",
+                "observed",
+                "gaps"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "source_ids",
+            "record_ids",
+            "dedup_key",
+            "transform_ref",
+            "counts",
+            "quarantine",
+            "coverage"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "SplitManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "SplitManifest",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "dataset_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "strategy": {
+              "type": "string",
+              "enum": [
+                "random",
+                "group",
+                "time",
+                "group_time"
+              ]
+            },
+            "partitions": {
+              "type": "object",
+              "properties": {
+                "train": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "maxItems": 100000
+                },
+                "validation": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "maxItems": 100000
+                },
+                "test": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "maxItems": 100000
+                }
+              },
+              "required": [
+                "train",
+                "validation",
+                "test"
+              ],
+              "additionalProperties": false
+            },
+            "excluded_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 100000
+            },
+            "rows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "record_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "group_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "prediction_at": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "features_available_at": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "label_available_at": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  }
+                },
+                "required": [
+                  "record_id",
+                  "group_id",
+                  "prediction_at",
+                  "features_available_at",
+                  "label_available_at"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100000
+            },
+            "embargo_seconds": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "label_cutoffs": {
+              "type": "object",
+              "properties": {
+                "train": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "validation": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "test": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                }
+              },
+              "required": [
+                "train",
+                "validation",
+                "test"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "dataset_id",
+            "strategy",
+            "partitions",
+            "excluded_ids",
+            "rows",
+            "embargo_seconds",
+            "label_cutoffs"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "FeatureManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "FeatureManifest",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "dataset_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "split_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "fit_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 100000
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "source_ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "availability": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "record_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 240
+                        },
+                        "available_at": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8000
+                        }
+                      },
+                      "required": [
+                        "record_id",
+                        "available_at"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 100000
+                  }
+                },
+                "required": [
+                  "name",
+                  "source_ref",
+                  "availability"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 1000
+            }
+          },
+          "required": [
+            "dataset_id",
+            "split_id",
+            "fit_record_ids",
+            "features"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "PredictionContract": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "PredictionContract",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "decision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "target": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "horizon_seconds": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "regression",
+                "classification",
+                "ranking",
+                "probability",
+                "cpa"
+              ]
+            },
+            "feature_manifest_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "forbidden_features": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 1000
+            },
+            "zero_denominator_policy": {
+              "type": "string",
+              "enum": [
+                "abstain",
+                "separate-target",
+                "not-applicable"
+              ]
+            },
+            "currency": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "attribution_window": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "decision",
+            "target",
+            "unit",
+            "horizon_seconds",
+            "kind",
+            "feature_manifest_id",
+            "forbidden_features",
+            "zero_denominator_policy"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "WorkflowRun": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "WorkflowRun",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "recipe_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "planned",
+                "running",
+                "completed",
+                "failed",
+                "interrupted",
+                "outcome_unknown"
+              ]
+            },
+            "nodes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "running",
+                      "completed",
+                      "failed",
+                      "interrupted",
+                      "outcome_unknown"
+                    ]
+                  },
+                  "completion_attempt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "attempts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 240
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "planned",
+                            "running",
+                            "completed",
+                            "failed",
+                            "interrupted",
+                            "outcome_unknown"
+                          ]
+                        },
+                        "receipt_ref": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8000
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "status"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 1000
+                  }
+                },
+                "required": [
+                  "id",
+                  "status",
+                  "attempts"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 1000
+            },
+            "effects": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "dispatched",
+                      "known_success",
+                      "known_failure",
+                      "outcome_unknown"
+                    ]
+                  },
+                  "retry_requested": {
+                    "type": "boolean"
+                  },
+                  "receipt_ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "retry_policy": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "enum": [
+                          "known-failure-only"
+                        ]
+                      },
+                      "basis_ref": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 8000
+                      },
+                      "retry_number": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "max_retries": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "basis_ref",
+                      "retry_number",
+                      "max_retries"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "id",
+                  "status",
+                  "retry_requested"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 1000
+            }
+          },
+          "required": [
+            "recipe_ref",
+            "status",
+            "nodes",
+            "effects"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "EvaluationPlan": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "EvaluationPlan",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "case_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 100000
+            },
+            "must_case_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 100000
+            },
+            "author": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "requires_independent": {
+              "type": "boolean"
+            },
+            "baseline_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "candidate_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "rubric_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "required_proofs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "maxItems": 1000
+            }
+          },
+          "required": [
+            "case_ids",
+            "must_case_ids",
+            "author",
+            "requires_independent",
+            "baseline_ref",
+            "candidate_ref",
+            "rubric_ref",
+            "required_proofs"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "EvaluationReport": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "EvaluationReport",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "plan_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "plan_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "reviewer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "conclusion": {
+              "type": "string",
+              "enum": [
+                "recorded-pass",
+                "recorded-fail",
+                "incomplete"
+              ]
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "case_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "verdict": {
+                    "type": "string",
+                    "enum": [
+                      "pass",
+                      "fail",
+                      "unknown",
+                      "blocked"
+                    ]
+                  },
+                  "observations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "proof_type": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8000
+                        },
+                        "actor": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 240
+                        },
+                        "procedure": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8000
+                        },
+                        "environment": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8000
+                        },
+                        "evidence_ref": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8000
+                        }
+                      },
+                      "required": [
+                        "proof_type",
+                        "actor",
+                        "procedure",
+                        "environment",
+                        "evidence_ref"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 1000
+                  }
+                },
+                "required": [
+                  "case_id",
+                  "verdict",
+                  "observations"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100000
+            }
+          },
+          "required": [
+            "plan_id",
+            "plan_sha256",
+            "reviewer",
+            "conclusion",
+            "results"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "TrainingRecipe": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "TrainingRecipe",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "dataset_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "split_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "baseline",
+                "lora",
+                "full",
+                "distillation"
+              ]
+            },
+            "base_model": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "revision": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "license_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                }
+              },
+              "required": [
+                "id",
+                "revision",
+                "license_ref"
+              ],
+              "additionalProperties": false
+            },
+            "tokenizer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "revision": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "template_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                }
+              },
+              "required": [
+                "id",
+                "revision",
+                "template_ref"
+              ],
+              "additionalProperties": false
+            },
+            "measured_gap_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "environment_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "budget": {
+              "type": "object",
+              "properties": {
+                "max_seconds": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "max_bytes": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "max_cost": {
+                  "type": "object",
+                  "properties": {
+                    "currency": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    },
+                    "amount": {
+                      "type": "string",
+                      "maxLength": 40,
+                      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,9})?$"
+                    }
+                  },
+                  "required": [
+                    "currency",
+                    "amount"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "max_seconds",
+                "max_bytes",
+                "max_cost"
+              ],
+              "additionalProperties": false
+            },
+            "adapter": {
+              "type": "object",
+              "properties": {
+                "rank": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "target_modules": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "maxItems": 1000
+                },
+                "config_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                }
+              },
+              "required": [
+                "rank",
+                "target_modules",
+                "config_ref"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "dataset_id",
+            "split_id",
+            "method",
+            "base_model",
+            "tokenizer",
+            "measured_gap_ref",
+            "environment_ref",
+            "budget"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "ModelBundle": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "ModelBundle",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "recipe_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "base_revision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "tokenizer_revision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "safetensors",
+                "gguf",
+                "onnx",
+                "coreml",
+                "other-reviewed"
+              ]
+            },
+            "loader_review_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "remote_code": {
+              "const": false,
+              "type": "boolean"
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 1000
+            },
+            "weights_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "tokenizer_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "signature_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evaluation_report_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "serving_proof_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "adapter_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "recipe_id",
+            "base_revision",
+            "tokenizer_revision",
+            "format",
+            "loader_review_ref",
+            "remote_code",
+            "files",
+            "weights_ref",
+            "tokenizer_ref",
+            "signature_ref",
+            "evaluation_report_id",
+            "serving_proof_ref"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "BatchPlan": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "BatchPlan",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "recipe_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "budget": {
+              "type": "object",
+              "properties": {
+                "currency": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{3}$"
+                },
+                "amount": {
+                  "type": "string",
+                  "maxLength": 40,
+                  "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,9})?$"
+                }
+              },
+              "required": [
+                "currency",
+                "amount"
+              ],
+              "additionalProperties": false
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "item_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "variant": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "master_ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "consumer": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  }
+                },
+                "required": [
+                  "item_id",
+                  "variant",
+                  "master_ref",
+                  "consumer"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100000
+            }
+          },
+          "required": [
+            "recipe_ref",
+            "budget",
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "ItemManifest": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "ItemManifest",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "plan_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "item_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "variant": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "master_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "outputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 1000
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "unreviewed",
+                "accepted",
+                "rejected"
+              ]
+            },
+            "review_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "consumer_proof_ref": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "evaluation_report_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            }
+          },
+          "required": [
+            "plan_id",
+            "item_id",
+            "variant",
+            "master_ref",
+            "outputs",
+            "verdict"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "GenerationBatch": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "atelier.ai-production/1",
+          "type": "string"
+        },
+        "kind": {
+          "const": "GenerationBatch",
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "project_root": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "plan_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "closed"
+              ]
+            },
+            "overheads": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "phase": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "cost": {
+                    "type": "object",
+                    "properties": {
+                      "currency": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "amount": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,9})?$"
+                      }
+                    },
+                    "required": [
+                      "currency",
+                      "amount"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "receipt_ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  }
+                },
+                "required": [
+                  "id",
+                  "phase"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 1000
+            },
+            "attempts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "item_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "variant": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "dispatched",
+                      "succeeded",
+                      "failed",
+                      "rejected",
+                      "cancelled",
+                      "outcome_unknown"
+                    ]
+                  },
+                  "cost": {
+                    "type": "object",
+                    "properties": {
+                      "currency": {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      },
+                      "amount": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,9})?$"
+                      }
+                    },
+                    "required": [
+                      "currency",
+                      "amount"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "receipt_ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "output_manifest_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "retry_requested": {
+                    "type": "boolean"
+                  },
+                  "retry_policy": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "type": "string",
+                        "enum": [
+                          "known-failure-only"
+                        ]
+                      },
+                      "basis_ref": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 8000
+                      },
+                      "retry_number": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "max_retries": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "basis_ref",
+                      "retry_number",
+                      "max_retries"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "id",
+                  "item_id",
+                  "variant",
+                  "status",
+                  "retry_requested"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100000
+            },
+            "outcomes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "item_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "variant": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "accepted",
+                      "rejected",
+                      "failed",
+                      "missing",
+                      "cancelled",
+                      "outcome_unknown"
+                    ]
+                  },
+                  "manifest_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  }
+                },
+                "required": [
+                  "item_id",
+                  "variant",
+                  "status"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100000
+            }
+          },
+          "required": [
+            "plan_id",
+            "status",
+            "overheads",
+            "attempts",
+            "outcomes"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "id",
+        "project_id",
+        "project_root",
+        "owner",
+        "inputs",
+        "payload"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

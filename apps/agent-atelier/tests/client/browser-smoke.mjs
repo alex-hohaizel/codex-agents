@@ -169,6 +169,81 @@ try {
   await screenshot("reference-workbench-1440.png", 1440, 1080);
   await screenshot("reference-workbench-1920.png", 1920, 1200);
   await screenshot("reference-workbench-390.png", 390, 1000, true);
+  await evaluate(
+    `(()=>{const b=document.querySelector('.mobile-menu');b.focus();b.click()})()`,
+  );
+  await pause(80);
+  const drawer = await evaluate(`(()=>{
+    const drawer=document.querySelector('#project-navigation-drawer');
+    return {open:drawer?.getAttribute('aria-modal')==='true',routes:[...new Set([...drawer.querySelectorAll('[data-view]')].map(e=>e.dataset.view))],focusInside:drawer.contains(document.activeElement)};
+  })()`);
+  checks.push({
+    name: "Mobile drawer exposes all eleven existing views and receives focus",
+    pass: drawer.open && drawer.focusInside && drawer.routes.length === 11,
+  });
+  await evaluate(
+    `(()=>{const d=document.querySelector('#project-navigation-drawer');const a=[...d.querySelectorAll('button:not(:disabled),a[href],select:not(:disabled),[tabindex="0"]')].filter(e=>e.getClientRects().length);a.at(-1)?.focus()})()`,
+  );
+  await call(
+    "Input.dispatchKeyEvent",
+    { type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 },
+    session,
+  );
+  await call(
+    "Input.dispatchKeyEvent",
+    { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 },
+    session,
+  );
+  checks.push({
+    name: "Mobile drawer wraps keyboard focus instead of losing controls behind it",
+    pass: await evaluate(
+      `(()=>{const d=document.querySelector('#project-navigation-drawer');return document.activeElement===d.querySelector('button:not(:disabled)')})()`,
+    ),
+  });
+  await call(
+    "Input.dispatchKeyEvent",
+    {
+      type: "keyDown",
+      key: "Escape",
+      code: "Escape",
+      windowsVirtualKeyCode: 27,
+    },
+    session,
+  );
+  await call(
+    "Input.dispatchKeyEvent",
+    { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 },
+    session,
+  );
+  await pause(80);
+  checks.push({
+    name: "Escape closes the mobile drawer and returns focus to its trigger",
+    pass: await evaluate(
+      `!document.querySelector('.atelier-shell').classList.contains('nav-open')&&document.activeElement===document.querySelector('.mobile-menu')`,
+    ),
+  });
+  for (const view of ["settings", "jobs", "skills", "context"]) {
+    await evaluate(
+      `(()=>{const b=document.querySelector('.mobile-menu');b.focus();b.click()})()`,
+    );
+    await pause(40);
+    await evaluate(
+      `document.querySelector('#project-navigation-drawer [data-view="${view}"]').click()`,
+    );
+    await pause(60);
+    checks.push({
+      name: `Mobile navigation opens ${view} and dismisses the drawer`,
+      pass: await evaluate(
+        `document.querySelector('#main-content')?.dataset.currentView===${JSON.stringify(view)}&&!document.querySelector('.atelier-shell').classList.contains('nav-open')`,
+      ),
+    });
+  }
+  checks.push({
+    name: "Context view retains full record and exposes declared-binding limits",
+    pass: await evaluate(
+      `!!document.querySelector('.context-coverage-panel')&&!!document.querySelector('.context-reader-grid .code-viewer')&&document.querySelector('.context-coverage-summary')?.innerText.includes('не доводить')`,
+    ),
+  });
   await call(
     "Emulation.setDeviceMetricsOverride",
     { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false },

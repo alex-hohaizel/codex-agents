@@ -152,7 +152,7 @@ def check(root: Path, *, links: bool = True) -> dict:
             for row in rows:
                 if not row.get("id") or not row.get("requirement") or not row.get("acceptance"):
                     errors.append("requirement lacks identity/content/acceptance")
-                if row.get("status") not in {"implemented", "awaiting-owner-selection", "documented-boundary"}:
+                if row.get("status") not in {"implemented", "in-progress", "awaiting-owner-selection", "documented-boundary"}:
                     errors.append(f"{row.get('id')}: unknown requirement status")
                 for target in row.get("evidence", "").split(";"):
                     if target and not safe_path(root, target).exists():

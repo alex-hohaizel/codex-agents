@@ -63,6 +63,17 @@ import {
 } from "./profiles";
 import { localeNames, catalogs, type Locale, type MessageKey } from "./i18n";
 import {
+  ContextCoveragePanel,
+  ContextSignal,
+  ContextTrailPanels,
+} from "./context-workbench";
+import {
+  contextTrail,
+  observedJobCounts,
+  requirementPresentation,
+  workspaceDirection,
+} from "./workbench";
+import {
   Button,
   CodeViewer,
   Disclosure,
@@ -88,7 +99,7 @@ export interface ViewProps {
   nativeDetail?: Data | null;
   nativeHistoryLoading?: boolean;
   nativeHistoryError?: string;
-  loadMoreNativeHistory?: () => void;
+  loadMoreNativeHistory?: (itemCursor?: Data) => void;
   observePortfolio?: () => Promise<void>;
   busy: string;
   command: CommandFn;
@@ -181,14 +192,21 @@ export function Portfolio(p: ViewProps) {
       cancelled = true;
     };
   }, [detailIdentity]);
-  async function loadMoreDetail() {
+  async function loadMoreDetail(itemCursor?: Data) {
     const offset = detail?.coverage?.next_thread_offset;
     if (
       !focus ||
       !detail ||
       detail.project?.id !== focus.id ||
       detail.coverage?.snapshot_checked_at !== catalog?.checked_at ||
-      !Number.isInteger(offset) ||
+      (!itemCursor && !Number.isInteger(offset)) ||
+      (itemCursor &&
+        !detail.coverage?.item_cursors?.some(
+          (item: Data) =>
+            item.thread_id === itemCursor.thread_id &&
+            typeof item.next_cursor === "string" &&
+            item.next_cursor === itemCursor.next_cursor,
+        )) ||
       detailMoreRef.current
     )
       return;
@@ -198,7 +216,12 @@ export function Portfolio(p: ViewProps) {
     setDetailError("");
     try {
       const page = await api.portfolioProject(focus.id, {
-        thread_offset: offset,
+        ...(itemCursor
+          ? {
+              item_thread_id: itemCursor.thread_id,
+              item_cursor: itemCursor.next_cursor,
+            }
+          : { thread_offset: offset }),
         snapshot_checked_at: detail.coverage.snapshot_checked_at,
       });
       if (detailIdentityRef.current === identity) {
@@ -360,7 +383,7 @@ export function Portfolio(p: ViewProps) {
       )}
       <div className="portfolio-layout">
         <Panel
-          title={p.t("allProducts")}
+          title={p.t("workLedger")}
           icon={Boxes}
           className="portfolio-products"
           tools={
@@ -402,7 +425,13 @@ export function Portfolio(p: ViewProps) {
               </button>
             ))}
           </div>
-          <div className="portfolio-card-grid">
+          <div className="portfolio-ledger-intro">{p.t("workLedgerHelp")}</div>
+          <div className="portfolio-ledger-head" aria-hidden="true">
+            <span>{p.t("product")}</span>
+            <span>{p.t("outcome")}</span>
+            <span>{p.t("nextStep")}</span>
+          </div>
+          <div className="portfolio-card-grid portfolio-work-ledger">
             {filtered.map((project) => (
               <button
                 className={`portfolio-project-card ${project.goal?.status === "accepted" ? "has-accepted-goal" : ""}`}
@@ -563,7 +592,7 @@ function NativeProjectDetail(
     detail: Data | null;
     loading?: boolean;
     error?: string;
-    loadMore?: () => void;
+    loadMore?: (itemCursor?: Data) => void;
   },
 ) {
   const project = p.project;
@@ -762,7 +791,7 @@ function HistoryPagination(
     detail?: Data | null;
     loading?: boolean;
     error?: string;
-    loadMore?: () => void;
+    loadMore?: (itemCursor?: Data) => void;
   },
 ) {
   if (!p.detail && !p.loading && !p.error) return null;
@@ -801,11 +830,45 @@ function HistoryPagination(
       {Number.isInteger(coverage?.next_thread_offset) && (
         <Button
           disabled={p.loading}
-          onClick={p.loadMore}
+          onClick={() => p.loadMore?.()}
           icon={ArrowDownToLine}
         >
           {p.loading ? p.t("loading") : p.t("loadMoreThreads")}
         </Button>
+      )}
+      {rows(coverage?.item_cursors).filter(
+        (item) =>
+          typeof item.next_cursor === "string" && item.next_cursor.length > 0,
+      ).length > 0 && (
+        <div className="history-item-continuations">
+          <p>{p.t("historyItemsRemaining")}</p>
+          {rows(coverage?.item_cursors)
+            .filter(
+              (item) =>
+                typeof item.next_cursor === "string" &&
+                item.next_cursor.length > 0,
+            )
+            .map((item) => (
+              <Button
+                key={item.thread_id}
+                disabled={p.loading}
+                icon={ArrowDownToLine}
+                onClick={() => p.loadMore?.(item)}
+              >
+                <span>
+                  {p.loading ? p.t("loading") : p.t("loadMoreHistoryItems")}
+                  <small>
+                    {text(
+                      p.detail?.threads?.find(
+                        (thread: Data) => thread.id === item.thread_id,
+                      )?.title,
+                      shortHash(item.thread_id),
+                    )}
+                  </small>
+                </span>
+              </Button>
+            ))}
+        </div>
       )}
       {!coverage && p.loading && (
         <span className="muted">{p.t("loading")}</span>
@@ -815,7 +878,12 @@ function HistoryPagination(
 }
 
 function WorkMap(
-  p: ViewProps & { groups: Data[]; goal?: Data; bound?: Project; projectName?: string },
+  p: ViewProps & {
+    groups: Data[];
+    goal?: Data;
+    bound?: Project;
+    projectName?: string;
+  },
 ) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   if (!p.groups.length)
@@ -830,14 +898,20 @@ function WorkMap(
         <span>
           <Fingerprint size={17} />
         </span>
-        <strong>{p.goal?.text || p.projectName || p.selected?.name || p.t("product")}</strong>
+        <strong>
+          {p.goal?.text || p.projectName || p.selected?.name || p.t("product")}
+        </strong>
         <small>{goalLabel(p.goal, p.t)}</small>
       </div>
       <div className="work-map-lanes">
         {p.groups.map((group) => {
           const items = rows(group.items);
           const systemChecks = group.id === "system_checks";
-          const visible = expanded[group.id] ? items : systemChecks ? [] : items.slice(0, 4);
+          const visible = expanded[group.id]
+            ? items
+            : systemChecks
+              ? []
+              : items.slice(0, 4);
           return (
             <section className="work-map-lane" key={group.id}>
               <header>
@@ -1458,7 +1532,7 @@ export function WorkspaceView(p: ViewProps) {
       </div>
       <div className="context-grid">
         <Panel
-          title={p.t("topology")}
+          title={p.t("relatedWork")}
           icon={Network}
           className="topology-panel"
           tools={<span className="tag tag--subtle">{p.t("sourceTruth")}</span>}
@@ -1568,11 +1642,15 @@ export function ContextView(p: ViewProps) {
         title={p.t("context")}
         description={p.t("contextGraph")}
       />
+      <div className="context-control-grid">
+        <ContextCoveragePanel {...p} />
+        <ContextTrailPanels {...p} />
+      </div>
       <div className="context-reader-grid">
         <Panel
-          title={p.t("taskContext")}
+          title={p.t("contextRecord")}
           icon={Braces}
-          onExpand={() => p.expand(p.t("taskContext"), context)}
+          onExpand={() => p.expand(p.t("contextRecord"), context)}
           t={p.t}
         >
           <CodeViewer
@@ -1635,7 +1713,9 @@ export function RequirementsView(p: ViewProps) {
   const [query, setQuery] = useState("");
   const reqs = (p.workspace?.requirements ?? []).filter(
     (req) =>
-      (filter === "all" || req.priority === filter || req.status === filter) &&
+      (filter === "all" ||
+        req.priority === filter ||
+        requirementPresentation(req, p.locale).status === filter) &&
       pretty(req).toLowerCase().includes(query.toLowerCase()),
   );
   if (!p.selected) return <Welcome {...p} />;
@@ -1678,14 +1758,16 @@ export function RequirementsView(p: ViewProps) {
               <span>ID</span>
               <span>{p.t("requirements")}</span>
               <span>{p.t("source")}</span>
-              <span>{p.t("status")}</span>
+              <span>{p.t("statusInSource")}</span>
             </div>
             {reqs.map((req, index) => (
               <button
                 key={req.id ?? index}
                 onClick={() =>
                   p.inspect({
-                    title: text(req.title ?? req.id),
+                    title: text(
+                      requirementPresentation(req, p.locale).title || req.id,
+                    ),
                     kind: "requirement",
                     data: req,
                   })
@@ -1694,12 +1776,7 @@ export function RequirementsView(p: ViewProps) {
                 <code>{text(req.id)}</code>
                 <span>
                   <strong>
-                    {text(
-                      req.title ??
-                        req.description ??
-                        req.text ??
-                        req.requirement,
-                    )}
+                    {text(requirementPresentation(req, p.locale).title)}
                   </strong>
                   {req.acceptance && <small>{text(req.acceptance)}</small>}
                 </span>
@@ -1707,7 +1784,7 @@ export function RequirementsView(p: ViewProps) {
                   <FileText size={12} />
                   {text(req.source ?? req.source_ref ?? req.source_id)}
                 </span>
-                <Status value={req.status ?? "source_only"} />
+                <Status value={requirementPresentation(req, p.locale).status} />
               </button>
             ))}
           </div>
@@ -3729,15 +3806,12 @@ function Topology({
 
 function WorkspaceDirection(p: ViewProps) {
   const [controllerOpen, setControllerOpen] = useState(false);
-  const summary =
-    p.nativeDetail?.project ??
-    p.portfolio?.projects?.find(
-      (item: Data) =>
-        item.binding_id === p.selected?.id || item.root === p.selected?.root,
-    );
-  const goal = p.nativeDetail?.goal ?? summary?.goal;
-  const next = p.nativeDetail?.next_actions ?? summary?.next_actions ?? [];
-  const agents = summary?.agents ?? [];
+  const { goal, next, agents } = workspaceDirection(p.workspace, p.selected?.id);
+  const jobs = observedJobCounts(p.workspace?.jobs);
+  const trail = contextTrail(p.workspace);
+  const currentDecision = trail.explicitlyCurrent
+    ? trail.decisions[0]
+    : undefined;
   return (
     <>
       <div className="workspace-direction">
@@ -3765,6 +3839,66 @@ function WorkspaceDirection(p: ViewProps) {
               <code>{shortHash(goal.source_sha256)}</code>
             </button>
           )}
+          {currentDecision && (
+            <button
+              className="workspace-current-decision"
+              onClick={() =>
+                p.inspect({
+                  title: p.t("currentDecisions"),
+                  kind: "decision",
+                  data: currentDecision,
+                  sourcePath:
+                    currentDecision.source_ref ?? currentDecision.source_path,
+                })
+              }
+            >
+              <GitPullRequest size={14} />
+              <span>
+                <small>{p.t("currentDecisions")}</small>
+                <strong>
+                  {text(
+                    currentDecision.summary ??
+                      currentDecision.text ??
+                      currentDecision.title ??
+                      currentDecision.id,
+                    p.t("noDescription"),
+                  )}
+                </strong>
+                <code>
+                  {text(
+                    currentDecision.source_ref ??
+                      currentDecision.source_path ??
+                      currentDecision.id,
+                  )}
+                </code>
+              </span>
+              <ArrowRight size={12} />
+            </button>
+          )}
+          <div className="workspace-context-bar">
+            <ContextSignal
+              workspace={p.workspace}
+              t={p.t}
+              onOpen={() => p.navigate("context")}
+            />
+            <div className="workspace-source-counters">
+              <button onClick={() => p.navigate("context")}>
+                <FileText size={13} />
+                <strong>{p.workspace?.sources?.length ?? 0}</strong>
+                <span>{p.t("sourcesCount")}</span>
+              </button>
+              <button onClick={() => p.navigate("requirements")}>
+                <ListChecks size={13} />
+                <strong>{p.workspace?.requirements?.length ?? 0}</strong>
+                <span>{p.t("mustCount")}</span>
+              </button>
+              <button onClick={() => p.navigate("jobs")}>
+                <Activity size={13} />
+                <strong>{jobs.active}</strong>
+                <span>{p.t("activeWork")}</span>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="workspace-direction-next">
           <span className="eyebrow">{p.t("nextStep")}</span>

@@ -1,0 +1,643 @@
+{
+  "schema_version": "codex-agents.implementation-components/1",
+  "checkpoint": "2026-11-10",
+  "edition": {
+    "repository": "1.4.0-rc.1",
+    "core": "6.1.0",
+    "orchestrator": "1.2.0",
+    "maintenance": "1.1.0",
+    "service_source": "0.3.0"
+  },
+  "scope": {
+    "core_skills": 33,
+    "optional_skills": 2,
+    "role_profiles": 12,
+    "all_capabilities": 17,
+    "request_ids": "R01-R27",
+    "acceptance_ids": "A01-A29",
+    "full_case_gates": "open",
+    "WORK": "deferred"
+  },
+  "authority": "Later exact owner approval applies; immutable earlier audit/proposal registers remain historical. This is a candidate overlay, not a rewrite or final-release/installation receipt.",
+  "runtime_boundary": "Latest isolated candidate restart at13:38:50 served0.3.0 with the direction build; earlier13:04 restart served the recovery build. Current goal/next-action/source were observed at three viewports. Two read-only Codex jobs used a preceding0.2-labelled feature build and do not certify later bytes. Stable0.2 remains isolated with preserved data; no candidate adoption, host-profile apply or database migration follows. The reproduced P1 was repaired and actual macOS/Codex0.166 retest closed only its exact checked scope.",
+  "components": [
+    {
+      "id": "context-portable",
+      "purpose": {
+        "en": "Check an explicitly declared source set before a direct skill task; keep native records authoritative.",
+        "uk": "Звірити явно заявлені джерела перед прямою задачею навички; зберегти авторитет рідних записів."
+      },
+      "sources": [
+        "standards/context_capsule.py",
+        "standards/context-capsule.md"
+      ],
+      "trigger": "Direct work with an explicit native projection; optional required binding.",
+      "inputs": [
+        "Native projection",
+        "Declared original files and source pins"
+      ],
+      "outputs": [
+        "Derived packet",
+        "Coverage and conflict report"
+      ],
+      "consumer": "Task owner and delegated receiver",
+      "dependencies": [
+        "Python standard library",
+        "Declared supported native formats"
+      ],
+      "access_cost": "Reads explicit bounded local files; no API or training cost is incurred by this helper.",
+      "checks": [
+        "Declared bytes/root/IDs/must/excerpts",
+        "Missing-source/drift/wrong-project negative cases",
+        "Actual cold receiver:12pins/27requestIDs/29acceptanceIDs/10stages"
+      ],
+      "limits_repair": "Cannot detect an undeclared original or authenticate consent. Reconcile originals; repair declarations or native records and regenerate. Required gaps block preparation.",
+      "activation": "Implemented source; bounded actual compile/verify. No claim of full-history or host installation."
+    },
+    {
+      "id": "context-service",
+      "purpose": {
+        "en": "Prepare source-backed project/task context and expose current decisions and deferred work.",
+        "uk": "Готувати контекст проєкту/задачі з джерелами, чинними рішеннями й відкладеним."
+      },
+      "sources": [
+        "apps/agent-atelier/server/context-bindings.mjs",
+        "apps/agent-atelier/server/context.mjs",
+        "apps/agent-atelier/server/projects.mjs"
+      ],
+      "trigger": "Inspect project context or prepare a task with the supported binding.",
+      "inputs": [
+        "Project root",
+        "Declared sources",
+        "Native project state"
+      ],
+      "outputs": [
+        "Coverage",
+        "Current/deferred context",
+        "Prepared task or blocking gap"
+      ],
+      "consumer": "Agent Atelier workspace and admitted local task executor",
+      "dependencies": [
+        "Existing local service",
+        "Supported filesystem sources"
+      ],
+      "access_cost": "Existing local read scope; execution keeps its separate admitted scope and usage.",
+      "checks": [
+        "Shared binding rules",
+        "Required-gap blocking",
+        "Two actual read-only Codex jobs"
+      ],
+      "limits_repair": "Separate JS implementation, not a hidden Python/global-memory service. Fix declared conflicts; refresh native discovery after restart.",
+      "activation": "Candidate source and isolated scoped runtime observations; no operational adoption of every project."
+    },
+    {
+      "id": "context-workbench",
+      "purpose": {
+        "en": "Make requirements, decisions, deferred work and source gaps readable and actionable.",
+        "uk": "Зробити вимоги, рішення, відкладене й джерельні прогалини читабельними та придатними до дій."
+      },
+      "sources": [
+        "apps/agent-atelier/client/src/context-workbench.tsx",
+        "apps/agent-atelier/client/src/workbench.ts",
+        "apps/agent-atelier/client/src/views.tsx",
+        "apps/agent-atelier/client/src/App.tsx"
+      ],
+      "trigger": "Open context or the selected project ledger.",
+      "inputs": [
+        "Actual service context and project identity",
+        "Explicit loading/error state"
+      ],
+      "outputs": [
+        "Readable rows and source details",
+        "Current/deferred view",
+        "Visible retry and recovery"
+      ],
+      "consumer": "Owner managing a project",
+      "dependencies": [
+        "Existing service API",
+        "Seven locale dictionaries"
+      ],
+      "access_cost": "Local UI; provider actions retain their own permissions and costs.",
+      "checks": [
+        "159 final service tests",
+        "37 independent craft fixtures",
+        "11views/41UIcommands/48APIoperations retained statically",
+        "Actual browser:20focusables/loadingfailure/retry/28requirementrows",
+        "2 fresh-workspace direction tests; actual current goal/next/source in3viewports"
+      ],
+      "limits_repair": "Source status is not automatically latest authority; present dates and corrections. Static retention does not prove all operations executed. Retry matching failed load; preserve unrelated errors. Earlier craft/browser observations retain their old byte binding; fresh selected-project workspace overrides stale portfolio goal/action.",
+      "activation": "Implemented and bounded desktop/mobile/browser observations of candidate bytes; full owner acceptance open."
+    },
+    {
+      "id": "native-history-pages",
+      "purpose": {
+        "en": "Inspect large actual work histories without silently losing unfinished item coverage.",
+        "uk": "Переглядати великі реальні історії без прихованої втрати незавершеного покриття."
+      },
+      "sources": [
+        "apps/agent-atelier/server/codex.mjs",
+        "apps/agent-atelier/server/portfolio.mjs",
+        "apps/agent-atelier/client/src/api.ts"
+      ],
+      "trigger": "Inspect a native thread larger than one bounded response.",
+      "inputs": [
+        "Discovered supported thread reference",
+        "Observed cursor",
+        "Bounded turn/item limit"
+      ],
+      "outputs": [
+        "Turn metadata",
+        "Item pages",
+        "Explicit coverage and continuation cursor"
+      ],
+      "consumer": "Read-only project portfolio and task context inspection",
+      "dependencies": [
+        "Supported native read-only protocol",
+        "Current ephemeral discovery"
+      ],
+      "access_cost": "Read-only native scope; no native mutation right or direct database edit.",
+      "checks": [
+        "Actual oversized-history path",
+        "Bounded response tests",
+        "Old full adapter preserved"
+      ],
+      "limits_repair": "A single oversized item or unavailable history remains a gap. Do not invent an empty project; refresh discovery or use supported native host. No global transport ceiling increase.",
+      "activation": "Implemented source and bounded actual read-only native observations; not every historical chat imported."
+    },
+    {
+      "id": "conditional-profiles",
+      "purpose": {
+        "en": "Use sufficient AI/data/media expertise within the existing team and full product scope.",
+        "uk": "Залучати достатню AI/data/медіа-компетенцію в чинній команді без втрати повного обсягу продукту."
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "optional-skills/atelier-orchestrator/SKILL.md",
+        "maintenance-skill/SKILL.md"
+      ],
+      "trigger": "A real task needs DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA or EVALUATION.",
+      "inputs": [
+        "Business outcome",
+        "Native requirements",
+        "Applicable real data/tools/access/bounds"
+      ],
+      "outputs": [
+        "Owned work and applicable recipe/artifacts",
+        "Useful consumer result or honest blocked/insufficient-data conclusion"
+      ],
+      "consumer": "Existing directors, specialists, constructors and task owner",
+      "dependencies": [
+        "Existing35sources/12roles",
+        "Actual supported tools when required"
+      ],
+      "access_cost": "No new mandatory framework/model/skill. New API charges, training resources or external actions keep their own authorization.",
+      "checks": [
+        "Recipe source review",
+        "Real100-issue study for applicable analysis",
+        "Typed invariant checks only where applicable"
+      ],
+      "limits_repair": "A recipe is not executed collection/training/serving. Choose a simpler sufficient method; obtain actual task-specific evidence before claiming capability.",
+      "activation": "Rules materialized. Existing host competence executed the bounded study; no causal attribution to these new rules."
+    },
+    {
+      "id": "typed-checker",
+      "purpose": {
+        "en": "Reject selected structural, source, leakage, retry and stale-evidence mistakes in explicitly supplied local records.",
+        "uk": "Відхиляти окремі помилки структури, джерел, leakage, повторів і застарілих доказів у явно переданих локальних записах."
+      },
+      "sources": [
+        "standards/ai_production.py",
+        "standards/ai-production.schema.json",
+        "scripts/tests/test_ai_production.py"
+      ],
+      "trigger": "Use schema/digest/check for an applicable record set before consumption.",
+      "inputs": [
+        "Explicit local JSON record set",
+        "Pinned bounded local dependencies"
+      ],
+      "outputs": [
+        "Schema or canonical digest",
+        "Named check results and failures"
+      ],
+      "consumer": "Existing collector/trainer/evaluator/integrator; never an autonomous executor",
+      "dependencies": [
+        "Python standard library",
+        "Fixed atelier.ai-production/1 contract"
+      ],
+      "access_cost": "Read-only bounded local files; no network, provider spend, model load or training.",
+      "checks": [
+        "38tests",
+        "14independentcontrols",
+        "Four actual review-case records PASS with PARTIAL dataset and INCOMPLETE report",
+        "False-complete/old-plan/wrong-project controls BLOCKED"
+      ],
+      "limits_repair": "digest checks shape/identity only. check does not authenticate rights or quality. Correct originals/declared dependencies, retain failures and regenerate current evidence; execution_authority and quality_authority remain false.",
+      "activation": "Implemented and tested utility; not a production ML/media service."
+    },
+    {
+      "id": "self-contained-inheritance",
+      "purpose": {
+        "en": "Deliver the same reviewed operating rules without runtime dependence on a neighboring constructor.",
+        "uk": "Доставляти ті самі перевірені правила без runtime-залежності від сусіднього конструктора."
+      },
+      "sources": [
+        "scripts/materialize_standards.py",
+        "kit/portable/check_generated_inheritance.py",
+        "kit/portable/install_agent.py",
+        "kit/skills/agent-foundry/references/generated-agent-contract.md",
+        "kit/skills/design-specialist-skills/references/joint-use-inheritance.md"
+      ],
+      "trigger": "Materialize source bundles or construct/update a justified reusable child.",
+      "inputs": [
+        "Seven reviewed master resources",
+        "Native blueprint and identity",
+        "Exact target snapshot"
+      ],
+      "outputs": [
+        "238sharedcopies in34bundles",
+        "New child15commonresources/7localreference links",
+        "Preservation comparison"
+      ],
+      "consumer": "Constructors, package/release checker and generated agent owner",
+      "dependencies": [
+        "Existing35sources/12roles",
+        "Supported constructor and migration"
+      ],
+      "access_cost": "Source generation is local; host installation/adoption remains an explicit separate operation.",
+      "checks": [
+        "Exact self-contained copies",
+        "Generated inheritance checks",
+        "15/12/8 historical version distinction"
+      ],
+      "limits_repair": "Old6.0=12 and5.x=8 resources retain historical identity. Update by exact comparison, preserve settings/native records and prove cold continuation plus a real task. Never relabel old evidence.",
+      "activation": "Candidate sources materialized; global generated-agent adoption unverified."
+    },
+    {
+      "id": "host-profile-preservation",
+      "purpose": {
+        "en": "Update only a known managed instruction block while protecting custom settings and role bytes.",
+        "uk": "Оновлювати лише відомий керований блок інструкцій, захищаючи власні налаштування та байти ролей."
+      },
+      "sources": [
+        "scripts/install_host_profile.py",
+        "host-profiles/codex/AGENTS.md",
+        "agent-profiles/manifest.json"
+      ],
+      "trigger": "Read-only audit or separately admitted host-profile application.",
+      "inputs": [
+        "Known current/historical managed block",
+        "Actual target bytes",
+        "Exact profile sources"
+      ],
+      "outputs": [
+        "Planned diff",
+        "Preservation audit or conflict"
+      ],
+      "consumer": "Installer and host owner",
+      "dependencies": [
+        "Recognized historical/current profile bytes",
+        "Existing12roleconfigs"
+      ],
+      "access_cost": "Audit reads local host files. An audit itself changes nothing.",
+      "checks": [
+        "15tests",
+        "Actual read-only13rows:1plannedmanagedblockchange,12unchangedroles"
+      ],
+      "limits_repair": "Unknown customized content inside a managed block blocks overwrite. Preserve outside content; reconcile the custom block explicitly before any apply.",
+      "activation": "Source guard and read-only audit verified; no host application from that observation."
+    },
+    {
+      "id": "nested-native-write-guard",
+      "purpose": {
+        "en": "Allow scoped artifact work while preserving readable native authority and blocking writes to protected metadata at every covered depth.",
+        "uk": "Дозволяти обмежену роботу з артефактами, зберігаючи читання рідних джерел і блокуючи запис захищених metadata на охоплених рівнях."
+      },
+      "sources": [
+        "apps/agent-atelier/server/permissions.mjs",
+        "apps/agent-atelier/server/context.mjs",
+        "apps/agent-atelier/server/codex.mjs",
+        "apps/agent-atelier/tests/server/nested-permissions.test.mjs"
+      ],
+      "trigger": "Prepare and dispatch an admitted local workspace-write task; recheck inventory before turn.",
+      "inputs": [
+        "Exact selected root",
+        "Admitted relative artifact paths",
+        "Bounded current native-authority inventory"
+      ],
+      "outputs": [
+        "Exact existing-native read exceptions",
+        "Recursive case-aware denies for9native names and future paths",
+        "Visible capability error on unsupported inventory/path or drift"
+      ],
+      "consumer": "Existing local Codex adapter; no new controller or background service",
+      "dependencies": [
+        "Actual checked macOS/Codex0.166 permission parser",
+        "Supported filesystem snapshot and pre-turn checks"
+      ],
+      "access_cost": "Local inventory maximum200000entries/128levels; no network/model/provider call in the synthetic OS probe.",
+      "checks": [
+        "159 final service tests including dedicated nested-permissions suite",
+        "93 actual filesystem readbacks; native reads/ordinary writes retained",
+        "Child/root scopes; existing/future metadata, uppercase names and late aliases denied",
+        "Independent source review found no new concrete P1/P2 within its scope"
+      ],
+      "limits_repair": "Inventory ambiguity, protected symlink, unreadable traversal or unsupported relative literal glob characters block dispatch. Pre-turn comparison is not an atomic fence against an external writer. Actual proof covers named9metadata names, checked cases and macOS/Codex route; another OS/CLI/schema needs its own check. Reconcile the real root or narrow artifact scope, rebuild snapshot and reprepare; never bypass a failed capability check.",
+      "activation": "Implemented source; reproduced P1 repaired and exact synthetic OS retest passed. Full project/system adoption remains false.",
+      "source_sha256": {
+        "apps/agent-atelier/server/permissions.mjs": "2b7467d6f46e7e13412daf70499b50777f613fc72712805e1dc443f83bbb0be7",
+        "apps/agent-atelier/server/context.mjs": "1d1911a53c7e546a7af169e7088fc401839026853645215ff50ba3b78b3bb3cd",
+        "apps/agent-atelier/server/codex.mjs": "3092def9d7587bc86b3aad1c8fe1da5298b13875532a56bdfb7c63a1ab78bb56"
+      }
+    }
+  ],
+  "records": [
+    {
+      "id": "SourceContract",
+      "purpose": {
+        "en": "Controlled acquisition declarations",
+        "uk": "Декларації керованого збору"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Source/operation, rights/privacy/schema references, consumer and bounds",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Collector",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source and actual bounded review-case records checked; dataset PARTIAL100of5746/report INCOMPLETE12agreements8disagreements."
+    },
+    {
+      "id": "DatasetManifest",
+      "purpose": {
+        "en": "Data membership and full accounting",
+        "uk": "Склад даних і повний облік"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Source contracts, retained IDs, transform, received/accepted/duplicate/quarantine/excluded counts and coverage",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Analysis/training consumer",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source and actual bounded review-case records checked; dataset PARTIAL100of5746/report INCOMPLETE12agreements8disagreements."
+    },
+    {
+      "id": "SplitManifest",
+      "purpose": {
+        "en": "Protected disjoint evaluation membership",
+        "uk": "Захищені неперетинні вибірки"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Dataset, memberships, exclusions, groups, times and availability cutoffs",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Training/evaluation owner",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "FeatureManifest",
+      "purpose": {
+        "en": "Declared prediction-time inputs",
+        "uk": "Заявлені входи на момент прогнозу"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Dataset/split, source availability and preprocessing fit rows",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Training/inference pipeline",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "PredictionContract",
+      "purpose": {
+        "en": "An honest forecast decision contract",
+        "uk": "Чесний контракт прогнозного рішення"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Decision, target/unit/horizon, exclusions and applicable CPA policy",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Inference/UI consumer",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "WorkflowRun",
+      "purpose": {
+        "en": "Actual effects and bounded recovery",
+        "uk": "Фактичні дії та обмежене відновлення"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Nodes, attempts, completion/effect IDs, receipts and pinned retry policy",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Existing recovery controller",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "EvaluationPlan",
+      "purpose": {
+        "en": "Freeze the full comparison before review",
+        "uk": "Зафіксувати повне порівняння до перегляду"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Cases/musts, baseline/candidate/rubric, author, proof types and exact input pins",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Evaluator",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source and actual bounded review-case records checked; dataset PARTIAL100of5746/report INCOMPLETE12agreements8disagreements."
+    },
+    {
+      "id": "EvaluationReport",
+      "purpose": {
+        "en": "Bind results to the exact current plan",
+        "uk": "Прив’язати результати до точного чинного плану"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Canonical plan digest, every plan input pin, reviewer, verdicts and observations",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Adoption/model/media consumer",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source and actual bounded review-case records checked; dataset PARTIAL100of5746/report INCOMPLETE12agreements8disagreements."
+    },
+    {
+      "id": "TrainingRecipe",
+      "purpose": {
+        "en": "Justified bounded model adaptation plan",
+        "uk": "Обґрунтований обмежений план адаптації"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Data/split, base/tokenizer/template/license, measured gap, environment and resource bounds",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Actual trainer",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "ModelBundle",
+      "purpose": {
+        "en": "Traceable actual model delivery membership",
+        "uk": "Простежуваний склад фактичної моделі"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Weights/tokenizer/signature/adapter members, revisions and current evaluation/serving records",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Actual loader/serving pipeline",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "BatchPlan",
+      "purpose": {
+        "en": "Full material item and variant plan",
+        "uk": "Повний план матеріалів і варіантів"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Item/variant matrix, recipes, approved masters, consumers and cap",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Actual generation/editing owner",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "ItemManifest",
+      "purpose": {
+        "en": "One planned result through its consumer",
+        "uk": "Один запланований результат до споживача"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Planned pair/master, actual exports, review and consumer records",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Integrator/reviewer",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    },
+    {
+      "id": "GenerationBatch",
+      "purpose": {
+        "en": "Reconcile all attempts, costs and outputs",
+        "uk": "Звірити всі спроби, витрати й виходи"
+      },
+      "sources": [
+        "standards/ai-production.md",
+        "standards/ai-production.schema.json",
+        "standards/ai_production.py"
+      ],
+      "trigger": "Only when applicable to the real task; see bilingual component handbook section5 for exact activation.",
+      "inputs": "Full denominator, attempts/outcomes/unknowns/currency/cap and export/import/QA overheads",
+      "outputs": "Native-ledger-linked derived atelier.ai-production/1 record with owner, exact project identity and local consumed-file pins.",
+      "consumer": "Integrator/cost owner",
+      "dependencies": "Only the corresponding schema-declared dependencies; do not instantiate all13 types by default.",
+      "access_cost": "Read-only checking uses bounded local files and no provider/API/training. Actual acquisition, training or generation has separate rights/cost controls.",
+      "checks": "Fixed schema plus supported cross-record checks; source-current pins required. See typed-checker card and schema for exact narrow semantics.",
+      "limits_repair": "A valid declaration is not authenticated authority, executed operation, model quality or owner acceptance. Preserve incomplete/failed/unknown results, correct source records and regenerate current evidence.",
+      "activation": "Source/schema and synthetic invariant checks; real full-case acceptance remains open."
+    }
+  ],
+  "readable": {
+    "en": "IMPLEMENTED-COMPONENTS.en.md",
+    "uk": "IMPLEMENTED-COMPONENTS.uk.md"
+  },
+  "real_case": {
+    "en": "REVIEW-STUDY.en.md",
+    "uk": "REVIEW-STUDY.uk.md"
+  },
+  "private_evidence": "Raw corpora, author identifiers, native/account/project inventories, local paths, receipts and screenshots are intentionally excluded.",
+  "proof_limits": [
+    "No new paid model API or training observed",
+    "No causal benefit or validated accuracy from single-AI review agreement",
+    "No fullS5/S6/S8, CPA/LoRA/serving/device/provider/owner-acceptance completion",
+    "No global context/memory index or default framework"
+  ]
+}

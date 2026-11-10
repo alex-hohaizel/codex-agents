@@ -6,9 +6,9 @@ A reusable system of **33 specialized skills** for research, requirements, desig
 
 [English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md)
 
-**[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Existing-project adoption](releases/migrations/6.0.0.md)
+**[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Candidate migration](releases/migrations/6.1.0.md)
 
-**[AI/data/ML system audit and proposed evolution](docs/evolution/2026-11-10/README.md)** · [Український довідник і паспорт](docs/evolution/2026-11-10/README.uk.md). Repository1.3.2 publishes revised passport0.2: retain all capabilities, use existing35sources/12roles with conditional profiles, prioritize context/design/working panel, and require real-task gains without accepted regressions. Target implementation remains pending approval.
+**[Approved AI/data/production implementation](docs/evolution/2026-11-10/README.md)** · [Український довідник і паспорт](docs/evolution/2026-11-10/README.uk.md). The current source is **repository1.4.0-rc.1 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / Agent Atelier0.3.0**. It implements the priority context, design and panel changes and conditional resources within the same35 sources/12 roles. This is a reviewable candidate, not final1.4.0 or automatic replacement of a stable installation. All29 full acceptance cases remain open. The reproduced P1 nested native-state write isolation issue was repaired and retested with93 actual filesystem readbacks; this closes that narrow checked route, not full adoption. See [actual evidence and limits](docs/evolution/2026-11-10/IMPLEMENTATION.en.md).
 
 ![Agent System: English campaign cover](assets/marketing/campaign/en/01-original.png)
 
@@ -53,9 +53,9 @@ The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Ate
 4. Verify source integrity, actual discovery and a small real task separately.
 5. For an existing product, keep its requirements, design identity, native state, decisions and checkpoint, then follow its applicable adoption instructions.
 
-**Suite6.0.0 / repository edition 1.3.0** includes production/context contracts, stronger evidence and writer admission, supported Codex host profiles, universal entry and the local workbench. Preserve the 33 names/icons and all existing accepted product state. Use the exact [6.0.0 migration](releases/migrations/6.0.0.md); installation is separate from project adoption, discovery and behavior. WORK live audit/update/install/control remains deferred until access is restored.
+**Candidate core6.1.0 / repository1.4.0-rc.1** adds explicit source bindings, readable requirements/current decisions/deferred work, bounded native-history pages and seven conditional production profiles with thirteen optional record types. Preserve the33 names/icons,35-source composition,12 role settings and all accepted product state. Use the exact [6.1 migration](releases/migrations/6.1.0.md) only for an admitted scope after its checks; installation remains separate from project adoption, discovery and behavior. WORK live audit/update/install/control remains deferred. The [6.0 migration](releases/migrations/6.0.0.md) remains historical guidance for its exact source and target.
 
-Optional `atelier-orchestrator`1.1.0 accepts an outcome, routes through appropriate available capabilities and keeps project-agent continuity. It also handles reviewed maintenance of itself, skills, constructors and existing agents. Agent Atelier0.2.0 is the separately launched local application/server with portfolio and universal-entry views. See [the feature release](releases/repository-1.3.0.md) and [targeted update/rollback](releases/migrations/repository-1.3.0.md). Original icons, settings and core6.0.0 remain preserved; no unrelated product migration is implied.
+Optional `atelier-orchestrator`1.2.0 remains the universal entry for an outcome, existing project-agent continuation and reviewed system maintenance. Agent Atelier0.3.0 is the separate local application/server. The latest isolated candidate restart served0.3.0 with the direction build, including current goal/next-action/source rendering in three viewports; earlier two read-only Codex jobs ran a preceding0.2-labelled feature build and are not proof for later changed bytes. Original identities/settings and native formats remain protected. See [candidate notes](releases/repository-1.4.0-rc.1.md), [migration/rollback](releases/migrations/6.1.0.md) and [the readable component handbook](docs/evolution/2026-11-10/IMPLEMENTED-COMPONENTS.en.md). No unrelated product migration is implied.
 
 ## Verify and package
 
@@ -69,7 +69,7 @@ python3 -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-Source bundles identify suite 6.0.0 and repository edition 1.3.0. They include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. The existence of a workflow is separate from a successful CI run.
+Source-bundle metadata identifies core6.1.0 and repository1.4.0-rc.1. Bundles include local-service source and its pinned lockfile; build the client using the service instructions. [Package instructions](governance/PACKAGES.md) explain local builds and exact-commit Actions artifacts. A package, publication or successful CI run does not close unknown/failed adoption gates. No universal no-regression or production-readiness claim follows from this candidate.
 
 [Update contract](governance/UPDATE_CONTRACT.md) · [Requirements](governance/requirements.csv) · [Validation](governance/VALIDATION.md) · [Quality model](governance/QUALITY_MODEL.md) · [Source provenance](kit/PROVENANCE.md) · [Rights](RIGHTS.md)
 

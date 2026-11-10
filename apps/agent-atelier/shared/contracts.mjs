@@ -1,5 +1,5 @@
 export const API_VERSION = "agent-atelier.api/1";
-export const SERVICE_VERSION = "0.2.0";
+export const SERVICE_VERSION = "0.3.0";
 export const LOCALES = ["en", "uk", "de", "it", "es", "fr", "zh-CN"];
 export const OPERATIONS = [
   "skills.optional-preview",

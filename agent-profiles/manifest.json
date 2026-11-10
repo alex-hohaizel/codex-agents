@@ -1,6 +1,6 @@
 {
   "schema": "atelier.role-profiles/1",
-  "release": "6.0.0",
+  "release": "6.1.0",
   "roles": [
     {
       "file": "foundry-architecture.toml",

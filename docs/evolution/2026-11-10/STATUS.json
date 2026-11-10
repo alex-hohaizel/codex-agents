@@ -2,28 +2,36 @@
   "schema": "ai-data-production.proposal-status/1",
   "passport": "ai-data-production-evolution/0.2",
   "date": "2026-11-10",
-  "status": "awaiting-owner-selection",
+  "status": "approved-implementation-in-progress",
   "revision_preparation": {
     "authorized": true,
-    "scope": "Owner requested passport simplification, full capability preservation, context/design/working-panel priority, no accepted regressions, actual-task proof and GitHub publication. This is documentation-only authority."
+    "scope": "Historical authority for simplifying passport0.2 and publishing the documentation-only revision. Later exact implementation authority is recorded separately in owner_approval."
   },
   "owner_approval": {
-    "received": false,
-    "source": null,
-    "scope": "No implementation approval recorded for this exact0.2."
+    "received": true,
+    "date": "2026-11-10",
+    "source": "Current owner instruction, retained with exact quote/hash binding in private project authorization",
+    "scope": "Implement passport0.2 in Codex: context, design and workingpanel first; preserve allcapabilities/identity/settings, prove actualtasks, publishverifiedsources; WORKdeferred",
+    "approved_commit": "43f113b8713588e3569b1c917037f75d88f78c6a",
+    "proposal_hash": "b913c9ebc1fb2f1bfb0182c1078f24ec96c0f6973b09691dc22e050b1af0e6df"
   },
   "current_implementation": {
     "source_baseline_commit": "8951398b38a9610854823302ea612cb3844d52e6",
     "documentation_baseline_commit": "27c074a93120631f82f373a6b6050eb25f7e4d24",
-    "core": "6.0.0",
-    "orchestrator": "1.1.0",
-    "maintenance": "1.0.0",
-    "service": "0.2.0",
+    "core": "6.1.0",
+    "orchestrator": "1.2.0",
+    "maintenance": "1.1.0",
+    "service": "0.3.0",
     "core_sources": 33,
     "optional_sources": 2,
-    "role_profiles": 12
+    "role_profiles": 12,
+    "record_kind": "current-source-candidate-not-an-installed-host-receipt",
+    "repository": "1.4.0-rc.1",
+    "reusable_sources_total": 35,
+    "stable_predecessor_commit": "43f113b8713588e3569b1c917037f75d88f78c6a",
+    "installed_host_adoption": false
   },
-  "documentation_release": "1.3.2",
+  "documentation_release": "1.4.0-rc.1",
   "proposed_target": {
     "repository": "1.4.0",
     "core": "6.1.0",
@@ -64,24 +72,27 @@
     "isolated_candidate_trial": "Only after exact implementation approval within approved existing-owner scope; proof gates production/operational admission/merge/release/install/activation, not writing the bounded trial.",
     "absolute_future_zero_bug_guarantee": false
   },
-  "target_sources_changed": false,
+  "target_sources_changed": true,
   "target_installation_performed": false,
   "new_model_training_or_provider_runs_performed": false,
   "actual_task_comparisons": {
-    "status": "planned-not-executed",
+    "status": "bounded-actual-observations-recorded; full-case adoption open",
     "cases": 29,
     "executed": 0,
     "protocol": "REAL-TASKS.en.md",
     "priority_tasks": [
-      "RT01 actual current-project cold resume",
-      "RT02 actual owner reference/rejected layout comparison",
-      "RT03 ten actual panel journeys"
+      "RT01 actual source-bound cold resume observed; complete full-case gate open",
+      "RT02 actual accepted-reference/craft review observed in its named scope; full-case gate open",
+      "RT03 actual bounded panel/history/browser journeys and readonly jobs observed; full-case gate open"
     ],
     "additional_cases": [
-      "RT04 original Svitlobot failure blocked/unbound until original inputs",
-      "RT05 actual full-scope AI/data/ML/media product task selection unselected/unbound"
+      "RT04 original Svitlobot failure remains unbound until original inputs",
+      "RT05 selected public Codex review/needs case:100issues/20blindAIreview; actual bounded analysis and four typed records observed; full AI/data/ML/media cases remain open"
     ],
-    "fixtures_replace_actual_task_proof": false
+    "fixtures_replace_actual_task_proof": false,
+    "full_cases_passed": 0,
+    "note": "Zero of29 full-case gates are claimed passed. Bounded actual evidence exists, including RT05; see IMPLEMENTATION.en.md and REVIEW-STUDY.en.md. Fixtures do not substitute for missing actual proof.",
+    "executed_scope": "executed counts only complete full acceptance cases, not the bounded observations below"
   },
   "WORK": "deferred",
   "review": {
@@ -98,7 +109,8 @@
       "isolated trial versus production-admission/extraction approval clarified",
       "obsolete helper-catalog packaging advice aligned"
     ],
-    "independent_native_blueprint_quality_certification": false
+    "independent_native_blueprint_quality_certification": false,
+    "implementation_scope_note": "Historical proposal review remains separate. Exact-source OS retest and independent source review closed the reproduced P1 nested native-state write issue in its bounded macOS/Codex0.166 route; no new concrete P1/P2 was found in that independent source review. Full-case and operational adoption remain open."
   },
   "native_blueprint": {
     "path": "BLUEPRINT.json",
@@ -106,9 +118,9 @@
     "version_index": 2,
     "proposal_hash": "b913c9ebc1fb2f1bfb0182c1078f24ec96c0f6973b09691dc22e050b1af0e6df",
     "unapproved_structural_check": "passed",
-    "approved_check": "rejected as expected: exact implementation approval/provenance absent",
+    "approved_check": "Exactownerapprovalchecked against immutable43f113b baseline; derivedexecutionprojectionresolvesonly theformerapprovalquestion. StructuralPASSnotquality/consentcertification.",
     "quality_certified": false,
-    "target_sources_materialized": false
+    "target_sources_materialized": true
   },
   "observed_documentation_checks": {
     "requirements": 27,
@@ -204,12 +216,12 @@
       "bytes": 42907
     },
     "README.md": {
-      "sha256": "1f71f4d5e0d479af64232e6692097c078bc0de80210897e37988a200b3414b55",
-      "bytes": 6951
+      "sha256": "e6905f31736825ef112135f1075982cf53948fb2b38c665dac14f7f8a6a7cf26",
+      "bytes": 7623
     },
     "README.uk.md": {
-      "sha256": "970b1a05fc6d767e06ae8a8dff2b6c71f227f78014f15cd0f9f8fa34162300eb",
-      "bytes": 11356
+      "sha256": "5b0925e3058d3d25c76ae41a504cee6d557ddba4adf7c0bbbfaa613fa49511f9",
+      "bytes": 12102
     },
     "REAL-TASKS.en.md": {
       "sha256": "132aef6d5940ecd8b3426e156e6334a5b3ce12d28a2c2b08fac563b35806b107",
@@ -242,7 +254,268 @@
     "helper-catalog.json": {
       "sha256": "593dc3c8de6d9e8b8414217f50e9f8019016e151bfbcb8242cde56b2310791ff",
       "bytes": 655956
+    },
+    "IMPLEMENTATION.en.md": {
+      "sha256": "1e87c2215d5ff27f890d5c8fd5419ea7b1fdec7fc9d1444b85b86eaf3e48078e",
+      "bytes": 13050
+    },
+    "IMPLEMENTATION.uk.md": {
+      "sha256": "6c647cdd0df4a21bb785a88acf03a29f7160178f909e38c0add3faef528d8055",
+      "bytes": 21668
+    },
+    "IMPLEMENTED-COMPONENTS.en.md": {
+      "sha256": "25cdfd7167db7e34ccdd0bf9327d16c56325a1345517194292da2321f7b87969",
+      "bytes": 18406
+    },
+    "IMPLEMENTED-COMPONENTS.uk.md": {
+      "sha256": "76b5cff92f009ac90ec8c93ae7e2822b73038257ca76b2b1aaf719c041c18be2",
+      "bytes": 30139
+    },
+    "REVIEW-STUDY.en.md": {
+      "sha256": "82dea89be8fa23b8205fde4cff9564bec17ee4bcca8afefe13989605eab2beb2",
+      "bytes": 8880
+    },
+    "REVIEW-STUDY.uk.md": {
+      "sha256": "c00e9b1eb7e42660508c94c833fe010e2247fbc7e14bfd9caaf995fe5015e0cc",
+      "bytes": 14021
+    },
+    "implementation-components.json": {
+      "sha256": "3e0906cfc8c9f284d672f468adb0511271e7ce426dd6921c8f4f70f7181e437f",
+      "bytes": 39193
     }
   },
-  "evidence_boundary": "This release revises/publishes a complete plan. Future improvements, all real-task comparisons, target implementation/installation and owner acceptance remain unperformed."
+  "evidence_boundary": "Approved source candidate with bounded actual context/UI/history/review-analysis observations. Not final1.4.0, stable replacement, full17-capability acceptance or all29full-case adoption. New training/LoRA/CPA/serving and complete provider/device/owner acceptance remain unproved; WORK deferred.",
+  "candidate_implementation": {
+    "stage": "priority context/design/panel candidate implemented and bounded-observed; conditional resources and typed checker materialized; full stage/case adoption open",
+    "context_sources": [
+      "standards/context_capsule.py",
+      "standards/context-capsule.md",
+      "apps/agent-atelier/server/context-bindings.mjs",
+      "apps/agent-atelier/server/context.mjs",
+      "apps/agent-atelier/server/projects.mjs"
+    ],
+    "scope_limits": "Declared source bindings and named current-build observations only. No complete-history/consent authority, universal quality, all29fullgates or full17capability certification.",
+    "checks_observed": {
+      "service_tests": {
+        "passed": 159,
+        "failed": 0,
+        "scope": "Final named direction-build candidate; exact private final-service-tests log. A later source change requires applicable rechecks."
+      },
+      "shared_context_and_client_tests": {
+        "passed": 23,
+        "failed": 0,
+        "scope": "Earlier named-build subset; final159service checks are separately recorded."
+      },
+      "actual_cold_receiver": {
+        "sources_verified": 12,
+        "request_ids_recovered": 27,
+        "all_acceptance_ids_recovered": 29,
+        "fullstage_ids_recovered": 10,
+        "independent_AI_actor": true,
+        "human_consent_authenticated": false,
+        "source_completeness_authenticated": false
+      },
+      "actual_portable_compilation": {
+        "requirements_retained": 28,
+        "coverage": "verified-declared-bindings"
+      },
+      "actual_readonly_codex_execution": {
+        "completed": 2,
+        "useful_report_received": true,
+        "source_version_vs_runtime_separated": true,
+        "bounded_scope_only": true,
+        "scope": "Bounded repository task and source-bound cold continuation",
+        "observed_runtime_label": "0.2.0",
+        "source_build": "preceding feature build, not final recovery or later isolation repair",
+        "later_bytes_certified": false
+      },
+      "ai_record_tests": {
+        "passed": 38,
+        "failed": 0,
+        "scope": "Read-only fixed utility checks; not executed ML/media/provider service."
+      },
+      "inheritance_tests": {
+        "passed": 55,
+        "failed": 0
+      },
+      "host_profile_tests": {
+        "passed": 15,
+        "failed": 0,
+        "actual_readonly_audit": {
+          "rows": 13,
+          "planned_managed_block_changes": 1,
+          "unchanged_role_files": 12,
+          "apply_performed": false
+        }
+      },
+      "craft_fixtures": {
+        "passed": 37,
+        "scope": "Independent bounded craft fixtures, not full product acceptance."
+      },
+      "preserved_source_surface": {
+        "views": 11,
+        "ui_command_strings": 41,
+        "api_operations": 48,
+        "locales": 7,
+        "method": "Static retention; not execution of every operation."
+      },
+      "actual_browser": {
+        "focusable_controls_checked": 20,
+        "readable_requirement_rows": 28,
+        "loading_failure_retry_observed": true,
+        "current_decisions_and_deferred_observed": true,
+        "scope": "Earlier recovery-build keyboard/loading/28-row observations retain their build binding. Final direction-build current-goal/next-action/source observations are separately recorded.",
+        "final_direction_build": {
+          "viewports": 3,
+          "current_goal_observed": true,
+          "next_action_observed": true,
+          "source_observed": true,
+          "fresh_workspace_direction_tests_added": 2,
+          "remaining_layout_probe": "separate; not claimed complete here",
+          "universal_device_acceptance": false
+        }
+      },
+      "actual_candidate_restart": {
+        "observed": true,
+        "version": "0.3.0",
+        "checkpoint_clock_time": "13:38:50",
+        "client_build": "dist-direction",
+        "ordinary_service_replaced": false,
+        "preceding_restart": {
+          "checkpoint_clock_time": "13:04",
+          "client_build": "dist-recovery",
+          "version": "0.3.0"
+        },
+        "isolation_guard_verification": "Separate exact-source OS probe, not inferred solely from successful restart.",
+        "scope": "Exact private restart/build receipts retained outside reusable repository."
+      },
+      "actual_review_analysis": {
+        "issues": 100,
+        "search_pages": 4,
+        "query_matches": 5746,
+        "coverage": "PARTIAL",
+        "sample_window": "26h22m newest-page convenience sample",
+        "issue_states": {
+          "open": 98,
+          "closed": 2
+        },
+        "anonymized_author_groups": 98,
+        "blind_ai_review_rows": 20,
+        "semantic_exact_labelset_agreements": 12,
+        "semantic_disagreements": 8,
+        "keyword_exact_labelset_agreements": 0,
+        "micro_f1_agreement": {
+          "semantic": 0.895,
+          "keyword": 0.448
+        },
+        "human_ground_truth": false,
+        "validated_accuracy_claim": false,
+        "causal_workflow_benefit_claim": false,
+        "new_profile_attribution": false,
+        "review_report_status": "INCOMPLETE",
+        "typed_records_checked": [
+          "SourceContract",
+          "DatasetManifest",
+          "EvaluationPlan",
+          "EvaluationReport"
+        ],
+        "actual_negative_controls_blocked": [
+          "false-complete-coverage",
+          "old-plan-rebinding",
+          "wrong-project"
+        ],
+        "raw_private_inputs_unchanged": true
+      },
+      "stable_runtime_preservation": {
+        "observed": true,
+        "checkpoint_clock_time": "13:26",
+        "version": "0.2.0",
+        "source": "isolated verified predecessor43f113b8713588e3569b1c917037f75d88f78c6a",
+        "client": "preserved exact baseline bytes",
+        "existing_service_data_preserved": true,
+        "health": "healthy",
+        "bindings": 3,
+        "active_jobs": 0,
+        "installed_skill_matches": 33,
+        "installed_skill_differences": 0,
+        "reusable_sources": 35,
+        "roles": 12,
+        "host_profile_apply": false,
+        "database_migration": false,
+        "candidate_adoption": false,
+        "reason": "Changing checkout exposed candidate toolkit-version data in old-service source inspection; restore stable source isolation."
+      },
+      "python_checks": {
+        "total": 763,
+        "core": 366,
+        "app": 88,
+        "chatbot": 60,
+        "game": 135,
+        "repository": 114,
+        "scope": "Reported suite checks; utility/inheritance/host counts below are relevant subsets, not additional independent product acceptance."
+      },
+      "nested_native_isolation": {
+        "initial_severity": "P1",
+        "initial_reproduction_preserved": true,
+        "status": "repaired and exact bounded macOS/Codex0.166 OS retest passed",
+        "filesystem_readbacks": 93,
+        "native_reads_retained": true,
+        "normal_admitted_writes_retained": true,
+        "checked_native_names": 9,
+        "checked_cases": [
+          "read-only route",
+          "child artifact write scope",
+          "root artifact write scope",
+          "future native metadata paths",
+          "uppercase metadata names",
+          "late alias write denial"
+        ],
+        "inventory_bounds": {
+          "entries": 200000,
+          "levels": 128,
+          "overflow_or_ambiguity": "block dispatch"
+        },
+        "pre_turn_check_atomic_against_external_writer": false,
+        "independent_source_review": "No new concrete P1/P2 within the reviewed scope; separate source review did not rerun OS probe.",
+        "actual_probe_scope": "Synthetic canaries only; no real native-state mutation, model/provider/network call or installation from the probe.",
+        "source_sha256": {
+          "apps/agent-atelier/server/permissions.mjs": "2b7467d6f46e7e13412daf70499b50777f613fc72712805e1dc443f83bbb0be7",
+          "apps/agent-atelier/server/context.mjs": "1d1911a53c7e546a7af169e7088fc401839026853645215ff50ba3b78b3bb3cd",
+          "apps/agent-atelier/server/codex.mjs": "3092def9d7587bc86b3aad1c8fe1da5298b13875532a56bdfb7c63a1ab78bb56"
+        },
+        "full_system_adoption": false
+      }
+    },
+    "operational_adoption": false,
+    "final_release_gate": "open; candidate does not replace the verified stable installation or adopt rules into projects automatically",
+    "open_blockers": [],
+    "source_delivery": {
+      "shared_master_resources": 7,
+      "materialized_bundles": 34,
+      "materialized_copies": 238,
+      "new_generated_common_resources": 15,
+      "historical6_common_resources": 12,
+      "historical5_common_resources": 8,
+      "new_mandatory_skills": 0,
+      "new_role_profiles": 0,
+      "global_memory_index": false
+    },
+    "resolved_findings": [
+      {
+        "severity": "P1",
+        "scope": "Nested native-state write isolation",
+        "status": "closed only for exact pinned sources and actual checked macOS/Codex0.166 route",
+        "source_sha256": {
+          "apps/agent-atelier/server/permissions.mjs": "2b7467d6f46e7e13412daf70499b50777f613fc72712805e1dc443f83bbb0be7",
+          "apps/agent-atelier/server/context.mjs": "1d1911a53c7e546a7af169e7088fc401839026853645215ff50ba3b78b3bb3cd",
+          "apps/agent-atelier/server/codex.mjs": "3092def9d7587bc86b3aad1c8fe1da5298b13875532a56bdfb7c63a1ab78bb56"
+        },
+        "full_case_adoption_inferred": false
+      }
+    ],
+    "remaining_gates": "All29 full-case gates and operational adoption remain open; unresolved applicable evidence is not passed. Closing the narrow reproduced P1 does not close S5/S6/S8, full17capability readiness or owner acceptance."
+  },
+  "historical_documentation_release": "1.3.2",
+  "new_model_training_or_provider_runs_scope": "No new model training or production paid-provider run. Existing authenticated development-assistant access completed two bounded read-only Codex jobs on the earlier feature build; this is separate evidence.",
+  "document_binding_scope": "Current document bytes at this checkpoint. Immutable historical audit/passport/blueprint/request/acceptance records are preserved; candidate narrative and source cards are separate overlays."
 }

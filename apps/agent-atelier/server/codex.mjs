@@ -9,6 +9,7 @@ import {
   profileOverrides,
   externalToolDenials,
   overridesToArgv,
+  nativeAuthoritySnapshot,
 } from "./permissions.mjs";
 import { fail, now, parseStrictJson, redact, ServiceError } from "./utils.mjs";
 import { SERVICE_VERSION } from "../shared/contracts.mjs";
@@ -20,6 +21,7 @@ const HISTORY_READ_METHODS = new Set([
   "thread/list",
   "thread/read",
   "thread/turns/list",
+  "thread/items/list",
 ]);
 export class CodexAdapter extends EventEmitter {
   #historyReadOnly;
@@ -50,6 +52,7 @@ export class CodexAdapter extends EventEmitter {
     );
     this.pending = new Map();
     this.requests = new Map();
+    this.taskPermissions = new Map();
     this.sequence = 0;
     this.status = {
       status: "not_checked",
@@ -167,6 +170,7 @@ export class CodexAdapter extends EventEmitter {
     let buffer = "";
     this.stderr = "";
     child.stdout.on("data", (bytes) => {
+      if (this.child !== child) return;
       buffer += bytes.toString("utf8");
       if (Buffer.byteLength(buffer) > 8 * 1024 * 1024) {
         this.#disconnected("Protocol message exceeded limit");
@@ -260,6 +264,7 @@ export class CodexAdapter extends EventEmitter {
     }
     this.pending.clear();
     this.requests.clear();
+    this.taskPermissions.clear();
     this.status = {
       ...this.status,
       status: "disconnected",
@@ -338,12 +343,27 @@ export class CodexAdapter extends EventEmitter {
       );
       fail(
         method !== "thread/turns/list" ||
-          (params.itemsView === "full" &&
+          (["full", "notLoaded"].includes(params.itemsView) &&
             Number.isInteger(params.limit) &&
             params.limit >= 1 &&
             params.limit <= 100),
         "SCOPE_MISMATCH",
-        "Native history requires bounded full-item pages",
+        "Native history requires bounded full-item or metadata-only turn pages",
+        403,
+      );
+      fail(
+        method !== "thread/items/list" ||
+          (Number.isInteger(params.limit) &&
+            params.limit >= 1 &&
+            params.limit <= 50 &&
+            ["asc", "desc"].includes(params.sortDirection) &&
+            typeof params.threadId === "string" &&
+            params.threadId.length > 0 &&
+            (params.cursor === undefined ||
+              typeof params.cursor === "string") &&
+            (params.turnId === undefined || typeof params.turnId === "string")),
+        "SCOPE_MISMATCH",
+        "Native item history requires bounded read-only item pages",
         403,
       );
     }
@@ -463,13 +483,25 @@ export class CodexAdapter extends EventEmitter {
       ...(cursor ? { cursor } : {}),
     });
   }
-  async historyTurns(threadId, { cursor, limit = 50 } = {}) {
+  async historyTurns(
+    threadId,
+    { cursor, limit = 50, itemsView = "full" } = {},
+  ) {
     await this.connect();
     return this.rpc("thread/turns/list", {
       threadId,
       limit: Math.min(100, Math.max(1, limit)),
       sortDirection: "desc",
-      itemsView: "full",
+      itemsView,
+      ...(cursor ? { cursor } : {}),
+    });
+  }
+  async historyItems(threadId, { cursor, limit = 50 } = {}) {
+    await this.connect();
+    return this.rpc("thread/items/list", {
+      threadId,
+      limit: Math.min(50, Math.max(1, limit)),
+      sortDirection: "desc",
       ...(cursor ? { cursor } : {}),
     });
   }
@@ -502,6 +534,10 @@ export class CodexAdapter extends EventEmitter {
   async taskConfiguration(cwd, capsule) {
     const boundary = await externalToolDenials(this.executable, cwd);
     if (!capsule) return { name: "atelier-local", config: boundary.overrides };
+    const nativeAuthority =
+      capsule.scope === "workspace-write"
+        ? await nativeAuthoritySnapshot(cwd, capsule.allowed_paths)
+        : null;
     const instructionAliases = await this.instructions.aliases(
       capsule.instruction_manifest,
       capsule.task_id,
@@ -516,6 +552,7 @@ export class CodexAdapter extends EventEmitter {
       ],
       cwd,
       [this.dataDir],
+      nativeAuthority,
     );
     for (const filename of [
       "AGENTS.md",
@@ -525,6 +562,7 @@ export class CodexAdapter extends EventEmitter {
       profile.filesystem[":workspace_roots"][filename] = "read";
     return {
       name: "atelier-task",
+      nativeAuthority,
       config: {
         ...boundary.overrides,
         "permissions.atelier-task": profile,
@@ -561,6 +599,10 @@ export class CodexAdapter extends EventEmitter {
       capsule.instruction_manifest,
       await this.instructionSettings(cwd),
     );
+    this.taskPermissions.set(result.thread.id, {
+      task_id: capsule.task_id,
+      nativeAuthority: settings.nativeAuthority,
+    });
     return result;
   }
   async resume(threadId, cwd, capsule) {
@@ -591,6 +633,10 @@ export class CodexAdapter extends EventEmitter {
       capsule.instruction_manifest,
       await this.instructionSettings(cwd),
     );
+    this.taskPermissions.set(result.thread.id, {
+      task_id: capsule.task_id,
+      nativeAuthority: settings.nativeAuthority,
+    });
     return result;
   }
   async turn(threadId, capsule, onDispatch = () => {}) {
@@ -602,6 +648,25 @@ export class CodexAdapter extends EventEmitter {
       capsule.instruction_manifest,
       capsule.task_id,
     );
+    if (capsule.scope === "workspace-write") {
+      const pinned = this.taskPermissions.get(threadId);
+      fail(
+        pinned?.task_id === capsule.task_id && pinned.nativeAuthority,
+        "CAPABILITY_UNVERIFIED",
+        "This writable task has no current native authority protection; resume or prepare it again",
+        409,
+      );
+      const current = await nativeAuthoritySnapshot(
+        capsule.root,
+        capsule.allowed_paths,
+      );
+      fail(
+        current.sha256 === pinned.nativeAuthority.sha256,
+        "SOURCE_DRIFT",
+        "Native authority directories changed before dispatch; prepare or resume the task again",
+        409,
+      );
+    }
     onDispatch();
     return this.rpc("turn/start", {
       threadId,
@@ -739,6 +804,9 @@ export class CodexHistoryAdapter {
   }
   historyTurns(id, options) {
     return this.#adapter.historyTurns(id, options);
+  }
+  historyItems(id, options) {
+    return this.#adapter.historyItems(id, options);
   }
   close() {
     return this.#adapter.close();

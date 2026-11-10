@@ -1,5 +1,5 @@
 <!-- agent-system-quality:start -->
-# Agent System production profile 6.0.0
+# Agent System production profile 6.1.0
 
 When producing or changing an artifact, preserve the user's full task, accepted references, identity, functional depth and current scope. Read actual references before implementing. Extract their defining mechanism, composition/scale, interaction and content; a matching palette or labels is insufficient. Do not silently replace a rich reference with a simpler generic template. Creative freedom authorizes expert choices within the task, without repetitive preference questions.
 
@@ -12,4 +12,6 @@ Before using a vendor operation, check the actual schema/target/right/cost and r
 Retain all applicable must/decisions/deferred work and exact dependencies through direct, delegated and resumed tasks. An old proof cannot be rebound to new bytes. Inherit valid authorization; clarify only a material unresolved choice. Preferred project/task language takes precedence over the Ukrainian default. Avoid unnecessary process for a narrow repair, and do not reduce a full product to a narrow slice without an explicit decision.
 
 This profile grants no new permissions, spending, publications, product migrations or background work. It does not certify future outputs; verify the actual result.
+
+For applicable AI/data/model/batch work, use the existing owner's conditional methods at `{{STANDARD_ROOT}}/references/ai-production.md`; read only the needed sections. Native sources and current decisions remain authoritative. Reuse sufficient tools before adding infrastructure. Reject every confirmed loss of an accepted working function, required craft, identity, setting or permission boundary; missing affected proof keeps adoption open. A schema check is not model training, actual delivery, independent review or owner acceptance.
 <!-- agent-system-quality:end -->

@@ -58,7 +58,16 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
   const incoming = page.coverage ?? {};
   const offset = Number(incoming.thread_offset ?? 0);
   const prior = previous?.coverage ?? {};
-  if (previous && offset !== 0) {
+  const continuingItems = incoming.item_continuation === true;
+  const consumedKey = continuingItems
+    ? stableJson([incoming.item_thread_id, incoming.consumed_item_cursor])
+    : "";
+  if (continuingItems && !previous)
+    throw new ApiError(
+      "Read the project history before continuing its items.",
+      "SOURCE_DRIFT",
+    );
+  if (previous && (offset !== 0 || continuingItems)) {
     if (
       previous.project?.id !== page.project?.id ||
       prior.snapshot_checked_at !== incoming.snapshot_checked_at ||
@@ -70,14 +79,32 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
         "Project history changed; refresh before reading another page.",
         "SOURCE_DRIFT",
       );
-    if ((prior.loaded_thread_offsets ?? []).includes(offset)) return previous;
-    if (prior.next_thread_offset !== offset)
+    if (continuingItems) {
+      if ((prior.loaded_item_cursors ?? []).includes(consumedKey))
+        return previous;
+      const expected = (prior.item_cursors ?? []).find(
+        (item: Data) => item.thread_id === incoming.item_thread_id,
+      );
+      if (
+        typeof incoming.item_thread_id !== "string" ||
+        typeof incoming.consumed_item_cursor !== "string" ||
+        !incoming.consumed_item_cursor ||
+        expected?.next_cursor !== incoming.consumed_item_cursor ||
+        !(prior.loaded_thread_offsets ?? []).includes(offset)
+      )
+        throw new ApiError(
+          "History item cursor changed; refresh this project before continuing.",
+          "SOURCE_DRIFT",
+        );
+    } else if ((prior.loaded_thread_offsets ?? []).includes(offset))
+      return previous;
+    else if (prior.next_thread_offset !== offset)
       throw new ApiError(
         "Read the next project history page in order.",
         "SOURCE_DRIFT",
       );
   }
-  const base = offset === 0 ? null : previous;
+  const base = continuingItems ? previous : offset === 0 ? null : previous;
   if (!base && offset !== 0)
     throw new ApiError(
       "Read the first project history page again.",
@@ -90,7 +117,8 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
     ...(page.work_groups ?? []),
   ]) {
     groups.set(group.id, { ...group, items: [], count: 0 });
-    for (const item of group.items ?? []) {
+    for (const sourceItem of group.items ?? []) {
+      let item = sourceItem;
       const key =
         item.thread_id && item.turn_id
           ? `turn:${JSON.stringify([item.thread_id, item.turn_id])}`
@@ -103,6 +131,36 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
           item,
         });
       else {
+        if (
+          continuingItems &&
+          item.source === "native-history" &&
+          old.item.source === "native-history"
+        ) {
+          const responseObserved =
+            old.item.response_observed === true ||
+            item.response_observed === true;
+          item = {
+            ...item,
+            objective: old.item.objective_observed
+              ? old.item.objective
+              : item.objective,
+            objective_observed:
+              old.item.objective_observed === true ||
+              item.objective_observed === true,
+            outcome: old.item.response_observed
+              ? old.item.outcome
+              : item.outcome,
+            response_item_id:
+              old.item.response_item_id ?? item.response_item_id,
+            response_observed: responseObserved,
+            status:
+              item.native_status === "completed"
+                ? responseObserved
+                  ? "answer_received"
+                  : "recorded"
+                : item.status,
+          };
+        }
         const native =
           item.source === "native-history"
             ? item
@@ -143,9 +201,11 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
           group:
             merged.work_type === "permission_review"
               ? "system_checks"
-              : native === old.item
-                ? old.group
-                : group.id,
+              : continuingItems && native
+                ? nativeWorkGroup(merged.status)
+                : native === old.item
+                  ? old.group
+                  : group.id,
           item: merged,
         });
       }
@@ -172,41 +232,132 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
   ];
   const warnings = [
     ...new Map(
-      [...(base?.warnings ?? []), ...(page.warnings ?? [])].map(
-        (warning: Data) => [stableJson(warning), warning],
-      ),
+      [
+        ...(base?.warnings ?? []).filter(
+          (warning: Data) =>
+            !(
+              continuingItems &&
+              warning.thread_id === incoming.item_thread_id &&
+              warning.code === "NATIVE_ITEM_PAGE_LIMIT"
+            ),
+        ),
+        ...(page.warnings ?? []),
+      ].map((warning: Data) => [stableJson(warning), warning]),
     ).values(),
   ];
-  const pageComplete = incoming.page_complete === true;
+  const pageStates = new Map<number, boolean>(
+    (base ? (prior.thread_page_states ?? []) : []).map((item: Data) => [
+      item.offset,
+      item.non_item_complete === true,
+    ]),
+  );
+  const nonItemComplete =
+    incoming.non_item_page_complete === undefined
+      ? incoming.page_complete === true
+      : incoming.non_item_page_complete === true;
+  pageStates.set(
+    offset,
+    continuingItems
+      ? pageStates.get(offset) === true && nonItemComplete
+      : nonItemComplete,
+  );
+  const itemCursors = new Map<string, Data>(
+    (base ? (prior.item_cursors ?? []) : []).map((item: Data) => [
+      item.thread_id,
+      item,
+    ]),
+  );
+  for (const cursor of incoming.item_cursors ?? []) {
+    const before = itemCursors.get(cursor.thread_id);
+    itemCursors.set(cursor.thread_id, {
+      ...before,
+      ...cursor,
+      pages:
+        (continuingItems ? Number(before?.pages ?? 0) : 0) +
+        Number(cursor.pages ?? 0),
+      items_observed:
+        (continuingItems ? Number(before?.items_observed ?? 0) : 0) +
+        Number(cursor.items_observed ?? 0),
+    });
+  }
+  const allItemsComplete = [...itemCursors.values()].every(
+    (item) => item.next_cursor == null && item.items_complete === true,
+  );
   const allPagesComplete =
-    (base ? prior.accumulated_page_complete === true : true) && pageComplete;
+    [...pageStates.values()].every(Boolean) && allItemsComplete;
+  const nextThreadOffset = continuingItems
+    ? prior.next_thread_offset
+    : incoming.next_thread_offset;
+  const totalThreads = continuingItems
+    ? (prior.threads_total ?? incoming.threads_total)
+    : incoming.threads_total;
+  const discoveryComplete = continuingItems
+    ? prior.discovery_complete !== false &&
+      incoming.discovery_complete !== false
+    : incoming.discovery_complete !== false;
   const complete =
     allPagesComplete &&
-    incoming.discovery_complete !== false &&
-    incoming.next_thread_offset == null &&
-    threads.length >= (incoming.threads_total ?? 0);
+    discoveryComplete &&
+    nextThreadOffset == null &&
+    threads.length >= (totalThreads ?? 0);
   const coverage: Data = {
     ...incoming,
     thread_offset: 0,
-    latest_thread_offset: offset,
+    latest_thread_offset: continuingItems ? prior.latest_thread_offset : offset,
+    next_thread_offset: nextThreadOffset,
+    threads_total: totalThreads,
+    discovery_complete: discoveryComplete,
     loaded_thread_offsets: [
       ...(base ? (prior.loaded_thread_offsets ?? []) : []),
-      offset,
+      ...(continuingItems ? [] : [offset]),
     ],
+    loaded_item_cursors: [
+      ...(base ? (prior.loaded_item_cursors ?? []) : []),
+      ...(continuingItems ? [consumedKey] : []),
+    ],
+    thread_page_states: [...pageStates].map(([offset, non_item_complete]) => ({
+      offset,
+      non_item_complete,
+    })),
+    item_cursors: [...itemCursors.values()],
     accumulated_page_complete: allPagesComplete,
     complete,
     truncated: !complete,
     items: items.size,
   };
+  for (const key of ["turn_pages", "item_pages", "history_items_observed"])
+    coverage[key] =
+      (base ? Number(prior[key] ?? 0) : 0) + Number(incoming[key] ?? 0);
   for (const key of [
     "threads_read",
     "threads_attempted",
-    "turns_observed",
     "empty_history_threads",
-    "turn_pages",
   ])
-    coverage[key] =
-      (base ? Number(prior[key] ?? 0) : 0) + Number(incoming[key] ?? 0);
+    coverage[key] = continuingItems
+      ? Number(prior[key] ?? 0)
+      : (base ? Number(prior[key] ?? 0) : 0) + Number(incoming[key] ?? 0);
+  const nativeTurns = (groups: Data[]) =>
+    new Set(
+      groups.flatMap((group) =>
+        (group.items ?? [])
+          .filter(
+            (item: Data) =>
+              item.source === "native-history" &&
+              item.thread_id &&
+              item.turn_id,
+          )
+          .map((item: Data) => stableJson([item.thread_id, item.turn_id])),
+      ),
+    );
+  coverage.turns_observed = continuingItems
+    ? Number(prior.turns_observed ?? 0) +
+      Math.max(
+        0,
+        nativeTurns(work_groups).size -
+          nativeTurns(base?.work_groups ?? []).size,
+      )
+    : (base ? Number(prior.turns_observed ?? 0) : 0) +
+      Number(incoming.turns_observed ?? 0);
   return {
     ...page,
     project: { ...page.project, known_work_items: items.size },
@@ -215,6 +366,34 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
     warnings,
     coverage,
   };
+}
+
+function nativeWorkGroup(status: string) {
+  if (
+    [
+      "failed",
+      "interrupted",
+      "outcome_unknown",
+      "awaiting_approval",
+      "awaiting_input",
+    ].includes(status)
+  )
+    return "attention";
+  if (
+    [
+      "in_progress",
+      "inProgress",
+      "running",
+      "queued",
+      "dispatching",
+      "gating",
+    ].includes(status)
+  )
+    return "active";
+  if (["answer_received", "completed"].includes(status)) return "results";
+  if (status === "recorded") return "recorded";
+  if (["prepared", "paused"].includes(status)) return "prepared";
+  return "other";
 }
 
 function stableJson(value: unknown): string {
@@ -349,13 +528,22 @@ export const api = {
   portfolio: () => request<Data>("/portfolio"),
   portfolioProject: (
     id: string,
-    options: { thread_offset?: number; snapshot_checked_at?: string } = {},
+    options: {
+      thread_offset?: number;
+      snapshot_checked_at?: string;
+      item_thread_id?: string;
+      item_cursor?: string;
+    } = {},
   ) => {
     const query = new URLSearchParams();
     if (options.thread_offset !== undefined)
       query.set("thread_offset", String(options.thread_offset));
     if (options.snapshot_checked_at)
       query.set("snapshot_checked_at", options.snapshot_checked_at);
+    if (options.item_thread_id !== undefined)
+      query.set("item_thread_id", options.item_thread_id);
+    if (options.item_cursor !== undefined)
+      query.set("item_cursor", options.item_cursor);
     return request<Data>(
       `/portfolio/projects/${encodeURIComponent(id)}${query.size ? `?${query}` : ""}`,
     );

@@ -10,6 +10,12 @@ import tempfile
 
 START, END = '<!-- agent-system-quality:start -->', '<!-- agent-system-quality:end -->'
 REPO = Path(__file__).resolve().parents[1]
+# Exact generic predecessor from repository commit 43f113b8713588e3569b1c917037f75d88f78c6a.
+# This is a compatibility source, not an inferred installation/ownership receipt.
+PREVIOUS_PROFILE_TEMPLATES = (
+    ('host-profiles/codex/history/6.0.0-AGENTS.md',
+     '8f47c4629edfdf1e4730527e5ea5b6e73e95b45affe8665d9eadadd80a88d891'),
+)
 
 
 def require(value, message):
@@ -40,7 +46,8 @@ def read(path):
     if not path.exists():
         return None
     require(path.is_file() and path.stat().st_size <= 2 * 1024 * 1024, 'unexpected/oversized file')
-    return path.read_text(encoding='utf-8')
+    with path.open('r', encoding='utf-8', newline='') as stream:
+        return stream.read()
 
 
 def load(path):
@@ -75,27 +82,44 @@ def save(path, record):
     atomic(path, json.dumps(record, ensure_ascii=False, indent=2) + '\n')
 
 
-def merge(existing, block):
+def merge(existing, block, prior_blocks=()):
     existing = existing or ''
     require(existing.count(START) == existing.count(END) and existing.count(START) <= 1,
             'ambiguous managed profile markers')
     if START in existing:
         begin, end = existing.index(START), existing.index(END) + len(END)
         require(begin < end, 'reversed profile markers')
+        require(existing[begin:end] in (block.strip(), *prior_blocks),
+                'unknown customized managed profile; reconcile without overwrite')
         return existing[:begin] + block.strip() + existing[end:]
     return existing.rstrip() + ('\n\n' if existing.strip() else '') + block.strip() + '\n'
+
+
+def prior_profiles(repo, standard_root):
+    blocks, sources = [], []
+    for relative, expected_sha256 in PREVIOUS_PROFILE_TEMPLATES:
+        path = repo / relative
+        template = read(path)
+        require(sha(template) == expected_sha256,
+                'trusted prior profile source drift: ' + relative)
+        blocks.append(template.replace('{{STANDARD_ROOT}}', str(standard_root)).strip())
+        sources.append({'source': str(path), 'source_sha256': expected_sha256})
+    return blocks, sources
 
 
 def audit(repo, codex_root, standard_root):
     safe(repo); safe(codex_root); safe(standard_root)
     source = repo / 'host-profiles/codex/AGENTS.md'
     template = read(source)
+    require(template is not None, 'managed profile source missing')
     block = template.replace('{{STANDARD_ROOT}}', str(standard_root))
+    prior_blocks, compatibility_sources = prior_profiles(repo, standard_root)
     target = codex_root / 'AGENTS.md'
     prior = read(target)
-    desired = merge(prior, block)
+    desired = merge(prior, block, prior_blocks)
     rows = [{'target': str(target), 'before_sha256': sha(prior), 'desired': desired,
-             'after_sha256': sha(desired), 'source': str(source), 'source_sha256': sha(template)}]
+             'after_sha256': sha(desired), 'source': str(source), 'source_sha256': sha(template),
+             'compatibility_sources': compatibility_sources}]
     manifest = load(repo / 'agent-profiles/manifest.json')
     require(len(manifest['roles']) == 12, 'expected twelve bounded role profiles')
     for role in manifest['roles']:
@@ -124,6 +148,19 @@ def validate_rows(record):
         require(path not in targets, 'duplicate target')
         targets.add(path)
         require(sha(row['desired']) == row['after_sha256'], 'desired bytes changed')
+        sources = row.get('compatibility_sources', [])
+        require(isinstance(sources, list) and len(sources) <= len(PREVIOUS_PROFILE_TEMPLATES),
+                'invalid profile compatibility source list')
+        require(not sources or path == root / 'AGENTS.md',
+                'profile compatibility source outside instruction row')
+        for source in sources:
+            require(isinstance(source, dict) and set(source) == {'source', 'source_sha256'}
+                    and isinstance(source['source'], str)
+                    and isinstance(source['source_sha256'], str)
+                    and len(source['source_sha256']) == 64
+                    and all(c in '0123456789abcdef' for c in source['source_sha256']),
+                    'invalid profile compatibility source pin')
+            safe(Path(source['source']))
 
 
 
@@ -154,6 +191,9 @@ def apply(plan_path, journal_path):
         changes = []
         for row in plan['changes']:
             require(sha(read(Path(row['source']))) == row['source_sha256'], 'source changed since audit')
+            for source in row.get('compatibility_sources', []):
+                require(sha(read(Path(source['source']))) == source['source_sha256'],
+                        'prior profile source changed since audit')
             current = read(Path(row['target']))
             require(sha(current) == row['before_sha256'], 'target changed since audit')
             changes.append({**row, 'before': current})
