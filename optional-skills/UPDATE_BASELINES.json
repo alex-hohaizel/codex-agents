@@ -307,6 +307,211 @@
             "mode": 420
           }
         }
+      },
+      "1.1.0": {
+        "source_ref": "43f113b8713588e3569b1c917037f75d88f78c6a",
+        "files": {
+          "SKILL.md": {
+            "sha256": "886c04588da273e49225a1d529c4f9eae7249102242da06fe4b9f47372071b71",
+            "bytes": 14810,
+            "mode": 420
+          },
+          "agents/openai.yaml": {
+            "sha256": "48950d21a5caed5ebbbeb31d3f2677b0ca223c00a5d6a39e6ee897a3918bfaf5",
+            "bytes": 651,
+            "mode": 420
+          },
+          "assets/adaptive-task.example.json": {
+            "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
+            "bytes": 2993,
+            "mode": 420
+          },
+          "assets/adaptive-task.schema.json": {
+            "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
+            "bytes": 19434,
+            "mode": 420
+          },
+          "assets/component-handoff.template.json": {
+            "sha256": "21dbf4e83eb99e3e51888fc99f12752eff95c5b58ec6bd8e323227f93099bc73",
+            "bytes": 1335,
+            "mode": 420
+          },
+          "assets/helper-source-pins.json": {
+            "sha256": "f1c6580efe95ff540af17d5e53c6c862768265473460a0978d54110b082d5ed8",
+            "bytes": 1009,
+            "mode": 420
+          },
+          "assets/icon-large.png": {
+            "sha256": "b51bc78f1df714ec39f0afdbc7a910f756bedcc958f77ecf73673d866ac59960",
+            "bytes": 14739,
+            "mode": 420
+          },
+          "assets/icon-render.json": {
+            "sha256": "1773dc366b3e3ebe28202da54bbddba98bc13ca2e6fc029601453707f997cddb",
+            "bytes": 753,
+            "mode": 420
+          },
+          "assets/icon-small.png": {
+            "sha256": "466c274709fdd5a18109450b4c925f8e92c0a686f8c746ebc961f1cde32fd560",
+            "bytes": 2989,
+            "mode": 420
+          },
+          "assets/icon.svg": {
+            "sha256": "ae3dcf423dcdf7acfd84e3d299b8abb1242daf4b1817e6d7f1941922d49c1051",
+            "bytes": 355,
+            "mode": 420
+          },
+          "assets/production-profiles.json": {
+            "sha256": "a1db1ea55bb6f5a3f9d02ef314623e5a9ddb2eab4468733107a07df0b137fed9",
+            "bytes": 7121,
+            "mode": 420
+          },
+          "assets/routing-contract.json": {
+            "sha256": "a9b4d65bdbf93b8e2d2fd53548dc6f30906d157c335a5d812208af833b9b714c",
+            "bytes": 1480,
+            "mode": 420
+          },
+          "assets/specialist-routes.json": {
+            "sha256": "0288718115660bcbb2b39b2be70b54a83d5b277379a62a6d493cceec82ab9e60",
+            "bytes": 2916,
+            "mode": 420
+          },
+          "assets/system-style-reference.svg": {
+            "sha256": "9be88f8dd4c5e658961515c71389eafd45142ffa68bcae58e8dcff57d178ed91",
+            "bytes": 667,
+            "mode": 420
+          },
+          "assets/task-contract.json": {
+            "sha256": "ced24c47ee9213e4b4eb14f63282f86acd5b38e73a3c427cd013391933c62491",
+            "bytes": 1395,
+            "mode": 420
+          },
+          "assets/visual-identity-origin.json": {
+            "sha256": "2bf54f1944b87228d24650e9240f66cf6027e3bfceb08c9d6494626eb9d39867",
+            "bytes": 802,
+            "mode": 420
+          },
+          "assets/visual-identity.lock.json": {
+            "sha256": "df8d1a3df2f37130fb2da6e848dacbadef6c9139b5560bc819e313d9831c0caa",
+            "bytes": 442,
+            "mode": 420
+          },
+          "references/adaptive-work.md": {
+            "sha256": "fa672d2d53145e6052129adc809f0967562d6181a1b5a657631b9d5319301ec2",
+            "bytes": 17869,
+            "mode": 420
+          },
+          "references/briefing-protocol.md": {
+            "sha256": "460ba5d3fb3cd7acee1be25abdbcadb09a97fe2d2cb76cd89258625f82aa6a6e",
+            "bytes": 23293,
+            "mode": 420
+          },
+          "references/context-capsule.md": {
+            "sha256": "c5e0a797f6e95392199c91e364483467b4a6bcfd2d96a1a0363a405c9217b9ba",
+            "bytes": 2444,
+            "mode": 420
+          },
+          "references/depth-evaluation-2.md": {
+            "sha256": "e28bbb26f266c4702498fa97aced0b6b4f9f151125e31244e120b8224d9e4767",
+            "bytes": 9991,
+            "mode": 420
+          },
+          "references/generated-agent-contract.md": {
+            "sha256": "c9e25d8ebc143cc30aa0b77959a97b70db4ed900360b65ff89dd7070fb5a6199",
+            "bytes": 41699,
+            "mode": 420
+          },
+          "references/interaction-protocol.md": {
+            "sha256": "3d014cf7ef1ce3a07925d71e09602c92d1572159cae31339aec99d09eaf4e478",
+            "bytes": 11636,
+            "mode": 420
+          },
+          "references/joint-work-codex.md": {
+            "sha256": "d977eacd7b3ae5bcd77995452d28ffa5ce7b49879549ff864357e217157d50e1",
+            "bytes": 12741,
+            "mode": 420
+          },
+          "references/panel-entry.md": {
+            "sha256": "234f19b6c8f006f8b27dbd5ce3b5b0d8ae14ac535a2a3ad90a0a16a987cc7bec",
+            "bytes": 9298,
+            "mode": 420
+          },
+          "references/production-quality.md": {
+            "sha256": "7ebe6f7fb8834de7741f328d48cf5fb44d7e4b8344b73cd10e97b051b8815d41",
+            "bytes": 5228,
+            "mode": 420
+          },
+          "references/research-and-synthesis.md": {
+            "sha256": "60502665121125a303bfeef6a3044a3b2019cb58c180ac177ebf45ca92fd093d",
+            "bytes": 9865,
+            "mode": 420
+          },
+          "references/specialist-discovery.md": {
+            "sha256": "cc924845c858e7620d96937117ba2d9139d791eb509ed85f158247d3ba51f3aa",
+            "bytes": 16007,
+            "mode": 420
+          },
+          "references/specialist-orchestration.md": {
+            "sha256": "5392967c672ba6b6a3a1666b637e61007445b87bcb1e1c4e8c2bcb20ac83e656",
+            "bytes": 17419,
+            "mode": 420
+          },
+          "references/system-maintenance.md": {
+            "sha256": "97aa6078503f913fe38cc7a1c676e70779aeb0872c891f00396aa54c2d800f41",
+            "bytes": 7928,
+            "mode": 420
+          },
+          "references/tool-compatibility.md": {
+            "sha256": "98a5e7de2ec46f4a26ec62179f79c87a48dd3ffcc67d400ab1b88f9f9600b3fe",
+            "bytes": 8566,
+            "mode": 420
+          },
+          "references/universal-entry.md": {
+            "sha256": "ad6eb35ff75f5ef06811e1fd4b8eda85d13d492aa4ff16da81fa58c37c0bf74f",
+            "bytes": 11062,
+            "mode": 420
+          },
+          "references/visual-identity.md": {
+            "sha256": "9ad18d38ab39a211ff3adb065ece5f22f45d1c5ad9ddb1aa5af9c73623c86d07",
+            "bytes": 5120,
+            "mode": 420
+          },
+          "scripts/adaptive_work.py": {
+            "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
+            "bytes": 24854,
+            "mode": 420
+          },
+          "scripts/atelier_client.py": {
+            "sha256": "3a901ba2c97f6e65115a59ac61af9abf5d4504ac480cc9b6e6d9756f0d928458",
+            "bytes": 7471,
+            "mode": 420
+          },
+          "scripts/check_component_handoff.py": {
+            "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
+            "bytes": 15761,
+            "mode": 420
+          },
+          "scripts/check_routing.py": {
+            "sha256": "14e686ac6bbea38aed5999ea9c82010018ae810151c5bddf32e22f658d4649b6",
+            "bytes": 11419,
+            "mode": 420
+          },
+          "scripts/context_capsule.py": {
+            "sha256": "a2614457a169599a6fc6407bf87f02dacc004fffa6c7d154665c6a3bcbd3559a",
+            "bytes": 9377,
+            "mode": 420
+          },
+          "scripts/discover_specialists.py": {
+            "sha256": "faf6576b6b0974ee8b0a7f8192ecfea7b846907940c899cf5d22917593181086",
+            "bytes": 21298,
+            "mode": 420
+          },
+          "scripts/visual_identity.py": {
+            "sha256": "6883adc2ef7cc06b935a64f4c6ce5ee7ab4097b7215e46d83002a0bd5219d918",
+            "bytes": 8646,
+            "mode": 420
+          }
+        }
       }
     }
   }

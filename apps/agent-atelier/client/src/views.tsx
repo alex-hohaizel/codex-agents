@@ -5,6 +5,7 @@ import {
   ArrowDownToLine,
   ArrowRight,
   AudioLines,
+  BookOpen,
   Boxes,
   Braces,
   Cable,
@@ -63,6 +64,21 @@ import {
 } from "./profiles";
 import { localeNames, catalogs, type Locale, type MessageKey } from "./i18n";
 import {
+  ContextCoveragePanel,
+  ContextSignal,
+  ContextTrailPanels,
+} from "./context-workbench";
+import {
+  contextTrail,
+  observedJobCounts,
+  activeJobStatuses,
+  requirementPresentation,
+  workspaceDirection,
+  operatorWorkspace,
+  operatorSummary,
+  workResultSources,
+} from "./workbench";
+import {
   Button,
   CodeViewer,
   Disclosure,
@@ -88,7 +104,7 @@ export interface ViewProps {
   nativeDetail?: Data | null;
   nativeHistoryLoading?: boolean;
   nativeHistoryError?: string;
-  loadMoreNativeHistory?: () => void;
+  loadMoreNativeHistory?: (itemCursor?: Data) => void;
   observePortfolio?: () => Promise<void>;
   busy: string;
   command: CommandFn;
@@ -181,14 +197,21 @@ export function Portfolio(p: ViewProps) {
       cancelled = true;
     };
   }, [detailIdentity]);
-  async function loadMoreDetail() {
+  async function loadMoreDetail(itemCursor?: Data) {
     const offset = detail?.coverage?.next_thread_offset;
     if (
       !focus ||
       !detail ||
       detail.project?.id !== focus.id ||
       detail.coverage?.snapshot_checked_at !== catalog?.checked_at ||
-      !Number.isInteger(offset) ||
+      (!itemCursor && !Number.isInteger(offset)) ||
+      (itemCursor &&
+        !detail.coverage?.item_cursors?.some(
+          (item: Data) =>
+            item.thread_id === itemCursor.thread_id &&
+            typeof item.next_cursor === "string" &&
+            item.next_cursor === itemCursor.next_cursor,
+        )) ||
       detailMoreRef.current
     )
       return;
@@ -198,7 +221,12 @@ export function Portfolio(p: ViewProps) {
     setDetailError("");
     try {
       const page = await api.portfolioProject(focus.id, {
-        thread_offset: offset,
+        ...(itemCursor
+          ? {
+              item_thread_id: itemCursor.thread_id,
+              item_cursor: itemCursor.next_cursor,
+            }
+          : { thread_offset: offset }),
         snapshot_checked_at: detail.coverage.snapshot_checked_at,
       });
       if (detailIdentityRef.current === identity) {
@@ -360,7 +388,7 @@ export function Portfolio(p: ViewProps) {
       )}
       <div className="portfolio-layout">
         <Panel
-          title={p.t("allProducts")}
+          title={p.t("workLedger")}
           icon={Boxes}
           className="portfolio-products"
           tools={
@@ -402,7 +430,13 @@ export function Portfolio(p: ViewProps) {
               </button>
             ))}
           </div>
-          <div className="portfolio-card-grid">
+          <div className="portfolio-ledger-intro">{p.t("workLedgerHelp")}</div>
+          <div className="portfolio-ledger-head" aria-hidden="true">
+            <span>{p.t("product")}</span>
+            <span>{p.t("outcome")}</span>
+            <span>{p.t("nextStep")}</span>
+          </div>
+          <div className="portfolio-card-grid portfolio-work-ledger">
             {filtered.map((project) => (
               <button
                 className={`portfolio-project-card ${project.goal?.status === "accepted" ? "has-accepted-goal" : ""}`}
@@ -563,7 +597,7 @@ function NativeProjectDetail(
     detail: Data | null;
     loading?: boolean;
     error?: string;
-    loadMore?: () => void;
+    loadMore?: (itemCursor?: Data) => void;
   },
 ) {
   const project = p.project;
@@ -762,7 +796,7 @@ function HistoryPagination(
     detail?: Data | null;
     loading?: boolean;
     error?: string;
-    loadMore?: () => void;
+    loadMore?: (itemCursor?: Data) => void;
   },
 ) {
   if (!p.detail && !p.loading && !p.error) return null;
@@ -801,11 +835,45 @@ function HistoryPagination(
       {Number.isInteger(coverage?.next_thread_offset) && (
         <Button
           disabled={p.loading}
-          onClick={p.loadMore}
+          onClick={() => p.loadMore?.()}
           icon={ArrowDownToLine}
         >
           {p.loading ? p.t("loading") : p.t("loadMoreThreads")}
         </Button>
+      )}
+      {rows(coverage?.item_cursors).filter(
+        (item) =>
+          typeof item.next_cursor === "string" && item.next_cursor.length > 0,
+      ).length > 0 && (
+        <div className="history-item-continuations">
+          <p>{p.t("historyItemsRemaining")}</p>
+          {rows(coverage?.item_cursors)
+            .filter(
+              (item) =>
+                typeof item.next_cursor === "string" &&
+                item.next_cursor.length > 0,
+            )
+            .map((item) => (
+              <Button
+                key={item.thread_id}
+                disabled={p.loading}
+                icon={ArrowDownToLine}
+                onClick={() => p.loadMore?.(item)}
+              >
+                <span>
+                  {p.loading ? p.t("loading") : p.t("loadMoreHistoryItems")}
+                  <small>
+                    {text(
+                      p.detail?.threads?.find(
+                        (thread: Data) => thread.id === item.thread_id,
+                      )?.title,
+                      shortHash(item.thread_id),
+                    )}
+                  </small>
+                </span>
+              </Button>
+            ))}
+        </div>
       )}
       {!coverage && p.loading && (
         <span className="muted">{p.t("loading")}</span>
@@ -815,7 +883,12 @@ function HistoryPagination(
 }
 
 function WorkMap(
-  p: ViewProps & { groups: Data[]; goal?: Data; bound?: Project; projectName?: string },
+  p: ViewProps & {
+    groups: Data[];
+    goal?: Data;
+    bound?: Project;
+    projectName?: string;
+  },
 ) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   if (!p.groups.length)
@@ -830,14 +903,20 @@ function WorkMap(
         <span>
           <Fingerprint size={17} />
         </span>
-        <strong>{p.goal?.text || p.projectName || p.selected?.name || p.t("product")}</strong>
+        <strong>
+          {p.goal?.text || p.projectName || p.selected?.name || p.t("product")}
+        </strong>
         <small>{goalLabel(p.goal, p.t)}</small>
       </div>
       <div className="work-map-lanes">
         {p.groups.map((group) => {
           const items = rows(group.items);
           const systemChecks = group.id === "system_checks";
-          const visible = expanded[group.id] ? items : systemChecks ? [] : items.slice(0, 4);
+          const visible = expanded[group.id]
+            ? items
+            : systemChecks
+              ? []
+              : items.slice(0, 4);
           return (
             <section className="work-map-lane" key={group.id}>
               <header>
@@ -955,6 +1034,9 @@ function workStatus(value: string, t: T, workType?: string) {
   const keys: Record<string, MessageKey> = {
     answer_received: "answerReceived",
     in_progress: "running",
+    gating: "checking",
+    dispatching: "running",
+    running: "running",
     failed: "failed",
     interrupted: "interruptedWork",
     recorded: "recordedWork",
@@ -982,6 +1064,950 @@ function workGroupTitle(group: Data, t: T) {
 }
 
 export function WorkspaceView(p: ViewProps) {
+  const [mode, setMode] = useState<"work" | "sources">("work");
+  useEffect(() => setMode("work"), [p.selected?.id]);
+  if (!p.selected) return <Welcome {...p} />;
+  if (p.demo) return <TechnicalWorkspaceView {...p} />;
+  return (
+    <div className="operator-workspace">
+      <nav className="operator-view-switch" aria-label={p.t("workspace")}>
+        <button
+          data-operator-mode="work"
+          className={mode === "work" ? "is-active" : ""}
+          onClick={() => setMode("work")}
+          aria-pressed={mode === "work"}
+        >
+          <Workflow size={15} />
+          {p.t("operatorOverview")}
+        </button>
+        <button
+          data-operator-mode="sources"
+          className={mode === "sources" ? "is-active" : ""}
+          onClick={() => setMode("sources")}
+          aria-pressed={mode === "sources"}
+        >
+          <FileCode2 size={15} />
+          {p.t("operatorSources")}
+        </button>
+        <button
+          className="operator-context-link"
+          onClick={() => p.navigate("context")}
+        >
+          <Fingerprint size={14} />
+          {p.t("context")}
+          <ChevronRight size={12} />
+        </button>
+      </nav>
+      {mode === "work" ? (
+        <OperatorCanvas {...p} openSources={() => setMode("sources")} />
+      ) : (
+        <TechnicalWorkspaceView {...p} />
+      )}
+    </div>
+  );
+}
+
+function OperatorCanvas(p: ViewProps & { openSources: () => void }) {
+  const model = operatorWorkspace(p.workspace, p.selected?.id, p.nativeDetail);
+  const [stageId, setStageId] = useState("");
+  const [requirementsExpanded, setRequirementsExpanded] = useState(false);
+  const [workId, setWorkId] = useState("");
+  const [expandedLanes, setExpandedLanes] = useState<Record<string, boolean>>(
+    {},
+  );
+  const [showHistory, setShowHistory] = useState(false);
+  const [historyDiscovering, setHistoryDiscovering] = useState(false);
+  const [historyDiscoveryError, setHistoryDiscoveryError] = useState("");
+  const historyRegion = useRef<HTMLElement | null>(null);
+  const historyRequest = useRef(0);
+  const [report, setReport] = useState<Data | null>(null);
+  const [reportLoading, setReportLoading] = useState(false);
+  const reportRead = useRef(0);
+  useEffect(() => {
+    setStageId("");
+    setRequirementsExpanded(false);
+    setWorkId("");
+    setExpandedLanes({});
+    setShowHistory(false);
+    historyRequest.current++;
+    setHistoryDiscovering(false);
+    setHistoryDiscoveryError("");
+    reportRead.current++;
+    setReport(null);
+    setReportLoading(false);
+  }, [p.selected?.id]);
+  const focusedWork =
+    model.work.find((item) => item.id === workId) ?? model.current;
+  const mapWork = model.work.some((item) => item.source === "native-record")
+    ? model.work.filter((item) => item.source === "native-record")
+    : model.work;
+  const selectedStage = model.stages.find((stage) => stage.id === stageId);
+  const visibleRequirements =
+    stageId === "__unassigned"
+      ? model.unstagedRequirements
+      : (selectedStage?.requirements ?? model.requirements);
+  const trail = contextTrail(p.workspace);
+  const action = model.next[0];
+  const decision = trail.decisions[0];
+  const artifacts = p.workspace?.artifacts ?? [];
+  const sourceResults = model.results.filter(
+    (item) => item.source === "native-record",
+  );
+  const result = [
+    ...(sourceResults.length ? sourceResults : model.results),
+  ].sort((a, b) =>
+    String(b.record.completed_at ?? b.record.updated_at ?? "").localeCompare(
+      String(a.record.completed_at ?? a.record.updated_at ?? ""),
+    ),
+  )[0];
+  const inspectGoal = () =>
+    p.inspect({
+      title: p.t("targetSource"),
+      kind: "goal",
+      data: model.goal ?? {},
+      sourcePath: model.goal?.source_ref,
+    });
+  const sourceTitle = (item: Data) =>
+    text(item.name ?? item.path ?? item.id)
+      .split(/[\\/]/)
+      .pop();
+  const inspectWork = (item: (typeof model.work)[number]) =>
+    p.inspect({ title: item.title, kind: "work", data: item.record });
+
+  const resultPaths = workResultSources(focusedWork?.record);
+  function openHistory() {
+    setShowHistory(true);
+    requestAnimationFrame(() => {
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      historyRegion.current?.scrollIntoView({
+        block: "start",
+        behavior: reduced ? "auto" : "smooth",
+      });
+      historyRegion.current?.focus({ preventScroll: true });
+    });
+  }
+  async function discoverHistory() {
+    const generation = ++historyRequest.current;
+    setHistoryDiscovering(true);
+    setHistoryDiscoveryError("");
+    try {
+      await p.command("portfolio.refresh", { max_pages: 20 });
+    } catch (error) {
+      if (generation === historyRequest.current)
+        setHistoryDiscoveryError(
+          error instanceof Error ? error.message : String(error),
+        );
+    } finally {
+      if (generation === historyRequest.current) setHistoryDiscovering(false);
+    }
+  }
+  async function readReport(path: string) {
+    if (!p.selected) return;
+    const generation = ++reportRead.current;
+    setReport({ path });
+    setReportLoading(true);
+    try {
+      const source = await api.source(p.selected.id, path);
+      if (generation === reportRead.current) setReport({ ...source, path });
+    } catch (error) {
+      if (generation === reportRead.current)
+        setReport({
+          path,
+          error: error instanceof Error ? error.message : String(error),
+        });
+    } finally {
+      if (generation === reportRead.current) setReportLoading(false);
+    }
+  }
+
+  return (
+    <div className="operator-canvas">
+      <section className="operator-mission" aria-labelledby="operator-goal">
+        <span className="operator-mission-mark">
+          <Layers3 size={26} strokeWidth={1.4} />
+        </span>
+        <div>
+          <div className="operator-section-label">
+            <ShieldCheck size={13} />
+            {goalLabel(model.goal, p.t)}
+          </div>
+          <h2 id="operator-goal">
+            {model.goal?.text || p.t("goalUnknownHelp")}
+          </h2>
+          <button className="operator-source-link" onClick={inspectGoal}>
+            <FileText size={12} />
+            {p.t("targetSource")}
+            <ChevronRight size={12} />
+          </button>
+        </div>
+        <div className="operator-mission-context">
+          <ContextSignal
+            workspace={p.workspace}
+            t={p.t}
+            onOpen={() => p.navigate("context")}
+          />
+          <span>
+            {p.workspace?.sources?.length ?? 0} {p.t("sourcesCount")}
+            <i />
+            {model.requirements.length} {p.t("mustCount")}
+          </span>
+        </div>
+      </section>
+
+      <div className="operator-main-grid">
+        <section
+          className="operator-process"
+          aria-labelledby="operator-map-title"
+        >
+          <header className="operator-panel-heading">
+            <div>
+              <Network size={18} />
+              <h2 id="operator-map-title">{p.t("operatorMap")}</h2>
+            </div>
+            <button data-open-native-history onClick={openHistory}>
+              {p.t("nativeHistory")}
+              <ArrowRight size={13} />
+            </button>
+          </header>
+          {mapWork.length > 0 && (
+            <div
+              className="operator-work-map"
+              data-source-work-count={
+                mapWork.filter((item) => item.source === "native-record").length
+              }
+            >
+              <div className="operator-work-anchor">
+                <span>
+                  <Layers3 size={23} />
+                </span>
+                <div>
+                  <small>{p.t("operatorSourceState")}</small>
+                  <strong>
+                    {model.checkpoint?.phase || p.t("fromProjectSource")}
+                  </strong>
+                </div>
+                <button
+                  onClick={inspectGoal}
+                  aria-label={p.t("targetSource")}
+                  title={p.t("targetSource")}
+                >
+                  <Fingerprint size={14} />
+                </button>
+              </div>
+              <div className="operator-work-lanes">
+                {(["active", "attention", "results", "recorded"] as const).map(
+                  (lane) => {
+                    const items = mapWork.filter((item) => item.lane === lane);
+                    if (!items.length) return null;
+                    return (
+                      <section
+                        key={lane}
+                        className={`operator-work-lane operator-work-lane--${lane}`}
+                      >
+                        <header>
+                          <span />
+                          <strong>
+                            {p.t(
+                              lane === "active"
+                                ? "activeWork"
+                                : lane === "attention"
+                                  ? "needsAttention"
+                                  : lane === "results"
+                                    ? "completedWork"
+                                    : "recordedWork",
+                            )}
+                          </strong>
+                          <small>{items.length}</small>
+                        </header>
+                        {(expandedLanes[lane] ? items : items.slice(0, 4)).map(
+                          (item) => (
+                            <button
+                              key={item.id}
+                              className={
+                                focusedWork?.id === item.id ? "is-selected" : ""
+                              }
+                              onClick={() => setWorkId(item.id)}
+                              aria-pressed={focusedWork?.id === item.id}
+                            >
+                              <span className="operator-work-node">
+                                {lane === "results" ? (
+                                  <FileCheck2 size={17} />
+                                ) : lane === "attention" ? (
+                                  <TriangleAlert size={17} />
+                                ) : (
+                                  <Workflow size={17} />
+                                )}
+                              </span>
+                              <span>
+                                <strong>{item.title}</strong>
+                                <small>
+                                  {item.source === "native-record"
+                                    ? p.t("fromProjectSource")
+                                    : item.source === "service"
+                                      ? p.t("serviceStore")
+                                      : p.t("nativeHistory")}
+                                </small>
+                              </span>
+                              <ChevronRight size={13} />
+                            </button>
+                          ),
+                        )}
+                        {items.length > 4 && (
+                          <button
+                            className="operator-lane-more"
+                            data-expand-work-lane={lane}
+                            aria-expanded={Boolean(expandedLanes[lane])}
+                            onClick={() =>
+                              setExpandedLanes((current) => ({
+                                ...current,
+                                [lane]: !current[lane],
+                              }))
+                            }
+                          >
+                            {expandedLanes[lane]
+                              ? p.t("collapse")
+                              : `${p.t("showAllWork")} · ${items.length}`}
+                            <ChevronRight size={13} />
+                          </button>
+                        )}
+                      </section>
+                    );
+                  },
+                )}
+              </div>
+              <div className="operator-map-caption">
+                <FileCheck2 size={12} />
+                <span>{p.t("targetProvenanceHelp")}</span>
+              </div>
+            </div>
+          )}
+          <details
+            className="operator-requirements-map"
+            open={!mapWork.length || undefined}
+          >
+            <summary>
+              <ListChecks size={14} />
+              {p.t("requirementsCoverage")}
+              <span>{model.requirements.length}</span>
+              <ChevronRight size={13} />
+            </summary>
+            <div className="operator-source-map">
+              <div className="operator-map-root">
+                <Fingerprint size={26} />
+                <strong>{p.selected?.name}</strong>
+                <small>{p.t("sourceTruth")}</small>
+              </div>
+              <div className="operator-map-branches">
+                <button
+                  data-requirement-branch="all"
+                  className={`operator-stage ${stageId === "" ? "is-selected" : ""}`}
+                  onClick={() => {
+                    setStageId("");
+                    setRequirementsExpanded(false);
+                  }}
+                  aria-pressed={stageId === ""}
+                >
+                  <ListChecks size={15} />
+                  <strong>{p.t("all")}</strong>
+                  <span>
+                    {model.requirements.length} {p.t("mustCount")}
+                  </span>
+                </button>
+                {model.unstagedRequirements.length > 0 && (
+                  <button
+                    data-requirement-branch="unassigned"
+                    className={`operator-stage ${stageId === "__unassigned" ? "is-selected" : ""}`}
+                    onClick={() => {
+                      setStageId("__unassigned");
+                      setRequirementsExpanded(false);
+                    }}
+                    aria-pressed={stageId === "__unassigned"}
+                  >
+                    <span className="operator-node-dot" />
+                    <strong>{p.t("operatorUnassigned")}</strong>
+                    <span>
+                      {model.unstagedRequirements.length} {p.t("mustCount")}
+                    </span>
+                  </button>
+                )}
+                {model.stages.length ? (
+                  model.stages.map((stage) => (
+                    <button
+                      key={stage.id}
+                      data-requirement-branch={stage.id}
+                      className={`operator-stage ${selectedStage?.id === stage.id ? "is-selected" : ""}`}
+                      onClick={() => {
+                        setStageId(stage.id);
+                        setRequirementsExpanded(false);
+                      }}
+                      aria-pressed={selectedStage?.id === stage.id}
+                    >
+                      <span className="operator-node-dot" />
+                      <strong>{stage.id}</strong>
+                      <span>
+                        {stage.requirements.length} {p.t("mustCount")}
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <button
+                    className="operator-stage is-selected"
+                    onClick={() => p.navigate("requirements")}
+                  >
+                    <ListChecks size={18} />
+                    <strong>{p.t("requirements")}</strong>
+                    <span>
+                      {model.requirements.length} {p.t("actualRecords")}
+                    </span>
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="operator-map-caption">
+              <Network size={12} />
+              <span>{p.t("operatorStagesHelp")}</span>
+              <button
+                onClick={() =>
+                  p.inspect({
+                    title: p.t("requirementsCoverage"),
+                    kind: "requirements",
+                    data: {
+                      stages: model.stages,
+                      dependencies: model.dependencies,
+                      phase: p.selected?.phase,
+                    },
+                  })
+                }
+              >
+                {p.t("provenance")}
+                <ChevronRight size={11} />
+              </button>
+            </div>
+            <div className="operator-requirement-detail">
+              <div className="operator-section-label">
+                <ListChecks size={13} />
+                {selectedStage?.id ? `${selectedStage.id} · ` : ""}
+                {p.t("requirements")}
+              </div>
+              {(requirementsExpanded
+                ? visibleRequirements
+                : visibleRequirements.slice(0, 3)
+              ).map((requirement) => {
+                const presentation = requirementPresentation(
+                  requirement,
+                  p.locale,
+                );
+                return (
+                  <button
+                    key={requirement.id}
+                    data-requirement-id={requirement.id}
+                    onClick={() =>
+                      p.inspect({
+                        title: presentation.title,
+                        kind: "requirement",
+                        data: requirement,
+                      })
+                    }
+                  >
+                    <code>{requirement.id}</code>
+                    <span>{presentation.title}</span>
+                    <ChevronRight size={14} />
+                  </button>
+                );
+              })}
+              {!visibleRequirements.length && (
+                <p className="muted">{p.t("noRecords")}</p>
+              )}
+              {visibleRequirements.length > 3 && (
+                <button
+                  className="operator-requirements-more"
+                  onClick={() => setRequirementsExpanded(!requirementsExpanded)}
+                >
+                  {requirementsExpanded
+                    ? p.t("collapse")
+                    : `${p.t("all")} · ${visibleRequirements.length}`}
+                  <ChevronRight size={13} />
+                </button>
+              )}
+            </div>
+          </details>
+        </section>
+
+        <section
+          className="operator-action"
+          aria-labelledby="operator-next-title"
+        >
+          {focusedWork && (
+            <div className="operator-focus">
+              <span className="operator-section-label">
+                <Workflow size={14} />
+                {p.t("operatorSelectedWork")}
+              </span>
+              <h3>{focusedWork.title}</h3>
+              <span className="tag tag--subtle">
+                {focusedWork.source === "native-record"
+                  ? p.t("fromProjectSource")
+                  : focusedWork.status === "completed"
+                    ? p.t("answerReceived")
+                    : workStatus(focusedWork.status, p.t)}
+              </span>
+              {focusedWork.record.outcome && (
+                <p>{operatorSummary(focusedWork.record.outcome, 180)}</p>
+              )}
+              <div className="operator-result-actions">
+                {resultPaths.length > 0 && (
+                  <Button
+                    tone="primary"
+                    small
+                    icon={BookOpen}
+                    disabled={reportLoading}
+                    onClick={() => void readReport(resultPaths[0])}
+                  >
+                    {p.t("operatorReadResult")}
+                  </Button>
+                )}
+              </div>
+              <button
+                className="operator-source-link"
+                onClick={() => inspectWork(focusedWork)}
+              >
+                {p.t("provenance")}
+                <ChevronRight size={12} />
+              </button>
+            </div>
+          )}
+          <span className="operator-section-label">
+            <ArrowRight size={14} />
+            {p.t("nextStep")}
+          </span>
+          <h2 id="operator-next-title">
+            {operatorSummary(nextActionText(action, p.t), 180)}
+          </h2>
+          <span className="operator-action-origin">
+            <FileCheck2 size={13} />
+            {action?.source_ref
+              ? p.t("fromProjectSource")
+              : p.t("proposedNextAction")}
+          </span>
+          <Button
+            tone={resultPaths.length ? "default" : "primary"}
+            icon={ArrowRight}
+            disabled={Boolean(p.busy)}
+            onClick={() =>
+              p.newTask({
+                universal_entry: true,
+                objective: action ? nextActionText(action, p.t) : "",
+              })
+            }
+          >
+            {p.t("operatorPrepareNext")}
+          </Button>
+          {action?.source_ref && (
+            <button
+              className="operator-source-link"
+              onClick={() =>
+                p.inspect({
+                  title: p.t("nextStep"),
+                  kind: "next_action",
+                  data: action,
+                  sourcePath: action.source_ref,
+                })
+              }
+            >
+              {p.t("provenance")}
+              <ChevronRight size={12} />
+            </button>
+          )}
+          {decision && (
+            <div className="operator-decision">
+              <GitPullRequest size={17} />
+              <div>
+                <small>{p.t("currentDecisions")}</small>
+                <button
+                  onClick={() =>
+                    p.inspect({
+                      title: p.t("currentDecisions"),
+                      kind: "decision",
+                      data: decision,
+                      sourcePath: decision.source_ref ?? decision.source_path,
+                    })
+                  }
+                >
+                  {text(
+                    decision.summary ??
+                      decision.text ??
+                      decision.title ??
+                      decision.id,
+                  )}
+                  <ChevronRight size={12} />
+                </button>
+              </div>
+            </div>
+          )}
+          {trail.deferred.length > 0 && (
+            <button
+              className="operator-deferred"
+              onClick={() => p.navigate("context")}
+            >
+              <Pause size={13} />
+              <span>
+                {p.t("deferredWork")} · {trail.deferred.length}
+              </span>
+              <ChevronRight size={12} />
+            </button>
+          )}
+        </section>
+      </div>
+
+      <div className="operator-work-strip">
+        <section className="operator-live-work">
+          <header className="operator-panel-heading">
+            <div>
+              <ShieldCheck size={17} />
+              <h2>{p.t("operatorAcceptance")}</h2>
+            </div>
+            <button onClick={() => p.navigate("evidence")}>
+              {p.t("evidence")}
+              <ArrowRight size={13} />
+            </button>
+          </header>
+          <div className="operator-readiness">
+            {readinessRows(p.workspace?.readiness)
+              .slice(0, 4)
+              .map((axis) => (
+                <button
+                  key={axis.id ?? axis.name}
+                  onClick={() =>
+                    p.inspect({
+                      title: axisLabel(axis, p.t),
+                      kind: "evidence",
+                      data: axis,
+                    })
+                  }
+                >
+                  <span>{axisLabel(axis, p.t)}</span>
+                  <Status value={axis.status ?? axis.value} />
+                  <ChevronRight size={12} />
+                </button>
+              ))}
+          </div>
+          <button
+            className="operator-panel-runs"
+            onClick={() => p.navigate("jobs")}
+          >
+            <TerminalSquare size={14} />
+            <span>{p.t("serviceStore")}</span>
+            <strong>
+              {observedJobCounts(p.workspace?.jobs).active} ·{" "}
+              {p.t("activeWork")}
+            </strong>
+            <ArrowRight size={12} />
+          </button>
+        </section>
+        <section className="operator-returned-work">
+          <header className="operator-panel-heading">
+            <div>
+              <FileCheck2 size={17} />
+              <h2>{p.t("answerReceived")}</h2>
+            </div>
+            <button onClick={() => p.navigate("evidence")}>
+              {p.t("evidence")}
+              <ArrowRight size={13} />
+            </button>
+          </header>
+          {result ? (
+            <button
+              className="operator-result-summary"
+              onClick={() => inspectWork(result)}
+            >
+              <span className="tag tag--subtle">{p.t("recordedWork")}</span>
+              <strong>{result.title}</strong>
+              <p>
+                {typeof (result.record.outcome ?? result.record.output_text) ===
+                "string"
+                  ? operatorSummary(
+                      result.record.outcome ?? result.record.output_text,
+                      220,
+                    )
+                  : p.t("targetProvenanceHelp")}
+              </p>
+              <span className="operator-source-link">
+                {p.t("inspect")}
+                <ArrowRight size={13} />
+              </span>
+            </button>
+          ) : (
+            <div className="operator-no-result">
+              <FileCheck2 size={22} />
+              <p>{p.t("noOutputHelp")}</p>
+            </div>
+          )}
+        </section>
+      </div>
+
+      <section className="operator-deliverables">
+        <header className="operator-panel-heading">
+          <div>
+            <FileStack size={17} />
+            <h2>{p.t("operatorFiles")}</h2>
+            <span className="tag tag--subtle">
+              {artifacts.length} {p.t("actualRecords")}
+            </span>
+          </div>
+          <button onClick={() => p.navigate("artifacts")}>
+            {p.t("all")}
+            <ArrowRight size={13} />
+          </button>
+        </header>
+        <div className="operator-file-shelf">
+          {artifacts.slice(0, 5).map((artifact, index) => (
+            <button
+              key={artifact.id ?? artifact.path ?? index}
+              onClick={() => {
+                p.inspect({
+                  title: text(artifact.name ?? artifact.path),
+                  kind: "artifact",
+                  data: artifact,
+                  sourcePath: artifact.path,
+                });
+              }}
+            >
+              <span className="operator-file-mark">
+                <FileText size={22} strokeWidth={1.3} />
+              </span>
+              <span>
+                <strong>{sourceTitle(artifact)}</strong>
+                <small>
+                  {text(artifact.kind ?? artifact.type, p.t("nativeFiles"))}
+                </small>
+              </span>
+              <ChevronRight size={13} />
+            </button>
+          ))}
+          {!artifacts.length && (
+            <p className="muted">{p.t("noArtifactsHelp")}</p>
+          )}
+        </div>
+        <p className="operator-inventory-note">
+          {p.t("operatorInventoryHelp")}
+        </p>
+      </section>
+
+      <section
+        className="operator-history"
+        id="operator-native-history"
+        ref={historyRegion}
+        tabIndex={-1}
+        aria-label={p.t("nativeHistory")}
+      >
+        <button
+          className="operator-history-toggle"
+          aria-expanded={showHistory}
+          onClick={() => setShowHistory(!showHistory)}
+        >
+          <Network size={17} />
+          <span>
+            <strong>{p.t("documentedWork")}</strong>
+            <small>{p.t("nativeWorkBoundary")}</small>
+          </span>
+          <ChevronRight size={16} className={showHistory ? "is-open" : ""} />
+        </button>
+        {showHistory && (
+          <>
+            {historyDiscoveryError && (
+              <SurfaceNotice tone="error">
+                {historyDiscoveryError}
+              </SurfaceNotice>
+            )}
+            <WorkMap
+              {...p}
+              groups={p.nativeDetail?.work_groups ?? []}
+              goal={model.goal}
+              bound={p.selected ?? undefined}
+            />
+            <HistoryPagination
+              {...p}
+              detail={p.nativeDetail}
+              loading={p.nativeHistoryLoading}
+              error={p.nativeHistoryError}
+              loadMore={p.loadMoreNativeHistory}
+            />
+            {!p.nativeDetail && (
+              <Button
+                data-discover-native-history
+                small
+                icon={RefreshCw}
+                disabled={
+                  historyDiscovering ||
+                  p.nativeHistoryLoading ||
+                  Boolean(p.busy)
+                }
+                onClick={() => void discoverHistory()}
+              >
+                {historyDiscovering ? p.t("loading") : p.t("discoverCodex")}
+              </Button>
+            )}
+          </>
+        )}
+      </section>
+      <div className="operator-bottom-bar">
+        <button onClick={p.openSources}>
+          <FileCode2 size={14} />
+          {p.t("operatorSources")}
+          <ArrowRight size={12} />
+        </button>
+        <span>
+          {p.t("revision")} <code>{shortHash(p.selected?.revision)}</code>
+        </span>
+      </div>
+
+      {report && (
+        <Modal
+          title={report.path.split("/").pop() || p.t("operatorReadResult")}
+          onClose={() => setReport(null)}
+          wide
+          footer={
+            <>
+              <span className="operator-reader-pin">
+                <Fingerprint size={12} />
+                {shortHash(report.sha256)}
+              </span>
+              <Button
+                onClick={() => {
+                  setReport(null);
+                  p.expand(report.path, report.content ?? report);
+                }}
+                icon={FileCode2}
+              >
+                {p.t("showRaw")}
+              </Button>
+            </>
+          }
+        >
+          {reportLoading ? (
+            <SurfaceNotice>{p.t("loadingSource")}</SurfaceNotice>
+          ) : report.error ? (
+            <SurfaceNotice tone="error">{report.error}</SurfaceNotice>
+          ) : (
+            <ReadableWorkReport
+              content={
+                typeof report.content === "string"
+                  ? report.content
+                  : pretty(report.content)
+              }
+            />
+          )}
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function ReadableWorkReport({ content }: { content: string }) {
+  const lines = content.split("\n"),
+    blocks = [];
+  const inline = (value: string) =>
+    value
+      .split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g)
+      .map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**"))
+          return <strong key={index}>{part.slice(2, -2)}</strong>;
+        if (part.startsWith("`") && part.endsWith("`"))
+          return <code key={index}>{part.slice(1, -1)}</code>;
+        const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+        if (link)
+          return (
+            <a key={index} href={link[2]} target="_blank" rel="noreferrer">
+              {link[1]}
+            </a>
+          );
+        return part;
+      });
+  for (let index = 0; index < lines.length; index++) {
+    const line = lines[index].trim();
+    if (!line) continue;
+    const heading = line.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      blocks.push(
+        heading[1].length === 1 ? (
+          <h2 key={index}>{inline(heading[2])}</h2>
+        ) : (
+          <h3 key={index}>{inline(heading[2])}</h3>
+        ),
+      );
+      continue;
+    }
+    if (line.startsWith("```")) {
+      const start = index,
+        code = [];
+      while (++index < lines.length && !lines[index].startsWith("```"))
+        code.push(lines[index]);
+      blocks.push(<pre key={start}>{code.join("\n")}</pre>);
+      continue;
+    }
+    if (line.startsWith("|")) {
+      const start = index,
+        table = [];
+      do {
+        if (!/^\|\s*:?-/.test(lines[index]))
+          table.push(
+            lines[index]
+              .split("|")
+              .slice(1, -1)
+              .map((cell) => cell.trim()),
+          );
+        index++;
+      } while (index < lines.length && lines[index].trim().startsWith("|"));
+      index--;
+      blocks.push(
+        <div className="operator-reader-table" key={start}>
+          <table>
+            <thead>
+              <tr>
+                {table[0]?.map((cell, i) => (
+                  <th key={i}>{inline(cell)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {table.slice(1).map((row, i) => (
+                <tr key={i}>
+                  {row.map((cell, j) => (
+                    <td key={j}>{inline(cell)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>,
+      );
+      continue;
+    }
+    if (/^[-*]\s/.test(line)) {
+      const start = index,
+        items = [];
+      do {
+        items.push(lines[index].trim().replace(/^[-*]\s+/, ""));
+        index++;
+      } while (index < lines.length && /^[-*]\s/.test(lines[index].trim()));
+      index--;
+      blocks.push(
+        <ul key={start}>
+          {items.map((item, i) => (
+            <li key={i}>{inline(item)}</li>
+          ))}
+        </ul>,
+      );
+      continue;
+    }
+    blocks.push(<p key={index}>{inline(line)}</p>);
+  }
+  return <article className="operator-readable-report">{blocks}</article>;
+}
+
+function TechnicalWorkspaceView(p: ViewProps) {
   const [fileIndex, setFileIndex] = useState(0);
   const [fileContent, setFileContent] = useState<unknown>(undefined);
   const [sourceError, setSourceError] = useState("");
@@ -995,7 +2021,8 @@ export function WorkspaceView(p: ViewProps) {
   const sources = p.workspace?.sources ?? [];
   const currentSource = sources[fileIndex] ?? sources[0];
   const jobs = p.workspace?.jobs ?? [];
-  const latestJob = jobs[0];
+  const activeJob = jobs.find((job) => activeJobStatuses.has(job.status));
+  const latestJob = activeJob ?? jobs[0];
   const requirements = p.workspace?.requirements ?? [];
   const profile = projectProfile(p.selected);
   const profileDefinition = profileDefinitions[profile];
@@ -1138,7 +2165,15 @@ export function WorkspaceView(p: ViewProps) {
           <Workflow size={16} />
         </span>
         <span>
-          <small>{p.t("currentTask")}</small>
+          <small>
+            {p.t(
+              p.demo || activeJob
+                ? "currentTask"
+                : latestJob
+                  ? "operatorPriorChecks"
+                  : "currentScope",
+            )}
+          </small>
           <strong>{task}</strong>
         </span>
         <button
@@ -1458,7 +2493,7 @@ export function WorkspaceView(p: ViewProps) {
       </div>
       <div className="context-grid">
         <Panel
-          title={p.t("topology")}
+          title={p.t("relatedWork")}
           icon={Network}
           className="topology-panel"
           tools={<span className="tag tag--subtle">{p.t("sourceTruth")}</span>}
@@ -1568,11 +2603,15 @@ export function ContextView(p: ViewProps) {
         title={p.t("context")}
         description={p.t("contextGraph")}
       />
+      <div className="context-control-grid">
+        <ContextCoveragePanel {...p} />
+        <ContextTrailPanels {...p} />
+      </div>
       <div className="context-reader-grid">
         <Panel
-          title={p.t("taskContext")}
+          title={p.t("contextRecord")}
           icon={Braces}
-          onExpand={() => p.expand(p.t("taskContext"), context)}
+          onExpand={() => p.expand(p.t("contextRecord"), context)}
           t={p.t}
         >
           <CodeViewer
@@ -1635,7 +2674,9 @@ export function RequirementsView(p: ViewProps) {
   const [query, setQuery] = useState("");
   const reqs = (p.workspace?.requirements ?? []).filter(
     (req) =>
-      (filter === "all" || req.priority === filter || req.status === filter) &&
+      (filter === "all" ||
+        req.priority === filter ||
+        requirementPresentation(req, p.locale).status === filter) &&
       pretty(req).toLowerCase().includes(query.toLowerCase()),
   );
   if (!p.selected) return <Welcome {...p} />;
@@ -1678,14 +2719,16 @@ export function RequirementsView(p: ViewProps) {
               <span>ID</span>
               <span>{p.t("requirements")}</span>
               <span>{p.t("source")}</span>
-              <span>{p.t("status")}</span>
+              <span>{p.t("statusInSource")}</span>
             </div>
             {reqs.map((req, index) => (
               <button
                 key={req.id ?? index}
                 onClick={() =>
                   p.inspect({
-                    title: text(req.title ?? req.id),
+                    title: text(
+                      requirementPresentation(req, p.locale).title || req.id,
+                    ),
                     kind: "requirement",
                     data: req,
                   })
@@ -1694,12 +2737,7 @@ export function RequirementsView(p: ViewProps) {
                 <code>{text(req.id)}</code>
                 <span>
                   <strong>
-                    {text(
-                      req.title ??
-                        req.description ??
-                        req.text ??
-                        req.requirement,
-                    )}
+                    {text(requirementPresentation(req, p.locale).title)}
                   </strong>
                   {req.acceptance && <small>{text(req.acceptance)}</small>}
                 </span>
@@ -1707,7 +2745,7 @@ export function RequirementsView(p: ViewProps) {
                   <FileText size={12} />
                   {text(req.source ?? req.source_ref ?? req.source_id)}
                 </span>
-                <Status value={req.status ?? "source_only"} />
+                <Status value={requirementPresentation(req, p.locale).status} />
               </button>
             ))}
           </div>
@@ -3729,15 +4767,15 @@ function Topology({
 
 function WorkspaceDirection(p: ViewProps) {
   const [controllerOpen, setControllerOpen] = useState(false);
-  const summary =
-    p.nativeDetail?.project ??
-    p.portfolio?.projects?.find(
-      (item: Data) =>
-        item.binding_id === p.selected?.id || item.root === p.selected?.root,
-    );
-  const goal = p.nativeDetail?.goal ?? summary?.goal;
-  const next = p.nativeDetail?.next_actions ?? summary?.next_actions ?? [];
-  const agents = summary?.agents ?? [];
+  const { goal, next, agents } = workspaceDirection(
+    p.workspace,
+    p.selected?.id,
+  );
+  const jobs = observedJobCounts(p.workspace?.jobs);
+  const trail = contextTrail(p.workspace);
+  const currentDecision = trail.explicitlyCurrent
+    ? trail.decisions[0]
+    : undefined;
   return (
     <>
       <div className="workspace-direction">
@@ -3765,6 +4803,66 @@ function WorkspaceDirection(p: ViewProps) {
               <code>{shortHash(goal.source_sha256)}</code>
             </button>
           )}
+          {currentDecision && (
+            <button
+              className="workspace-current-decision"
+              onClick={() =>
+                p.inspect({
+                  title: p.t("currentDecisions"),
+                  kind: "decision",
+                  data: currentDecision,
+                  sourcePath:
+                    currentDecision.source_ref ?? currentDecision.source_path,
+                })
+              }
+            >
+              <GitPullRequest size={14} />
+              <span>
+                <small>{p.t("currentDecisions")}</small>
+                <strong>
+                  {text(
+                    currentDecision.summary ??
+                      currentDecision.text ??
+                      currentDecision.title ??
+                      currentDecision.id,
+                    p.t("noDescription"),
+                  )}
+                </strong>
+                <code>
+                  {text(
+                    currentDecision.source_ref ??
+                      currentDecision.source_path ??
+                      currentDecision.id,
+                  )}
+                </code>
+              </span>
+              <ArrowRight size={12} />
+            </button>
+          )}
+          <div className="workspace-context-bar">
+            <ContextSignal
+              workspace={p.workspace}
+              t={p.t}
+              onOpen={() => p.navigate("context")}
+            />
+            <div className="workspace-source-counters">
+              <button onClick={() => p.navigate("context")}>
+                <FileText size={13} />
+                <strong>{p.workspace?.sources?.length ?? 0}</strong>
+                <span>{p.t("sourcesCount")}</span>
+              </button>
+              <button onClick={() => p.navigate("requirements")}>
+                <ListChecks size={13} />
+                <strong>{p.workspace?.requirements?.length ?? 0}</strong>
+                <span>{p.t("mustCount")}</span>
+              </button>
+              <button onClick={() => p.navigate("jobs")}>
+                <Activity size={13} />
+                <strong>{jobs.active}</strong>
+                <span>{p.t("activeWork")}</span>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="workspace-direction-next">
           <span className="eyebrow">{p.t("nextStep")}</span>

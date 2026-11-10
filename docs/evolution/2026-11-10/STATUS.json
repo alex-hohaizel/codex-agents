@@ -2,28 +2,36 @@
   "schema": "ai-data-production.proposal-status/1",
   "passport": "ai-data-production-evolution/0.2",
   "date": "2026-11-10",
-  "status": "awaiting-owner-selection",
+  "status": "approved-implementation-in-progress",
   "revision_preparation": {
     "authorized": true,
-    "scope": "Owner requested passport simplification, full capability preservation, context/design/working-panel priority, no accepted regressions, actual-task proof and GitHub publication. This is documentation-only authority."
+    "scope": "Historical authority for simplifying passport0.2 and publishing the documentation-only revision. Later exact implementation authority is recorded separately in owner_approval."
   },
   "owner_approval": {
-    "received": false,
-    "source": null,
-    "scope": "No implementation approval recorded for this exact0.2."
+    "received": true,
+    "date": "2026-11-10",
+    "source": "Current owner instruction, retained with exact quote/hash binding in private project authorization",
+    "scope": "Implement passport0.2 in Codex: context, design and workingpanel first; preserve allcapabilities/identity/settings, prove actualtasks, publishverifiedsources; WORKdeferred",
+    "approved_commit": "43f113b8713588e3569b1c917037f75d88f78c6a",
+    "proposal_hash": "b913c9ebc1fb2f1bfb0182c1078f24ec96c0f6973b09691dc22e050b1af0e6df"
   },
   "current_implementation": {
     "source_baseline_commit": "8951398b38a9610854823302ea612cb3844d52e6",
     "documentation_baseline_commit": "27c074a93120631f82f373a6b6050eb25f7e4d24",
-    "core": "6.0.0",
-    "orchestrator": "1.1.0",
-    "maintenance": "1.0.0",
-    "service": "0.2.0",
+    "core": "6.1.0",
+    "orchestrator": "1.2.0",
+    "maintenance": "1.1.0",
+    "service": "0.3.0",
     "core_sources": 33,
     "optional_sources": 2,
-    "role_profiles": 12
+    "role_profiles": 12,
+    "record_kind": "source-candidate checkpoint, not a continuous installed/runtime/publication register",
+    "repository": "1.4.0-rc.2",
+    "reusable_sources_total": 35,
+    "stable_predecessor_commit": "43f113b8713588e3569b1c917037f75d88f78c6a",
+    "installed_host_adoption": false
   },
-  "documentation_release": "1.3.2",
+  "documentation_release": "1.4.0-rc.2",
   "proposed_target": {
     "repository": "1.4.0",
     "core": "6.1.0",
@@ -64,24 +72,27 @@
     "isolated_candidate_trial": "Only after exact implementation approval within approved existing-owner scope; proof gates production/operational admission/merge/release/install/activation, not writing the bounded trial.",
     "absolute_future_zero_bug_guarantee": false
   },
-  "target_sources_changed": false,
+  "target_sources_changed": true,
   "target_installation_performed": false,
-  "new_model_training_or_provider_runs_performed": false,
+  "new_model_training_or_provider_runs_performed": true,
   "actual_task_comparisons": {
-    "status": "planned-not-executed",
+    "status": "bounded-actual-observations-recorded; full-case adoption open",
     "cases": 29,
     "executed": 0,
     "protocol": "REAL-TASKS.en.md",
     "priority_tasks": [
-      "RT01 actual current-project cold resume",
-      "RT02 actual owner reference/rejected layout comparison",
-      "RT03 ten actual panel journeys"
+      "RT01 actual source-bound cold resume observed; complete full-case gate open",
+      "RT02 actual accepted-reference/craft review observed in its named scope; full-case gate open",
+      "RT03 actual bounded panel/history/browser journeys and readonly jobs observed; full-case gate open"
     ],
     "additional_cases": [
-      "RT04 original Svitlobot failure blocked/unbound until original inputs",
-      "RT05 actual full-scope AI/data/ML/media product task selection unselected/unbound"
+      "RT04: candidate design artifacts and derived requirements exist; exact rejected-version/raw-owner-brief/reference chain remains unbound, so case not closed. Read-only audit granted no new product authority and performed no product write/API/deploy.",
+      "RT05 selected public Codex review/needs case:100issues/20blindAIreview; actual bounded analysis and four typed records observed; full AI/data/ML/media cases remain open"
     ],
-    "fixtures_replace_actual_task_proof": false
+    "fixtures_replace_actual_task_proof": false,
+    "full_cases_passed": 0,
+    "note": "Zero of29full-case gates passed. Owner accepted only shown revision6 visual foundation, not fullA26. Revision6 actual browser/service, corrected cold and proper reflow observations are bounded. Current17sources/29requirements/7sourcework records are declarations; laterhelper8 defect/fresh task/CI/admission pending.",
+    "executed_scope": "executed counts only complete full acceptance cases, not the bounded observations below"
   },
   "WORK": "deferred",
   "review": {
@@ -98,7 +109,8 @@
       "isolated trial versus production-admission/extraction approval clarified",
       "obsolete helper-catalog packaging advice aligned"
     ],
-    "independent_native_blueprint_quality_certification": false
+    "independent_native_blueprint_quality_certification": false,
+    "implementation_scope_note": "Historical proposal review remains separate. Exact-source OS retest and independent source review closed the reproduced P1 nested native-state write issue in its bounded macOS/Codex0.166 route; no new concrete P1/P2 was found in that independent source review. Full-case and operational adoption remain open."
   },
   "native_blueprint": {
     "path": "BLUEPRINT.json",
@@ -106,9 +118,9 @@
     "version_index": 2,
     "proposal_hash": "b913c9ebc1fb2f1bfb0182c1078f24ec96c0f6973b09691dc22e050b1af0e6df",
     "unapproved_structural_check": "passed",
-    "approved_check": "rejected as expected: exact implementation approval/provenance absent",
+    "approved_check": "Exactownerapprovalchecked against immutable43f113b baseline; derivedexecutionprojectionresolvesonly theformerapprovalquestion. StructuralPASSnotquality/consentcertification.",
     "quality_certified": false,
-    "target_sources_materialized": false
+    "target_sources_materialized": true
   },
   "observed_documentation_checks": {
     "requirements": 27,
@@ -204,12 +216,12 @@
       "bytes": 42907
     },
     "README.md": {
-      "sha256": "1f71f4d5e0d479af64232e6692097c078bc0de80210897e37988a200b3414b55",
-      "bytes": 6951
+      "sha256": "6359db42c5a96e67afe57457f7c9f978c1c858ef960697b4567826a2265c47f3",
+      "bytes": 8205
     },
     "README.uk.md": {
-      "sha256": "970b1a05fc6d767e06ae8a8dff2b6c71f227f78014f15cd0f9f8fa34162300eb",
-      "bytes": 11356
+      "sha256": "bda4399da6d7212a2f2c9fe6464f3f98c8ecd77f4b8f33463009b0dd2020a913",
+      "bytes": 13014
     },
     "REAL-TASKS.en.md": {
       "sha256": "132aef6d5940ecd8b3426e156e6334a5b3ce12d28a2c2b08fac563b35806b107",
@@ -242,7 +254,585 @@
     "helper-catalog.json": {
       "sha256": "593dc3c8de6d9e8b8414217f50e9f8019016e151bfbcb8242cde56b2310791ff",
       "bytes": 655956
+    },
+    "IMPLEMENTATION.en.md": {
+      "sha256": "2a17103d276e69b8ca06562f52c32f184ae8d251cb60192f230de604976f6eb5",
+      "bytes": 19262
+    },
+    "IMPLEMENTATION.uk.md": {
+      "sha256": "23d938937f09b0136808362eadd59e49c9bc3fad4424cce705ca6018f9c09e0f",
+      "bytes": 31581
+    },
+    "IMPLEMENTED-COMPONENTS.en.md": {
+      "sha256": "65fc0fedcd9e37a8b12dddce894098de044058b8f784e3dc4515b760e940a13f",
+      "bytes": 26479
+    },
+    "IMPLEMENTED-COMPONENTS.uk.md": {
+      "sha256": "ba23ebad4ed5efc77f6955c500af578811d17a4de488187b5f9e2939957c3aea",
+      "bytes": 43663
+    },
+    "REVIEW-STUDY.en.md": {
+      "sha256": "82dea89be8fa23b8205fde4cff9564bec17ee4bcca8afefe13989605eab2beb2",
+      "bytes": 8880
+    },
+    "REVIEW-STUDY.uk.md": {
+      "sha256": "c00e9b1eb7e42660508c94c833fe010e2247fbc7e14bfd9caaf995fe5015e0cc",
+      "bytes": 14021
+    },
+    "implementation-components.json": {
+      "sha256": "ebf289a8597dd64eca101dc43b05ecc84b22fa751ba02eecb4097eca461f2d1f",
+      "bytes": 49368
     }
   },
-  "evidence_boundary": "This release revises/publishes a complete plan. Future improvements, all real-task comparisons, target implementation/installation and owner acceptance remain unperformed."
+  "evidence_boundary": "Owner accepted only the shown revision6 visual foundation. Revision6 bounded runtime/browser/service evidence is distinct from later helper/data changes, fullA26/all29cases, installed updates and project adoption. Compatible priority admission requires affected-invariant closure, fresh exact-source task and CI; not yet granted here. Source declarations are not runtime. WORK deferred.",
+  "candidate_implementation": {
+    "stage": "shown visualfoundation6accepted; source8tests184 and independentM3task9passed; M2/M4/M5external admission/verification pending",
+    "context_sources": [
+      "standards/context_capsule.py",
+      "standards/context-capsule.md",
+      "apps/agent-atelier/server/context-bindings.mjs",
+      "apps/agent-atelier/server/context.mjs",
+      "apps/agent-atelier/server/projects.mjs"
+    ],
+    "scope_limits": "Declared source bindings and named current-build observations only. No complete-history/consent authority, universal quality, all29fullgates or full17capability certification.",
+    "checks_observed": {
+      "service_tests": {
+        "passed": 184,
+        "failed": 0,
+        "skipped": 0,
+        "client": 54,
+        "server": 130,
+        "revision": "finalsource8",
+        "scope": "Exact final source8 full-service run; does not close full29cases or installed/admission gates."
+      },
+      "shared_context_and_client_tests": {
+        "passed": 23,
+        "failed": 0,
+        "scope": "Earlier named-build subset; final159service checks are separately recorded."
+      },
+      "actual_cold_receiver": {
+        "sources_verified": 12,
+        "request_ids_recovered": 27,
+        "all_acceptance_ids_recovered": 29,
+        "fullstage_ids_recovered": 10,
+        "independent_AI_actor": true,
+        "human_consent_authenticated": false,
+        "source_completeness_authenticated": false
+      },
+      "actual_portable_compilation": {
+        "requirements_retained": 28,
+        "coverage": "verified-declared-bindings"
+      },
+      "actual_readonly_codex_execution": {
+        "completed": 2,
+        "useful_report_received": true,
+        "source_version_vs_runtime_separated": true,
+        "bounded_scope_only": true,
+        "scope": "Bounded repository task and source-bound cold continuation",
+        "observed_runtime_label": "0.2.0",
+        "source_build": "preceding feature build, not final recovery or later isolation repair",
+        "later_bytes_certified": false
+      },
+      "ai_record_tests": {
+        "passed": 38,
+        "failed": 0,
+        "scope": "Read-only fixed utility checks; not executed ML/media/provider service."
+      },
+      "inheritance_tests": {
+        "passed": 55,
+        "failed": 0
+      },
+      "host_profile_tests": {
+        "passed": 15,
+        "failed": 0,
+        "actual_readonly_audit": {
+          "rows": 13,
+          "planned_managed_block_changes": 1,
+          "unchanged_role_files": 12,
+          "apply_performed": false
+        }
+      },
+      "craft_fixtures": {
+        "passed": 37,
+        "scope": "Independent bounded craft fixtures, not full product acceptance."
+      },
+      "preserved_source_surface": {
+        "views": 11,
+        "ui_command_strings": 41,
+        "api_operations": 48,
+        "locales": 7,
+        "method": "Static retention; not execution of every operation."
+      },
+      "actual_browser": {
+        "focusable_controls_checked": 20,
+        "readable_requirement_rows": 28,
+        "loading_failure_retry_observed": true,
+        "current_decisions_and_deferred_observed": true,
+        "scope": "Revision6 actual operator/report/requirements/mobile/seven-locale/Escape checks observed. First40trace skipped cold-history premise; that specific assertion is excluded. Later helper7/8 data behavior not certified by unchanged visual layout.",
+        "final_direction_build": {
+          "viewports": 3,
+          "current_goal_observed": true,
+          "next_action_observed": true,
+          "source_observed": true,
+          "fresh_workspace_direction_tests_added": 2,
+          "remaining_layout_probe": "separate; not claimed complete here",
+          "universal_device_acceptance": false,
+          "scope": "Preceding direction build, not new design2 acceptance or layout proof."
+        },
+        "revision6": {
+          "readable_actual_report_and_public_links": true,
+          "next_action_dialog_opened_without_task_submission": true,
+          "all29requirements_accessible": true,
+          "two_unstaged_owner_musts_accessible": true,
+          "mobile_views_reached": 11,
+          "selected_locales": 7,
+          "Escape_retains_selection": true,
+          "readiness_craftP2_closed_by_actual_renders": true,
+          "all41commands_or48APIs_executed": false
+        }
+      },
+      "actual_candidate_restart": {
+        "observed": true,
+        "version": "0.3.0",
+        "checkpoint_clock_time": "14:40:57.620",
+        "client_build": "dist-design2-revision6",
+        "ordinary_service_replaced": false,
+        "preceding_restart": {
+          "checkpoint_clock_time": "13:04",
+          "client_build": "dist-recovery",
+          "version": "0.3.0"
+        },
+        "isolation_guard_verification": "Separate exact-source OS probe, not inferred solely from successful restart.",
+        "scope": "Actual shown revision6 build; does not certify later helper7/8 behavior or installation.",
+        "revision": "design2-revision6"
+      },
+      "actual_review_analysis": {
+        "issues": 100,
+        "search_pages": 4,
+        "query_matches": 5746,
+        "coverage": "PARTIAL",
+        "sample_window": "26h22m newest-page convenience sample",
+        "issue_states": {
+          "open": 98,
+          "closed": 2
+        },
+        "anonymized_author_groups": 98,
+        "blind_ai_review_rows": 20,
+        "semantic_exact_labelset_agreements": 12,
+        "semantic_disagreements": 8,
+        "keyword_exact_labelset_agreements": 0,
+        "micro_f1_agreement": {
+          "semantic": 0.895,
+          "keyword": 0.448
+        },
+        "human_ground_truth": false,
+        "validated_accuracy_claim": false,
+        "causal_workflow_benefit_claim": false,
+        "new_profile_attribution": false,
+        "review_report_status": "INCOMPLETE",
+        "typed_records_checked": [
+          "SourceContract",
+          "DatasetManifest",
+          "EvaluationPlan",
+          "EvaluationReport"
+        ],
+        "actual_negative_controls_blocked": [
+          "false-complete-coverage",
+          "old-plan-rebinding",
+          "wrong-project"
+        ],
+        "raw_private_inputs_unchanged": true
+      },
+      "stable_runtime_preservation": {
+        "observed": true,
+        "checkpoint_clock_time": "13:26",
+        "version": "0.2.0",
+        "source": "isolated verified predecessor43f113b8713588e3569b1c917037f75d88f78c6a",
+        "client": "preserved exact baseline bytes",
+        "existing_service_data_preserved": true,
+        "health": "healthy",
+        "bindings": 3,
+        "active_jobs": 0,
+        "installed_skill_matches": 33,
+        "installed_skill_differences": 0,
+        "reusable_sources": 35,
+        "roles": 12,
+        "host_profile_apply": false,
+        "database_migration": false,
+        "candidate_adoption": false,
+        "reason": "Changing checkout exposed candidate toolkit-version data in old-service source inspection; restore stable source isolation."
+      },
+      "python_checks": {
+        "total": 763,
+        "core": 366,
+        "app": 88,
+        "chatbot": 60,
+        "game": 135,
+        "repository": 114,
+        "scope": "Previously observed suite checks before the subsequent shared-UI-rule/design revision; final exact-source rerun pending. Utility/inheritance/host counts are subsets, not additional independent acceptance."
+      },
+      "nested_native_isolation": {
+        "initial_severity": "P1",
+        "initial_reproduction_preserved": true,
+        "status": "repaired and exact bounded macOS/Codex0.166 OS retest passed",
+        "filesystem_readbacks": 93,
+        "native_reads_retained": true,
+        "normal_admitted_writes_retained": true,
+        "checked_native_names": 9,
+        "checked_cases": [
+          "read-only route",
+          "child artifact write scope",
+          "root artifact write scope",
+          "future native metadata paths",
+          "uppercase metadata names",
+          "late alias write denial"
+        ],
+        "inventory_bounds": {
+          "entries": 200000,
+          "levels": 128,
+          "overflow_or_ambiguity": "block dispatch"
+        },
+        "pre_turn_check_atomic_against_external_writer": false,
+        "independent_source_review": "No new concrete P1/P2 within the reviewed scope; separate source review did not rerun OS probe.",
+        "actual_probe_scope": "Synthetic canaries only; no real native-state mutation, model/provider/network call or installation from the probe.",
+        "source_sha256": {
+          "apps/agent-atelier/server/permissions.mjs": "2b7467d6f46e7e13412daf70499b50777f613fc72712805e1dc443f83bbb0be7",
+          "apps/agent-atelier/server/context.mjs": "1d1911a53c7e546a7af169e7088fc401839026853645215ff50ba3b78b3bb3cd",
+          "apps/agent-atelier/server/codex.mjs": "3092def9d7587bc86b3aad1c8fe1da5298b13875532a56bdfb7c63a1ab78bb56"
+        },
+        "full_system_adoption": false
+      },
+      "RT04_readonly_availability": {
+        "candidate_design_artifacts_present": true,
+        "derived_requirements_present": true,
+        "exact_rejected_version_bound": false,
+        "raw_owner_brief_reference_chain_bound": false,
+        "case_closed": false,
+        "separate_product_work_authority_unchanged": true,
+        "product_write_api_or_deployment_performed": false,
+        "private_paths_or_data_published": false
+      },
+      "client_test_history": [
+        {
+          "revision": "design2-revision6",
+          "passed": 49,
+          "failed": 0
+        },
+        {
+          "revision": "helper7sourcefreshness",
+          "passed": 53,
+          "failed": 0,
+          "whole_service_verdict": false
+        },
+        {
+          "revision": "finalsource8",
+          "passed": 54,
+          "failed": 0,
+          "included_in_fullservice184": true
+        }
+      ],
+      "latest_helper8_checks": "Finalsource8 fullservice184/184 and independentM3bound-source task9/9 passed; M2/M4/M5 external receipts pending.",
+      "corrected_mandatory_cold": {
+        "revision": "design2-revision6",
+        "checks": 8,
+        "passed": 8,
+        "exceptions": 0,
+        "network_failures": 0,
+        "initial_status": "not_checked",
+        "initial_checked_at": null,
+        "initial_native_roots": 0,
+        "actual_UI_discovery_to_ready": true,
+        "current_source_work_retained": true,
+        "first40trace_invalid_premise_excluded": true
+      },
+      "proper_reflow_equivalent": {
+        "revision": "design2-revision6",
+        "checks": 8,
+        "passed": 8,
+        "exceptions": 0,
+        "network_failures": 0,
+        "css_viewport_width": 720,
+        "device_pixel_ratio": 2,
+        "png_pixels": [
+          1440,
+          1080
+        ],
+        "goal_and_continuation_usable": true,
+        "method": "CSSviewport/DPR equivalent, not CSSzoom",
+        "native_OS_or_browser_zoom_certified": false,
+        "WCAG_certified": false
+      },
+      "real_source_transition_replay": {
+        "checks": 5,
+        "passed": 5,
+        "source_snapshots": "Actual earlier5/current7work-record snapshots",
+        "current_owner_transition_retained": true,
+        "duplicate_old_active_task": false,
+        "prepared_service_task_duplication_case": "Separate newerP2underrepair",
+        "raw_snapshots_published": false
+      },
+      "fresh_source8_readonly_task": {
+        "observed_completed": true,
+        "checkpoint_clock_time": "15:34:36",
+        "scope": "read-only actual current task",
+        "candidate_SDK_source_snapshot_orchestrator": "1.2.0",
+        "host_installation_or_discovery_proved": false,
+        "declared_input_sources_inspected": 16,
+        "manifest_hash_inspected": true,
+        "exact_challenge_nonce_inspected": true,
+        "references_and_images_inspected": true,
+        "reported_intent_scope": {
+          "request_meanings": 27,
+          "capabilities": 17,
+          "reusable_sources": 35,
+          "roles": 12,
+          "WORK": "deferred",
+          "owner_visual_acceptance_scope_preserved": true,
+          "35installed_orfull29passed_inferred": false
+        },
+        "independent_M3_review": "closed9/9 for this exact bound-source cold continuation; not blanket capability/install acceptance",
+        "native_Python_cache_write_attempts": "blocked",
+        "successful_task_writes": false,
+        "scratch_files_created": false,
+        "output": "service-owned record only",
+        "installation_publication_or_productAPI_performed": false,
+        "actual_native_model_provider_usage_fields": "Model/provider/authsource/duration/source snapshot fields observed for this task. Usage/cost not inferred from absent fields.",
+        "model": "gpt-6.1-sol",
+        "provider": "openai",
+        "authentication_source": "verified existing ChatGPT account source",
+        "elapsed_seconds": 232.203,
+        "time_bound_seconds": 240,
+        "selected_candidate_source_snapshots": 1,
+        "candidate_snapshot_files_matched": 43,
+        "candidate_SKILL_sha256": "24e2a80c331ca1c6d1fe88ee7744fa364e1a88dc47ede20ff533b7da1f937b6c",
+        "native_turn_items": 32,
+        "native_commands": 15,
+        "native_image_views": 2,
+        "native_messages": 4,
+        "independent_review_receipt_sha256": "06136a47d586d0d0b4d04c03fcfed6a4aa62b0057c0bdca7708f6f96a3c72768",
+        "independent_review_conditions": 9,
+        "native_T09_review": "closed actual owned native turn; commands/results inspected independently, not agent prose alone"
+      },
+      "service_test_history": [
+        {
+          "revision": "published8c3a557",
+          "passed": 159,
+          "failed": 0
+        },
+        {
+          "revision": "design2-revision6",
+          "passed": 179,
+          "client": 49,
+          "failed": 0
+        }
+      ],
+      "work_record_source8_repair": {
+        "status": "fixed and exact-test verified",
+        "cases": [
+          "Prepared service-origin task correlation",
+          "Paused service-origin task correlation",
+          "Exact history copy remains unique",
+          "Current source authority survives old/new real snapshot replay"
+        ],
+        "current_source_snapshot_replay": {
+          "passed": 5,
+          "checks": 5
+        },
+        "owner_accepted_App_views_CSS_byte_unchanged_from_revision6": true,
+        "whole_case_A29_accepted": false
+      },
+      "independent_M3": {
+        "status": "pass-for-this-bound-source-cold-continuation",
+        "checks": 9,
+        "passed": 9,
+        "receipt_sha256": "06136a47d586d0d0b4d04c03fcfed6a4aa62b0057c0bdca7708f6f96a3c72768",
+        "method": "Independent source/output/native-command-results review, including actual owned complete turn T09",
+        "admission_or_installation": false,
+        "no_new_model_run_for_review": true,
+        "full29_case_adoption": false
+      }
+    },
+    "operational_adoption": false,
+    "final_release_gate": "open; candidate does not replace the verified stable installation or adopt rules into projects automatically",
+    "open_blockers": [],
+    "source_delivery": {
+      "shared_master_resources": 7,
+      "materialized_bundles": 34,
+      "materialized_copies": 238,
+      "new_generated_common_resources": 15,
+      "historical6_common_resources": 12,
+      "historical5_common_resources": 8,
+      "new_mandatory_skills": 0,
+      "new_role_profiles": 0,
+      "global_memory_index": false
+    },
+    "resolved_findings": [
+      {
+        "severity": "P1",
+        "scope": "Nested native-state write isolation",
+        "status": "closed only for exact pinned sources and actual checked macOS/Codex0.166 route",
+        "source_sha256": {
+          "apps/agent-atelier/server/permissions.mjs": "2b7467d6f46e7e13412daf70499b50777f613fc72712805e1dc443f83bbb0be7",
+          "apps/agent-atelier/server/context.mjs": "1d1911a53c7e546a7af169e7088fc401839026853645215ff50ba3b78b3bb3cd",
+          "apps/agent-atelier/server/codex.mjs": "3092def9d7587bc86b3aad1c8fe1da5298b13875532a56bdfb7c63a1ab78bb56"
+        },
+        "full_case_adoption_inferred": false
+      },
+      {
+        "severity": "P2",
+        "case": "A29subset",
+        "scope": "Prepared/paused service-task/history duplication",
+        "status": "Helper8fixed and exact54client/184fullservice cases passed",
+        "full_case_adoption_inferred": false
+      }
+    ],
+    "remaining_gates": "All17capability/29full-case gates and full operational adoption remain open. M3is closed only for the exact bound-source task. M2exactGitCI/packages,M4affected-invariant admission ledger and M5external verification receipt remain pending; scoped visual/task proof does not establish fullA26 or installation."
+  },
+  "historical_documentation_release": "1.3.2",
+  "new_model_training_or_provider_runs_scope": "True for actual existing-account native development-assistant provider tasks only; no model training, new paid API account/model purchase or production API entitlement inferred.",
+  "document_binding_scope": "Current document bytes at this checkpoint. Immutable historical audit/passport/blueprint/request/acceptance records are preserved; candidate narrative and source cards are separate overlays.",
+  "design_revision2": {
+    "status": "visual foundation6 accepted; compatible priority update preparation",
+    "published_predecessor": "8c3a557",
+    "owner_review": {
+      "verbatim": "Так, цю основу приймаю",
+      "decision": "accepted-visual-foundation",
+      "revision": 6,
+      "scope": "Shown visual foundation only; no full functional-case/installation/private-project/universal quality acceptance.",
+      "accepted": true,
+      "full_case_A26_accepted": false,
+      "all29cases_accepted": false
+    },
+    "previous_ci": {
+      "run_id": "42827961302",
+      "status": "success",
+      "revision": "8c3a557",
+      "certifies_new_source": false
+    },
+    "workflow": [
+      "Default normal-project operator canvas",
+      "Real work/results/source grouping",
+      "Selection opens initially closed inspector",
+      "Explicit full source/change technical workspace",
+      "On-demand native history with visible coverage",
+      "Only exact active runtime jobs establish running work",
+      "Human profile labels and7locales"
+    ],
+    "first_slice_observed": {
+      "sources": 16,
+      "requirements": 29,
+      "source_declared_work_records": 5,
+      "source_declared_completed": 4,
+      "source_declared_current": 1,
+      "active_runtime_jobs": 0,
+      "accepted_deliverables_inferred": false,
+      "file_inventory_is_result_count": false
+    },
+    "checkpoint_projection": {
+      "source": "apps/agent-atelier/server/projects.mjs",
+      "contract": "Exactly1requiredbyteverifiedsourcewithrolecheckpoint; additive current_checkpoint; null+gap otherwise",
+      "status": "declared",
+      "native_phase_overwritten": false,
+      "focused_cases": 7,
+      "existing_context_cases": 13,
+      "subset_passed": 20,
+      "subset_failed": 0,
+      "full_service_verdict": false
+    },
+    "new_browser_proof": "Actual revision6 bounded operator/report/requirements/mobile/locale/Escape proof plus corrected mandatorycold8/8 and properreflow8/8; later helper/data changes need exact proof.",
+    "new11view41command48APIpreservation": "Actual11mobileviews reachable; static41command/48API preservation distinct from execution of every operation.",
+    "owner_acceptance": true,
+    "operational_adoption": false,
+    "prior_owner_review": {
+      "verbatim": "Потрібне доопрацювання дизайну",
+      "scope": "Rejected prior visual foundation; no new owner acceptance.",
+      "acceptance_case": "A26",
+      "accepted": false
+    },
+    "current_source_snapshot": {
+      "bound_sources": 17,
+      "requirements": 29,
+      "declared_work_records": 7,
+      "declared_completed": 6,
+      "declared_in_progress": 1,
+      "phase_uk": "Підготовка сумісного оновлення Codex і сервісу",
+      "runtime_or_accepted_deliverables_inferred": false
+    },
+    "owner_acceptance_scope": "shown revision6 visual foundation only"
+  },
+  "shared_ui_quality_repair": {
+    "source": "standards/production-quality.md",
+    "profile": "standards/production-profiles.json",
+    "reason": "Actual owner-rejected design copied reference shell/technical subject while obscuring the operator's real task.",
+    "intended_user_checks": [
+      "Identify intended outcome, real work/result, attention and useful next action",
+      "Selection→readableproof/result→correctlyscopedaction on actualrecords",
+      "Source-backed grouping/edges/progress; inventory is not deliverables and recorded work is not runtime"
+    ],
+    "ui_profile_added_acceptance_checks": 3,
+    "ui_profile_added_critical_failures": 1,
+    "materialized_existing_core_bundles": 33,
+    "materialized_optional_orchestrator": 1,
+    "new_framework_or_role": false,
+    "instruction_presence_certifies_quality": false,
+    "source_sha256": {
+      "standards/production-quality.md": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
+      "standards/production-profiles.json": "3d01f44f9b4d41eb904e7286efcefc175b9240aa4e0e1a6206b855827cb02b9e"
+    }
+  },
+  "current_phase_uk": "Підготовка сумісного оновлення Codex і сервісу",
+  "installation_preflight": {
+    "status": "plans ready, not applied",
+    "core": {
+      "skills": 33,
+      "plan": "ready",
+      "blockers": 0,
+      "applied": false
+    },
+    "host": {
+      "audit_rows": 13,
+      "planned_managed_block_changes": 1,
+      "unchanged_role_files": 12,
+      "apply": false
+    },
+    "optional_orchestrator": {
+      "installed_version": "1.1.0",
+      "candidate_version": "1.2.0",
+      "installed_matches_exact_canonical_Git_predecessor": true,
+      "predecessor_file_count": 40,
+      "file_bytes_and_modes_compared": true,
+      "false_unknown_conflict_reason": "Missing known canonical predecessor entry, not local edits",
+      "canonical_predecessor_register": "optional-skills/UPDATE_BASELINES.json",
+      "preview": "ready after exact baseline repair",
+      "applied": false
+    },
+    "maintenance": {
+      "source_version": "1.1.0",
+      "installed": false,
+      "absence_preserved": true,
+      "new_installation_implied": false
+    },
+    "WORK": "deferred"
+  },
+  "bounded_priority_admission": {
+    "scope": "Approved compatible Codex core/host/already-installed optional orchestrator and local service priority update; no extra maintenance install, unrelated product migration or WORK",
+    "independent_judge_allows_separate_scope": true,
+    "status": "not admitted yet; source8exact184tests and independentM3task9passed, M2exactGitCI/packages,M4ledger and M5externalverification receipt pending",
+    "installation_performed": false,
+    "full17capability_or29case_waiver": false,
+    "full_program_adoption": false,
+    "pending_gate_ids": [
+      "M2",
+      "M4",
+      "M5"
+    ],
+    "M3": {
+      "status": "scoped pass",
+      "checks": 9,
+      "receipt_sha256": "06136a47d586d0d0b4d04c03fcfed6a4aa62b0057c0bdca7708f6f96a3c72768",
+      "full_case_waiver": false
+    }
+  },
+  "new_model_training_performed": false,
+  "checkpoint_scope": "Source freeze before exact Git/CI and bounded priority update admission. Later publication, CI, ledger and installation receipts are separate external observations, not retroactive changes to earlier proof."
 }

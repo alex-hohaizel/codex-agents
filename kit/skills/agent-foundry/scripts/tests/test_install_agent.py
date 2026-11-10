@@ -500,6 +500,37 @@ class PortableTests(unittest.TestCase):
         with self.assertRaisesRegex(self.api.InstallError,'every portable resource'):
             self.api.validate_manifest(manifest)
 
+    def test_six_zero_package_keeps_twelve_resources_without_claiming_six_one_adoption(self):
+        self.skills(1);self.build()
+        path=self.kit/'manifest.json';manifest=json.loads(path.read_text())
+        standard=manifest['operating_standard'];standard['release']='6.0.7'
+        standard['resources']={key:value for key,value in standard['resources'].items()
+                               if key in self.api.V6_0_OPERATING_RESOURCES}
+        self.assertEqual(len(standard['resources']),12)
+        self.assertTrue(self.api.validate_manifest(manifest))
+        path.write_text(json.dumps(manifest))
+        result=self.install()
+        self.assertEqual(result['operating_standard'],'6.0.7')
+        self.assertTrue(any('does not claim current6.1' in warning for warning in result['warnings']))
+
+    def test_new_six_one_contract_requires_all_fifteen_pins_and_rejects_unknown_future_lines(self):
+        self.skills(1);self.build()
+        manifest=json.loads((self.kit/'manifest.json').read_text())
+        standard=manifest['operating_standard']
+        self.assertEqual(standard['release'],'6.1.0')
+        self.assertEqual(len(standard['resources']),15)
+        self.assertTrue(self.api.validate_manifest(manifest))
+        original=dict(standard['resources'])
+        for omitted in ('references/ai-production.md','assets/ai-production.schema.json','scripts/ai_production.py'):
+            standard['resources']={key:value for key,value in original.items() if key!=omitted}
+            with self.subTest(omitted=omitted),self.assertRaisesRegex(self.api.InstallError,'every portable resource'):
+                self.api.validate_manifest(manifest)
+        standard['resources']=original
+        for release in ('6.2.0','7.0.0'):
+            standard['release']=release
+            with self.subTest(release=release),self.assertRaisesRegex(self.api.InstallError,'Unsupported future'):
+                self.api.validate_manifest(manifest)
+
     def test_gate_pending_changed_skillset_and_identity_cannot_export(self):
         self.skills(3);self.gate(False)
         self.build(expected=2);self.assertFalse((self.kit / "manifest.json").exists())

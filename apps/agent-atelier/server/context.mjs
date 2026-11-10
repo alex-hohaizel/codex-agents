@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { writablePaths } from "./permissions.mjs";
 import {
   array,
   digest,
@@ -82,6 +83,16 @@ export async function compileContext({
 }) {
   const objective = text(payload.objective, "objective", 3, 2e4),
     acceptance = text(payload.acceptance, "acceptance", 3, 12e3);
+  const contextGap = workspace.context_coverage?.issues?.find(
+    (row) => row.blocking !== false,
+  );
+  fail(
+    !contextGap,
+    contextGap?.code ?? "CONTEXT_INCOMPLETE",
+    contextGap?.message ?? "Declared project context is incomplete",
+    409,
+    { context_coverage: workspace.context_coverage },
+  );
   const scope = payload.scope ?? "read-only";
   const capability_scope = payload.capability_scope ?? {
     public_web_read: false,
@@ -121,6 +132,7 @@ export async function compileContext({
       "SCOPE_MISMATCH",
       "Workspace writes need explicit allowed directories",
     );
+    writablePaths(paths);
     for (const ref of paths)
       allowedRoots.push(await safeFile(project.root, ref, { directory: true }));
   } else
@@ -141,6 +153,7 @@ export async function compileContext({
     const original =
       row.verbatim ??
       row.source_text ??
+      row.source_text_uk ??
       row.text ??
       row.description ??
       row.requirement ??
@@ -156,9 +169,11 @@ export async function compileContext({
     return {
       id: String(nativeId),
       source_ref: row.source_ref,
+      source_sha256: row.source_sha256,
       verbatim: String(original),
       interpretation: String(
         row.interpretation ??
+          row.requirement_en ??
           row.text ??
           row.description ??
           row.requirement ??
@@ -197,7 +212,9 @@ export async function compileContext({
   array(assigned, "requirement_ids", 2e3);
   const selected = selectRequirements(requirements, assigned);
   const inputs = [...workspace.sources];
-  for (const ref of payload.source_paths ?? []) {
+  const sourcePaths = payload.source_paths ?? [];
+  array(sourcePaths, "source_paths", 40);
+  for (const ref of sourcePaths) {
     const source = await readSource(
       project.root,
       text(ref, "source path", 1, 4096),
@@ -229,6 +246,16 @@ export async function compileContext({
     original_sources: inputs,
     instruction_manifest: instructionManifest,
     decisions: workspace.decisions,
+    current_decisions: workspace.current_decisions ?? workspace.decisions,
+    corrections: workspace.corrections ?? [],
+    deferred_work: workspace.deferred_work ?? [],
+    context_coverage: workspace.context_coverage ?? {
+      schema_version: "atelier.context-coverage/1",
+      status: "unverified",
+      source_completeness_authenticated: false,
+      notice:
+        "Legacy workspace; independent source reconciliation is not recorded",
+    },
     identity: workspace.identity,
     readiness: workspace.readiness,
     unresolved: workspace.warnings,

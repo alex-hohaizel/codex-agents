@@ -1,27 +1,80 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  operatorUnassigned: "Senza fase",
+  operatorOverview: "Panoramica del lavoro",
+  operatorSources: "Fonti e modifiche",
+  operatorMap: "Mappa del lavoro",
+  operatorStages: "Fasi nei requisiti",
+  operatorStagesHelp:
+    "I collegamenti mostrano le associazioni dichiarate nei requisiti. Non confermano il completamento delle fasi.",
+  operatorAcceptance: "Verifiche e accettazione",
+  operatorSelectedWork: "Lavoro selezionato",
+  operatorPrepareNext: "Prepara la prossima azione",
+  operatorReadResult: "Leggi il risultato",
+  operatorFiles: "File del progetto",
+  operatorInventoryHelp:
+    "Inventario dei file disponibili. Un file da solo non è un risultato completato o accettato.",
+  operatorSourceState: "Stato attuale nella fonte",
+  operatorFullRecord: "Record completo e prove",
+  operatorNextDetails: "Ambito completo della prossima azione",
+  operatorPriorChecks: "Verifiche precedenti del pannello",
+  loadMoreHistoryItems: "Leggi altro da questa chat",
+  historyItemsRemaining:
+    "Restano altri messaggi ed eventi registrati. I risultati mostrati coprono solo le pagine lette.",
+  workLedger: "Registro del lavoro dei progetti",
+  workLedgerHelp:
+    "Apri un progetto per esaminare il risultato previsto, il lavoro documentato e il prossimo passo utile.",
+  contextReadiness: "Stato del contesto",
+  contextUnverified: "Completezza non accertata",
+  contextBindingsMatch: "I collegamenti dichiarati corrispondono",
+  contextIncomplete: "Manca contesto obbligatorio",
+  contextConflict: "Le fonti del contesto sono in conflitto",
+  contextBoundaryHelp:
+    "Questo controllo verifica le fonti dichiarate e gli ID dei requisiti. Non dimostra che il compito originale sia stato acquisito per intero.",
+  declaredBindings: "Collegamenti dichiarati",
+  verifiedSources: "Fonti verificate",
+  missingMusts: "Requisiti obbligatori mancanti",
+  currentDecisions: "Decisioni attuali",
+  deferredWork: "Lavoro rinviato",
+  requiredSource: "Fonte obbligatoria",
+  observedHash: "Hash osservato",
+  expectedHash: "Hash previsto",
+  openContext: "Esamina il contesto",
+  contextRecord: "Registro completo del contesto",
+  relatedWork: "Lavoro collegato",
   systemChecks: "Controlli di sistema",
   reviewOptionalUpdate: "Esamina questo aggiornamento della competenza",
-  optionalUpdateHelp: "Esamina la fonte facoltativa riutilizzabile esatta prima di applicare. Identità e impostazioni di invocazione esistenti vengono conservate; viene creata una copia precedente privata per il ripristino.",
+  optionalUpdateHelp:
+    "Esamina la fonte facoltativa riutilizzabile esatta prima di applicare. Identità e impostazioni di invocazione esistenti vengono conservate; viene creata una copia precedente privata per il ripristino.",
   candidateVersion: "Versione proposta",
-  optionalPreservation: "Prima di ogni modifica vengono verificati i byte e i collegamenti delle icone esistenti, il colore del marchio, la politica di invocazione e le dipendenze.",
+  optionalPreservation:
+    "Prima di ogni modifica vengono verificati i byte e i collegamenti delle icone esistenti, il colore del marchio, la politica di invocazione e le dipendenze.",
   optionalChangedFiles: "File che cambiano",
-  optionalLocalConflict: "Le modifiche locali devono essere riconciliate prima di applicare questo aggiornamento.",
+  optionalLocalConflict:
+    "Le modifiche locali devono essere riconciliate prima di applicare questo aggiornamento.",
   optionalExactPreview: "Anteprima esatta della fonte facoltativa",
-  confirmOptionalUpdate: "Ho esaminato questa esatta fonte, destinazione, modifiche e copia precedente e approvo questo aggiornamento della competenza.",
+  confirmOptionalUpdate:
+    "Ho esaminato questa esatta fonte, destinazione, modifiche e copia precedente e approvo questo aggiornamento della competenza.",
   applyOptionalUpdate: "Applica l’aggiornamento esaminato",
-  optionalSourceVerified: "I byte della fonte installata sono stati verificati. La rilevazione dell’ambiente e l’esecuzione effettiva restano controlli separati.",
-  optionalReviewReceipt: "Esamina la ricevuta effettiva della fonte facoltativa e il suo stato attuale prima di continuare.",
-  refreshHostCatalog: "Aggiorna il catalogo effettivo delle competenze dell’ambiente",
-  hostCatalogRead: "Il catalogo effettivo dell’ambiente è stato letto. Esamina fonte e stato di rilevazione; questo non certifica l’esecuzione.",
-  optionalRollbackHelp: "Verifica prima il registro per fissare la fonte attuale. Il ripristino recupera l’esatta copia precedente e rifiuta modifiche successive sconosciute.",
-  confirmOptionalRollback: "Ho esaminato la fonte attuale verificata e approvo il ripristino di questa esatta copia precedente.",
+  optionalSourceVerified:
+    "I byte della fonte installata sono stati verificati. La rilevazione dell’ambiente e l’esecuzione effettiva restano controlli separati.",
+  optionalReviewReceipt:
+    "Esamina la ricevuta effettiva della fonte facoltativa e il suo stato attuale prima di continuare.",
+  refreshHostCatalog:
+    "Aggiorna il catalogo effettivo delle competenze dell’ambiente",
+  hostCatalogRead:
+    "Il catalogo effettivo dell’ambiente è stato letto. Esamina fonte e stato di rilevazione; questo non certifica l’esecuzione.",
+  optionalRollbackHelp:
+    "Verifica prima il registro per fissare la fonte attuale. Il ripristino recupera l’esatta copia precedente e rifiuta modifiche successive sconosciute.",
+  confirmOptionalRollback:
+    "Ho esaminato la fonte attuale verificata e approvo il ripristino di questa esatta copia precedente.",
   optionalFileAdded: "Aggiunto",
   optionalFileChanged: "Modificato",
   optionalFileRemoved: "Rimosso",
   nativeAgentWorkflow: "Creazione e accettazione dell’agente",
-  nativeControllerHelp: "Gestisci il costruttore nativo di agenti tramite operazioni esaminate. L’anteprima mostra fonte ed effetto esatti; l’applicazione conserva i controlli nativi e non esegue un modello o un prodotto.",
+  nativeControllerHelp:
+    "Gestisci il costruttore nativo di agenti tramite operazioni esaminate. L’anteprima mostra fonte ed effetto esatti; l’applicazione conserva i controlli nativi e non esegue un modello o un prodotto.",
   nativeControllerAction: "Azione del costruttore",
   controllerContext: "Leggi il contesto attuale del costruttore",
   controllerCheck: "Verifica la scheda dell’agente",
@@ -30,33 +83,43 @@ const messages: Record<MessageKey, string> = {
   controllerBlueprint: "Registra una scheda preparata",
   controllerApprove: "Approva questa esatta scheda attuale",
   factorySessionPath: "Cartella della sessione del costruttore",
-  factorySessionPathHelp: "Relativa al progetto collegato. Un punto seleziona la radice del progetto. Le sessioni esistenti vengono conservate.",
+  factorySessionPathHelp:
+    "Relativa al progetto collegato. Un punto seleziona la radice del progetto. Le sessioni esistenti vengono conservate.",
   nativeProjectId: "Identificatore del nuovo costruttore",
   passportRecordPath: "File della scheda preparata",
-  passportRecordPathHelp: "Il record JSON effettivo preparato in questa sessione. L’anteprima ne fissa il contenuto prima di qualsiasi modifica nativa.",
+  passportRecordPathHelp:
+    "Il record JSON effettivo preparato in questa sessione. L’anteprima ne fissa il contenuto prima di qualsiasi modifica nativa.",
   ownerApprovalText: "La tua dichiarazione di approvazione",
-  ownerApprovalTextHelp: "Indica quale scheda e quale ambito approvi. Esamina l’esatto oggetto attuale e la conferma prima di applicare.",
+  ownerApprovalTextHelp:
+    "Indica quale scheda e quale ambito approvi. Esamina l’esatto oggetto attuale e la conferma prima di applicare.",
   exactControllerSubject: "Oggetto nativo esatto dell’azione",
-  controllerEffectsHelp: "Questa azione modifica solo lo stato nativo del costruttore esaminato. Autorizzazioni esistenti, effetti esterni e accettazione del prodotto mantengono confini distinti.",
-  confirmControllerAction: "Ho esaminato questa esatta operazione, revisione della fonte e ambito e ne confermo l’applicazione.",
+  controllerEffectsHelp:
+    "Questa azione modifica solo lo stato nativo del costruttore esaminato. Autorizzazioni esistenti, effetti esterni e accettazione del prodotto mantengono confini distinti.",
+  confirmControllerAction:
+    "Ho esaminato questa esatta operazione, revisione della fonte e ambito e ne confermo l’applicazione.",
   applyControllerPreview: "Applica l’operazione esaminata",
   reviewControllerAction: "Esamina l’operazione esatta",
-  controllerReceiptHelp: "Questa è la ricevuta del controller nativo. Non dimostra esecuzione del modello, installazione dell’agente o accettazione del prodotto. Verifica lo stato di ammissione risultante prima di proseguire.",
+  controllerReceiptHelp:
+    "Questa è la ricevuta del controller nativo. Non dimostra esecuzione del modello, installazione dell’agente o accettazione del prodotto. Verifica lo stato di ammissione risultante prima di proseguire.",
   reconcileControllerState: "Leggi lo stato nativo attuale",
-  confirmControllerReconcile: "Ho esaminato lo stato attuale. Registrare questa osservazione non certifica il successo dell’operazione originale.",
+  confirmControllerReconcile:
+    "Ho esaminato lo stato attuale. Registrare questa osservazione non certifica il successo dell’operazione originale.",
   recordReconciliation: "Registra lo stato esaminato",
   portfolioTitle: "Le tue attività, collegate",
-  portfolioDescription: "Visualizza il risultato previsto, le attività documentate e il prossimo passo utile nei tuoi progetti Codex.",
+  portfolioDescription:
+    "Visualizza il risultato previsto, le attività documentate e il prossimo passo utile nei tuoi progetti Codex.",
   discoverCodex: "Trova attività Codex",
   universalEntry: "Punto di accesso unico",
   entryQuestion: "Quale risultato ti serve?",
-  entryDescription: "Descrivi l’obiettivo. Atelier esamina il contesto del progetto e propone un percorso con competenze esistenti, un agente di progetto o un nuovo specialista.",
+  entryDescription:
+    "Descrivi l’obiettivo. Atelier esamina il contesto del progetto e propone un percorso con competenze esistenti, un agente di progetto o un nuovo specialista.",
   describeOutcome: "Descrivi il risultato",
   connectFirstProject: "Collega il primo progetto",
   documentedWork: "Attività documentate",
   needsAttention: "Richiede attenzione",
   discoverFirst: "Rendi visibili le attività già avviate",
-  discoverFirstHelp: "La ricerca legge la cronologia Codex disponibile e raggruppa le attività per progetto. Esamina un progetto, collega la cartella esatta e prepara la prossima attività.",
+  discoverFirstHelp:
+    "La ricerca legge la cronologia Codex disponibile e raggruppa le attività per progetto. Esamina un progetto, collega la cartella esatta e prepara la prossima attività.",
   historyCoverage: "Cronologia Codex",
   coverageComplete: "Pagine della cronologia lette",
   coveragePartial: "Copertura parziale",
@@ -66,27 +129,35 @@ const messages: Record<MessageKey, string> = {
   acceptedTarget: "Risultato accettato",
   declaredTarget: "Risultato dichiarato nella fonte",
   goalNotConfirmed: "Risultato non confermato",
-  goalUnknownHelp: "Esamina le fonti del progetto per stabilire il risultato previsto e la sua accettazione.",
+  goalUnknownHelp:
+    "Esamina le fonti del progetto per stabilire il risultato previsto e la sua accettazione.",
   discoveredOnly: "Trovato · sola lettura",
-  reviewProjectSources: "Esamina il contesto del progetto e individua la prossima azione utile.",
-  noObservedAttention: "Nelle fonti disponibili non sono registrate questioni specifiche da esaminare.",
+  reviewProjectSources:
+    "Esamina il contesto del progetto e individua la prossima azione utile.",
+  noObservedAttention:
+    "Nelle fonti disponibili non sono registrate questioni specifiche da esaminare.",
   portfolioMap: "Mappa di progetti e attività",
   actualRecords: "Registrazioni effettive",
   backToPortfolio: "Torna al portafoglio",
   nativeCodexProject: "Progetto trovato in Codex",
-  discoveryReadOnly: "Questa ricerca è in sola lettura. Collega la cartella esatta del progetto prima di preparare o proseguire il lavoro. Le chat esistenti richiedono un passaggio separato quando sono inattive.",
+  discoveryReadOnly:
+    "Questa ricerca è in sola lettura. Collega la cartella esatta del progetto prima di preparare o proseguire il lavoro. Le chat esistenti richiedono un passaggio separato quando sono inattive.",
   targetSource: "Fonte del risultato previsto",
-  targetProvenanceHelp: "Le dichiarazioni nelle fonti e l’accettazione registrata sono fatti distinti. Una risposta completata da sola non dimostra l’accettazione del prodotto.",
+  targetProvenanceHelp:
+    "Le dichiarazioni nelle fonti e l’accettazione registrata sono fatti distinti. Una risposta completata da sola non dimostra l’accettazione del prodotto.",
   nextActions: "Prossime azioni utili",
   fromProjectSource: "Dalla fonte del progetto",
   proposedNextAction: "Proposta · verifica prima dell’esecuzione",
   projectAgents: "Agenti di progetto",
   plannedAgent: "Pianificato · non installato",
-  noProjectAgentRecorded: "Nelle fonti disponibili non è registrato alcun agente di progetto.",
+  noProjectAgentRecorded:
+    "Nelle fonti disponibili non è registrato alcun agente di progetto.",
   projectWorkMap: "Mappa delle attività documentate",
-  nativeWorkBoundary: "Le attività sono raggruppate dalla cronologia effettiva e dalle registrazioni del progetto. Una risposta ricevuta, un risultato documentato e un prodotto accettato sono stati distinti.",
+  nativeWorkBoundary:
+    "Le attività sono raggruppate dalla cronologia effettiva e dalle registrazioni del progetto. Una risposta ricevuta, un risultato documentato e un prodotto accettato sono stati distinti.",
   noWorkReadYet: "Registrazioni delle attività non ancora disponibili",
-  noWorkReadHelp: "Trova o aggiorna le attività Codex per esaminare la cronologia disponibile. L’accesso o la cronologia mancanti restano una lacuna visibile, non attività completate.",
+  noWorkReadHelp:
+    "Trova o aggiorna le attività Codex per esaminare la cronologia disponibile. L’accesso o la cronologia mancanti restano una lacuna visibile, non attività completate.",
   showAllWork: "Mostra tutte le attività",
   answerReceived: "Risposta ricevuta",
   interruptedWork: "Interrotto",
@@ -99,7 +170,8 @@ const messages: Record<MessageKey, string> = {
   sourceRelationships: "Collegamenti documentati tra progetto e fonti",
   continueWithOrchestrator: "Prosegui tramite Atelier",
   workIntent: "Tipo di risultato",
-  intentHelp: "La modalità automatica propone un percorso dalla richiesta e dal contesto attuale. Puoi indicare un intento preciso senza scegliere nomi interni delle competenze.",
+  intentHelp:
+    "La modalità automatica propone un percorso dalla richiesta e dal contesto attuale. Puoi indicare un intento preciso senza scegliere nomi interni delle competenze.",
   routeAuto: "Lascia proporre il percorso ad Atelier",
   routeDirect: "Completa un’attività mirata",
   routeSpecialist: "Usa uno specialista esistente",
@@ -117,33 +189,43 @@ const messages: Record<MessageKey, string> = {
   targetAgent: "Un agente",
   targetSystem: "Il sistema riutilizzabile",
   targetSourcePaths: "Fonti di destinazione",
-  targetSourcePathsHelp: "Percorsi relativi al progetto selezionato, uno per riga. Esamina la destinazione esatta e i requisiti di conservazione prima di applicare modifiche.",
+  targetSourcePathsHelp:
+    "Percorsi relativi al progetto selezionato, uno per riga. Esamina la destinazione esatta e i requisiti di conservazione prima di applicare modifiche.",
   proposedRoute: "Percorso di lavoro proposto",
   responsibleExecutor: "Coordinatore responsabile",
-  routePreviewHelp: "Questa anteprima propone un percorso. Preparare il contesto e avviare un’attività effettiva restano azioni separate; risultato o accettazione non sono impliciti.",
+  routePreviewHelp:
+    "Questa anteprima propone un percorso. Preparare il contesto e avviare un’attività effettiva restano azioni separate; risultato o accettazione non sono impliciti.",
   loadMoreThreads: "Leggi altre conversazioni",
   reviewRoute: "Esamina il percorso",
   privacyStorage: "Privacy e conservazione",
-  manualRetention: "Politica manuale · nessun TTL automatico o eliminazione in background.",
+  manualRetention:
+    "Politica manuale · nessun TTL automatico o eliminazione in background.",
   policyReviewed: "Politica verificata",
   policyNotReviewed: "Politica da verificare",
-  privacyBoundary: "Queste azioni riguardano solo gli indici del servizio, i record associati, la cronologia di attività ed eventi e la cache degli input. I file nativi dei progetti e le copie dei fornitori restano esclusi.",
+  privacyBoundary:
+    "Queste azioni riguardano solo gli indici del servizio, i record associati, la cronologia di attività ed eventi e la cache degli input. I file nativi dei progetti e le copie dei fornitori restano esclusi.",
   retentionPolicy: "Periodi di conservazione",
-  retentionHelp: "Scegli 1–3650 giorni per categoria. Conserva esclude la categoria dalla pulizia per età; resta possibile selezionare esplicitamente i dati da dimenticare. Salvare la politica non elimina dati.",
+  retentionHelp:
+    "Scegli 1–3650 giorni per categoria. Conserva esclude la categoria dalla pulizia per età; resta possibile selezionare esplicitamente i dati da dimenticare. Salvare la politica non elimina dati.",
   eventRetention: "Cronologia eventi del servizio · giorni",
   historyRetention: "Cronologia progetti ed esecuzioni · giorni",
   cacheRetention: "Cache degli input fissati · giorni",
   backupRetention: "Backup del servizio · giorni",
   retainUntilSelected: "Conserva · senza limite di età",
   retentionRange: "Inserisci un intero da 1 a 3650 oppure scegli Conserva.",
-  confirmRetentionPolicy: "Ho verificato questi periodi per il solo servizio. La pulizia resta manuale.",
+  confirmRetentionPolicy:
+    "Ho verificato questi periodi per il solo servizio. La pulizia resta manuale.",
   saveRetention: "Salva la politica verificata",
-  savePolicyFirst: "Salva la politica modificata prima di creare un’anteprima di pulizia o diagnostica.",
+  savePolicyFirst:
+    "Salva la politica modificata prima di creare un’anteprima di pulizia o diagnostica.",
   manualCleanup: "Verifica e pulisci i dati del servizio",
-  cleanupHelp: "L’anteprima combina la politica salvata con la cronologia eventualmente selezionata. Verifica quantità e hash esatto prima di applicare.",
-  cleanupLimits: "I log grezzi condivisi e i backup seguono regole separate. I due backup più recenti vengono conservati. Dimenticare è una rimozione logica, non una cancellazione fisica sicura.",
+  cleanupHelp:
+    "L’anteprima combina la politica salvata con la cronologia eventualmente selezionata. Verifica quantità e hash esatto prima di applicare.",
+  cleanupLimits:
+    "I log grezzi condivisi e i backup seguono regole separate. I due backup più recenti vengono conservati. Dimenticare è una rimozione logica, non una cancellazione fisica sicura.",
   forgetServiceHistory: "Scegli la cronologia da dimenticare",
-  forgetSelectionHelp: "Seleziona indici di progetto o cronologie di esecuzioni terminate. Possono essere incluse attività, record, eventi e cache di input associati. Prima riconcilia i lavori attivi, in pausa o dall’esito incerto. I file propri del progetto e le copie dei fornitori vengono conservati.",
+  forgetSelectionHelp:
+    "Seleziona indici di progetto o cronologie di esecuzioni terminate. Possono essere incluse attività, record, eventi e cache di input associati. Prima riconcilia i lavori attivi, in pausa o dall’esito incerto. I file propri del progetto e le copie dei fornitori vengono conservati.",
   previewCleanup: "Verifica la pulizia esatta",
   associatedRecords: "Record associati",
   cleanupTasks: "Attività",
@@ -152,18 +234,22 @@ const messages: Record<MessageKey, string> = {
   redactedReceipts: "Ricevute in cui oscurare dati",
   cleanupBackups: "Backup",
   cleanupFiles: "File",
-  confirmCleanup: "Ho verificato quantità e hash esatti e approvo questa pulizia limitata al servizio.",
+  confirmCleanup:
+    "Ho verificato quantità e hash esatti e approvo questa pulizia limitata al servizio.",
   applyCleanup: "Applica la pulizia verificata",
   pendingCleanup: "La pulizia dei file registrata non è terminata",
   resumeCleanup: "Riprendi la pulizia registrata",
   diagnosticExport: "Esportazione diagnostica locale",
-  diagnosticHelp: "Verifica quantità aggregate, stato di funzionalità e versioni e impostazioni di conservazione. Sono esclusi nomi, percorsi, testi delle attività, sorgenti, risultati, ID di account e chat, credenziali e log grezzi. L’esportazione crea un JSON locale privato e richiede il download nel browser; nulla viene trasmesso all’esterno.",
+  diagnosticHelp:
+    "Verifica quantità aggregate, stato di funzionalità e versioni e impostazioni di conservazione. Sono esclusi nomi, percorsi, testi delle attività, sorgenti, risultati, ID di account e chat, credenziali e log grezzi. L’esportazione crea un JSON locale privato e richiede il download nel browser; nulla viene trasmesso all’esterno.",
   previewDiagnostic: "Verifica il contenuto diagnostico",
-  confirmDiagnostic: "Ho verificato questi precisi dati aggregati e approvo l’esportazione JSON locale.",
+  confirmDiagnostic:
+    "Ho verificato questi precisi dati aggregati e approvo l’esportazione JSON locale.",
   downloadDiagnostic: "Crea e scarica il JSON locale",
   diagnosticSaved: "Esportazione locale creata; download richiesto al browser",
   privacyReceipt: "Ricevuta privacy del servizio",
-  cleanupRecovery: "Prima riconcilia i lavori attivi o dall’esito incerto. Se l’anteprima è scaduta o gli elementi interessati sono cambiati, creane una nuova. Verifica la ricevuta di una pulizia interrotta prima di riprenderla.",
+  cleanupRecovery:
+    "Prima riconcilia i lavori attivi o dall’esito incerto. Se l’anteprima è scaduta o gli elementi interessati sono cambiati, creane una nuova. Verifica la ricevuta di una pulizia interrotta prima di riprenderla.",
   launcherRequired: "Apri Agent Atelier con il launcher per Mac",
   launcherRequiredBody:
     "Il launcher avvia questa sessione del browser. Riapri Agent Atelier.command e usa la nuova finestra del browser. Un link scaduto non può creare una sessione.",
@@ -297,6 +383,7 @@ const messages: Record<MessageKey, string> = {
   author: "Autore",
   reviewer: "Revisore",
   status: "Stato",
+  statusInSource: "Stato nella fonte",
   phase: "Fase",
   nextStep: "Passo successivo",
   lastUpdated: "Ultima osservazione",

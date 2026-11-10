@@ -8,6 +8,48 @@ import zhCN from "./locales/zh-CN";
 export const LocaleContext = createContext("uk");
 
 export const en = {
+  operatorUnassigned: "Without a stage",
+  operatorOverview: "Work overview",
+  operatorSources: "Sources & changes",
+  operatorMap: "Work map",
+  operatorStages: "Stages in requirements",
+  operatorStagesHelp:
+    "Links show membership declared in requirements. They do not confirm stage completion.",
+  operatorAcceptance: "Checks & acceptance",
+  operatorSelectedWork: "Selected work",
+  operatorPrepareNext: "Prepare the next action",
+  operatorReadResult: "Read the result",
+  operatorFiles: "Project files",
+  operatorInventoryHelp:
+    "Available file inventory. A file alone is not a completed or accepted result.",
+  operatorSourceState: "Current state in source",
+  operatorFullRecord: "Full record & evidence",
+  operatorNextDetails: "Full next-action scope",
+  operatorPriorChecks: "Earlier panel checks",
+  loadMoreHistoryItems: "Read more of this chat",
+  historyItemsRemaining:
+    "More recorded messages and events remain. Results shown here cover only the pages read.",
+  workLedger: "Project work ledger",
+  workLedgerHelp:
+    "Open a project to inspect its intended result, documented work and next useful step.",
+  contextReadiness: "Context readiness",
+  contextUnverified: "Completeness not established",
+  contextBindingsMatch: "Declared bindings match",
+  contextIncomplete: "Required context is missing",
+  contextConflict: "Context sources conflict",
+  contextBoundaryHelp:
+    "This checks declared sources and requirement IDs. It does not prove that the original task was captured in full.",
+  declaredBindings: "Declared bindings",
+  verifiedSources: "Verified sources",
+  missingMusts: "Missing must requirements",
+  currentDecisions: "Current decisions",
+  deferredWork: "Deferred work",
+  requiredSource: "Required source",
+  observedHash: "Observed hash",
+  expectedHash: "Expected hash",
+  openContext: "Review context",
+  contextRecord: "Full context record",
+  relatedWork: "Linked work",
   systemChecks: "System checks",
   reviewOptionalUpdate: "Review this skill update",
   optionalUpdateHelp:
@@ -379,6 +421,7 @@ export const en = {
   author: "Author",
   reviewer: "Reviewer",
   status: "Status",
+  statusInSource: "Status in source",
   phase: "Stage",
   nextStep: "Next step",
   lastUpdated: "Last observation",
@@ -663,6 +706,48 @@ export type MessageKey = keyof typeof en;
 export type Locale = "uk" | "en" | "de" | "it" | "es" | "fr" | "zh-CN";
 
 export const uk: Record<MessageKey, string> = {
+  operatorUnassigned: "Без етапу",
+  operatorOverview: "Огляд робіт",
+  operatorSources: "Джерела й зміни",
+  operatorMap: "Карта робіт",
+  operatorStages: "Етапи у вимогах",
+  operatorStagesHelp:
+    "Звʼязки показують склад, зазначений у вимогах. Завершення етапів цим не підтверджено.",
+  operatorAcceptance: "Перевірки та приймання",
+  operatorSelectedWork: "Обрана робота",
+  operatorPrepareNext: "Підготувати наступну дію",
+  operatorReadResult: "Читати результат",
+  operatorFiles: "Файли проєкту",
+  operatorInventoryHelp:
+    "Доступний файловий інвентар. Файл сам по собі не є завершеним або прийнятим результатом.",
+  operatorSourceState: "Поточний стан у джерелі",
+  operatorFullRecord: "Повний запис і підтвердження",
+  operatorNextDetails: "Повний зміст наступної дії",
+  operatorPriorChecks: "Попередні перевірки панелі",
+  loadMoreHistoryItems: "Прочитати продовження цього чату",
+  historyItemsRemaining:
+    "В історії залишилися повідомлення й події. Показані результати охоплюють лише прочитані сторінки.",
+  workLedger: "Реєстр робіт проєктів",
+  workLedgerHelp:
+    "Відкрийте проєкт, щоб оглянути його задуманий результат, зафіксовані роботи й наступну корисну дію.",
+  contextReadiness: "Готовність контексту",
+  contextUnverified: "Повноту не встановлено",
+  contextBindingsMatch: "Заявлені прив’язки збігаються",
+  contextIncomplete: "Бракує обов’язкового контексту",
+  contextConflict: "Джерела контексту суперечать",
+  contextBoundaryHelp:
+    "Перевірено заявлені джерела й ID вимог. Це не доводить, що первинну задачу збережено повністю.",
+  declaredBindings: "Заявлені прив’язки",
+  verifiedSources: "Звірені джерела",
+  missingMusts: "Відсутні обов’язкові вимоги",
+  currentDecisions: "Чинні рішення",
+  deferredWork: "Відкладені роботи",
+  requiredSource: "Обов’язкове джерело",
+  observedHash: "Спостережений хеш",
+  expectedHash: "Очікуваний хеш",
+  openContext: "Переглянути контекст",
+  contextRecord: "Повний запис контексту",
+  relatedWork: "Пов’язані роботи",
   systemChecks: "Системні перевірки",
   reviewOptionalUpdate: "Перевірити оновлення навички",
   optionalUpdateHelp:
@@ -1034,6 +1119,7 @@ export const uk: Record<MessageKey, string> = {
   author: "Автор",
   reviewer: "Рецензент",
   status: "Стан",
+  statusInSource: "Стан у джерелі",
   phase: "Етап",
   nextStep: "Наступний крок",
   lastUpdated: "Останнє спостереження",

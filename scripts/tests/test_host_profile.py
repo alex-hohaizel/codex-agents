@@ -1,6 +1,7 @@
 import importlib.util
 import json
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
@@ -25,6 +26,112 @@ class HostProfileTests(unittest.TestCase):
 
     def make_plan(self):
         H.save(self.plan, H.audit(ROOT, self.codex, self.standard))
+
+    def copy_repo(self):
+        repo = self.folder / 'repo'
+        shutil.copytree(ROOT / 'host-profiles', repo / 'host-profiles')
+        shutil.copytree(ROOT / 'agent-profiles', repo / 'agent-profiles')
+        return repo
+
+    def old_profile(self):
+        relative, expected = H.PREVIOUS_PROFILE_TEMPLATES[0]
+        raw = H.read(ROOT / relative)
+        self.assertEqual(H.sha(raw), expected)
+        return raw.replace('{{STANDARD_ROOT}}', str(self.standard)).strip()
+
+    def test_exact_previous_profile_upgrades_preserving_outside_bytes_and_rollback(self):
+        before = 'Owner prefix.\r\n\r\n' + self.old_profile() + '\r\n\r\nOwner suffix.\r\n'
+        self.instructions.write_bytes(before.encode('utf-8'))
+        self.make_plan()
+        plan = H.load(self.plan)
+        self.assertEqual(len(plan['changes'][0]['compatibility_sources']), 1)
+        H.apply(self.plan, self.journal)
+        installed = H.read(self.instructions)
+        self.assertTrue(installed.startswith('Owner prefix.\r\n\r\n'))
+        self.assertTrue(installed.endswith('\r\n\r\nOwner suffix.\r\n'))
+        self.assertIn('production profile 6.1.0', installed)
+        self.assertNotIn('production profile 6.0.0', installed)
+        H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(self.instructions.read_bytes(), before.encode('utf-8'))
+
+    def test_unknown_change_inside_managed_block_is_not_overwritten(self):
+        customized = self.old_profile().replace(H.END, 'Keep this owner policy.\n' + H.END)
+        before = 'Before\n' + customized + '\nAfter\n'
+        self.instructions.write_text(before)
+        with self.assertRaisesRegex(ValueError, 'unknown customized managed profile; reconcile without overwrite'):
+            self.make_plan()
+        self.assertEqual(H.read(self.instructions), before)
+        self.assertFalse(self.plan.exists())
+        self.assertFalse((self.codex / 'agents').exists())
+
+    def test_current_exact_block_remains_idempotent(self):
+        self.make_plan()
+        H.apply(self.plan, self.journal)
+        before = self.instructions.read_bytes()
+        plan = H.audit(ROOT, self.codex, self.standard)
+        self.assertEqual(plan['changes'][0]['before_sha256'], plan['changes'][0]['after_sha256'])
+        self.assertEqual(plan['changes'][0]['desired'].encode('utf-8'), before)
+
+    def test_tampered_trusted_predecessor_is_rejected_before_audit(self):
+        repo = self.copy_repo()
+        relative, _ = H.PREVIOUS_PROFILE_TEMPLATES[0]
+        history = repo / relative
+        history.write_text(H.read(history) + 'Unreviewed source.\n')
+        before = self.old_profile() + '\n'
+        self.instructions.write_text(before)
+        with self.assertRaisesRegex(ValueError, 'trusted prior profile source drift'):
+            H.audit(repo, self.codex, self.standard)
+        self.assertEqual(H.read(self.instructions), before)
+
+    def test_predecessor_source_changed_after_audit_blocks_apply(self):
+        repo = self.copy_repo()
+        H.save(self.plan, H.audit(repo, self.codex, self.standard))
+        history = repo / H.PREVIOUS_PROFILE_TEMPLATES[0][0]
+        history.write_text(H.read(history) + 'Later change.\n')
+        with self.assertRaisesRegex(ValueError, 'prior profile source changed since audit'):
+            H.apply(self.plan, self.journal)
+        self.assertEqual(H.read(self.instructions), 'Existing owner instructions.\n')
+        self.assertFalse(self.journal.exists())
+
+    def test_linked_predecessor_is_not_a_trusted_regular_source(self):
+        repo = self.copy_repo()
+        relative, _ = H.PREVIOUS_PROFILE_TEMPLATES[0]
+        history = repo / relative
+        history.unlink()
+        history.symlink_to(ROOT / relative)
+        with self.assertRaisesRegex(ValueError, 'symlink path rejected'):
+            H.audit(repo, self.codex, self.standard)
+        self.assertEqual(H.read(self.instructions), 'Existing owner instructions.\n')
+
+    def test_later_inside_block_change_blocks_rollback_without_overwrite(self):
+        self.make_plan()
+        H.apply(self.plan, self.journal)
+        later = H.read(self.instructions).replace(H.END, 'New owner rule.\n' + H.END)
+        self.instructions.write_text(later)
+        with self.assertRaisesRegex(ValueError, 'preserve later work'):
+            H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(H.read(self.instructions), later)
+
+    def test_legacy_plan_and_journal_without_compatibility_metadata_stay_supported(self):
+        plan = H.audit(ROOT, self.codex, self.standard)
+        plan['changes'][0].pop('compatibility_sources')
+        H.save(self.plan, plan)
+        H.apply(self.plan, self.journal)
+        self.assertNotIn('compatibility_sources', H.load(self.journal)['changes'][0])
+        self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
+        H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(H.read(self.instructions), 'Existing owner instructions.\n')
+
+    def test_verify_and_rollback_use_actual_journal_without_repository_history(self):
+        repo = self.copy_repo()
+        before = self.old_profile() + '\n'
+        self.instructions.write_text(before)
+        H.save(self.plan, H.audit(repo, self.codex, self.standard))
+        H.apply(self.plan, self.journal)
+        (repo / H.PREVIOUS_PROFILE_TEMPLATES[0][0]).unlink()
+        self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
+        H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(H.read(self.instructions), before)
 
     def test_apply_preserves_unmanaged_instructions_and_exact_rollback(self):
         self.make_plan()

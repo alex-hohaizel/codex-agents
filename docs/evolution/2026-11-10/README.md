@@ -2,23 +2,27 @@
 
 [Українська версія](README.uk.md)
 
-**Revised passport0.2, 10 November 2026.** Active implementation remains core6.0.0 / Orchestrator1.1.0 / Agent Atelier0.2.0. Repository1.3.2 revises documentation only. [STATUS.json](STATUS.json) binds the current proposal and pending implementation approval; [revision history](REVISIONS.en.md) preserves0.1.
+**Approved passport0.2, implementation checkpoint, 10 November2026.** Prepared source candidate: repository1.4.0-rc.2 / core6.1.0 / Orchestrator1.2.0 / maintenance1.1.0 / Agent Atelier0.3.0. This is not final1.4.0, host installation or full acceptance. The earlier core6.0.0 / Orchestrator1.1.0 / service0.2.0 catalogues are historical baseline. [STATUS.json](STATUS.json) and the [implementation record](IMPLEMENTATION.en.md) distinguish current source and observed evidence; [revision history](REVISIONS.en.md) preserves0.1.
 
-The recommendation is a compatible extension of the same35 owned sources and12 role profiles. Seven AI/data competence areas are conditional internal profiles with existing owners; no mandatory additional skill, role, pack or framework. Priority is context continuity, accepted professional design and a working source-backed panel. All17 original capabilities remain. Every claimed improvement needs actual-task evidence; any confirmed degradation of any existing working behavior rejects the candidate without compensation. Target core6.1.0 / Orchestrator1.2.0 / service0.3.0 / repository1.4.0 remains unimplemented.
+The candidate compatibly extends the same35 owned sources and12 role profiles. Seven AI/data areas are conditional profiles with existing owners; no mandatory additional skill, role, pack or framework. Priority is context continuity, accepted professional design and a working source-backed panel. All17 original capabilities remain in scope. Any confirmed degradation of existing working behavior rejects the candidate without compensation. Source materialization, bounded cold/UI checks and actual review analysis are documented; all full acceptance cases and final1.4.0 adoption remain open. WORK remains deferred.
+
+After rejecting8c3a557, the owner accepted the shown revision6 visual foundation: “Так, цю основу приймаю”. This scope is visual only: all29 full cases and adoption remain open. Actual operator/report/requirements/mobile/locale observations, corrected cold discovery and a proper reflow-equivalent check are bounded to revision6. The final source task has independent9/9 bounded-source review; exact Git/CI and admission of the compatible priority update remain separate. The shared UI rule learned from this actual failure does not guarantee future quality.
 
 ## Read in this order
 
 | Your question | Read |
 | --- | --- |
+| What is implemented in this candidate, and what has actually been checked? | [Implementation checkpoint](IMPLEMENTATION.en.md), [human component handbook](IMPLEMENTED-COMPONENTS.en.md) and [candidate source cards](implementation-components.json) |
+| What did the real public-review task find? | [Sanitized study and useful product needs](REVIEW-STUDY.en.md) |
 | What did the audit actually find? | [Findings and limits](AUDIT.en.md) |
 | What will change, why, where and with whose authority? | [Complete passport 0.2](PASSPORT.en.md) |
 | Is every item of the request covered? | [Request matrix](MATRIX.en.md) and [machine register](REQUESTS.json) |
 | How will each capability work? | [Seven operational recipes and cross-cutting rules](CAPABILITIES.en.md) |
-| What exists today in each skill, role and service component? | [Current component handbook](CURRENT-SYSTEM.en.md) and [source cards](current-components.json) |
+| What was present in the audited baseline? | [Historical component handbook](CURRENT-SYSTEM.en.md) and [baseline source cards](current-components.json) |
 | What do all the helper scripts actually do? | [Helper reference](HELPERS.en.md) and [complete index](helper-catalog.json) |
 | How can we tell it works? | [29 acceptance cases](ACCEPTANCE.en.md) and [machine register](ACCEPTANCE.json) |
 | What proves practical improvement without loss? | [Actual-task protocol and strict adoption](REAL-TASKS.en.md) |
-| What is the machine-checkable construction plan? | [Native skill.blueprint/2 proposal](BLUEPRINT.json), revision index2 corresponding to passport0.2; approval is empty |
+| What is the machine-checkable construction plan? | [Historical native skill.blueprint/2 proposal](BLUEPRINT.json), revision index2 for passport0.2; its empty approval predates the exact later implementation authorization recorded in the implementation checkpoint |
 | What informed technology choices? | [Dated primary sources](SOURCES.json) |
 | How do I use the current system? | [Current full guide](../../en/GUIDE.md), [installation entry](../../../START_HERE.md) |
 
@@ -73,6 +77,6 @@ The evidence standard is concrete. A model name, installed package, valid JSON o
 
 ## Document scope
 
-English is the default; every handbook document in this directory has a full Ukrainian counterpart. The current installation guide remains complete in all seven advertised languages. This proposal's detailed handbook is offered in English and Ukrainian; it does not advertise five nonexistent handbook translations. Source names, IDs and commands stay unchanged. Before the implemented release, every changed guide workflow must be translated equivalently.
+English is the default; narrative handbook documents have Ukrainian counterparts. The full installation guide is available in all seven advertised languages, including equivalent candidate workflow changes. Detailed evolution documentation is EN/UK; five additional handbook translations are not advertised. Source names, IDs and commands stay unchanged. Semantic self-review and structural parity are not independent native-human certification or runtime proof.
 
 The source baseline, current findings, proposed architecture, future acceptance plan and later implementation evidence are different records. No private product data, raw local inventory, credentials or account-specific packages are part of this handbook. The original request remains the authority; the machine registers make its coverage inspectable rather than replacing it.

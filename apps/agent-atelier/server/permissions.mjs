@@ -1,10 +1,161 @@
 import { dirname, relative, resolve } from "node:path";
 import { homedir } from "node:os";
+import { lstat, readdir, realpath } from "node:fs/promises";
 import { runtimeEnvironment } from "./environment.mjs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { fail, parseStrictJson, ServiceError } from "./utils.mjs";
+import {
+  digest,
+  fail,
+  isWithin,
+  parseStrictJson,
+  safeFile,
+  ServiceError,
+  text,
+} from "./utils.mjs";
 const run = promisify(execFile);
+
+export const NATIVE_AUTHORITY_NAMES = Object.freeze([
+  ".git",
+  ".agents",
+  ".codex",
+  ".agent-foundry",
+  ".appatelier",
+  ".chatbotatelier",
+  ".chatbot-atelier",
+  ".gameatelier",
+  ".atelier",
+]);
+const nativeNames = new Set(NATIVE_AUTHORITY_NAMES);
+const globCharacters = /[\\*?\[\]{}]/;
+const escapeLiteral = (path) =>
+  path.replace(/[\\*?\[\]{}]/g, (character) => "\\" + character);
+const nativePattern = (name) =>
+  name.replace(
+    /[a-z]/g,
+    (character) => `[${character}${character.toUpperCase()}]`,
+  );
+
+export function writablePaths(paths) {
+  return paths.map((value) => {
+    const path = text(value, "writable relative path", 1, 4096);
+    const parts = path.split("/").filter((part) => part !== "" && part !== ".");
+    fail(
+      !path.startsWith("/") && !parts.includes("..") && !path.includes("\0"),
+      "OUTSIDE_ROOT",
+      "Writable paths must be relative to the selected project",
+    );
+    fail(
+      !parts.some((part) => nativeNames.has(part.toLowerCase())),
+      "PRIVATE_PATH",
+      "Native authority directories are read-only; choose an artifact directory",
+      409,
+    );
+    fail(
+      !globCharacters.test(path),
+      "CAPABILITY_UNVERIFIED",
+      "The installed Codex parser cannot represent this literal writable path safely; choose a directory without glob metacharacters",
+      409,
+    );
+    return parts.join("/") || ".";
+  });
+}
+
+// Inventory supplies exact read exceptions to recursive deny rules. Never follow
+// links or silently truncate: an omitted native root would lose its normal read.
+export async function nativeAuthoritySnapshot(
+  projectRoot,
+  allowedPaths,
+  { maxEntries = 200000, maxDepth = 128 } = {},
+) {
+  const root = await realpath(projectRoot);
+  fail(
+    root === resolve(projectRoot),
+    "OUTSIDE_ROOT",
+    "Use the canonical project root",
+    409,
+  );
+  const paths = [...new Set(writablePaths(allowedPaths))].sort();
+  const roots = [];
+  for (const path of paths) {
+    const target = await safeFile(root, path, { directory: true });
+    const stat = await lstat(target);
+    roots.push({ path, device: String(stat.dev), inode: String(stat.ino) });
+  }
+  const pending = roots.map(({ path }) => ({
+    path: resolve(root, path),
+    depth: 0,
+  }));
+  const visited = new Set(),
+    protectedPaths = [];
+  let entriesSeen = 0;
+  while (pending.length) {
+    const current = pending.pop();
+    if (visited.has(current.path)) continue;
+    visited.add(current.path);
+    fail(
+      current.depth <= maxDepth,
+      "CAPABILITY_UNVERIFIED",
+      "Native authority inventory exceeds the supported depth; choose a narrower write directory",
+      409,
+    );
+    const stat = await lstat(current.path);
+    fail(
+      !stat.isSymbolicLink() &&
+        stat.isDirectory() &&
+        (await realpath(current.path)) === current.path &&
+        isWithin(root, current.path),
+      "OUTSIDE_ROOT",
+      "Native authority inventory changed or crossed a symlink",
+      409,
+    );
+    const entries = await readdir(current.path, { withFileTypes: true });
+    entriesSeen += entries.length;
+    fail(
+      entriesSeen <= maxEntries,
+      "CAPABILITY_UNVERIFIED",
+      "Native authority inventory exceeds the supported size; choose a narrower write directory",
+      409,
+    );
+    for (const entry of entries) {
+      const target = resolve(current.path, entry.name);
+      if (nativeNames.has(entry.name.toLowerCase())) {
+        const native = await lstat(target);
+        fail(
+          !native.isSymbolicLink() && (native.isDirectory() || native.isFile()),
+          "CAPABILITY_UNVERIFIED",
+          "Native authority paths must be regular files or directories, not links",
+          409,
+        );
+        const path = relative(root, target).replaceAll("\\", "/");
+        fail(
+          !globCharacters.test(path),
+          "CAPABILITY_UNVERIFIED",
+          "A native authority read path contains unsupported literal glob metacharacters; choose a narrower write directory",
+          409,
+        );
+        protectedPaths.push({
+          path,
+          kind: native.isDirectory() ? "directory" : "file",
+          device: String(native.dev),
+          inode: String(native.ino),
+        });
+      }
+      if (entry.isDirectory())
+        pending.push({ path: target, depth: current.depth + 1 });
+    }
+  }
+  protectedPaths.sort((a, b) =>
+    a.path < b.path ? -1 : a.path > b.path ? 1 : 0,
+  );
+  const snapshot = {
+    schema_version: "atelier.native-authority-scope/1",
+    root,
+    roots,
+    protected_paths: protectedPaths,
+  };
+  return { ...snapshot, sha256: digest(snapshot) };
+}
 
 export function localProfile(
   scope = "read-only",
@@ -12,25 +163,26 @@ export function localProfile(
   readRoots = [],
   projectRoot = null,
   denyRoots = [],
+  nativeAuthority = null,
 ) {
   const workspace = { ".": "read" };
+  const writes = scope === "workspace-write" ? writablePaths(allowedPaths) : [];
   if (scope === "workspace-write")
-    for (const path of allowedPaths)
+    for (const path of writes)
       workspace[
         path === "." || path === "" ? "." : path.replaceAll("\\", "/")
       ] = "write";
-  for (const path of [
-    ".git",
-    ".agents",
-    ".codex",
-    ".agent-foundry",
-    ".appatelier",
-    ".chatbotatelier",
-    ".chatbot-atelier",
-    ".gameatelier",
-    ".atelier",
-  ])
-    workspace[path] = "read";
+  for (const path of NATIVE_AUTHORITY_NAMES) workspace[path] = "read";
+  if (nativeAuthority) {
+    fail(
+      nativeAuthority.root === resolve(projectRoot),
+      "SCOPE_MISMATCH",
+      "Native authority inventory belongs to another project",
+      409,
+    );
+    for (const { path } of nativeAuthority.protected_paths)
+      workspace[path] = "read";
+  }
   workspace[".aws"] = "deny";
   // Global basename denies preserve the same sensitive-file boundary without
   // interpolating literal project paths into globs (Codex 0.166 treats '[' as
@@ -61,11 +213,27 @@ export function localProfile(
   const extraReads = Object.fromEntries(
     readRoots.map((path) => [path, "read"]),
   );
-  const escapedLiteral = (path) =>
-    path.replace(/[\\*?\[\]{}]/g, (character) => "\\" + character);
   const extraDenies = Object.fromEntries(
-    denyRoots.map((path) => [escapedLiteral(path), "deny"]),
+    denyRoots.map((path) => [escapeLiteral(path), "deny"]),
   );
+  const nativeDenies = {};
+  if (writes.length) {
+    fail(
+      projectRoot,
+      "CAPABILITY_UNVERIFIED",
+      "Workspace writes need an exact selected project root",
+      409,
+    );
+    // Absolute escaped deny globs avoid Codex0.166's broken expansion of scoped
+    // globs when the selected root contains '['. Exact relative reads above
+    // preserve existing native sources; unknown/future metadata paths stay deny.
+    for (const path of writes) {
+      const target = resolve(projectRoot, path);
+      for (const name of NATIVE_AUTHORITY_NAMES)
+        nativeDenies[`${escapeLiteral(target)}/**/${nativePattern(name)}`] =
+          "deny";
+    }
+  }
   return {
     description: "Explicit local task roots; no ambient external tools",
     ...(projectRoot ? { workspace_roots: { [projectRoot]: true } } : {}),
@@ -82,6 +250,7 @@ export function localProfile(
       [dirname(process.execPath)]: "read",
       ...extraReads,
       ...extraDenies,
+      ...nativeDenies,
       ...secretDenies,
     },
     network: { enabled: false },

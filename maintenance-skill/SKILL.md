@@ -3,7 +3,7 @@ name: codex-agents-maintenance
 description: Maintain alex-hohaizel/codex-agents whenever creating, changing, updating, releasing, packaging or migrating the owner's agent system, constructors, skills, requirements or Work/Codex kits. Apply its documentation, translation, migration, visual preservation and verification contract alongside the requested change. Use also to recover incomplete publication.
 ---
 
-# Maintain the agent-system repository
+# Maintain the agent-system repository 1.1.0
 
 Treat https://github.com/alex-hohaizel/codex-agents as the owner's designated release and documentation home. This instruction persists across subsequent skill-management tasks. The owner has authorized ordinary relevant maintenance and publication there; preserve repository visibility and do not add paid services or deploy products without applicable authorization.
 
@@ -19,3 +19,7 @@ Treat https://github.com/alex-hohaizel/codex-agents as the owner's designated re
 Initial baseline: 33 reusable skills at 5.0.0; this optional maintenance skill is separate from that count. Initial repository documentation revision: 1.0.0. Discover future versions from the repository rather than assuming these numbers remain current.
 
 Read [publication-checklist.md](references/publication-checklist.md) when preparing a release.
+
+## Compatible improvement and actual-task evidence
+
+For an AI/data, context, design or panel update, restore the exact approved scope and use the existing sufficient owner and methods first. Conditional profiles do not expand the installed inventory, external permissions or native state formats. Before adoption compare actual baseline and candidate on a relevant authorized real task, retaining every accepted working function, quality, identity, setting, permission and deferred obligation. Reject any demonstrated regression; missing required evidence stays open and cannot be averaged away. A typed record or different reviewer name is not execution, human consent or independent review. Keep source, package, installation, discovery, runtime and owner acceptance separate. Preserve old generated-agent 5.x/6.0 contracts until explicit compatible adoption; a 6.1 package must carry its full self-contained operating closure.

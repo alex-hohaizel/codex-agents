@@ -34,7 +34,7 @@ def strict_json_loads(raw, **kwargs):
     return json.loads(raw, **kwargs)
 
 SCHEMA = "agent-operating-standard/1"
-RELEASE = "6.0.0"
+RELEASE = "6.1.0"
 RESOURCES = (
     "references/adaptive-work.md",
     "references/research-and-synthesis.md",
@@ -48,6 +48,9 @@ RESOURCES = (
     "references/context-capsule.md",
     "assets/production-profiles.json",
     "scripts/context_capsule.py",
+    "references/ai-production.md",
+    "assets/ai-production.schema.json",
+    "scripts/ai_production.py",
 )
 ENTRY_LINKS = tuple(p for p in RESOURCES if p.startswith("references/"))
 VISUAL_LOCK = "assets/visual-identity.lock.json"

@@ -51,6 +51,11 @@ import {
 import { demoBootstrap, demoWorkspace } from "./demo";
 import { profileDefinitions, profileLabel, projectProfile } from "./profiles";
 import {
+  recoveredWorkspaceError,
+  workspaceReadState,
+  workspaceDirection,
+} from "./workbench";
+import {
   Button,
   CodeViewer,
   Empty,
@@ -140,6 +145,11 @@ export default function App() {
   const [bindingRoot, setBindingRoot] = useState("");
   const [loading, setLoading] = useState(true);
   const [workspaceLoading, setWorkspaceLoading] = useState(false);
+  const [workspaceReadAttempt, setWorkspaceReadAttempt] = useState(0);
+  const workspaceReadError = useRef<{
+    projectId: string;
+    error: ApiError;
+  } | null>(null);
   const [connectionError, setConnectionError] = useState<ApiError | null>(null);
   const [actionError, setActionError] = useState<ApiError | null>(null);
   const [busy, setBusy] = useState("");
@@ -148,7 +158,9 @@ export default function App() {
   const [taskPreset, setTaskPreset] = useState<Data | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
-  const [inspectorOpen, setInspectorOpen] = useState(window.innerWidth >= 1170);
+  const navigationRef = useRef<HTMLElement | null>(null);
+  const inspectorRef = useRef<HTMLElement | null>(null);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   const [inspectorTab, setInspectorTab] = useState<
     "details" | "provenance" | "recovery"
   >("details");
@@ -203,12 +215,21 @@ export default function App() {
     ? (projects.find((project) => project.root === inspectedProject.root) ??
       null)
     : selected;
-  const inspectorNextActions = inspectedProject
-    ? (inspectedProject.next_actions ??
-      (inspectedProject.root === selected?.root
-        ? nativeDetail?.next_actions
-        : []))
-    : nativeDetail?.next_actions;
+  const inspectorDirection =
+    workspace?.project?.id === inspectorProject?.id
+      ? workspaceDirection(workspace, inspectorProject?.id)
+      : null;
+  const inspectorGoal = inspectorDirection
+    ? inspectorDirection.goal
+    : nativeDetail?.goal;
+  const inspectorNextActions =
+    inspectorDirection?.next ??
+    (inspectedProject
+      ? (inspectedProject.next_actions ??
+        (inspectedProject.root === selected?.root
+          ? nativeDetail?.next_actions
+          : []))
+      : nativeDetail?.next_actions);
 
   const refresh = useCallback(
     async (quiet = false) => {
@@ -276,12 +297,19 @@ export default function App() {
       cancelled = true;
     };
   }, [nativeIdentity]);
-  async function loadMoreNativeHistory() {
+  async function loadMoreNativeHistory(itemCursor?: Data) {
     const offset = nativeDetail?.coverage?.next_thread_offset;
     if (
       !nativeDiscovery ||
       !nativeDetail ||
-      !Number.isInteger(offset) ||
+      (!itemCursor && !Number.isInteger(offset)) ||
+      (itemCursor &&
+        !nativeDetail.coverage?.item_cursors?.some(
+          (item: Data) =>
+            item.thread_id === itemCursor.thread_id &&
+            typeof item.next_cursor === "string" &&
+            item.next_cursor === itemCursor.next_cursor,
+        )) ||
       nativeMoreRef.current
     )
       return;
@@ -291,7 +319,12 @@ export default function App() {
     setNativeHistoryError("");
     try {
       const page = await api.portfolioProject(nativeDiscovery.id, {
-        thread_offset: offset,
+        ...(itemCursor
+          ? {
+              item_thread_id: itemCursor.thread_id,
+              item_cursor: itemCursor.next_cursor,
+            }
+          : { thread_offset: offset }),
         snapshot_checked_at: nativeDetail.coverage.snapshot_checked_at,
       });
       if (nativeIdentityRef.current === identity) {
@@ -347,24 +380,40 @@ export default function App() {
   useEffect(() => {
     if (!selected) {
       setWorkspace(null);
+      setWorkspaceLoading(false);
       return;
     }
     let cancelled = false;
     if (demo) {
       setWorkspace(demoWorkspace(selected.id));
+      setWorkspaceLoading(false);
       return;
     }
     setWorkspaceLoading(true);
+    setWorkspace(null);
     api
       .workspace(selected.id)
       .then((data) => {
         if (!cancelled) {
           setWorkspace(data);
+          const recoveredFailure = workspaceReadError.current;
+          setActionError((current) =>
+            recoveredWorkspaceError(current, recoveredFailure, data.project.id),
+          );
+          if (recoveredFailure?.projectId === data.project.id)
+            workspaceReadError.current = null;
           setInspection(null);
         }
       })
       .catch((error) => {
-        if (!cancelled) setActionError(asError(error));
+        if (!cancelled) {
+          const readError = asError(error);
+          workspaceReadError.current = {
+            projectId: selected.id,
+            error: readError,
+          };
+          setActionError(readError);
+        }
       })
       .finally(() => {
         if (!cancelled) setWorkspaceLoading(false);
@@ -372,7 +421,7 @@ export default function App() {
     return () => {
       cancelled = true;
     };
-  }, [projectId, demo, selected?.revision]);
+  }, [projectId, demo, bindingProject?.revision, workspaceReadAttempt]);
   useEffect(() => {
     if (demo) return;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -407,11 +456,105 @@ export default function App() {
     const resize = () => {
       const current = window.innerWidth;
       if (previous >= 1170 && current < 1170) setInspectorOpen(false);
+      if (current > 760) setMobileNav(false);
       previous = current;
     };
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
   }, []);
+  useEffect(() => {
+    if (!mobileNav) return;
+    const previous =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    const rail = navigationRef.current;
+    const focusable = () =>
+      Array.from(
+        rail?.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), a[href], select:not(:disabled), input:not(:disabled), [tabindex="0"]',
+        ) ?? [],
+      ).filter((element) => element.getClientRects().length > 0);
+    const frame = requestAnimationFrame(() => focusable()[0]?.focus());
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobileNav(false);
+      } else if (event.key === "Tab") {
+        const items = focusable();
+        const first = items[0],
+          last = items.at(-1);
+        if (
+          event.shiftKey &&
+          (document.activeElement === first ||
+            !rail?.contains(document.activeElement))
+        ) {
+          event.preventDefault();
+          last?.focus();
+        } else if (
+          !event.shiftKey &&
+          (document.activeElement === last ||
+            !rail?.contains(document.activeElement))
+        ) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    window.addEventListener("keydown", keydown);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("keydown", keydown);
+      if (previous?.isConnected && previous.getClientRects().length)
+        previous.focus();
+    };
+  }, [mobileNav]);
+  useEffect(() => {
+    if (!inspectorOpen || window.innerWidth >= 1170 || expanded) return;
+    const previous =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    const panel = inspectorRef.current;
+    const focusable = () =>
+      Array.from(
+        panel?.querySelectorAll<HTMLElement>(
+          'button:not(:disabled),a[href],select:not(:disabled),input:not(:disabled),[tabindex="0"]',
+        ) ?? [],
+      ).filter((item) => item.getClientRects().length);
+    const frame = requestAnimationFrame(() => focusable()[0]?.focus());
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setInspectorOpen(false);
+      }
+      if (event.key !== "Tab") return;
+      const items = focusable(),
+        first = items[0],
+        last = items.at(-1);
+      if (
+        event.shiftKey &&
+        (document.activeElement === first ||
+          !panel?.contains(document.activeElement))
+      ) {
+        event.preventDefault();
+        last?.focus();
+      } else if (
+        !event.shiftKey &&
+        (document.activeElement === last ||
+          !panel?.contains(document.activeElement))
+      ) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("keydown", onKey);
+      if (previous?.isConnected) previous.focus();
+    };
+  }, [inspectorOpen, expanded]);
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = `${contextProject?.name ? `${contextProject.name} · ` : ""}Agent Atelier`;
@@ -420,6 +563,7 @@ export default function App() {
     const listener = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
+        setMobileNav(false);
         setSearchOpen(true);
       }
     };
@@ -534,12 +678,28 @@ export default function App() {
     }
   }
 
+  const workspaceState = workspaceReadState(
+    workspace,
+    selected?.id,
+    workspaceLoading,
+  );
+  const needsWorkspace =
+    Boolean(selected) &&
+    [
+      "workspace",
+      "context",
+      "requirements",
+      "identity",
+      "artifacts",
+      "evidence",
+      "jobs",
+    ].includes(view);
   const shared = {
     t,
     locale,
     demo,
     selected,
-    workspace,
+    workspace: workspaceState === "ready" ? workspace : null,
     boot,
     portfolio,
     nativeDetail,
@@ -620,6 +780,8 @@ export default function App() {
               icon={Menu}
               label={t("menu")}
               className="mobile-menu"
+              aria-expanded={mobileNav}
+              aria-controls="project-navigation-drawer"
               onClick={() => setMobileNav(!mobileNav)}
             />
             <button
@@ -640,6 +802,7 @@ export default function App() {
             {mainViews.map((item) => (
               <button
                 key={item.id}
+                data-view={item.id}
                 aria-current={
                   view === item.id || (item.id === "workspace" && !globalView)
                     ? "page"
@@ -694,7 +857,22 @@ export default function App() {
           </div>
         </header>
 
-        <aside className="navigation-rail">
+        {mobileNav && (
+          <button
+            className="navigation-scrim"
+            aria-label={t("close")}
+            tabIndex={-1}
+            onClick={() => setMobileNav(false)}
+          />
+        )}
+        <aside
+          className="navigation-rail"
+          id="project-navigation-drawer"
+          ref={navigationRef}
+          role={mobileNav ? "dialog" : undefined}
+          aria-modal={mobileNav || undefined}
+          aria-label={t("workspace")}
+        >
           <div className="rail-heading">
             <span className="workspace-orb">
               <Layers3 size={18} />
@@ -709,12 +887,39 @@ export default function App() {
                 live && !connectionError ? t("connected") : t("notConnected")
               }
             />
+            <IconButton
+              className="rail-close"
+              icon={X}
+              label={t("close")}
+              onClick={() => setMobileNav(false)}
+            />
           </div>
+          <nav className="rail-global-navigation" aria-label={t("platform")}>
+            {mainViews.map((item) => (
+              <button
+                key={item.id}
+                data-view={item.id}
+                aria-current={
+                  view === item.id || (item.id === "workspace" && !globalView)
+                    ? "page"
+                    : undefined
+                }
+                onClick={() => navigate(item.id)}
+              >
+                <item.icon size={16} strokeWidth={1.7} />
+                <span>{t(item.key)}</span>
+                {view === item.id && <ChevronRight size={13} />}
+              </button>
+            ))}
+          </nav>
           <div className="rail-section-title">
             <span>{t("products")}</span>
             <button
               aria-label={t("connectProject")}
-              onClick={() => setBinding(true)}
+              onClick={() => {
+                setMobileNav(false);
+                setBinding(true);
+              }}
               disabled={demo}
             >
               <Plus size={14} />
@@ -738,7 +943,7 @@ export default function App() {
                   </span>
                   <span>
                     <strong>{project.name}</strong>
-                    <small>{project.kind}</small>
+                    <small>{t(profileLabel(projectProfile(project)))}</small>
                   </span>
                   {contextProject?.root === project.root && (
                     <ChevronRight size={13} />
@@ -749,7 +954,10 @@ export default function App() {
             {!projects.length && (
               <button
                 className="connect-inline"
-                onClick={() => setBinding(true)}
+                onClick={() => {
+                  setMobileNav(false);
+                  setBinding(true);
+                }}
               >
                 <Plus size={16} />
                 <span>{t("connectProject")}</span>
@@ -762,6 +970,8 @@ export default function App() {
             {projectViews.map((item) => (
               <button
                 key={item.id}
+                data-view={item.id}
+                aria-current={view === item.id ? "page" : undefined}
                 className={view === item.id ? "is-active" : ""}
                 onClick={() => navigate(item.id)}
               >
@@ -839,7 +1049,13 @@ export default function App() {
               />
             </div>
           </div>
-          <main id="main-content" tabIndex={-1}>
+          <main
+            id="main-content"
+            tabIndex={-1}
+            data-current-view={view}
+            data-workspace-state={workspaceState}
+            aria-busy={needsWorkspace && workspaceState === "loading"}
+          >
             {connectionError && !demo && (
               <div className="connection-warning">
                 <Cable size={18} />
@@ -884,7 +1100,9 @@ export default function App() {
             ) : (
               <>
                 {!globalView && selected && (
-                  <header className="product-heading">
+                  <header
+                    className={`product-heading ${view === "workspace" && !demo ? "is-operator" : ""}`}
+                  >
                     <div className="product-heading__identity">
                       <span
                         className={`product-emblem product-emblem--${selected.kind}`}
@@ -898,7 +1116,12 @@ export default function App() {
                           <span>
                             {demo
                               ? t("exampleOnly")
-                              : selected.phase && selected.phase !== "unbound"
+                              : selected.phase &&
+                                  ![
+                                    "unbound",
+                                    "not_recorded",
+                                    "unknown",
+                                  ].includes(selected.phase)
                                 ? selected.phase
                                 : t("sourceReview")}
                           </span>
@@ -922,11 +1145,7 @@ export default function App() {
                             ? "example_only"
                             : (selected.status ?? "source_only")
                         }
-                        label={
-                          demo
-                            ? t("exampleOnly")
-                            : text(selected.status, t("sourceOnly"))
-                        }
+                        label={demo ? t("exampleOnly") : undefined}
                       />
                       <Button
                         tone="primary"
@@ -942,21 +1161,45 @@ export default function App() {
                 {workspaceLoading && (
                   <div className="thin-progress" aria-label={t("loading")} />
                 )}
-                {view === "overview" && <Portfolio {...shared} />}
-                {view === "workspace" && <WorkspaceView {...shared} />}
-                {view === "context" && <ContextView {...shared} />}
-                {view === "requirements" && <RequirementsView {...shared} />}
-                {view === "identity" && <IdentityView {...shared} />}
-                {view === "artifacts" && <ArtifactsView {...shared} />}
-                {view === "evidence" && <EvidenceView {...shared} />}
-                {view === "jobs" && <JobsView {...shared} />}
-                {view === "skills" && <SkillsView {...shared} />}
-                {(view === "integrations" || view === "settings") && (
-                  <SystemView
-                    {...shared}
-                    section={view}
-                    changeLocale={changeLocale}
-                  />
+                {needsWorkspace && workspaceState !== "ready" ? (
+                  <div className="page-content" role="status">
+                    <SurfaceNotice>
+                      {t(
+                        workspaceState === "loading" ? "loading" : "notLoaded",
+                      )}
+                    </SurfaceNotice>
+                    {workspaceState !== "loading" && (
+                      <Button
+                        icon={RefreshCw}
+                        onClick={() =>
+                          setWorkspaceReadAttempt((attempt) => attempt + 1)
+                        }
+                      >
+                        {t("refresh")}
+                      </Button>
+                    )}
+                  </div>
+                ) : (
+                  <>
+                    {view === "overview" && <Portfolio {...shared} />}
+                    {view === "workspace" && <WorkspaceView {...shared} />}
+                    {view === "context" && <ContextView {...shared} />}
+                    {view === "requirements" && (
+                      <RequirementsView {...shared} />
+                    )}
+                    {view === "identity" && <IdentityView {...shared} />}
+                    {view === "artifacts" && <ArtifactsView {...shared} />}
+                    {view === "evidence" && <EvidenceView {...shared} />}
+                    {view === "jobs" && <JobsView {...shared} />}
+                    {view === "skills" && <SkillsView {...shared} />}
+                    {(view === "integrations" || view === "settings") && (
+                      <SystemView
+                        {...shared}
+                        section={view}
+                        changeLocale={changeLocale}
+                      />
+                    )}
+                  </>
                 )}
               </>
             )}
@@ -991,7 +1234,13 @@ export default function App() {
         </div>
 
         {inspectorOpen && (
-          <aside className="context-inspector">
+          <aside
+            className="context-inspector"
+            ref={inspectorRef}
+            role={window.innerWidth < 1170 ? "dialog" : undefined}
+            aria-modal={window.innerWidth < 1170 ? true : undefined}
+            aria-label={t("inspector")}
+          >
             <header>
               <div>
                 <span className="eyebrow">{t("inspector")}</span>
@@ -1056,11 +1305,11 @@ export default function App() {
                       <div className="inspector-callout">
                         <ShieldCheck size={20} />
                         <strong>
-                          {nativeDetail?.goal?.status === "accepted"
+                          {inspectorGoal?.status === "accepted"
                             ? t("acceptedTarget")
                             : t("sourceTruth")}
                         </strong>
-                        <p>{nativeDetail?.goal?.text || t("aboutHelp")}</p>
+                        <p>{inspectorGoal?.text || t("aboutHelp")}</p>
                       </div>
                       {selected ? (
                         <RecordDetails

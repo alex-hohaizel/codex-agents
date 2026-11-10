@@ -1,27 +1,79 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  operatorUnassigned: "Ohne Phase",
+  operatorOverview: "Arbeitsübersicht",
+  operatorSources: "Quellen und Änderungen",
+  operatorMap: "Arbeitskarte",
+  operatorStages: "Phasen in Anforderungen",
+  operatorStagesHelp:
+    "Verbindungen zeigen die in Anforderungen angegebene Zuordnung. Sie bestätigen keinen Phasenabschluss.",
+  operatorAcceptance: "Prüfungen und Abnahme",
+  operatorSelectedWork: "Ausgewählte Arbeit",
+  operatorPrepareNext: "Nächste Aktion vorbereiten",
+  operatorReadResult: "Ergebnis lesen",
+  operatorFiles: "Projektdateien",
+  operatorInventoryHelp:
+    "Verfügbarer Dateibestand. Eine Datei allein ist kein abgeschlossenes oder abgenommenes Ergebnis.",
+  operatorSourceState: "Aktueller Stand laut Quelle",
+  operatorFullRecord: "Vollständiger Eintrag und Belege",
+  operatorNextDetails: "Vollständiger Umfang der nächsten Aktion",
+  operatorPriorChecks: "Frühere Prüfungen im Panel",
+  loadMoreHistoryItems: "Mehr aus diesem Chat lesen",
+  historyItemsRemaining:
+    "Weitere gespeicherte Nachrichten und Ereignisse sind vorhanden. Die angezeigten Ergebnisse umfassen nur gelesene Seiten.",
+  workLedger: "Projekt-Arbeitsregister",
+  workLedgerHelp:
+    "Öffnen Sie ein Projekt, um das beabsichtigte Ergebnis, dokumentierte Arbeit und den nächsten sinnvollen Schritt zu prüfen.",
+  contextReadiness: "Kontextbereitschaft",
+  contextUnverified: "Vollständigkeit nicht bestätigt",
+  contextBindingsMatch: "Deklarierte Bindungen stimmen überein",
+  contextIncomplete: "Erforderlicher Kontext fehlt",
+  contextConflict: "Kontextquellen widersprechen sich",
+  contextBoundaryHelp:
+    "Geprüft werden deklarierte Quellen und Anforderungs-IDs. Dies belegt nicht, dass die ursprüngliche Aufgabe vollständig erfasst wurde.",
+  declaredBindings: "Deklarierte Bindungen",
+  verifiedSources: "Geprüfte Quellen",
+  missingMusts: "Fehlende Muss-Anforderungen",
+  currentDecisions: "Aktuelle Entscheidungen",
+  deferredWork: "Zurückgestellte Arbeit",
+  requiredSource: "Erforderliche Quelle",
+  observedHash: "Beobachteter Hash",
+  expectedHash: "Erwarteter Hash",
+  openContext: "Kontext prüfen",
+  contextRecord: "Vollständiger Kontextdatensatz",
+  relatedWork: "Verknüpfte Arbeit",
   systemChecks: "Systemprüfungen",
   reviewOptionalUpdate: "Dieses Skill-Update prüfen",
-  optionalUpdateHelp: "Prüfen Sie vor der Anwendung die genaue wiederverwendbare optionale Quelle. Bestehende Identität und Aufrufeinstellungen bleiben erhalten; für den Rollback wird eine private vorherige Kopie erstellt.",
+  optionalUpdateHelp:
+    "Prüfen Sie vor der Anwendung die genaue wiederverwendbare optionale Quelle. Bestehende Identität und Aufrufeinstellungen bleiben erhalten; für den Rollback wird eine private vorherige Kopie erstellt.",
   candidateVersion: "Vorgeschlagene Version",
-  optionalPreservation: "Vor jeder Änderung werden bestehende Icon-Bytes, Icon-Verknüpfungen, Markenfarbe, Aufrufrichtlinie und Abhängigkeiten geprüft.",
+  optionalPreservation:
+    "Vor jeder Änderung werden bestehende Icon-Bytes, Icon-Verknüpfungen, Markenfarbe, Aufrufrichtlinie und Abhängigkeiten geprüft.",
   optionalChangedFiles: "Geänderte Dateien",
-  optionalLocalConflict: "Lokale Änderungen müssen vor diesem Update abgeglichen werden.",
+  optionalLocalConflict:
+    "Lokale Änderungen müssen vor diesem Update abgeglichen werden.",
   optionalExactPreview: "Genaue Vorschau der optionalen Quelle",
-  confirmOptionalUpdate: "Ich habe genau diese Quelle, das Ziel, die Änderungen und die vorherige Kopie geprüft und genehmige dieses Skill-Update.",
+  confirmOptionalUpdate:
+    "Ich habe genau diese Quelle, das Ziel, die Änderungen und die vorherige Kopie geprüft und genehmige dieses Skill-Update.",
   applyOptionalUpdate: "Dieses geprüfte Skill-Update anwenden",
-  optionalSourceVerified: "Die installierten Quellbytes wurden geprüft. Erkennung durch den Host und tatsächliche Ausführung bleiben separate Prüfungen.",
-  optionalReviewReceipt: "Prüfen Sie vor der Fortsetzung den tatsächlichen Beleg der optionalen Quelle und ihren aktuellen Zustand.",
+  optionalSourceVerified:
+    "Die installierten Quellbytes wurden geprüft. Erkennung durch den Host und tatsächliche Ausführung bleiben separate Prüfungen.",
+  optionalReviewReceipt:
+    "Prüfen Sie vor der Fortsetzung den tatsächlichen Beleg der optionalen Quelle und ihren aktuellen Zustand.",
   refreshHostCatalog: "Tatsächlichen Skill-Katalog des Hosts aktualisieren",
-  hostCatalogRead: "Der tatsächliche Host-Katalog wurde gelesen. Prüfen Sie Quelle und Erkennungsstatus; dies zertifiziert keine Ausführung.",
-  optionalRollbackHelp: "Prüfen Sie zuerst das Journal, um den aktuellen Quellstand festzuhalten. Der Rollback stellt die genaue vorherige Kopie wieder her und lehnt spätere unbekannte Änderungen ab.",
-  confirmOptionalRollback: "Ich habe die geprüfte aktuelle Quelle kontrolliert und genehmige die Wiederherstellung genau dieser vorherigen Kopie.",
+  hostCatalogRead:
+    "Der tatsächliche Host-Katalog wurde gelesen. Prüfen Sie Quelle und Erkennungsstatus; dies zertifiziert keine Ausführung.",
+  optionalRollbackHelp:
+    "Prüfen Sie zuerst das Journal, um den aktuellen Quellstand festzuhalten. Der Rollback stellt die genaue vorherige Kopie wieder her und lehnt spätere unbekannte Änderungen ab.",
+  confirmOptionalRollback:
+    "Ich habe die geprüfte aktuelle Quelle kontrolliert und genehmige die Wiederherstellung genau dieser vorherigen Kopie.",
   optionalFileAdded: "Hinzugefügt",
   optionalFileChanged: "Geändert",
   optionalFileRemoved: "Entfernt",
   nativeAgentWorkflow: "Agentenerstellung und Abnahme",
-  nativeControllerHelp: "Verwalten Sie den nativen Agentenkonstruktor über geprüfte Operationen. Die Vorschau zeigt die genaue Quelle und Wirkung; die Anwendung erhält native Prüfungen und startet weder Modell noch Produkt.",
+  nativeControllerHelp:
+    "Verwalten Sie den nativen Agentenkonstruktor über geprüfte Operationen. Die Vorschau zeigt die genaue Quelle und Wirkung; die Anwendung erhält native Prüfungen und startet weder Modell noch Produkt.",
   nativeControllerAction: "Konstruktoraktion",
   controllerContext: "Aktuellen Konstruktorkontext lesen",
   controllerCheck: "Agentenpass prüfen",
@@ -30,33 +82,43 @@ const messages: Record<MessageKey, string> = {
   controllerBlueprint: "Vorbereiteten Agentenpass registrieren",
   controllerApprove: "Genau diesen aktuellen Agentenpass genehmigen",
   factorySessionPath: "Ordner der Konstruktorsitzung",
-  factorySessionPathHelp: "Relativ zum verbundenen Projekt. Ein Punkt wählt den Projektstamm. Bestehende Sitzungen bleiben erhalten.",
+  factorySessionPathHelp:
+    "Relativ zum verbundenen Projekt. Ein Punkt wählt den Projektstamm. Bestehende Sitzungen bleiben erhalten.",
   nativeProjectId: "Kennung des neuen Konstruktors",
   passportRecordPath: "Datei des vorbereiteten Agentenpasses",
-  passportRecordPathHelp: "Der tatsächliche, in dieser Sitzung vorbereitete JSON-Eintrag. Die Vorschau fixiert seinen Inhalt vor jeder nativen Änderung.",
+  passportRecordPathHelp:
+    "Der tatsächliche, in dieser Sitzung vorbereitete JSON-Eintrag. Die Vorschau fixiert seinen Inhalt vor jeder nativen Änderung.",
   ownerApprovalText: "Ihre Zustimmungserklärung",
-  ownerApprovalTextHelp: "Geben Sie an, welchem Agentenpass und Umfang Sie zustimmen. Prüfen Sie vor der Anwendung den genauen aktuellen Gegenstand und die Bestätigung.",
+  ownerApprovalTextHelp:
+    "Geben Sie an, welchem Agentenpass und Umfang Sie zustimmen. Prüfen Sie vor der Anwendung den genauen aktuellen Gegenstand und die Bestätigung.",
   exactControllerSubject: "Genauer nativer Aktionsgegenstand",
-  controllerEffectsHelp: "Diese Aktion ändert nur den geprüften nativen Konstruktorzustand. Bestehende Berechtigungen, externe Wirkungen und Produktabnahme behalten ihre eigenen Grenzen.",
-  confirmControllerAction: "Ich habe diese genaue Operation, Quellrevision und ihren Umfang geprüft und bestätige die Anwendung.",
+  controllerEffectsHelp:
+    "Diese Aktion ändert nur den geprüften nativen Konstruktorzustand. Bestehende Berechtigungen, externe Wirkungen und Produktabnahme behalten ihre eigenen Grenzen.",
+  confirmControllerAction:
+    "Ich habe diese genaue Operation, Quellrevision und ihren Umfang geprüft und bestätige die Anwendung.",
   applyControllerPreview: "Geprüfte Operation anwenden",
   reviewControllerAction: "Genaue Operation prüfen",
-  controllerReceiptHelp: "Dies ist der Beleg des nativen Controllers. Er belegt weder Modellausführung noch einen installierten Agenten oder Produktabnahme. Prüfen Sie vor der Fortsetzung den entstandenen Freigabestatus.",
+  controllerReceiptHelp:
+    "Dies ist der Beleg des nativen Controllers. Er belegt weder Modellausführung noch einen installierten Agenten oder Produktabnahme. Prüfen Sie vor der Fortsetzung den entstandenen Freigabestatus.",
   reconcileControllerState: "Aktuellen nativen Zustand lesen",
-  confirmControllerReconcile: "Ich habe den aktuellen Zustand geprüft. Die Aufzeichnung dieser Beobachtung zertifiziert die ursprüngliche Operation nicht als erfolgreich.",
+  confirmControllerReconcile:
+    "Ich habe den aktuellen Zustand geprüft. Die Aufzeichnung dieser Beobachtung zertifiziert die ursprüngliche Operation nicht als erfolgreich.",
   recordReconciliation: "Geprüften Zustand aufzeichnen",
   portfolioTitle: "Ihre Arbeit im Überblick",
-  portfolioDescription: "Sehen Sie Ziel, dokumentierte Arbeiten und den nächsten sinnvollen Schritt in Ihren Codex-Projekten.",
+  portfolioDescription:
+    "Sehen Sie Ziel, dokumentierte Arbeiten und den nächsten sinnvollen Schritt in Ihren Codex-Projekten.",
   discoverCodex: "Codex-Arbeiten finden",
   universalEntry: "Zentraler Einstieg",
   entryQuestion: "Welches Ergebnis brauchen Sie?",
-  entryDescription: "Beschreiben Sie das Ziel. Atelier prüft den Projektkontext und schlägt einen Weg mit vorhandenen Skills, einem Projektagenten oder einem neuen Spezialisten vor.",
+  entryDescription:
+    "Beschreiben Sie das Ziel. Atelier prüft den Projektkontext und schlägt einen Weg mit vorhandenen Skills, einem Projektagenten oder einem neuen Spezialisten vor.",
   describeOutcome: "Ergebnis beschreiben",
   connectFirstProject: "Erstes Projekt verbinden",
   documentedWork: "Dokumentierte Arbeiten",
   needsAttention: "Aufmerksamkeit nötig",
   discoverFirst: "Begonnene Arbeiten sichtbar machen",
-  discoverFirstHelp: "Die Suche liest den verfügbaren Codex-Verlauf und gruppiert Arbeiten nach Projekt. Prüfen Sie ein Projekt, verbinden Sie seinen genauen Ordner und bereiten Sie die nächste Aufgabe vor.",
+  discoverFirstHelp:
+    "Die Suche liest den verfügbaren Codex-Verlauf und gruppiert Arbeiten nach Projekt. Prüfen Sie ein Projekt, verbinden Sie seinen genauen Ordner und bereiten Sie die nächste Aufgabe vor.",
   historyCoverage: "Codex-Verlauf",
   coverageComplete: "Verlaufsseiten gelesen",
   coveragePartial: "Erfassung unvollständig",
@@ -66,27 +128,35 @@ const messages: Record<MessageKey, string> = {
   acceptedTarget: "Abgenommenes Ergebnis",
   declaredTarget: "In der Quelle angegebenes Ergebnis",
   goalNotConfirmed: "Ergebnis nicht bestätigt",
-  goalUnknownHelp: "Prüfen Sie die Projektquellen, um das Ziel und seine Abnahme festzustellen.",
+  goalUnknownHelp:
+    "Prüfen Sie die Projektquellen, um das Ziel und seine Abnahme festzustellen.",
   discoveredOnly: "Gefunden · nur lesend",
-  reviewProjectSources: "Projektkontext prüfen und die nächste sinnvolle Aktion bestimmen.",
-  noObservedAttention: "In den verfügbaren Quellen wurde kein besonderer Handlungsbedarf erfasst.",
+  reviewProjectSources:
+    "Projektkontext prüfen und die nächste sinnvolle Aktion bestimmen.",
+  noObservedAttention:
+    "In den verfügbaren Quellen wurde kein besonderer Handlungsbedarf erfasst.",
   portfolioMap: "Projekt- und Arbeitskarte",
   actualRecords: "Tatsächliche Einträge",
   backToPortfolio: "Zur Arbeitsübersicht",
   nativeCodexProject: "In Codex gefundenes Projekt",
-  discoveryReadOnly: "Diese Suche ist schreibgeschützt. Verbinden Sie den genauen Projektordner, bevor Sie Arbeiten vorbereiten oder fortsetzen. Bestehende Chats erfordern eine separate Übergabe im inaktiven Zustand.",
+  discoveryReadOnly:
+    "Diese Suche ist schreibgeschützt. Verbinden Sie den genauen Projektordner, bevor Sie Arbeiten vorbereiten oder fortsetzen. Bestehende Chats erfordern eine separate Übergabe im inaktiven Zustand.",
   targetSource: "Quelle des angestrebten Ergebnisses",
-  targetProvenanceHelp: "Angaben in Quellen und dokumentierte Abnahme sind unterschiedliche Tatsachen. Eine abgeschlossene Antwort allein belegt keine Produktabnahme.",
+  targetProvenanceHelp:
+    "Angaben in Quellen und dokumentierte Abnahme sind unterschiedliche Tatsachen. Eine abgeschlossene Antwort allein belegt keine Produktabnahme.",
   nextActions: "Nächste sinnvolle Aktionen",
   fromProjectSource: "Aus der Projektquelle",
   proposedNextAction: "Vorschlag · vor Ausführung prüfen",
   projectAgents: "Projektagenten",
   plannedAgent: "Geplant · nicht installiert",
-  noProjectAgentRecorded: "In den verfügbaren Quellen ist kein Projektagent erfasst.",
+  noProjectAgentRecorded:
+    "In den verfügbaren Quellen ist kein Projektagent erfasst.",
   projectWorkMap: "Karte dokumentierter Arbeiten",
-  nativeWorkBoundary: "Arbeiten werden aus tatsächlichem Verlauf und Projekteinträgen gruppiert. Eine erhaltene Antwort, ein dokumentiertes Ergebnis und ein abgenommenes Produkt sind unterschiedliche Zustände.",
+  nativeWorkBoundary:
+    "Arbeiten werden aus tatsächlichem Verlauf und Projekteinträgen gruppiert. Eine erhaltene Antwort, ein dokumentiertes Ergebnis und ein abgenommenes Produkt sind unterschiedliche Zustände.",
   noWorkReadYet: "Arbeitseinträge noch nicht verfügbar",
-  noWorkReadHelp: "Suchen oder aktualisieren Sie Codex-Arbeiten, um den verfügbaren Verlauf zu prüfen. Fehlender Zugriff oder Verlauf bleibt als Lücke sichtbar, nicht als abgeschlossene Arbeit.",
+  noWorkReadHelp:
+    "Suchen oder aktualisieren Sie Codex-Arbeiten, um den verfügbaren Verlauf zu prüfen. Fehlender Zugriff oder Verlauf bleibt als Lücke sichtbar, nicht als abgeschlossene Arbeit.",
   showAllWork: "Alle Arbeiten anzeigen",
   answerReceived: "Antwort erhalten",
   interruptedWork: "Unterbrochen",
@@ -96,10 +166,12 @@ const messages: Record<MessageKey, string> = {
   nativeHistory: "Nativer Codex-Verlauf",
   skillSelected: "Im Kontext ausgewählt",
   skillMentioned: "Erwähnt",
-  sourceRelationships: "Dokumentierte Verbindungen zwischen Projekt und Quellen",
+  sourceRelationships:
+    "Dokumentierte Verbindungen zwischen Projekt und Quellen",
   continueWithOrchestrator: "Über Atelier fortsetzen",
   workIntent: "Art des Ergebnisses",
-  intentHelp: "Automatisch schlägt anhand der Anfrage und des aktuellen Kontexts einen Weg vor. Sie können die Absicht angeben, ohne interne Skill-Namen auszuwählen.",
+  intentHelp:
+    "Automatisch schlägt anhand der Anfrage und des aktuellen Kontexts einen Weg vor. Sie können die Absicht angeben, ohne interne Skill-Namen auszuwählen.",
   routeAuto: "Atelier einen Weg vorschlagen lassen",
   routeDirect: "Einzelne Aufgabe erledigen",
   routeSpecialist: "Vorhandenen Spezialisten einsetzen",
@@ -117,33 +189,44 @@ const messages: Record<MessageKey, string> = {
   targetAgent: "Ein Agent",
   targetSystem: "Das wiederverwendbare System",
   targetSourcePaths: "Zielquellen",
-  targetSourcePathsHelp: "Pfade relativ zum ausgewählten Projekt, einer pro Zeile. Prüfen Sie das genaue Ziel und die Erhaltungsanforderungen, bevor Sie Änderungen anwenden.",
+  targetSourcePathsHelp:
+    "Pfade relativ zum ausgewählten Projekt, einer pro Zeile. Prüfen Sie das genaue Ziel und die Erhaltungsanforderungen, bevor Sie Änderungen anwenden.",
   proposedRoute: "Vorgeschlagener Arbeitsweg",
   responsibleExecutor: "Verantwortlicher Koordinator",
-  routePreviewHelp: "Diese Vorschau schlägt einen Weg vor. Kontextvorbereitung und tatsächlicher Start bleiben separate Aktionen; Ergebnis oder Abnahme werden nicht vorausgesetzt.",
+  routePreviewHelp:
+    "Diese Vorschau schlägt einen Weg vor. Kontextvorbereitung und tatsächlicher Start bleiben separate Aktionen; Ergebnis oder Abnahme werden nicht vorausgesetzt.",
   loadMoreThreads: "Weitere Gespräche lesen",
   reviewRoute: "Arbeitsweg prüfen",
   privacyStorage: "Datenschutz & Aufbewahrung",
-  manualRetention: "Manuelle Richtlinie · keine automatische TTL oder Löschung im Hintergrund.",
+  manualRetention:
+    "Manuelle Richtlinie · keine automatische TTL oder Löschung im Hintergrund.",
   policyReviewed: "Richtlinie geprüft",
   policyNotReviewed: "Richtlinie noch ungeprüft",
-  privacyBoundary: "Die Einstellungen betreffen nur Indizes, zugehörige Datensätze, Aufgaben- und Ereignisverläufe sowie den Eingabecache dieses Dienstes. Projektinterne Dateien und beim Anbieter gespeicherte Kopien bleiben außerhalb dieser Operation.",
+  privacyBoundary:
+    "Die Einstellungen betreffen nur Indizes, zugehörige Datensätze, Aufgaben- und Ereignisverläufe sowie den Eingabecache dieses Dienstes. Projektinterne Dateien und beim Anbieter gespeicherte Kopien bleiben außerhalb dieser Operation.",
   retentionPolicy: "Aufbewahrungsfristen",
-  retentionHelp: "Pro Kategorie sind 1–3650 Tage möglich. Behalten schließt die Kategorie von der altersabhängigen Bereinigung aus; die ausdrückliche Auswahl zum Vergessen bleibt möglich. Das Speichern löscht keine Daten.",
+  retentionHelp:
+    "Pro Kategorie sind 1–3650 Tage möglich. Behalten schließt die Kategorie von der altersabhängigen Bereinigung aus; die ausdrückliche Auswahl zum Vergessen bleibt möglich. Das Speichern löscht keine Daten.",
   eventRetention: "Ereignisverlauf des Dienstes · Tage",
   historyRetention: "Projekt- und Auftragsverlauf · Tage",
   cacheRetention: "Fixierter Eingabecache · Tage",
   backupRetention: "Dienstsicherungen · Tage",
   retainUntilSelected: "Behalten · ohne Altersgrenze",
-  retentionRange: "Eine ganze Zahl von 1 bis 3650 eingeben oder Behalten wählen.",
-  confirmRetentionPolicy: "Ich habe diese Fristen für den Dienst geprüft. Die Bereinigung bleibt manuell.",
+  retentionRange:
+    "Eine ganze Zahl von 1 bis 3650 eingeben oder Behalten wählen.",
+  confirmRetentionPolicy:
+    "Ich habe diese Fristen für den Dienst geprüft. Die Bereinigung bleibt manuell.",
   saveRetention: "Geprüfte Richtlinie speichern",
-  savePolicyFirst: "Die geänderte Richtlinie vor einer Bereinigungs- oder Diagnosevorschau speichern.",
+  savePolicyFirst:
+    "Die geänderte Richtlinie vor einer Bereinigungs- oder Diagnosevorschau speichern.",
   manualCleanup: "Dienstdaten prüfen & bereinigen",
-  cleanupHelp: "Die Vorschau kombiniert die gespeicherte Richtlinie mit optional ausgewählten Verläufen. Vor der Anwendung Mengen und exakten Hash prüfen.",
-  cleanupLimits: "Gemeinsame Rohprotokolle und Sicherungen unterliegen eigenen Regeln. Die zwei neuesten Sicherungen bleiben erhalten. Vergessen ist eine logische Entfernung, keine sichere physische Löschung.",
+  cleanupHelp:
+    "Die Vorschau kombiniert die gespeicherte Richtlinie mit optional ausgewählten Verläufen. Vor der Anwendung Mengen und exakten Hash prüfen.",
+  cleanupLimits:
+    "Gemeinsame Rohprotokolle und Sicherungen unterliegen eigenen Regeln. Die zwei neuesten Sicherungen bleiben erhalten. Vergessen ist eine logische Entfernung, keine sichere physische Löschung.",
   forgetServiceHistory: "Zu vergessenden Dienstverlauf auswählen",
-  forgetSelectionHelp: "Wähle Projektindizes oder den Verlauf beendeter Aufträge. Zugehörige Aufgaben, Datensätze, Ereignisse und Eingabecaches können eingeschlossen sein. Gleiche aktive oder pausierte Arbeiten sowie Arbeiten mit ungeklärtem Ausgang zuerst ab. Projektdateien und Anbieterkopien bleiben erhalten.",
+  forgetSelectionHelp:
+    "Wähle Projektindizes oder den Verlauf beendeter Aufträge. Zugehörige Aufgaben, Datensätze, Ereignisse und Eingabecaches können eingeschlossen sein. Gleiche aktive oder pausierte Arbeiten sowie Arbeiten mit ungeklärtem Ausgang zuerst ab. Projektdateien und Anbieterkopien bleiben erhalten.",
   previewCleanup: "Exakte Bereinigung prüfen",
   associatedRecords: "Verknüpfte Einträge",
   cleanupTasks: "Aufgaben",
@@ -152,18 +235,22 @@ const messages: Record<MessageKey, string> = {
   redactedReceipts: "Zu schwärzende Belege",
   cleanupBackups: "Sicherungen",
   cleanupFiles: "Dateien",
-  confirmCleanup: "Ich habe die exakten Mengen und den Hash geprüft und genehmige diese Bereinigung ausschließlich für den Dienst.",
+  confirmCleanup:
+    "Ich habe die exakten Mengen und den Hash geprüft und genehmige diese Bereinigung ausschließlich für den Dienst.",
   applyCleanup: "Geprüfte Bereinigung anwenden",
   pendingCleanup: "Erfasste Dateibereinigung noch nicht abgeschlossen",
   resumeCleanup: "Erfasste Bereinigung fortsetzen",
   diagnosticExport: "Lokaler Diagnoseexport",
-  diagnosticHelp: "Prüfe zusammengefasste Anzahlen, Fähigkeits- und Versionsstatus sowie Aufbewahrungseinstellungen. Namen, Pfade, Aufgabentexte, Quellinhalte, Ausgaben, Konto- und Chat-IDs, Zugangsdaten und Rohprotokolle werden ausgelassen. Der Export erstellt eine private lokale JSON-Datei und einen Browserdownload; es werden keine Daten nach außen übertragen.",
+  diagnosticHelp:
+    "Prüfe zusammengefasste Anzahlen, Fähigkeits- und Versionsstatus sowie Aufbewahrungseinstellungen. Namen, Pfade, Aufgabentexte, Quellinhalte, Ausgaben, Konto- und Chat-IDs, Zugangsdaten und Rohprotokolle werden ausgelassen. Der Export erstellt eine private lokale JSON-Datei und einen Browserdownload; es werden keine Daten nach außen übertragen.",
   previewDiagnostic: "Diagnoseinhalt prüfen",
-  confirmDiagnostic: "Ich habe genau diese Zusammenfassung geprüft und genehmige den lokalen JSON-Export.",
+  confirmDiagnostic:
+    "Ich habe genau diese Zusammenfassung geprüft und genehmige den lokalen JSON-Export.",
   downloadDiagnostic: "Lokale JSON-Datei erstellen & laden",
   diagnosticSaved: "Lokaler Export erstellt; Browserdownload angefordert",
   privacyReceipt: "Datenschutzbeleg des Dienstes",
-  cleanupRecovery: "Gleiche aktive Arbeiten oder Arbeiten mit ungeklärtem Ausgang zuerst ab. Erstelle die Vorschau erneut, wenn sie abgelaufen ist oder sich ihre Ziele geändert haben. Prüfe den Beleg einer unterbrochenen Bereinigung vor dem Fortsetzen.",
+  cleanupRecovery:
+    "Gleiche aktive Arbeiten oder Arbeiten mit ungeklärtem Ausgang zuerst ab. Erstelle die Vorschau erneut, wenn sie abgelaufen ist oder sich ihre Ziele geändert haben. Prüfe den Beleg einer unterbrochenen Bereinigung vor dem Fortsetzen.",
   launcherRequired: "Agent Atelier mit dem Mac-Launcher öffnen",
   launcherRequiredBody:
     "Der Launcher richtet diese Browsersitzung ein. Öffnen Sie Agent Atelier.command erneut und verwenden Sie das neue Browserfenster. Ein abgelaufener Link kann keine Sitzung erstellen.",
@@ -297,6 +384,7 @@ const messages: Record<MessageKey, string> = {
   author: "Autor",
   reviewer: "Prüfer",
   status: "Status",
+  statusInSource: "Status in der Quelle",
   phase: "Phase",
   nextStep: "Nächster Schritt",
   lastUpdated: "Letzte Beobachtung",

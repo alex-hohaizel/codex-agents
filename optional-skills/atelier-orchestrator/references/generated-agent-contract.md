@@ -163,3 +163,11 @@ Self-contained child включає застосовний protocol, `assets/dec
 ## Production/context standard6.0
 
 Нові6.0 child bundles включають12common resources: попередні8 adaptive/visual/host resources плюс `references/production-quality.md`, `references/context-capsule.md`, `assets/production-profiles.json`, `scripts/context_capsule.py`. Entry має6локальних reference links. Обрати застосовний medium profile, передати defining reference mechanisms/identity/functional depth і exact task context; до тиражування прийняти actual representative slice. Byte/link gate не засвідчує семантику, craft, згоду чи runtime. Старі5.0 пакети з8ресурсами не отримують retroactive6.0 review; adoption має explicit source-to-target comparison і cold receiver.
+
+## Conditional production standard6.1
+
+Новий6.1 child додає до попередніх12 ресурсів точні власні `references/ai-production.md`, `assets/ai-production.schema.json` і `scripts/ai_production.py`: разом15 ресурсів. У точці входу потрібне сьоме локальне посилання `references/ai-production.md` з умовою застосовувати лише потрібні профілі до фактичної задачі. Ресурси копіюються в кожний самодостатній child, без runtime-залежності від сусіднього конструктора чи репозиторію.
+
+DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA та EVALUATION є умовними компетенціями чинних виконавців; не створювати сім додаткових навичок або нові постійні ролі за замовчуванням. Зберегти поточного інтегратора, предметні контракти та повний первинний результат. Із13 типів матеріалів створювати лише доречні записи з фактичними входами, споживачем і доказами. Компілятор контексту й AI/data checker не виконують модельних чи зовнішніх jobs і не підтверджують якість, згоду чи фактичну незалежність.
+
+Поточний checker перевіряє15 точних ресурсів і7 reference-посилань для нового6.1 результату. Installer зберігає точний8-ресурсний контракт історичних5.x пакетів,12-ресурсний6.0.x і15-ресурсний6.1.x; інші майбутні лінії не вгадуються. Наявність додаткових файлів у старому пакеті не оновлює його заявлений стандарт. Чинного агента приймати лише за явним source-to-target зіставленням, збереженням його прав/ідентичності/правок і реальною обмеженою задачею. Історичні докази не переписуються як6.1 приймання.

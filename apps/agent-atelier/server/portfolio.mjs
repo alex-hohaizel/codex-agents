@@ -43,6 +43,30 @@ const uniqueRecords = (records) => [
 ];
 function mergeWork(previous, incoming) {
   if (!previous) return incoming;
+  if (
+    incoming.history_item_continuation &&
+    previous.source === "native-history"
+  ) {
+    const responseObserved =
+      previous.response_observed || incoming.response_observed;
+    incoming = {
+      ...incoming,
+      objective: previous.objective_observed
+        ? previous.objective
+        : incoming.objective,
+      objective_observed:
+        previous.objective_observed || incoming.objective_observed,
+      outcome: previous.response_observed ? previous.outcome : incoming.outcome,
+      response_observed: responseObserved,
+      status:
+        incoming.native_status === "completed"
+          ? responseObserved
+            ? "answer_received"
+            : "recorded"
+          : incoming.status,
+      response_item_id: previous.response_item_id ?? incoming.response_item_id,
+    };
+  }
   const preferred =
     incoming.source === "native-history"
       ? incoming
@@ -229,6 +253,9 @@ export function turnWork(thread, turn) {
     thread_id: thread.id,
     turn_id: turn.id,
     objective: objective.slice(0, 1600),
+    objective_observed: items.some(
+      (item) => item.type === "userMessage" && itemText(item).trim(),
+    ),
     outcome: (answers.at(-1) ?? "").slice(0, 5000),
     status:
       turn.status === "completed"
@@ -258,6 +285,10 @@ export function turnWork(thread, turn) {
     acceptance: "not_inferred",
     items_view: turn.itemsView ?? "unknown",
     response_observed,
+    response_item_id:
+      items
+        .filter((item) => item.type === "agentMessage" && itemText(item).trim())
+        .at(-1)?.id ?? null,
     execution_observed: evidence_refs.length > 0,
     warnings,
   };
@@ -279,6 +310,12 @@ export class NativeHistoryReader {
   turns(id, options) {
     return this.#codex.historyTurns(id, options);
   }
+  get itemPaging() {
+    return typeof this.#codex.historyItems === "function";
+  }
+  items(id, options) {
+    return this.#codex.historyItems(id, options);
+  }
 }
 
 export class PortfolioManager {
@@ -290,6 +327,7 @@ export class PortfolioManager {
     this.threadRows = new Map();
     this.details = new Map();
     this.observedPages = new Map();
+    this.itemCursors = new Map();
     this.busy = false;
     this.generation = 0;
     this.snapshot = {
@@ -342,6 +380,7 @@ export class PortfolioManager {
     this.threadRows.clear();
     this.details.clear();
     this.observedPages.clear();
+    this.itemCursors.clear();
     this.snapshot = {
       ...this.snapshot,
       status: "not_checked",
@@ -494,6 +533,7 @@ export class PortfolioManager {
       this.rows.clear();
       this.details.clear();
       this.observedPages.clear();
+      this.itemCursors.clear();
       for (const group of groups.values()) {
         const binding = this.store
           .list("project")
@@ -626,6 +666,7 @@ export class PortfolioManager {
         this.threadRows.clear();
         this.details.clear();
         this.observedPages.clear();
+        this.itemCursors.clear();
       }
       this.snapshot = {
         ...this.snapshot,
@@ -697,7 +738,56 @@ export class PortfolioManager {
       };
       this.observedPages.set(id, observed);
     }
-    observed.pages.set(result.coverage.thread_offset, result);
+    const previous = observed.pages.get(result.coverage.thread_offset);
+    if (result.coverage.item_continuation && previous) {
+      const merged = new Map();
+      for (const group of [...previous.work_groups, ...result.work_groups])
+        for (const row of group.items)
+          merged.set(
+            workIdentity(row),
+            mergeWork(merged.get(workIdentity(row)), row),
+          );
+      const cursors = new Map(
+        (previous.coverage.item_cursors ?? []).map((row) => [
+          row.thread_id,
+          row,
+        ]),
+      );
+      for (const row of result.coverage.item_cursors)
+        cursors.set(row.thread_id, row);
+      const pending = [...cursors.values()].some((row) => row.next_cursor);
+      const nonItemComplete =
+        previous.coverage.non_item_page_complete &&
+        result.coverage.non_item_page_complete;
+      const terminal = result.coverage.item_cursors.find(
+        (row) => row.thread_id === result.coverage.item_thread_id,
+      )?.items_complete;
+      if (terminal)
+        for (const row of merged.values())
+          if (row.thread_id === result.coverage.item_thread_id)
+            row.items_view = "full";
+      observed.pages.set(result.coverage.thread_offset, {
+        ...previous,
+        project: result.project,
+        work_groups: projectWorkGroups([...merged.values()]),
+        coverage: {
+          ...previous.coverage,
+          item_cursors: [...cursors.values()],
+          non_item_page_complete: nonItemComplete,
+          page_complete: nonItemComplete && !pending,
+        },
+        warnings: uniqueRecords([
+          ...previous.warnings.filter(
+            (row) =>
+              !(
+                row.thread_id === result.coverage.item_thread_id &&
+                row.code === "NATIVE_ITEM_PAGE_LIMIT"
+              ),
+          ),
+          ...result.warnings,
+        ]),
+      });
+    } else observed.pages.set(result.coverage.thread_offset, result);
     const pages = [...observed.pages.values()].sort(
       (a, b) => a.coverage.thread_offset - b.coverage.thread_offset,
     );
@@ -741,6 +831,209 @@ export class PortfolioManager {
       },
     });
   }
+  async #pagedTurns(threadId, maxTurnPages, initialCursor) {
+    const turns = new Map(),
+      warnings = [],
+      metadataCursors = new Set();
+    let cursor,
+      turnPages = 0,
+      metadataTurns = 0;
+    for (let pageIndex = 0; pageIndex < maxTurnPages; pageIndex++) {
+      let page;
+      try {
+        page = await this.history.turns(threadId, {
+          cursor,
+          limit: 50,
+          itemsView: "notLoaded",
+        });
+      } catch (error) {
+        if (
+          error.code === "CODEX_RPC_ERROR" &&
+          [-32601, -32602].includes(error.details?.rpc_code)
+        )
+          return { fallback: true };
+        throw error;
+      }
+      turnPages++;
+      fail(
+        Array.isArray(page.data) && page.data.length <= 50,
+        "HOST_PROTOCOL_ERROR",
+        "Native turn metadata did not return a page",
+        502,
+      );
+      for (const turn of page.data) {
+        fail(
+          typeof turn?.id === "string",
+          "HOST_PROTOCOL_ERROR",
+          "Native turn metadata has no turn identity",
+          502,
+        );
+        if (!turns.has(turn.id)) metadataTurns++;
+        turns.set(turn.id, { ...turn, items: [] });
+      }
+      cursor = page.nextCursor ?? null;
+      if (!cursor) break;
+      if (typeof cursor !== "string" || metadataCursors.has(cursor)) {
+        warnings.push({
+          code: "HOST_PROTOCOL_ERROR",
+          message: "Native turns repeated or returned an invalid cursor",
+        });
+        break;
+      }
+      metadataCursors.add(cursor);
+    }
+    const turnCursor = cursor;
+    const maxItemPages = maxTurnPages * 2,
+      itemCursors = new Set(initialCursor ? [initialCursor] : []),
+      itemIds = new Set();
+    let itemCursor = initialCursor,
+      itemPages = 0,
+      requests = 0,
+      limit = 50,
+      itemCount = 0,
+      exhausted = false;
+    while (itemPages < maxItemPages && requests < maxItemPages + 6) {
+      let page;
+      requests++;
+      try {
+        page = await this.history.items(threadId, {
+          cursor: itemCursor,
+          limit,
+        });
+      } catch (error) {
+        if (
+          error.code === "CODEX_RPC_ERROR" &&
+          error.details?.rpc_code === -32601
+        )
+          return { fallback: true };
+        if (
+          error.code === "HOST_DISCONNECTED" &&
+          /Protocol message exceeded limit/i.test(error.message) &&
+          limit > 1
+        ) {
+          limit = Math.max(1, Math.floor(limit / 2));
+          continue;
+        }
+        warnings.push({
+          ...publicError(error),
+          ...(limit === 1 &&
+          /Protocol message exceeded limit/i.test(error.message)
+            ? {
+                code: "NATIVE_ITEM_TOO_LARGE",
+                message:
+                  "One persisted item exceeds the transport limit; its original content remains unread",
+              }
+            : {}),
+        });
+        break;
+      }
+      if (!Array.isArray(page.data) || page.data.length > limit) {
+        warnings.push({
+          code: "HOST_PROTOCOL_ERROR",
+          message: "Native item history did not return a page",
+        });
+        break;
+      }
+      itemPages++;
+      let invalid = false;
+      for (const entry of page.data) {
+        if (
+          typeof entry?.turnId !== "string" ||
+          !entry.item ||
+          typeof entry.item.id !== "string"
+        ) {
+          warnings.push({
+            code: "HOST_PROTOCOL_ERROR",
+            message: "A native item page has no usable turn/item identity",
+          });
+          invalid = true;
+          continue;
+        }
+        const key = JSON.stringify([entry.turnId, entry.item.id]);
+        if (itemIds.has(key)) continue;
+        itemIds.add(key);
+        itemCount++;
+        if (!turns.has(entry.turnId)) {
+          turns.set(entry.turnId, {
+            id: entry.turnId,
+            status: "unknown",
+            items: [],
+            metadata_observed: false,
+          });
+          warnings.push({
+            code: "NATIVE_ITEM_TURN_UNAVAILABLE",
+            turn_id: entry.turnId,
+            message:
+              "Observed items have no turn metadata inside the configured turn page range",
+          });
+        }
+        turns.get(entry.turnId).items.push(entry.item);
+      }
+      const next = page.nextCursor ?? null;
+      if (invalid) break;
+      if (!next) {
+        itemCursor = null;
+        exhausted = true;
+        break;
+      }
+      if (typeof next !== "string" || itemCursors.has(next)) {
+        warnings.push({
+          code: "HOST_PROTOCOL_ERROR",
+          message: "Native items repeated or returned an invalid cursor",
+        });
+        itemCursor = null;
+        break;
+      }
+      itemCursors.add(next);
+      itemCursor = next;
+    }
+    if (!exhausted && itemCursor)
+      warnings.push({
+        code: "NATIVE_ITEM_PAGE_LIMIT",
+        message:
+          "More persisted items remain; continue from this thread's observed item cursor",
+        max_item_pages: maxItemPages,
+      });
+    if (metadataTurns > 0 && itemCount === 0)
+      warnings.push({
+        code: "NATIVE_ITEMS_EMPTY",
+        message:
+          "Turn metadata exists but no persisted items were observed; content coverage is unverified",
+      });
+    for (const turn of turns.values()) {
+      // Public item pages are descending; turnWork expects chronological items.
+      turn.items.reverse();
+      turn.itemsView =
+        exhausted && !initialCursor && !warnings.length ? "full" : "partial";
+    }
+    const allTurns = [...turns.values()];
+    return {
+      turns: initialCursor
+        ? allTurns.filter((turn) => turn.items.length)
+        : allTurns,
+      completedTurnIds: allTurns
+        .filter((turn) => turn.status === "completed")
+        .map((turn) => turn.id),
+      answeredTurnIds: allTurns
+        .filter((turn) =>
+          turn.items.some(
+            (item) => item.type === "agentMessage" && itemText(item).trim(),
+          ),
+        )
+        .map((turn) => turn.id),
+      turnPages,
+      metadataTurns,
+      turnCursor,
+      itemPages,
+      requests,
+      itemCount,
+      nextItemCursor: itemCursor,
+      exhausted,
+      limit,
+      maxItemPages,
+      warnings,
+    };
+  }
   async project(
     id,
     {
@@ -748,6 +1041,8 @@ export class PortfolioManager {
       max_turn_pages = 4,
       thread_offset = 0,
       snapshot_checked_at,
+      item_thread_id,
+      item_cursor,
     } = {},
   ) {
     const snapshotToken = this.snapshot.checked_at;
@@ -825,18 +1120,56 @@ export class PortfolioManager {
       ],
       warnings = [];
     let pageComplete = true,
+      nonItemPageComplete = true,
       pages = 0,
+      itemPages = 0,
+      itemRequests = 0,
+      historyItemsObserved = 0,
       turnsObserved = 0,
       threadsRead = 0,
       emptyHistoryThreads = 0;
-    const sourceThreads = found.threads.slice(
-      thread_offset,
-      thread_offset + max_threads,
-    );
-    const nextThreadOffset =
-      thread_offset + sourceThreads.length < found.threads.length
+    const continuingItems =
+      item_thread_id !== undefined || item_cursor !== undefined;
+    let admission;
+    if (continuingItems) {
+      fail(
+        this.history.itemPaging &&
+          typeof item_thread_id === "string" &&
+          typeof item_cursor === "string" &&
+          item_cursor.length > 0 &&
+          item_cursor.length <= 16384,
+        "INVALID_INPUT",
+        "Item continuation needs a supported thread and exact bounded item cursor",
+      );
+      admission = this.itemCursors.get(JSON.stringify([id, item_thread_id]));
+      fail(
+        admission &&
+          admission.cursor === item_cursor &&
+          admission.snapshot === snapshotToken &&
+          admission.generation === generation &&
+          admission.source_revision === (current?.revision ?? null) &&
+          snapshot_checked_at === snapshotToken,
+        "SOURCE_DRIFT",
+        "This item cursor is not current for the selected project and source snapshot; refresh its history",
+        409,
+      );
+      fail(
+        found.threads.some((thread) => thread.id === item_thread_id),
+        "SCOPE_MISMATCH",
+        "This thread does not belong to the selected project",
+        409,
+      );
+      nonItemPageComplete = admission.non_item_page_complete;
+    }
+    const sourceThreads = continuingItems
+      ? [found.threads.find((thread) => thread.id === item_thread_id)]
+      : found.threads.slice(thread_offset, thread_offset + max_threads);
+    const nextThreadOffset = continuingItems
+      ? admission.next_thread_offset
+      : thread_offset + sourceThreads.length < found.threads.length
         ? thread_offset + sourceThreads.length
         : null;
+    const itemContinuations = [];
     for (const thread of sourceThreads) {
       try {
         const meta = await this.history.read(thread.id);
@@ -860,6 +1193,97 @@ export class PortfolioManager {
               160,
             ) || null,
         };
+        if (this.history.itemPaging) {
+          const observed = await this.#pagedTurns(
+            thread.id,
+            max_turn_pages,
+            continuingItems ? item_cursor : undefined,
+          );
+          if (!observed.fallback) {
+            pages += observed.turnPages;
+            turnsObserved += observed.metadataTurns;
+            itemPages += observed.itemPages;
+            itemRequests += observed.requests;
+            historyItemsObserved += observed.itemCount;
+            const answered = new Set([
+              ...(admission?.answered_turn_ids ?? []),
+              ...observed.answeredTurnIds,
+            ]);
+            const threadWarnings = [...observed.warnings];
+            if (observed.turnCursor)
+              threadWarnings.push({
+                code: "NATIVE_TURN_PAGE_LIMIT",
+                message:
+                  "More persisted turns remain beyond this page's configured turn limit",
+                max_turn_pages,
+              });
+            if (observed.metadataTurns === 0) {
+              emptyHistoryThreads++;
+              threadWarnings.push({
+                code: "NATIVE_HISTORY_EMPTY",
+                message:
+                  "Native thread metadata exists but no persisted turns were returned; work-history coverage is unverified",
+              });
+            }
+            if (observed.exhausted) {
+              for (const turnId of observed.completedTurnIds.filter(
+                (turnId) => !answered.has(turnId),
+              ))
+                threadWarnings.push({
+                  code: "NATIVE_COMPLETED_WITHOUT_ANSWER",
+                  turn_id: turnId,
+                  message:
+                    "Native completion has no observed agent response after the item stream was read",
+                });
+            }
+            if (
+              threadWarnings.some(
+                (warning) => warning.code !== "NATIVE_ITEM_PAGE_LIMIT",
+              )
+            )
+              nonItemPageComplete = false;
+            if (threadWarnings.length || !observed.exhausted)
+              pageComplete = false;
+            warnings.push(
+              ...threadWarnings.map((warning) => ({
+                ...warning,
+                thread_id: thread.id,
+              })),
+            );
+            for (const turn of observed.turns) {
+              const work = turnWork(observedThread, turn);
+              work.history_item_continuation = continuingItems;
+              // Missing answers remain provisional until the actual item stream is exhausted.
+              if (!observed.exhausted || answered.has(turn.id))
+                work.warnings = [];
+              items.push(work);
+            }
+            const continuation = {
+              thread_id: thread.id,
+              next_cursor: observed.nextItemCursor ?? null,
+              pages: observed.itemPages,
+              items_observed: observed.itemCount,
+              limit: observed.limit,
+              items_complete: observed.exhausted,
+              thread_offset: admission?.thread_offset ?? thread_offset,
+            };
+            itemContinuations.push(continuation);
+            const key = JSON.stringify([id, thread.id]);
+            if (observed.nextItemCursor)
+              this.itemCursors.set(key, {
+                cursor: observed.nextItemCursor,
+                snapshot: snapshotToken,
+                generation,
+                source_revision: current?.revision ?? null,
+                answered_turn_ids: [...answered],
+                thread_offset: admission?.thread_offset ?? thread_offset,
+                next_thread_offset: nextThreadOffset,
+                non_item_page_complete: nonItemPageComplete,
+              });
+            else this.itemCursors.delete(key);
+            continue;
+          }
+        }
         let cursor;
         let threadTurns = 0;
         const seen = new Set();
@@ -880,6 +1304,7 @@ export class PortfolioManager {
           for (const turn of page.data) {
             if (turn.itemsView && turn.itemsView !== "full") {
               pageComplete = false;
+              nonItemPageComplete = false;
               warnings.push({
                 thread_id: thread.id,
                 turn_id: turn.id,
@@ -890,6 +1315,7 @@ export class PortfolioManager {
             const work = turnWork(observedThread, turn);
             if (work.warnings.length) {
               pageComplete = false;
+              nonItemPageComplete = false;
               warnings.push(
                 ...work.warnings.map((row) => ({
                   ...row,
@@ -912,6 +1338,7 @@ export class PortfolioManager {
         }
         if (cursor) {
           pageComplete = false;
+          nonItemPageComplete = false;
           warnings.push({
             thread_id: thread.id,
             code: "NATIVE_TURN_PAGE_LIMIT",
@@ -922,6 +1349,7 @@ export class PortfolioManager {
         }
         if (threadTurns === 0) {
           pageComplete = false;
+          nonItemPageComplete = false;
           emptyHistoryThreads++;
           warnings.push({
             thread_id: thread.id,
@@ -932,6 +1360,7 @@ export class PortfolioManager {
         }
       } catch (error) {
         pageComplete = false;
+        nonItemPageComplete = false;
         warnings.push({ thread_id: thread.id, ...publicError(error) });
       }
     }
@@ -964,7 +1393,15 @@ export class PortfolioManager {
       history_status: "observed",
       known_work_items: work.length,
     };
+    pageComplete = pageComplete && nonItemPageComplete;
+    for (const continuation of itemContinuations) {
+      const pending = this.itemCursors.get(
+        JSON.stringify([id, continuation.thread_id]),
+      );
+      if (pending) pending.non_item_page_complete = nonItemPageComplete;
+    }
     const complete =
+      !continuingItems &&
       thread_offset === 0 &&
       nextThreadOffset === null &&
       pageComplete &&
@@ -979,9 +1416,15 @@ export class PortfolioManager {
       coverage: {
         complete,
         page_complete: pageComplete,
+        non_item_page_complete: nonItemPageComplete,
+        item_continuation: continuingItems,
+        ...(continuingItems
+          ? { item_thread_id, consumed_item_cursor: item_cursor }
+          : {}),
+        item_cursors: itemContinuations,
         discovery_complete: this.snapshot.coverage.complete,
         snapshot_checked_at: snapshotToken,
-        thread_offset,
+        thread_offset: admission?.thread_offset ?? thread_offset,
         next_thread_offset: nextThreadOffset,
         truncated: !complete,
         threads_total: found.threads.length,
@@ -990,8 +1433,17 @@ export class PortfolioManager {
         turns_observed: turnsObserved,
         empty_history_threads: emptyHistoryThreads,
         turn_pages: pages,
+        item_pages: itemPages,
+        history_item_requests: itemRequests,
+        history_items_observed: historyItemsObserved,
         items: work.length,
-        limits: { max_threads, max_turn_pages },
+        limits: {
+          max_threads,
+          max_turn_pages,
+          max_item_pages_per_thread: max_turn_pages * 2,
+          max_item_requests_per_thread: max_turn_pages * 2 + 6,
+          items_per_page: 50,
+        },
         native_acceptance_inferred: false,
       },
       warnings: [...project.warnings, ...warnings],

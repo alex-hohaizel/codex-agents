@@ -5,6 +5,12 @@ import { execFile } from "node:child_process";
 import { runtimeEnvironment } from "./environment.mjs";
 import { promisify } from "node:util";
 import {
+  contextBindingsPath,
+  contextCoverage,
+  loadContextBindings,
+  reconcileDecisions,
+} from "./context-bindings.mjs";
+import {
   digest,
   exists,
   fail,
@@ -60,6 +66,7 @@ const stateRefs = [
   ".atelier/state.json",
 ];
 const instructionRefs = [
+  contextBindingsPath,
   "AGENTS.md",
   "README.md",
   "releases/current.json",
@@ -122,6 +129,7 @@ export function projectSignals(documents, sources) {
     const data = document.data,
       source_ref = document.path,
       source_sha256 = sourceMap.get(source_ref);
+    if (!data || typeof data !== "object") continue;
     if (typeof data.markdown === "string") {
       const goalLines = section(
         data.markdown,
@@ -344,6 +352,81 @@ const projectKind = (sources) =>
         : sources.some((x) => x.path.startsWith(".agent-foundry"))
           ? "agent"
           : "generic";
+function currentCheckpoint(root, binding, documents, sources) {
+  const checkpoints = binding.source_checks.filter(
+    (row) => row.role === "checkpoint",
+  );
+  const gap = (code, message) => ({
+    current_checkpoint: null,
+    current_checkpoint_gap: {
+      code,
+      message,
+      blocking: false,
+      source_refs: checkpoints.map((row) => row.path),
+    },
+  });
+  const manifest = documents.find((row) => row.path === binding.manifest?.path);
+  if (!manifest || manifest.data?.project_root !== root)
+    return gap(
+      "CHECKPOINT_NOT_DECLARED",
+      "A current checkpoint needs one explicit context binding for this project",
+    );
+  if (checkpoints.length !== 1)
+    return gap(
+      checkpoints.length ? "CHECKPOINT_AMBIGUOUS" : "CHECKPOINT_NOT_DECLARED",
+      "Declare exactly one checkpoint source; a current phase is not guessed from other files",
+    );
+  const check = checkpoints[0];
+  const source = sources.find((row) => row.path === check.path);
+  const loaded = binding.loaded.find((row) => row.path === check.path);
+  if (
+    !check.required ||
+    check.status !== "verified" ||
+    !source ||
+    !loaded ||
+    source.sha256 !== check.expected_sha256 ||
+    loaded.sha256 !== source.sha256 ||
+    check.observed_sha256 !== source.sha256
+  )
+    return gap(
+      "CHECKPOINT_SOURCE_UNVERIFIED",
+      "The required checkpoint source must match its declared current bytes",
+    );
+  const data = documents.find((row) => row.path === check.path)?.data;
+  const boundedText = (value, maximum) =>
+    typeof value === "string" &&
+    value.trim().length > 0 &&
+    value.length <= maximum;
+  const boundedRows = (value) =>
+    Array.isArray(value) &&
+    value.length <= 100 &&
+    value.every((row) => boundedText(row, 4000));
+  if (
+    !data ||
+    typeof data !== "object" ||
+    Array.isArray(data) ||
+    !boundedText(data.phase, 2000) ||
+    !boundedRows(data.completed) ||
+    !boundedRows(data.in_progress) ||
+    !boundedText(data.next, 4000)
+  )
+    return gap(
+      "CHECKPOINT_SHAPE_UNSUPPORTED",
+      "Checkpoint phase/next must be bounded text and completed/in_progress must be bounded text arrays",
+    );
+  return {
+    current_checkpoint: redact({
+      phase: data.phase,
+      completed: data.completed,
+      in_progress: data.in_progress,
+      next: data.next,
+      source_ref: check.path,
+      source_sha256: source.sha256,
+      status: "declared",
+    }),
+    current_checkpoint_gap: null,
+  };
+}
 export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
   const root = await projectRoot(rootValue);
   fail(
@@ -357,6 +440,45 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
   const sources = [];
   const documents = [];
   const warnings = [];
+  const ingest = (source) => {
+    const ref = source.path;
+    // A bound source may already have been discovered as a known native record.
+    // Keep its parsed bytes and source pin from the same read, without duplicates.
+    const oldSource = sources.findIndex((row) => row.path === ref);
+    const oldDocument = documents.findIndex((row) => row.path === ref);
+    const pin = {
+      path: ref,
+      sha256: source.sha256,
+      bytes: source.bytes,
+      kind:
+        ref === contextBindingsPath
+          ? "context-binding"
+          : ref.endsWith(".json")
+            ? "native-state"
+            : "instruction",
+    };
+    if (oldSource >= 0) sources[oldSource] = pin;
+    else sources.push(pin);
+    let parsed;
+    if (ref.endsWith(".csv"))
+      parsed = { path: ref, data: { requirements: csvRecords(source.text) } };
+    if (ref.endsWith(".json")) {
+      try {
+        parsed = { path: ref, data: parseStrictJson(source.text) };
+      } catch (error) {
+        warnings.push({
+          path: ref,
+          code: error.code ?? "INVALID_JSON",
+          message: error.message,
+        });
+      }
+    }
+    if (/\.md$/i.test(ref))
+      parsed = { path: ref, data: { markdown: source.text } };
+    if (parsed && oldDocument >= 0) documents[oldDocument] = parsed;
+    else if (parsed) documents.push(parsed);
+    else if (oldDocument >= 0) documents.splice(oldDocument, 1);
+  };
   const additionalRefs = [];
   for (const folder of ["docs/project", "docs/agent", "docs/requirements"]) {
     try {
@@ -389,33 +511,7 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
     if (await exists(resolve(root, ref))) {
       try {
         const source = await readSource(root, ref);
-        sources.push({
-          path: ref,
-          sha256: source.sha256,
-          bytes: source.bytes,
-          kind: ref.endsWith(".json") ? "native-state" : "instruction",
-        });
-        if (ref.endsWith(".csv"))
-          documents.push({
-            path: ref,
-            data: { requirements: csvRecords(source.text) },
-          });
-        if (ref.endsWith(".json")) {
-          try {
-            documents.push({
-              path: ref,
-              data: parseStrictJson(source.text),
-            });
-          } catch (error) {
-            warnings.push({
-              path: ref,
-              code: error.code ?? "INVALID_JSON",
-              message: error.message,
-            });
-          }
-        }
-        if (/\.md$/i.test(ref))
-          documents.push({ path: ref, data: { markdown: source.text } });
+        ingest(source);
       } catch (error) {
         warnings.push({
           path: ref,
@@ -424,6 +520,13 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
         });
       }
     }
+  const binding = await loadContextBindings({
+    root,
+    documents,
+    sources,
+    readFailures: warnings,
+  });
+  for (const source of binding.loaded) ingest(source);
   const artifacts = await listArtifacts(root);
   for (const document of [...documents]) {
     const binding = document.data?.approval?.canonical_authority;
@@ -478,22 +581,28 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
       };
     }
   }
-  const native = documents.filter((x) => x.path.startsWith("."));
+  const native = documents.filter(
+    (x) =>
+      x.path.startsWith(".") && x.data?.schema !== "atelier.context-bindings/1",
+  );
   const primary = native[0]?.data;
   const kind = projectKind(sources);
   const requirements = [],
     decisions = [],
     identity = [],
-    readiness = [];
+    readiness = [],
+    deferred_work = [];
   const append = (target, values, source) => {
     for (const row of rows(values))
       target.push({
-        ...redact(row),
+        ...(typeof row === "string" ? { text: redact(row) } : redact(row)),
         source_ref: source,
+        source_sha256: sources.find((item) => item.path === source)?.sha256,
       });
   };
   for (const document of documents) {
     const data = document.data;
+    if (!data || typeof data !== "object") continue;
     append(
       requirements,
       data.requirements ?? data.requirement_registry ?? data.requirement,
@@ -502,7 +611,41 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
     append(decisions, data.decisions ?? data.decision, document.path);
     if (data.identity) append(identity, data.identity, document.path);
     if (data.readiness) append(readiness, data.readiness, document.path);
+    append(deferred_work, data.deferred_work ?? data.deferred, document.path);
   }
+  for (const check of binding.source_checks) {
+    if (
+      !["requirements", "decisions"].includes(check.role) ||
+      check.status !== "verified"
+    )
+      continue;
+    const data = documents.find((row) => row.path === check.path)?.data;
+    const nativeRows =
+      check.role === "requirements"
+        ? (data?.requirements ??
+          data?.requirement_registry ??
+          data?.requirement)
+        : (data?.decisions ?? data?.decision);
+    check.projection_status =
+      nativeRows && typeof nativeRows === "object"
+        ? "native-records-read"
+        : "unsupported";
+    if (check.projection_status === "unsupported")
+      binding.issues.push({
+        code: "CONTEXT_INCOMPLETE",
+        message:
+          "The declared structured source has no supported native record group; keep it as a source and provide an explicit native projection",
+        path: check.path,
+        blocking: check.required,
+      });
+  }
+  const decisionContext = reconcileDecisions(decisions);
+  const context_coverage = contextCoverage(
+    binding,
+    requirements,
+    decisionContext.issues,
+  );
+  warnings.push(...context_coverage.issues);
   const schemas = native.map((x) => ({
     path: x.path,
     schema: schemaOf(x.data),
@@ -576,6 +719,10 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
     sources,
     requirements,
     decisions,
+    current_decisions: decisionContext.current_decisions,
+    corrections: decisionContext.corrections,
+    deferred_work,
+    context_coverage,
     identity,
     readiness,
     artifacts,
@@ -585,6 +732,7 @@ export async function inspectProject(rootValue, { sourceRefs = [] } = {}) {
     native_state_present: native.length > 0,
     projection_notice:
       "Read-only projection. Product state is authoritative; binding does not migrate or adopt a project.",
+    ...currentCheckpoint(root, binding, documents, sources),
   };
 }
 export class ProjectAdapter {
@@ -731,6 +879,10 @@ export class ProjectAdapter {
         sources: current.sources,
         authority: "native-project",
         notice: current.projection_notice,
+        coverage: current.context_coverage,
+        current_decisions: current.current_decisions,
+        corrections: current.corrections,
+        deferred_work: current.deferred_work,
       },
       service_decisions: this.store
         .list("decision")

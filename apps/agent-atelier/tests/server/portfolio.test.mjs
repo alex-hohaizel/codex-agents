@@ -26,7 +26,7 @@ import {
 } from "../../server/projects.mjs";
 import { proposeRoute } from "../../server/routing.mjs";
 import { CodexAdapter, CodexHistoryAdapter } from "../../server/codex.mjs";
-import { digest, sha } from "../../server/utils.mjs";
+import { digest, sha, ServiceError } from "../../server/utils.mjs";
 import { Application } from "../../server/application.mjs";
 
 const store = (records = {}) => ({ list: (kind) => records[kind] ?? [] });
@@ -1141,12 +1141,19 @@ test("public Codex discovery explicitly requests all kinds and state-db-only pag
   };
   await native.allThreads({ cursor: "opaque", archived: true });
   await native.historyTurns("thread", { cursor: "older" });
+  await native.historyTurns("thread", { itemsView: "notLoaded" });
+  await native.historyItems("thread", { cursor: "older-items", limit: 20 });
   assert.equal(calls[0].method, "thread/list");
   assert.equal(calls[0].params.useStateDbOnly, true);
   assert.ok(!Object.hasOwn(calls[0].params, "cwd"));
   assert.ok(calls[0].params.sourceKinds.includes("subAgent"));
   assert.equal(calls[0].params.archived, true);
   assert.equal(calls[1].params.itemsView, "full");
+  assert.equal(calls[2].params.itemsView, "notLoaded");
+  assert.equal(calls[3].method, "thread/items/list");
+  assert.equal(calls[3].params.cursor, "older-items");
+  assert.equal(calls[3].params.sortDirection, "desc");
+  assert.equal(calls[3].params.limit, 20);
 });
 
 test("native-index history transport has a private read facade and rejects all mutating RPC admission", async (t) => {
@@ -1165,6 +1172,20 @@ test("native-index history transport has a private read facade and rejects all m
     ["thread/list", {}],
     ["thread/read", { includeTurns: true }],
     ["thread/turns/list", { itemsView: "full", limit: 1000 }],
+    ["thread/turns/list", { itemsView: "summary", limit: 10 }],
+    [
+      "thread/items/list",
+      { threadId: "thread", sortDirection: "desc", limit: 1000 },
+    ],
+    [
+      "thread/items/list",
+      {
+        threadId: "thread",
+        sortDirection: "desc",
+        limit: 10,
+        cursor: { arbitrary: true },
+      },
+    ],
   ]) {
     assert.throws(
       () => denied.rpc(method, params),
@@ -1229,6 +1250,7 @@ test("native-index history transport has a private read facade and rejects all m
   assert.equal(reader.turn, undefined);
   await reader.allThreads({ limit: 1 });
   await reader.historyTurns("scoped-thread", { limit: 5 });
+  await reader.historyItems("scoped-thread", { limit: 5 });
   await reader.close();
   assert.equal(
     argv.some((value) => value.startsWith("sqlite_home=")),
@@ -1241,7 +1263,241 @@ test("native-index history transport has a private read facade and rejects all m
     "account/read",
     "thread/list",
     "thread/turns/list",
+    "thread/items/list",
   ]);
+});
+
+async function itemHistoryFixture(
+  t,
+  historyItems,
+  {
+    turns = [
+      { id: "turn", status: "completed", itemsView: "notLoaded", items: [] },
+    ],
+  } = {},
+) {
+  const { root, dataDir } = await fixture(t);
+  await writeFile(join(root, "AGENTS.md"), "Original source instructions.");
+  const calls = [];
+  const native = {
+    allThreads: async ({ archived }) => ({
+      data: archived
+        ? []
+        : [
+            {
+              id: "large",
+              cwd: root,
+              name: "Metadata title",
+              status: { type: "idle" },
+            },
+          ],
+    }),
+    readThread: async (id) => ({ thread: { id, cwd: root } }),
+    historyTurns: async (_id, options) => {
+      calls.push(["turns", options]);
+      return { data: turns, nextCursor: null };
+    },
+    historyItems: async (id, options) => {
+      calls.push(["items", options]);
+      return historyItems(id, options);
+    },
+  };
+  const manager = new PortfolioManager({
+    store: store(),
+    codex: native,
+    dataDir,
+  });
+  const catalog = await manager.refresh();
+  return {
+    root,
+    manager,
+    id: catalog.projects[0].id,
+    snapshot: catalog.checked_at,
+    calls,
+  };
+}
+const entry = (id, type, body = {}) => ({
+  turnId: "turn",
+  item: { id, type, ...body },
+});
+
+test("large history uses metadata and bounded actual item pages, shrinking an oversized page without increasing the transport cap", async (t) => {
+  const f = await itemHistoryFixture(t, async (_id, { limit }) => {
+    if (limit > 12)
+      throw new ServiceError(
+        "HOST_DISCONNECTED",
+        "Protocol message exceeded limit",
+        503,
+      );
+    return {
+      data: [
+        entry("answer", "agentMessage", { text: "Actual final answer" }),
+        entry("command", "commandExecution", {
+          exitCode: 0,
+          status: "completed",
+        }),
+        entry("request", "userMessage", {
+          content: [{ type: "text", text: "Actual owner objective" }],
+        }),
+      ],
+      nextCursor: null,
+    };
+  });
+  const result = await f.manager.project(f.id);
+  assert.equal(f.calls[0][1].itemsView, "notLoaded");
+  assert.deepEqual(
+    f.calls
+      .filter(([kind]) => kind === "items")
+      .map(([, params]) => params.limit),
+    [50, 25, 12],
+  );
+  assert.equal(result.coverage.complete, true);
+  assert.equal(result.coverage.history_items_observed, 3);
+  const work = result.work_groups.flatMap((group) => group.items)[0];
+  assert.equal(work.objective, "Actual owner objective");
+  assert.equal(work.objective_observed, true);
+  assert.equal(work.outcome, "Actual final answer");
+  assert.equal(work.response_item_id, "answer");
+  assert.equal(work.evidence_refs[0].kind, "command_observation");
+});
+
+test("bounded item continuation retains exact cursor admission, newer answers and cumulative project coverage", async (t) => {
+  const f = await itemHistoryFixture(t, async (_id, { cursor }) =>
+    cursor === "b"
+      ? {
+          data: [
+            entry("older-comment", "agentMessage", {
+              text: "Older commentary",
+            }),
+            entry("request", "userMessage", {
+              content: [{ type: "text", text: "The original owner objective" }],
+            }),
+          ],
+          nextCursor: null,
+        }
+      : cursor === "a"
+        ? {
+            data: [entry("command", "commandExecution", { exitCode: 0 })],
+            nextCursor: "b",
+          }
+        : {
+            data: [
+              entry("latest-answer", "agentMessage", {
+                text: "Newest actual answer",
+              }),
+            ],
+            nextCursor: "a",
+          },
+  );
+  const first = await f.manager.project(f.id, { max_turn_pages: 1 });
+  assert.equal(first.coverage.complete, false);
+  assert.equal(first.coverage.non_item_page_complete, true);
+  assert.equal(first.coverage.item_cursors[0].next_cursor, "b");
+  await assert.rejects(
+    f.manager.project(f.id, {
+      item_thread_id: "large",
+      item_cursor: "wrong",
+      snapshot_checked_at: f.snapshot,
+    }),
+    (error) => error.code === "SOURCE_DRIFT",
+  );
+  const next = await f.manager.project(f.id, {
+    item_thread_id: "large",
+    item_cursor: "b",
+    snapshot_checked_at: f.snapshot,
+    max_turn_pages: 1,
+  });
+  assert.equal(next.coverage.item_continuation, true);
+  assert.equal(next.coverage.item_cursors[0].next_cursor, null);
+  assert.equal(next.coverage.item_cursors[0].items_complete, true);
+  const observed = f.manager.observedPages.get(f.id).pages.get(0);
+  const work = observed.work_groups.flatMap((group) => group.items)[0];
+  assert.equal(work.outcome, "Newest actual answer");
+  assert.equal(work.objective, "The original owner objective");
+  assert.equal(work.status, "answer_received");
+  assert.equal(observed.coverage.page_complete, true);
+  assert.equal(f.manager.get().projects[0].history_status, "observed");
+  await assert.rejects(
+    f.manager.project(f.id, {
+      item_thread_id: "large",
+      item_cursor: "b",
+      snapshot_checked_at: f.snapshot,
+    }),
+    (error) => error.code === "SOURCE_DRIFT",
+  );
+});
+
+test("repeated item cursors, a single oversized item and empty answer text remain explicit coverage gaps", async (t) => {
+  const repeated = await itemHistoryFixture(t, async () => ({
+    data: [entry("answer", "agentMessage", { text: "Observed response" })],
+    nextCursor: "same",
+  }));
+  const result = await repeated.manager.project(repeated.id);
+  assert.equal(result.coverage.complete, false);
+  assert.ok(result.warnings.some((row) => row.code === "HOST_PROTOCOL_ERROR"));
+  assert.equal(result.coverage.item_cursors[0].next_cursor, null);
+  const oversized = await itemHistoryFixture(t, async () => {
+    throw new ServiceError(
+      "HOST_DISCONNECTED",
+      "Protocol message exceeded limit",
+      503,
+    );
+  });
+  const unread = await oversized.manager.project(oversized.id);
+  assert.equal(unread.coverage.complete, false);
+  assert.ok(
+    unread.warnings.some((row) => row.code === "NATIVE_ITEM_TOO_LARGE"),
+  );
+  assert.ok(oversized.calls.length <= 8);
+  const empty = await itemHistoryFixture(t, async () => ({
+    data: [
+      entry("answer", "agentMessage", { text: "  " }),
+      entry("request", "userMessage", {
+        content: [{ type: "text", text: "Actual request" }],
+      }),
+    ],
+    nextCursor: null,
+  }));
+  const emptyResult = await empty.manager.project(empty.id);
+  assert.equal(emptyResult.coverage.non_item_page_complete, false);
+  assert.equal(
+    emptyResult.work_groups.flatMap((group) => group.items)[0].status,
+    "recorded",
+  );
+  assert.ok(
+    emptyResult.warnings.some(
+      (row) => row.code === "NATIVE_COMPLETED_WITHOUT_ANSWER",
+    ),
+  );
+});
+
+test("an item continuation cannot cross changed project source or a refreshed inventory", async (t) => {
+  const f = await itemHistoryFixture(t, async (_id, { cursor }) => ({
+    data: [entry(cursor ?? "first", "agentMessage", { text: "Observed" })],
+    nextCursor: `${cursor ?? "start"}-next`,
+  }));
+  const first = await f.manager.project(f.id, { max_turn_pages: 1 });
+  const cursor = first.coverage.item_cursors[0].next_cursor;
+  const calls = f.calls.length;
+  await writeFile(join(f.root, "AGENTS.md"), "Changed governing source.");
+  await assert.rejects(
+    f.manager.project(f.id, {
+      item_thread_id: "large",
+      item_cursor: cursor,
+      snapshot_checked_at: f.snapshot,
+    }),
+    (error) => error.code === "SOURCE_DRIFT",
+  );
+  assert.equal(f.calls.length, calls);
+  await f.manager.refresh();
+  await assert.rejects(
+    f.manager.project(f.id, {
+      item_thread_id: "large",
+      item_cursor: cursor,
+      snapshot_checked_at: f.snapshot,
+    }),
+    (error) => error.code === "SOURCE_DRIFT",
+  );
 });
 
 class LocalCodex extends EventEmitter {

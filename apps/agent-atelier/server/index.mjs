@@ -229,6 +229,9 @@ export async function createServer({
               thread_offset: Number(url.searchParams.get("thread_offset") ?? 0),
               snapshot_checked_at:
                 url.searchParams.get("snapshot_checked_at") ?? undefined,
+              item_thread_id:
+                url.searchParams.get("item_thread_id") ?? undefined,
+              item_cursor: url.searchParams.get("item_cursor") ?? undefined,
               max_threads: url.searchParams.has("max_threads")
                 ? Number(url.searchParams.get("max_threads"))
                 : 40,
