@@ -1,4 +1,4 @@
-import { dirname, relative, resolve } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { homedir } from "node:os";
 import { lstat, readdir, realpath } from "node:fs/promises";
 import { runtimeEnvironment } from "./environment.mjs";
@@ -35,6 +35,94 @@ const nativePattern = (name) =>
     /[a-z]/g,
     (character) => `[${character}${character.toUpperCase()}]`,
   );
+
+export function taskMemoryMode(value) {
+  const mode = value === undefined ? "inherit" : value;
+  fail(
+    typeof mode === "string" && ["inherit", "disabled"].includes(mode),
+    "INVALID_INPUT",
+    "memory_mode must be inherit or disabled",
+  );
+  return mode;
+}
+
+// Resolve the existing native home without changing it or reading its config.
+// Both lexical and canonical paths matter when a supported home/store is linked.
+export async function codexMemoryDenyRoots(
+  codexHome = process.env.CODEX_HOME ?? join(homedir(), ".codex"),
+) {
+  const supported = (path) =>
+    typeof path === "string" &&
+    isAbsolute(path) &&
+    !path.includes("\0") &&
+    !globCharacters.test(path);
+  fail(
+    supported(codexHome),
+    "CAPABILITY_UNVERIFIED",
+    "The existing Codex home cannot be represented safely for task-only memory isolation",
+    409,
+  );
+  const home = resolve(codexHome);
+  let canonicalHome;
+  try {
+    canonicalHome = await realpath(home);
+    fail(
+      supported(canonicalHome) && (await lstat(canonicalHome)).isDirectory(),
+      "CAPABILITY_UNVERIFIED",
+      "The existing Codex home is not a supported directory for task-only memory isolation",
+      409,
+    );
+  } catch (error) {
+    if (error instanceof ServiceError) throw error;
+    throw new ServiceError(
+      "CAPABILITY_UNVERIFIED",
+      "Cannot resolve the existing Codex home for task-only memory isolation",
+      409,
+    );
+  }
+  const roots = new Set();
+  for (const name of ["memories", "memories_v2"]) {
+    const path = join(home, name);
+    roots.add(path);
+    roots.add(join(canonicalHome, name));
+    try {
+      const target = await realpath(path);
+      fail(
+        supported(target) && (await lstat(target)).isDirectory(),
+        "CAPABILITY_UNVERIFIED",
+        "A native memory store cannot be isolated with the supported path contract",
+        409,
+      );
+      roots.add(target);
+    } catch (error) {
+      // Also deny a not-yet-created native store; never create it here.
+      if (error.code === "ENOENT") {
+        try {
+          await lstat(path);
+        } catch (missing) {
+          if (missing.code === "ENOENT") continue;
+          throw new ServiceError(
+            "CAPABILITY_UNVERIFIED",
+            "Cannot inspect a native memory-store path for task-only isolation",
+            409,
+          );
+        }
+        throw new ServiceError(
+          "CAPABILITY_UNVERIFIED",
+          "A dangling native memory-store link cannot be isolated safely",
+          409,
+        );
+      }
+      if (error instanceof ServiceError) throw error;
+      throw new ServiceError(
+        "CAPABILITY_UNVERIFIED",
+        "Cannot resolve a native memory store for task-only memory isolation",
+        409,
+      );
+    }
+  }
+  return [...roots].sort();
+}
 
 export function writablePaths(paths) {
   return paths.map((value) => {

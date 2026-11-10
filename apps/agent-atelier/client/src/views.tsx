@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Activity,
   Archive,
@@ -2007,6 +2007,128 @@ function ReadableWorkReport({ content }: { content: string }) {
   return <article className="operator-readable-report">{blocks}</article>;
 }
 
+function ArtifactReportPreview({
+  projectId,
+  artifact,
+  indexedSource,
+  downloadURL,
+  t,
+}: {
+  projectId: string;
+  artifact: Data;
+  indexedSource?: Data;
+  downloadURL: string;
+  t: ViewProps["t"];
+}) {
+  const [report, setReport] = useState<Data | null>(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [retry, setRetry] = useState(0);
+  const [settledKey, setSettledKey] = useState("");
+  const previewRef = useRef<HTMLDivElement | null>(null);
+  const verifiedHeight = useRef(0);
+  const path = artifact.path ?? artifact.relative_path;
+  const bytes = artifact.bytes ?? artifact.size;
+  const inputKey = JSON.stringify([
+    projectId,
+    path,
+    bytes,
+    artifact.sha256,
+    artifact.modified_at,
+    indexedSource?.path,
+    indexedSource?.sha256,
+    indexedSource?.bytes,
+    retry,
+  ]);
+  const pending = loading || settledKey !== inputKey;
+  const currentReport = pending ? null : report;
+  useLayoutEffect(() => {
+    if (currentReport && previewRef.current)
+      verifiedHeight.current = previewRef.current.getBoundingClientRect().height;
+  }, [currentReport]);
+  useEffect(() => {
+    const controller = new AbortController();
+    let current = true;
+    setLoading(true);
+    setReport(null);
+    setError("");
+    api
+      .artifactReport(projectId, artifact, indexedSource, controller.signal)
+      .then((value) => {
+        if (current) setReport(value);
+      })
+      .catch((failure) => {
+        if (current)
+          setError(
+            failure instanceof Error ? failure.message : String(failure),
+          );
+      })
+      .finally(() => {
+        if (current) {
+          setSettledKey(inputKey);
+          setLoading(false);
+        }
+      });
+    return () => {
+      current = false;
+      controller.abort();
+    };
+  }, [inputKey]);
+  return (
+    <div
+      className="panel-padding"
+      data-artifact-readable-report
+      ref={previewRef}
+      style={{ minHeight: pending ? verifiedHeight.current : undefined }}
+    >
+      <div className="table-toolbar">
+        <span className="operator-reader-pin">
+          <BookOpen size={14} />
+          {t("readOnlyPreview")}
+          {currentReport && (
+            <span data-artifact-report-pin={currentReport.sha256}>
+              {t("sourceInput")} · {t("observedHash")}:{" "}
+              {shortHash(currentReport.sha256)}
+            </span>
+          )}
+        </span>
+        <a
+          className="button"
+          href={downloadURL}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <ExternalLink size={14} />
+          {t("openArtifact")}
+        </a>
+      </div>
+      <p className="muted">
+        <code>{path}</code>
+      </p>
+      {pending ? (
+        <SurfaceNotice>{t("loadingSource")}</SurfaceNotice>
+      ) : error ? (
+        <div data-artifact-report-error>
+          <SurfaceNotice tone="error">
+            {t("previewIncomplete")}: {error}
+          </SurfaceNotice>
+          <Button
+            small
+            icon={RefreshCw}
+            onClick={() => setRetry((value) => value + 1)}
+          >
+            {t("retry")}
+          </Button>
+        </div>
+      ) : currentReport ? (
+        <div data-artifact-report-observation={currentReport.source_observation}>
+          <ReadableWorkReport content={currentReport.content} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function TechnicalWorkspaceView(p: ViewProps) {
   const [fileIndex, setFileIndex] = useState(0);
   const [fileContent, setFileContent] = useState<unknown>(undefined);
@@ -2943,11 +3065,36 @@ export function EvidenceView(p: ViewProps) {
 }
 
 export function ArtifactsView(p: ViewProps) {
-  const [selected, setSelected] = useState<Data | null>(null);
+  const [selection, setSelection] = useState<{
+    projectId: string;
+    path: string;
+  } | null>(null);
   const [query, setQuery] = useState("");
-  const artifacts = (p.workspace?.artifacts ?? []).filter((a) =>
+  const previewRef = useRef<HTMLDivElement | null>(null);
+  const artifactKey = (artifact: Data) =>
+    text(artifact.path ?? artifact.relative_path ?? artifact.id);
+  const currentArtifacts: Data[] = p.workspace?.artifacts ?? [];
+  const selected =
+    p.selected && selection?.projectId === text(p.selected.id)
+      ? (currentArtifacts.find(
+          (artifact) => artifactKey(artifact) === selection.path,
+        ) ?? null)
+      : null;
+  const artifacts = currentArtifacts.filter((a) =>
     pretty(a).toLowerCase().includes(query.toLowerCase()),
   );
+  useEffect(() => {
+    if (!selected) return;
+    // Only a changed user selection reveals the preview; polling never moves it.
+    previewRef.current
+      ?.closest(".panel")
+      ?.querySelector(".panel__header")
+      ?.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "auto",
+      });
+  }, [selection?.projectId, selection?.path]);
   if (!p.selected) return <Welcome {...p} />;
   const mediaURL =
     selected && !p.demo
@@ -2955,6 +3102,10 @@ export function ArtifactsView(p: ViewProps) {
       : "";
   const name = text(selected?.name ?? selected?.path);
   const extension = name.toLowerCase().split(".").pop();
+  const selectedPath = selected?.path ?? selected?.relative_path;
+  const reportSource = (p.workspace?.sources ?? []).find(
+    (source) => source.path === selectedPath,
+  );
   return (
     <div className="page-content">
       <SectionHeading
@@ -2986,9 +3137,18 @@ export function ArtifactsView(p: ViewProps) {
               {artifacts.map((artifact, index) => (
                 <button
                   key={artifact.id ?? artifact.path ?? index}
-                  className={selected === artifact ? "is-selected" : ""}
+                  title={text(artifact.path ?? artifact.name)}
+                  aria-label={text(artifact.path ?? artifact.name)}
+                  className={
+                    selected && artifactKey(selected) === artifactKey(artifact)
+                      ? "is-selected"
+                      : ""
+                  }
                   onClick={() => {
-                    setSelected(artifact);
+                    setSelection({
+                      projectId: text(p.selected?.id),
+                      path: artifactKey(artifact),
+                    });
                     p.inspect({
                       title: text(artifact.name ?? artifact.path),
                       kind: "artifact",
@@ -3000,6 +3160,11 @@ export function ArtifactsView(p: ViewProps) {
                   <FileSymbol name={artifact.name ?? artifact.path} />
                   <span>
                     <strong>{text(artifact.name ?? artifact.path)}</strong>
+                    {artifact.path && artifact.path !== artifact.name && (
+                      <small style={{ overflowWrap: "anywhere" }}>
+                        {text(artifact.path)}
+                      </small>
+                    )}
                     <small>
                       {text(artifact.kind ?? artifact.type)} ·{" "}
                       {text(artifact.bytes ?? artifact.size)} B
@@ -3023,11 +3188,20 @@ export function ArtifactsView(p: ViewProps) {
           }
         >
           {selected ? (
-            <div className="artifact-preview">
-              {mediaURL &&
-              ["png", "jpg", "jpeg", "webp", "gif"].includes(
-                extension ?? "",
-              ) ? (
+            <div className="artifact-preview" ref={previewRef}>
+              {mediaURL && /\.(md|markdown)$/i.test(selectedPath ?? "") ? (
+                <ArtifactReportPreview
+                  key={JSON.stringify([p.selected.id, selectedPath])}
+                  projectId={p.selected.id}
+                  artifact={selected}
+                  indexedSource={reportSource}
+                  downloadURL={mediaURL}
+                  t={p.t}
+                />
+              ) : mediaURL &&
+                ["png", "jpg", "jpeg", "webp", "gif"].includes(
+                  extension ?? "",
+                ) ? (
                 <img
                   src={mediaURL}
                   alt={text(

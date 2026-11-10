@@ -597,6 +597,81 @@ export const api = {
       `/projects/${encodeURIComponent(projectId)}/source?path=${encodeURIComponent(path)}`,
     );
   },
+  async artifactReport(
+    projectId: string,
+    artifact: Data,
+    indexedSource?: Data,
+    signal?: AbortSignal,
+  ) {
+    const path = artifact.path ?? artifact.relative_path;
+    const bytes = artifact.bytes ?? artifact.size;
+    const maxBytes = 1024 * 1024;
+    if (
+      typeof path !== "string" ||
+      path.length > 4096 ||
+      !/\.(md|markdown)$/i.test(path) ||
+      path.startsWith("/") ||
+      path.split(/[\\/]/).includes("..") ||
+      !Number.isSafeInteger(bytes) ||
+      bytes < 0 ||
+      bytes > maxBytes
+    )
+      throw new ApiError(
+        "A readable report needs a current indexed path and size within 1 MiB. Refresh the project or open the original file.",
+        "ARTIFACT_REPORT_UNAVAILABLE",
+      );
+    const boundSource =
+      indexedSource?.path === path ? indexedSource : undefined;
+    const declaredHashes = [artifact.sha256, boundSource?.sha256].filter(
+      (hash) => hash !== undefined && hash !== null,
+    );
+    if (
+      declaredHashes.some(
+        (hash) => typeof hash !== "string" || !/^[a-f0-9]{64}$/i.test(hash),
+      ) ||
+      new Set(declaredHashes.map((hash: string) => hash.toLowerCase())).size >
+        1 ||
+      (boundSource?.bytes !== undefined && boundSource.bytes !== bytes)
+    )
+      throw new ApiError(
+        "The indexed report source changed. Refresh the project before reading it.",
+        "SOURCE_DRIFT",
+      );
+    const expectedHash = declaredHashes[0]?.toLowerCase();
+    const source = await request<Data>(
+      `/projects/${encodeURIComponent(projectId)}/source?path=${encodeURIComponent(path)}`,
+      { signal },
+    );
+    if (
+      source.path !== path ||
+      source.bytes !== bytes ||
+      typeof source.sha256 !== "string" ||
+      !/^[a-f0-9]{64}$/i.test(source.sha256) ||
+      (expectedHash !== undefined &&
+        source.sha256.toLowerCase() !== expectedHash) ||
+      source.truncated === true ||
+      typeof source.content !== "string" ||
+      new TextEncoder().encode(source.content).byteLength > maxBytes ||
+      source.content.includes("\0")
+    )
+      throw new ApiError(
+        "The report path, hash, size or bounded text no longer matches this selection. Refresh the project or open the original file.",
+        "SOURCE_DRIFT",
+      );
+    // /source deliberately returns redacted text and the ORIGINAL file hash.
+    // Never hash that text as original bytes or infer owner/job acceptance.
+    return {
+      path: source.path,
+      sha256: source.sha256,
+      bytes: source.bytes,
+      content: source.content,
+      source_observation:
+        expectedHash === undefined
+          ? "fresh-source-only"
+          : "matched-indexed-pin",
+      content_redacted: true,
+    };
+  },
 };
 
 export function text(value: unknown, fallback = "—"): string {

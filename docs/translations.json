@@ -1,17 +1,17 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
+  "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
   "default_locale": "en",
   "guide_editions": 7,
   "translation_editions": 6,
-  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction. Patch1.2.2/optional1.0.1 updates the current release line and adds equivalent skill/application and icon-delivery explanations in all seven guides. These changed passages were self-reviewed against final English; structural parity, stable-name counts, command blocks and exact retention of all other baseline bytes were checked. No Work installation, host display or new runtime verification follows from this translation review. Edition1.3.0/Orchestrator1.1.0/AgentAtelier0.2.0 updates current version literals, universal-entry and maintenance passages, source-backed native portfolio/goal/evidence guidance and one entry-table row in all seven complete guides. Changed passages were compared with English; commands, heading/step/table structure and stable identifiers match. Unrelated guide bodies are byte-preserved after the reviewed version-literal changes. Actual UI layouts, installation, model behavior and live Work are separate evidence. The final1.3.0 addendum distinguishes available native history from empty desktop projects and documents the known optional-source preview/apply/verify/rollback flow in all seven guides; source-target semantics and unchanged command/structure parity reviewed. Final1.3.0 native-history addendum in all seven guides explains readonly inspection, restored persisted-context requirement for isolated chat continuation, reviewed-source/new-task or capable-native-host fallback, and unchanged execution isolation with no native database migration. Paragraph semantics self-reviewed against English; exact other-body bytes and command/step/name parity preserved. Edition1.3.1 adds equivalent audit/proposal-only notices in all seven guides and updates only the current repository edition. Exact other-body reversal and unchanged bash blocks checked. Detailed new handbook is EN/UK only; no new runtime or WORK claim. Edition1.3.2 replaces only the scope notice and current repository edition in all seven guides. Changed notices consistently preserve all17capabilities,35sources/12roles,conditionalprofiles,context/design/workingpanel priority, regression rejection, planned actual-task comparisons, documentation-only status, EN/UK handbook and deferred WORK. Exact old-body reversal and unchanged bash checked. Approved implementation checkpoint replaces only the scope notice in all seven guides; all17/35/12, conditional profiles, context/design/panel priorities, ongoing bounded checks, rejection of regressions, open adoption/release and deferred WORK are equivalent. Other passages and commands retained. No new native-human certification. Candidate1.4.0-rc.1/core6.1.0 updates current-source, implementation, independent-version, optional-binding/context, seven conditional profiles, thirteen-record utility, generated15/12/8-resource inheritance and source-backed panel/history passages equivalently in all seven guides. Changed passages semantically self-reviewed against English. Heading/ordered-step/table/fence/command/stable-name parity and all previous bash blocks checked. Detailed implementation/source cards and sanitized review study EN/UK only; no independent native-human, installation, operational adoption or runtime certification. Candidate1.4.0-rc.2 adds equivalent operator-first/source-change workflow, active-runtime-job versus stale dispatch, on-demand history, initially closed selection inspector, seven-locales/human-profile labels, owner-requested design rework, optional declared current_checkpoint and failure-driven shared UI quality rule in all seven guides. Changed passages semantically self-reviewed against English. Exact prior bash blocks and heading/ordered-step/table/fence/stable-name parity retained. Old UI/CI proof is not rebound to new bytes; instruction loading does not certify quality. No new native-human, host/runtime or owner acceptance certification. Scoped-owner-acceptance reconciliation translates the shownrevision6visualfoundation acceptance, keeps fullA26/all29cases/install separate, and explains canonical40file/mode optionalpredecessor recognition, noforcedoverwrite, preserved maintenanceabsence and distinct boundedpriorityadmission in all seven guides. Changed passages semantically self-reviewed; original commands/35names/structural parity retained. No native-human translation, blanket quality, installed-update or full-case acceptance claim.",
+  "verification_scope": "All seven full guide editions retained. Current6.0 release/baseline/adoption paragraphs and ten-step section0 translated in all six editions. Structural parity, identical bash blocks, stable-name counts and exact retention of untouched baseline bodies checked. Changed passages self-reviewed against English; this is not independent native-human or host/runtime verification. Independent agent review also compared earlier changed guide commands/structure and critical safety/recovery passages; this is not native-human certification. Patch1.2.1/0.1.1 reconciles version literals and the section0 step8 governing-instruction clarification in all seven guides. The clarification was self-reviewed against final English; all other guide bytes and command blocks remain unchanged from the preceding version-literal correction. Patch1.2.2/optional1.0.1 updates the current release line and adds equivalent skill/application and icon-delivery explanations in all seven guides. These changed passages were self-reviewed against final English; structural parity, stable-name counts, command blocks and exact retention of all other baseline bytes were checked. No Work installation, host display or new runtime verification follows from this translation review. Edition1.3.0/Orchestrator1.1.0/AgentAtelier0.2.0 updates current version literals, universal-entry and maintenance passages, source-backed native portfolio/goal/evidence guidance and one entry-table row in all seven complete guides. Changed passages were compared with English; commands, heading/step/table structure and stable identifiers match. Unrelated guide bodies are byte-preserved after the reviewed version-literal changes. Actual UI layouts, installation, model behavior and live Work are separate evidence. The final1.3.0 addendum distinguishes available native history from empty desktop projects and documents the known optional-source preview/apply/verify/rollback flow in all seven guides; source-target semantics and unchanged command/structure parity reviewed. Final1.3.0 native-history addendum in all seven guides explains readonly inspection, restored persisted-context requirement for isolated chat continuation, reviewed-source/new-task or capable-native-host fallback, and unchanged execution isolation with no native database migration. Paragraph semantics self-reviewed against English; exact other-body bytes and command/step/name parity preserved. Edition1.3.1 adds equivalent audit/proposal-only notices in all seven guides and updates only the current repository edition. Exact other-body reversal and unchanged bash blocks checked. Detailed new handbook is EN/UK only; no new runtime or WORK claim. Edition1.3.2 replaces only the scope notice and current repository edition in all seven guides. Changed notices consistently preserve all17capabilities,35sources/12roles,conditionalprofiles,context/design/workingpanel priority, regression rejection, planned actual-task comparisons, documentation-only status, EN/UK handbook and deferred WORK. Exact old-body reversal and unchanged bash checked. Approved implementation checkpoint replaces only the scope notice in all seven guides; all17/35/12, conditional profiles, context/design/panel priorities, ongoing bounded checks, rejection of regressions, open adoption/release and deferred WORK are equivalent. Other passages and commands retained. No new native-human certification. Candidate1.4.0-rc.1/core6.1.0 updates current-source, implementation, independent-version, optional-binding/context, seven conditional profiles, thirteen-record utility, generated15/12/8-resource inheritance and source-backed panel/history passages equivalently in all seven guides. Changed passages semantically self-reviewed against English. Heading/ordered-step/table/fence/command/stable-name parity and all previous bash blocks checked. Detailed implementation/source cards and sanitized review study EN/UK only; no independent native-human, installation, operational adoption or runtime certification. Candidate1.4.0-rc.2 adds equivalent operator-first/source-change workflow, active-runtime-job versus stale dispatch, on-demand history, initially closed selection inspector, seven-locales/human-profile labels, owner-requested design rework, optional declared current_checkpoint and failure-driven shared UI quality rule in all seven guides. Changed passages semantically self-reviewed against English. Exact prior bash blocks and heading/ordered-step/table/fence/stable-name parity retained. Old UI/CI proof is not rebound to new bytes; instruction loading does not certify quality. No new native-human, host/runtime or owner acceptance certification. Scoped-owner-acceptance reconciliation translates the shownrevision6visualfoundation acceptance, keeps fullA26/all29cases/install separate, and explains canonical40file/mode optionalpredecessor recognition, noforcedoverwrite, preserved maintenanceabsence and distinct boundedpriorityadmission in all seven guides. Changed passages semantically self-reviewed; original commands/35names/structural parity retained. No native-human translation, blanket quality, installed-update or full-case acceptance claim. Candidate rc.3/service0.3.1 changes only current version literals and one equivalent actual-task/focus-repair scope paragraph in all seven guides. The additions distinguish actual execution from rejected operational model candidates, declared synthetic boundaries from human truth, unchanged35sources/12roles, open CPA/context/LIGHT-BOT/owner gates and deferred WORK. Detailed new handbook is explicitly EN/UK. Changed passages self-reviewed against English; all previous guide bodies and command blocks are exactly retained after reversing these changes. No independent native-human translation or new runtime/full-case certification. The final rc.3 scope paragraph additionally records the owner’s later A10 guards/abstention decision in all seven languages without claiming predictive CPA accuracy; original approval registers remain untouched. The final rc.3 service-repair sentence additionally translates stable project/path artifact selection with refreshed current metadata in all seven guides; no layout change or new-source runtime success is inferred. The rc.3 refresh/readable-report addendum in all seven guides explains failed-refresh recovery, original-file hash checks, declared-pin versus source-only boundaries and relative homonym paths. Exact reversal to the previous guide bodies and unchanged command/structure parity were checked; changed sentences were self-reviewed, with no native-human or new browser success claim. A small advanced-API memory_mode notice in all seven editions preserves the inherit/default/global settings boundary, fresh owned-chat guards, adopted-user-chat rejection, acknowledgement versus readback and pending cold tests. Exact reversal to prior guide bodies and command/structure parity checked; no new native-human or runtime certification. The same small notice in all seven guides now explains separate immutable selected execution inputs, private control archive, metadata-only STORE JSON backup and initial/R2/R3 NOT_ADMITTED versus pending R4. All prior guide bodies are exactly retained after reversing the changed notice phrases; commands/steps/structure remain. No native-human or cold-success certification.",
   "translations": [
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -26,8 +26,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "3fdb7e20632549bbafe9668da878a959bfc6e61bedc301f4f34c411a81127d29",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "a234c33c415761fb7cfdda716c6640b9308d0861a571bf45c45d01ad3de251b5",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -42,8 +42,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "b477ea26f1ea09bf0f37b303658f38a456e408a0b61797b1b87d59ee59ffab9b",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "602841fcd4be5249a202df1256732968d1438ebb4daf5c55aff3573c7925e972",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -58,8 +58,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "fe80f376d9e46ce4df5041ff98be2099cf5f851522bb8b8738692bf5b3e6d8fa",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "ef7de8f05d91e4703ec28e1670d0cae576c3898a7c32be6324eba30e769f5029",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "1b3b65be46fb46c576a61180c8befc940714074c4e3af83ebf3bc3d82dd416f1",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "753b4676caa01f3e7d37b7d3787e60934f881fa9247c39fb330cf5fefbbd3020",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -90,8 +90,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "5517cd47e5bca51f49343eb549ac80b04dcdb945b8a7c9a2d457bc85b1a16f89",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "85fb2edbe5944c4913575f7d4e9d57ca99c520bc5de10f84f9048c4d2af591d4",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -106,8 +106,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d",
-      "sha256": "09272dd32dd6fb4dcd03276bacec9ed9d479af975a189397dabd5e86ae0681ed",
+      "source_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294",
+      "sha256": "f1c2c7bb57771a2a325b16a6d487b14c311949cf0b7af1336a8dd727a5888c2e",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -120,14 +120,14 @@
       }
     }
   ],
-  "repository_version": "1.4.0-rc.2",
+  "repository_version": "1.4.0-rc.3",
   "campaign_languages": [
     "en",
     "uk"
   ],
   "language_review": {
-    "method": "All seven revised workflow/acceptance/predecessor passages semantically self-reviewed against English; structural/command/35stable-name parity and exact owner-quote checks pass. Scope is shownrevision6visualfoundation only. No independent new translation or native-human certification.",
+    "method": "Seven operator notices semantically self-reviewed against English for namespace/archive/backup and honest R3/R4 boundaries; exact prior-body reversal and command/structure parity checked. Detailed transport/source cards EN/UK. Independent/native-human and actual native/cold review remain separate.",
     "native_human_review": "not_performed",
-    "source_freeze_sha256": "c641e4fc50634707a73c1f25b8e21ec9ca00af6cf7fd742bd1ae1a77c8a1df0d"
+    "source_freeze_sha256": "adaa49703c1d60d854538861f32a29c20ee29da63820eea10b1470f8f340f294"
   }
 }

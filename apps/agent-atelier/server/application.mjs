@@ -1065,7 +1065,7 @@ export class Application extends EventEmitter {
         "This local route requires the existing ChatGPT plan. API/cloud billing needs a separately approved resource route",
         409,
       );
-      await this.skills.verifySelections(task.capsule.selected_skills);
+      await this.skills.verifySelections(task.capsule.selected_skills, task.id);
       const workspace = await this.projects.workspace(project.id);
       fail(
         workspace.project.revision === task.native_revision &&

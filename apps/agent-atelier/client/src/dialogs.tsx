@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   Boxes,
@@ -197,10 +197,14 @@ export function TaskDialog({
   const [deadline, setDeadline] = useState(300);
   const [publicWebRead, setPublicWebRead] = useState(false);
   const [prepared, setPrepared] = useState<Data | null>(null);
+  const scopeReviewRef = useRef<HTMLParagraphElement>(null);
   const [reviewed, setReviewed] = useState(false);
   const [error, setError] = useState("");
   const universal =
     preset?.universal_entry !== false && !preset?.selected_skills;
+  useEffect(() => {
+    if (prepared) scopeReviewRef.current?.focus();
+  }, [prepared]);
   const [intent, setIntent] = useState(preset?.route ?? "auto");
   const [routePreview, setRoutePreview] = useState<Data | null>(null);
   const [maintenanceKind, setMaintenanceKind] = useState(
@@ -489,7 +493,9 @@ export function TaskDialog({
       )}
       {prepared ? (
         <>
-          <p className="dialog-lead">{t("reviewCapsule")}</p>
+          <p className="dialog-lead" ref={scopeReviewRef} tabIndex={-1}>
+            {t("reviewCapsule")}
+          </p>
           <div className="scope-summary">
             <div>
               <small>{t("objective")}</small>

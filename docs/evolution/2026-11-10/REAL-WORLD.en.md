@@ -1,0 +1,126 @@
+# Real-task methods, evidence and recovery
+
+[Українська](REAL-WORLD.uk.md) · [Implementation status](STATUS.json) · [rc.3 release](../../../releases/repository-1.4.0-rc.3.md) · [Compatible update](../../../releases/migrations/repository-1.4.0-rc.3.md)
+
+Repository 1.4.0-rc.3 keeps core 6.1.0, Orchestrator 1.2.0, maintenance 1.1.0 and 33+2 sources/12 roles. Service 0.3.1 is a compatible focus repair. This handbook explains the 34 evaluation files added for actual tasks. They are reusable examples under existing conditional owners, not 34 new skills, an installed model service or a requirement to add a framework.
+
+The owner or orchestrator restores the full task and native state, then activates only the relevant DATA/ANALYSIS/PREDICTION/ADAPTATION/MEDIA/EVALUATION responsibility. Direct specialists and constructors remain available. A task needs a real source, an appropriate consumer, actual access/rights and a bounded route. A short request does not need this laboratory. Existing project requirements, identity, permissions, code and accepted references remain authoritative.
+
+## Data, analysis and actual model consumption
+
+Actual sources were 100 public product issues,405 human-annotated paper reviews and 731 historical daily demand records. UCI sources carry CC-BY 4.0 as attributed in the linked guides. Raw text/author groups, weights and detailed receipts stay private. No new dependency was needed for this standard-library slice. Commands, exact assumptions and source citations are in [the data guide](../../../evaluations/ai-production/real-world/data-ml/README.en.md); [results](../../../evaluations/ai-production/real-world/data-ml/RESULTS.en.md) retain failures.
+
+All following paths are under `evaluations/ai-production/real-world/data-ml/`:
+
+| Element | Trigger, input → output | Actual consumer and limit |
+| --- | --- | --- |
+| [STUDY.json](../../../evaluations/ai-production/real-world/data-ml/STUDY.json) | Before fitting: real decision, split, availability and caps → frozen protocol | Fit/evaluation; changing it requires new proof |
+| [common.py](../../../evaluations/ai-production/real-world/data-ml/common.py) | Bounded local artifacts → strict JSON, hashes and private atomic output | All examples; no network/model operation |
+| [acquire.py](../../../evaluations/ai-production/real-world/data-ml/acquire.py) | Approved licensed UCI source → bounded official ZIP/member snapshot and receipt | Real parsers; source rights must be checked again |
+| [ingestion.py](../../../evaluations/ai-production/real-world/data-ml/ingestion.py) | Explicit controlled paginated source/static contract → SQLite rows/cursor/quarantine or partial error | Restart/parser exercise; not unrestricted live scraping |
+| [exercise_ingestion.py](../../../evaluations/ai-production/real-world/data-ml/exercise_ingestion.py) | Frozen real 100 issues → actual crash/restart/API/static/Chrome-DOM observations | Source-bound report; controlled transport is explicit |
+| [analyze_issues.py](../../../evaluations/ai-production/real-world/data-ml/analyze_issues.py) | Timed source plus actual public count snapshot → lexical groups/noise/stability/coverage-aware counts | Human needs review; not validated semantic truth |
+| [reviews.py](../../../evaluations/ai-production/real-world/data-ml/reviews.py) | Real group-split multilingual text/labels → fitted baseline/candidate, errors and admission | JSON/HTTP consumer retains baseline if candidate regresses |
+| [forecast.py](../../../evaluations/ai-production/real-world/data-ml/forecast.py) | Real chronological available-lag source → fitted baselines/ridge, calibration and historical predictions | Actual consumer; cold/OOD/intermittent cases abstain |
+| [source_guards.py](../../../evaluations/ai-production/real-world/data-ml/source_guards.py) | Declared source/derived pins → transitive invalidation and honest CPA gate | Actual HTTP source/model/signature guard; project-test withdrawal is not license revocation |
+| [consumer.py](../../../evaluations/ai-production/real-world/data-ml/consumer.py) | Fixed reviewed model/source plus private ephemeral key → real bounded loopback HTTP inference | Test consumer only; auth/origin/size/rate/lineage checked before model effects |
+| [deliver.py](../../../evaluations/ai-production/real-world/data-ml/deliver.py) | Actual JSON models/reviewed source → eleven-member private bundle, exact manifest/signature and copied-consumer proof | Fresh process; extra code/links/directories/bytecode are rejected before execution |
+| [qa_controls.py](../../../evaluations/ai-production/real-world/data-ml/qa_controls.py) | First freeze exact oracle/cohort IDs, then run → actual stable-theme/outlier/coverage and HTTP negative observations | Explicit synthetic boundary controls joined to real data evidence; no fit or heldout retuning |
+| [test_boundaries.py](../../../evaluations/ai-production/real-world/data-ml/test_boundaries.py) | Generic malicious or sparse fixtures → twelve meaningful boundary checks | Local verification; not real business accuracy |
+| [test_bundle_boundary.py](../../../evaluations/ai-production/real-world/data-ml/test_bundle_boundary.py) | Generic import-shadow/bytecode/changed-code fixtures → two boundary checks | Pre-execution bundle safety; never execute canaries |
+| [README.en.md](../../../evaluations/ai-production/real-world/data-ml/README.en.md) | English operator → D 01–D 09 source/access/commands/consumer/recovery guide | Explicit launch, no background activation |
+| [README.uk.md](../../../evaluations/ai-production/real-world/data-ml/README.uk.md) | Ukrainian operator → equivalent D 01–D 09 guide | Same commands and limits |
+| [RESULTS.en.md](../../../evaluations/ai-production/real-world/data-ml/RESULTS.en.md) | English evidence reader → actual scores, rejections, independent findings and limits | Review/adoption; not automatic acceptance |
+| [RESULTS.uk.md](../../../evaluations/ai-production/real-world/data-ml/RESULTS.uk.md) | Ukrainian evidence reader → equivalent results | Same denominators and rejected candidates |
+
+The review candidate lost accuracy 39.44%→32.39% on 71 heldout reviews despite a better F1, so default adoption was rejected. English had one heldout example: general English quality remains unsupported. Demand ridge MAE improved 1457.59→1132.85 against seasonal lag 7 on 92 historical days, but its nominal 90% interval covered only 72/92. The interval claim was rejected; human review and historical-period limits remain. These are observed task outcomes, not blanket future guarantees.
+
+Independent review found unlisted Python import shadowing in the initial ten-member bundle. The current eleven-member format rejects all extra code, links and directories before copied execution and uses `-E -B`. Original source/proof remains historical. A new inference-admission revision adds intermittent-history abstention with unchanged coefficients/scaling/selection; it is not new training. Actual copied source changes/project-test withdrawal each denied HTTP inference with zero additional model calls. The frozen synthetic theme/outlier/coverage oracles do not become real needs labels.
+
+No representative pre-launch campaign features with spend/conversion outcomes were available. CPA refused fitting/accuracy claims. Zero-conversion/leakage/unit controls are useful boundaries, not a substitute CPA model. Predictive accuracy remains unverified. The owner subsequently confirmed that no authorized campaign data were available and approved guards/abstention for the current A10 scenario; that decision does not certify a CPA model.
+
+## Native adaptation: actual execution, rejected operational route
+
+The [native guide](../../../evaluations/ai-production/real-world/model-adaptation/README.en.md) records the exact licensed model/revision, inspected APIs, actual Metal and caps; [results](../../../evaluations/ai-production/real-world/model-adaptation/RESULTS.en.md) report every rejected candidate. A prepared isolated native environment/model was separately authorized. No model is bundled here, downloaded by these commands or made an operational default.
+
+All paths below are under `evaluations/ai-production/real-world/model-adaptation/`:
+
+| Element | Trigger, input → output | Consumer and limit |
+| --- | --- | --- |
+| [STUDY.json](../../../evaluations/ai-production/real-world/model-adaptation/STUDY.json) | Measured simpler-route gap and rights/device/caps → frozen weak-label protocol | Training/evaluation; original 20 test IDs protected |
+| [safe_model.py](../../../evaluations/ai-production/real-world/model-adaptation/safe_model.py) | Exact reviewed local model → SHA/path/header/tensor/config-allocation inspection | Native loader; narrow llama/safetensors route, not a global format ban |
+| [native_trial.py](../../../evaluations/ai-production/real-world/model-adaptation/native_trial.py) | Explicit prepare/compare/fit/choose/export/evaluate → real native artifacts and observations | Fresh native inference; no remote custom code, activation or hidden acquisition |
+| [assess_trial.py](../../../evaluations/ai-production/real-world/model-adaptation/assess_trial.py) | Actual outputs/member pins/reference → parity/drift/signature checks and rejection | Review/rollback route; not independent judgment |
+| [test_loader.py](../../../evaluations/ai-production/real-world/model-adaptation/test_loader.py) | Generic unsafe metadata/format/path/allocation fixtures → five checks | Structural safety; not training quality |
+| [README.en.md](../../../evaluations/ai-production/real-world/model-adaptation/README.en.md) | English operator → M 01–M 06 workflow and recovery | Explicit optional route |
+| [README.uk.md](../../../evaluations/ai-production/real-world/model-adaptation/README.uk.md) | Ukrainian operator → equivalent workflow | Same commands and caps |
+| [RESULTS.en.md](../../../evaluations/ai-production/real-world/model-adaptation/RESULTS.en.md) | English reader → actual fit/export/inference findings | No human-truth or operational gain claim |
+| [RESULTS.uk.md](../../../evaluations/ai-production/real-world/model-adaptation/RESULTS.uk.md) | Ukrainian reader → equivalent findings | Same failures retained |
+
+Actual native LoRA ran two 30 iteration seeds,60 total, and produced separate adapter, merged and 4 bit weights. Original 20 heldout references are independent AI judgments, not human truth. All native model forms had 5% agreement versus 35% keyword reuse and 45% majority sanity, so operational LoRA was rejected. Adapter/merged class outputs matched 20/20; 4 bit changed 1/20 and its free-generation probe differed, so serving equivalence was rejected. Smaller bytes do not compensate for drift. The existing owner/human-review route and original base/tokenizer files remain unchanged.
+
+Seed 7 completed training but its post-save checker rejected native null metadata. Old code/checkpoint/log/plan were preserved; an explicit before/after execution revision fixed compatibility and recovered by fresh loading without retraining. Its exact old telemetry was unpersisted and stays unclaimed; per-iteration resource bounds returned. Seed 19 durably recorded observations. No old proof is relabelled as new code execution.
+
+## Approved media batch and current UI assets
+
+The [batch guide](../../../evaluations/ai-production/real-world/media-batch/README.en.md) reuses the existing accepted advertising campaign; [results](../../../evaluations/ai-production/real-world/media-batch/RESULTS.en.md) retain exact source identity and cost scope. This is actual deterministic source→PDF→render→cache consumption, not new artwork or proof that its conceptual products shipped. Existing app SVG/UI/motion work is separate from this campaign.
+
+All paths below are under `evaluations/ai-production/real-world/media-batch/`:
+
+| Element | Trigger, input → output | Consumer and limit |
+| --- | --- | --- |
+| [campaign_batch.py](../../../evaluations/ai-production/real-world/media-batch/campaign_batch.py) | Approved two-locale/ten-material masters → private existing-producer outputs,40 PDF page renders and timeline | Actual PDF/visual review; masters/campaign source untouched |
+| [cache_guard.py](../../../evaluations/ai-production/real-world/media-batch/cache_guard.py) | Externally retained exact receipt pin → source/output/member-checked reuse | No new render/provider call; changed receipt cannot rebind proof |
+| [test_batch_boundaries.py](../../../evaluations/ai-production/real-world/media-batch/test_batch_boundaries.py) | Declared fake-provider failure/unknown/cancel/out-of-order/cost cases → five checks | Accounting/retry safety, not real vendor performance |
+| [README.en.md](../../../evaluations/ai-production/real-world/media-batch/README.en.md) | English operator → procedure, access, cost and recovery | Existing tools; no generator or subscription |
+| [README.uk.md](../../../evaluations/ai-production/real-world/media-batch/README.uk.md) | Ukrainian operator → equivalent procedure | Same commands/limits |
+| [RESULTS.en.md](../../../evaluations/ai-production/real-world/media-batch/RESULTS.en.md) | English reader → observed 20 logical/40 physical outcomes | Worker review separate from independent/owner acceptance |
+| [RESULTS.uk.md](../../../evaluations/ai-production/real-world/media-batch/RESULTS.uk.md) | Ukrainian reader → equivalent results | Full TCO remains unknown |
+
+Twenty logical materials produced 40 full/compact page variants in four PDFs. All 20 full-PDF embedded images matched source RGB. Actual Poppler rendering covered 40 pages; the worker inspected four all-page contact sheets and two full-size bilingual constructor pages. Source identity and whole framing were preserved; tiny raster copy/accessibility is not exhaustively certified. No new provider calls/dependencies or incremental fees were incurred; historical master procurement and full TCO are unknown. Fake-provider costs are declared controls, not invoices. Audio/video/3 D/new AI generation were not exercised or automatically accepted by this case.
+
+Service0.3.1 additionally retains artifact selection across refresh by stable project/path identity, refreshes the selected item’s metadata and isolates selection when projects change. It preserves the accepted layout. The changed source needs its own browser/runtime proof; old observations are not rebound.
+
+The background refresh also clears an unavailable workspace and its inspector, exposing the existing retry/recovery view instead of stale source proof. Markdown artifacts use the existing readable report renderer, with no HTML execution. [views.tsx](../../../apps/agent-atelier/client/src/views.tsx) consumes the current project/path, file size/modified metadata and matching source declaration; [api.ts](../../../apps/agent-atelier/client/src/api.ts) reads through the existing authorized source route, limits text to 1 MiB and verifies returned path, bytes and original-file SHA. A declared current pin must match; an ordinary unbound file is a fresh source-only observation, not an approved original or accepted task result. The server may redact displayed text: its file SHA refers to the original bytes, not a hash of the redacted view. Failures retain retry and the original download. Relative paths, including accessible labels, distinguish homonymous artifacts without losing kind/size metadata. Selecting a different artifact reveals the existing preview header without moving keyboard focus or smooth motion; polling and metadata updates do not move the viewport. [Seven API checks](../../../apps/agent-atelier/tests/client/api-artifact-report.test.mjs) cover pin/path/size drift, unbound observation, redaction, source loss and request scope; actual updated browser behavior has its own receipt. The selected report refreshes with current bytes/modified metadata or matching source SHA; stale requests cannot replace a later selection.
+
+## Task-only memory control: advanced API
+
+Use this optional setting only when a task explicitly requires a cold comparison using its supplied project evidence. It is an advanced `task.prepare` API field, not a new control already exposed by the panel. Omission or `memory_mode: "inherit"` preserves the existing route and global memory preferences. It does not change ordinary task behavior.
+
+| Element | Purpose, input → output and consumer | Access, limits and recovery |
+| --- | --- | --- |
+| [context.mjs](../../../apps/agent-atelier/server/context.mjs) | Typed `memory_mode: "inherit"` or `"disabled"` request → exact task capsule/hash | Invalid values fail. Disabled plus an existing native-chat binding is rejected; old capsules without the field inherit. No state migration. |
+| [permissions.mjs](../../../apps/agent-atelier/server/permissions.mjs) | Actual existing native home/store paths → task-only exact memory-directory denies | Existing home/environment/settings stay intact. Unsafe, dangling or unrepresentable paths and overlapping task inputs stop isolation; no broader source or host-state access is granted. |
+| [codex.mjs](../../../apps/agent-atelier/server/codex.mjs) | Fresh service-owned task/capsule → both false native memory config keys from first start, native setter acknowledgement, then guarded turn | Same owned capsule may pause/resume. Adopted user chats reject disabled before resume so their persisted setting is not changed. An unconfirmed setter stops dispatch and retains the known chat identity for reconciliation; do not auto-retry. |
+| [task-memory.test.mjs](../../../apps/agent-atelier/tests/server/task-memory.test.mjs) | Generic typed/default/native-order/failure/preservation controls → local boundary evidence | These controls are not a model run, actual OS memory denial, independent readback or cold-task semantic success. |
+
+For disabled tasks the per-thread configuration sets `memories.use_memories=false` and `memories.generate_memories=false`, and the adapter requires `thread/memoryMode/set` acknowledgement before the first turn. It additionally denies manual tool reads of the native memory stores only for that task. The supported native Thread schema exposes no separate mode readback; the receipt explicitly records acknowledgement without independent injection-efficacy certification. Existing stored conversation history is not erased by disabling future memory use, so a fresh chat is required for a cold comparison. Global preferences, native user chats and ordinary tasks are preserved.
+
+The task still follows its declared evidence sources; this setting is not a claim that all readable project files are an exhaustive evidence allowlist. Loaded governing instructions remain verified by the adapter. Private instruction aliases are transport, not a prerequisite to read directly; use authorized declared originals if needed, and the selected InputSkill parent/snapshot root for relative skill resources. Honour actual read errors and every narrower/secret denial. More-specific already granted snapshot reads may override a broader parent deny; this is not permission to open the parent host state. See official [Memories](https://learn.chatgpt.com/docs/customization/memories), [configuration](https://learn.chatgpt.com/docs/config-file/config-reference) and [permissions](https://learn.chatgpt.com/docs/permissions).
+
+Initial, revision2 and revision3 context trials remain **NOT_ADMITTED** for their source-only claim; their failed observations remain retained. Three R4 cold retests are pending, not PASS. The repair must still prove that fresh tasks receive no hidden memory, manual memory reads are denied and ordinary declared packet/snapshot reads remain available, with independent trace review. A setter receipt or local test cannot close those conditions. Recover unknown outcomes using the known owned chat/capsule and exact source pins; preserve earlier trials and ordinary memory settings.
+
+## Separate immutable execution inputs
+
+The compatible transport makes selected skill inputs visibly separate from the private service controls. It does not widen access to the data directory or parent namespace, move native project state, add a skill or change the selected skill’s identity. Only the approved canonical file manifest is copied.
+
+| Element | Trigger, input → output and consumer | Access, limits and recovery |
+| --- | --- | --- |
+| [skills.mjs](../../../apps/agent-atelier/server/skills.mjs) | New approved skill selection → private `archive_root` plus separate immutable `snapshot_root`/InputSkill `path` | A deterministic `AgentAtelierExecutionInputs-<hash>` sibling namespace has service/task ownership bindings; files are0400. Existing source locator/tree/member manifests remain unchanged. Only the exact selected skill subtree receives read access. No private control contents or symlink transport is copied. |
+| [skills.mjs verification](../../../apps/agent-atelier/server/skills.mjs) | Existing dispatch/resume task ID and full selected set → canonical/archive/execution ownership and membership checks | Existing TASK binding rejects an empty set, stripped-to-legacy equal-byte inputs, omissions and duplicates. Changed/missing/extra files, directories, links, unsafe ancestry or memory-store overlap stop the route. Missing execution inputs require prepare again, without silent reconstruction. True old capsules with no new TASK keep their historical contract. |
+| [retention.mjs](../../../apps/agent-atelier/server/retention.mjs) | Existing explicit reviewed cache cleanup → removal of only its owned derived task subtree | Target derives from service/task identity; no arbitrary absolute cleanup path is accepted. Pending cleanup keeps the exact owner binding. Unknown siblings/journals, canonical source, native products and existing backup policy remain; changed or unreviewed content blocks cleanup. |
+| [execution-inputs.test.mjs](../../../apps/agent-atelier/tests/server/execution-inputs.test.mjs) | Generic copied-source/binding/link/legacy/cleanup/restore negatives → bounded local evidence | Actual local files/SQLite operations, not native model performance or a PASS for the next cold source-only trial. |
+
+The private control archive remains under the existing service data directory. **The existing service backup is STORE JSON only**, containing records and input metadata rather than archive/execution payload files. Its restore does not delete or rebind archive bytes and invalidates prior dispatch authority. A complete filesystem backup of owned service data/archive is a separate operation before live replacement. This patch adds no backup schema, automatic restore/rebuild or migration of old capsules. Failed partial preparation artifacts are retained, not automatically adopted or deleted.
+
+A simple service rollback applies only to an immediate failed start with proven absence of new 0.3.1 tasks, user edits or effects; retain all post-attempt data and receipts. Old 0.3.0 ignores the new memory/transport contracts, and equal DB schema alone does not establish policy compatibility. After new tasks, use the new version’s supported reconciliation/restore/revocation and an independent compatibility review before any old-code startup. Never overwrite new unknown outcomes with a baseline database. Unchanged core/Orchestrator globals are not rollback targets.
+
+All existing secret/native guards and task-only memory rules remain. Ownership/hash checks run before operation; they are not an atomic fence against a concurrent external filesystem writer or proof of every managed policy/platform. Initial/R2/R3 source-only attempts remain NOT_ADMITTED. R4 cold retests are pending, not PASS; neither local transport controls nor a native memory acknowledgement closes that runtime/independent gate.
+
+## Verification, permissions and recovery
+
+Run only relevant checks at their actual boundary. Current examples have 14 data, five native-loader and five media accounting/cache tests. Actual acquisition/training/render/HTTP observations are separate from those generic tests. No new fit or hidden paid action occurs merely from opening a skill or guide. Check actual tool schema, target, rights, cost and device before choosing another operation.
+
+Preserve failed/interrupted attempts and exact source/model/output pins. Reconcile unknown effects before retry. New output directories keep prior proof intact; unsafe bundle extras are rejected instead of auto-deleted. Do not retrain or tune against an observed holdout to make a result pass. A changed source invalidates dependent consumption until reviewed. Runtime/import recovery does not certify semantic quality or completeness of original context.
+
+Full 29 case acceptance remains in progress. CPA accuracy remains unverified without representative data; the owner approved guards/abstention for current A10. A25 complete context reconciliation, A26 LIGHT BOT runtime/owner and final owner/release gates remain open where proof is missing. WORK is deferred. The final ledger, exact source/packages/CI, actual running installation and owner acceptance are separate records. These methods preserve existing capabilities by retaining a sufficient simpler route and rejecting affected loss; they do not promise a universal future no-regression guarantee.

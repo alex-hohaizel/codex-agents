@@ -1,0 +1,2444 @@
+{
+  "schema": "ai-data-production.full-case-results/1",
+  "passport": "ai-data-production-evolution/0.2",
+  "status": "qualified-candidate-results; R4/publication/live-upgrade pending",
+  "acceptance_register": {
+    "path": "docs/evolution/2026-11-10/ACCEPTANCE.json",
+    "sha256": "3fe494687cf9b4234cca3d03a60694dc60ba2859cafe20322cbb46376fa2ff7f",
+    "definitions_unchanged": true,
+    "case_hash_method": "SHA256 of UTF8 JSON with ensure_ascii=False, recursively sorted keys and separators comma/colon; no trailing LF."
+  },
+  "denominators": {
+    "acceptance_cases": 29,
+    "original_requirements": 27,
+    "original_capabilities": 17,
+    "canonical_sources": 35,
+    "managed_installed_baseline": 34,
+    "preserved_roles": 12,
+    "reduction_or_NA": false
+  },
+  "all_29_passed": false,
+  "NA_case_count": 0,
+  "baseline": {
+    "main": "d6336bb4a43cacc6fc2042ea0edb6f8d540ad33a",
+    "source": "2d296c9df6227202920684664e88cf4ca5e9a1d5",
+    "tree": "951a33d53d0f1a2629df560c6fa87bde18ff1908",
+    "core": "6.1.0",
+    "orchestrator": "1.2.0",
+    "local_service": "0.3.0",
+    "maintenance_globally_installed": false
+  },
+  "candidate": {
+    "repository": "1.4.0-rc.3",
+    "service_source": "0.3.1",
+    "new_exact_remote_CI": "pending",
+    "new_live_installation": "pending",
+    "R4_cold_delivery": "pending",
+    "source_only_not_installation": true
+  },
+  "decision_rules_en": [
+    "A completed negative test or a properly rejected model is an observed result, not admission of that model.",
+    "No aggregate score or saving compensates an accepted-function loss; unknown is not PASS.",
+    "Old evidence carries only with verified unchanged dependencies. Source, runtime, medium, independent review, owner acceptance and installation are separate.",
+    "The owner selected CPA guards/refusal without representative data; accuracy remains unverified, not N/A.",
+    "WORK remains deferred. No unrelated product migration, new paid provider, external deployment or messages are inferred."
+  ],
+  "decision_rules_uk": [
+    "Виконаний негативний тест або належно відхилена модель є спостереженим результатом, а не допуском цієї моделі.",
+    "Aggregate score або економія не компенсує втрати прийнятої функції; unknown не є PASS.",
+    "Старий proof переноситься лише за перевірених незмінних залежностей. Source, runtime, medium, independent review, owner acceptance та installation розділені.",
+    "Власник обрав CPA guards/refusal без representative data; accuracy лишається неперевіреною, не N/A.",
+    "WORK відкладено. Unrelated product migration, новий paid provider, external deployment або messages не виводяться."
+  ],
+  "private_receipt_digests": {
+    "M5": {
+      "sha256": "87f740100dd9f0920f1ce4e00cab7a87c309745f8b1ebe910c6118f84c3eca16",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "M5_INSTALL": {
+      "sha256": "3434bb32d9ca282f75fdbc7df9750d2adece470a946e7b115c2f9f9ae6a8d3d4",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "M4": {
+      "sha256": "5903066d76f3e5a40a67abead997398e4c34596444953ed89c653c5fc9584acd",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "FUNCTION_MAP": {
+      "sha256": "32c528ab0a2e9af3488942191cfc3ead29f2b807b221a4283850e6864c270cb5",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "RC2": {
+      "sha256": "5722f0c9838caad546edeec3365c0df1edaae10869ca0f29cee33342efd06d4a",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MAIN": {
+      "sha256": "349717fd8db61a6ef09625d6a05922d1caedce113cc2fe022428bce9ceb330b5",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "DATA": {
+      "sha256": "2991156fde77f82d41938015112227d51ec76fd1922975c97640f1eeb0777d9e",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "DATA_QA": {
+      "sha256": "532eb6bc916894fcc9f89d137d3a0e69ed243533ded8e613ca64f35e920eff69",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "DATA_QA_WORKER": {
+      "sha256": "5e6b0055a4a652c8822a2f9a1e31771507a548557ddffa4f41652160122f8ec3",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A11_ENV": {
+      "sha256": "37f34801539a1166738f30855af87911506c3fa191d5e1eea2f7a3996b3320ad",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A11": {
+      "sha256": "c28cca0dcc5d6e647a3e5417145c7a26ce8543f2a73a92ec01c86fc5cf64c5d3",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A10_OWNER": {
+      "sha256": "f282dc3d3e55b37be2da64e77f7a792fc64e3ffb75594cba97778d5d65b71d2d",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MEDIA": {
+      "sha256": "ff90868718d309c7c03b85a48c1a99230fd4690a73735f486bc69164a24adedc",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MEDIA_SCOPE": {
+      "sha256": "8e1383edb863375f50c4ceb4e4d730e33f03713fe493e4f38233b404baba88d5",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MEDIA_REPORT": {
+      "sha256": "a2ef2862ce28a097435ec60c39651ddf5d7f2ae1bbd35ab452b0cb0031c77379",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MEDIA_BATCH": {
+      "sha256": "db3da8c35204776bc99c051bbb12f3f460b908de6d2887ce365bd346f2c5e8b1",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MEDIA_FAKE": {
+      "sha256": "f3a053eba211dc5dce9fa5f93ad9319edc716e109ad2db06d1d3987a297ac357",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL": {
+      "sha256": "8ef2812960989740128515fe95c20fa38af267fa1024fba3e29cb5d8f1c9a59f",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_FINAL": {
+      "sha256": "4bc537bab14b639b9bf76ca6beb889bf8c6aae07659e2265f8e02e2142a4cbc3",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_DEPS": {
+      "sha256": "7d77ab748e5c44795c281b85ae049ca5e4451a301728628b65a1d3b4b52c947e",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_UI": {
+      "sha256": "b7e2a395869014d598faca300021a495d91ca33539c13ea8409076feb8824393",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_HTTP": {
+      "sha256": "aabf8c8ae2188e0486a621098b40558de8ba636aa286bf7c04ae308e914a22f8",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_HTTP_MORE": {
+      "sha256": "05010f2181b6dce4b7bffe5b1c4b5683b07d3b659b6dc9b2fdcefaf506ef59c0",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_BOUNDARY": {
+      "sha256": "ca9a7766bcaa245c737099574d7d46f0cec56913186955accc303d76e8969bc6",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "APP88": {
+      "sha256": "442e670e00e652c11d173c1be567fb77baa131600ddd88ba62b60ec960943c1e",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PANEL_BUILD": {
+      "sha256": "c89091ad3bd8e776f59f7c685f2b8d0b711e2195cec31163ef8108b043c980c8",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "VISUAL68": {
+      "sha256": "e0e18dde0d44914a36c8e7106a38c59bc667c05cf7241ba752272130161e4545",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A19_BIND": {
+      "sha256": "1d48d302f631de84cb8d2f4cd6af77e0b76d89be1f00b8e70134f49568504745",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A19_PLAN": {
+      "sha256": "f16599ca53a81fb87b46a58308ad3f0e1ee98248326f12117325ab2279e833c8",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A19_NATIVE": {
+      "sha256": "7ea475b54d159c1007ba69aeb4c16075ccbef9108ba44a541781c0d04475ee9d",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A19_JOB": {
+      "sha256": "a543b66eb568bd19b3558234ae97fcff29b96e5866b4119a498ff33c2817f19d",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A25_1": {
+      "sha256": "d16e2ed8ccce285bdab4c689e6097617729f29735616e91cc74efa7427ea7bdc",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A25_2": {
+      "sha256": "0ee6281ee483958eec574b8e1bef48de92103063e94bbe095bde2d37d4e475bf",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A25_REV2": {
+      "sha256": "cbd5daa61e94513dd5a1fc8971948bf4e286c6b33cb67fc881134ccfefdf3463",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "VISUAL_FINAL": {
+      "sha256": "a3f99aa9cc8fb1f131c3aceded242d6158509b548f7171ecd6652debfba08a06",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "VISUAL_REPORT_FINAL": {
+      "sha256": "2903748d1a9b9b1f5b6791273547c988cebcd9a9460810bd37728dc7f04b75a4",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_CLOSEOUT": {
+      "sha256": "eafbc2bd1809b7486701e21c3ff1c559072578da012ef621027674d7eebe96ab",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_FINAL_INDEX": {
+      "sha256": "5841fc21982cf173f8ae44da044355e6f5ca56978ee19df4f337969ab42f593a",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_READBACK": {
+      "sha256": "acbc6bed045f116fb5bb1ab50837b4c0e28347acb52cc0a2586252d1324949e2",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_REPORT20": {
+      "sha256": "890c15f85b3b16886facbc2773db75dfb858a9e056b8a88e7551bc8fd3d95198",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_PDF16": {
+      "sha256": "a4be6664cda5d90a7330e2aa52ea3d2b2bbf0fba083bde4be55eb990595990d2",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_VISUAL18": {
+      "sha256": "46ea2a95f82703a582ac98650b874f6eedbf64b9e0924fc6d87319a435029de3",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_APP10": {
+      "sha256": "a090c8c2ba8f341c939e1530461401d0b4335e6ac0d975a37f4bfa6b750e9234",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_DIALOG19": {
+      "sha256": "9336fa4e8b8f7de2a325383ae353cc6dd8134fb4d2399e5e0f83625a5d597d35",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_T1_INDEX": {
+      "sha256": "e2818e01d99072ed568b14ed7b971cf254e5adc79679855de450615003426952",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "UI_T1": {
+      "sha256": "219964c38180fe56a21861f9c26b638e23a05a82e618ed2da4e1408860bb1d02",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "A19_INDEPENDENT": {
+      "sha256": "e0bf0a4897fe13934565388647968f14407d5334be2b0b85596b5cd7bd07057d",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "KNOWN_AGENTS": {
+      "sha256": "5610f291e1855a12a80deeee8a902b845bd8c74d061c535a1e7b8bf015f997a9",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "PRESERVATION": {
+      "sha256": "8b143adf8449298af22ce0d7cf215e0a1355226d4a06c000879f39a18d3733d9",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "R2_STAGE1": {
+      "sha256": "21990ce9a64df3b2f2f7501de957cdde7cee02d00bde6fbfb19d52365845c79c",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "R2_STAGE2": {
+      "sha256": "0202716f03655be5cf7578d16114120fd035f4bcb956dc832a6989a1eb67afb2",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "R3_STAGE1": {
+      "sha256": "99b417972029a6d6e7b1756746fadc190aede73b72dfd600cb37f00623302f9d",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "R3_STAGE2": {
+      "sha256": "8d10f466bd31ada483af8864aaad6ac03f8bfa077f1d07b6e9259087b20b2a36",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "MEMORY_REVIEW": {
+      "sha256": "4fc7ec45b3bd23f63987e94866f40100c42dbeda53b19b28055223d7d599596d",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "TRANSPORT_NEGATIVE": {
+      "sha256": "f87fb13882ee1fa7d1131df2e12734490e57e76def2621cde5900201ad187644",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "TRANSPORT_OS": {
+      "sha256": "88f3ec2f6d52499b21e281ce496ed9866f28313180334f3b3a603776ad52566a",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "TRANSPORT_REVIEW": {
+      "sha256": "56cc6a7b0d20d46f5ae08cda01ecccf7872979c0b6054a478b09f49bba94a5b6",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "TRANSPORT_V3": {
+      "sha256": "fcc4f5413b1f4fb0b5d84e6c7bb3684a3d09b0d27f05ace9aa9474fdd87fe164",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "CAPACITY4": {
+      "sha256": "2b987db2e4d303dec42f74be2c51eb596c7a903236a094779c804c996323afb7",
+      "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    }
+  },
+  "cases": [
+    {
+      "id": "A01",
+      "title_en": "Business idea through original product outcome",
+      "title_uk": "Від бізнес-ідеї до початкового продукту",
+      "approved_definition": {
+        "id": "A01",
+        "title_en": "Business idea through original product outcome",
+        "inputs_en": "Business idea, accepted scope/references, requirement register, initially no detailed spec",
+        "required_observations_en": "Restore/clarify only material gaps; select existing owner; version decisions; complete the agreed product case; do not stop at skill creation. Use the real project task when claiming original-outcome improvement. Preserve its accepted existing functions and requirements; reuse an adequate owner/method before proposing another component.",
+        "owner": "Orchestrator + product director",
+        "requirements": [
+          "R01",
+          "R07",
+          "R08",
+          "R11",
+          "R15",
+          "R17",
+          "R23",
+          "R24",
+          "R25",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Від бізнес-ідеї до початкового продукту",
+        "inputs_uk": "Бізнес-ідея, прийняті межі/референси, вимоги, спочатку без детального ТЗ.",
+        "required_observations_uk": "Відновити задум, уточнити лише суттєві прогалини, обрати чинного власника, фіксувати рішення й завершити погоджений продуктовий випадок; створення навички не закриває продукт. Для заяви про покращення первинного результату використати реальну задачу проєкту. Зберегти прийняті чинні функції й вимоги; спочатку повторно використати достатнього виконавця/метод, а вже потім пропонувати інший компонент.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "b9976828b02d0baf3877da24c3b23e4399ce2a8075553c34144fd8ba1d69b071",
+      "execution_status": "bounded_product_verified_release_pending",
+      "outcome_en": "The actual local workbench restores source-backed work, requirements, decisions and a controlled task/result path. Final report/PDF consumers and a current task receipt were exercised; this is an original product result, beyond creating a skill. Existing owners were reused.",
+      "outcome_uk": "Фактична локальна панель відновлює роботи, вимоги й рішення за джерелами та дає керований шлях task/result. Перевірено читання report/PDF і квитанцію поточної задачі; це продуктовий результат, а не лише створення навички. Повторно використано чинних виконавців.",
+      "adoption_status": "retain_baseline_pending_final_admission",
+      "remaining_en": "R4 cold continuation, exact final publication/CI and candidate admission remain pending. No full programme or unrelated product acceptance is inferred. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.",
+      "remaining_uk": "Очікуються R4 cold continuation, exact final publication/CI та допуск кандидата. Повне приймання програми або сторонніх продуктів не виводиться. Панель доводить лише обмежені native jobs і підтримані controller paths. Довільні vendor, plugin та media operations із панелі не доведені; перехід до здатного host є явною прогалиною або умовним маршрутом, а не пройденою глобальною можливістю.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Goal, owner and decisions",
+          "criterion_group_uk": "Мета, виконавець і рішення",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Actual original product and consumer",
+          "criterion_group_uk": "Фактичний первинний продукт і consumer",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Preservation and smallest sufficient route",
+          "criterion_group_uk": "Збереження й найменший достатній маршрут",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/client/src/views.tsx"
+      ],
+      "receipt_refs": [
+        "M5",
+        "PANEL",
+        "DATA",
+        "DATA_QA",
+        "UI_CLOSEOUT",
+        "UI_REPORT20",
+        "UI_PDF16",
+        "UI_T1",
+        "R3_STAGE2",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A02",
+      "title_en": "API ingestion and replay",
+      "title_uk": "API-збір і повтор після збою",
+      "approved_definition": {
+        "id": "A02",
+        "title_en": "API ingestion and replay",
+        "inputs_en": "Controlled paginated API fixture with duplicates, 429, partial fetch and crash before cursor commit",
+        "required_observations_en": "Actual adapter produces correct deduplicated dataset, full counts/quarantine, stable restart and visible partial state",
+        "owner": "Data + integrations",
+        "requirements": [
+          "R01",
+          "R02",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "API-збір і повтор після збою",
+        "inputs_uk": "Керований API-приклад із пагінацією, дублями, 429, неповною відповіддю та падінням до запису курсора.",
+        "required_observations_uk": "Справжній адаптер дає правильний набір без дублів, повні кількості/карантин, стале відновлення й видимий неповний стан.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "4d57d15dc1356a7cbeb85db5ce116e46173070c02f8685dc00a2b4b6c7e85282",
+      "execution_status": "bounded_acquisition_verified",
+      "outcome_en": "Actual ingestion code was exercised for deduplication, counts/quarantine, restart and visible partial state. Licensed public archives were acquired separately. Controlled API fixtures test failure contracts; they do not certify a live commercial provider.",
+      "outcome_uk": "Фактичний ingestion-код перевірено на deduplication, counts/quarantine, restart і видимому partial state. Окремо отримано ліцензовані публічні архіви. Контрольовані API fixtures перевіряють відмови, а не сертифікують live commercial provider.",
+      "adoption_status": "scoped_fixture_result",
+      "remaining_en": "No remaining check for this bounded fixture task. A new live provider requires its own rights, schema, rate and outcome evidence.",
+      "remaining_uk": "Для цього обмеженого fixture-випадку нового залишку немає. Новий live provider потребує власних прав, схеми, rate та outcome evidence.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Deduplicated data and denominator/quarantine",
+          "criterion_group_uk": "Deduplicated data, знаменник і quarantine",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Restart and visible partial state",
+          "criterion_group_uk": "Restart і видимий partial state",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/ingestion.py",
+        "evaluations/ai-production/real-world/data-ml/exercise_ingestion.py"
+      ],
+      "receipt_refs": [
+        "DATA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A03",
+      "title_en": "Scraping and schema drift",
+      "title_uk": "Скрейпінг і зміна схеми",
+      "approved_definition": {
+        "id": "A03",
+        "title_en": "Scraping and schema drift",
+        "inputs_en": "Permitted static/dynamic source fixtures, login HTML, changed type/unit/selector and missing page",
+        "required_observations_en": "Appropriate acquisition mode; no bypass; drift detected/quarantined; no false empty success; repeatable parser/browser evidence",
+        "owner": "Data + privacy reviewer",
+        "requirements": [
+          "R02",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Скрейпінг і зміна схеми",
+        "inputs_uk": "Дозволені статичні/динамічні приклади, HTML логіна, змінені тип/одиниця/селектор, пропущена сторінка.",
+        "required_observations_uk": "Доречний спосіб отримання без обходу доступу; drift виявлено/ізольовано; порожній успіх не вигадано; парсер/браузер мають відтворюваний доказ.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "0e990e68fb54c2256a6ebdc6218a6d08630d11efa9a8ffafdeb398cf082003bf",
+      "execution_status": "bounded_parser_and_failure_verified",
+      "outcome_en": "Static/dynamic acquisition boundaries, parser repeatability, drift quarantine and false-empty rejection were tested. An unavailable browser route stays unavailable; no access restriction was bypassed.",
+      "outcome_uk": "Перевірено межі static/dynamic acquisition, повторюваність parser, quarantine при drift і відхилення false-empty. Недоступний browser route лишається недоступним; обмеження доступу не обходилися.",
+      "adoption_status": "no_access_bypass",
+      "remaining_en": "Only the exercised parser/fixture scope is verified. Other sites, browsers and live scraping need actual source-specific proof.",
+      "remaining_uk": "Перевірено лише виконаний parser/fixture scope. Інші сайти, браузери й live scraping потребують фактичного доказу для конкретного джерела.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Appropriate acquisition without bypass",
+          "criterion_group_uk": "Доречне отримання без обходу",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Drift/quarantine and parser evidence",
+          "criterion_group_uk": "Drift/quarantine і parser evidence",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/exercise_ingestion.py",
+        "evaluations/ai-production/real-world/data-ml/test_boundaries.py"
+      ],
+      "receipt_refs": [
+        "DATA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A04",
+      "title_en": "Lineage, revoke and hostile source",
+      "title_uk": "Походження, відкликання й ворожий текст",
+      "approved_definition": {
+        "id": "A04",
+        "title_en": "Lineage, revoke and hostile source",
+        "inputs_en": "Dataset versions, downstream embedding/feature/cache/job, revoked source and injected tool instruction in source text",
+        "required_observations_en": "Dependent proof invalidates on changed bytes; revocation propagates with explicit limits; source cannot gain execution rights; rates/budgets honored",
+        "owner": "Data + privacy + QA",
+        "requirements": [
+          "R02",
+          "R21",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Походження, відкликання й ворожий текст",
+        "inputs_uk": "Версії набору, похідні embedding/ознака/cache/job, відкликане джерело та інструментальна інструкція всередині даних.",
+        "required_observations_uk": "Змінені байти скасовують залежний доказ; відкликання поширюється з явними межами; джерело не отримує прав виконання; діють rates/budgets.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "051c129a4f647f20ba2bb400fabb114f7026c9294906bc48c3844a1c2d51fa10",
+      "execution_status": "lineage_and_withdrawal_guards_verified",
+      "outcome_en": "Changed source bytes and a test-project withdrawal each blocked the actual copied-model HTTP consumer before an additional prediction. Unlisted files/links/directories were rejected before copied Python execution. Original coefficients and old proofs were retained.",
+      "outcome_uk": "Зміна source bytes та відкликання в тестовому проєкті кожне блокували фактичний copied-model HTTP consumer до додаткового прогнозу. Зайві files/links/directories відхилялися до запуску скопійованого Python. Початкові coefficients і старі proofs збережені.",
+      "adoption_status": "project_test_withdrawal_only",
+      "remaining_en": "Public source licensing was not revoked. Physical forgetting, model unlearning and every other product or native-memory restore are unverified.",
+      "remaining_uk": "Публічну ліцензію джерела не відкликали. Physical forgetting, model unlearning, інші продукти й native-memory restore не перевірені.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Changed-source invalidation and withdrawal",
+          "criterion_group_uk": "Invalidation при зміні джерела й withdrawal",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "No source-derived execution rights",
+          "criterion_group_uk": "Джерело не дає права виконання",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Budgets and explicit revocation limits",
+          "criterion_group_uk": "Budgets і явні межі revocation",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/source_guards.py",
+        "evaluations/ai-production/real-world/data-ml/consumer.py",
+        "evaluations/ai-production/real-world/data-ml/test_bundle_boundary.py"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A05",
+      "title_en": "Multilingual NLP classification/extraction",
+      "title_uk": "Багатомовний NLP",
+      "approved_definition": {
+        "id": "A05",
+        "title_en": "Multilingual NLP classification/extraction",
+        "inputs_en": "Versioned multilingual labelled review sample, held-out labels, duplicates/noise",
+        "required_observations_en": "Baseline vs candidate, language subgroup/error review, source-grounded outputs and separate training/evaluation; no invented ground truth",
+        "owner": "Analysis + independent evaluation",
+        "requirements": [
+          "R03",
+          "R09",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Багатомовний NLP",
+        "inputs_uk": "Версійована розмічена вибірка відгуків різними мовами, відкладені мітки, дублі/шум.",
+        "required_observations_uk": "Порівняння основи й кандидата, мовні підгрупи/помилки, прив'язані до джерел виходи, окремі training/evaluation; справжні мітки не вигадуються.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "9d961c4fbc6f8fef24fcb115773ec11dd9a4c735088635ea1ea54d9a81c4c8e2",
+      "execution_status": "evaluation_completed_candidate_rejected",
+      "outcome_en": "Training/evaluation separation, source-grounded labels and error/language review were checked. The multiclass candidate scored 23/71 versus 28/71 for its baseline and was rejected; a gain in another metric did not compensate.",
+      "outcome_uk": "Перевірено розділення training/evaluation, source-grounded labels і error/language review. Multiclass candidate дав 23/71 проти 28/71 baseline і був відхилений; виграш іншої метрики цього не компенсував.",
+      "adoption_status": "retain_baseline_and_human_review",
+      "remaining_en": "No further fit is needed to record this rejection. A one-item English subgroup does not support general language accuracy or author-intent ground truth.",
+      "remaining_uk": "Новий fit не потрібний для фіксації відхилення. English subgroup з одного запису не доводить загальної мовної accuracy або ground truth намірів автора.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Baseline/candidate and separated evaluation",
+          "criterion_group_uk": "Baseline/candidate й відокремлена evaluation",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Language/error/source review without invented truth",
+          "criterion_group_uk": "Language/error/source review без вигаданої truth",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/reviews.py",
+        "evaluations/ai-production/real-world/data-ml/STUDY.json"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A06",
+      "title_en": "Clustering and real trends",
+      "title_uk": "Кластеризація й справжні тренди",
+      "approved_definition": {
+        "id": "A06",
+        "title_en": "Clustering and real trends",
+        "inputs_en": "Timed corpus with duplicated authors, coverage shift, outliers and stable underlying theme",
+        "required_observations_en": "Interpretable memberships incl noise, stability/sensitivity, coverage-aware trend interpretation; similarity score is not business/causal truth",
+        "owner": "Analysis + product reviewer",
+        "requirements": [
+          "R03",
+          "R09",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Кластеризація й справжні тренди",
+        "inputs_uk": "Часовий корпус із дублями авторів, зміною покриття, викидами та незмінною базовою темою.",
+        "required_observations_uk": "Зрозумілі групи включно з шумом, стійкість/чутливість, урахування покриття; similarity score не видається за бізнесову чи причинну істину.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "c2e24ba95f675be52997c56a9bd64908ea2d72225ed2b231e251a75a465883e7",
+      "execution_status": "actual_analysis_and_declared_controls_verified",
+      "outcome_en": "A real 100-item corpus and two actual period counts were analysed. Fixed-theme/noise, author-duplication and coverage-shift controls used a predeclared synthetic oracle; lower coverage caused abstention. Membership and sensitivity remain descriptive.",
+      "outcome_uk": "Проаналізовано справжній corpus зі 100 записів і фактичні counts двох періодів. Fixed-theme/noise, author-duplication та coverage-shift controls використали заздалегідь визначений synthetic oracle; менше покриття спричинило abstention. Membership і sensitivity лишаються описовими.",
+      "adoption_status": "qualified_descriptive_analysis_only",
+      "remaining_en": "The controls are not new business labels. Similarity, current-label shares and period counts do not establish causal trends, market needs or human acceptance.",
+      "remaining_uk": "Controls не є новими business labels. Similarity, current-label shares і period counts не доводять causal trends, ринкових потреб або людського приймання.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Membership/noise and sensitivity",
+          "criterion_group_uk": "Membership/noise і sensitivity",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Coverage-aware interpretation without causal claims",
+          "criterion_group_uk": "Інтерпретація за покриттям без causal claims",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/analyze_issues.py",
+        "evaluations/ai-production/real-world/data-ml/qa_controls.py"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A07",
+      "title_en": "LLM/agentic durable effects",
+      "title_uk": "Відновлювані LLM-ефекти",
+      "approved_definition": {
+        "id": "A07",
+        "title_en": "LLM/agentic durable effects",
+        "inputs_en": "Task rubric, prompt/model version, fake provider timeout after consumption plus available real host/model route",
+        "required_observations_en": "Actual bounded model case if access available; typed tool inputs, spend/rate caps; pause/restart/cancel; reconcile unknown outcome before retry; checkpoint alone never claims external exactly-once. A direct or linear workflow is the baseline where sufficient. A graph, framework, extra agent or durable runner is admitted only after A28; it must retain every accepted action and recovery path.",
+        "owner": "AI + integrations + evaluation",
+        "requirements": [
+          "R01",
+          "R04",
+          "R09",
+          "R12",
+          "R21",
+          "R25",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Відновлювані LLM-ефекти",
+        "inputs_uk": "Предметна рубрика, версія prompt/model, тестовий provider timeout після споживання та доступний справжній model/host route.",
+        "required_observations_uk": "Фактичний обмежений модельний випадок за доступності; типізовані tools, ліміти витрат/rate; pause/restart/cancel; звірка невідомого outcome до повтору; checkpoint не гарантує одноразовості зовні. Де достатньо, базою є прямий або лінійний процес. Граф, framework, додатковий агент чи постійний виконавець допускаються лише після A28 зі збереженням кожної прийнятої дії та шляху відновлення.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "8b0ad76198dbe4976d1ef30f42eb533a8791570e50c06a05a1202e833ab122f3",
+      "execution_status": "bounded_model_and_recovery_verified",
+      "outcome_en": "Actual owned model turns, an interrupted deadline case, typed tool boundaries and controlled pause/cancel/restart/unknown tests were retained. Final source-loss/retry/old-response UI checks passed. A linear single-parent route was sufficient.",
+      "outcome_uk": "Збережено фактичні own model turns, deadline interruption, typed tool boundaries і контрольовані pause/cancel/restart/unknown tests. Final source-loss/retry/old-response UI checks пройдені. Достатнім був лінійний single-parent route.",
+      "adoption_status": "external_effect_guarantees_unproven",
+      "remaining_en": "R4 and final changed-executor admission remain pending. Checkpoints are not external exactly-once guarantees; unknown consuming effects must be reconciled before retry.",
+      "remaining_uk": "Очікуються R4 і допуск остаточного зміненого executor. Checkpoint не гарантує external exactly-once; unknown consuming effects треба звіряти до retry.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Actual bounded model and typed effects",
+          "criterion_group_uk": "Фактична bounded model і typed effects",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Pause/restart/cancel/unknown reconciliation",
+          "criterion_group_uk": "Pause/restart/cancel/unknown reconciliation",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Linear baseline and complexity admission",
+          "criterion_group_uk": "Лінійна база й допуск складності",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/server/codex.mjs"
+      ],
+      "receipt_refs": [
+        "M5",
+        "PANEL",
+        "PANEL_BOUNDARY",
+        "PANEL_DEPS",
+        "A25_2",
+        "UI_APP10",
+        "R2_STAGE2",
+        "R3_STAGE2",
+        "TRANSPORT_NEGATIVE",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A08",
+      "title_en": "Tabular baseline and candidate",
+      "title_uk": "Таблична модель і база порівняння",
+      "approved_definition": {
+        "id": "A08",
+        "title_en": "Tabular baseline and candidate",
+        "inputs_en": "Licensed small fixture, target/grain/features with availability, groups/time split",
+        "required_observations_en": "Actual fitted baseline and justified candidate, training-only transforms, reproducible inference/model bundle, error/subgroup/uncertainty report; fixture accuracy not market claim",
+        "owner": "ML + independent evaluation",
+        "requirements": [
+          "R05",
+          "R13",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Таблична модель і база порівняння",
+        "inputs_uk": "Малий ліцензований набір, ціль/одиниця/ознаки з часом доступності, груповий/часовий поділ.",
+        "required_observations_uk": "Реально навчені база й обґрунтований кандидат, перетворення лише на training, відтворювані прогноз/пакет, помилки/підгрупи/невизначеність; точність прикладу не є ринковою.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "7a92bd675706009c2849b424d83a42780335b2bb6400511e75545de286d5c99c",
+      "execution_status": "fit_bundle_and_uncertainty_evaluated",
+      "outcome_en": "Training-only transforms, a fitted baseline/candidate, reproducible bundle and error report were checked on 731 daily observations. Holdout MAE improved from 1457.587 to 1132.848, but the nominal 90% interval covered only 72/92 and was rejected.",
+      "outcome_uk": "На 731 денному спостереженні перевірено training-only transforms, fitted baseline/candidate, відтворюваний bundle та error report. Holdout MAE покращився з 1457.587 до 1132.848, але nominal 90% interval покрив лише 72/92 і був відхилений.",
+      "adoption_status": "point_estimate_qualified_interval_rejected",
+      "remaining_en": "Historical point estimates require the reported qualifications and human review. No contemporary business/CPA accuracy or production adoption is claimed.",
+      "remaining_uk": "Історичні point estimates потребують наведених обмежень і human review. Contemporary business/CPA accuracy та production adoption не заявляються.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Actual fit and training-only transformations",
+          "criterion_group_uk": "Фактичний fit і training-only transformations",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Reproducible bundle and uncertainty/error verdict",
+          "criterion_group_uk": "Відтворюваний bundle і uncertainty/error verdict",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/forecast.py",
+        "evaluations/ai-production/real-world/data-ml/STUDY.json"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A09",
+      "title_en": "Time series and cold start",
+      "title_uk": "Часові ряди й холодний старт",
+      "approved_definition": {
+        "id": "A09",
+        "title_en": "Time series and cold start",
+        "inputs_en": "Chronological dataset with delayed values, held-out horizon, missing series and sparse target",
+        "required_observations_en": "Walk-forward appropriate validation, no future leakage, naive forecast comparison, explicit abstention/fallback for insufficient data",
+        "owner": "ML + evaluation",
+        "requirements": [
+          "R05",
+          "R13",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Часові ряди й холодний старт",
+        "inputs_uk": "Хронологічні дані із затримками, відкладеним горизонтом, відсутніми рядами й рідкісною ціллю.",
+        "required_observations_uk": "Доречна послідовна валідація без знання майбутнього, наївна база порівняння, явна відмова чи запасний шлях за нестачі даних.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "bf7f3fd47467ff1452116de6e5f4046567d722853d83699940125399bc3abb75",
+      "execution_status": "temporal_and_abstention_checks_verified",
+      "outcome_en": "Temporal validation, leakage boundaries and a naive comparison were checked. A clearly synthetic zero-lag/intermittent negative control reached the actual HTTP forecast consumer and abstained; the real dense dataset was not relabelled sparse.",
+      "outcome_uk": "Перевірено temporal validation, leakage boundaries і naive comparison. Явно synthetic zero-lag/intermittent negative control дійшов до фактичного HTTP forecast consumer й отримав abstention; справжні dense data не перейменовано на sparse.",
+      "adoption_status": "no_sparse_business_accuracy_claim",
+      "remaining_en": "No new fit or holdout tuning is required for this boundary result. Sparse-demand accuracy and a measured reporting-delay SLA remain unproven.",
+      "remaining_uk": "Новий fit або holdout tuning для цього boundary result не потрібні. Sparse-demand accuracy і виміряний reporting-delay SLA не доведені.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Temporal validation and naive baseline",
+          "criterion_group_uk": "Temporal validation і naive baseline",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Leakage and insufficient-data fallback",
+          "criterion_group_uk": "Leakage та insufficient-data fallback",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/forecast.py",
+        "evaluations/ai-production/real-world/data-ml/qa_controls.py"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A10",
+      "title_en": "Prelaunch CPA honesty",
+      "title_uk": "Чесність прогнозу CPA до запуску",
+      "approved_definition": {
+        "id": "A10",
+        "title_en": "Prelaunch CPA honesty",
+        "inputs_en": "Feature available_at, campaign/account IDs, spend/conversions/currency/attribution windows, delayed/censored labels",
+        "required_observations_en": "Reject postlaunch signals; time/group holdout, baseline and uncertainty/calibration; articulate selection bias; no claimed CPA accuracy without representative authorized data Include zero-conversion campaigns: CPA can be undefined or censored; do not silently discard them or report survivor-only accuracy.",
+        "owner": "ML + growth + evaluation",
+        "requirements": [
+          "R05",
+          "R13",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Чесність прогнозу CPA до запуску",
+        "inputs_uk": "Час доступності ознак, IDs кампаній/акаунтів, spend/conversions/currency/вікна атрибуції, затримані/цензуровані мітки.",
+        "required_observations_uk": "Відкинути післязапускові сигнали, часовий/груповий holdout, база та uncertainty/calibration, пояснення selection bias; не заявляти точності CPA без репрезентативних дозволених даних. Включити кампанії з нулем конверсій: CPA може бути невизначеним чи цензурованим; не відкидати їх мовчки й не звітувати точність лише кампаній із конверсіями.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "4681a3ab5dc8850f1664571275aef79434b6b19dd8ef775fcd0ab8c417ed6c3b",
+      "execution_status": "owner_selected_guard_branch_verified",
+      "outcome_en": "The owner explicitly reported no representative CPA data and selected guards/refusal. Leakage, undefined/censored zero-conversion CPA and insufficient-data boundaries were tested without inventing campaigns or fitted CPA accuracy.",
+      "outcome_uk": "Власник явно повідомив про відсутність representative CPA data й обрав guards/refusal. Leakage, undefined/censored CPA за нульових conversions та insufficient-data boundaries перевірено без вигаданих campaigns або fitted CPA accuracy.",
+      "adoption_status": "abstain_without_representative_CPA_data",
+      "remaining_en": "The agreed guard branch is complete. Any later accuracy claim requires authorised representative data, time/group holdouts, calibration, attribution/currency/delay and selection-bias analysis.",
+      "remaining_uk": "Погоджений guard branch виконано. Подальша accuracy-заява потребує дозволених representative data, time/group holdouts, calibration, attribution/currency/delay та selection-bias analysis.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Postlaunch leakage and zero-conversion censoring",
+          "criterion_group_uk": "Postlaunch leakage і zero-conversion censoring",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Owner-scoped abstention instead of unsupported accuracy",
+          "criterion_group_uk": "Owner-scoped abstention замість непідтвердженої accuracy",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Conditional representative-data validation",
+          "criterion_group_uk": "Умовна перевірка representative data",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/data-ml/qa_controls.py",
+        "evaluations/ai-production/real-world/data-ml/RESULTS.en.md"
+      ],
+      "receipt_refs": [
+        "A10_OWNER",
+        "DATA",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A11",
+      "title_en": "Adaptation feasibility to consumer",
+      "title_uk": "Адаптація від здійсненності до споживання",
+      "approved_definition": {
+        "id": "A11",
+        "title_en": "Adaptation feasibility to consumer",
+        "inputs_en": "Exact compatible base/tokenizer/adapter, rights, device/resource probe, isolated training/evaluation set",
+        "required_observations_en": "Compare simpler alternatives; bounded real permitted tuning/load/inference where feasible; mismatch rejected; serving regression/rollback; missing model/hardware/cost approval leaves runtime gate open; reject untrusted code-executing deserialization or unreviewed remote custom code, malicious manifest/path and excessive allocation before any unintended effect Accept adapter, merged and quantized exports, and the serving consumer separately against their actual bytes; adapter success never proves a changed export. Compare reuse, prompting/retrieval and adaptation against the measured gap before choosing the more complex route; keep the accepted serving behavior and fallbacks.",
+        "owner": "ML + reliability + evaluation",
+        "requirements": [
+          "R14",
+          "R21",
+          "R23",
+          "R25",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Адаптація від здійсненності до споживання",
+        "inputs_uk": "Точні сумісні base/tokenizer/adapter, права, перевірка пристрою/ресурсів, окремі training/evaluation.",
+        "required_observations_uk": "Порівняти простіші альтернативи; реальні обмежені дозволені tuning/load/inference за здійсненності; несумісність відхиляється; serving-регресії/відкат; відсутні модель/пристрій/дозвіл витрат лишають gate відкритим. До небажаного ефекту відхиляються недовірена десеріалізація з виконанням коду, неперевірений remote custom code, шкідливий manifest/path і надмірна пам’ять. Окремо приймати adapter, merged і quantized exports та serving-споживача за їхніми фактичними байтами; успішний adapter не доводить змінений export. До вибору складнішого маршруту порівняти повторне використання, prompting/retrieval та адаптацію щодо виміряної прогалини; зберегти прийняті поведінку обслуговування й резервні шляхи.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "07558b54bd13d3aa393e4ec8e8fa4ec16aada34cc8689bc7a3f29bee5f558b61",
+      "execution_status": "native_adaptation_and_exports_evaluated",
+      "outcome_en": "Two bounded native 30-step tuning runs and actual adapter/merged/4-bit loads/inference were recorded on Mac Metal. Loader/path/allocation guards and exact environment bytes were checked. Weak-label agreement was 1/20 versus 7/20 for a keyword baseline; adaptation was rejected, and one 4-bit class drift rejected equivalence.",
+      "outcome_uk": "Записано два bounded native 30-step tuning runs і фактичні adapter/merged/4-bit loads/inference на Mac Metal. Перевірено loader/path/allocation guards та exact environment bytes. Weak-label agreement склав 1/20 проти 7/20 keyword baseline; adaptation відхилено, а один 4-bit class drift відхилив equivalence.",
+      "adoption_status": "LoRA_and_quantized_equivalence_rejected",
+      "remaining_en": "These are weak AI references, not human truth. Exports are assessed separately; no operational switch or production rollback was performed, and the accepted route remains unchanged.",
+      "remaining_uk": "Це weak AI references, а не human truth. Exports оцінені окремо; operational switch або production rollback не виконувалися, прийнятий маршрут збережений.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Simpler alternatives and bounded native trial",
+          "criterion_group_uk": "Простіші альтернативи й bounded native trial",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Safe load/path/allocation boundaries",
+          "criterion_group_uk": "Safe load/path/allocation boundaries",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Separate adapter/merged/quantized evidence",
+          "criterion_group_uk": "Окремі adapter/merged/quantized evidence",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Regression rejection and preserved serving fallback",
+          "criterion_group_uk": "Відхилення регресії й збережений serving fallback",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/model-adaptation/native_trial.py",
+        "evaluations/ai-production/real-world/model-adaptation/safe_model.py",
+        "evaluations/ai-production/real-world/model-adaptation/assess_trial.py"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "A11",
+        "A11_ENV"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A12",
+      "title_en": "Reference identity and actual medium",
+      "title_uk": "Ідентичність референсу та реальне середовище",
+      "approved_definition": {
+        "id": "A12",
+        "title_en": "Reference identity and actual medium",
+        "inputs_en": "Accepted original/editable master plus requested image/vector/3D/audio/video/UI/document outputs and consumer profile",
+        "required_observations_en": "Read actual reference; approved representative slice, render/playback/listen/interaction as applicable; derivative lineage and target-consumer proof; unsupported medium explicitly unproven Reject a palette/label-matching candidate that loses the accepted composition, scale, information depth, interaction or function; reject later derivative identity drift. For the owner-reported Atelier case, bind the actual rich reference and rejected layout through A26. Synthetic examples cannot close that real-case gate; loss of any accepted function rejects the candidate even if the quality score rises elsewhere.",
+        "owner": "Creative + domain craft + QA",
+        "requirements": [
+          "R04",
+          "R12",
+          "R16",
+          "R23",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Ідентичність референсу та реальне середовище",
+        "inputs_uk": "Прийнятий оригінал/редагований master і запитані image/vector/3D/audio/video/UI/document виходи, профіль споживача.",
+        "required_observations_uk": "Прочитаний референс, прийнятий зріз, доречні render/playback/listen/interaction, походження похідних і використання цільовим споживачем; непідтримуваний medium явно недоведений. Відхилити варіант із тими самими кольорами/підписами, що втрачає визначальні композицію, масштаб, інформаційну глибину, взаємодію чи функцію референсу; відхилити дрейф ідентичності в наступних похідних. Для вказаного власником випадку Atelier прив’язати фактичні багатий референс і відхилений макет через A26. Синтетичні приклади не закривають цю реальну перевірку; втрата будь-якої прийнятої функції відхиляє кандидата навіть за покращення оцінки в іншій частині.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT02",
+          "RT05"
+        ]
+      },
+      "definition_sha256": "cc1ea9c7ded94d72183dd8bbeaa32211629f9125dcf967fb7f904ce3eaaab5ef",
+      "execution_status": "actual_image_PDF_medium_verified",
+      "outcome_en": "The actual rich reference and previously accepted 20 PNG masters were retained. Four PDFs and 40 renders preserve 20 logical sources, with lossless RGB checks. Final native PDF/report consumers and representative captured-medium review were performed.",
+      "outcome_uk": "Збережено фактичний rich reference і раніше прийняті 20 PNG masters. Чотири PDF та 40 renders зберігають 20 logical sources із lossless RGB checks. Перевірено final native PDF/report consumers і representative captured-medium review.",
+      "adoption_status": "lineage_and_consumer_scope_only",
+      "remaining_en": "A26 remains the binding for the real rejected-layout case. This export task does not prove new audio/video/3 D generation or new owner acceptance of all derivatives.",
+      "remaining_uk": "A26 лишається binding для реального rejected-layout case. Ця export-задача не доводить нової audio/video/3 D generation або нового owner acceptance всіх derivatives.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Actual reference and representative medium",
+          "criterion_group_uk": "Фактичний reference і representative medium",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Derivative identity/lineage and consumer",
+          "criterion_group_uk": "Derivative identity/lineage і consumer",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Real rejected-layout gate through A26",
+          "criterion_group_uk": "Реальний rejected-layout gate через A26",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/media-batch/campaign_batch.py",
+        "evaluations/ai-production/real-world/media-batch/RESULTS.en.md"
+      ],
+      "receipt_refs": [
+        "MEDIA",
+        "MEDIA_REPORT",
+        "VISUAL_FINAL",
+        "M5",
+        "UI_CLOSEOUT",
+        "UI_PDF16",
+        "UI_REPORT20",
+        "UI_VISUAL18"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A13",
+      "title_en": "Costed batch with failures",
+      "title_uk": "Серія генерацій із витратами та збоями",
+      "approved_definition": {
+        "id": "A13",
+        "title_en": "Costed batch with failures",
+        "inputs_en": "Versioned batch manifest, duplicate items, partial provider result, rejected variant, cancel and unknown billing response",
+        "required_observations_en": "Complete denominator and per-item state, accepted-output total cost, stable IDs/cache, no blind retry; rejected aesthetic/identity output not counted accepted. Predeclare the task cost/latency/resource envelope and stochastic repeat method. Compare useful accepted output under the same or explicitly accounted conditions; an average score or saving cannot hide a lost invariant or rejected item.",
+        "owner": "Creative + cost + integrations",
+        "requirements": [
+          "R04",
+          "R12",
+          "R16",
+          "R21",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Серія генерацій із витратами та збоями",
+        "inputs_uk": "Версійований batch manifest, дублікати, частковий provider result, відхилений варіант, cancel і невідома billing-відповідь.",
+        "required_observations_uk": "Повний знаменник і стан елементів, сукупна ціна прийнятого виходу, сталі IDs/cache, без сліпого повтору; відхилений за стилем/ідентичністю результат не рахується прийнятим. Заздалегідь визначити межі вартості, затримки й ресурсів та спосіб повторів випадкового результату. Порівнювати корисний прийнятий результат за однакових або явно врахованих умов; середня оцінка чи економія не приховують втраченої властивості або відхиленого елемента.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "a9413bd3c5821a0a7a0e610bf4251bfd834c3289b878256a3c86e6ac74c4f966",
+      "execution_status": "batch_delivery_cache_and_failure_verified",
+      "outcome_en": "The full 20-logical/40-physical denominator, stable identities, actual outputs/cache and rejection/retry/cancel/unknown controls were retained. Elapsed time was 177.42 s and outputs 243.4 MB; native PDF readers consumed the delivery.",
+      "outcome_uk": "Збережено повний знаменник 20 logical/40 physical, stable identities, actual outputs/cache та rejection/retry/cancel/unknown controls. Час становив 177.42 s, outputs 243.4 MB; native PDF readers спожили delivery.",
+      "adoption_status": "technical_completions_not_owner_acceptance",
+      "remaining_en": "Incremental provider fees were 0; historical procurement, labour, energy and full TCO are unknown. Forty technical completions are not forty owner-accepted variants or a new stochastic generation study.",
+      "remaining_uk": "Incremental provider fees становили 0; historical procurement, праця, енергія й full TCO невідомі. Сорок technical completions не є сорока owner-accepted variants або новим stochastic generation study.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Full item denominator, cost scope and cache identity",
+          "criterion_group_uk": "Повний item denominator, cost scope і cache identity",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Failure/retry/unknown controls",
+          "criterion_group_uk": "Failure/retry/unknown controls",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Predeclared resources and accepted-output limits",
+          "criterion_group_uk": "Задані resources і межі accepted output",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "evaluations/ai-production/real-world/media-batch/cache_guard.py",
+        "evaluations/ai-production/real-world/media-batch/test_batch_boundaries.py"
+      ],
+      "receipt_refs": [
+        "MEDIA",
+        "MEDIA_BATCH",
+        "MEDIA_FAKE",
+        "MEDIA_SCOPE",
+        "MEDIA_REPORT",
+        "UI_PDF16",
+        "UI_CLOSEOUT"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A14",
+      "title_en": "App/bot/game asset consumer",
+      "title_uk": "Споживання асета застосунком, ботом чи грою",
+      "approved_definition": {
+        "id": "A14",
+        "title_en": "App/bot/game asset consumer",
+        "inputs_en": "Domain fixtures with persona/identity, platform set, game engine asset constraints or bot playback",
+        "required_observations_en": "Existing domain depth retained; asset consumed in actual relevant runtime; mesh/rig/UV/audio/UI constraints checked when applicable; source file alone insufficient. Retain the actual consumer’s existing accepted behavior, identity and platform obligations; a new asset or feature cannot justify removing even a noncritical old function.",
+        "owner": "Domain director + media/assets + QA",
+        "requirements": [
+          "R08",
+          "R12",
+          "R15",
+          "R16",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Споживання асета застосунком, ботом чи грою",
+        "inputs_uk": "Предметні приклади з persona/identity, набором платформ, engine-вимогами до асета чи програванням у боті.",
+        "required_observations_uk": "Чинна глибина домену збережена; асет використано у справжньому відповідному runtime; mesh/rig/UV/audio/UI перевіряються за потребою; одного файла недостатньо. Зберегти прийняті чинні поведінку, ідентичність і платформні зобов’язання фактичного споживача; новий асет чи функція не виправдовують вилучення навіть некритичної старої функції.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "a083a421e291a10081de0107b6b8ed6e6c9fcd19ec3c9207b4d32b50fee9dfd3",
+      "execution_status": "actual_web_asset_document_consumer_verified",
+      "outcome_en": "The actual web workbench uses preserved identity/assets and reads exact report/PDF outputs. Desktop/mobile/keyboard observations retain readable paths, correct source pins, selection and recovery rather than mere source-file presence.",
+      "outcome_uk": "Фактична web-панель використовує збережені identity/assets і читає exact report/PDF outputs. Desktop/mobile/keyboard observations підтверджують readable paths, правильні source pins, selection і recovery, а не лише наявність source file.",
+      "adoption_status": "other_platforms_unproven",
+      "remaining_en": "No mesh/rig/UV/audio/engine or physical Android/iOS proof is inferred. Those constraints require the corresponding real task and consumer.",
+      "remaining_uk": "Mesh/rig/UV/audio/engine або physical Android/iOS proof не виводяться. Такі constraints потребують відповідної реальної задачі й consumer.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Actual relevant consumer",
+          "criterion_group_uk": "Фактичний доречний consumer",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Preserved domain/identity/platform obligations",
+          "criterion_group_uk": "Збережені domain/identity/platform obligations",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/client/src/views.tsx",
+        "evaluations/ai-production/real-world/media-batch/campaign_batch.py"
+      ],
+      "receipt_refs": [
+        "M5",
+        "PANEL_UI",
+        "MEDIA",
+        "UI_REPORT20",
+        "UI_PDF16",
+        "UI_VISUAL18",
+        "UI_T1"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A15",
+      "title_en": "Useful nontechnical interface",
+      "title_uk": "Корисний інтерфейс нетехнічної людини",
+      "approved_definition": {
+        "id": "A15",
+        "title_en": "Useful nontechnical interface",
+        "inputs_en": "Working data/model result and source-backed project/work set with accepted goals, errors and partial access",
+        "required_observations_en": "Interactive complete input→progress→result→correction/recovery flow; readable agreed outcome, real map/evidence/next actions; desktop/mobile visual/keyboard checks; no dummy success controls A generic simpler layout retaining colours/labels but dropping agreed information/navigation/function must fail. Bind the actual local-panel project journeys through A27, including work started directly in Codex. A demo, fixture map, screenshot or controller unit test alone cannot close the real interface gate.",
+        "owner": "Product + experience + independent QA",
+        "requirements": [
+          "R01",
+          "R06",
+          "R07",
+          "R08",
+          "R16",
+          "R23",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Корисний інтерфейс нетехнічної людини",
+        "inputs_uk": "Робочий data/model-результат і проєкти/роботи з реальними джерелами, прийнятими цілями, помилками й частковим доступом.",
+        "required_observations_uk": "Повний інтерактивний input→progress→result→correction/recovery; зрозумілі погоджений результат, справжня карта/докази/наступні дії; desktop/mobile/keyboard перевірки; без фальшивих кнопок успіху. Спрощений типовий макет із кольорами/підписами референсу, але без погоджених інформації/навігації/функції, має провалити приймання. Через A27 прив’язати фактичні проєктні сценарії локальної панелі, включно з роботами, розпочатими безпосередньо в Codex. Демо, вигадана карта, скриншот або unit test контролера окремо не закривають перевірку реального інтерфейсу.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT03",
+          "RT05"
+        ]
+      },
+      "definition_sha256": "26bd302468d2b7f9b27464e10061f3e4953b4b1c97e713ba5a09c3c05d5d3e01",
+      "execution_status": "real_interactive_workbench_verified",
+      "outcome_en": "Real routing/preparation/review, current result reading and correction/recovery were exercised. Final checks cover 20 report identities,16 PDF and 18 reader/source cases; exact unchanged App/dialog components carry 10/19 prior checks. Current task output is correlated to its task/job/thread/capsule.",
+      "outcome_uk": "Виконано real routing/preparation/review, читання поточного result та correction/recovery. Final checks охоплюють 20 report identities,16 PDF і 18 reader/source cases; exact unchanged App/dialog components переносять 10/19 попередніх checks. Поточний output корельований із task/job/thread/capsule.",
+      "adoption_status": "final_admission_pending",
+      "remaining_en": "The displayed task is transport-completed but its selected-snapshot handoff is blocked, so it does not pass A25. No full owner acceptance or future-product certification follows. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.",
+      "remaining_uk": "Показана задача transport-completed, але її selected-snapshot handoff заблокований, тому A25 не пройдено. Full owner acceptance або future-product certification із цього не випливають. Панель доводить лише обмежені native jobs і підтримані controller paths. Довільні vendor, plugin та media operations із панелі не доведені; перехід до здатного host є явною прогалиною або умовним маршрутом, а не пройденою глобальною можливістю.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Input/progress/result/correction/recovery",
+          "criterion_group_uk": "Input/progress/result/correction/recovery",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Real map/evidence/next actions through A27",
+          "criterion_group_uk": "Реальні map/evidence/next actions через A27",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Desktop/mobile/keyboard and retained depth",
+          "criterion_group_uk": "Desktop/mobile/keyboard і збережена глибина",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/client/src/views.tsx",
+        "apps/agent-atelier/client/src/dialogs.tsx",
+        "apps/agent-atelier/client/src/App.tsx"
+      ],
+      "receipt_refs": [
+        "PANEL",
+        "PANEL_UI",
+        "M5",
+        "DATA_QA",
+        "MEDIA_SCOPE",
+        "UI_CLOSEOUT",
+        "UI_DIALOG19",
+        "UI_APP10",
+        "UI_REPORT20",
+        "UI_T1_INDEX",
+        "R3_STAGE2"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A16",
+      "title_en": "Prototype productionization and release",
+      "title_uk": "Прототип до production і випуску",
+      "approved_definition": {
+        "id": "A16",
+        "title_en": "Prototype productionization and release",
+        "inputs_en": "Existing prototype with real invariants, access boundaries, jobs/data, build and operator needs",
+        "required_observations_en": "Reproducible build, API/UI seam tests, failure/recovery, deployment preparation, support/runbook/rollback; actual external deployment/users only if authorized and observed. Inventory and retain accepted prototype functions and identity before productionization. A cleaner architecture with a lost accepted function fails; fix the cause and retain the baseline until the candidate passes.",
+        "owner": "Product + backend + reliability + QA",
+        "requirements": [
+          "R01",
+          "R06",
+          "R07",
+          "R15",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Прототип до production і випуску",
+        "inputs_uk": "Чинний прототип зі справжніми інваріантами, правами, jobs/data, build і потребами оператора.",
+        "required_observations_uk": "Відтворювана збірка, API/UI seam tests, помилки/відновлення, підготовка деплою, support/runbook/rollback; фактичний зовнішній деплой/користувачі лише за дозволу й спостереження. До доведення до production облікувати й зберегти прийняті функції та ідентичність прототипу. Чистіша архітектура з утратою прийнятої функції не проходить; виправити причину й утримувати базу, доки кандидат не пройде.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "42be4377be2254da704f26017a57f502fc80111397d9fcdef7d23039e2b7c3a5",
+      "execution_status": "local_candidate_build_and_run_verified",
+      "outcome_en": "The final local 0.3.1 build has recorded source/asset pins, actual API/UI consumers and failure recovery. Existing prototype functions, identity and the admitted installation remain the baseline; migration/runbook requirements are explicit.",
+      "outcome_uk": "Остаточний local 0.3.1 build має source/asset pins, фактичні API/UI consumers і failure recovery. Чинні prototype functions, identity та допущене встановлення лишаються базою; migration/runbook вимоги явні.",
+      "adoption_status": "publication_and_live_upgrade_pending",
+      "remaining_en": "Exact final remote commit/tree, CI/packages and live-upgrade receipts are pending. External deployment/users were not performed or inferred.",
+      "remaining_uk": "Очікуються exact final remote commit/tree, CI/packages і live-upgrade receipts. External deployment/users не виконані й не виводяться.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Build/API/UI/failure/runbook",
+          "criterion_group_uk": "Build/API/UI/failure/runbook",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Prototype preservation and qualified rollback",
+          "criterion_group_uk": "Збереження прототипу й qualified rollback",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Conditional external deployment/users",
+          "criterion_group_uk": "Умовні external deployment/users",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/package.json",
+        "releases/migrations/repository-1.4.0-rc.3.md"
+      ],
+      "receipt_refs": [
+        "PANEL",
+        "PANEL_BUILD",
+        "M5",
+        "RC2",
+        "UI_CLOSEOUT",
+        "UI_FINAL_INDEX",
+        "UI_READBACK",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A17",
+      "title_en": "Scoped execution and production auth",
+      "title_uk": "Обмежене виконання та production-auth",
+      "approved_definition": {
+        "id": "A17",
+        "title_en": "Scoped execution and production auth",
+        "inputs_en": "Service endpoints, credential handles, path/resource limits, hostile payload, network denial, commercial consumer scenario",
+        "required_observations_en": "No arbitrary shell/MCP/ambient account access; provider auth separate from owner coding login; secrets absent logs; finite cost/time/rate limits, interrupt/reconcile and unavailable states",
+        "owner": "Reliability + privacy + integrations",
+        "requirements": [
+          "R06",
+          "R21",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Обмежене виконання та production-auth",
+        "inputs_uk": "Service endpoints, секретні посилання, path/resource caps, ворожі inputs, відмова мережі, комерційний споживач.",
+        "required_observations_uk": "Без довільних shell/MCP/прав акаунта; provider-auth окрема від coding login власника; секретів немає в logs; скінченні ліміти витрат/часу/rate, interrupt/reconcile й стани недоступності.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "fe15547e5657b3487665dac29c1964b16f180dd5dfbb068cd635c8350759c45b",
+      "execution_status": "bounded_personal_service_security_verified",
+      "outcome_en": "Local host/tool/network/secret, finite resource and unavailable-state guards were tested. Actual source-change/withdrawal HTTP calls stopped before effects; independent bundle probes found and closed pre-execution file-injection boundaries. Native jobs used the existing authorised route.",
+      "outcome_uk": "Перевірено local host/tool/network/secret, finite resource та unavailable-state guards. Фактичні source-change/withdrawal HTTP calls зупинялися до effects; independent bundle probes знайшли й закрили pre-execution file-injection boundaries. Native jobs використали чинний дозволений маршрут.",
+      "adoption_status": "not_commercial_multiuser_auth",
+      "remaining_en": "Owner coding login is not commercial provider authentication. Multiuser isolation, production credentials/SLA and a total process-tree DoS guarantee are not certified.",
+      "remaining_uk": "Owner coding login не є commercial provider authentication. Multiuser isolation, production credentials/SLA й total process-tree DoS guarantee не сертифіковані.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Tool/account/secret boundaries",
+          "criterion_group_uk": "Tool/account/secret boundaries",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Finite budgets and interruption/reconciliation",
+          "criterion_group_uk": "Finite budgets та interruption/reconciliation",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Personal versus commercial auth scope",
+          "criterion_group_uk": "Особистий і commercial auth scope",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/server/permissions.mjs",
+        "evaluations/ai-production/real-world/data-ml/consumer.py"
+      ],
+      "receipt_refs": [
+        "PANEL",
+        "PANEL_HTTP",
+        "PANEL_HTTP_MORE",
+        "DATA_QA"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A18",
+      "title_en": "Host and team boundary",
+      "title_uk": "Межі хостів і команди",
+      "approved_definition": {
+        "id": "A18",
+        "title_en": "Host and team boundary",
+        "inputs_en": "The retained35 owned reusable sources and12 existing role profiles, seven logical competencies, actual host availability and Codex/Cursor/Claude task capsules; no mandatory new skill/profile",
+        "required_observations_en": "Bounded validated roles and actual slots; precise ownership/handoff; independent reviewer separate actor; native host config/permissions preserved; absent host/access honestly unavailable. Reuse existing competencies and the host’s actual slots. Admit any later extracted skill/profile only after demonstrated benefit, full-scope preservation and an exactly revised approved composition under A28; never replace the existing12 settings to obtain a convenient team.",
+        "owner": "Constructors + Orchestrator + QA",
+        "requirements": [
+          "R10",
+          "R17",
+          "R19",
+          "R22",
+          "R25",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Межі хостів і команди",
+        "inputs_uk": "Збережені35 багаторазових джерел власника й12 чинних рольових профілів, сім логічних компетенцій, фактична доступність host та пакети задач Codex/Cursor/Claude; жодна нова навичка/роль не є обов’язковою.",
+        "required_observations_uk": "Обмежені перевірені ролі й справжні slots, точне володіння/передача, незалежний reviewer — інший актор; рідні config/права збережено; відсутній доступ чесно недоступний. Повторно використати чинні компетенції й фактичні слоти host. Пізніше виділена навичка/роль допускається лише після доведеної користі, збереження повного обсягу та погодження точно переглянутого складу за A28; не замінювати налаштування чинних12 заради зручної команди.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "4c610c73f911752799aea633ee7b1ffbbbf0c81e4a34f9e5c1a4289d3aabe318",
+      "execution_status": "actual_existing_Codex_team_verified",
+      "outcome_en": "Existing owners and separate reviewers produced actual scoped data/media/panel/source work with precise handoffs. Preserved 33 core plus Orchestrator and 12 role settings were checked. Trial-specific one-parent/zero-child limits do not remove team capability.",
+      "outcome_uk": "Чинні виконавці й окремі reviewers виконали фактичні scoped data/media/panel/source роботи з точними handoffs. Перевірено збережені 33 core плюс Orchestrator і 12 role settings. Trial-specific one-parent/zero-child limits не прибирають командні можливості.",
+      "adoption_status": "no_new_mandatory_inventory",
+      "remaining_en": "Cursor/Claude/WORK or other unavailable hosts are not marked executed. A later extracted installable role/module still needs an exact approved composition and A28 benefit proof.",
+      "remaining_uk": "Cursor/Claude/WORK та інші недоступні hosts не позначені виконаними. Подальший extracted installable role/module потребує exact approved composition й A28 benefit proof.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Actual roles/slots/ownership/handoff",
+          "criterion_group_uk": "Фактичні roles/slots/ownership/handoff",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Separate reviewer and unchanged native settings",
+          "criterion_group_uk": "Окремий reviewer і незмінні native settings",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Existing inventory and conditional extraction",
+          "criterion_group_uk": "Чинний inventory й умовне extraction",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "optional-skills/atelier-orchestrator/SKILL.md",
+        "docs/evolution/2026-11-10/REAL-TASKS.en.md"
+      ],
+      "receipt_refs": [
+        "M5",
+        "PANEL",
+        "DATA",
+        "A25_2",
+        "PRESERVATION",
+        "KNOWN_AGENTS",
+        "R3_STAGE2"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A19",
+      "title_en": "Construct to install to original task",
+      "title_uk": "Від конструктора через установку до початкової задачі",
+      "approved_definition": {
+        "id": "A19",
+        "title_en": "Construct to install to original task",
+        "inputs_en": "Approved fixture project-agent passport and original product request, generated portable bundle, actual supported discovery root",
+        "required_observations_en": "Create/validate/package, reviewed install, actual host discovery and invocation; generated agent completes bounded original product task with source/tool receipts; no structural-only substitution. Do not construct a new agent when reuse suffices. Where the task requires construction, a synthetic bundle test proves only its own boundary; actual cold continuation and original work remain subject to A25/A27/A29.",
+        "owner": "Foundry + Orchestrator + independent QA",
+        "requirements": [
+          "R10",
+          "R11",
+          "R17",
+          "R19",
+          "R23",
+          "R24",
+          "R25",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Від конструктора через установку до початкової задачі",
+        "inputs_uk": "Погоджений паспорт тестового project-agent, початковий продуктовий запит, переносний пакет і справжній підтримуваний discovery root.",
+        "required_observations_uk": "Створити/перевірити/запакувати, переглянути установку, фактично виявити й викликати; агент завершує обмежену початкову задачу з source/tool receipts; структура не підміняє виконання. Не створювати нового агента, якщо достатньо повторного використання. Коли задача потребує створення, перевірка синтетичного пакета доводить лише свою межу; фактичне продовження без історії та первинна робота лишаються предметом A25/A27/A29.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT01",
+          "RT05"
+        ]
+      },
+      "definition_sha256": "57120c92eba8fa0d9504aeb5512f0b66a2e946c1c616daf8d892aa5286eb36c8",
+      "execution_status": "existing_constructed_agent_actual_task_verified",
+      "outcome_en": "Historical approval/package/install/discovery lineage and 51 unchanged source/snapshot files were joined to one actual 389.38 s bounded agent task with native tool receipts. Independent review consumed its real source audit; reuse was sufficient and no new agent was constructed.",
+      "outcome_uk": "Історичні approval/package/install/discovery та 51 незмінний source/snapshot file зв’язано з фактичною 389.38 s bounded agent task і native tool receipts. Independent review спожив реальний source audit; reuse був достатнім, нового агента не створювали.",
+      "adoption_status": "reuse_not_new_product_migration",
+      "remaining_en": "This ordinary continuation used memory and is not cold A25 evidence. Product repair/migration and acceptance of its full requirement register are not claimed.",
+      "remaining_uk": "Це ordinary continuation використовувало memory й не є cold A25 evidence. Product repair/migration та приймання всього product requirement register не заявляються.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Actual constructed-agent lineage/discovery/invocation",
+          "criterion_group_uk": "Фактичні constructed-agent lineage/discovery/invocation",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Bounded original task with receipts",
+          "criterion_group_uk": "Bounded первинна задача з receipts",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Reuse before construction and linked cold/UI/adoption gates",
+          "criterion_group_uk": "Reuse до construction і пов’язані cold/UI/adoption gates",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/server/skills.mjs",
+        "docs/evolution/2026-11-10/REAL-TASKS.en.md"
+      ],
+      "receipt_refs": [
+        "A19_BIND",
+        "A19_PLAN",
+        "A19_JOB",
+        "A19_NATIVE",
+        "A19_INDEPENDENT",
+        "KNOWN_AGENTS",
+        "PRESERVATION"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A20",
+      "title_en": "Core/optional/role preservation and rollback",
+      "title_uk": "Збереження core/optional/roles та відкат",
+      "approved_definition": {
+        "id": "A20",
+        "title_en": "Core/optional/role preservation and rollback",
+        "inputs_en": "Known installed baseline, custom icon/color/settings/local edits, unknown source and interrupted apply",
+        "required_observations_en": "Retain all35 owned reusable sources (33 core plus the two existing optional sources), all12 existing role profiles and their settings/identity. There is zero mandatory new skill/profile. A later extraction needs demonstrated benefit, full-scope preservation and an exactly revised approved composition; guarded manifests may then admit only that composition. Preserve before-copies/journals, exact verification, unknown-edit conflicts rather than overwrite, and qualified rollback without invented receipts. Any accepted-function loss rejects the candidate, including noncritical loss.",
+        "owner": "Maintenance + installer + QA",
+        "requirements": [
+          "R18",
+          "R19",
+          "R25",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Збереження core/optional/roles та відкат",
+        "inputs_uk": "Відома встановлена основа, власні icon/color/settings/правки, невідоме джерело й перерваний apply.",
+        "required_observations_uk": "Зберегти всі35 багаторазових джерел власника (33 core і два чинні optional), усі12 чинних рольових профілів, їхні налаштування та ідентичність. Жодна нова навичка/роль не є обов’язковою. Пізніше виділення потребує доведеної користі, збереження повного обсягу й погодженого точно переглянутого складу; захищені маніфести допускають лише такий склад. Зберегти попередні копії/журнали, точну перевірку, конфлікти невідомих правок замість перезапису та належний відкат без вигаданих квитанцій. Будь-яка втрата прийнятої функції, навіть некритична, відхиляє кандидата.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "037980a15ebb575306713bb695892eed41a4a45d4acbc37fa1e62d1151f37eeb",
+      "execution_status": "baseline_sources_roles_identity_verified",
+      "outcome_en": "All 35 reusable sources remain in scope, while the installed baseline is 33 core plus Orchestrator and the other optional source remains absent globally. Exact installed files/modes, icons,12 roles, journals and unchanged settings were rechecked.",
+      "outcome_uk": "У scope лишаються всі 35 reusable sources; installed baseline —33 core плюс Orchestrator, інше optional source збережено відсутнім глобально. Повторно звірено exact installed files/modes, icons,12 roles, journals і незмінні settings.",
+      "adoption_status": "new_candidate_adoption_pending",
+      "remaining_en": "New candidate installation and applicable rollback journals remain pending. Unknown local edits must remain conflicts; no new skill/profile is mandatory.",
+      "remaining_uk": "Очікуються встановлення нового candidate й належні rollback journals. Unknown local edits мають лишатися conflicts; нова skill/profile не є обов’язковою.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "All 35 sources and 12 role settings/identity",
+          "criterion_group_uk": "Усі 35 sources і 12 role settings/identity",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Before copies/journals/unknown edits/rollback",
+          "criterion_group_uk": "Before copies/journals/unknown edits/rollback",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "No mandatory inventory or compensated loss",
+          "criterion_group_uk": "Без обов’язкової інвентаризації чи компенсації втрати",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "kit/manifest.json",
+        "releases/migrations/6.1.0.md"
+      ],
+      "receipt_refs": [
+        "M5",
+        "M4",
+        "FUNCTION_MAP",
+        "PANEL_DEPS",
+        "PRESERVATION",
+        "KNOWN_AGENTS",
+        "R3_STAGE2",
+        "TRANSPORT_NEGATIVE",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A21",
+      "title_en": "Existing generated-agent adoption",
+      "title_uk": "Прийняття чинним створеним агентом",
+      "approved_definition": {
+        "id": "A21",
+        "title_en": "Existing generated-agent adoption",
+        "inputs_en": "Old native state/ownership/requirements/permissions/identity, custom agent changes, unfinished/deferred work",
+        "required_observations_en": "Source-to-target plan, applicable inherited resources actually portable, native state/owner constraints retained, one real bounded continued task; unrelated products untouched; private scope register counts actually discovered owned agents as inspected/adopted/conflicted/deferred/not inspected, without claiming all private agents migrated. Bind actual current-project continuation under A25 and the per-invariant adoption gate A29; unchanged prior evidence carries only with verified unchanged dependencies. Unknown is not pass.",
+        "owner": "Foundry + maintenance + product owner",
+        "requirements": [
+          "R18",
+          "R19",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Прийняття чинним створеним агентом",
+        "inputs_uk": "Старий рідний стан/власність/вимоги/права/ідентичність, власні зміни агента, незавершене/відкладене.",
+        "required_observations_uk": "Source-to-target план, справді переносні доречні ресурси, збережені native state/рішення власника, одна реальна продовжена задача; сторонні продукти не змінюються. Приватний реєстр рахує фактично виявлених власних агентів за станами перевірено/прийнято/конфлікт/відкладено/не перевірено; міграція всіх приватних агентів не вигадується. Прив’язати фактичне продовження чинного проєкту за A25 та приймання кожної незмінної вимоги за A29; старий доказ переноситься лише за перевірених незмінених залежностей. Невідоме не означає проходження.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT01",
+          "RT05"
+        ]
+      },
+      "definition_sha256": "7ddef2f1be3691f268f5ad76c171e7cbae68e97f3e41a457498fb5d983f4ce5f",
+      "execution_status": "known_agent_preservation_and_task_verified",
+      "outcome_en": "The already authorised inventory covered six roots and one known project-local skill. That one skill’s 51 files and real continuation were verified; five other roots are metadata/instruction observations, not five inspected or migrated agents. The wider population remains unknown.",
+      "outcome_uk": "Вже дозволений inventory охоплював шість roots і одну відому project-local skill. Її 51 files і реальне continuation перевірено; інші п’ять roots є metadata/instruction observations, а не п’ятьма inspected/migrated agents. Ширша популяція невідома.",
+      "adoption_status": "current_cold_adoption_pending",
+      "remaining_en": "Current-project cold continuation and final per-invariant adoption await A25/A29. Historical local resources were preserved, not silently migrated or renamed.",
+      "remaining_uk": "Current-project cold continuation і final per-invariant adoption очікують A25/A29. Історичні local resources збережені, а не мовчки мігровані чи перейменовані.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Source-to-target plan and portable resources",
+          "criterion_group_uk": "Source-to-target plan і portable resources",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Actual bounded continuation and untouched unrelated products",
+          "criterion_group_uk": "Фактичне bounded continuation й незмінені сторонні продукти",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Honest private scope and A25/A29 dependency",
+          "criterion_group_uk": "Чесний private scope і залежність A25/A29",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "docs/evolution/2026-11-10/REAL-TASKS.en.md",
+        "releases/migrations/6.1.0.md"
+      ],
+      "receipt_refs": [
+        "M5",
+        "PANEL",
+        "A19_BIND",
+        "A19_NATIVE",
+        "A25_2",
+        "KNOWN_AGENTS",
+        "A19_INDEPENDENT",
+        "PRESERVATION",
+        "R3_STAGE2",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A22",
+      "title_en": "App profile contradiction regression",
+      "title_uk": "Регресія профілів App",
+      "approved_definition": {
+        "id": "A22",
+        "title_en": "App profile contradiction regression",
+        "inputs_en": "Platform subsets Android-only/iOS-only/web-only and multiple; authorized/banned human research profiles",
+        "required_observations_en": "No unconditional allthree or general human-testban overrides actual accepted profile; existing project-specific owner bans preserved in specification/build/QA/release Cover concepts and all eleven App phases, including applicable references/templates and generated cases.",
+        "owner": "App director + independent QA",
+        "requirements": [
+          "R18",
+          "R26"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Регресія профілів App",
+        "inputs_uk": "Окремо Android-only/iOS-only/web-only і кілька платформ; дозволені/заборонені профілі human research.",
+        "required_observations_uk": "Безумовні allthree чи загальна human-test заборона не переважають прийнятий профіль; чинні проєктні заборони власника збережено в specification/build/QA/release. Покрити concepts і всі одинадцять App-фаз, включно з доречними references/templates та згенерованими сценаріями.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "556c10814191e6fc93e583fbac04f8b7985772c7f48377c160f99460f7d0d08d",
+      "execution_status": "profile_rules_and_eleven_phases_verified",
+      "outcome_en": "Eighty-eight App profile checks cover concepts and all eleven phases, inherited references/templates and generated cases. Project-specific owner limits are retained; no unconditional all-platform requirement or general ban on human testing is introduced.",
+      "outcome_uk": "Вісімдесят вісім App profile checks охоплюють concepts і всі одинадцять фаз, inherited references/templates та generated cases. Project-specific owner limits збережені; unconditional all-platform requirement або загальна заборона human testing не вводяться.",
+      "adoption_status": "no_device_or_human_study_claim",
+      "remaining_en": "This is a profile/rule verification. It is not actual Android/iOS/web deployment, physical-device testing or a human study.",
+      "remaining_uk": "Це перевірка profile/rules. Вона не є фактичним Android/iOS/web deployment, physical-device testing або human study.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Accepted platform/human-test constraints",
+          "criterion_group_uk": "Прийняті platform/human-test constraints",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Concepts and all eleven phases/references/templates",
+          "criterion_group_uk": "Concepts і всі одинадцять phases/references/templates",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "kit/skills/app-atelier-director/scripts/tests/test_briefing.py",
+        "kit/skills/app-atelier-director/scripts/tests/test_interaction.py",
+        "kit/skills/app-atelier-director/scripts/tests/test_state.py",
+        "kit/skills/app-atelier-director/scripts/tests/test_economics.py"
+      ],
+      "receipt_refs": [
+        "APP88",
+        "M5"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A23",
+      "title_en": "Independent full route acceptance",
+      "title_uk": "Незалежне наскрізне приймання",
+      "approved_definition": {
+        "id": "A23",
+        "title_en": "Independent full route acceptance",
+        "inputs_en": "Exact artifacts/bytes of data→analysis/model/LLM→API/UI→operation representative product and unresolved requirement ledger",
+        "required_observations_en": "Independent semantic and seam review, original outcome traceability; change invalidates dependentproof; structural/runtime/device/provider/owner evidence separate; no claim everyfutureproduct certified Freeze the task rubric and raw baseline/candidate cases before an improvement claim; include held-out/adversarial cases, reduce order/author bias and retain actual independent verdicts. Mandatory A25/A26/A27 actual-task evidence cannot be replaced by fixtures. Use the same or explicitly accounted model/tool/access/resource conditions, predeclared cost/latency envelopes and suitable stochastic repeats; no weighted score can accept an existing-function regression.",
+        "owner": "Independent QA + judge + current integrator",
+        "requirements": [
+          "R01",
+          "R06",
+          "R07",
+          "R08",
+          "R10",
+          "R11",
+          "R15",
+          "R17",
+          "R23",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Незалежне наскрізне приймання",
+        "inputs_uk": "Точні байти data→analysis/model/LLM→API/UI→operation продуктового випадку й реєстр відкритих вимог.",
+        "required_observations_uk": "Незалежні змістовний і seam review, зв'язок з початковим результатом; зміни відкривають залежні докази; structure/runtime/device/provider/owner стани окремі; майбутні продукти не сертифікуються. До твердження про покращення зафіксувати предметну рубрику й сирі baseline/candidate випадки, додати відкладені/негативні сценарії, зменшити вплив порядку/авторства та зберегти фактичні незалежні висновки. Обов’язкові докази фактичних задач A25/A26/A27 не замінюються вигаданими прикладами. Використати однакові або явно враховані model/tool/access/resource умови, заздалегідь визначені межі вартості/затримки й доречні повтори випадкових результатів; зважена оцінка не може прийняти регресію чинної функції.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT01",
+          "RT02",
+          "RT03",
+          "RT05"
+        ]
+      },
+      "definition_sha256": "7605b06fc39d56424e511c03a1b41e24ebd910a965042e2f1f474ddd32971992",
+      "execution_status": "independent_semantic_and_seam_reviews_completed",
+      "outcome_en": "Independent data/model, medium/UI, generated-agent and cold-trial reviews retained actual failures and repairs. Frozen rubrics, holdouts, partial blindness and accounted resource conditions are recorded. Changed bytes received new proof rather than borrowed old results.",
+      "outcome_uk": "Independent data/model, medium/UI, generated-agent і cold-trial reviews зберегли actual failures та repairs. Зафіксовано frozen rubrics, holdouts, partial blindness і враховані resource conditions. Змінені bytes отримали новий proof замість запозичення старих results.",
+      "adoption_status": "affected_admission_gates_pending",
+      "remaining_en": "R4, exact final publication and whole-candidate admission are still pending. Separate reviewer roles or an aggregate score cannot certify all future products or replace owner decisions.",
+      "remaining_uk": "R4, exact final publication і whole-candidate admission ще очікуються. Reviewer roles або aggregate score не сертифікують усі майбутні продукти й не замінюють owner decisions.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Independent semantic/seam and original outcome",
+          "criterion_group_uk": "Independent semantic/seam і первинний outcome",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Frozen rubrics/holdouts/accounted conditions",
+          "criterion_group_uk": "Frozen rubrics/holdouts/враховані conditions",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Changed-proof invalidation and mandatory real-task gates",
+          "criterion_group_uk": "Invalidation зміненого proof і обов’язкові real-task gates",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "docs/evolution/2026-11-10/REVIEW-STUDY.en.md",
+        "docs/evolution/2026-11-10/REAL-TASKS.en.md"
+      ],
+      "receipt_refs": [
+        "DATA",
+        "DATA_QA",
+        "PANEL",
+        "VISUAL_FINAL",
+        "A25_1",
+        "A25_2",
+        "UI_CLOSEOUT",
+        "UI_FINAL_INDEX",
+        "A19_INDEPENDENT",
+        "R2_STAGE2",
+        "R3_STAGE2",
+        "TRANSPORT_NEGATIVE",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A24",
+      "title_en": "Complete documentation and exact release",
+      "title_uk": "Повна документація та точний випуск",
+      "approved_definition": {
+        "id": "A24",
+        "title_en": "Complete documentation and exact release",
+        "inputs_en": "All35 retained owned reusable sources and12 existing role profiles, seven logical competencies, resource/helper catalogues, all affected guide languages, packages/Git/CI; any later extraction only under its exactly revised approved composition",
+        "required_observations_en": "Human purpose/path/trigger/I-O/consumer/access/tests/limits/recovery for everylogicalelement; requirements coverage; source/hash/link/translation/privacy checks; both packages CRC/hash; exact remote commit/CI readback; WORK source≠installation. Record every actual-task input’s availability, binding and due gate without publishing private paths/data/chats. Publishing this0.2 documentation revision executes no acceptance case and installs no target update.",
+        "owner": "Documentation + maintenance + independent review",
+        "requirements": [
+          "R19",
+          "R20",
+          "R22",
+          "R23",
+          "R25",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "evidence": [],
+        "title_uk": "Повна документація та точний випуск",
+        "inputs_uk": "Усі35 збережених багаторазових джерел власника й12 чинних рольових профілів, сім логічних компетенцій, каталоги ресурсів/helpers, усі зачеплені мови інструкцій, пакети/Git/CI; пізніше виділення — лише за погодженим точно переглянутим складом.",
+        "required_observations_uk": "Людські purpose/path/trigger/I-O/consumer/access/tests/limits/recovery для кожного логічного елемента; покриття вимог; hash/link/translation/privacy; CRC/hash двох пакетів; точний remote commit/CI; WORK source не є установкою. Зафіксувати доступність, прив’язку й строк належного доказу кожного входу реальної задачі без публікації приватних шляхів/даних/чатів. Публікація цієї редакції документації0.2 не виконує жодного сценарію й не встановлює цільового оновлення.",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before the corresponding capability/adoption claim; any required actual-task gate remains open until bound and executed.",
+        "due_gate_uk": "До заяви про відповідну можливість/застосування; потрібна перевірка фактичної задачі лишається відкритою до прив’язки й виконання.",
+        "real_task_refs": [
+          "RT05"
+        ]
+      },
+      "definition_sha256": "6ef39f82a690bd64d2a75b0bb6a23d33e19765d046953a18004b2030b71e294f",
+      "execution_status": "final_publication_pending",
+      "outcome_en": "Human-readable component/source/trigger/I-O/consumer/access/recovery documentation and this 29-case ledger are being reconciled in both languages. Public canonical reproduction paths and opaque receipt digests replace private inventories, paths and raw project data.",
+      "outcome_uk": "Людські component/source/trigger/I-O/consumer/access/recovery docs і цей 29-case ledger узгоджуються обома мовами. Замість private inventories, paths і raw project data наведено public canonical reproduction paths та opaque receipt digests.",
+      "adoption_status": "no_new_remote_CI_install_claim",
+      "remaining_en": "Final source/hash/link/translation/privacy checks, both package CRC/SHA and exact remote/CI/artifact readback remain pending. WORK source/package never means WORK installation.",
+      "remaining_uk": "Очікуються final source/hash/link/translation/privacy checks, CRC/SHA обох packages та exact remote/CI/artifact readback. WORK source/package ніколи не означає WORK installation.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Human documentation and complete requirement coverage",
+          "criterion_group_uk": "Людська документація й повне покриття вимог",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Privacy/translation/source/package checks",
+          "criterion_group_uk": "Privacy/translation/source/package checks",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Exact remote CI and input availability/gates",
+          "criterion_group_uk": "Exact remote CI й input availability/gates",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "governance/UPDATE_CONTRACT.md",
+        "releases/current.json"
+      ],
+      "receipt_refs": [
+        "RC2",
+        "MAIN",
+        "M5",
+        "DATA_QA",
+        "PANEL_BUILD"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A25",
+      "title_en": "Actual cold continuation of skills management",
+      "title_uk": "Фактичне продовження керування навичками без прихованої історії",
+      "approved_definition": {
+        "id": "A25",
+        "title_en": "Actual cold continuation of skills management",
+        "title_uk": "Фактичне продовження керування навичками без прихованої історії",
+        "inputs_en": "The actual skills-management project, current owner request/approval, accepted decisions/references, native checkpoints, unfinished/deferred work and installed/source/settings baseline; raw-input manifest outside public distribution.",
+        "inputs_uk": "Фактичний проєкт керування навичками, чинні запит/погодження власника, прийняті рішення/референси, власні контрольні точки, незавершені/відкладені роботи й база встановлених джерел/налаштувань; реєстр сирих входів поза публічним пакетом.",
+        "required_observations_en": "Freeze actual inputs/hashes and a per-invariant expected-state ledger, then give a fresh session only the declared cold-start packet. It must recover the original goal, scope, accepted identity, settings/authority, exact current revision, blockers, deferred WORK and next permitted action without hidden chat or a new brief. Compare baseline/candidate with equal or accounted conditions; use held-out misleading/stale context and verify one bounded actual continuation. Omission, invented approval or any accepted-function loss rejects the candidate; missing raw authority stays blocked, not reconstructed.",
+        "required_observations_uk": "Зафіксувати фактичні входи/хеші й реєстр очікуваного стану за кожною незмінною вимогою; новому сеансу надати лише оголошений пакет початку. Він має відновити первинну мету, обсяг, прийняту ідентичність, налаштування/повноваження, точну поточну ревізію, блокери, відкладений WORK і наступну дозволену дію без прихованого чату або нового брифу. Порівняти базу/кандидата за однакових або врахованих умов; використати відкладений оманливий/застарілий контекст і перевірити одне обмежене фактичне продовження. Пропуск, вигадане погодження або втрата прийнятої функції відхиляють кандидата; відсутнє сире джерело повноважень лишається блокером, а не відновлюється здогадом.",
+        "owner": "Orchestrator + native project owner + independent QA",
+        "requirements": [
+          "R18",
+          "R19",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before claiming improved context continuity or adopting the candidate for current work.",
+        "due_gate_uk": "До заяви про покращення контексту або застосування кандидата в чинній роботі.",
+        "real_task_refs": [
+          "RT01"
+        ],
+        "evidence": []
+      },
+      "definition_sha256": "7f28331ccf6f118ae83c4556b1370380b230c7bdf2c5b382322f49751e612aef",
+      "execution_status": "executed_NOT_ADMITTED",
+      "outcome_en": "The initial failed study, revision 2 and memory-repair trials are retained. The latest three trials preserved 27 full source texts and 30 must IDs; all had native memory-disable acknowledgement before the turn. Two read the actual 43-file bundle, one did not, so the predeclared all-three gate failed.",
+      "outcome_uk": "Збережено initial failed study, revision 2 і memory-repair trials. Останні три зберегли 27 повних source texts і 30 must IDs; усі мали native memory-disable acknowledgement до turn. Два прочитали фактичний 43-file bundle, один — ні, тому predeclared all-three gate не пройдено.",
+      "adoption_status": "R4_pending",
+      "remaining_en": "Separate immutable transport v3 passed source/binding and OS checks, but R4 actual delivery/semantics remain pending. No old failure is relabelled PASS, and no historical-system superiority or latency gain is claimed.",
+      "remaining_uk": "Окремий immutable transport v3 пройшов source/binding та OS checks, але R4 actual delivery/semantics ще очікуються. Старі failures не перейменовано на PASS; historical-system superiority або latency gain не заявляються.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Frozen actual inputs and complete state recovery",
+          "criterion_group_uk": "Frozen actual inputs і повне відновлення стану",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Fresh declared-only continuation and misleading holdouts",
+          "criterion_group_uk": "Fresh declared-only continuation й misleading holdouts",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Accounted baseline/candidate and all-three acceptance",
+          "criterion_group_uk": "Враховані baseline/candidate й all-three acceptance",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/server/context.mjs",
+        "apps/agent-atelier/server/codex.mjs",
+        "apps/agent-atelier/tests/server/task-memory.test.mjs",
+        "apps/agent-atelier/tests/server/execution-inputs.test.mjs"
+      ],
+      "receipt_refs": [
+        "A25_1",
+        "A25_2",
+        "A25_REV2",
+        "R2_STAGE1",
+        "R2_STAGE2",
+        "R3_STAGE1",
+        "R3_STAGE2",
+        "MEMORY_REVIEW",
+        "TRANSPORT_NEGATIVE",
+        "TRANSPORT_OS",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A26",
+      "title_en": "Actual reference-to-result craft comparison",
+      "title_uk": "Фактичне порівняння референсу й результату",
+      "approved_definition": {
+        "id": "A26",
+        "title_en": "Actual reference-to-result craft comparison",
+        "title_uk": "Фактичне порівняння референсу й результату",
+        "inputs_en": "The owner-supplied rich Agent Atelier reference and rejected layout, original functional brief/acceptance, actual baseline build/masters and a candidate on the same relevant medium; the Svitlobot defect is a separate required source-bound subcase.",
+        "inputs_uk": "Надані власником багатий референс Agent Atelier і відхилений макет, початковий функціональний бриф/приймання, фактичні базові build/masters та кандидат на тому самому потрібному носії; дефект світлобота є окремим обов’язковим випадком із прив’язаними джерелами.",
+        "required_observations_en": "Record source hashes, reference status and defining composition/relative scale, density, typography/material, interactions, navigation, content and function before production. Compare real baseline/candidate renders and actual interactions/playback/listening as relevant using the same or accounted model/tool/access/resources, a frozen task rubric, different-style holdouts, adversarial simplification and suitable stochastic repeats. An independent actual-medium/craft review and owner decision must identify retained properties and observed improvement. Palette/labels without depth fail; derivative identity drift, a lower required quality result while adding a feature, or any accepted-function loss reject the candidate. Missing Svitlobot raw brief/reference/source leaves that subcase blocked; another fixture or Atelier success does not close it.",
+        "required_observations_uk": "До виробництва записати хеші, статус референсів і визначальні композицію/відносний масштаб, щільність, типографіку/матеріал, взаємодії, навігацію, зміст і функції. Порівняти реальні відображення бази/кандидата та фактичні взаємодії/відтворення/прослуховування за потреби, використовуючи однакові або враховані model/tool/access/resources, зафіксовану предметну рубрику, відкладені інші стилі, навмисне спрощення й доречні повтори випадкових результатів. Незалежний огляд фактичного носія/майстерності та рішення власника мають назвати збережені властивості й спостережене покращення. Палітра/підписи без глибини не проходять; дрейф ідентичності похідних, нижча потрібна якість при додаванні функції або втрата прийнятої функції відхиляють кандидата. Відсутні сирі бриф/референс/source світлобота лишають підвипадок заблокованим; інший приклад або успіх Atelier його не закриває.",
+        "owner": "Existing product/experience/media owner + independent craft QA + owner",
+        "requirements": [
+          "R04",
+          "R12",
+          "R16",
+          "R23",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before claiming professional design/identity improvement or accepting related product derivatives.",
+        "due_gate_uk": "До заяви про професійне покращення дизайну/ідентичності або приймання пов’язаних похідних продукту.",
+        "real_task_refs": [
+          "RT02",
+          "RT04"
+        ],
+        "evidence": []
+      },
+      "definition_sha256": "b77bb3296340c562b15dcfd80aa0c091a194228a07a2207df8b4a05c68c96f2d",
+      "execution_status": "actual_reference_and_negative_audit_verified",
+      "outcome_en": "The actual rich reference/rejected-layout chain, composition/density/navigation/function and scoped owner visual decision were bound and reviewed on actual renders/interactions. Final workbench reader/source behavior was checked. The additional product audit retained its real phase omission and changed historical dependencies.",
+      "outcome_uk": "Фактичні rich reference/rejected-layout chain, composition/density/navigation/function та scoped owner visual decision прив’язані й переглянуті на actual renders/interactions. Перевірено final workbench reader/source behavior. Додатковий product audit зберіг реальний phase omission і змінені historical dependencies.",
+      "adoption_status": "product_repair_claims_qualified",
+      "remaining_en": "Owner acceptance covers the shown revision 6 foundation only. Current runtime and post-refinement owner acceptance of the additional product are unverified; another successful case does not close those repair/adoption claims. The current V7 runtime, post-night visual/craft result and corresponding owner decision remain open. The source audit’s phase omission and changed historical proof dependencies are retained.",
+      "remaining_uk": "Owner acceptance стосується лише показаної revision 6 foundation. Current runtime і post-refinement owner acceptance додаткового продукту не перевірені; інший успішний case не закриває ці repair/adoption claims. Поточні V7 runtime, post-night visual/craft result і відповідне рішення власника лишаються відкритими. Збережено знайдений source audit пропуск фази та змінені залежності історичного proof.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Source/reference/composition/function binding",
+          "criterion_group_uk": "Source/reference/composition/function binding",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Actual-medium/rubric/interaction/owner evidence",
+          "criterion_group_uk": "Actual-medium/rubric/interaction/owner evidence",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Reject simplification/drift and retain separate product gaps",
+          "criterion_group_uk": "Відхилення simplification/drift і збереження окремих product gaps",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "docs/evolution/2026-11-10/REAL-TASKS.en.md",
+        "apps/agent-atelier/client/src/views.tsx"
+      ],
+      "receipt_refs": [
+        "VISUAL_FINAL",
+        "VISUAL_REPORT_FINAL",
+        "VISUAL68",
+        "PANEL",
+        "M5",
+        "UI_CLOSEOUT",
+        "UI_VISUAL18",
+        "UI_FINAL_INDEX",
+        "A19_INDEPENDENT"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A27",
+      "title_en": "Actual local-panel project journeys",
+      "title_uk": "Фактичні проєктні сценарії локальної панелі",
+      "approved_definition": {
+        "id": "A27",
+        "title_en": "Actual local-panel project journeys",
+        "title_uk": "Фактичні проєктні сценарії локальної панелі",
+        "inputs_en": "The actual local Agent Atelier instance/build and real available project/work records, including direct-Codex work, actual agent/source status, goals/authority/evidence and a bounded authorized execution task; no fictional portfolio.",
+        "inputs_uk": "Фактичні local Agent Atelier instance/build і реально доступні записи проєктів/робіт, включно з прямою роботою Codex, фактичними agent/source status, цілями/повноваженнями/доказами й обмеженим дозволеним завданням виконання; без вигаданого портфеля.",
+        "required_observations_en": "Interact with the real workbench: launch/status; refresh read-only active/archived history with coverage gaps; find the actual project and grouped completed/in-progress work; distinguish declared/accepted goal, installed/discovered/used agent and source/review/owner evidence; navigate the work map to actual records; follow a justified next action; preview/bind the correct root; prepare a source-pinned bounded task, perform approved actual execution and inspect its real output/receipt. Verify recovery, partial access, stale sources and unknown/cancel states without unsafe replay, plus actual desktop/mobile/keyboard use. Keep history transport read-only and the four selected-skill snapshots/job bound via dependent jobs under one integrator. No demo, screenshot, unit test or metadata-only listing substitutes for this journey; any lost accepted function rejects the candidate.",
+        "required_observations_uk": "Взаємодіяти з реальною панеллю: запуск/status; оновлення read-only active/archived history з видимими прогалинами; пошук фактичного проєкту й згрупованих завершених/поточних робіт; відокремлення declared/accepted goal, installed/discovered/used agent та source/review/owner evidence; перехід картою робіт до фактичних записів; обґрунтований наступний крок; preview/bind правильної теки; підготовка source-pinned обмеженої задачі, дозволене фактичне виконання й огляд реальних output/receipt. Перевірити recovery, partial access, stale sources та unknown/cancel стани без небезпечного повтору, а також фактичне desktop/mobile/keyboard використання. Зберегти read-only history transport і межу чотирьох selected-skill snapshots на job через залежні jobs під одним інтегратором. Демо, скриншот, unit test або перелік metadata не замінюють цей маршрут; втрата прийнятої функції відхиляє кандидата.",
+        "owner": "Current panel/product owner + platform/integrations + independent QA",
+        "requirements": [
+          "R01",
+          "R06",
+          "R07",
+          "R08",
+          "R16",
+          "R19",
+          "R23",
+          "R24",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before claiming the panel useful for actual project control or adopting its changed interface/controller.",
+        "due_gate_uk": "До заяви про користь панелі для фактичного керування проєктами або застосування зміненого interface/controller.",
+        "real_task_refs": [
+          "RT03",
+          "RT05"
+        ],
+        "evidence": []
+      },
+      "definition_sha256": "db81522904309583c129f845076cf2c3d4499672295cac8c812f2ede6555315a",
+      "execution_status": "real_workbench_and_current_receipt_verified",
+      "outcome_en": "Actual history/project/work navigation, source/evidence distinctions, next action, preview/bind and preparation were exercised. A current approved model task’s real output/receipt was inspected; recovery, partial/stale states and desktop/mobile/keyboard checks were retained. The limit is at most four skills per job, not four mandatory selections.",
+      "outcome_uk": "Виконано actual history/project/work navigation, розмежування source/evidence, next action, preview/bind і preparation. Переглянуто реальні output/receipt поточної дозволеної model task; збережено recovery, partial/stale та desktop/mobile/keyboard checks. Межа — щонайбільше чотири skills на job, а не чотири обов’язкові selections.",
+      "adoption_status": "cold_task_quality_still_blocked",
+      "remaining_en": "The displayed task’s selected-snapshot handoff failed A25 despite completed transport. Real tasks naturally used one skill; five selections were rejected and multi-skill membership tested. No unobserved greater-than-four dependent-job execution is invented. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.",
+      "remaining_uk": "Показана selected-snapshot handoff не пройшла A25 попри completed transport. Реальні задачі природно використали одну skill; п’ять selections відхилено, multi-skill membership перевірено. Невиконане greater-than-four dependent-job execution не вигадується. Панель доводить лише обмежені native jobs і підтримані controller paths. Довільні vendor, plugin та media operations із панелі не доведені; перехід до здатного host є явною прогалиною або умовним маршрутом, а не пройденою глобальною можливістю.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Real history/project/work/evidence navigation",
+          "criterion_group_uk": "Реальні history/project/work/evidence navigation",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Preview/bind/prepare/actual execution/output",
+          "criterion_group_uk": "Preview/bind/prepare/actual execution/output",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Recovery/stale/unknown/desktop/mobile/keyboard",
+          "criterion_group_uk": "Recovery/stale/unknown/desktop/mobile/keyboard",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Read-only history and at-most-four snapshot bound",
+          "criterion_group_uk": "Read-only history й межа щонайбільше чотирьох snapshots",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "apps/agent-atelier/client/src/workbench.ts",
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/tests/server/execution-inputs.test.mjs"
+      ],
+      "receipt_refs": [
+        "PANEL",
+        "PANEL_UI",
+        "PANEL_HTTP",
+        "PANEL_BOUNDARY",
+        "M5",
+        "FUNCTION_MAP",
+        "DATA_QA",
+        "MEDIA_SCOPE",
+        "UI_CLOSEOUT",
+        "UI_REPORT20",
+        "UI_PDF16",
+        "UI_VISUAL18",
+        "UI_APP10",
+        "UI_DIALOG19",
+        "UI_T1_INDEX",
+        "UI_T1",
+        "R3_STAGE2",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3",
+        "CAPACITY4"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A28",
+      "title_en": "Admission of additional complexity",
+      "title_uk": "Допуск додаткової складності",
+      "approved_definition": {
+        "id": "A28",
+        "title_en": "Admission of additional complexity",
+        "title_uk": "Допуск додаткової складності",
+        "inputs_en": "An actual repeated/complex task, the simplest sufficient existing route, measured gap and a candidate change; alternatives include reuse, a small reference/recipe/helper change and a conditional extraction.",
+        "inputs_uk": "Фактична повторювана/складна задача, найпростіший достатній чинний маршрут, виміряна прогалина й кандидат зміни; альтернативи охоплюють повторне використання, малу зміну reference/recipe/helper та умовне виділення.",
+        "required_observations_en": "Keep seven logical competencies without forcing seven skills, four profiles or any fixed new inventory. First compare reuse and the smallest sufficient change under the declared scope, maintenance burden, quality, reliability, cost/latency/resource envelope and actual task result. Admit new agents, skills, frameworks, services, schemas or coordinators to operational use only for demonstrated task benefit with every accepted requirement/function/settings/identity retained and no parallel native truth. A later extraction requires an exactly revised composition and owner approval before target creation/install. Novelty, more roles, a feature count or an aggregate score is not benefit; unnecessary complexity or any accepted regression rejects the candidate and retains the baseline. After exact implementation approval, bounded isolated candidate trials/prototypes under existing owners are permitted within the approved scope to test actual benefit and preservation. A28 governs production/operational admission, merge, release, installation and activation, not permission to write an approved isolated trial. A later new installable module/role extraction still needs an exactly revised composition and approval before creating/installing that new target; distinct-output/reuse evidence can come from an existing-profile trial. This documentation-only revision creates or runs no trial.",
+        "required_observations_uk": "Зберегти сім логічних компетенцій без примусових семи навичок, чотирьох профілів або фіксованого нового складу. Спершу порівняти повторне використання та найменшу достатню зміну за оголошеними обсягом, тягарем супроводу, якістю, надійністю, межами вартості/затримки/ресурсів і фактичним результатом задачі. Нові agents, skills, frameworks, services, schemas або coordinators допускаються до операційного використання лише за доведеної користі для задачі зі збереженням кожної прийнятої вимоги/функції/налаштування/ідентичності та без паралельного головного стану. Пізніше виділення потребує точно переглянутого складу й погодження власника до створення/встановлення. Новизна, більше ролей, кількість функцій або середня оцінка не є користю; зайва складність або прийнята регресія відхиляють кандидата й зберігають базу. Після точного погодження реалізації дозволені обмежені ізольовані спроби/прототипи кандидата під чинними відповідальними в межах погодженого обсягу, щоб перевірити фактичну користь і збереження чинного. A28 регулює виробничий/операційний допуск, merge, release, установлення й активацію, а не право написати погоджену ізольовану спробу. Пізніше виділення нового встановлюваного модуля/ролі все ще потребує точно переглянутого складу й погодження до створення/встановлення цієї нової цілі; доказ окремого результату/повторного використання можна отримати зі спроби в чинному профілі. Ця редакція лише документації не створює й не запускає спроб.",
+        "owner": "Current integrator + architecture/cost + independent skeptic/QA",
+        "requirements": [
+          "R08",
+          "R17",
+          "R18",
+          "R19",
+          "R25",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before production/operational admission, merge, release, installation or activation. Approved isolated existing-profile trials may establish evidence first; creating/installing a new extracted installable module/role still requires its exact revised composition approval.",
+        "due_gate_uk": "До виробничого/операційного допуску, merge, release, установлення або активації. Погоджені ізольовані спроби в чинному профілі можуть спершу зібрати докази; створення/встановлення нового виділеного модуля/ролі все ще потребує точного погодження переглянутого складу.",
+        "real_task_refs": [
+          "RT01",
+          "RT02",
+          "RT03"
+        ],
+        "evidence": []
+      },
+      "definition_sha256": "f060b0b4c7cb9765cdf31e56dc4add0b7d5544ea5c817b698b97f8a66e8d6f94",
+      "execution_status": "reuse_and_small_change_measured",
+      "outcome_en": "Existing routes were reused, unsuccessful model complexity was rejected and no mandatory agent/skill inventory was added. Repeated actual input-delivery failure justified a bounded transport candidate; independent source/retention/OS checks closed its found defects without a new framework or native truth store.",
+      "outcome_uk": "Чинні routes повторно використано, невдалу model complexity відхилено, обов’язковий agent/skill inventory не додано. Повторна actual input-delivery failure обґрунтувала bounded transport candidate; independent source/retention/OS checks закрили знайдені дефекти без нового framework або native truth store.",
+      "adoption_status": "new_transport_operational_admission_pending",
+      "remaining_en": "R4 benefit/preservation and exact final A24/A29 gates must close before operational admission, merge/release/install/activation. A later extracted installable module/role still requires exact composition approval.",
+      "remaining_uk": "R4 benefit/preservation та exact final A24/A29 gates мають закритися до operational admission, merge/release/install/activation. Подальший extracted installable module/role потребує exact composition approval.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Reuse and smallest sufficient measured change",
+          "criterion_group_uk": "Reuse й найменша достатня виміряна зміна",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Full-scope preservation and no parallel truth",
+          "criterion_group_uk": "Збереження всього scope без parallel truth",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Exact extraction approval and operational admission",
+          "criterion_group_uk": "Exact extraction approval й operational admission",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "docs/evolution/2026-11-10/PASSPORT.en.md",
+        "apps/agent-atelier/server/skills.mjs"
+      ],
+      "receipt_refs": [
+        "M4",
+        "M5",
+        "DATA",
+        "DATA_QA",
+        "PANEL",
+        "A25_2",
+        "UI_CLOSEOUT",
+        "R3_STAGE2",
+        "TRANSPORT_NEGATIVE",
+        "TRANSPORT_OS",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    },
+    {
+      "id": "A29",
+      "title_en": "Strict non-regression and compatible adoption",
+      "title_uk": "Сувора відсутність регресій і сумісне застосування",
+      "approved_definition": {
+        "id": "A29",
+        "title_en": "Strict non-regression and compatible adoption",
+        "title_uk": "Сувора відсутність регресій і сумісне застосування",
+        "inputs_en": "The exact current accepted baseline and candidate, full applicable invariant/function/requirement register, existing source/role/settings/identity/state/permissions and unfinished work, plus bound actual-task proofs.",
+        "inputs_uk": "Точні чинна прийнята база й кандидат, повний реєстр застосовних незмінних властивостей/функцій/вимог, чинні source/roles/settings/identity/state/permissions та незавершені роботи, а також прив’язані докази фактичних задач.",
+        "required_observations_en": "Before change freeze every applicable accepted function/invariant, dependencies, procedure, expected result and due proof; include normal/edge/negative/restart/restore/old-state adoption and identity checks. Compare baseline/candidate under the same or explicitly accounted model/tool/access/resource conditions, predeclared task envelopes and suitable stochastic repeats. Report the complete denominator and a verdict for each invariant, retaining actual evidence and unknowns. Every detected accepted-function loss, even noncritical, lower required quality while adding a feature, lost decision/deferred task or altered unauthorized setting rejects the candidate; aggregate quality/cost/feature gains cannot compensate. Retain baseline, diagnose/repair and rerun affected closure rather than accept a tradeoff. Unknown is not pass; adoption/rollback uses actual journals and preserves unrelated work. A documentation publication is not a passing adoption.",
+        "required_observations_uk": "До зміни зафіксувати кожну застосовну прийняту функцію/незмінну властивість, залежності, процедуру, очікуваний результат і належний доказ; охопити normal/edge/negative/restart/restore/old-state adoption та identity checks. Порівняти базу/кандидата за однакових або явно врахованих model/tool/access/resource умов, заздалегідь визначених меж задачі й доречних повторів випадкових результатів. Показати повний знаменник і verdict кожної властивості з фактичними доказами та невідомим. Будь-яка виявлена втрата прийнятої функції, навіть некритична, нижча потрібна якість при додаванні функції, втрата рішення/відкладеної роботи або недозволена зміна налаштування відхиляє кандидата; сумарні переваги якості/вартості/функцій цього не компенсують. Утримати базу, діагностувати/виправити причину й повторити зачеплене покриття замість прийняття компромісу. Невідоме не означає проходження; adoption/rollback використовують фактичні журнали й зберігають сторонню роботу. Публікація документації не є успішним adoption.",
+        "owner": "Current project owner + maintenance + independent QA/judge",
+        "requirements": [
+          "R18",
+          "R19",
+          "R23",
+          "R24",
+          "R25",
+          "R26",
+          "R27"
+        ],
+        "status": "planned-not-executed",
+        "input_binding": {
+          "status": "unbound",
+          "baseline": null,
+          "candidate": null,
+          "raw_input_manifest": null
+        },
+        "due_gate_en": "Before accepting/installing/adopting the candidate or declaring an actual-task improvement.",
+        "due_gate_uk": "До приймання/встановлення/застосування кандидата або заяви про покращення фактичної задачі.",
+        "real_task_refs": [
+          "RT01",
+          "RT02",
+          "RT03",
+          "RT04",
+          "RT05"
+        ],
+        "evidence": []
+      },
+      "definition_sha256": "c7a92330e98f9e827c9999fc8aad33730e8182f98b43f5d952cf37c9ec826ebf",
+      "execution_status": "NOT_ADMITTED_pending_R4_publication_live",
+      "outcome_en": "The complete 29-case denominator, unchanged baseline dependencies and actual negative/restart/restore/identity evidence are retained. Two independently found transport binding defects were repaired and replayed; source/local counts do not override the failed cold task.",
+      "outcome_uk": "Збережено повний 29-case denominator, unchanged baseline dependencies і actual negative/restart/restore/identity evidence. Два незалежно знайдені transport binding defects виправлені й повторно перевірені; source/local counts не перекривають failed cold task.",
+      "adoption_status": "baseline_retained",
+      "remaining_en": "R4, exact final source/package/remote CI, full per-invariant admission and any subsequent live backup/apply/readback remain pending. Unknown is not PASS; documentation publication or gains elsewhere cannot compensate a lost accepted function.",
+      "remaining_uk": "Очікуються R4, exact final source/package/remote CI, повний per-invariant admission і подальші live backup/apply/readback. Unknown не є PASS; публікація docs або виграші деінде не компенсують втрати прийнятої функції.",
+      "criterion_groups": [
+        {
+          "criterion_group_en": "Complete invariant/dependency/procedure denominator",
+          "criterion_group_uk": "Повний invariant/dependency/procedure denominator",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Accounted conditions and suitable repeats",
+          "criterion_group_uk": "Враховані conditions і доречні repeats",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "No compensation; repair and affected retest",
+          "criterion_group_uk": "Без компенсації; repair і affected retest",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        },
+        {
+          "criterion_group_en": "Actual admission/rollback journals and honest unknowns",
+          "criterion_group_uk": "Фактичні admission/rollback journals і чесні unknowns",
+          "assessment_scope": "See the complete execution/outcome and remaining statements; all approved text below remains applicable."
+        }
+      ],
+      "canonical_reproduction_paths": [
+        "docs/evolution/2026-11-10/ACCEPTANCE.json",
+        "apps/agent-atelier/server/retention.mjs",
+        "apps/agent-atelier/tests/server/execution-inputs.test.mjs"
+      ],
+      "receipt_refs": [
+        "M4",
+        "M5",
+        "FUNCTION_MAP",
+        "PANEL",
+        "DATA_QA",
+        "VISUAL_FINAL",
+        "A25_1",
+        "A25_2",
+        "PRESERVATION",
+        "KNOWN_AGENTS",
+        "A19_INDEPENDENT",
+        "UI_CLOSEOUT",
+        "UI_T1_INDEX",
+        "R2_STAGE2",
+        "R3_STAGE2",
+        "TRANSPORT_NEGATIVE",
+        "TRANSPORT_OS",
+        "TRANSPORT_REVIEW",
+        "TRANSPORT_V3"
+      ],
+      "full_programme_acceptance_inferred": false
+    }
+  ],
+  "panel_capability_boundary": {
+    "proven_scope_en": "Bounded native jobs, supported controllers, source-bound work navigation and actual result consumers.",
+    "proven_scope_uk": "Обмежені native jobs, підтримані controllers, source-bound навігація робіт і фактичні consumers результатів.",
+    "unproven_scope_en": "Arbitrary vendor/plugin/media operations through the panel; the capable-host bridge remains an explicit conditional gap.",
+    "unproven_scope_uk": "Довільні vendor/plugin/media operations через панель; capable-host bridge лишається явною умовною прогалиною."
+  },
+  "definition_state_note_en": "The planned/unbound fields inside approved_definition are immutable historical register values. Current execution, outcome, adoption and remaining checks are separate result fields; the original register is not rewritten.",
+  "definition_state_note_uk": "Поля planned/unbound усередині approved_definition є незмінними історичними значеннями реєстру. Поточні execution, outcome, adoption та залишкові перевірки наведені окремими полями результату; початковий реєстр не переписується."
+}

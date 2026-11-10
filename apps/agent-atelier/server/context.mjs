@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { writablePaths } from "./permissions.mjs";
+import { taskMemoryMode, writablePaths } from "./permissions.mjs";
 import {
   array,
   digest,
@@ -94,6 +94,13 @@ export async function compileContext({
     { context_coverage: workspace.context_coverage },
   );
   const scope = payload.scope ?? "read-only";
+  const memoryMode = taskMemoryMode(payload.memory_mode);
+  fail(
+    memoryMode !== "disabled" || !payload.thread_binding_id,
+    "CAPABILITY_UNVERIFIED",
+    "Task-only memory isolation requires a new service-owned chat; an adopted native chat keeps its existing memory setting",
+    409,
+  );
   const capability_scope = payload.capability_scope ?? {
     public_web_read: false,
   };
@@ -235,6 +242,7 @@ export async function compileContext({
     root: project.root,
     objective,
     scope,
+    memory_mode: memoryMode,
     capability_scope: {
       public_web_read: capability_scope.public_web_read === true,
     },

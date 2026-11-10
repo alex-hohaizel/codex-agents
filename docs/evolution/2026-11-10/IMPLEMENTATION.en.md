@@ -1,5 +1,11 @@
 # Implementation of approved passport 0.2
 
+The compatible [execution-input transport](REAL-WORLD.en.md) keeps private archives and exact approved manifests while moving only selected execution copies to a separate owned namespace. Narrow grants, legacy contracts, unknown outcomes and restore revocation remain; STORE JSON is not a file backup. New native cold success is pending.
+
+The optional task-only memory field and its native/source guards are documented in [the advanced contract](REAL-WORLD.en.md). Default/legacy tasks inherit settings and adopted user chats cannot be switched to disabled. Source implementation is separate from acknowledgement and cold-task proof; initial/R2/R3 source-only attempts remain NOT_ADMITTED and three R4 retests are pending.
+
+Current source patch: repository1.4.0-rc.3 / service0.3.1. See [actual-task methods and findings](REAL-WORLD.en.md) and [compatible migration](../../../releases/migrations/repository-1.4.0-rc.3.md). Historical priority observations below remain bound to their original bytes; the full29-case ledger and owner gates remain separate.
+
 [Українська](IMPLEMENTATION.uk.md) · [Current machine-readable status](STATUS.json) · [Component handbook](IMPLEMENTED-COMPONENTS.en.md) · [Candidate source cards](implementation-components.json)
 
 The owner approved implementation on 10 November 2026 against commit `43f113b8713588e3569b1c917037f75d88f78c6a` and proposal hash `b913c9ebc1fb2f1bfb0182c1078f24ec96c0f6973b09691dc22e050b1af0e6df`. Earlier proposal documents retain their original wording and are historical records. Their “awaiting approval” text does not cancel the subsequent instruction. Exact private authorization and raw project evidence stay outside the reusable distribution.
