@@ -1,14 +1,14 @@
 # Full 29-case results and remaining checks
 
-**These are 29 individual verdicts, not 29 passes. R4, exact final publication/CI and live upgrade are pending.**
+This revision records 29 individual outcomes. All three R4 cold continuation trials passed. GitHub verified the exact published candidate. The bounded local service update to 0.3.1 passed the 14 installed-state checks.
 
 The unchanged [acceptance register](ACCEPTANCE.json) has SHA256 `3fe494687cf9b4234cca3d03a60694dc60ba2859cafe20322cbb46376fa2ff7f`. The [machine-readable ledger](FULL-CASE-RESULTS.json) retains all 29 literal definitions, individual hashes and canonical reproduction paths. Conditional or unperformed properties are not labelled N/A.
 
 The planned/unbound fields inside approved_definition are immutable historical register values. Current execution, outcome, adoption and remaining checks are separate result fields; the original register is not rewritten.
 
-Denominators: 17 capabilities, 27 original requirements, 29 cases, 35 reusable sources, 34 managed installed baseline entries and 12 roles. The admitted installation remains core 6.1 / Orchestrator 1.2 / service 0.3; source candidate is repository 1.4.0-rc.3 / service 0.3.1. WORK is deferred.
+The scope remains 17 capabilities, 27 original requirements, 29 cases, 35 reusable sources, 34 managed installed skills and 12 roles. The local installation has core 6.1, Orchestrator 1.2 and service 0.3.1 from the verified 1.4.0-rc.3 candidate. Service 0.3.0 is the recorded comparison baseline. WORK remains deferred.
 
-Bounded native jobs, supported controllers, source-bound work navigation and actual result consumers. Arbitrary vendor/plugin/media operations through the panel; the capable-host bridge remains an explicit conditional gap.
+The panel opens source-backed work, evidence and results. The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.
 
 - A completed negative test or a properly rejected model is an observed result, not admission of that model.
 - No aggregate score or saving compensates an accepted-function loss; unknown is not PASS.
@@ -18,13 +18,11 @@ Bounded native jobs, supported controllers, source-bound work navigation and act
 
 ## A01 · Business idea through original product outcome
 
-**Execution:** `bounded_product_verified_release_pending`.
+**Result.** The original workbench result and bounded continuation were verified.
 
-The actual local workbench restores source-backed work, requirements, decisions and a controlled task/result path. Final report/PDF consumers and a current task receipt were exercised; this is an original product result, beyond creating a skill. Existing owners were reused.
+The local workbench restores source-backed work, requirements and decisions. The actual panel prepared a controlled task, displayed a correlated result, and opened real reports and PDFs. Existing owners were reused. The later R4 continuation recovered the same approved work and supplied the next permitted checks. Post-start checks also verified the bounded 0.3.1 service on its original data.
 
-**Adoption:** `retain_baseline_pending_final_admission`.
-
-**Exact remaining checks and limits:** R4 cold continuation, exact final publication/CI and candidate admission remain pending. No full programme or unrelated product acceptance is inferred. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.
+**Remaining checks.** The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.
 
 Reviewed groups of the literal criterion: Goal, owner and decisions; Actual original product and consumer; Preservation and smallest sufficient route.
 
@@ -102,13 +100,11 @@ Reproducible source/tests: [evaluations/ai-production/real-world/data-ml/analyze
 
 ## A07 · LLM/agentic durable effects
 
-**Execution:** `bounded_model_and_recovery_verified`.
+**Result.** Bounded model execution and recovery were verified.
 
-Actual owned model turns, an interrupted deadline case, typed tool boundaries and controlled pause/cancel/restart/unknown tests were retained. Final source-loss/retry/old-response UI checks passed. A linear single-parent route was sufficient.
+The evidence includes actual owned model turns, the interrupted deadline case, typed tool boundaries, and controlled pause, cancel, restart and unknown-outcome checks. Source-loss, retry and stale-response checks passed. R4 completed three further bounded turns on the exact executor and produced usable handoffs.
 
-**Adoption:** `external_effect_guarantees_unproven`.
-
-**Exact remaining checks and limits:** R4 and final changed-executor admission remain pending. Checkpoints are not external exactly-once guarantees; unknown consuming effects must be reconciled before retry.
+**Remaining checks.** An unknown external outcome still needs reconciliation before retry. The tested turns did not exercise arbitrary external effects or establish their exactly-once behavior.
 
 Reviewed groups of the literal criterion: Actual bounded model and typed effects; Pause/restart/cancel/unknown reconciliation; Linear baseline and complexity admission.
 
@@ -214,13 +210,11 @@ Reproducible source/tests: [apps/agent-atelier/client/src/views.tsx](../../../ap
 
 ## A15 · Useful nontechnical interface
 
-**Execution:** `real_interactive_workbench_verified`.
+**Result.** The observed interactive route passed its scoped checks.
 
-Real routing/preparation/review, current result reading and correction/recovery were exercised. Final checks cover 20 report identities,16 PDF and 18 reader/source cases; exact unchanged App/dialog components carry 10/19 prior checks. Current task output is correlated to its task/job/thread/capsule.
+Actual routing, preparation, review, result reading and recovery were exercised. The final client passed 20 report, 16 PDF and 18 reader/source checks. The unchanged App and dialog components retain their 10 and 19 checks. The panel displayed the earlier R3 receipt with its selected-input failure. Separate R4 turns later completed the cold continuation. Post-start checks also verified the bounded 0.3.1 service on its original data.
 
-**Adoption:** `final_admission_pending`.
-
-**Exact remaining checks and limits:** The displayed task is transport-completed but its selected-snapshot handoff is blocked, so it does not pass A25. No full owner acceptance or future-product certification follows. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.
+**Remaining checks.** The owner accepted the revision 6 visual foundation. Full functional acceptance remains open. The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.
 
 Reviewed groups of the literal criterion: Input/progress/result/correction/recovery; Real map/evidence/next actions through A27; Desktop/mobile/keyboard and retained depth.
 
@@ -228,13 +222,11 @@ Reproducible source/tests: [apps/agent-atelier/client/src/views.tsx](../../../ap
 
 ## A16 · Prototype productionization and release
 
-**Execution:** `local_candidate_build_and_run_verified`.
+**Result.** The published source and local build were verified.
 
-The final local 0.3.1 build has recorded source/asset pins, actual API/UI consumers and failure recovery. Existing prototype functions, identity and the admitted installation remain the baseline; migration/runbook requirements are explicit.
+The exact 0.3.1 source and reproducible client build were verified against the published commit. The client retained the reviewed bytes, actual API and UI consumers, and failure recovery. Exact candidate CI succeeded. The installed service 0.3.1 used its original database and delivered the reviewed client bytes. Existing project bindings, task, completed result and owner preferences were preserved.
 
-**Adoption:** `publication_and_live_upgrade_pending`.
-
-**Exact remaining checks and limits:** Exact final remote commit/tree, CI/packages and live-upgrade receipts are pending. External deployment/users were not performed or inferred.
+**Remaining checks.** External deployment and actual external users remain outside the observed run.
 
 Reviewed groups of the literal criterion: Build/API/UI/failure/runbook; Prototype preservation and qualified rollback; Conditional external deployment/users.
 
@@ -284,13 +276,11 @@ Reproducible source/tests: [apps/agent-atelier/server/skills.mjs](../../../apps/
 
 ## A20 · Core/optional/role preservation and rollback
 
-**Execution:** `baseline_sources_roles_identity_verified`.
+**Result.** The installed skills, roles and their identities were preserved.
 
-All 35 reusable sources remain in scope, while the installed baseline is 33 core plus Orchestrator and the other optional source remains absent globally. Exact installed files/modes, icons,12 roles, journals and unchanged settings were rechecked.
+All 35 reusable sources remain in scope. The installed set remains 33 core skills plus Orchestrator. Fresh checks matched all 47 named skill, host instruction and role entries, including the 12 role definitions. The other optional source remains absent from the global installation. The 47 named positions matched again after the local service update.
 
-**Adoption:** `new_candidate_adoption_pending`.
-
-**Exact remaining checks and limits:** New candidate installation and applicable rollback journals remain pending. Unknown local edits must remain conflicts; no new skill/profile is mandatory.
+**Remaining checks.** Local edits with unknown provenance must be handled as conflicts. A future change to the installed skills or roles needs its own evidence and authority. Live rollback remains unexercised.
 
 Reviewed groups of the literal criterion: All 35 sources and 12 role settings/identity; Before copies/journals/unknown edits/rollback; No mandatory inventory or compensated loss.
 
@@ -298,13 +288,11 @@ Reproducible source/tests: [kit/manifest.json](../../../kit/manifest.json), [rel
 
 ## A21 · Existing generated-agent adoption
 
-**Execution:** `known_agent_preservation_and_task_verified`.
+**Result.** The current local cohort and existing source resources were checked.
 
-The already authorised inventory covered six roots and one known project-local skill. That one skill’s 51 files and real continuation were verified; five other roots are metadata/instruction observations, not five inspected or migrated agents. The wider population remains unknown.
+The current supported list contained 27 projects. The audit checked the defined metadata locations in eight local roots and skipped 19 remote projects. Two project-local skill definitions and 12 role TOML files were found. This audit did not activate the roles. One existing agent retained its verified 51 files and actual bounded continuation. A second agent’s source audit verified 130 entries, including 115 files and 15 directories, and found all 15 required inherited resources. Before-and-after membership, hashes and modes matched.
 
-**Adoption:** `current_cold_adoption_pending`.
-
-**Exact remaining checks and limits:** Current-project cold continuation and final per-invariant adoption await A25/A29. Historical local resources were preserved, not silently migrated or renamed.
+**Remaining checks.** The private agents stay on their existing sources. The second agent has source and resource evidence. Actual native invocation, role activity and adoption of the new contract require their own evidence. R4 verifies the skills-management continuation within its declared scope. The wider private project population remains unknown.
 
 Reviewed groups of the literal criterion: Source-to-target plan and portable resources; Actual bounded continuation and untouched unrelated products; Honest private scope and A25/A29 dependency.
 
@@ -326,13 +314,11 @@ Reproducible source/tests: [kit/skills/app-atelier-director/scripts/tests/test_b
 
 ## A23 · Independent full route acceptance
 
-**Execution:** `independent_semantic_and_seam_reviews_completed`.
+**Result.** The exact cold run and affected-function evidence were reviewed independently.
 
-Independent data/model, medium/UI, generated-agent and cold-trial reviews retained actual failures and repairs. Frozen rubrics, holdouts, partial blindness and accounted resource conditions are recorded. Changed bytes received new proof rather than borrowed old results.
+Independent reviews cover data and models, actual UI and media, an existing generated agent, and the cold continuation. R4 passed the predeclared semantic and execution checks in all three turns. The affected-function review joined exact source, build, CI and preservation evidence. Earlier failures and repairs remain part of the record. Post-start checks also verified the bounded 0.3.1 service on its original data.
 
-**Adoption:** `affected_admission_gates_pending`.
-
-**Exact remaining checks and limits:** R4, exact final publication and whole-candidate admission are still pending. Separate reviewer roles or an aggregate score cannot certify all future products or replace owner decisions.
+**Remaining checks.** Remaining product, device and owner-acceptance obligations need their own evidence. The full register is retained.
 
 Reviewed groups of the literal criterion: Independent semantic/seam and original outcome; Frozen rubrics/holdouts/accounted conditions; Changed-proof invalidation and mandatory real-task gates.
 
@@ -340,13 +326,11 @@ Reproducible source/tests: [docs/evolution/2026-11-10/REVIEW-STUDY.en.md](../../
 
 ## A24 · Complete documentation and exact release
 
-**Execution:** `final_publication_pending`.
+**Result.** Exact candidate publication, CI and artifact delivery were verified.
 
-Human-readable component/source/trigger/I-O/consumer/access/recovery documentation and this 29-case ledger are being reconciled in both languages. Public canonical reproduction paths and opaque receipt digests replace private inventories, paths and raw project data.
+The bilingual documentation and 29-case register preserve the exact definitions, reproduction paths and receipt digests. The candidate commit b49dfcb was published in PR 2. GitHub run 42905363916 succeeded for that exact commit, with both artifact uploads recorded. Each locally verified source archive contained 3,529 source files and 3,531 ZIP members. The release checks covered bytes, paths, modes, CRC and privacy. [PR 2](https://github.com/alex-hohaizel/codex-agents/pull/2) · [GitHub Actions](https://github.com/alex-hohaizel/codex-agents/actions/runs/42905363916).
 
-**Adoption:** `no_new_remote_CI_install_claim`.
-
-**Exact remaining checks and limits:** Final source/hash/link/translation/privacy checks, both package CRC/SHA and exact remote/CI/artifact readback remain pending. WORK source/package never means WORK installation.
+**Remaining checks.** The exact CI and delivery records belong to the published b49dfcb snapshot. This results revision and any later repository head need their own publication and CI readback. The WORK archive remains source material while WORK itself is deferred.
 
 Reviewed groups of the literal criterion: Human documentation and complete requirement coverage; Privacy/translation/source/package checks; Exact remote CI and input availability/gates.
 
@@ -354,13 +338,11 @@ Reproducible source/tests: [governance/UPDATE_CONTRACT.md](../../../governance/U
 
 ## A25 · Actual cold continuation of skills management
 
-**Execution:** `executed_NOT_ADMITTED`.
+**Result.** All three bounded cold continuations passed.
 
-The initial failed study, revision 2 and memory-repair trials are retained. The latest three trials preserved 27 full source texts and 30 must IDs; all had native memory-disable acknowledgement before the turn. Two read the actual 43-file bundle, one did not, so the predeclared all-three gate failed.
+All three predeclared R4 turns passed the independent semantic and native trace checks. Each verified 19 declared source pins against the physical bytes, read the selected skill instructions and needed references, and hashed all 43 files in its bundle. The handoffs preserved all 27 original and three current requirement texts and all 30 mandatory IDs. R3 reached the dependent handoff in two of three turns with the same task inputs, selected bytes, model and time limit. R4 reached it in all three after the delivery location changed. The owning operator used a handoff to reconcile the latest approved source, CI and actual service state before the permitted cutover. Three turns used 1,360.592 of 1,800 allowed seconds. Earlier failures, the first history-reader error and recovery of the same turn were retained.
 
-**Adoption:** `R4_pending`.
-
-**Exact remaining checks and limits:** Separate immutable transport v3 passed source/binding and OS checks, but R4 actual delivery/semantics remain pending. No old failure is relabelled PASS, and no historical-system superiority or latency gain is claimed.
+**Remaining checks.** This finite case covers the fixed real task and declared inputs. The three turns show disabled-memory configuration and a native acknowledgement before execution. The supported protocol exposes no separate readback of the effective memory mode or direct measurement of injected context. A broader reliability, speed or historical-version comparison would need separate evidence.
 
 Reviewed groups of the literal criterion: Frozen actual inputs and complete state recovery; Fresh declared-only continuation and misleading holdouts; Accounted baseline/candidate and all-three acceptance.
 
@@ -382,13 +364,11 @@ Reproducible source/tests: [docs/evolution/2026-11-10/REAL-TASKS.en.md](../../..
 
 ## A27 · Actual local-panel project journeys
 
-**Execution:** `real_workbench_and_current_receipt_verified`.
+**Result.** Bounded panel journeys and the later cold execution have their own verified results.
 
-Actual history/project/work navigation, source/evidence distinctions, next action, preview/bind and preparation were exercised. A current approved model task’s real output/receipt was inspected; recovery, partial/stale states and desktop/mobile/keyboard checks were retained. The limit is at most four skills per job, not four mandatory selections.
+The actual panel exercised history and work navigation, source and evidence views, next action, preview, binding, preparation and correlated results. Recovery, partial and stale states and desktop, mobile and keyboard checks were retained. The displayed R3 turn showed its real selected-input failure. Separate R4 turns completed the cold execution after the repair. Multiple selections were tested, and the fifth skill was rejected. The post-start browser check exercised the installed panel and confirmed the reviewed client bytes. The first history check found an empty transient catalog. One supported read-only discovery restored the groups. The resulting panel showed 40 of 100 threads covered, 468 native work rows and 17 coverage warnings. One work item was checked against its exact native thread, turn and source. The joined browser evidence records 26 checks, seven screenshots, 24 current source pins and 30 mandatory requirements.
 
-**Adoption:** `cold_task_quality_still_blocked`.
-
-**Exact remaining checks and limits:** The displayed task’s selected-snapshot handoff failed A25 despite completed transport. Real tasks naturally used one skill; five selections were rejected and multi-skill membership tested. No unobserved greater-than-four dependent-job execution is invented. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.
+**Remaining checks.** The observed jobs used one skill each. The four-skill ceiling applies to each job. An actual workflow that needs more than four skills through dependent jobs remains unobserved. The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.
 
 Reviewed groups of the literal criterion: Real history/project/work/evidence navigation; Preview/bind/prepare/actual execution/output; Recovery/stale/unknown/desktop/mobile/keyboard; Read-only history and at-most-four snapshot bound.
 
@@ -396,13 +376,11 @@ Reproducible source/tests: [apps/agent-atelier/client/src/workbench.ts](../../..
 
 ## A28 · Admission of additional complexity
 
-**Execution:** `reuse_and_small_change_measured`.
+**Result.** The bounded repair showed a benefit on the real task.
 
-Existing routes were reused, unsuccessful model complexity was rejected and no mandatory agent/skill inventory was added. Repeated actual input-delivery failure justified a bounded transport candidate; independent source/retention/OS checks closed its found defects without a new framework or native truth store.
+Existing routes were reused and the unsuccessful model changes were rejected. Repeated real input-delivery failures justified a small transport repair. Source, ownership, retention and OS checks verified the repair. Three new R4 turns used the same selected bytes and completed the required continuation. The bounded update was verified on the existing local service and its original data.
 
-**Adoption:** `new_transport_operational_admission_pending`.
-
-**Exact remaining checks and limits:** R4 benefit/preservation and exact final A24/A29 gates must close before operational admission, merge/release/install/activation. A later extracted installable module/role still requires exact composition approval.
+**Remaining checks.** A future standalone skill or role still needs its exact composition approved.
 
 Reviewed groups of the literal criterion: Reuse and smallest sufficient measured change; Full-scope preservation and no parallel truth; Exact extraction approval and operational admission.
 
@@ -410,13 +388,11 @@ Reproducible source/tests: [docs/evolution/2026-11-10/PASSPORT.en.md](../../../d
 
 ## A29 · Strict non-regression and compatible adoption
 
-**Execution:** `NOT_ADMITTED_pending_R4_publication_live`.
+**Result.** The bounded update passed the installed-state checks.
 
-The complete 29-case denominator, unchanged baseline dependencies and actual negative/restart/restore/identity evidence are retained. Two independently found transport binding defects were repaired and replayed; source/local counts do not override the failed cold task.
+The full 29-case register retains the older failures, actual negative and recovery checks, exact unchanged dependencies, and separate results for every affected function. The two transport binding defects were repaired and retested. All three R4 continuations passed. Exact b49dfcb CI and the affected-function review support a bounded same-data service update. All 14 installed-state checks passed. The original database identity and logical records, settings, four project bindings, existing task and completed job were preserved. The cutover retained the verified stopped-data backup and confirmed single ownership, exact client bytes and launcher continuity. The stopped-data backup matched 175 entries. The post-start comparison retained 13 records, 52 old commands and 602 events.
 
-**Adoption:** `baseline_retained`.
-
-**Exact remaining checks and limits:** R4, exact final source/package/remote CI, full per-invariant admission and any subsequent live backup/apply/readback remain pending. Unknown is not PASS; documentation publication or gains elsewhere cannot compensate a lost accepted function.
+**Remaining checks.** Every remaining product, provider, device and owner obligation keeps its recorded outcome. Any affected loss blocks its adoption.
 
 Reviewed groups of the literal criterion: Complete invariant/dependency/procedure denominator; Accounted conditions and suitable repeats; No compensation; repair and affected retest; Actual admission/rollback journals and honest unknowns.
 

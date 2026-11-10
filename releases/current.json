@@ -80,5 +80,5 @@
     "final_adoption_performed": false,
     "implementation_status": "docs/evolution/2026-11-10/IMPLEMENTATION.en.md"
   },
-  "release_status": "candidate source; actual bounded real-task evidence and rejected ML candidates recorded; full29-case acceptance, exact final source/package/CI and owner gates remain separate and open; WORK deferred"
+  "release_status": "candidate source with bounded real-task evidence, including three passing R4 continuations. PR #2 CI succeeded for implementation commit b49dfcb. Full 29-case acceptance and owner approval remain open. WORK is deferred."
 }

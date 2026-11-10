@@ -82,6 +82,8 @@ Settings let the owner choose service-history/event/input-cache/backup periods o
 
 Forgotten record/root tombstones filter restores. Pending file cleanup stores reviewed target hashes; a replacement at the same path requires a fresh preview. Pruned task inputs revoke dispatch/continue until a new preparation. Diagnostic export first shows only redacted aggregates for review, then writes/downloads that exact content locally; it sends nothing externally.
 
+The bounded personal Mac update was observed on source `b49dfcb7cb7eecaedf6aac541f9dea8fc2df3e19`: the original SQLite file, four bindings, owner settings and prior task/job history were retained. After a verified stopped filesystem copy, the same owned service was opened by its updated launcher. Actual report reading, keyboard interaction and one native grouped work result were checked; history coverage was visibly partial. See the [per-case results](../../docs/evolution/2026-11-10/FULL-CASE-RESULTS.en.md) and [observed status](../../docs/evolution/2026-11-10/STATUS.json). This is bounded evidence, not acceptance of every vendor operation, future product or WORK host.
+
 ## Verification and maintenance
 
 ```sh

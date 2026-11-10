@@ -1,8 +1,8 @@
 {
   "schema": "ai-data-production.proposal-status/1",
   "passport": "ai-data-production-evolution/0.2",
-  "date": "2026-11-10",
-  "status": "approved-implementation-and-full-case-verification-in-progress",
+  "date": "2026-11-11",
+  "status": "scoped-service-update-verified; full-programme-acceptance-open",
   "owner_approval": {
     "received": true,
     "date": "2026-11-10",
@@ -79,32 +79,37 @@
     "maintenance_not_installed": true,
     "icons_and_settings_preserved": true,
     "service": "0.3.0",
-    "new_rc3_service_update": "pending exact-source admission, backup, restart and observed readback"
+    "new_rc3_service_update": "Verified in the separate scoped live-service observation below."
   },
   "actual_task_comparisons": {
     "cases": 29,
     "requirements": 27,
     "original_capabilities": 17,
     "ledger": "FULL-CASE-RESULTS.json",
-    "status": "Per-case independent reconciliation in progress; do not interpret original planned acceptance status as a current execution counter.",
+    "status": "All29 literal criteria have individual evidence, outcomes and remaining limits. This is not29 full passes.",
     "full_programme_accepted": false,
     "old_proof_rebound": false,
     "negative_or_rejected_results_retained": true,
-    "fixtures_replace_actual_task_proof": false
+    "fixtures_replace_actual_task_proof": false,
+    "case_rows_assessed": 29,
+    "ledger_en": "FULL-CASE-RESULTS.en.md",
+    "ledger_uk": "FULL-CASE-RESULTS.uk.md",
+    "finite_A25_pass": true,
+    "A10_owner_scope": "Actual guards/refusal without representative campaign data; no CPA accuracy claim."
   },
   "observed_rc3_results": {
     "data": "Licensed actual NLP and time-series tasks completed with holdout evaluation and real HTTP consumer; NB model and nominal90% interval rejected, no business-accuracy claim.",
     "adaptation": "Actual native MLX/Metal LoRA and merge/quantization evaluated; poor held-out agreement rejects operational admission, no deployed fine-tuned model.",
     "CPA": "Owner explicitly chose guards and abstention without campaign data. Actual CPA fitting/accuracy remains unverified.",
     "media": "Twenty unchanged approved image masters, four PDF outputs and forty actual rendered pages; technical completion and incremental provider fee are distinct from owner acceptance and full cost.",
-    "panel": "Final byte-verified browser build observed report/PDF reading, source loss/recovery, selection, focus and scroll preservation. Accepted revision6 foundation retained.",
-    "context": "Initial, revision2 and memory-repair trials retained NOT_ADMITTED. Last transport-only three-case trial pending; memory acknowledgement is not independent execution proof.",
-    "project_agents": "Known historical inventory contains one inspected project-specific LIGHT agent; preserved unchanged, actual bounded read-only task reviewed. Five other historical roots remain uninspected; all private Mac agents are not claimed updated.",
+    "panel": "Final exact b49 client: actual source-checked report/PDF and recovery observations plus26 independent live UI checks after restart. Three real reports, 390px reflow/keyboard, original job and one exact native grouped item observed. History coverage explicitly partial. Accepted revision6 visual foundation retained.",
+    "context": "R4 finite actual A25 case passed3/3 against G01-G10; 19 declared source pins per trial, all43 selected files and needed references actually read, 348 independent checks. Initial/R2/R3 NOT_ADMITTED and the readback failure are retained. No native mode getter, direct hidden-injection metric, general causal or latency win.",
+    "project_agents": "Current supported desktop registry contained8 local roots; exact metadata audit found2 project-local skill definitions and12 on-disk project role descriptions, none newly activated. One existing agent supplied the bounded native compatibility task; the other was separately verified for complete source membership and15 local operating resources. No local agent or product migration; unknown outside this cohort.",
     "LIGHT": "Actual original brief and version lineage recovered; V6 rendered and V7 source gap identified. V7 current runtime/product acceptance not established. No product migration or repair implied."
   },
   "WORK": "deferred",
   "target_sources_changed": true,
-  "target_installation_performed": false,
+  "target_installation_performed": true,
   "new_model_training_or_provider_runs_performed": true,
   "full_programme_adoption_performed": false,
   "original_acceptance": {
@@ -118,6 +123,33 @@
     "historical_source_freeze_not_current_installed_state": true,
     "immutable_history_commit": "d6336bb4a43cacc6fc2042ea0edb6f8d540ad33a"
   },
-  "checkpoint_scope": "Current local source preparation. Final source/packages/GitHub/CI and actual service-update evidence will be recorded separately; no old proof is rebound.",
-  "rc3_installation_scope_note": "New rc3 service installation pending; existing admitted core/orchestrator installation preserved."
+  "checkpoint_scope": "Observed exact b49 source, CI, bounded actual tasks and personal Mac replacement. Later publication of this documentation has its own GitHub revision and CI; do not substitute them for the loaded runtime revision. Original acceptance definitions and earlier failed observations remain immutable.",
+  "rc3_installation_scope_note": "Only the already-authorized personal Mac service was replaced. Previously admitted core6.1, Orchestrator1.2 and 12 role settings were preserved without reinstall. Optional maintenance remains absent globally. Full programme and unrelated projects are not adopted.",
+  "current_service_runtime": {
+    "version": "0.3.1",
+    "source_commit": "b49dfcb7cb7eecaedf6aac541f9dea8fc2df3e19",
+    "source_tree": "8b009900bdfaecc9e142e62f8966198888b11728",
+    "scope": "Authorized personal Mac bounded replacement, no product migration, no new model job in the live smoke, no WORK action",
+    "actual_installation_and_healthy_restart": true,
+    "same_original_sqlite_file_and_db_schema": true,
+    "cold_filesystem_backup_entries_verified": 175,
+    "existing_service_records_exact": 13,
+    "existing_command_receipts_exact": 52,
+    "existing_events_exact": 602,
+    "project_bindings_exact": 4,
+    "completed_job_and_task_exact": true,
+    "owner_locale": "uk",
+    "retention_unchanged": true,
+    "scoped_preservation_checks": 14,
+    "independent_live_ui_observations": 26,
+    "declared_context_sources": 24,
+    "retained_musts": 30,
+    "launcher_reused_same_instance": true,
+    "private_preservation_receipt_sha256": "93280b65564e6aa82e085da5a2b77b6f5658297d96c0933871a22b0540515f7b",
+    "private_UI_receipt_sha256": "74cf25cced59561cc8474fb80d0ae6a4dd14e5c0c9ea107886b20e439edf313b",
+    "source_ci": "https://github.com/alex-hohaizel/codex-agents/actions/runs/42905363916",
+    "source_ci_conclusion": "success",
+    "owner_full_functional_acceptance_inferred": false
+  },
+  "recorded_at": "2026-11-10T22:30:26.207985+00:00"
 }

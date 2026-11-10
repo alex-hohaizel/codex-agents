@@ -1,7 +1,7 @@
 {
   "schema": "ai-data-production.full-case-results/1",
   "passport": "ai-data-production-evolution/0.2",
-  "status": "qualified-candidate-results; R4/publication/live-upgrade pending",
+  "status": "R4 finite case passed; exact candidate publication and bounded live service update verified",
   "acceptance_register": {
     "path": "docs/evolution/2026-11-10/ACCEPTANCE.json",
     "sha256": "3fe494687cf9b4234cca3d03a60694dc60ba2859cafe20322cbb46376fa2ff7f",
@@ -31,10 +31,33 @@
   "candidate": {
     "repository": "1.4.0-rc.3",
     "service_source": "0.3.1",
-    "new_exact_remote_CI": "pending",
-    "new_live_installation": "pending",
-    "R4_cold_delivery": "pending",
-    "source_only_not_installation": true
+    "new_exact_remote_CI": "success",
+    "new_live_installation": "verified_bounded_same_data",
+    "R4_cold_delivery": "passed_3_of_3_on_declared_finite_case",
+    "published_source_commit": "b49dfcb7cb7eecaedf6aac541f9dea8fc2df3e19",
+    "published_source_tree": "8b009900bdfaecc9e142e62f8966198888b11728",
+    "publication_url": "https://github.com/alex-hohaizel/codex-agents/pull/2",
+    "CI_run_url": "https://github.com/alex-hohaizel/codex-agents/actions/runs/42905363916",
+    "CI_artifact_delivery": [
+      {
+        "id": 13805616477,
+        "name": "agent-system-bundles",
+        "bytes": 153048790,
+        "digest": "sha256:5ce48d2890965b1357e058f60107620aa3330d7eee6418209e04e80b424263f7",
+        "expired": false,
+        "head_sha": "b49dfcb7cb7eecaedf6aac541f9dea8fc2df3e19"
+      },
+      {
+        "id": 13805311927,
+        "name": "campaign-downloads-en-uk",
+        "bytes": 105394898,
+        "digest": "sha256:1f0852f9ca66d7b13097e5490e0412d8a0918b96f23e4c175268de208bd6eb7b",
+        "expired": false,
+        "head_sha": "b49dfcb7cb7eecaedf6aac541f9dea8fc2df3e19"
+      }
+    ],
+    "installation_receipt_ref": "RC3_LIVE_POSTCHECKS",
+    "installed_service": "0.3.1"
   },
   "decision_rules_en": [
     "A completed negative test or a properly rejected model is an observed result, not admission of that model.",
@@ -44,11 +67,11 @@
     "WORK remains deferred. No unrelated product migration, new paid provider, external deployment or messages are inferred."
   ],
   "decision_rules_uk": [
-    "Виконаний негативний тест або належно відхилена модель є спостереженим результатом, а не допуском цієї моделі.",
-    "Aggregate score або економія не компенсує втрати прийнятої функції; unknown не є PASS.",
-    "Старий proof переноситься лише за перевірених незмінних залежностей. Source, runtime, medium, independent review, owner acceptance та installation розділені.",
-    "Власник обрав CPA guards/refusal без representative data; accuracy лишається неперевіреною, не N/A.",
-    "WORK відкладено. Unrelated product migration, новий paid provider, external deployment або messages не виводяться."
+    "Негативна перевірка й відхилення моделі є окремими фактичними результатами. Допуск моделі потребує її власних доказів.",
+    "Кожну прийняту функцію перевіряють окремо. Втрата функції зупиняє допуск навіть за кращої середньої оцінки або меншої вартості.",
+    "Попередні докази діють для перевірених незмінних залежностей. Джерела, виконання, якість матеріалу, незалежна перевірка, згода власника та встановлення мають власні підтвердження.",
+    "Власник обрав захисти й відмову для CPA без репрезентативних даних. Точність лишається неперевіреною.",
+    "WORK відкладено. Сторонні міграції, нові платні ресурси, зовнішнє розгортання та повідомлення потребують окремих повноважень."
   ],
   "private_receipt_digests": {
     "M5": {
@@ -286,6 +309,82 @@
     "CAPACITY4": {
       "sha256": "2b987db2e4d303dec42f74be2c51eb596c7a903236a094779c804c996323afb7",
       "availability": "Private receipt retained by the owner; raw paths/content are intentionally not distributed."
+    },
+    "R4_STAGE1": {
+      "sha256": "926f968537ac0962b9865231db5b0fa65c77097479de57dc497a967138828079",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "R4_STAGE2": {
+      "sha256": "c6de3f36645e6bfec3191586dbdc40febf2e6b0e367ef527983e49371ff9553d",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "R4_HANDOFF": {
+      "sha256": "755f9b97a114d4686a78e327fec269efed9a2dc8f0e7a8f73f56da95c56268b4",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "CURRENT_PROJECT_COHORT": {
+      "sha256": "d5079e73c85b777f76ed8837a69b83393c19856297526a481b2982b9cc7a0844",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "PRIVATE_AGENT_SOURCE_AUDIT": {
+      "sha256": "953bb075e1e3e5625931bf0282956bd6bafe879b223be1d7c39948036d684588",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_PUBLICATION": {
+      "sha256": "9ad392cb9110259c9d56af6254613fde1a687338fbfec2939e53868c9de7ae27",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_CI": {
+      "sha256": "d1c1f561c72ceda7ad621e0773cb1731b87853135866fb7c0cc48e27dec05524",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_BUILD": {
+      "sha256": "f43dd66e80715e7f93d6f08d08d777a0f994f53c88b7b7e11ef1f366b04a8a99",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_PACKAGES": {
+      "sha256": "89aea82ee0b6ef0afb3979ff6eaf98e5d68eba7595c1c090edacce1ec8b8306f",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_AFFECTED": {
+      "sha256": "caadd0f0ae0abb97d7fddfd43e5af4fad0af24c32f9440534361b1af5e6c790b",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_PREAPPLY": {
+      "sha256": "2e5d8494e2e0083ca9797a0817a3072ecf6e746aac52831d366ceb8334abea61",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "CURRENT_MANAGED_PRESERVATION": {
+      "sha256": "d2b018550f9200569f0eb68c69fbb1d7acbb64cdc4170b25e6a0cc5dd15cfb2c",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_POSTCHECKS": {
+      "sha256": "93280b65564e6aa82e085da5a2b77b6f5658297d96c0933871a22b0540515f7b",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_COLD_BACKUP": {
+      "sha256": "d1b90c778313944ab11a064851fcf0f4ab19390e0f4b01cadf39d86308c80225",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_P01": {
+      "sha256": "53a2806b2311f9021ec72287a5d45a8d51a5b17feef979714d10bca60fed46fe",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_UI": {
+      "sha256": "74cf25cced59561cc8474fb80d0ae6a4dd14e5c0c9ea107886b20e439edf313b",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_HISTORY": {
+      "sha256": "06816233697239fe3bc1d918d6edec86bf8cb9108a8eb89c1978329f329aee29",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_LAUNCHER": {
+      "sha256": "4b3db75013b7b4fb48417910cef345e5e9443a3e0f8c2dad0f8c7ce62d4fdeb0",
+      "availability": "The owner retains the private receipt and its underlying evidence."
+    },
+    "RC3_LIVE_MANAGED_PRESERVATION": {
+      "sha256": "77e5cc8171499eba1f611850759e9fecc7a37cac3b0207c58dbfd7e795d5dac0",
+      "availability": "The owner retains the private receipt and its underlying evidence."
     }
   },
   "cases": [
@@ -330,12 +429,12 @@
         ]
       },
       "definition_sha256": "b9976828b02d0baf3877da24c3b23e4399ce2a8075553c34144fd8ba1d69b071",
-      "execution_status": "bounded_product_verified_release_pending",
-      "outcome_en": "The actual local workbench restores source-backed work, requirements, decisions and a controlled task/result path. Final report/PDF consumers and a current task receipt were exercised; this is an original product result, beyond creating a skill. Existing owners were reused.",
-      "outcome_uk": "Фактична локальна панель відновлює роботи, вимоги й рішення за джерелами та дає керований шлях task/result. Перевірено читання report/PDF і квитанцію поточної задачі; це продуктовий результат, а не лише створення навички. Повторно використано чинних виконавців.",
-      "adoption_status": "retain_baseline_pending_final_admission",
-      "remaining_en": "R4 cold continuation, exact final publication/CI and candidate admission remain pending. No full programme or unrelated product acceptance is inferred. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.",
-      "remaining_uk": "Очікуються R4 cold continuation, exact final publication/CI та допуск кандидата. Повне приймання програми або сторонніх продуктів не виводиться. Панель доводить лише обмежені native jobs і підтримані controller paths. Довільні vendor, plugin та media operations із панелі не доведені; перехід до здатного host є явною прогалиною або умовним маршрутом, а не пройденою глобальною можливістю.",
+      "execution_status": "bounded_original_product_and_continuation_verified",
+      "outcome_en": "The local workbench restores source-backed work, requirements and decisions. The actual panel prepared a controlled task, displayed a correlated result, and opened real reports and PDFs. Existing owners were reused. The later R4 continuation recovered the same approved work and supplied the next permitted checks. Post-start checks also verified the bounded 0.3.1 service on its original data.",
+      "outcome_uk": "Локальна панель відновлює роботи, вимоги й рішення з прив’язаних джерел. У ній підготували кероване завдання, відкрили пов’язаний результат, справжні звіти й PDF. Для роботи залучили наявних виконавців. Пізніший дослід R4 відновив ту саму погоджену роботу та визначив наступні дозволені перевірки. Після запуску також перевірено обмежений сервіс 0.3.1 на початкових даних.",
+      "adoption_status": "verified_bounded_local_service",
+      "remaining_en": "The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.",
+      "remaining_uk": "Панель підтримує обмежені нативні завдання й перевірені маршрути конструкторів. Для довільних дій постачальників, плагінів і медіасервісів ще потрібен перевірений маршрут у середовищі з відповідними можливостями.",
       "criterion_groups": [
         {
           "criterion_group_en": "Goal, owner and decisions",
@@ -368,7 +467,12 @@
         "UI_T1",
         "R3_STAGE2",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "R4_STAGE2",
+        "R4_HANDOFF",
+        "RC3_CI",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -718,11 +822,11 @@
       },
       "definition_sha256": "8b0ad76198dbe4976d1ef30f42eb533a8791570e50c06a05a1202e833ab122f3",
       "execution_status": "bounded_model_and_recovery_verified",
-      "outcome_en": "Actual owned model turns, an interrupted deadline case, typed tool boundaries and controlled pause/cancel/restart/unknown tests were retained. Final source-loss/retry/old-response UI checks passed. A linear single-parent route was sufficient.",
-      "outcome_uk": "Збережено фактичні own model turns, deadline interruption, typed tool boundaries і контрольовані pause/cancel/restart/unknown tests. Final source-loss/retry/old-response UI checks пройдені. Достатнім був лінійний single-parent route.",
+      "outcome_en": "The evidence includes actual owned model turns, the interrupted deadline case, typed tool boundaries, and controlled pause, cancel, restart and unknown-outcome checks. Source-loss, retry and stale-response checks passed. R4 completed three further bounded turns on the exact executor and produced usable handoffs.",
+      "outcome_uk": "Докази охоплюють фактичні власні запуски моделі, перерване виконання з вичерпаним часом, межі інструментів і контрольовані перевірки паузи, скасування, перезапуску й невідомого результату. Перевірки втрати джерела, повторного читання та застарілої відповіді пройдені. R4 завершив три додаткові обмежені запуски й дав придатні передачі роботи.",
       "adoption_status": "external_effect_guarantees_unproven",
-      "remaining_en": "R4 and final changed-executor admission remain pending. Checkpoints are not external exactly-once guarantees; unknown consuming effects must be reconciled before retry.",
-      "remaining_uk": "Очікуються R4 і допуск остаточного зміненого executor. Checkpoint не гарантує external exactly-once; unknown consuming effects треба звіряти до retry.",
+      "remaining_en": "An unknown external outcome still needs reconciliation before retry. The tested turns did not exercise arbitrary external effects or establish their exactly-once behavior.",
+      "remaining_uk": "Перед повтором зовнішньої дії з невідомим результатом треба звірити її фактичний стан. Одноразовість довільних зовнішніх дій потребує окремого доказу.",
       "criterion_groups": [
         {
           "criterion_group_en": "Actual bounded model and typed effects",
@@ -755,7 +859,9 @@
         "R3_STAGE2",
         "TRANSPORT_NEGATIVE",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "R4_STAGE2",
+        "RC3_PREAPPLY"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -1282,11 +1388,11 @@
       },
       "definition_sha256": "26bd302468d2b7f9b27464e10061f3e4953b4b1c97e713ba5a09c3c05d5d3e01",
       "execution_status": "real_interactive_workbench_verified",
-      "outcome_en": "Real routing/preparation/review, current result reading and correction/recovery were exercised. Final checks cover 20 report identities,16 PDF and 18 reader/source cases; exact unchanged App/dialog components carry 10/19 prior checks. Current task output is correlated to its task/job/thread/capsule.",
-      "outcome_uk": "Виконано real routing/preparation/review, читання поточного result та correction/recovery. Final checks охоплюють 20 report identities,16 PDF і 18 reader/source cases; exact unchanged App/dialog components переносять 10/19 попередніх checks. Поточний output корельований із task/job/thread/capsule.",
-      "adoption_status": "final_admission_pending",
-      "remaining_en": "The displayed task is transport-completed but its selected-snapshot handoff is blocked, so it does not pass A25. No full owner acceptance or future-product certification follows. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.",
-      "remaining_uk": "Показана задача transport-completed, але її selected-snapshot handoff заблокований, тому A25 не пройдено. Full owner acceptance або future-product certification із цього не випливають. Панель доводить лише обмежені native jobs і підтримані controller paths. Довільні vendor, plugin та media operations із панелі не доведені; перехід до здатного host є явною прогалиною або умовним маршрутом, а не пройденою глобальною можливістю.",
+      "outcome_en": "Actual routing, preparation, review, result reading and recovery were exercised. The final client passed 20 report, 16 PDF and 18 reader/source checks. The unchanged App and dialog components retain their 10 and 19 checks. The panel displayed the earlier R3 receipt with its selected-input failure. Separate R4 turns later completed the cold continuation. Post-start checks also verified the bounded 0.3.1 service on its original data.",
+      "outcome_uk": "Перевірено фактичний вибір маршруту, підготовку, перегляд, читання результату й відновлення. Фінальний клієнт пройшов 20 перевірок звітів, 16 перевірок PDF та 18 перевірок читача й актуальності джерел. Для незмінених компонентів App і діалогів чинні їхні 10 та 19 перевірок. Панель показала квитанцію попереднього R3 зі збоєм читання обраних входів. Окремі запуски R4 згодом завершили продовження без попередньої історії. Після запуску також перевірено обмежений сервіс 0.3.1 на початкових даних.",
+      "adoption_status": "verified_bounded_local_service",
+      "remaining_en": "The owner accepted the revision 6 visual foundation. Full functional acceptance remains open. The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.",
+      "remaining_uk": "Власник прийняв візуальну основу редакції 6. Повне функціональне приймання залишається відкритим. Панель підтримує обмежені нативні завдання й перевірені маршрути конструкторів. Для довільних дій постачальників, плагінів і медіасервісів ще потрібен перевірений маршрут у середовищі з відповідними можливостями.",
       "criterion_groups": [
         {
           "criterion_group_en": "Input/progress/result/correction/recovery",
@@ -1320,7 +1426,11 @@
         "UI_APP10",
         "UI_REPORT20",
         "UI_T1_INDEX",
-        "R3_STAGE2"
+        "R3_STAGE2",
+        "R4_STAGE2",
+        "RC3_BUILD",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -1359,12 +1469,12 @@
         ]
       },
       "definition_sha256": "42be4377be2254da704f26017a57f502fc80111397d9fcdef7d23039e2b7c3a5",
-      "execution_status": "local_candidate_build_and_run_verified",
-      "outcome_en": "The final local 0.3.1 build has recorded source/asset pins, actual API/UI consumers and failure recovery. Existing prototype functions, identity and the admitted installation remain the baseline; migration/runbook requirements are explicit.",
-      "outcome_uk": "Остаточний local 0.3.1 build має source/asset pins, фактичні API/UI consumers і failure recovery. Чинні prototype functions, identity та допущене встановлення лишаються базою; migration/runbook вимоги явні.",
-      "adoption_status": "publication_and_live_upgrade_pending",
-      "remaining_en": "Exact final remote commit/tree, CI/packages and live-upgrade receipts are pending. External deployment/users were not performed or inferred.",
-      "remaining_uk": "Очікуються exact final remote commit/tree, CI/packages і live-upgrade receipts. External deployment/users не виконані й не виводяться.",
+      "execution_status": "local_build_CI_and_live_same_data_verified",
+      "outcome_en": "The exact 0.3.1 source and reproducible client build were verified against the published commit. The client retained the reviewed bytes, actual API and UI consumers, and failure recovery. Exact candidate CI succeeded. The installed service 0.3.1 used its original database and delivered the reviewed client bytes. Existing project bindings, task, completed result and owner preferences were preserved.",
+      "outcome_uk": "Точні джерела 0.3.1 і відтворене складання клієнта звірено з опублікованим комітом. Клієнт зберіг перевірені байти, фактичне відкриття результатів через API та інтерфейс і відновлення після збоїв. Перевірки GitHub для цього коміту пройдені. Встановлений сервіс 0.3.1 використав початкову базу даних і видав перевірені байти клієнта. Збережено прив’язки проєктів, задачу, завершений результат і налаштування власника.",
+      "adoption_status": "verified_local_same_data_upgrade",
+      "remaining_en": "External deployment and actual external users remain outside the observed run.",
+      "remaining_uk": "Зовнішнє розгортання та робота реальних зовнішніх користувачів залишаються поза перевіреним виконанням.",
       "criterion_groups": [
         {
           "criterion_group_en": "Build/API/UI/failure/runbook",
@@ -1395,7 +1505,12 @@
         "UI_FINAL_INDEX",
         "UI_READBACK",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "RC3_PUBLICATION",
+        "RC3_CI",
+        "RC3_BUILD",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -1653,12 +1768,12 @@
         ]
       },
       "definition_sha256": "037980a15ebb575306713bb695892eed41a4a45d4acbc37fa1e62d1151f37eeb",
-      "execution_status": "baseline_sources_roles_identity_verified",
-      "outcome_en": "All 35 reusable sources remain in scope, while the installed baseline is 33 core plus Orchestrator and the other optional source remains absent globally. Exact installed files/modes, icons,12 roles, journals and unchanged settings were rechecked.",
-      "outcome_uk": "У scope лишаються всі 35 reusable sources; installed baseline —33 core плюс Orchestrator, інше optional source збережено відсутнім глобально. Повторно звірено exact installed files/modes, icons,12 roles, journals і незмінні settings.",
-      "adoption_status": "new_candidate_adoption_pending",
-      "remaining_en": "New candidate installation and applicable rollback journals remain pending. Unknown local edits must remain conflicts; no new skill/profile is mandatory.",
-      "remaining_uk": "Очікуються встановлення нового candidate й належні rollback journals. Unknown local edits мають лишатися conflicts; нова skill/profile не є обов’язковою.",
+      "execution_status": "managed_sources_roles_identity_preserved",
+      "outcome_en": "All 35 reusable sources remain in scope. The installed set remains 33 core skills plus Orchestrator. Fresh checks matched all 47 named skill, host instruction and role entries, including the 12 role definitions. The other optional source remains absent from the global installation. The 47 named positions matched again after the local service update.",
+      "outcome_uk": "В обсязі залишилися всі 35 багаторазових джерел. Встановлений набір складається з 33 базових навичок та Orchestrator. Свіжа звірка підтвердила всі 47 визначених позицій навичок, інструкцій середовища й ролей, зокрема 12 описів ролей. Друга додаткова навичка лишається поза глобальним встановленням. Усі 47 визначених позицій збіглися й після оновлення локального сервісу.",
+      "adoption_status": "managed_set_preserved_after_service_update",
+      "remaining_en": "Local edits with unknown provenance must be handled as conflicts. A future change to the installed skills or roles needs its own evidence and authority. Live rollback remains unexercised.",
+      "remaining_uk": "Локальні зміни з невідомим походженням лишаються конфліктами. Майбутня зміна складу встановлених навичок або ролей потребує окремих доказів і повноважень. Фактичний відкат у живому сервісі не знадобився.",
       "criterion_groups": [
         {
           "criterion_group_en": "All 35 sources and 12 role settings/identity",
@@ -1690,7 +1805,11 @@
         "R3_STAGE2",
         "TRANSPORT_NEGATIVE",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "CURRENT_MANAGED_PRESERVATION",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS",
+        "RC3_LIVE_MANAGED_PRESERVATION"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -1730,12 +1849,12 @@
         ]
       },
       "definition_sha256": "7ddef2f1be3691f268f5ad76c171e7cbae68e97f3e41a457498fb5d983f4ce5f",
-      "execution_status": "known_agent_preservation_and_task_verified",
-      "outcome_en": "The already authorised inventory covered six roots and one known project-local skill. That one skill’s 51 files and real continuation were verified; five other roots are metadata/instruction observations, not five inspected or migrated agents. The wider population remains unknown.",
-      "outcome_uk": "Вже дозволений inventory охоплював шість roots і одну відому project-local skill. Її 51 files і реальне continuation перевірено; інші п’ять roots є metadata/instruction observations, а не п’ятьма inspected/migrated agents. Ширша популяція невідома.",
-      "adoption_status": "current_cold_adoption_pending",
-      "remaining_en": "Current-project cold continuation and final per-invariant adoption await A25/A29. Historical local resources were preserved, not silently migrated or renamed.",
-      "remaining_uk": "Current-project cold continuation і final per-invariant adoption очікують A25/A29. Історичні local resources збережені, а не мовчки мігровані чи перейменовані.",
+      "execution_status": "current_local_cohort_and_bounded_source_preservation_verified",
+      "outcome_en": "The current supported list contained 27 projects. The audit checked the defined metadata locations in eight local roots and skipped 19 remote projects. Two project-local skill definitions and 12 role TOML files were found. This audit did not activate the roles. One existing agent retained its verified 51 files and actual bounded continuation. A second agent’s source audit verified 130 entries, including 115 files and 15 directories, and found all 15 required inherited resources. Before-and-after membership, hashes and modes matched.",
+      "outcome_uk": "У поточному списку було 27 проєктів. Перевірка охопила визначені місця метаданих у восьми локальних коренях. Дев’ятнадцять віддалених проєктів пропустили. Знайдено два локальні описи навичок і 12 файлів описів ролей TOML. Ролі під час цієї перевірки не запускали. Для одного чинного агента підтверджено 51 файл і фактичне обмежене продовження. Перевірка джерел другого агента охопила 130 елементів, зокрема 115 файлів і 15 каталогів. Усі 15 потрібних успадкованих ресурсів наявні. Склад, контрольні суми й права до і після читання збіглися.",
+      "adoption_status": "preserve_existing_private_agents_source_only",
+      "remaining_en": "The private agents stay on their existing sources. The second agent has source and resource evidence. Actual native invocation, role activity and adoption of the new contract require their own evidence. R4 verifies the skills-management continuation within its declared scope. The wider private project population remains unknown.",
+      "remaining_uk": "Приватні агенти залишаються на своїх чинних джерелах. Для другого агента підтверджено джерела й наявність ресурсів. Фактичний нативний виклик, активність ролей і прийняття нового контракту потребують власних доказів. R4 підтвердив продовження роботи з керування навичками у визначеному обсязі. Повний перелік інших приватних проєктів невідомий.",
       "criterion_groups": [
         {
           "criterion_group_en": "Source-to-target plan and portable resources",
@@ -1768,7 +1887,10 @@
         "PRESERVATION",
         "R3_STAGE2",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "CURRENT_PROJECT_COHORT",
+        "PRIVATE_AGENT_SOURCE_AUDIT",
+        "R4_STAGE2"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -1879,12 +2001,12 @@
         ]
       },
       "definition_sha256": "7605b06fc39d56424e511c03a1b41e24ebd910a965042e2f1f474ddd32971992",
-      "execution_status": "independent_semantic_and_seam_reviews_completed",
-      "outcome_en": "Independent data/model, medium/UI, generated-agent and cold-trial reviews retained actual failures and repairs. Frozen rubrics, holdouts, partial blindness and accounted resource conditions are recorded. Changed bytes received new proof rather than borrowed old results.",
-      "outcome_uk": "Independent data/model, medium/UI, generated-agent і cold-trial reviews зберегли actual failures та repairs. Зафіксовано frozen rubrics, holdouts, partial blindness і враховані resource conditions. Змінені bytes отримали новий proof замість запозичення старих results.",
-      "adoption_status": "affected_admission_gates_pending",
-      "remaining_en": "R4, exact final publication and whole-candidate admission are still pending. Separate reviewer roles or an aggregate score cannot certify all future products or replace owner decisions.",
-      "remaining_uk": "R4, exact final publication і whole-candidate admission ще очікуються. Reviewer roles або aggregate score не сертифікують усі майбутні продукти й не замінюють owner decisions.",
+      "execution_status": "independent_semantic_and_affected_function_reviews_completed",
+      "outcome_en": "Independent reviews cover data and models, actual UI and media, an existing generated agent, and the cold continuation. R4 passed the predeclared semantic and execution checks in all three turns. The affected-function review joined exact source, build, CI and preservation evidence. Earlier failures and repairs remain part of the record. Post-start checks also verified the bounded 0.3.1 service on its original data.",
+      "outcome_uk": "Незалежні перевірки охоплюють дані й моделі, фактичний інтерфейс і медіа, чинного створеного агента та продовження без попередньої історії. R4 пройшов заздалегідь визначені перевірки змісту й виконання в усіх трьох запусках. Для зачеплених функцій звірено точні джерела, складання, GitHub і збереження стану. Попередні невдачі та виправлення залишилися в матеріалах. Після запуску також перевірено обмежений сервіс 0.3.1 на початкових даних.",
+      "adoption_status": "verified_bounded_local_service",
+      "remaining_en": "Remaining product, device and owner-acceptance obligations need their own evidence. The full register is retained.",
+      "remaining_uk": "Відкриті продуктові й пристроєві перевірки та рішення власника потребують власних доказів. Повний реєстр збережено.",
       "criterion_groups": [
         {
           "criterion_group_en": "Independent semantic/seam and original outcome",
@@ -1920,7 +2042,13 @@
         "R3_STAGE2",
         "TRANSPORT_NEGATIVE",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "R4_STAGE1",
+        "R4_STAGE2",
+        "RC3_AFFECTED",
+        "RC3_PREAPPLY",
+        "RC3_CI",
+        "RC3_LIVE_POSTCHECKS"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -1961,12 +2089,12 @@
         ]
       },
       "definition_sha256": "6ef39f82a690bd64d2a75b0bb6a23d33e19765d046953a18004b2030b71e294f",
-      "execution_status": "final_publication_pending",
-      "outcome_en": "Human-readable component/source/trigger/I-O/consumer/access/recovery documentation and this 29-case ledger are being reconciled in both languages. Public canonical reproduction paths and opaque receipt digests replace private inventories, paths and raw project data.",
-      "outcome_uk": "Людські component/source/trigger/I-O/consumer/access/recovery docs і цей 29-case ledger узгоджуються обома мовами. Замість private inventories, paths і raw project data наведено public canonical reproduction paths та opaque receipt digests.",
-      "adoption_status": "no_new_remote_CI_install_claim",
-      "remaining_en": "Final source/hash/link/translation/privacy checks, both package CRC/SHA and exact remote/CI/artifact readback remain pending. WORK source/package never means WORK installation.",
-      "remaining_uk": "Очікуються final source/hash/link/translation/privacy checks, CRC/SHA обох packages та exact remote/CI/artifact readback. WORK source/package ніколи не означає WORK installation.",
+      "execution_status": "exact_candidate_publication_CI_and_artifact_delivery_verified",
+      "outcome_en": "The bilingual documentation and 29-case register preserve the exact definitions, reproduction paths and receipt digests. The candidate commit b49dfcb was published in PR 2. GitHub run 42905363916 succeeded for that exact commit, with both artifact uploads recorded. Each locally verified source archive contained 3,529 source files and 3,531 ZIP members. The release checks covered bytes, paths, modes, CRC and privacy.",
+      "outcome_uk": "Двомовна документація й реєстр 29 випадків зберігають точні визначення, шляхи відтворення та контрольні суми квитанцій. Коміт кандидата b49dfcb опубліковано в PR 2. Перевірка GitHub 42905363916 пройшла для цього точного коміту. Зафіксовано обидва завантаження артефактів. Кожен локально перевірений архів містив 3 529 вихідних файлів і 3 531 елемент ZIP. Перевірено байти, шляхи, права, CRC та приватність.",
+      "adoption_status": "published_exact_candidate",
+      "remaining_en": "The exact CI and delivery records belong to the published b49dfcb snapshot. This results revision and any later repository head need their own publication and CI readback. The WORK archive remains source material while WORK itself is deferred.",
+      "remaining_uk": "Перевірки GitHub і квитанції доставки належать опублікованому знімку b49dfcb. Для цієї редакції результатів та будь-якого наступного коміту потрібна власна звірка публікації й GitHub. Архів WORK містить вихідні матеріали. Робота в WORK відкладена.",
       "criterion_groups": [
         {
           "criterion_group_en": "Human documentation and complete requirement coverage",
@@ -1993,7 +2121,11 @@
         "MAIN",
         "M5",
         "DATA_QA",
-        "PANEL_BUILD"
+        "PANEL_BUILD",
+        "RC3_PUBLICATION",
+        "RC3_CI",
+        "RC3_PACKAGES",
+        "RC3_BUILD"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -2032,12 +2164,12 @@
         "evidence": []
       },
       "definition_sha256": "7f28331ccf6f118ae83c4556b1370380b230c7bdf2c5b382322f49751e612aef",
-      "execution_status": "executed_NOT_ADMITTED",
-      "outcome_en": "The initial failed study, revision 2 and memory-repair trials are retained. The latest three trials preserved 27 full source texts and 30 must IDs; all had native memory-disable acknowledgement before the turn. Two read the actual 43-file bundle, one did not, so the predeclared all-three gate failed.",
-      "outcome_uk": "Збережено initial failed study, revision 2 і memory-repair trials. Останні три зберегли 27 повних source texts і 30 must IDs; усі мали native memory-disable acknowledgement до turn. Два прочитали фактичний 43-file bundle, один — ні, тому predeclared all-three gate не пройдено.",
-      "adoption_status": "R4_pending",
-      "remaining_en": "Separate immutable transport v3 passed source/binding and OS checks, but R4 actual delivery/semantics remain pending. No old failure is relabelled PASS, and no historical-system superiority or latency gain is claimed.",
-      "remaining_uk": "Окремий immutable transport v3 пройшов source/binding та OS checks, але R4 actual delivery/semantics ще очікуються. Старі failures не перейменовано на PASS; historical-system superiority або latency gain не заявляються.",
+      "execution_status": "R4_passed_all_three_finite_cold_trials",
+      "outcome_en": "All three predeclared R4 turns passed the independent semantic and native trace checks. Each verified 19 declared source pins against the physical bytes, read the selected skill instructions and needed references, and hashed all 43 files in its bundle. The handoffs preserved all 27 original and three current requirement texts and all 30 mandatory IDs. R3 reached the dependent handoff in two of three turns with the same task inputs, selected bytes, model and time limit. R4 reached it in all three after the delivery location changed. The owning operator used a handoff to reconcile the latest approved source, CI and actual service state before the permitted cutover. Three turns used 1,360.592 of 1,800 allowed seconds. Earlier failures, the first history-reader error and recovery of the same turn were retained.",
+      "outcome_uk": "Усі три наперед визначені запуски R4 пройшли незалежну перевірку змісту й первинних трас. Кожен звірив контрольні суми 19 оголошених джерел із фактичними байтами, прочитав інструкції обраної навички й потрібні довідки та перевірив контрольні суми всіх 43 файлів пакета. У передачах роботи збережено 27 початкових і три чинні тексти вимог та всі 30 обов’язкових позначок. У R3 до залежної передачі роботи дійшли два з трьох запусків із тими самими входами, байтами навички, моделлю й межею часу. Після зміни розташування входів у R4 завершили всі три. Відповідальний виконавець використав одну передачу роботи для звірки чинних джерел, GitHub і фактичного стану сервісу перед дозволеним переходом. Три запуски тривали 1 360,592 секунди з дозволених 1 800. Збережено попередні невдачі, помилку першого читача історії та відновлення того самого виконання.",
+      "adoption_status": "bounded_real_case_pass",
+      "remaining_en": "This finite case covers the fixed real task and declared inputs. The three turns show disabled-memory configuration and a native acknowledgement before execution. The supported protocol exposes no separate readback of the effective memory mode or direct measurement of injected context. A broader reliability, speed or historical-version comparison would need separate evidence.",
+      "remaining_uk": "Результат охоплює цей визначений реальний випадок та його оголошені джерела. У трьох запусках зафіксовано налаштування вимкненої пам’яті та нативне підтвердження перед виконанням. Підтриманий протокол не дає окремо прочитати чинний режим пам’яті чи прямо виміряти підставлений контекст. Ширші висновки про надійність, швидкість або перевагу над історичною версією потребують окремих доказів.",
       "criterion_groups": [
         {
           "criterion_group_en": "Frozen actual inputs and complete state recovery",
@@ -2073,7 +2205,10 @@
         "TRANSPORT_NEGATIVE",
         "TRANSPORT_OS",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "R4_STAGE1",
+        "R4_STAGE2",
+        "R4_HANDOFF"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -2196,12 +2331,12 @@
         "evidence": []
       },
       "definition_sha256": "db81522904309583c129f845076cf2c3d4499672295cac8c812f2ede6555315a",
-      "execution_status": "real_workbench_and_current_receipt_verified",
-      "outcome_en": "Actual history/project/work navigation, source/evidence distinctions, next action, preview/bind and preparation were exercised. A current approved model task’s real output/receipt was inspected; recovery, partial/stale states and desktop/mobile/keyboard checks were retained. The limit is at most four skills per job, not four mandatory selections.",
-      "outcome_uk": "Виконано actual history/project/work navigation, розмежування source/evidence, next action, preview/bind і preparation. Переглянуто реальні output/receipt поточної дозволеної model task; збережено recovery, partial/stale та desktop/mobile/keyboard checks. Межа — щонайбільше чотири skills на job, а не чотири обов’язкові selections.",
-      "adoption_status": "cold_task_quality_still_blocked",
-      "remaining_en": "The displayed task’s selected-snapshot handoff failed A25 despite completed transport. Real tasks naturally used one skill; five selections were rejected and multi-skill membership tested. No unobserved greater-than-four dependent-job execution is invented. The panel proves bounded native jobs and supported controller paths only. Arbitrary vendor, plugin and media operations from the panel are unproven; a capable-host bridge is an explicit gap or conditional route, not a passed global capability.",
-      "remaining_uk": "Показана selected-snapshot handoff не пройшла A25 попри completed transport. Реальні задачі природно використали одну skill; п’ять selections відхилено, multi-skill membership перевірено. Невиконане greater-than-four dependent-job execution не вигадується. Панель доводить лише обмежені native jobs і підтримані controller paths. Довільні vendor, plugin та media operations із панелі не доведені; перехід до здатного host є явною прогалиною або умовним маршрутом, а не пройденою глобальною можливістю.",
+      "execution_status": "real_panel_journeys_and_separate_R4_execution_verified",
+      "outcome_en": "The actual panel exercised history and work navigation, source and evidence views, next action, preview, binding, preparation and correlated results. Recovery, partial and stale states and desktop, mobile and keyboard checks were retained. The displayed R3 turn showed its real selected-input failure. Separate R4 turns completed the cold execution after the repair. Multiple selections were tested, and the fifth skill was rejected. The post-start browser check exercised the installed panel and confirmed the reviewed client bytes. The first history check found an empty transient catalog. One supported read-only discovery restored the groups. The resulting panel showed 40 of 100 threads covered, 468 native work rows and 17 coverage warnings. One work item was checked against its exact native thread, turn and source. The joined browser evidence records 26 checks, seven screenshots, 24 current source pins and 30 mandatory requirements.",
+      "outcome_uk": "У фактичній панелі перевірено історію й навігацію роботами, перегляд джерел і доказів, наступну дію, попередній перегляд, прив’язку, підготовку й пов’язані результати. Збережено перевірки відновлення, неповного й застарілого стану, комп’ютера, мобільного екрана та клавіатури. Показаний запуск R3 відобразив справжній збій обраного входу. Окремі запуски R4 завершили продовження після виправлення. Перевірено вибір кількох навичок і відхилення п’ятої. Після запуску браузерна перевірка пройшла на встановленій панелі й підтвердила перевірені байти клієнта. Перша перевірка історії виявила порожній тимчасовий каталог. Один підтриманий пошук у режимі читання відновив групи. Панель показала часткове охоплення 40 зі 100 розмов, 468 рядків нативних робіт і 17 попереджень про покриття. Для однієї роботи звірено точну нативну розмову, виконання та джерело. Об’єднаний браузерний звіт містить 26 перевірок, сім знімків, 24 підтверджені чинні джерела та 30 обов’язкових вимог.",
+      "adoption_status": "bounded_live_panel_evidence_full_case_open",
+      "remaining_en": "The observed jobs used one skill each. The four-skill ceiling applies to each job. An actual workflow that needs more than four skills through dependent jobs remains unobserved. The panel supports bounded native jobs and the tested controller routes. Arbitrary vendor, plugin and media operations still need a verified route in a host with the required capabilities.",
+      "remaining_uk": "Перевіреним завданням вистачило однієї навички на запуск. На кожен запуск діє межа до чотирьох навичок. Реальний маршрут, якому потрібно понад чотири навички через пов’язані запуски, ще не спостерігали. Панель підтримує обмежені нативні завдання й перевірені маршрути конструкторів. Для довільних дій постачальників, плагінів і медіасервісів ще потрібен перевірений маршрут у середовищі з відповідними можливостями.",
       "criterion_groups": [
         {
           "criterion_group_en": "Real history/project/work/evidence navigation",
@@ -2249,7 +2384,12 @@
         "R3_STAGE2",
         "TRANSPORT_REVIEW",
         "TRANSPORT_V3",
-        "CAPACITY4"
+        "CAPACITY4",
+        "R4_STAGE2",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS",
+        "RC3_LIVE_UI",
+        "RC3_LIVE_HISTORY"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -2292,12 +2432,12 @@
         "evidence": []
       },
       "definition_sha256": "f060b0b4c7cb9765cdf31e56dc4add0b7d5544ea5c817b698b97f8a66e8d6f94",
-      "execution_status": "reuse_and_small_change_measured",
-      "outcome_en": "Existing routes were reused, unsuccessful model complexity was rejected and no mandatory agent/skill inventory was added. Repeated actual input-delivery failure justified a bounded transport candidate; independent source/retention/OS checks closed its found defects without a new framework or native truth store.",
-      "outcome_uk": "Чинні routes повторно використано, невдалу model complexity відхилено, обов’язковий agent/skill inventory не додано. Повторна actual input-delivery failure обґрунтувала bounded transport candidate; independent source/retention/OS checks закрили знайдені дефекти без нового framework або native truth store.",
-      "adoption_status": "new_transport_operational_admission_pending",
-      "remaining_en": "R4 benefit/preservation and exact final A24/A29 gates must close before operational admission, merge/release/install/activation. A later extracted installable module/role still requires exact composition approval.",
-      "remaining_uk": "R4 benefit/preservation та exact final A24/A29 gates мають закритися до operational admission, merge/release/install/activation. Подальший extracted installable module/role потребує exact composition approval.",
+      "execution_status": "bounded_transport_benefit_verified_by_R4",
+      "outcome_en": "Existing routes were reused and the unsuccessful model changes were rejected. Repeated real input-delivery failures justified a small transport repair. Source, ownership, retention and OS checks verified the repair. Three new R4 turns used the same selected bytes and completed the required continuation. The bounded update was verified on the existing local service and its original data.",
+      "outcome_uk": "Повторно використали наявні маршрути, а невдалі зміни моделей відхилили. Повторні фактичні збої доставки входів обґрунтували мале виправлення. Перевірено джерела, належність завданню, збереження даних і межі операційної системи. Три нові запуски R4 використали ті самі обрані байти й завершили потрібне продовження. Обмежене оновлення перевірено на наявному локальному сервісі та його початкових даних.",
+      "adoption_status": "bounded_change_verified_in_live_service",
+      "remaining_en": "A future standalone skill or role still needs its exact composition approved.",
+      "remaining_uk": "Для майбутньої окремої навички чи ролі потрібно погодити точний склад.",
       "criterion_groups": [
         {
           "criterion_group_en": "Reuse and smallest sufficient measured change",
@@ -2331,7 +2471,12 @@
         "TRANSPORT_NEGATIVE",
         "TRANSPORT_OS",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "R4_STAGE2",
+        "R4_HANDOFF",
+        "RC3_CI",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS"
       ],
       "full_programme_acceptance_inferred": false
     },
@@ -2376,12 +2521,12 @@
         "evidence": []
       },
       "definition_sha256": "c7a92330e98f9e827c9999fc8aad33730e8182f98b43f5d952cf37c9ec826ebf",
-      "execution_status": "NOT_ADMITTED_pending_R4_publication_live",
-      "outcome_en": "The complete 29-case denominator, unchanged baseline dependencies and actual negative/restart/restore/identity evidence are retained. Two independently found transport binding defects were repaired and replayed; source/local counts do not override the failed cold task.",
-      "outcome_uk": "Збережено повний 29-case denominator, unchanged baseline dependencies і actual negative/restart/restore/identity evidence. Два незалежно знайдені transport binding defects виправлені й повторно перевірені; source/local counts не перекривають failed cold task.",
-      "adoption_status": "baseline_retained",
-      "remaining_en": "R4, exact final source/package/remote CI, full per-invariant admission and any subsequent live backup/apply/readback remain pending. Unknown is not PASS; documentation publication or gains elsewhere cannot compensate a lost accepted function.",
-      "remaining_uk": "Очікуються R4, exact final source/package/remote CI, повний per-invariant admission і подальші live backup/apply/readback. Unknown не є PASS; публікація docs або виграші деінде не компенсують втрати прийнятої функції.",
+      "execution_status": "affected_source_R4_and_14_live_checks_verified",
+      "outcome_en": "The full 29-case register retains the older failures, actual negative and recovery checks, exact unchanged dependencies, and separate results for every affected function. The two transport binding defects were repaired and retested. All three R4 continuations passed. Exact b49dfcb CI and the affected-function review support a bounded same-data service update. All 14 installed-state checks passed. The original database identity and logical records, settings, four project bindings, existing task and completed job were preserved. The cutover retained the verified stopped-data backup and confirmed single ownership, exact client bytes and launcher continuity. The stopped-data backup matched 175 entries. The post-start comparison retained 13 records, 52 old commands and 602 events.",
+      "outcome_uk": "Усі 29 випадків залишилися в реєстрі. У ньому збережено попередні невдачі, фактичні перевірки відмов і відновлення, точні незмінені залежності та окремі результати для зачеплених функцій. Дві помилки прив’язки входів виправлено й повторно перевірено. Усі три продовження R4 пройдено. Перевірки точного b49dfcb у GitHub та огляд зачеплених функцій підтримують обмежене оновлення сервісу на початкових даних. Усі 14 перевірок установленого стану пройдені. Збережено початковий файл бази й логічні записи, налаштування, чотири прив’язки проєктів, наявну задачу та завершений результат. Перехід зберіг перевірену резервну копію зупинених даних і підтвердив один процес запису, точні байти клієнта й роботу ярлика. Резервна копія зупинених даних збіглася за 175 елементами. Після запуску звірка підтвердила 13 записів, 52 попередні команди та 602 події.",
+      "adoption_status": "bounded_local_service_adopted_full_programme_open",
+      "remaining_en": "Every remaining product, provider, device and owner obligation keeps its recorded outcome. Any affected loss blocks its adoption.",
+      "remaining_uk": "Решта продуктових, пристроєвих і зовнішніх вимог та рішень власника зберігають свої окремі результати. Втрата зачепленої функції зупиняє її допуск.",
       "criterion_groups": [
         {
           "criterion_group_en": "Complete invariant/dependency/procedure denominator",
@@ -2428,7 +2573,17 @@
         "TRANSPORT_NEGATIVE",
         "TRANSPORT_OS",
         "TRANSPORT_REVIEW",
-        "TRANSPORT_V3"
+        "TRANSPORT_V3",
+        "R4_STAGE2",
+        "R4_HANDOFF",
+        "RC3_PUBLICATION",
+        "RC3_CI",
+        "RC3_AFFECTED",
+        "RC3_PREAPPLY",
+        "RC3_LIVE_POSTCHECKS",
+        "RC3_LIVE_COLD_BACKUP",
+        "RC3_LIVE_P01",
+        "RC3_LIVE_LAUNCHER"
       ],
       "full_programme_acceptance_inferred": false
     }
@@ -2440,5 +2595,7 @@
     "unproven_scope_uk": "Довільні vendor/plugin/media operations через панель; capable-host bridge лишається явною умовною прогалиною."
   },
   "definition_state_note_en": "The planned/unbound fields inside approved_definition are immutable historical register values. Current execution, outcome, adoption and remaining checks are separate result fields; the original register is not rewritten.",
-  "definition_state_note_uk": "Поля planned/unbound усередині approved_definition є незмінними історичними значеннями реєстру. Поточні execution, outcome, adoption та залишкові перевірки наведені окремими полями результату; початковий реєстр не переписується."
+  "definition_state_note_uk": "Поля planned/unbound усередині approved_definition є незмінними історичними значеннями реєстру. Поточні execution, outcome, adoption та залишкові перевірки наведені окремими полями результату; початковий реєстр не переписується.",
+  "results_revision": 2,
+  "previous_results_sha256": "c13e2ef30a731fd058f8d32c8200f5b09cb5d0420aec05b4376cf8fa3be0066e"
 }
