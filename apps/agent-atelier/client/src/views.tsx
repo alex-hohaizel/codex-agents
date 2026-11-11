@@ -45,6 +45,7 @@ import {
 import {
   api,
   mergePortfolioPage,
+  nativeRootCanBind,
   pretty,
   rows,
   shortHash,
@@ -55,6 +56,7 @@ import {
   type Workspace,
 } from "./api";
 import type { CommandFn, Inspection, View } from "./App";
+import { PluginIntegrations } from "./integrations";
 import { PrivacySettings } from "./privacy";
 import {
   profileDefinitions,
@@ -104,7 +106,10 @@ export interface ViewProps {
   nativeDetail?: Data | null;
   nativeHistoryLoading?: boolean;
   nativeHistoryError?: string;
-  loadMoreNativeHistory?: (itemCursor?: Data) => void;
+  loadMoreNativeHistory?: (
+    itemCursor?: Data,
+    attachmentCursor?: string,
+  ) => void;
   observePortfolio?: () => Promise<void>;
   busy: string;
   command: CommandFn;
@@ -127,6 +132,11 @@ export function Portfolio(p: ViewProps) {
   const detailIdentityRef = useRef("");
   const detailMoreRef = useRef(false);
   const catalog = p.demo ? null : p.portfolio;
+  const coverage = catalog?.coverage;
+  const localInventory = coverage?.scope === "local-native-index";
+  const inventoryComplete = localInventory
+    ? coverage?.local_inventory_complete === true
+    : coverage?.complete === true;
   const detailIdentity = `${p.demo}:${focus?.id ?? ""}:${catalog?.checked_at ?? ""}`;
   detailIdentityRef.current = detailIdentity;
   const activeDetail =
@@ -135,7 +145,9 @@ export function Portfolio(p: ViewProps) {
       ? detail
       : null;
   const discovered = rows(catalog?.projects);
-  const roots = new Set(discovered.map((item) => item.root));
+  const roots = new Set(
+    discovered.filter(nativeRootCanBind).map((item) => item.root),
+  );
   const projects: Data[] = [
     ...discovered,
     ...(p.boot?.projects ?? [])
@@ -197,14 +209,16 @@ export function Portfolio(p: ViewProps) {
       cancelled = true;
     };
   }, [detailIdentity]);
-  async function loadMoreDetail(itemCursor?: Data) {
+  async function loadMoreDetail(itemCursor?: Data, attachmentCursor?: string) {
     const offset = detail?.coverage?.next_thread_offset;
     if (
       !focus ||
       !detail ||
       detail.project?.id !== focus.id ||
       detail.coverage?.snapshot_checked_at !== catalog?.checked_at ||
-      (!itemCursor && !Number.isInteger(offset)) ||
+      (!itemCursor && !attachmentCursor && !Number.isInteger(offset)) ||
+      (attachmentCursor &&
+        attachmentCursor !== detail.coverage?.attachments?.continuation) ||
       (itemCursor &&
         !detail.coverage?.item_cursors?.some(
           (item: Data) =>
@@ -221,16 +235,18 @@ export function Portfolio(p: ViewProps) {
     setDetailError("");
     try {
       const page = await api.portfolioProject(focus.id, {
-        ...(itemCursor
-          ? {
-              item_thread_id: itemCursor.thread_id,
-              item_cursor: itemCursor.next_cursor,
-            }
-          : { thread_offset: offset }),
+        ...(attachmentCursor
+          ? { attachment_continue: attachmentCursor }
+          : itemCursor
+            ? {
+                item_thread_id: itemCursor.thread_id,
+                item_cursor: itemCursor.next_cursor,
+              }
+            : { thread_offset: offset }),
         snapshot_checked_at: detail.coverage.snapshot_checked_at,
       });
       if (detailIdentityRef.current === identity) {
-        setDetail(mergePortfolioPage(detail, page));
+        setDetail(mergePortfolioPage(attachmentCursor ? null : detail, page));
         void p.observePortfolio?.();
       }
     } catch (error) {
@@ -290,9 +306,7 @@ export function Portfolio(p: ViewProps) {
               icon={RefreshCw}
               disabled={p.demo || Boolean(p.busy)}
               onClick={() =>
-                void p
-                  .command("portfolio.refresh", { max_pages: 20 })
-                  .catch(() => {})
+                void p.command("portfolio.refresh").catch(() => {})
               }
             >
               {p.busy === "portfolio.refresh"
@@ -361,17 +375,55 @@ export function Portfolio(p: ViewProps) {
       {catalog?.checked_at && (
         <div className="coverage-line">
           <span
-            className={`status__dot ${catalog.coverage?.truncated ? "coverage-warning" : ""}`}
+            className={`status__dot ${inventoryComplete ? "" : "coverage-warning"}`}
           />
           <span>
-            {p.t("historyCoverage")} · {catalog.coverage?.native_threads ?? 0}{" "}
-            {p.t("threads")}
+            {p.t(localInventory ? "localCodexHistory" : "historyCoverage")} ·{" "}
+            {coverage?.native_threads ?? 0} {p.t("threads")}
           </span>
           <span>
-            {catalog.coverage?.complete
-              ? p.t("coverageComplete")
+            {inventoryComplete
+              ? p.t(
+                  localInventory
+                    ? "codexInventoryComplete"
+                    : "coverageComplete",
+                )
               : p.t("coveragePartial")}
           </span>
+          {localInventory &&
+            Number.isInteger(coverage?.registered_project_count) && (
+              <span>
+                {p.t("registeredCodexProjects")}{" "}
+                {coverage.registered_project_count}
+              </span>
+            )}
+          {localInventory && coverage?.thread_streams?.active && (
+            <span>
+              {p.t("activeCodexChats")} {coverage.thread_streams.active.count}
+              {coverage.thread_streams.archived && (
+                <>
+                  {" "}
+                  · {p.t("archivedCodexChats")}{" "}
+                  {coverage.thread_streams.archived.count}
+                </>
+              )}
+            </span>
+          )}
+          {typeof coverage?.continuation === "string" && (
+            <button
+              disabled={Boolean(p.busy)}
+              onClick={() =>
+                void p
+                  .command("portfolio.refresh", {
+                    continue_from: coverage.continuation,
+                  })
+                  .catch(() => {})
+              }
+            >
+              {p.t("continueCodexDiscovery")}
+              <ChevronRight size={12} />
+            </button>
+          )}
           <button
             onClick={() =>
               p.expand(p.t("coverageDetails"), {
@@ -597,13 +649,16 @@ function NativeProjectDetail(
     detail: Data | null;
     loading?: boolean;
     error?: string;
-    loadMore?: (itemCursor?: Data) => void;
+    loadMore?: (itemCursor?: Data, attachmentCursor?: string) => void;
   },
 ) {
   const project = p.project;
-  const bound = (p.boot?.projects ?? []).find(
-    (item) => item.id === project.binding_id || item.root === project.root,
-  );
+  const canUseRoot = nativeRootCanBind(project);
+  const bound = !canUseRoot
+    ? undefined
+    : (p.boot?.projects ?? []).find(
+        (item) => item.id === project.binding_id || item.root === project.root,
+      );
   const goal = p.detail?.goal ?? project.goal;
   const next = p.detail?.next_actions ?? project.next_actions ?? [];
   const agents = p.detail?.project?.agents ?? project.agents ?? [];
@@ -637,7 +692,10 @@ function NativeProjectDetail(
                   {p.t("continueWithOrchestrator")}
                 </Button>
               </>
-            ) : (
+            ) : canUseRoot &&
+              typeof project.root === "string" &&
+              project.root &&
+              project.status !== "unavailable" ? (
               <Button
                 tone="primary"
                 icon={FolderGit2}
@@ -645,7 +703,7 @@ function NativeProjectDetail(
               >
                 {p.t("connectThis")}
               </Button>
-            )}
+            ) : null}
           </div>
         }
       />
@@ -796,7 +854,7 @@ function HistoryPagination(
     detail?: Data | null;
     loading?: boolean;
     error?: string;
-    loadMore?: (itemCursor?: Data) => void;
+    loadMore?: (itemCursor?: Data, attachmentCursor?: string) => void;
   },
 ) {
   if (!p.detail && !p.loading && !p.error) return null;
@@ -839,6 +897,17 @@ function HistoryPagination(
           icon={ArrowDownToLine}
         >
           {p.loading ? p.t("loading") : p.t("loadMoreThreads")}
+        </Button>
+      )}
+      {typeof coverage?.attachments?.continuation === "string" && (
+        <Button
+          disabled={p.loading}
+          onClick={() =>
+            p.loadMore?.(undefined, coverage.attachments.continuation)
+          }
+          icon={ArrowDownToLine}
+        >
+          {p.loading ? p.t("loading") : p.t("loadMoreAttachedChats")}
         </Button>
       )}
       {rows(coverage?.item_cursors).filter(
@@ -2044,7 +2113,8 @@ function ArtifactReportPreview({
   const currentReport = pending ? null : report;
   useLayoutEffect(() => {
     if (currentReport && previewRef.current)
-      verifiedHeight.current = previewRef.current.getBoundingClientRect().height;
+      verifiedHeight.current =
+        previewRef.current.getBoundingClientRect().height;
   }, [currentReport]);
   useEffect(() => {
     const controller = new AbortController();
@@ -2121,7 +2191,9 @@ function ArtifactReportPreview({
           </Button>
         </div>
       ) : currentReport ? (
-        <div data-artifact-report-observation={currentReport.source_observation}>
+        <div
+          data-artifact-report-observation={currentReport.source_observation}
+        >
           <ReadableWorkReport content={currentReport.content} />
         </div>
       ) : null}
@@ -4602,6 +4674,9 @@ export function SystemView(
           </Button>
         }
       />
+      {p.section === "integrations" && (
+        <PluginIntegrations t={p.t} demo={p.demo} csrf={p.boot?.csrf_token} />
+      )}
       <div className="system-grid">
         <Panel title={p.t("codex")} icon={TerminalSquare}>
           <div className="connection-card">

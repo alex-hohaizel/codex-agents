@@ -380,10 +380,18 @@ test("HTTP rejects hostile origin, missing CSRF, duplicate JSON and unbound arti
   const dist = join(root, "dist");
   await mkdir(dist);
   await writeFile(join(dist, "index.html"), "<html>Atelier</html>");
+  let integrationReads = 0;
   const app = new Application({
     dataDir: join(root, "data"),
     repoRoot,
     codex: new FakeCodex(),
+    integrations: {
+      async run(input) {
+        integrationReads++;
+        assert.equal(input.operation, "openverse.images.search");
+        return { status: "completed", count: 1 };
+      },
+    },
   });
   const running = await createServer({
     port: 0,
@@ -426,6 +434,49 @@ test("HTTP rejects hostile origin, missing CSRF, duplicate JSON and unbound arti
       }),
     });
     assert.equal(noToken.status, 403);
+    const lookup = (headers) =>
+      fetch(running.origin + "/api/v1/integrations/read", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify({
+          operation: "openverse.images.search",
+          arguments: { query: "garden" },
+        }),
+      });
+    assert.equal((await lookup({ Origin: running.origin })).status, 401);
+    assert.equal(
+      (await lookup({ cookie, Origin: running.origin })).status,
+      403,
+    );
+    assert.equal(
+      (
+        await lookup({
+          cookie,
+          Origin: "https://hostile.example",
+          "X-Atelier-CSRF": bootstrap.csrf_token,
+        })
+      ).status,
+      403,
+    );
+    assert.equal(integrationReads, 0);
+    const beforeLookup = app.store.db
+      .prepare("SELECT count(*) AS n FROM commands")
+      .get().n;
+    const publicLookup = await lookup({
+      cookie,
+      Origin: running.origin,
+      "X-Atelier-CSRF": bootstrap.csrf_token,
+    });
+    assert.equal(publicLookup.status, 200);
+    assert.deepEqual(await publicLookup.json(), {
+      status: "completed",
+      count: 1,
+    });
+    assert.equal(integrationReads, 1);
+    assert.equal(
+      app.store.db.prepare("SELECT count(*) AS n FROM commands").get().n,
+      beforeLookup,
+    );
     const duplicate = await fetch(running.origin + "/api/v1/commands", {
       method: "POST",
       headers: {

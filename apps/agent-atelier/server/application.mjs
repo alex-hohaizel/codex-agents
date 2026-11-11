@@ -11,6 +11,7 @@ import { RetentionManager } from "./retention.mjs";
 import { compileContext } from "./context.mjs";
 import { InstructionsManager, instructionSettings } from "./instructions.mjs";
 import { PortfolioManager } from "./portfolio.mjs";
+import { IntegrationsManager } from "./integrations.mjs";
 import { proposeRoute } from "./routing.mjs";
 import { NativeControllers } from "./controllers.mjs";
 import { OptionalUpdates } from "./optional_updates.mjs";
@@ -39,7 +40,14 @@ import {
   containsObviousCredential,
 } from "./utils.mjs";
 export class Application extends EventEmitter {
-  constructor({ dataDir, repoRoot, store, codex, historyCodex } = {}) {
+  constructor({
+    dataDir,
+    repoRoot,
+    store,
+    codex,
+    historyCodex,
+    integrations,
+  } = {}) {
     super();
     mkdirSync(dataDir, { recursive: true, mode: 0o700 });
     dataDir = realpathSync(dataDir);
@@ -65,6 +73,16 @@ export class Application extends EventEmitter {
       codex: this.historyCodex,
       dataDir,
     });
+    this.integrationCodex = integrations
+      ? null
+      : new CodexAdapter({ dataDir, integrationMetadataOnly: true });
+    this.integrations =
+      integrations ??
+      new IntegrationsManager({
+        dataDir,
+        nativeRpc: (method, params) =>
+          this.integrationCodex.integrationMetadata(method, params),
+      });
     this.controllers = new NativeControllers({
       store: this.store,
       repoRoot,
@@ -1768,6 +1786,7 @@ export class Application extends EventEmitter {
       const snapshot = parseStrictJson(bytes.toString(), 32 * 1024 * 1024);
       await this.codex.close();
       if (this.historyCodex !== this.codex) await this.historyCodex.close();
+      await this.integrationCodex?.close();
       const restoredEpoch = randomUUID();
       // Revocation and restored jobs become safe in the same SQLite commit as the restore.
       this.store.restore(
@@ -1863,6 +1882,7 @@ export class Application extends EventEmitter {
       }
     await this.codex.close();
     if (this.historyCodex !== this.codex) await this.historyCodex.close();
+    await this.integrationCodex?.close();
     this.codex.removeAllListeners();
     this.store.close();
   }

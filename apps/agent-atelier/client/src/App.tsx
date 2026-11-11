@@ -33,6 +33,7 @@ import {
   api,
   ApiError,
   mergePortfolioPage,
+  nativeRootCanBind,
   shortHash,
   text,
   type Bootstrap,
@@ -189,7 +190,8 @@ export default function App() {
   const selectedProfile = projectProfile(selected);
   const nativeDiscovery = portfolio?.projects?.find(
     (item: Data) =>
-      item.binding_id === projectId || item.root === selected?.root,
+      nativeRootCanBind(item) &&
+      (item.binding_id === projectId || item.root === selected?.root),
   );
   const nativeIdentity = `${demo}:${projectId}:${nativeDiscovery?.id ?? ""}:${portfolio?.checked_at ?? ""}`;
   nativeIdentityRef.current = nativeIdentity;
@@ -204,7 +206,9 @@ export default function App() {
       ? inspection.data
       : inspection?.projectRoot
         ? (portfolio?.projects?.find(
-            (project: Data) => project.root === inspection.projectRoot,
+            (project: Data) =>
+              nativeRootCanBind(project) &&
+              project.root === inspection.projectRoot,
           ) ??
           projects.find((project) => project.root === inspection.projectRoot))
         : null;
@@ -212,22 +216,25 @@ export default function App() {
     view === "overview" && inspectedProject ? inspectedProject : selected;
   const contextRevision =
     contextProject?.revision ?? contextProject?.source_revision;
-  const inspectorProject = inspectedProject
-    ? (projects.find((project) => project.root === inspectedProject.root) ??
-      null)
-    : selected;
+  const canUseInspectedRoot = nativeRootCanBind(inspectedProject);
+  const inspectorProject = !canUseInspectedRoot
+    ? null
+    : inspectedProject
+      ? (projects.find((project) => project.root === inspectedProject.root) ??
+        null)
+      : selected;
   const inspectorDirection =
     workspace?.project?.id === inspectorProject?.id
       ? workspaceDirection(workspace, inspectorProject?.id)
       : null;
   const inspectorGoal = inspectorDirection
     ? inspectorDirection.goal
-    : nativeDetail?.goal;
+    : (inspectedProject?.goal ?? nativeDetail?.goal);
   const inspectorNextActions =
     inspectorDirection?.next ??
     (inspectedProject
       ? (inspectedProject.next_actions ??
-        (inspectedProject.root === selected?.root
+        (canUseInspectedRoot && inspectedProject.root === selected?.root
           ? nativeDetail?.next_actions
           : []))
       : nativeDetail?.next_actions);
@@ -298,12 +305,18 @@ export default function App() {
       cancelled = true;
     };
   }, [nativeIdentity]);
-  async function loadMoreNativeHistory(itemCursor?: Data) {
+  async function loadMoreNativeHistory(
+    itemCursor?: Data,
+    attachmentCursor?: string,
+  ) {
     const offset = nativeDetail?.coverage?.next_thread_offset;
     if (
       !nativeDiscovery ||
       !nativeDetail ||
-      (!itemCursor && !Number.isInteger(offset)) ||
+      (!itemCursor && !attachmentCursor && !Number.isInteger(offset)) ||
+      (attachmentCursor &&
+        attachmentCursor !==
+          nativeDetail.coverage?.attachments?.continuation) ||
       (itemCursor &&
         !nativeDetail.coverage?.item_cursors?.some(
           (item: Data) =>
@@ -320,16 +333,20 @@ export default function App() {
     setNativeHistoryError("");
     try {
       const page = await api.portfolioProject(nativeDiscovery.id, {
-        ...(itemCursor
-          ? {
-              item_thread_id: itemCursor.thread_id,
-              item_cursor: itemCursor.next_cursor,
-            }
-          : { thread_offset: offset }),
+        ...(attachmentCursor
+          ? { attachment_continue: attachmentCursor }
+          : itemCursor
+            ? {
+                item_thread_id: itemCursor.thread_id,
+                item_cursor: itemCursor.next_cursor,
+              }
+            : { thread_offset: offset }),
         snapshot_checked_at: nativeDetail.coverage.snapshot_checked_at,
       });
       if (nativeIdentityRef.current === identity) {
-        setNativeDetail(mergePortfolioPage(nativeDetail, page));
+        setNativeDetail(
+          mergePortfolioPage(attachmentCursor ? null : nativeDetail, page),
+        );
         void observePortfolio();
       }
     } catch (error) {
@@ -444,7 +461,11 @@ export default function App() {
               setWorkspace(data);
               const recoveredFailure = workspaceReadError.current;
               setActionError((current) =>
-                recoveredWorkspaceError(current, recoveredFailure, data.project.id),
+                recoveredWorkspaceError(
+                  current,
+                  recoveredFailure,
+                  data.project.id,
+                ),
               );
               if (recoveredFailure?.projectId === data.project.id)
                 workspaceReadError.current = null;
@@ -671,7 +692,7 @@ export default function App() {
         : view === "overview"
           ? (inspection?.projectRoot ?? inspectedProject?.root)
           : selected?.root;
-    if (next.kind === "project" && root) {
+    if (next.kind === "project" && root && nativeRootCanBind(next.data)) {
       const binding = projects.find((project) => project.root === root);
       if (binding) setProjectId(binding.id);
     }
@@ -961,7 +982,10 @@ export default function App() {
                 <button
                   key={project.id}
                   className={
-                    contextProject?.root === project.root ? "is-selected" : ""
+                    nativeRootCanBind(contextProject) &&
+                    contextProject?.root === project.root
+                      ? "is-selected"
+                      : ""
                   }
                   onClick={() => selectProject(project.id)}
                 >
@@ -974,9 +998,10 @@ export default function App() {
                     <strong>{project.name}</strong>
                     <small>{t(profileLabel(projectProfile(project)))}</small>
                   </span>
-                  {contextProject?.root === project.root && (
-                    <ChevronRight size={13} />
-                  )}
+                  {nativeRootCanBind(contextProject) &&
+                    contextProject?.root === project.root && (
+                      <ChevronRight size={13} />
+                    )}
                 </button>
               );
             })}
@@ -1064,9 +1089,7 @@ export default function App() {
                 label={t("refresh")}
                 onClick={() =>
                   portfolio?.checked_at && !demo
-                    ? void command("portfolio.refresh", {
-                        max_pages: 20,
-                      }).catch(() => {})
+                    ? void command("portfolio.refresh").catch(() => {})
                     : void refresh()
                 }
                 disabled={loading || Boolean(busy)}

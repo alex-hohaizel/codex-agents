@@ -30,7 +30,10 @@ function outer(offset, { pending = false, nonItemComplete = true } = {}) {
     threads: [{ id: thread, title: `Chat ${thread}` }],
     work_groups: [{ id: "results", items: [turn(thread)] }],
     warnings: pending
-      ? [{ code: "NATIVE_ITEM_PAGE_LIMIT", thread_id: thread }]
+      ? [
+          { code: "NATIVE_ITEM_PAGE_LIMIT", thread_id: thread },
+          { code: "NATIVE_TURN_PAGE_LIMIT", thread_id: thread },
+        ]
       : [],
     coverage: {
       snapshot_checked_at: "snapshot-1",
@@ -149,7 +152,9 @@ test("offset-zero item continuation preserves other loaded pages, newer response
   );
   assert.equal(merged.coverage.complete, true);
   assert.equal(
-    merged.warnings.some((item) => item.code === "NATIVE_ITEM_PAGE_LIMIT"),
+    merged.warnings.some((item) =>
+      ["NATIVE_ITEM_PAGE_LIMIT", "NATIVE_TURN_PAGE_LIMIT"].includes(item.code),
+    ),
     false,
   );
   assert.equal(mergePortfolioPage(merged, page), merged);

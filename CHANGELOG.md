@@ -1,5 +1,9 @@
 # Change log
 
+## Candidate repository 1.4.0-rc.4 / Agent Atelier 0.4.0
+
+Add registered local Codex project discovery including empty projects, explicit active and archived chat coverage and resumable discovery. Add installed plugin and app inspection, read-only GitHub repository metadata through the existing CLI login, Openverse image/audio search and native handoffs for provider operations. Keep the accepted layout, settings, service state and existing suite versions. See the [release](releases/repository-1.4.0-rc.4.md) and [migration](releases/migrations/repository-1.4.0-rc.4.md).
+
 ## Candidate repository1.4.0-rc.3 / Agent Atelier0.3.1 — actual-task evidence and compatible service repairs
 
 Preserve core6.1.0, Orchestrator1.2.0, maintenance1.1.0,33core+2optional sources and12roles. Repair keyboard focus in the task dialog and retain artifact selection by project/path with current metadata and project isolation. Hide unavailable workspace data after failed background refresh and offer recovery; read Markdown reports through the existing bounded source route with original-file path/size/hash checks, enforced declared pins or honest source-only observation, visible homonym paths and retained retry/original download. Preserve layout, database/API and identity/settings. The new34evaluation files document and execute actual licensed data ingestion/analysis, fitted baselines and candidates, copied-model HTTP consumption, native Metal LoRA/export/inference, and approved bilingual campaign PDF/render/cache workflows. Read [the real-task handbook](docs/evolution/2026-11-10/REAL-WORLD.en.md) and [rc.3 migration](releases/migrations/repository-1.4.0-rc.3.md).
