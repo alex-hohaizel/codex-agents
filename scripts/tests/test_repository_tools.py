@@ -71,6 +71,10 @@ class RepositoryToolsTests(unittest.TestCase):
         self.assertTrue(any("excluded private" in x for x in check(self.root)["errors"]))
 
     def test_packages_are_byte_reproducible_and_have_correct_descriptor(self):
+        release_path = self.root / "releases/current.json"
+        release = json.loads(release_path.read_text())
+        release["repository_branch"] = "main"
+        self.json("releases/current.json", release)
         first = build(self.root, Path(self.temp.name) / "first")
         for p in self.root.rglob("*"):
             if p.is_file():
@@ -80,8 +84,24 @@ class RepositoryToolsTests(unittest.TestCase):
         archive = Path(self.temp.name) / "first" / "Agent_System_5.0.0_CODEX.zip"
         with zipfile.ZipFile(archive) as z:
             self.assertIn("kit/skills/example/SKILL.md", z.namelist())
-            self.assertFalse(json.loads(z.read("PACKAGE.json"))["installation_performed"])
-            self.assertEqual(json.loads(z.read("PACKAGE.json"))["mode"], "CODEX")
+            descriptor = json.loads(z.read("PACKAGE.json"))
+            self.assertFalse(descriptor["installation_performed"])
+            self.assertEqual(descriptor["mode"], "CODEX")
+            self.assertEqual(descriptor["repository_branch"], first["repository_branch"])
+            self.assertEqual(descriptor["repository_version"], release["repository_version"])
+            self.assertEqual(descriptor["requirements"], release["requirements"])
+
+    def test_current_service_requirements_must_match_release_version(self):
+        release = json.loads((self.root / "releases/current.json").read_text())
+        release["local_service"] = {"source": "apps/example", "version": "0.5.0"}
+        self.json("releases/current.json", release)
+        self.json("apps/example/package.json", {"version": "0.5.0"})
+        self.json("apps/example/package-lock.json", {"version": "0.5.0", "packages": {"": {"version": "0.5.0"}}})
+        self.write("apps/example/shared/contracts.mjs", 'export const SERVICE_VERSION = "0.5.0";\n')
+        self.json("apps/example/requirements.json", {"release_candidate": "0.4.0"})
+        self.assertTrue(any("requirements.json release_candidate" in error for error in check(self.root)["errors"]))
+        self.json("apps/example/requirements.json", {"release_candidate": "0.5.0"})
+        self.assertTrue(check(self.root)["ok"])
 
     def test_symlink_and_path_escape_are_rejected(self):
         outside = Path(self.temp.name) / "outside-secret"

@@ -10,7 +10,7 @@ This contract protects completed work when an executor, tool or conversation sto
 2. Reuse completed output only when its input and output fingerprints still match. A running, failed or interrupted receipt is unfinished work even when files exist. Do not reconstruct or regenerate accepted completed artwork merely because a new chat began.
 3. Execute one bounded stage at a time. Persist its status before execution and its verified result immediately afterward; report a concise stage result and continue already authorized work.
 4. Keep private execution receipts, inventories, logs and temporary stage files outside curated source/package inputs. Do not publish conversation histories, credentials or host-specific evidence in reusable sources.
-5. If an external write outcome is uncertain, inspect the destination before retrying. For Git publication, reconcile the current head, use the expected parent and verify the final remote ref/tree plus changed and removed paths. A local commit, successful upload attempt or passing local test is not remote publication.
+5. If an external write outcome is uncertain, inspect the destination before retrying. For Git publication, reconcile the current head of the active target branch, use the expected parent and verify the merged remote revision plus changed and removed paths. [Active branch rule](UPDATE_CONTRACT.md#publish-to-the-active-branch) A local commit, successful upload attempt or passing local test is not remote publication.
 6. Deliver actual files and final revision links. Distinguish source integrity, visual localization, execution checks, archives, remote publication, CI, host discovery and product acceptance.
 
 ## Current campaign stages

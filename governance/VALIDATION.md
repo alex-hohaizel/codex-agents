@@ -1,12 +1,14 @@
 # Repository verification record
 
-Repository edition 1.3.2; reusable suite 6.0.0. The [passport0.2 revision](../releases/repository-1.3.2.md) is documentation-only; real-task candidate comparisons remain planned. The [AI/data documentation release](../releases/repository-1.3.1.md) changes no runtime source. Its audit/passport and check status are separate from the historical implementation evidence. Universal entry, optional Orchestrator1.1.0 and Agent Atelier0.2.0 are described in [the feature release](../releases/repository-1.3.0.md); actual installation, native history, discovery, execution, UI and publication observations are recorded separately after execution. Earlier scoped core/service results remain in [RELEASE_6_VERIFICATION.json](RELEASE_6_VERIFICATION.json), with their original source scope. Historical campaign closeout remains under `history/TASK_CLOSEOUT-1.1.0.json`.
+The active published candidate on `main` is repository 1.4.0-rc.5 with core 6.1.0, optional Atelier Orchestrator 1.2.0, optional maintenance 1.1.0 and Agent Atelier 0.5.0. The repository records the scoped publication and runtime evidence separately from full programme acceptance. [Current release record](../releases/current.json) · [Requirements](requirements.csv) · [0.5.0 verification](../releases/repository-1.4.0-rc.5.md)
 
-The sanitized [1.3.0 verification record](UNIVERSAL_ENTRY_1_3_VERIFICATION.json) separates observed source, fixture, browser and preservation results from pending native execution, exact-candidate checks and publication. Its six-pair instruction comparison is one source-reading review, not twelve independent model runs. Raw account/project records and native receipts remain private; a pending field is not a passed gate.
+The 0.5.0 release passed 234 service tests and 65 browser checks. The verified scope includes a prepared task with its full next-action objective, real OpenAI Docs links and a downloaded native Codex PNG. The personal Mac update retained the SQLite file and existing records. The checked release source is `c86ce907544410afcb8bbd19181f1640446aefb7`, merged through PR #4 at `e1e6cbbbf534dbb04f2d6a2265b53ad6c9cccb96`. [PR #4](https://github.com/alex-hohaizel/codex-agents/pull/4) · [PR validation](https://github.com/alex-hohaizel/codex-agents/actions/runs/42934649314) · [Main validation](https://github.com/alex-hohaizel/codex-agents/actions/runs/42935500589)
+
+Earlier evidence remains bound to the original source and observed scope. [Historical core and service verification](RELEASE_6_VERIFICATION.json) · [1.3.0 universal-entry verification](UNIVERSAL_ENTRY_1_3_VERIFICATION.json) · [1.3.2 passport revision](../releases/repository-1.3.2.md) · [Historical campaign closeout](history/TASK_CLOSEOUT-1.1.0.json)
 
 ## Source and identity
 
-The current kit contains33 stable skills,3,088 declared skill files and3,095 curated source/support files. `releases/current.json` binds the exact current manifest. Its predecessor 5.0.0 manifest descriptors, original interfaces and historical trees remain available for exact updater admission. Existing core icon bytes/bindings/colors remain bound to `ICON_BASELINE.json`;6.0.0 intentionally changes reviewed instructions/helpers.
+The core 6.1.0 kit contains 33 stable skills, 3,187 declared skill files and 3,194 curated source/support files. The release record binds the exact manifest. Verified predecessor descriptors and Git trees remain available for updater admission. Existing icon bytes, references and colors are checked against the identity baseline. [Current release record](../releases/current.json) · [Icon baseline](ICON_BASELINE.json)
 
 No product state is reset or adopted merely by installation. Native format versions, generated-agent toolkit locks, service state and repository edition remain separate.
 
@@ -31,6 +33,4 @@ Seven full guides preserve translated steps/commands and corresponding hashes. S
 
 ## Publication
 
-Read the current remote ref, reconcile intervening changes, publish authorized reusable files, then verify the actual ref/tree/changed paths. Observe CI for that exact commit before recording success. Retain private raw evidence outside reusable sources; publish only sanitized scope/results/limitations.
-
-The5.0.0 campaign release and its tests are historical. The current verification record does not reuse them as proof of6.0.0 source behavior, installation or model operation.
+Read the authorized destination branch, reconcile intervening changes, publish the verified reusable files and confirm the resulting remote commit and tree. Record the exact checked source revision and applicable CI result. Retain private raw evidence outside reusable sources. [Publication contract](UPDATE_CONTRACT.md)

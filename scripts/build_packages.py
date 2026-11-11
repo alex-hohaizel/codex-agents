@@ -46,17 +46,22 @@ def collect(root: Path, relative_roots: list[str]) -> list[Path]:
     return sorted(files, key=lambda p: p.relative_to(root).as_posix())
 
 
-def write_zip(root: Path, output: Path, files: list[Path], mode: str, version: str):
+def write_zip(root: Path, output: Path, files: list[Path], mode: str, release: dict):
+    version = release["suite_version"]
     baseline_count = len(json.loads((root / "kit/manifest.json").read_text(encoding="utf-8"))["skills"])
     descriptor = {"schema": "codex-agents.package/1", "mode": mode,
-                  "suite_version": version, "installation_performed": False,
+                  "suite_version": version, "repository_version": release["repository_version"],
+                  "requirements": release["requirements"], "installation_performed": False,
                   "entry_point": "START_HERE.md", "skill_sources": "kit/skills",
                   "manifest": "kit/manifest.json", "baseline_skill_count": baseline_count,
                   "optional_maintenance_skill": "maintenance-skill",
                   "installation_workflow": ("supported Work personal-skill manager; one save per skill; verify registry and actual invocation"
                                             if mode == "WORK" else "portable updater audit -> apply -> verify with actual journal; verify host discovery separately")}
+    if release["repository_branch"]:
+        descriptor["repository_branch"] = release["repository_branch"]
     package_readme = (f"# Agent System {version} — {mode} source bundle\n\n"
-                      "Choose your language in START_HERE.md, then read that complete guide.\n\n"
+                      "Choose your language in [START_HERE.md](START_HERE.md), then read that complete guide.\n\n"
+                      f"[Release and component versions](releases/current.json) · [Requirements]({release['requirements']})\n\n"
                       "This archive contains the same verified reusable sources and continuity records as the other mode's bundle. "
                       "PACKAGE.json and this introduction identify the intended installation workflow; extracting an archive does not install a skill.\n\n")
     if mode == "WORK":
@@ -93,7 +98,7 @@ def build(root: Path, output: Path) -> dict:
     result_files = []
     for mode in ("WORK", "CODEX"):
         path = output / f"Agent_System_{result['suite_version']}_{mode}.zip"
-        write_zip(root, path, files, mode, result["suite_version"])
+        write_zip(root, path, files, mode, result)
         result_files.append({"name": path.name, "size": path.stat().st_size,
                              "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
     sums = "".join(f"{item['sha256']}  {item['name']}\n" for item in result_files)
@@ -101,6 +106,8 @@ def build(root: Path, output: Path) -> dict:
     receipt = {"schema": "codex-agents.build/1", "suite_version": result["suite_version"],
                "repository_version": result["repository_version"], "source_files": len(files),
                "files": result_files, "host_installation_verified": False}
+    if result["repository_branch"]:
+        receipt["repository_branch"] = result["repository_branch"]
     (output / "BUILD.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     return receipt
 

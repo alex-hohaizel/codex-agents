@@ -4,7 +4,9 @@ This repository, `alex-hohaizel/codex-agents`, is the release and documentation 
 
 ## Completion rule
 
-For every future relevant change, publish the authorized verified change here in the same task. Update source files, release notes, version metadata, requirements traceability, installation instructions, exact translations and packages together as applicable. Never say the update is complete when only a chat, local installation or archive has changed. If repository write access fails, keep the prepared changes and report the exact unpublished scope. Do not invent a successful synchronization.
+For every approved change, publish the verified version to the active GitHub branch in the same task. The default is `main`. Use a different target when the owner specifies it, and follow the repository's branch and review rules. Read the remote target before editing. When using a pull request, verify the merged commit on the target branch after the applicable checks pass.
+
+Update the affected sources, `releases/current.json`, requirements and evidence, release notes, migration and rollback instructions, translated guides and source bundles together as applicable. Record the exact published revision and verify its version and changed paths. Preserve component versions for documentation-only changes. If publication is blocked, retain the prepared revision and report the unpublished scope. [Update contract](governance/UPDATE_CONTRACT.md)
 
 ## Preserve the owner's work
 
@@ -22,7 +24,7 @@ For every future relevant change, publish the authorized verified change here in
 3. Include first installation, update, existing generated-agent adoption, Work/Codex handoff and rollback consequences. Record unknown state rather than fabricating history.
 4. Run relevant integrity, behavior, translation, icon-preservation and packaging checks. Use actual apply journals for local preservation claims.
 5. Update guides in all advertised languages and the change log; preserve step IDs and commands. Regenerate hashes only after source changes are reviewed.
-6. Build the distribution from approved files. Verify archives and repository read-back, then report commit, artifacts, tests and remaining limits.
+6. Build the distribution from approved files. Verify the archives and the active GitHub branch, then report the published commit, artifacts, tests and remaining limits.
 
 The owner's request authorizes ordinary reversible maintenance and publication here. It does not authorize public visibility changes, commercial license selection, paid services, production deployment or changes to unrelated product repositories. Follow existing task authorization without asking for the same permission twice.
 
