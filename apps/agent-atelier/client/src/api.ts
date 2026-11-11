@@ -521,6 +521,12 @@ export const api = {
     request<Workspace>(`/projects/${encodeURIComponent(id)}/workspace`),
   doctor: () => request<Data>("/doctor"),
   integrations: () => request<Data>("/integrations"),
+  generateImage: (prompt: string, csrf: string) =>
+    request<Data>("/integrations/generation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Atelier-CSRF": csrf },
+      body: JSON.stringify({ prompt }),
+    }),
   integrationDetails: (kind: string, id: string) =>
     request<Data>(`/integrations/inspect?${new URLSearchParams({ kind, id })}`),
   readIntegration: (

@@ -238,6 +238,7 @@ export default function App() {
           ? nativeDetail?.next_actions
           : []))
       : nativeDetail?.next_actions);
+  const inspectorObjective = nextActionText(inspectorNextActions?.[0], t);
 
   const refresh = useCallback(
     async (quiet = false) => {
@@ -1391,9 +1392,9 @@ export default function App() {
                   )}
                   <div className="inspector-section">
                     <h3>{t("nextStep")}</h3>
-                    {inspectorNextActions?.[0]?.text && (
+                    {(inspectorProject || inspectorNextActions?.[0]?.text) && (
                       <p className="inspector-next-copy">
-                        {nextActionText(inspectorNextActions[0], t)}
+                        {inspectorObjective}
                       </p>
                     )}
                     <button
@@ -1403,9 +1404,7 @@ export default function App() {
                           setProjectId(inspectorProject.id);
                           openTask({
                             universal_entry: true,
-                            objective: inspectorNextActions?.[0]
-                              ? nextActionText(inspectorNextActions[0], t)
-                              : "",
+                            objective: inspectorObjective,
                           });
                         } else {
                           setBindingRoot(inspectedProject?.root ?? "");

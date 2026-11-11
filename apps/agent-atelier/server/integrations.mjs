@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { runtimeEnvironment } from "./environment.mjs";
+import { OPENAI_DOCS_SEARCH, searchOpenAIDocs } from "./native-actions.mjs";
 import {
   containsObviousCredential,
   fail,
@@ -201,6 +202,31 @@ function githubCatalog(available, locale) {
             type: "text",
             required: true,
             max_length: 140,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+function docsCatalog() {
+  return {
+    kind: "mcp",
+    id: "openai-docs",
+    name: "OpenAI Docs MCP",
+    status: "ready",
+    handoff: null,
+    actions: [
+      {
+        id: OPENAI_DOCS_SEARCH,
+        label: "Search official documentation",
+        inputs: [
+          {
+            name: "query",
+            label: "Search terms",
+            type: "text",
+            required: true,
+            max_length: 120,
           },
         ],
       },
@@ -419,8 +445,12 @@ export class IntegrationsManager {
     githubExecutable = "gh",
     githubAvailable,
     readRepository,
+    imageGeneration,
+    nativeAuthMode = () => null,
   } = {}) {
     this.dataDir = dataDir;
+    this.imageGeneration = imageGeneration;
+    this.nativeAuthMode = nativeAuthMode;
     this.nativeRpc = nativeRpc;
     this.readMcpInventory =
       readMcpInventory ?? ((cwd) => readConfiguredMcp(executable, cwd));
@@ -445,31 +475,38 @@ export class IntegrationsManager {
   }
 
   async list({ cwd, locale } = {}) {
-    const [pluginCatalog, connectorCatalog, configuredMcp, githubAvailable] =
-      await Promise.all([
-        inventory(
-          "codex_plugins",
-          () => this.nativeRpc("plugin/installed", cwd ? { cwds: [cwd] } : {}),
-          (result) => plugins(result, locale),
-        ),
-        inventory(
-          "codex_connectors",
-          () => this.nativeRpc("app/installed", { forceRefresh: false }),
-          (result) => connectors(result, locale),
-        ),
-        inventory(
-          "codex_mcp",
-          () => this.readMcpInventory(cwd ?? this.dataDir),
-          (result) => mcpServers(result, locale),
-        ),
-        this.githubAvailable(),
-      ]);
+    const [
+      pluginCatalog,
+      connectorCatalog,
+      configuredMcp,
+      githubAvailable,
+      imageEnabled,
+    ] = await Promise.all([
+      inventory(
+        "codex_plugins",
+        () => this.nativeRpc("plugin/installed", cwd ? { cwds: [cwd] } : {}),
+        (result) => plugins(result, locale),
+      ),
+      inventory(
+        "codex_connectors",
+        () => this.nativeRpc("app/installed", { forceRefresh: false }),
+        (result) => connectors(result, locale),
+      ),
+      inventory(
+        "codex_mcp",
+        () => this.readMcpInventory(cwd ?? this.dataDir),
+        (result) => mcpServers(result, locale),
+      ),
+      this.githubAvailable(),
+      this.imageGeneration?.featureEnabled(),
+    ]);
     const sources = [pluginCatalog, connectorCatalog, configuredMcp];
     return {
       checked_at: now(),
       sources: [
         ...sources.map(({ source, status }) => ({ source, status })),
         { source: "openverse", status: "configured" },
+        { source: "openai_docs_mcp", status: "configured" },
         {
           source: "github_cli",
           status: githubAvailable ? "configured" : "unavailable",
@@ -479,6 +516,19 @@ export class IntegrationsManager {
         ...sources.flatMap(({ entries }) => entries),
         ...mediaEntries(locale),
         githubCatalog(githubAvailable, locale),
+        docsCatalog(),
+        ...(imageEnabled && this.nativeAuthMode() === "chatgpt"
+          ? [
+              {
+                kind: "media",
+                id: "codex-image",
+                name: "Codex Image",
+                status: "ready",
+                actions: [{ id: "codex.image.generate" }],
+                handoff: null,
+              },
+            ]
+          : []),
       ],
     };
   }
@@ -501,8 +551,9 @@ export class IntegrationsManager {
     const source = {
       plugin: "codex_plugins",
       connector: entry.id === "github-cli" ? "github_cli" : "codex_connectors",
-      mcp: "codex_mcp",
-      media: entry.id === "openverse" ? "openverse" : "codex",
+      mcp: entry.id === "openai-docs" ? "openai_docs_mcp" : "codex_mcp",
+      media:
+        { openverse: "openverse", "codex-image": "codex" }[entry.id] ?? "codex",
     }[entry.kind];
     let tools = [];
     let status =
@@ -552,6 +603,11 @@ export class IntegrationsManager {
     const { operation, arguments: input } = request;
     if (operation === GITHUB_REPOSITORY_READ)
       return this.#githubRepository(input);
+    if (operation === OPENAI_DOCS_SEARCH)
+      return searchOpenAIDocs(
+        operationInput(input, "query", 2, 120),
+        this.fetch,
+      );
     const route = mediaOperations.get(operation);
     fail(
       route,

@@ -12,6 +12,7 @@ import { compileContext } from "./context.mjs";
 import { InstructionsManager, instructionSettings } from "./instructions.mjs";
 import { PortfolioManager } from "./portfolio.mjs";
 import { IntegrationsManager } from "./integrations.mjs";
+import { ImageGeneration } from "./image-generation.mjs";
 import { proposeRoute } from "./routing.mjs";
 import { NativeControllers } from "./controllers.mjs";
 import { OptionalUpdates } from "./optional_updates.mjs";
@@ -47,6 +48,7 @@ export class Application extends EventEmitter {
     codex,
     historyCodex,
     integrations,
+    imageGeneration,
   } = {}) {
     super();
     mkdirSync(dataDir, { recursive: true, mode: 0o700 });
@@ -76,10 +78,13 @@ export class Application extends EventEmitter {
     this.integrationCodex = integrations
       ? null
       : new CodexAdapter({ dataDir, integrationMetadataOnly: true });
+    this.imageGeneration = imageGeneration ?? new ImageGeneration();
     this.integrations =
       integrations ??
       new IntegrationsManager({
         dataDir,
+        imageGeneration: this.imageGeneration,
+        nativeAuthMode: () => this.integrationCodex.status.auth_mode,
         nativeRpc: (method, params) =>
           this.integrationCodex.integrationMetadata(method, params),
       });
@@ -1787,6 +1792,7 @@ export class Application extends EventEmitter {
       await this.codex.close();
       if (this.historyCodex !== this.codex) await this.historyCodex.close();
       await this.integrationCodex?.close();
+      await this.imageGeneration.close();
       const restoredEpoch = randomUUID();
       // Revocation and restored jobs become safe in the same SQLite commit as the restore.
       this.store.restore(
@@ -1883,6 +1889,7 @@ export class Application extends EventEmitter {
     await this.codex.close();
     if (this.historyCodex !== this.codex) await this.historyCodex.close();
     await this.integrationCodex?.close();
+    await this.imageGeneration.close();
     this.codex.removeAllListeners();
     this.store.close();
   }

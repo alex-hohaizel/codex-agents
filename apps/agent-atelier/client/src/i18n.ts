@@ -9,6 +9,16 @@ export const LocaleContext = createContext("uk");
 
 export const en = {
   pluginMediaTitle: "Codex plugins & media",
+  imageBrief: "Image brief",
+  imageGenerate: "Generate image",
+  imageCodexUsage: "Uses your included Codex usage limits.",
+  imageUnknown:
+    "Codex did not confirm the outcome. Check generated images in Codex before trying again.",
+  imageFailed:
+    "Could not generate the image. Check the Codex connection and image availability.",
+  imagePreview: "Generated image",
+  pluginDocumentationHelp:
+    "Searches official OpenAI documentation through the OpenAI Docs MCP server.",
   pluginCheck: "Check available connections",
   pluginChecking: "Checking connections…",
   pluginCheckHelp: "Check which tools Codex can reach from this Mac.",
@@ -763,6 +773,16 @@ export type Locale = "uk" | "en" | "de" | "it" | "es" | "fr" | "zh-CN";
 
 export const uk: Record<MessageKey, string> = {
   pluginMediaTitle: "Плагіни й медіа Codex",
+  imageBrief: "Опис зображення",
+  imageGenerate: "Створити зображення",
+  imageCodexUsage: "Використовує включені ліміти Codex.",
+  imageUnknown:
+    "Codex не підтвердив результат. Перед повторним запуском перевірте згенеровані зображення в Codex.",
+  imageFailed:
+    "Не вдалося створити зображення. Перевірте підключення Codex і доступність генерації.",
+  imagePreview: "Згенероване зображення",
+  pluginDocumentationHelp:
+    "Шукає в офіційній документації OpenAI через сервер OpenAI Docs MCP.",
   pluginCheck: "Перевірити підключення",
   pluginChecking: "Перевіряємо підключення…",
   pluginCheckHelp:

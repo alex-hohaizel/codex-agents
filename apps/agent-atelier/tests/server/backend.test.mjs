@@ -502,6 +502,85 @@ test("HTTP rejects hostile origin, missing CSRF, duplicate JSON and unbound arti
     });
   }
 });
+test("HTTP image generation requires owner origin and CSRF and leaves no command receipt", async (t) => {
+  const root = await mkdtemp(
+    join(realpathSync(tmpdir()), "atelier-image-http-"),
+  );
+  const prompt = { prompt: "A blue enamel icon for the project status board" };
+  const result = {
+    kind: "generated_image",
+    operation: "codex.image.generate",
+    status: "completed",
+    artifact: { filename: "atelier-image.png", base64: "cG5n" },
+  };
+  const requests = [];
+  const app = new Application({
+    dataDir: join(root, "data"),
+    repoRoot,
+    codex: new FakeCodex(),
+    imageGeneration: {
+      async generate(input) {
+        requests.push({ ...input });
+        return result;
+      },
+      async close() {},
+    },
+  });
+  let running;
+  t.after(async () => {
+    try {
+      if (running) await running.close();
+      else await app.close();
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+  running = await createServer({ port: 0, application: app });
+  const origin = running.origin;
+  const claim = await fetch(origin + "/api/v1/session", {
+    method: "POST",
+    headers: { Origin: origin, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      launch_token: launchToken(running.ownerSession.controlKey),
+    }),
+  });
+  assert.equal(claim.status, 200);
+  const cookie = claim.headers.get("set-cookie").split(";")[0];
+  const { csrf_token: csrf } = await claim.json();
+  const generate = (headers) =>
+    fetch(origin + "/api/v1/integrations/generation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...headers },
+      body: JSON.stringify(prompt),
+    });
+  assert.equal((await generate({ Origin: origin })).status, 401);
+  assert.equal((await generate({ cookie, Origin: origin })).status, 403);
+  assert.equal(
+    (
+      await generate({
+        cookie,
+        Origin: "https://hostile.example",
+        "X-Atelier-CSRF": csrf,
+      })
+    ).status,
+    403,
+  );
+  assert.deepEqual(requests, []);
+
+  const commands = app.store.db.prepare("SELECT * FROM commands");
+  const before = commands.all();
+  const response = await generate({
+    cookie,
+    Origin: origin,
+    "X-Atelier-CSRF": csrf,
+  });
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  assert.deepEqual(await response.json(), result);
+  assert.deepEqual(requests, [prompt]);
+  assert.deepEqual(commands.all(), before);
+});
+
 test("declared requirement closure matches shared Python compiler fixture", async () => {
   const root = await mkdtemp(join(realpathSync(tmpdir()), "atelier-context-"));
   try {

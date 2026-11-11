@@ -20,9 +20,11 @@ await writeFile(
   join(fixtureRoot, "AGENTS.md"),
   "# UI test project\n\nPreserve this isolated fixture. Only prepare a read-only task; do not dispatch.\n",
 );
+const fixtureNextAction =
+  "Inspect the isolated fixture instructions and return a short source-backed report.";
 await writeFile(
   join(fixtureRoot, "README.md"),
-  "# Browser acceptance fixture\n\nThis is a local synthetic source for project-binding and task-preparation UI checks.\n",
+  `# Browser acceptance fixture\n\nThis is a local synthetic source for project-binding and task-preparation UI checks.\n\n## Next action\n\n- ${fixtureNextAction}\n`,
 );
 const browser = spawn(
   process.env.ATELIER_TEST_CHROME ??
@@ -103,6 +105,14 @@ async function evaluate(expression) {
         result.exceptionDetails.text,
     );
   return result.result.value;
+}
+async function waitFor(expression, message, timeout = 15000) {
+  const until = Date.now() + timeout;
+  while (Date.now() < until) {
+    if (await evaluate(expression)) return;
+    await pause(150);
+  }
+  throw Error(message);
 }
 async function screenshot(name, width, height, mobile = false) {
   await call(
@@ -368,14 +378,24 @@ try {
       { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false },
       session,
     );
-    await evaluate(
-      `document.querySelector('.operator-action>.button')?.click()`,
+    await waitFor(
+      `document.querySelector('.operator-action>.button')?.disabled===false`,
+      "Next action unavailable after native discovery",
     );
-    await pause(100);
+    const expectedNextAction = await evaluate(
+      `(async()=>{const data=await fetch('/api/v1/projects/'+encodeURIComponent(${JSON.stringify(binding.id)})+'/workspace').then(r=>r.json());return data.current_checkpoint?.next??data.next_actions?.[0]?.text??document.querySelector('#operator-next-title').textContent})()`,
+    );
+    await evaluate(
+      `document.querySelector('.operator-action>.button').click()`,
+    );
+    await waitFor(
+      "!!document.querySelector('dialog textarea')",
+      "Next-action task did not open",
+    );
     checks.push({
-      name: "Next useful action opens scoped preparation without dispatch",
+      name: "Next useful action opens scoped preparation with the full objective",
       pass: await evaluate(
-        `document.querySelector('dialog')?.open===true&&document.querySelector('dialog textarea')?.value.length>0`,
+        `document.querySelector('dialog')?.open===true&&document.querySelector('dialog textarea')?.value===${JSON.stringify(expectedNextAction)}`,
       ),
     });
     await evaluate(
@@ -461,8 +481,15 @@ try {
     pass: await evaluate(`document.querySelector('dialog')?.open===true`),
   });
   await inputValue("dialog input", fixtureRoot);
+  await waitFor(
+    `[...document.querySelectorAll('dialog .modal__footer button')].some(b=>!b.disabled&&b.innerText.includes('Перевірити папку'))`,
+    "The project preview button did not become ready",
+  );
   await clickText("dialog .modal__footer button", "Перевірити папку");
-  await pause(700);
+  await waitFor(
+    `!!document.querySelector('.binding-preview')`,
+    "The project preview did not load",
+  );
   checks.push({
     name: "Read-only project preview rendered",
     pass: await evaluate(`!!document.querySelector('.binding-preview')`),
@@ -475,25 +502,51 @@ try {
       `fetch('/api/v1/bootstrap').then(r=>r.json()).then(x=>x.projects.some(p=>p.root===${JSON.stringify(fixtureRoot)}))`,
     ),
   });
-  await clickText(".product-heading__actions button", "Створити завдання");
-  await pause(100);
-  await inputValue(
-    "dialog textarea",
-    "Inspect the isolated fixture instructions and return a short source-backed report.",
+  await waitFor(
+    `document.querySelector('#operator-next-title')?.textContent===${JSON.stringify(fixtureNextAction)}&&document.querySelector('.operator-action>.button')?.disabled===false`,
+    "The declared fixture next action did not load",
   );
-  await inputValue(
-    "dialog textarea:nth-of-type(1)",
-    "Inspect the isolated fixture instructions and return a short source-backed report.",
+  const fixtureBeforePrepare = await evaluate(
+    `fetch('/api/v1/bootstrap').then(r=>r.json()).then(data=>({projectId:data.projects.find(p=>p.root===${JSON.stringify(fixtureRoot)}).id, jobs:data.jobs.length}))`,
   );
+  await evaluate(`document.querySelector('.operator-action>.button').click()`);
+  await waitFor(
+    "!!document.querySelector('dialog textarea')",
+    "Fixture next-action task did not open",
+  );
+  checks.push({
+    name: "A declared next action prefills the exact objective",
+    pass: await evaluate(
+      `document.querySelector('dialog textarea')?.value===${JSON.stringify(fixtureNextAction)}`,
+    ),
+  });
+  const editedObjective =
+    fixtureNextAction + " Include the exact source filename.";
+  const acceptance =
+    "Return the exact source filename and explain its preservation requirement.";
+  await inputValue("dialog textarea", editedObjective);
   await evaluate(
-    `(()=>{const fields=[...document.querySelectorAll('dialog textarea')];const set=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set;set.call(fields[1],'Return the exact source filename and explain its preservation requirement.');fields[1].dispatchEvent(new Event('input',{bubbles:true}));})()`,
+    `(()=>{const field=document.querySelectorAll('dialog textarea')[1];const set=Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set;set.call(field,${JSON.stringify(acceptance)});field.dispatchEvent(new Event('input',{bubbles:true}));})()`,
+  );
+  await waitFor(
+    `[...document.querySelectorAll('dialog .modal__footer button')].some(b=>!b.disabled&&b.innerText.includes('Переглянути маршрут'))`,
+    "The next-action objective and acceptance did not enable route review",
+  );
+  await clickText("dialog .modal__footer button", "Переглянути маршрут");
+  await waitFor(
+    `[...document.querySelectorAll('dialog .modal__footer button')].some(b=>!b.disabled&&b.innerText.includes('Підготувати виконання'))`,
+    "The next action route did not finish review",
+    45000,
   );
   await clickText("dialog .modal__footer button", "Підготувати виконання");
-  await pause(700);
+  await waitFor(
+    `document.querySelector('dialog h2')?.textContent.includes('підготовлено')`,
+    "The next action was not prepared",
+  );
   checks.push({
-    name: "Task prepares through UI without dispatch",
+    name: "The edited next action and acceptance are saved under the selected project without dispatch",
     pass: await evaluate(
-      `document.querySelector('dialog h2')?.textContent.includes('підготовлено')===true`,
+      `fetch('/api/v1/bootstrap').then(r=>r.json()).then(data=>data.jobs.length===${fixtureBeforePrepare.jobs}&&data.tasks.some(task=>task.project_id===${JSON.stringify(fixtureBeforePrepare.projectId)}&&task.objective===${JSON.stringify(editedObjective)}&&task.acceptance===${JSON.stringify(acceptance)}&&task.scope==='read-only'&&task.status==='prepared'))`,
     ),
   });
   await screenshot("prepared-task-review-1440.png", 1440, 1080);

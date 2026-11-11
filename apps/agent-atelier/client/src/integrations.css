@@ -243,3 +243,17 @@
     }
   }
 }
+
+.integrations-panel__generated {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+
+.integrations-panel__generated img {
+  display: block;
+  max-inline-size: min(100%, 34rem);
+  block-size: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+}
