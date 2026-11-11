@@ -1,5 +1,9 @@
 # Change log
 
+## Candidate repository 1.4.0-rc.5 and Agent Atelier 0.5.0
+
+Carry the complete displayed next action into preparation. Connections can search the official OpenAI Docs MCP server and generate a PNG through the built-in Codex image tool with an existing ChatGPT login. [Release](releases/repository-1.4.0-rc.5.md) · [Update and rollback](releases/migrations/repository-1.4.0-rc.5.md)
+
 ## Candidate repository 1.4.0-rc.4 / Agent Atelier 0.4.0
 
 Add registered local Codex project discovery including empty projects, explicit active and archived chat coverage and resumable discovery. Add installed plugin and app inspection, read-only GitHub repository metadata through the existing CLI login, Openverse image/audio search and native handoffs for provider operations. Keep the accepted layout, settings, service state and existing suite versions. See the [release](releases/repository-1.4.0-rc.4.md) and [migration](releases/migrations/repository-1.4.0-rc.4.md).

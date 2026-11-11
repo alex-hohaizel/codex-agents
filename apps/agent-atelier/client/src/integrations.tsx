@@ -19,6 +19,7 @@ import {
   SurfaceNotice,
   type T,
 } from "./ui";
+import { ImageGeneration } from "./image-generation";
 import "./integrations.css";
 
 const kindLabels: Record<string, MessageKey> = {
@@ -40,6 +41,7 @@ const mediaActions = new Map<string, MessageKey>([
   ["openverse.audio.search", "pluginSearchAudio"],
 ]);
 const repositoryAction = "github.repository.read";
+const documentationAction = "openai_docs.search";
 const repositoryVisibility: Record<string, MessageKey> = {
   public: "pluginRepositoryPublic",
   private: "pluginRepositoryPrivate",
@@ -245,6 +247,9 @@ function IntegrationDetail({
   const actions = rows(entry.actions);
   const readActions = actions.filter(({ id }) => mediaActions.has(id));
   const hasRepositoryLookup = actions.some(({ id }) => id === repositoryAction);
+  const hasDocumentationSearch = actions.some(
+    ({ id }) => id === documentationAction,
+  );
 
   async function inspect() {
     if (loading) return;
@@ -270,74 +275,88 @@ function IntegrationDetail({
         <IntegrationStatus entry={observed} t={t} />
       </div>
       {observed.description && <p className="muted">{observed.description}</p>}
-      {entry.kind !== "media" && !hasRepositoryLookup && (
-        <>
-          <Button
-            icon={Plug}
-            small
-            onClick={() => void inspect()}
-            disabled={loading}
-          >
-            {t(loading ? "pluginChecking" : "pluginInspect")}
-          </Button>
-          {error && (
-            <div role="alert">
-              <SurfaceNotice tone="error">{error}</SurfaceNotice>
-            </div>
-          )}
-          {inspection && (
-            <div className="integrations-panel__tools">
-              {tools.length > 0 ? (
-                <>
-                  {tools.length > 8 && (
-                    <Field label={t("pluginFilterTools")}>
-                      <input
-                        type="search"
-                        value={toolFilter}
-                        onChange={(event) => setToolFilter(event.target.value)}
-                      />
-                    </Field>
-                  )}
-                  <ul className="integrations-panel__tool-list">
-                    {visibleTools.map((tool) => (
-                      <li className="integrations-panel__tool" key={tool.name}>
-                        <div>
-                          <strong>{text(tool.title ?? tool.name)}</strong>
-                          {tool.description && (
-                            <p className="muted">{tool.description}</p>
-                          )}
-                        </div>
-                        {tool.enabled === false ? (
-                          <Status
-                            value="unavailable"
-                            label={t("pluginUnavailable")}
-                          />
-                        ) : tool.read_only === true ? (
-                          <Status value="read_only" label={t("readOnly")} />
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                  {visibleTools.length === 0 && (
-                    <p className="muted" role="status">
-                      {t("nothingFound")}
-                    </p>
-                  )}
-                </>
-              ) : (
-                <p className="muted" role="status">
-                  {t("pluginNoToolMetadata")}
-                </p>
-              )}
-            </div>
-          )}
-        </>
-      )}
+      {entry.kind !== "media" &&
+        !hasRepositoryLookup &&
+        !hasDocumentationSearch && (
+          <>
+            <Button
+              icon={Plug}
+              small
+              onClick={() => void inspect()}
+              disabled={loading}
+            >
+              {t(loading ? "pluginChecking" : "pluginInspect")}
+            </Button>
+            {error && (
+              <div role="alert">
+                <SurfaceNotice tone="error">{error}</SurfaceNotice>
+              </div>
+            )}
+            {inspection && (
+              <div className="integrations-panel__tools">
+                {tools.length > 0 ? (
+                  <>
+                    {tools.length > 8 && (
+                      <Field label={t("pluginFilterTools")}>
+                        <input
+                          type="search"
+                          value={toolFilter}
+                          onChange={(event) =>
+                            setToolFilter(event.target.value)
+                          }
+                        />
+                      </Field>
+                    )}
+                    <ul className="integrations-panel__tool-list">
+                      {visibleTools.map((tool) => (
+                        <li
+                          className="integrations-panel__tool"
+                          key={tool.name}
+                        >
+                          <div>
+                            <strong>{text(tool.title ?? tool.name)}</strong>
+                            {tool.description && (
+                              <p className="muted">{tool.description}</p>
+                            )}
+                          </div>
+                          {tool.enabled === false ? (
+                            <Status
+                              value="unavailable"
+                              label={t("pluginUnavailable")}
+                            />
+                          ) : tool.read_only === true ? (
+                            <Status value="read_only" label={t("readOnly")} />
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                    {visibleTools.length === 0 && (
+                      <p className="muted" role="status">
+                        {t("nothingFound")}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="muted" role="status">
+                    {t("pluginNoToolMetadata")}
+                  </p>
+                )}
+              </div>
+            )}
+          </>
+        )}
       {entry.status === "ready" && readActions.length > 0 && (
         <MediaSearch actions={readActions} t={t} csrf={csrf} />
       )}
+      {entry.status === "ready" &&
+        actions.some(({ id }) => id === "codex.image.generate") && (
+          <ImageGeneration t={t} csrf={csrf} />
+        )}
       {entry.status === "ready" && hasRepositoryLookup && (
         <RepositoryLookup t={t} csrf={csrf} />
+      )}
+      {entry.status === "ready" && hasDocumentationSearch && (
+        <DocumentationSearch t={t} csrf={csrf} />
       )}
       {observed.handoff?.kind === "codex" && (
         <NativeHandoff
@@ -510,6 +529,71 @@ function MediaSearch({
       <p className="muted">{t("pluginOpenverseTerms")}</p>
       <ReadFeedback request={request} t={t} />
       {response && <MediaResults results={rows(response.content)} t={t} />}
+    </form>
+  );
+}
+
+function DocumentationSearch({ csrf, t }: { csrf?: string; t: T }) {
+  const [query, setQuery] = useState("");
+  const request = useIntegrationRead(csrf, t);
+  const results = rows(request.response?.content);
+  const canRead = Boolean(csrf) && query.trim().length >= 2;
+  return (
+    <form
+      className="integrations-panel__media"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (canRead)
+          void request.read(documentationAction, { query: query.trim() });
+      }}
+    >
+      <div className="integrations-panel__query integrations-panel__query--single">
+        <Field label={t("pluginQuery")}>
+          <input
+            type="search"
+            value={query}
+            required
+            minLength={2}
+            maxLength={120}
+            disabled={request.loading}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              request.clear();
+            }}
+          />
+        </Field>
+        <Button
+          type="submit"
+          icon={Search}
+          disabled={!canRead || request.loading}
+        >
+          {t(request.loading ? "running" : "searchShort")}
+        </Button>
+      </div>
+      <p className="muted">{t("pluginDocumentationHelp")}</p>
+      <ReadFeedback request={request} t={t} />
+      {request.response &&
+        (results.length ? (
+          <ul className="integrations-panel__results">
+            {results.map((result) => {
+              const link = sourceLink(result.source_url);
+              return (
+                link && (
+                  <li key={link} className="integrations-panel__result">
+                    <a href={link} target="_blank" rel="noopener noreferrer">
+                      {text(result.title)}{" "}
+                      <ExternalLink size={12} aria-hidden="true" />
+                    </a>
+                  </li>
+                )
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="muted" role="status">
+            {t("nothingFound")}
+          </p>
+        ))}
     </form>
   );
 }

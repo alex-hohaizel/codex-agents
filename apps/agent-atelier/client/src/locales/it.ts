@@ -2,6 +2,16 @@ import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
   pluginMediaTitle: "Plugin e servizi multimediali di Codex",
+  imageBrief: "Descrizione dell’immagine",
+  imageGenerate: "Genera immagine",
+  imageCodexUsage: "Usa i limiti d’uso inclusi di Codex.",
+  imageUnknown:
+    "Codex non ha confermato il risultato. Controlla le immagini generate in Codex prima di riprovare.",
+  imageFailed:
+    "Impossibile generare l’immagine. Controlla la connessione a Codex e la disponibilità della generazione.",
+  imagePreview: "Immagine generata",
+  pluginDocumentationHelp:
+    "Cerca nella documentazione ufficiale OpenAI tramite il server OpenAI Docs MCP.",
   pluginCheck: "Verifica connessioni",
   pluginChecking: "Verifica delle connessioni…",
   pluginCheckHelp:

@@ -622,7 +622,8 @@ export function Portfolio(p: ViewProps) {
 }
 
 export function nextActionText(action: Data | undefined, t: T) {
-  if (!action?.text) return t("reviewProjectSources");
+  if (typeof action?.text !== "string" || !action.text.trim())
+    return t("reviewProjectSources");
   if (action.status === "proposed" && !action.source_ref) {
     if (action.text.startsWith("Establish the current project goal"))
       return t("reviewProjectSources");
@@ -660,7 +661,10 @@ function NativeProjectDetail(
         (item) => item.id === project.binding_id || item.root === project.root,
       );
   const goal = p.detail?.goal ?? project.goal;
-  const next = p.detail?.next_actions ?? project.next_actions ?? [];
+  const next =
+    bound && p.workspace?.project?.id === bound.id
+      ? workspaceDirection(p.workspace, bound.id).next
+      : (p.detail?.next_actions ?? project.next_actions ?? []);
   const agents = p.detail?.project?.agents ?? project.agents ?? [];
   return (
     <>
@@ -685,7 +689,7 @@ function NativeProjectDetail(
                     p.selectProject(bound.id);
                     p.newTask({
                       universal_entry: true,
-                      objective: next[0] ? nextActionText(next[0], p.t) : "",
+                      objective: nextActionText(next[0], p.t),
                     });
                   }}
                 >
@@ -1217,6 +1221,7 @@ function OperatorCanvas(p: ViewProps & { openSources: () => void }) {
       : (selectedStage?.requirements ?? model.requirements);
   const trail = contextTrail(p.workspace);
   const action = model.next[0];
+  const objective = nextActionText(action, p.t);
   const decision = trail.decisions[0];
   const artifacts = p.workspace?.artifacts ?? [];
   const sourceResults = model.results.filter(
@@ -1651,9 +1656,7 @@ function OperatorCanvas(p: ViewProps & { openSources: () => void }) {
             <ArrowRight size={14} />
             {p.t("nextStep")}
           </span>
-          <h2 id="operator-next-title">
-            {operatorSummary(nextActionText(action, p.t), 180)}
-          </h2>
+          <h2 id="operator-next-title">{operatorSummary(objective, 180)}</h2>
           <span className="operator-action-origin">
             <FileCheck2 size={13} />
             {action?.source_ref
@@ -1667,7 +1670,7 @@ function OperatorCanvas(p: ViewProps & { openSources: () => void }) {
             onClick={() =>
               p.newTask({
                 universal_entry: true,
-                objective: action ? nextActionText(action, p.t) : "",
+                objective,
               })
             }
           >
@@ -5123,7 +5126,7 @@ function WorkspaceDirection(p: ViewProps) {
             onClick={() =>
               p.newTask({
                 universal_entry: true,
-                objective: next[0] ? nextActionText(next[0], p.t) : "",
+                objective: nextActionText(next[0], p.t),
               })
             }
             disabled={Boolean(p.busy)}

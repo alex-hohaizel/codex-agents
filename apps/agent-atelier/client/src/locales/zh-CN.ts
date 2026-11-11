@@ -2,6 +2,13 @@ import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
   pluginMediaTitle: "Codex 插件和媒体服务",
+  imageBrief: "图像描述",
+  imageGenerate: "生成图像",
+  imageCodexUsage: "使用 Codex 随附的使用额度。",
+  imageUnknown: "Codex 未确认生成结果。重试前请检查 Codex 中已生成的图像。",
+  imageFailed: "未能生成图像。请检查 Codex 连接和图像生成功能。",
+  imagePreview: "生成的图像",
+  pluginDocumentationHelp: "通过 OpenAI Docs MCP 服务器搜索 OpenAI 官方文档。",
   pluginCheck: "检查可用连接",
   pluginChecking: "正在检查连接…",
   pluginCheckHelp: "检查 Codex 在这台 Mac 上可以访问哪些工具。",

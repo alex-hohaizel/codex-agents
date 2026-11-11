@@ -1,4 +1,4 @@
-# Agent Atelier 0.4.0 — local Mac workbench
+# Agent Atelier 0.5.0 — local Mac workbench
 
 Agent Atelier provides a universal task entry and a source-backed portfolio of native Codex work. It pages active and archived thread metadata through the supported app-server, groups work by canonical project root and loads individual work groups on demand. It shows observed responses, accepted or declared goals with their provenance, installed versus planned agents and source-backed next actions. The local Codex project registry supplies registered projects even when they have no chats. The portfolio shows how much it has read from the registry and from active and archived history. Project work history opens on demand. Remote hosts and unavailable sources remain outside verified local coverage. Explicit binding is required before project control. It shows native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
 
@@ -49,6 +49,12 @@ Open **Connections**, then **Check connections**. The catalog reads installed pl
 For a public image or sound search, select Openverse, choose the medium and enter public search terms. The panel sends only those terms to Openverse and returns up to ten matching records with creator, license and links to the source where available. Verify the asset and license at the original source before use. Search responses stay in the current browser view and are not added to project history.
 
 For an existing GitHub CLI login, select GitHub CLI and enter the exact repository as `owner/name` to read its metadata, including default branch and visibility. The route uses the authorized CLI access and is separate from the Codex plugin's own access.
+
+Select **OpenAI Docs MCP** to search the official documentation. Open the returned source link to read the page.
+
+Select **Codex Image** to generate an image with the existing ChatGPT login and supported Codex host. Enter an image brief and generate it, then preview or download the PNG. This uses included Codex limits. If Codex reports an uncertain outcome, check its generated images before retrying.
+
+The next-action button carries the displayed objective into the task form. Edit the objective and acceptance before reviewing its route and preparing the task.
 
 Use **Continue in Codex** for tools that need the native host. Paste the handoff into the intended project chat and select the actual plugin there. Check the exact operation, data, access and any charge before running it. A handoff leaves execution and the result pending in that host.
 

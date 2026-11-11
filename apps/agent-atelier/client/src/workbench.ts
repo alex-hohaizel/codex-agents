@@ -37,11 +37,23 @@ export function workspaceDirection(
   workspace: Workspace | null,
   selectedId: string | undefined,
 ) {
-  if (!workspace || workspace.project?.id !== selectedId)
+  if (!selectedId || workspace?.project?.id !== selectedId)
     return { goal: undefined, next: [], agents: [] };
+  const checkpoint = record(workspace.current_checkpoint);
+  const next =
+    typeof checkpoint?.next === "string" && checkpoint.next.trim()
+      ? [
+          {
+            text: checkpoint.next,
+            status: "declared",
+            source_ref: checkpoint.source_ref,
+            source_sha256: checkpoint.source_sha256,
+          },
+        ]
+      : records(workspace.next_actions);
   return {
     goal: record(workspace.goal) ?? undefined,
-    next: records(workspace.next_actions),
+    next,
     agents: records(workspace.agents),
   };
 }
@@ -504,20 +516,10 @@ export function operatorWorkspace(
     }
   }
   const entries = [...work.values()];
-  const checkpoint = record(current?.current_checkpoint);
+  const { goal, next } = workspaceDirection(current, selectedId);
   return {
-    goal: record(current?.goal) ?? undefined,
-    next:
-      typeof checkpoint?.next === "string" && checkpoint.next.trim()
-        ? [
-            {
-              text: checkpoint.next,
-              status: "declared",
-              source_ref: checkpoint.source_ref,
-              source_sha256: checkpoint.source_sha256,
-            },
-          ]
-        : records(current?.next_actions),
+    goal,
+    next,
     work: entries,
     sourceHistory,
     current: entries.find((item) => item.lane === "active") ?? null,
@@ -533,6 +535,6 @@ export function operatorWorkspace(
     ),
     coverage: validDetail?.coverage ?? null,
     nativeRead: validDetail !== null,
-    checkpoint,
+    checkpoint: record(current?.current_checkpoint),
   };
 }

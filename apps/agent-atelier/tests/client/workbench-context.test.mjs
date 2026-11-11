@@ -21,14 +21,14 @@ test("the exact verified checkpoint next action wins over unrelated parsed Markd
     source_ref: "checkpoint.json",
     source_sha256: "sha",
   };
-  const model = operatorWorkspace(
-    {
-      project: { id: "p" },
-      current_checkpoint: checkpoint,
-      next_actions: [{ text: "Old report closing paragraph" }],
-    },
-    "p",
-  );
+  const workspace = {
+    project: { id: "p" },
+    current_checkpoint: checkpoint,
+    next_actions: [{ text: "Old report closing paragraph" }],
+  };
+  const model = operatorWorkspace(workspace, "p");
+  assert.deepEqual(workspaceDirection(workspace, "p").next, model.next);
+  assert.deepEqual(workspaceDirection(workspace, "another").next, []);
   assert.deepEqual(model.next, [
     {
       text: checkpoint.next,

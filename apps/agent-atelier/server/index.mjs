@@ -199,6 +199,8 @@ export async function createServer({
             403,
           );
           const body = await readJson(req);
+          if (url.pathname === "/api/v1/integrations/generation")
+            return json(res, 200, await app.imageGeneration.generate(body));
           if (url.pathname === "/api/v1/integrations/read")
             return json(res, 200, await app.integrations.run(body));
           fail(
