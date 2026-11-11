@@ -1,0 +1,245 @@
+@layer components {
+  .integrations-panel {
+    container: atelier-integrations / inline-size;
+  }
+
+  .integrations-panel__coverage {
+    padding: 12px 16px 0;
+  }
+
+  .integrations-panel__body {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 1.75fr);
+  }
+
+  .integrations-panel__catalog {
+    min-width: 0;
+    padding: 14px 16px;
+    border-inline-end: 1px solid var(--line-soft);
+  }
+
+  .integrations-panel__catalog .field,
+  .integrations-panel__query .field,
+  .integrations-panel__tools .field {
+    margin: 0;
+  }
+
+  .integrations-panel__entries,
+  .integrations-panel__results,
+  .integrations-panel__tool-list {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .integrations-panel__entries {
+    display: grid;
+    gap: 4px;
+    max-height: 340px;
+    overflow: auto;
+    padding: 2px;
+  }
+
+  .integrations-panel__entries button {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    padding: 7px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: start;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .integrations-panel__entries button:hover,
+  .integrations-panel__entries button[aria-pressed="true"] {
+    border-color: var(--line-bright);
+    background: #183c50;
+  }
+
+  .integrations-panel__entries button > svg,
+  .integrations-panel__results > li > svg {
+    color: var(--accent-bright);
+  }
+
+  .integrations-panel__entries button > span:nth-child(2),
+  .integrations-panel__tool > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .integrations-panel__entries strong,
+  .integrations-panel__entries small {
+    display: block;
+  }
+
+  .integrations-panel__entries strong {
+    font-size: 0.76rem;
+    font-weight: 550;
+  }
+
+  .integrations-panel__entries small,
+  .integrations-panel__detail .muted {
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .integrations-panel__entries small {
+    color: var(--muted);
+  }
+
+  .integrations-panel__detail {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: 10px;
+    min-width: 0;
+    padding: 16px;
+    overflow-wrap: anywhere;
+  }
+
+  .integrations-panel__heading,
+  .integrations-panel__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .integrations-panel__heading h3 {
+    font-size: 0.95rem;
+    font-weight: 560;
+  }
+
+  .integrations-panel__tools,
+  .integrations-panel__handoff,
+  .integrations-panel__media {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .integrations-panel__tool,
+  .integrations-panel__results > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line-soft);
+    font-size: 0.77rem;
+  }
+
+  .integrations-panel__tool > div {
+    flex: 1;
+  }
+
+  .integrations-panel__tool-list {
+    max-height: 340px;
+    overflow-y: auto;
+  }
+
+  .integrations-panel__handoff {
+    padding: 9px 11px;
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+  }
+
+  .integrations-panel__handoff summary {
+    color: var(--accent-bright);
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .integrations-panel__handoff p {
+    margin-top: 8px;
+  }
+
+  .integrations-panel__handoff pre {
+    margin: 8px 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: var(--text);
+    font-size: 0.73rem;
+  }
+
+  .integrations-panel__handoff .button + span {
+    margin-inline-start: 8px;
+  }
+
+  .integrations-panel__query {
+    display: grid;
+    grid-template-columns: minmax(90px, auto) minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 8px;
+  }
+
+  .integrations-panel__query--single {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .integrations-panel__repository {
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 0.77rem;
+  }
+
+  .integrations-panel__repository dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin: 7px 0;
+  }
+
+  .integrations-panel__repository dt {
+    color: var(--muted);
+  }
+
+  .integrations-panel__repository dd {
+    margin: 0;
+  }
+
+  .integrations-panel__results > li > svg {
+    flex: none;
+    margin-top: 1px;
+  }
+
+  .integrations-panel__links {
+    color: var(--muted);
+  }
+
+  .integrations-panel__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-bright);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @container atelier-integrations (max-width: 740px) {
+    .integrations-panel__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .integrations-panel__catalog {
+      border-inline-end: 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .integrations-panel__entries {
+      max-height: 200px;
+    }
+  }
+
+  @container atelier-integrations (max-width: 490px) {
+    .integrations-panel__query {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: stretch;
+    }
+  }
+}

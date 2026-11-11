@@ -1,6 +1,6 @@
-# Agent Atelier 0.3.1 — local Mac workbench
+# Agent Atelier 0.4.0 — local Mac workbench
 
-Agent Atelier provides a universal task entry and a source-backed portfolio of native Codex work. It pages active and archived thread metadata through the supported app-server, groups work by canonical project root and loads individual work groups on demand. It shows observed responses, accepted or declared goals with their provenance, installed versus planned agents and source-backed next actions. Available native history does not expose empty desktop projects without threads; pagination and inaccessible sources stay visible. Explicit binding is required before project control. It shows native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
+Agent Atelier provides a universal task entry and a source-backed portfolio of native Codex work. It pages active and archived thread metadata through the supported app-server, groups work by canonical project root and loads individual work groups on demand. It shows observed responses, accepted or declared goals with their provenance, installed versus planned agents and source-backed next actions. The local Codex project registry supplies registered projects even when they have no chats. The portfolio shows how much it has read from the registry and from active and archived history. Project work history opens on demand. Remote hosts and unavailable sources remain outside verified local coverage. Explicit binding is required before project control. It shows native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
 
 The 33-core skill suite, optional orchestrator and this service have separate versions and installation facts. A binding does not migrate a product or grant every future job. Work audit/update/installation/control is deferred. Existing desktop chat adoption requires exact identity/cwd, an idle handoff and current task scope; the service does not fence independent desktop writers.
 
@@ -41,6 +41,16 @@ The default job profile denies sibling projects, native approval/state roots, cr
 Shell scratch files must remain within the approved writable paths; use an output-local TMPDIR or a temp-free command. Ambient system temp is not an additional write grant. Read-only jobs retain no scratch write permission.
 
 The local executor's default scopes prohibit ambient production/publication/spending and do not silently inherit every external plugin. Actual supported capability/permission policies are reported by the adapter. If the task needs another host/API/tool, preserve the requirement and use the exact supported bridge; do not downgrade the requested result or advertise an unavailable operation.
+
+## Codex plugins and media
+
+Open **Connections**, then **Check connections**. The catalog reads installed plugin and app metadata from a separate Codex connection. Select an app to see the tools it advertises, including which are read-only. A configured MCP server is a catalog entry until its capability is verified. These reads do not install, enable or sign in to a plugin.
+
+For a public image or sound search, select Openverse, choose the medium and enter public search terms. The panel sends only those terms to Openverse and returns up to ten matching records with creator, license and links to the source where available. Verify the asset and license at the original source before use. Search responses stay in the current browser view and are not added to project history.
+
+For an existing GitHub CLI login, select GitHub CLI and enter the exact repository as `owner/name` to read its metadata, including default branch and visibility. The route uses the authorized CLI access and is separate from the Codex plugin's own access.
+
+Use **Continue in Codex** for tools that need the native host. Paste the handoff into the intended project chat and select the actual plugin there. Check the exact operation, data, access and any charge before running it. A handoff leaves execution and the result pending in that host.
 
 ## Reading results and preserving context
 

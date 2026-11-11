@@ -1,8 +1,8 @@
 {
   "schema_version": "codex-agents.release/1",
-  "repository_version": "1.4.0-rc.3",
+  "repository_version": "1.4.0-rc.4",
   "suite_version": "6.1.0",
-  "release_date": "2026-11-10",
+  "release_date": "2026-11-11",
   "release_notes": "releases/6.1.0.md",
   "migration": "releases/migrations/6.1.0.md",
   "requirements": "governance/requirements.csv",
@@ -58,19 +58,19 @@
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
     }
   ],
-  "repository_release_notes": "releases/repository-1.4.0-rc.3.md",
+  "repository_release_notes": "releases/repository-1.4.0-rc.4.md",
   "marketing_showcase": "marketing/campaign/README.md",
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
-  "repository_migration": "releases/migrations/repository-1.4.0-rc.3.md",
+  "repository_migration": "releases/migrations/repository-1.4.0-rc.4.md",
   "marketing_artwork_languages": [
     "en",
     "uk"
   ],
   "local_service": {
     "name": "agent-atelier",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "source": "apps/agent-atelier",
-    "scope": "Personal Mac; universal entry and supported source-backed Codex portfolio; WORK live audit/control deferred until access recovers"
+    "scope": "Personal Mac; local native project registry, paged Codex history and scoped plugin/media connections"
   },
   "evolution_proposal": {
     "passport": "ai-data-production-evolution/0.2",
@@ -80,5 +80,5 @@
     "final_adoption_performed": false,
     "implementation_status": "docs/evolution/2026-11-10/IMPLEMENTATION.en.md"
   },
-  "release_status": "candidate source with bounded real-task evidence, including three passing R4 continuations. PR #2 CI succeeded for implementation commit b49dfcb. Full 29-case acceptance and owner approval remain open. WORK is deferred."
+  "release_status": "Service candidate with local native portfolio discovery and scoped connections. Full 29-case adoption remains open. WORK is deferred."
 }

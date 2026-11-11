@@ -28,6 +28,7 @@ const run = promisify(execFile);
 const HISTORY_READ_METHODS = new Set([
   "initialize",
   "account/read",
+  "project/list",
   "thread/list",
   "thread/read",
   "thread/turns/list",
@@ -35,6 +36,7 @@ const HISTORY_READ_METHODS = new Set([
 ]);
 export class CodexAdapter extends EventEmitter {
   #historyReadOnly;
+  #integrationMetadataOnly;
   #memoryRootResolver;
   constructor({
     dataDir,
@@ -45,6 +47,7 @@ export class CodexAdapter extends EventEmitter {
     configOverrides = [],
     instructions,
     historyReadOnly = false,
+    integrationMetadataOnly = false,
     memoryRootResolver = codexMemoryDenyRoots,
   } = {}) {
     super();
@@ -56,11 +59,13 @@ export class CodexAdapter extends EventEmitter {
     this.experimentalApi = experimentalApi;
     this.configOverrides = configOverrides;
     this.#historyReadOnly = historyReadOnly === true;
+    this.#integrationMetadataOnly = integrationMetadataOnly === true;
     this.#memoryRootResolver = memoryRootResolver;
     fail(
-      !this.#historyReadOnly || configOverrides.length === 0,
+      (!this.#historyReadOnly && !this.#integrationMetadataOnly) ||
+        configOverrides.length === 0,
       "SCOPE_MISMATCH",
-      "Native history reads do not accept custom configuration",
+      "Read-only Codex connections do not accept custom configuration",
       409,
     );
     this.pending = new Map();
@@ -89,7 +94,11 @@ export class CodexAdapter extends EventEmitter {
     }
   }
   async #connect() {
-    await mkdir(join(this.dataDir, "codex-state"), {
+    const stateRoot = join(
+      this.dataDir,
+      this.#integrationMetadataOnly ? "integration-codex-state" : "codex-state",
+    );
+    await mkdir(stateRoot, {
       recursive: true,
       mode: 448,
     });
@@ -147,6 +156,12 @@ export class CodexAdapter extends EventEmitter {
       this.executable,
       this.dataDir,
     );
+    if (this.#integrationMetadataOnly) {
+      // Observe the host's app policy, while keeping ambient MCP and web
+      // disabled. This connection cannot start, resume, or drive a thread.
+      delete externalBoundary.overrides["features.apps"];
+      delete externalBoundary.overrides["apps._default.enabled"];
+    }
     const defaultProfiles = profileOverrides(
       "atelier-local",
       localProfile("read-only", [], this.runtimeReadRoots, null, [
@@ -160,10 +175,7 @@ export class CodexAdapter extends EventEmitter {
         "--stdio",
         ...(this.#historyReadOnly
           ? []
-          : [
-              "-c",
-              `sqlite_home=${JSON.stringify(join(this.dataDir, "codex-state"))}`,
-            ]),
+          : ["-c", `sqlite_home=${JSON.stringify(stateRoot)}`]),
         "-c",
         `log_dir=${JSON.stringify(join(this.dataDir, "codex-logs"))}`,
         ...shellEnvironmentConfig(childEnvironment),
@@ -329,6 +341,29 @@ export class CodexAdapter extends EventEmitter {
     }
   }
   rpc(method, params = {}, timeout = this.rpcTimeoutMs) {
+    if (this.#integrationMetadataOnly) {
+      const keys = Object.keys(params);
+      const metadataRequest =
+        (method === "plugin/installed" && keys.length === 0) ||
+        (method === "app/installed" &&
+          keys.length === 1 &&
+          params.forceRefresh === false) ||
+        (method === "app/read" &&
+          keys.length === 2 &&
+          params.includeTools === true &&
+          Array.isArray(params.appIds) &&
+          params.appIds.length === 1 &&
+          typeof params.appIds[0] === "string" &&
+          /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(params.appIds[0]));
+      fail(
+        method === "initialize" ||
+          (method === "account/read" && params.refreshToken === false) ||
+          metadataRequest,
+        "SCOPE_MISMATCH",
+        "The integrations connection permits only bounded catalog reads",
+        403,
+      );
+    }
     if (this.#historyReadOnly) {
       fail(
         HISTORY_READ_METHODS.has(method),
@@ -346,6 +381,18 @@ export class CodexAdapter extends EventEmitter {
         method !== "thread/list" || params.useStateDbOnly === true,
         "SCOPE_MISMATCH",
         "Native history listing cannot scan or repair rollout storage",
+        403,
+      );
+      fail(
+        method !== "project/list" ||
+          (Number.isInteger(params.limit) &&
+            params.limit >= 1 &&
+            params.limit <= 100 &&
+            (params.cursor === undefined ||
+              (typeof params.cursor === "string" &&
+                params.cursor.length <= 16384))),
+        "SCOPE_MISMATCH",
+        "Native project discovery requires bounded read-only pages",
         403,
       );
       fail(
@@ -429,7 +476,8 @@ export class CodexAdapter extends EventEmitter {
   }
   notify(method, params) {
     fail(
-      !this.#historyReadOnly || method === "initialized",
+      (!this.#historyReadOnly && !this.#integrationMetadataOnly) ||
+        method === "initialized",
       "SCOPE_MISMATCH",
       "Native history notifications cannot request effects",
       403,
@@ -440,6 +488,16 @@ export class CodexAdapter extends EventEmitter {
         params,
       }) + "\n",
     );
+  }
+  async integrationMetadata(method, params) {
+    fail(
+      this.#integrationMetadataOnly,
+      "SCOPE_MISMATCH",
+      "Use the isolated integrations metadata connection",
+      403,
+    );
+    await this.connect();
+    return this.rpc(method, params);
   }
   async skills(cwds) {
     await this.connect();
@@ -473,11 +531,24 @@ export class CodexAdapter extends EventEmitter {
       ...(cursor ? { cursor } : {}),
     });
   }
-  async allThreads({ cursor, archived = false, limit = 100 } = {}) {
+  async projectCatalog({ cursor, limit = 100 } = {}) {
+    await this.connect();
+    return this.rpc("project/list", {
+      limit: Math.min(100, Math.max(1, limit)),
+      ...(cursor ? { cursor } : {}),
+    });
+  }
+  async allThreads({
+    cursor,
+    archived = false,
+    limit = 100,
+    attachedToThreadId,
+  } = {}) {
     await this.connect();
     return this.rpc("thread/list", {
       limit: Math.min(100, Math.max(1, limit)),
       archived,
+      modelProviders: [],
       sourceKinds: [
         "cli",
         "vscode",
@@ -493,8 +564,12 @@ export class CodexAdapter extends EventEmitter {
       sortKey: "updated_at",
       sortDirection: "desc",
       useStateDbOnly: true,
+      ...(attachedToThreadId ? { attachedToThreadId } : {}),
       ...(cursor ? { cursor } : {}),
     });
+  }
+  attachedThreads(owner, options) {
+    return this.allThreads({ ...options, attachedToThreadId: owner });
   }
   async historyTurns(
     threadId,
@@ -795,7 +870,8 @@ export class CodexAdapter extends EventEmitter {
         409,
       );
       fail(
-        digest(await this.#memoryRootResolver()) === digest(pinned.memoryDenyRoots),
+        digest(await this.#memoryRootResolver()) ===
+          digest(pinned.memoryDenyRoots),
         "SOURCE_DRIFT",
         "Native memory-store paths changed; reconcile and resume the task before dispatch",
         409,
@@ -959,6 +1035,12 @@ export class CodexHistoryAdapter {
   }
   allThreads(options) {
     return this.#adapter.allThreads(options);
+  }
+  projectCatalog(options) {
+    return this.#adapter.projectCatalog(options);
+  }
+  attachedThreads(owner, options) {
+    return this.#adapter.attachedThreads(owner, options);
   }
   readThread(id) {
     return this.#adapter.readThread(id);

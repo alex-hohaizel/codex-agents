@@ -1,6 +1,56 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  pluginMediaTitle: "Plugins et médias dans Codex",
+  pluginCheck: "Vérifier les connexions",
+  pluginChecking: "Vérification des connexions…",
+  pluginCheckHelp: "Vérifiez à quels outils Codex peut accéder depuis ce Mac.",
+  pluginSearch: "Filtrer les connexions",
+  pluginNoMatches: "Aucune connexion correspondante",
+  pluginNoConnections: "Codex n’a signalé aucune connexion",
+  pluginSelect:
+    "Choisissez une connexion pour voir les opérations qu’elle permet.",
+  pluginNative: "Dans Codex",
+  pluginUnavailable: "Indisponible ici",
+  pluginHandoff: "Continuer dans Codex",
+  pluginHandoffPrompt:
+    "Vérifie si {target} est disponible dans Codex pour cette tâche. Avant toute action externe, vérifie l’opération, les données, les autorisations et le coût. Indique le résultat obtenu et sa source.",
+  pluginHandoffHelp:
+    "Ouvrez Codex et collez ce texte dans la discussion du projet. Vérifiez-y l’outil et ses autorisations.",
+  pluginCopyHandoff: "Copier le texte pour Codex",
+  pluginCopyUnavailable:
+    "Le presse-papiers est indisponible. Sélectionnez et copiez le texte ci-dessous.",
+  pluginDiscoveryPartial:
+    "Certaines sources n’ont pas répondu. Le catalogue peut être incomplet.",
+  pluginKind: "Plugin",
+  pluginConnector: "Connecteur",
+  pluginMedia: "Médias",
+  pluginInspect: "Examiner les outils",
+  pluginFilterTools: "Filtrer les outils",
+  pluginNoToolMetadata: "Métadonnées des outils indisponibles",
+  pluginMediaType: "Type de média",
+  pluginSearchImages: "Images",
+  pluginSearchAudio: "Audio",
+  pluginQuery: "Termes de recherche",
+  pluginOpenverseTerms:
+    "Les termes sont transmis à Openverse. Openverse ne cautionne ni ne certifie Agent Atelier.",
+  pluginMediaEmpty: "Aucun média trouvé",
+  pluginUntitled: "Sans titre",
+  pluginLicense: "Licence",
+  pluginRepository: "Dépôt GitHub",
+  pluginReadRepository: "Consulter le dépôt",
+  pluginGithubHelp:
+    "La requête utilise votre session GitHub CLI et transmet le nom du dépôt à GitHub.",
+  pluginDefaultBranch: "Branche par défaut",
+  pluginRepositoryPublic: "Public",
+  pluginRepositoryPrivate: "Privé",
+  pluginRepositoryInternal: "Interne",
+  pluginReadFailed:
+    "Le service n’a renvoyé aucun résultat. Vérifiez la saisie et réessayez.",
+  pluginReadRateLimited:
+    "Le service a atteint sa limite de requêtes. Réessayez plus tard.",
+  pluginLicenseHelp:
+    "Consultez les droits d’utilisation et les règles d’attribution dans la source d’origine avant d’utiliser un résultat.",
   operatorUnassigned: "Sans étape",
   operatorOverview: "Vue du travail",
   operatorSources: "Sources et modifications",
@@ -121,6 +171,13 @@ const messages: Record<MessageKey, string> = {
   discoverFirstHelp:
     "La recherche lit l’historique Codex disponible et regroupe les travaux par projet. Examinez un projet, connectez son dossier exact, puis préparez la prochaine tâche.",
   historyCoverage: "Historique Codex",
+  localCodexHistory: "Historique local de Codex",
+  codexInventoryComplete: "Catalogue local lu",
+  registeredCodexProjects: "Projets enregistrés",
+  activeCodexChats: "Actives",
+  archivedCodexChats: "Archivées",
+  continueCodexDiscovery: "Poursuivre la recherche",
+  loadMoreAttachedChats: "Trouver d’autres conversations liées",
   coverageComplete: "Pages de l’historique lues",
   coveragePartial: "Couverture partielle",
   coverageDetails: "Couverture et sources",

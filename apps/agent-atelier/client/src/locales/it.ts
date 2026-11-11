@@ -1,6 +1,56 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  pluginMediaTitle: "Plugin e servizi multimediali di Codex",
+  pluginCheck: "Verifica connessioni",
+  pluginChecking: "Verifica delle connessioni…",
+  pluginCheckHelp:
+    "Verifica a quali strumenti Codex può accedere da questo Mac.",
+  pluginSearch: "Filtra connessioni",
+  pluginNoMatches: "Nessuna connessione corrispondente",
+  pluginNoConnections: "Codex non ha segnalato connessioni",
+  pluginSelect: "Scegli una connessione per vedere quali operazioni supporta.",
+  pluginNative: "In Codex",
+  pluginUnavailable: "Non disponibile qui",
+  pluginHandoff: "Continua in Codex",
+  pluginHandoffPrompt:
+    "Verifica se {target} è disponibile in Codex per questa attività. Prima di intervenire su un servizio esterno, verifica l’operazione, i dati, le autorizzazioni e il costo. Mostra il risultato effettivo e la sua fonte.",
+  pluginHandoffHelp:
+    "Apri Codex e incolla questo testo nella chat del progetto. Controlla lì lo strumento e le sue autorizzazioni.",
+  pluginCopyHandoff: "Copia il testo per Codex",
+  pluginCopyUnavailable:
+    "Gli appunti non sono disponibili. Seleziona e copia il testo qui sotto.",
+  pluginDiscoveryPartial:
+    "Alcune fonti delle connessioni non hanno risposto. Il catalogo potrebbe essere incompleto.",
+  pluginKind: "Plugin",
+  pluginConnector: "Connettore",
+  pluginMedia: "Contenuti multimediali",
+  pluginInspect: "Esamina gli strumenti",
+  pluginFilterTools: "Filtra strumenti",
+  pluginNoToolMetadata: "Metadati degli strumenti non disponibili",
+  pluginMediaType: "Tipo di contenuto",
+  pluginSearchImages: "Immagini",
+  pluginSearchAudio: "Audio",
+  pluginQuery: "Termini di ricerca",
+  pluginOpenverseTerms:
+    "I termini di ricerca vengono inviati a Openverse. Openverse non approva né certifica Agent Atelier.",
+  pluginMediaEmpty: "Nessun contenuto trovato",
+  pluginUntitled: "Senza titolo",
+  pluginLicense: "Licenza",
+  pluginRepository: "Repository GitHub",
+  pluginReadRepository: "Consulta il repository",
+  pluginGithubHelp:
+    "La richiesta usa l’accesso GitHub CLI esistente e invia il nome del repository a GitHub.",
+  pluginDefaultBranch: "Branch predefinito",
+  pluginRepositoryPublic: "Pubblico",
+  pluginRepositoryPrivate: "Privato",
+  pluginRepositoryInternal: "Interno",
+  pluginReadFailed:
+    "Il servizio non ha restituito risultati. Controlla i dati e riprova.",
+  pluginReadRateLimited:
+    "Il servizio ha raggiunto il limite di richieste. Riprova più tardi.",
+  pluginLicenseHelp:
+    "Verifica i diritti d’uso e l’attribuzione alla fonte originale prima di utilizzare un risultato.",
   operatorUnassigned: "Senza fase",
   operatorOverview: "Panoramica del lavoro",
   operatorSources: "Fonti e modifiche",
@@ -121,6 +171,13 @@ const messages: Record<MessageKey, string> = {
   discoverFirstHelp:
     "La ricerca legge la cronologia Codex disponibile e raggruppa le attività per progetto. Esamina un progetto, collega la cartella esatta e prepara la prossima attività.",
   historyCoverage: "Cronologia Codex",
+  localCodexHistory: "Cronologia locale di Codex",
+  codexInventoryComplete: "Catalogo locale letto",
+  registeredCodexProjects: "Progetti registrati",
+  activeCodexChats: "Attive",
+  archivedCodexChats: "Archiviate",
+  continueCodexDiscovery: "Continua la ricerca",
+  loadMoreAttachedChats: "Trova altre chat collegate",
   coverageComplete: "Pagine della cronologia lette",
   coveragePartial: "Copertura parziale",
   coverageDetails: "Copertura e fonti",

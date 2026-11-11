@@ -199,6 +199,8 @@ export async function createServer({
             403,
           );
           const body = await readJson(req);
+          if (url.pathname === "/api/v1/integrations/read")
+            return json(res, 200, await app.integrations.run(body));
           fail(
             url.pathname === "/api/v1/commands",
             "NOT_FOUND",
@@ -216,6 +218,24 @@ export async function createServer({
         );
         if (url.pathname === "/api/v1/bootstrap")
           return json(res, 200, await app.bootstrap(csrf));
+        if (url.pathname === "/api/v1/integrations")
+          return json(
+            res,
+            200,
+            await app.integrations.list({
+              locale: app.store.get("settings", "owner")?.locale,
+            }),
+          );
+        if (url.pathname === "/api/v1/integrations/inspect")
+          return json(
+            res,
+            200,
+            await app.integrations.inspect({
+              kind: url.searchParams.get("kind"),
+              id: url.searchParams.get("id"),
+              locale: app.store.get("settings", "owner")?.locale,
+            }),
+          );
         if (url.pathname === "/api/v1/portfolio")
           return json(res, 200, app.portfolio.get());
         const portfolioMatch = url.pathname.match(
@@ -232,6 +252,8 @@ export async function createServer({
               item_thread_id:
                 url.searchParams.get("item_thread_id") ?? undefined,
               item_cursor: url.searchParams.get("item_cursor") ?? undefined,
+              attachment_continue:
+                url.searchParams.get("attachment_continue") ?? undefined,
               max_threads: url.searchParams.has("max_threads")
                 ? Number(url.searchParams.get("max_threads"))
                 : 40,

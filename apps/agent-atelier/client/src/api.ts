@@ -1,4 +1,7 @@
 export type Data = Record<string, any>;
+export function nativeRootCanBind(row?: Data | null) {
+  return row?.binding_scope == null || row.binding_scope === "root";
+}
 
 export interface Project extends Data {
   id: string;
@@ -238,7 +241,9 @@ export function mergePortfolioPage(previous: Data | null, page: Data): Data {
             !(
               continuingItems &&
               warning.thread_id === incoming.item_thread_id &&
-              warning.code === "NATIVE_ITEM_PAGE_LIMIT"
+              ["NATIVE_ITEM_PAGE_LIMIT", "NATIVE_TURN_PAGE_LIMIT"].includes(
+                warning.code,
+              )
             ),
         ),
         ...(page.warnings ?? []),
@@ -515,6 +520,19 @@ export const api = {
   workspace: (id: string) =>
     request<Workspace>(`/projects/${encodeURIComponent(id)}/workspace`),
   doctor: () => request<Data>("/doctor"),
+  integrations: () => request<Data>("/integrations"),
+  integrationDetails: (kind: string, id: string) =>
+    request<Data>(`/integrations/inspect?${new URLSearchParams({ kind, id })}`),
+  readIntegration: (
+    operation: string,
+    args: Record<string, string>,
+    csrf: string,
+  ) =>
+    request<Data>("/integrations/read", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Atelier-CSRF": csrf },
+      body: JSON.stringify({ operation, arguments: args }),
+    }),
   skills: (query = "") =>
     request<Data>(`/skills?q=${encodeURIComponent(query)}`),
   skillSource: (name: string) =>
@@ -533,6 +551,7 @@ export const api = {
       snapshot_checked_at?: string;
       item_thread_id?: string;
       item_cursor?: string;
+      attachment_continue?: string;
     } = {},
   ) => {
     const query = new URLSearchParams();
@@ -544,6 +563,8 @@ export const api = {
       query.set("item_thread_id", options.item_thread_id);
     if (options.item_cursor !== undefined)
       query.set("item_cursor", options.item_cursor);
+    if (options.attachment_continue !== undefined)
+      query.set("attachment_continue", options.attachment_continue);
     return request<Data>(
       `/portfolio/projects/${encodeURIComponent(id)}${query.size ? `?${query}` : ""}`,
     );

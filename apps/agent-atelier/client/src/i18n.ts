@@ -8,6 +8,55 @@ import zhCN from "./locales/zh-CN";
 export const LocaleContext = createContext("uk");
 
 export const en = {
+  pluginMediaTitle: "Codex plugins & media",
+  pluginCheck: "Check available connections",
+  pluginChecking: "Checking connections…",
+  pluginCheckHelp: "Check which tools Codex can reach from this Mac.",
+  pluginSearch: "Filter connections",
+  pluginNoMatches: "No matching connections",
+  pluginNoConnections: "No connections were reported",
+  pluginSelect: "Choose a connection to see what it supports.",
+  pluginNative: "In Codex",
+  pluginUnavailable: "Unavailable here",
+  pluginHandoff: "Continue in Codex",
+  pluginHandoffPrompt:
+    "Check whether {target} is available for this task in Codex. Before any external action, verify the operation, data, permissions, and cost. Report the actual result and its source.",
+  pluginHandoffHelp:
+    "Open Codex and paste this handoff into the project chat. Review the tool and its access there.",
+  pluginCopyHandoff: "Copy handoff",
+  pluginCopyUnavailable:
+    "Clipboard access is unavailable. Select and copy the text below.",
+  pluginDiscoveryPartial:
+    "Some Codex connection sources did not respond. The catalog may be incomplete.",
+  pluginKind: "Plugin",
+  pluginConnector: "Connector",
+  pluginMedia: "Media",
+  pluginInspect: "Inspect tools",
+  pluginFilterTools: "Filter tools",
+  pluginNoToolMetadata: "Tool metadata is unavailable",
+  pluginMediaType: "Media type",
+  pluginSearchImages: "Images",
+  pluginSearchAudio: "Audio",
+  pluginQuery: "Search terms",
+  pluginOpenverseTerms:
+    "Search terms are sent to Openverse. Openverse does not endorse or certify Agent Atelier.",
+  pluginMediaEmpty: "No media found",
+  pluginUntitled: "Untitled",
+  pluginLicense: "License",
+  pluginRepository: "GitHub repository",
+  pluginReadRepository: "Read repository",
+  pluginGithubHelp:
+    "The query uses your existing GitHub CLI sign-in and sends the repository name to GitHub.",
+  pluginDefaultBranch: "Default branch",
+  pluginRepositoryPublic: "Public",
+  pluginRepositoryPrivate: "Private",
+  pluginRepositoryInternal: "Internal",
+  pluginReadFailed:
+    "The service did not return a result. Check the input and try again.",
+  pluginReadRateLimited:
+    "The service reached its request limit. Try again later.",
+  pluginLicenseHelp:
+    "Check usage rights and attribution at the original source before using any result.",
   operatorUnassigned: "Without a stage",
   operatorOverview: "Work overview",
   operatorSources: "Sources & changes",
@@ -127,6 +176,13 @@ export const en = {
   discoverFirstHelp:
     "Discover reads available Codex history and groups it by project. Review a project, connect its exact folder, then prepare your next task.",
   historyCoverage: "Codex history",
+  localCodexHistory: "Local Codex history",
+  codexInventoryComplete: "Local catalog read",
+  registeredCodexProjects: "Registered projects",
+  activeCodexChats: "Active",
+  archivedCodexChats: "Archived",
+  continueCodexDiscovery: "Continue discovery",
+  loadMoreAttachedChats: "Find more linked chats",
   coverageComplete: "History pages read",
   coveragePartial: "Coverage is partial",
   coverageDetails: "Coverage and sources",
@@ -706,6 +762,56 @@ export type MessageKey = keyof typeof en;
 export type Locale = "uk" | "en" | "de" | "it" | "es" | "fr" | "zh-CN";
 
 export const uk: Record<MessageKey, string> = {
+  pluginMediaTitle: "Плагіни й медіа Codex",
+  pluginCheck: "Перевірити підключення",
+  pluginChecking: "Перевіряємо підключення…",
+  pluginCheckHelp:
+    "Перевірте, до яких інструментів Codex має доступ із цього Mac.",
+  pluginSearch: "Фільтрувати підключення",
+  pluginNoMatches: "Підключень за цим фільтром немає",
+  pluginNoConnections: "Codex не повідомив про підключення",
+  pluginSelect: "Оберіть підключення, щоб переглянути його можливості.",
+  pluginNative: "У Codex",
+  pluginUnavailable: "Тут недоступно",
+  pluginHandoff: "Продовжити в Codex",
+  pluginHandoffPrompt:
+    "Перевір, чи доступний {target} для цієї задачі в Codex. Перед зовнішньою дією звір операцію, дані, дозволи та витрати. Покажи фактичний результат і його джерело.",
+  pluginHandoffHelp:
+    "Відкрийте Codex і вставте цей текст у чат проєкту. Перевірте інструмент і його доступи в чаті.",
+  pluginCopyHandoff: "Копіювати текст для Codex",
+  pluginCopyUnavailable:
+    "Буфер обміну недоступний. Виділіть і скопіюйте текст нижче.",
+  pluginDiscoveryPartial:
+    "Частина джерел підключень Codex не відповіла. Каталог може бути неповним.",
+  pluginKind: "Плагін",
+  pluginConnector: "Конектор",
+  pluginMedia: "Медіа",
+  pluginInspect: "Переглянути інструменти",
+  pluginFilterTools: "Фільтрувати інструменти",
+  pluginNoToolMetadata: "Відомості про інструменти недоступні",
+  pluginMediaType: "Тип медіа",
+  pluginSearchImages: "Зображення",
+  pluginSearchAudio: "Аудіо",
+  pluginQuery: "Пошуковий запит",
+  pluginOpenverseTerms:
+    "Запит надсилається до Openverse. Openverse не схвалює і не сертифікує Agent Atelier.",
+  pluginMediaEmpty: "Медіа за цим запитом немає",
+  pluginUntitled: "Без назви",
+  pluginLicense: "Ліцензія",
+  pluginRepository: "Репозиторій GitHub",
+  pluginReadRepository: "Прочитати репозиторій",
+  pluginGithubHelp:
+    "Запит використовує чинний вхід GitHub CLI й передає назву репозиторію GitHub.",
+  pluginDefaultBranch: "Основна гілка",
+  pluginRepositoryPublic: "Публічний",
+  pluginRepositoryPrivate: "Приватний",
+  pluginRepositoryInternal: "Внутрішній",
+  pluginReadFailed:
+    "Сервіс не повернув результат. Перевірте введені дані та спробуйте ще раз.",
+  pluginReadRateLimited:
+    "Сервіс досяг межі кількості запитів. Спробуйте пізніше.",
+  pluginLicenseHelp:
+    "Перед використанням перевірте права й умови зазначення автора в оригінальному джерелі.",
   operatorUnassigned: "Без етапу",
   operatorOverview: "Огляд робіт",
   operatorSources: "Джерела й зміни",
@@ -824,6 +930,13 @@ export const uk: Record<MessageKey, string> = {
   discoverFirstHelp:
     "Пошук читає доступну історію Codex та групує роботи за проєктами. Перегляньте проєкт, підключіть його точну теку й підготуйте наступне завдання.",
   historyCoverage: "Історія Codex",
+  localCodexHistory: "Локальна історія Codex",
+  codexInventoryComplete: "Локальний реєстр прочитано",
+  registeredCodexProjects: "Зареєстровані проєкти",
+  activeCodexChats: "Активні",
+  archivedCodexChats: "Архівні",
+  continueCodexDiscovery: "Продовжити пошук",
+  loadMoreAttachedChats: "Знайти ще пов’язані чати",
   coverageComplete: "Сторінки історії прочитано",
   coveragePartial: "Покриття часткове",
   coverageDetails: "Покриття та джерела",

@@ -2,8 +2,16 @@ import { basename, isAbsolute, resolve } from "node:path";
 import { homedir } from "node:os";
 import { assertProjectRoot, inspectProject } from "./projects.mjs";
 import {
+  advanceAttachments,
+  advanceInventory,
+  nativeInventory,
+  newAttachmentInventory,
+  streamCoverage,
+} from "./native-catalog.mjs";
+import {
   digest,
   fail,
+  id as newId,
   isWithin,
   now,
   publicError,
@@ -20,8 +28,7 @@ const emptyGoal = () => ({
 });
 const clipped = (value, limit = 1600) =>
   typeof value === "string" ? redact(value).slice(0, limit) : "";
-const statusOf = (row) =>
-  typeof row.status === "string" ? row.status : (row.status?.type ?? "unknown");
+const allowsRootBinding = (row) => row.binding_scope === "root";
 const itemText = (item) =>
   clipped(
     item.text ??
@@ -304,6 +311,18 @@ export class NativeHistoryReader {
   list(options) {
     return this.#codex.allThreads(options);
   }
+  get projectCatalogAvailable() {
+    return typeof this.#codex.projectCatalog === "function";
+  }
+  projectCatalog(options) {
+    return this.#codex.projectCatalog(options);
+  }
+  get attachedThreadPaging() {
+    return typeof this.#codex.attachedThreads === "function";
+  }
+  attachedThreads(owner, options) {
+    return this.#codex.attachedThreads(owner, options);
+  }
   read(id) {
     return this.#codex.readThread(id);
   }
@@ -328,6 +347,8 @@ export class PortfolioManager {
     this.details = new Map();
     this.observedPages = new Map();
     this.itemCursors = new Map();
+    this.inventory = null;
+    this.inventoryToken = null;
     this.busy = false;
     this.generation = 0;
     this.snapshot = {
@@ -338,7 +359,12 @@ export class PortfolioManager {
         complete: false,
         pages: 0,
         native_threads: 0,
-        registered_projects: "not_available",
+        registered_projects: "not_checked",
+        registered_project_count: 0,
+        registered_project_pages: 0,
+        continuation: null,
+        thread_streams: null,
+        local_inventory_complete: false,
         work_history: "not_loaded",
       },
       summary: {
@@ -355,7 +381,9 @@ export class PortfolioManager {
   get() {
     const bindings = this.store.list("project");
     const projects = this.snapshot.projects.map((row) => {
-      const binding = bindings.find((x) => x.root === row.root);
+      const binding = allowsRootBinding(row)
+        ? bindings.find((x) => x.root === row.root)
+        : null;
       return {
         ...row,
         binding_id: binding?.id ?? null,
@@ -381,6 +409,8 @@ export class PortfolioManager {
     this.details.clear();
     this.observedPages.clear();
     this.itemCursors.clear();
+    this.inventory = null;
+    this.inventoryToken = null;
     this.snapshot = {
       ...this.snapshot,
       status: "not_checked",
@@ -398,6 +428,12 @@ export class PortfolioManager {
         complete: false,
         pages: 0,
         native_threads: 0,
+        continuation: null,
+        thread_streams: null,
+        registered_projects: "not_checked",
+        registered_project_count: 0,
+        registered_project_pages: 0,
+        local_inventory_complete: false,
         work_history: "not_loaded",
       },
     };
@@ -408,6 +444,20 @@ export class PortfolioManager {
       resolve(homedir(), ".codex"),
       resolve(homedir(), "Library/Application Support"),
     ].some((base) => isWithin(base, root) || isWithin(root, base));
+  }
+  #rootError(root) {
+    if (this.#privateRoot(root))
+      return {
+        code: "PRIVATE_PATH",
+        message:
+          "Native session root overlaps private application/account data; content was not read",
+      };
+    try {
+      assertProjectRoot(root);
+      return null;
+    } catch (error) {
+      return publicError(error);
+    }
   }
   async refresh(payload = {}) {
     fail(
@@ -428,118 +478,158 @@ export class PortfolioManager {
       "INVALID_INPUT",
       "max_pages must be1..50",
     );
+    const continuing = payload.continue_from !== undefined;
+    fail(
+      !continuing ||
+        (typeof payload.continue_from === "string" &&
+          payload.continue_from === this.inventoryToken &&
+          this.inventory &&
+          (payload.include_archived === undefined ||
+            payload.include_archived === this.inventory.includeArchived)),
+      "SOURCE_DRIFT",
+      "This inventory continuation is no longer current; refresh the portfolio",
+      409,
+    );
     this.busy = true;
     const generation = this.generation;
     try {
-      const threads = new Map(),
-        warnings = [],
-        states = payload.include_archived === false ? [false] : [false, true];
-      let pages = 0,
-        complete = true;
-      for (const archived of states) {
-        let cursor;
-        const seen = new Set();
-        do {
-          if (pages >= maxPages) {
-            complete = false;
-            break;
-          }
-          const page = await this.history.list({
-            cursor,
-            archived,
-            limit: 100,
-          });
-          pages++;
-          fail(
-            Array.isArray(page.data),
-            "HOST_PROTOCOL_ERROR",
-            "Native thread list did not return a page",
-            502,
-          );
-          for (const row of page.data) {
-            if (
-              typeof row.id !== "string" ||
-              typeof row.cwd !== "string" ||
-              !isAbsolute(row.cwd)
-            )
-              continue;
-            threads.set(row.id, {
-              id: row.id,
-              cwd: row.cwd,
-              title: clipped(row.name ?? row.preview, 500) || "Untitled",
-              status: statusOf(row),
-              source:
-                typeof row.source === "string"
-                  ? clipped(row.source, 100)
-                  : row.source && typeof row.source === "object"
-                    ? redact(row.source)
-                    : "unknown",
-              thread_source: clipped(row.threadSource, 100) || null,
-              updated_at: row.updatedAt,
-              created_at: row.createdAt,
-              parent_thread_id: clipped(row.parentThreadId, 160) || null,
-              archived,
-            });
-          }
-          cursor = page.nextCursor ?? null;
-          if (cursor) {
-            fail(
-              typeof cursor === "string" && !seen.has(cursor),
-              "HOST_PROTOCOL_ERROR",
-              "Native history repeated its cursor",
-              502,
-            );
-            seen.add(cursor);
-          }
-        } while (cursor);
-      }
+      const { inventory, threads, warnings, projectError, overlapCount } =
+        await advanceInventory(
+          continuing
+            ? this.inventory
+            : nativeInventory(
+                payload.include_archived !== false,
+                this.history.projectCatalogAvailable,
+              ),
+          this.history,
+          maxPages,
+        );
+      const active = streamCoverage(inventory.active),
+        archived = streamCoverage(inventory.archived),
+        catalog = streamCoverage(inventory.projects);
+      const complete =
+        active.complete &&
+        (!archived || archived.complete) &&
+        overlapCount === 0;
+      const nextToken = [active, archived, catalog].some(
+        (stream) => stream && !stream.exhausted,
+      )
+        ? newId("catalog")
+        : null;
+      const registeredProjects = !catalog
+        ? "not_available"
+        : catalog.complete && !projectError
+          ? "observed"
+          : catalog.count
+            ? "partial"
+            : projectError
+              ? "unavailable"
+              : "partial";
       const groups = new Map();
-      for (const thread of threads.values()) {
-        let root = resolve(thread.cwd),
-          rootError = null;
-        try {
-          assertProjectRoot(root);
-        } catch (error) {
-          rootError = publicError(error);
-        }
-        if (this.#privateRoot(root))
-          rootError = {
-            code: "PRIVATE_PATH",
-            message:
-              "Native session root overlaps private application/account data; content was not read",
-          };
-        const key = "discovered-" + sha(root).slice(0, 20);
+      const nativeProjects = [...(inventory.projects?.rows.values() ?? [])].map(
+        (project) => ({
+          ...project,
+          roots: [...new Set(project.roots.map((root) => resolve(root)))],
+        }),
+      );
+      const rootCounts = new Map();
+      for (const project of nativeProjects)
+        for (const root of project.roots)
+          rootCounts.set(root, (rootCounts.get(root) ?? 0) + 1);
+      const rootGroup = (root, nativeProject, unresolved = false) => {
+        const shared = (rootCounts.get(root) ?? 0) > 1;
+        const bindingScope = unresolved
+          ? "native-unresolved-root"
+          : nativeProject && shared
+            ? "native-shared-root"
+            : "root";
+        const key =
+          "discovered-" +
+          sha(
+            root && bindingScope === "root"
+              ? root
+              : JSON.stringify(["native-project", nativeProject.id, root]),
+          ).slice(0, 20);
         if (!groups.has(key))
           groups.set(key, {
             id: key,
             root,
-            name: basename(root),
+            name: nativeProject?.name || (root ? basename(root) : "Untitled"),
             threads: [],
-            root_error: rootError,
+            binding_scope: bindingScope,
+            ownership_warning: unresolved
+              ? {
+                  code: "NATIVE_PROJECT_ROOT_UNRESOLVED",
+                  message:
+                    "The chat's native project assignment has no unique registered folder in this inventory",
+                }
+              : shared
+                ? {
+                    code: "NATIVE_PROJECT_ROOT_CONFLICT",
+                    message:
+                      "Multiple native projects use this folder. Chats with explicit assignments are shown with their own project",
+                  }
+                : null,
+            native_project_ids: new Set(),
+            root_error: root
+              ? this.#rootError(root)
+              : {
+                  code: "NATIVE_PROJECT_WITHOUT_ROOT",
+                  message: "This native project has no local folder",
+                },
           });
-        groups.get(key).threads.push(thread);
+        const group = groups.get(key);
+        if (nativeProject) group.native_project_ids.add(nativeProject.id);
+        return group;
+      };
+      const catalogGroups = new Map();
+      const catalogById = new Map(
+        nativeProjects.map((project) => [project.id, project]),
+      );
+      for (const project of nativeProjects) {
+        catalogGroups.set(
+          project.id,
+          (project.roots.length ? project.roots : [null]).map((root) =>
+            rootGroup(root, project),
+          ),
+        );
       }
-      for (const project of this.store.list("project")) {
-        const key = "discovered-" + sha(project.root).slice(0, 20);
-        if (!groups.has(key))
-          groups.set(key, {
-            id: key,
-            root: project.root,
-            name: project.name,
-            threads: [],
-            root_error: null,
-          });
+      for (const thread of threads.values()) {
+        const cwd = resolve(thread.cwd);
+        const assigned = catalogGroups.get(thread.native_project_id) ?? [];
+        const containing = assigned
+          .filter((group) => group.root && isWithin(group.root, cwd))
+          .sort((a, b) => b.root.length - a.root.length)[0];
+        const canGroup = !this.#privateRoot(cwd);
+        const assignedGroup =
+          canGroup && (containing || (assigned.length === 1 && assigned[0]));
+        const group =
+          assignedGroup ||
+          (thread.native_project_id
+            ? rootGroup(
+                cwd,
+                catalogById.get(thread.native_project_id) ?? {
+                  id: thread.native_project_id,
+                },
+                true,
+              )
+            : rootGroup(cwd));
+        group.threads.push(thread);
       }
-      this.rows.clear();
-      this.details.clear();
-      this.observedPages.clear();
-      this.itemCursors.clear();
+      const bindings = this.store.list("project");
+      for (const project of bindings) rootGroup(project.root);
+      const rows = new Map();
       for (const group of groups.values()) {
-        const binding = this.store
-          .list("project")
-          .find((x) => x.root === group.root);
+        const canBind = allowsRootBinding(group) && !!group.root;
+        const binding = canBind
+          ? bindings.find((x) => x.root === group.root)
+          : null;
         let view = null;
-        if (!group.root_error)
+        if (
+          canBind &&
+          !group.root_error &&
+          (binding || group.threads.length > 0)
+        )
           try {
             const currentRoot = assertProjectRoot(group.root);
             fail(
@@ -563,17 +653,14 @@ export class PortfolioManager {
         const jobs = binding
           ? this.store.list("job").filter((x) => x.project_id === binding.id)
           : [];
-        const tasks = binding
-          ? this.store.list("task").filter((x) => x.project_id === binding.id)
-          : [];
         const next_actions = [...(view?.next_actions ?? [])];
-        if (!view?.goal?.text)
+        if (canBind && !view?.goal?.text)
           next_actions.push({
             text: "Establish the current project goal from a native source before dependent work",
             status: "proposed",
             source_ref: null,
           });
-        if (!binding)
+        if (canBind && !binding && !group.root_error)
           next_actions.push({
             text: "Review and bind this discovered project before execution",
             status: "proposed",
@@ -589,17 +676,36 @@ export class PortfolioManager {
           ...(view?.work_records ?? []),
           ...this.#serviceWork(binding?.id),
         ];
+        const nativeProjectIds = [...group.native_project_ids];
         const row = {
           id: group.id,
           name: binding?.name ?? group.name,
           root: group.root,
           binding_id: binding?.id ?? null,
+          binding_scope: group.binding_scope,
+          native_project_id:
+            nativeProjectIds.length === 1 ? nativeProjectIds[0] : null,
+          native_project_ids: nativeProjectIds,
+          catalog_source:
+            nativeProjectIds.length &&
+            group.binding_scope !== "native-unresolved-root"
+              ? "native_project_catalog"
+              : group.threads.length
+                ? "native_thread_history"
+                : "service_binding",
           thread_count: group.threads.length,
+          active_thread_count: group.threads.filter(
+            (thread) => !thread.archived,
+          ).length,
+          archived_thread_count: group.threads.filter(
+            (thread) => thread.archived,
+          ).length,
           phase: view?.phase ?? "not_recorded",
           kind: view?.kind ?? binding?.kind ?? "generic",
           status: group.root_error
             ? "unavailable"
-            : jobs.some((x) => x.status === "outcome_unknown")
+            : group.ownership_warning ||
+                jobs.some((x) => x.status === "outcome_unknown")
               ? "attention"
               : "observed",
           goal: view?.goal ?? emptyGoal(),
@@ -612,16 +718,22 @@ export class PortfolioManager {
           active: group.threads.filter((x) => x.status === "active").length,
           warnings: [
             ...(view?.warnings ?? []),
+            ...(group.ownership_warning ? [group.ownership_warning] : []),
             ...(group.root_error ? [group.root_error] : []),
           ],
           source_revision: view?.revision ?? null,
           history_status: "not_loaded",
           native_state_present: view?.native_state_present ?? false,
         };
-        this.rows.set(row.id, {
+        rows.set(row.id, {
           row,
+          listedThreads: group.threads,
           threads: group.threads,
           root_error: group.root_error,
+          attachments: null,
+          attachmentToken: null,
+          attachmentScan: null,
+          historyGeneration: 0,
         });
       }
       fail(
@@ -630,7 +742,13 @@ export class PortfolioManager {
         "Service privacy/restore boundary changed during discovery; refresh again",
         409,
       );
+      this.rows = rows;
+      this.details.clear();
+      this.observedPages.clear();
+      this.itemCursors.clear();
       this.threadRows = threads;
+      this.inventory = inventory;
+      this.inventoryToken = nextToken;
       const projects = [...this.rows.values()]
         .map((x) => x.row)
         .sort((a, b) => b.active - a.active || a.name.localeCompare(b.name));
@@ -643,11 +761,21 @@ export class PortfolioManager {
           state_db_only: true,
           complete,
           truncated: !complete,
-          pages,
+          pages: active.pages + (archived?.pages ?? 0),
           native_threads: threads.size,
-          registered_projects: "not_available",
+          scope: "local-native-index",
+          thread_streams: { active, archived },
+          registered_projects: registeredProjects,
+          registered_project_count: catalog?.count ?? 0,
+          registered_project_pages: catalog?.pages ?? 0,
+          local_inventory_complete:
+            complete && !!archived && registeredProjects === "observed",
+          continuation: nextToken,
+          attached_threads: this.history.attachedThreadPaging
+            ? "selected-project-only"
+            : "not_available",
           work_history: "selected-project-only",
-          include_archived: states.includes(true),
+          include_archived: !!archived,
         },
         summary: {
           projects: projects.length,
@@ -781,7 +909,9 @@ export class PortfolioManager {
             (row) =>
               !(
                 row.thread_id === result.coverage.item_thread_id &&
-                row.code === "NATIVE_ITEM_PAGE_LIMIT"
+                ["NATIVE_ITEM_PAGE_LIMIT", "NATIVE_TURN_PAGE_LIMIT"].includes(
+                  row.code,
+                )
               ),
           ),
           ...result.warnings,
@@ -810,7 +940,7 @@ export class PortfolioManager {
     const complete =
       contiguous === found.threads.length &&
       pages.every((page) => page.coverage.page_complete) &&
-      this.snapshot.coverage.complete;
+      result.coverage.discovery_complete;
     Object.assign(found.row, {
       goal: result.goal,
       agents: result.agents,
@@ -831,14 +961,129 @@ export class PortfolioManager {
       },
     });
   }
-  async #pagedTurns(threadId, maxTurnPages, initialCursor) {
+  async #projectAttachments(found, continuation, assertCurrent) {
+    if (!this.history.attachedThreadPaging) {
+      fail(
+        continuation === undefined,
+        "CAPABILITY_UNVERIFIED",
+        "The native host does not expose attached chat discovery",
+        409,
+      );
+      return {
+        status: "not_available",
+        count: 0,
+        pages: 0,
+        complete: false,
+        continuation: null,
+      };
+    }
+    if (continuation !== undefined) {
+      fail(
+        typeof continuation === "string" &&
+          continuation === found.attachmentToken,
+        "SOURCE_DRIFT",
+        "This attached chat continuation is no longer current; refresh the project",
+        409,
+      );
+      fail(
+        !found.attachmentScan,
+        "CATALOG_BUSY",
+        "Attached chat discovery is already running",
+        409,
+      );
+    }
+    if (
+      !found.attachmentScan &&
+      (!found.attachments || continuation !== undefined)
+    ) {
+      const previous =
+        found.attachments ??
+        newAttachmentInventory(
+          found.listedThreads,
+          this.snapshot.coverage.include_archived,
+        );
+      found.attachmentScan = (async () => {
+        const verifiedOwners = new Map();
+        const next = await advanceAttachments(
+          previous,
+          async (owner, options) => {
+            if (!allowsRootBinding(found.row)) {
+              if (!verifiedOwners.has(owner.id))
+                verifiedOwners.set(
+                  owner.id,
+                  this.history.read(owner.id).then(({ thread }) => {
+                    fail(
+                      thread?.id === owner.id &&
+                        thread.cwd === owner.cwd &&
+                        (thread.projectId ?? null) === owner.native_project_id,
+                      "SOURCE_DRIFT",
+                      "An attachment owner changed its native project assignment",
+                      409,
+                    );
+                  }),
+                );
+              await verifiedOwners.get(owner.id);
+            }
+            return this.history.attachedThreads(owner.id, options);
+          },
+          (thread) => {
+            const cwd = resolve(thread.cwd);
+            const sameRoot =
+              cwd === found.row.root ||
+              found.listedThreads.some((listed) => resolve(listed.cwd) === cwd);
+            const belongs = thread.native_project_id
+              ? found.row.native_project_ids.includes(thread.native_project_id)
+              : sameRoot;
+            return belongs && !this.#rootError(cwd);
+          },
+        );
+        assertCurrent();
+        found.attachments = next;
+        found.attachmentToken = next.queue.length ? newId("attachments") : null;
+        found.threads = [...found.listedThreads, ...next.rows.values()];
+        found.row.thread_count = found.threads.length;
+        found.row.active_thread_count = found.threads.filter(
+          (thread) => !thread.archived,
+        ).length;
+        found.row.archived_thread_count = found.threads.filter(
+          (thread) => thread.archived,
+        ).length;
+        if (continuation !== undefined) {
+          found.historyGeneration++;
+          this.details.delete(found.row.id);
+          this.observedPages.delete(found.row.id);
+          for (const thread of found.threads)
+            this.itemCursors.delete(JSON.stringify([found.row.id, thread.id]));
+        }
+      })().finally(() => {
+        found.attachmentScan = null;
+      });
+    }
+    await found.attachmentScan;
+    const state = found.attachments;
+    const complete = !state.queue.length && !state.warnings.length;
+    return {
+      status: complete ? "observed" : "partial",
+      count: state.rows.size,
+      pages: state.pages,
+      complete,
+      continuation: found.attachmentToken,
+    };
+  }
+  async #pagedTurns(threadId, maxTurnPages, prior) {
     const turns = new Map(),
+      metadata = new Map(prior?.turn_metadata),
+      unmatched = new Set(prior?.unmatched_turn_ids),
       warnings = [],
-      metadataCursors = new Set();
-    let cursor,
+      metadataCursors = new Set(prior?.seen_turn_cursors);
+    let cursor = prior?.turn_cursor,
       turnPages = 0,
       metadataTurns = 0;
-    for (let pageIndex = 0; pageIndex < maxTurnPages; pageIndex++) {
+    for (
+      let pageIndex = 0;
+      cursor !== null && pageIndex < maxTurnPages;
+      pageIndex++
+    ) {
       let page;
       try {
         page = await this.history.turns(threadId, {
@@ -848,6 +1093,7 @@ export class PortfolioManager {
         });
       } catch (error) {
         if (
+          !prior &&
           error.code === "CODEX_RPC_ERROR" &&
           [-32601, -32602].includes(error.details?.rpc_code)
         )
@@ -868,31 +1114,45 @@ export class PortfolioManager {
           "Native turn metadata has no turn identity",
           502,
         );
-        if (!turns.has(turn.id)) metadataTurns++;
-        turns.set(turn.id, { ...turn, items: [] });
+        if (!metadata.has(turn.id)) metadataTurns++;
+        const record = { ...turn, items: [] };
+        metadata.set(turn.id, record);
+        turns.set(turn.id, { ...record, items: [] });
+        unmatched.delete(turn.id);
       }
-      cursor = page.nextCursor ?? null;
-      if (!cursor) break;
-      if (typeof cursor !== "string" || metadataCursors.has(cursor)) {
+      const next = page.nextCursor ?? null;
+      if (
+        next &&
+        (typeof next !== "string" ||
+          next.length > 16384 ||
+          metadataCursors.has(next))
+      ) {
         warnings.push({
           code: "HOST_PROTOCOL_ERROR",
           message: "Native turns repeated or returned an invalid cursor",
         });
+        cursor = null;
         break;
       }
-      metadataCursors.add(cursor);
+      cursor = next;
+      if (cursor) metadataCursors.add(cursor);
     }
-    const turnCursor = cursor;
     const maxItemPages = maxTurnPages * 2,
-      itemCursors = new Set(initialCursor ? [initialCursor] : []),
+      itemCursors = new Set(prior?.seen_item_cursors),
       itemIds = new Set();
-    let itemCursor = initialCursor,
+    let itemCursor = prior?.native_item_cursor ?? undefined,
       itemPages = 0,
       requests = 0,
       limit = 50,
       itemCount = 0,
-      exhausted = false;
-    while (itemPages < maxItemPages && requests < maxItemPages + 6) {
+      exhausted = prior?.items_exhausted === true,
+      terminalError = prior?.items_terminal_error === true;
+    while (
+      !exhausted &&
+      !terminalError &&
+      itemPages < maxItemPages &&
+      requests < maxItemPages + 6
+    ) {
       let page;
       requests++;
       try {
@@ -902,29 +1162,29 @@ export class PortfolioManager {
         });
       } catch (error) {
         if (
+          !prior &&
           error.code === "CODEX_RPC_ERROR" &&
           error.details?.rpc_code === -32601
         )
           return { fallback: true };
-        if (
+        const oversized =
           error.code === "HOST_DISCONNECTED" &&
-          /Protocol message exceeded limit/i.test(error.message) &&
-          limit > 1
-        ) {
+          /Protocol message exceeded limit/i.test(error.message);
+        if (oversized && limit > 1) {
           limit = Math.max(1, Math.floor(limit / 2));
           continue;
         }
-        warnings.push({
-          ...publicError(error),
-          ...(limit === 1 &&
-          /Protocol message exceeded limit/i.test(error.message)
+        warnings.push(
+          oversized
             ? {
                 code: "NATIVE_ITEM_TOO_LARGE",
                 message:
                   "One persisted item exceeds the transport limit; its original content remains unread",
               }
-            : {}),
-        });
+            : publicError(error),
+        );
+        itemCursor = null;
+        terminalError = true;
         break;
       }
       if (!Array.isArray(page.data) || page.data.length > limit) {
@@ -932,6 +1192,8 @@ export class PortfolioManager {
           code: "HOST_PROTOCOL_ERROR",
           message: "Native item history did not return a page",
         });
+        itemCursor = null;
+        terminalError = true;
         break;
       }
       itemPages++;
@@ -939,8 +1201,7 @@ export class PortfolioManager {
       for (const entry of page.data) {
         if (
           typeof entry?.turnId !== "string" ||
-          !entry.item ||
-          typeof entry.item.id !== "string"
+          typeof entry.item?.id !== "string"
         ) {
           warnings.push({
             code: "HOST_PROTOCOL_ERROR",
@@ -954,34 +1215,44 @@ export class PortfolioManager {
         itemIds.add(key);
         itemCount++;
         if (!turns.has(entry.turnId)) {
-          turns.set(entry.turnId, {
-            id: entry.turnId,
-            status: "unknown",
-            items: [],
-            metadata_observed: false,
-          });
-          warnings.push({
-            code: "NATIVE_ITEM_TURN_UNAVAILABLE",
-            turn_id: entry.turnId,
-            message:
-              "Observed items have no turn metadata inside the configured turn page range",
-          });
+          const known = metadata.get(entry.turnId);
+          if (!known) unmatched.add(entry.turnId);
+          turns.set(
+            entry.turnId,
+            known
+              ? { ...known, items: [] }
+              : {
+                  id: entry.turnId,
+                  status: "unknown",
+                  items: [],
+                  metadata_observed: false,
+                },
+          );
         }
         turns.get(entry.turnId).items.push(entry.item);
       }
       const next = page.nextCursor ?? null;
-      if (invalid) break;
+      if (invalid) {
+        itemCursor = null;
+        terminalError = true;
+        break;
+      }
       if (!next) {
         itemCursor = null;
         exhausted = true;
         break;
       }
-      if (typeof next !== "string" || itemCursors.has(next)) {
+      if (
+        typeof next !== "string" ||
+        next.length > 16384 ||
+        itemCursors.has(next)
+      ) {
         warnings.push({
           code: "HOST_PROTOCOL_ERROR",
           message: "Native items repeated or returned an invalid cursor",
         });
         itemCursor = null;
+        terminalError = true;
         break;
       }
       itemCursors.add(next);
@@ -994,7 +1265,16 @@ export class PortfolioManager {
           "More persisted items remain; continue from this thread's observed item cursor",
         max_item_pages: maxItemPages,
       });
-    if (metadataTurns > 0 && itemCount === 0)
+    if (!cursor)
+      for (const turnId of unmatched)
+        warnings.push({
+          code: "NATIVE_ITEM_TURN_UNAVAILABLE",
+          turn_id: turnId,
+          message:
+            "The native item has no matching turn metadata in the available history",
+        });
+    const totalItems = (prior?.total_items_observed ?? 0) + itemCount;
+    if (exhausted && !cursor && metadata.size > 0 && totalItems === 0)
       warnings.push({
         code: "NATIVE_ITEMS_EMPTY",
         message:
@@ -1004,14 +1284,12 @@ export class PortfolioManager {
       // Public item pages are descending; turnWork expects chronological items.
       turn.items.reverse();
       turn.itemsView =
-        exhausted && !initialCursor && !warnings.length ? "full" : "partial";
+        exhausted && !prior && !cursor && !warnings.length ? "full" : "partial";
     }
     const allTurns = [...turns.values()];
     return {
-      turns: initialCursor
-        ? allTurns.filter((turn) => turn.items.length)
-        : allTurns,
-      completedTurnIds: allTurns
+      turns: allTurns,
+      completedTurnIds: [...metadata.values()]
         .filter((turn) => turn.status === "completed")
         .map((turn) => turn.id),
       answeredTurnIds: allTurns
@@ -1023,15 +1301,27 @@ export class PortfolioManager {
         .map((turn) => turn.id),
       turnPages,
       metadataTurns,
-      turnCursor,
+      totalMetadataTurns: metadata.size,
+      turnCursor: cursor,
       itemPages,
       requests,
       itemCount,
-      nextItemCursor: itemCursor,
-      exhausted,
+      nextItemCursor: itemCursor ?? (cursor ? newId("history") : null),
+      exhausted: exhausted && !cursor,
       limit,
       maxItemPages,
       warnings,
+      continuationState: {
+        turn_metadata: metadata,
+        unmatched_turn_ids: unmatched,
+        turn_cursor: cursor,
+        seen_turn_cursors: metadataCursors,
+        native_item_cursor: itemCursor,
+        items_exhausted: exhausted,
+        items_terminal_error: terminalError,
+        seen_item_cursors: itemCursors,
+        total_items_observed: totalItems,
+      },
     };
   }
   async project(
@@ -1043,6 +1333,7 @@ export class PortfolioManager {
       snapshot_checked_at,
       item_thread_id,
       item_cursor,
+      attachment_continue,
     } = {},
   ) {
     const snapshotToken = this.snapshot.checked_at;
@@ -1066,6 +1357,28 @@ export class PortfolioManager {
       "The recorded project root changed; review its native identity explicitly",
       409,
     );
+    fail(
+      attachment_continue === undefined ||
+        (thread_offset === 0 &&
+          snapshot_checked_at === snapshotToken &&
+          item_thread_id === undefined &&
+          item_cursor === undefined),
+      "SOURCE_DRIFT",
+      "Continue attached chats from the current project's first history page",
+      409,
+    );
+    let historyGeneration;
+    const assertCurrent = () =>
+      fail(
+        generation === this.generation &&
+          this.rows.get(id) === found &&
+          this.snapshot.checked_at === snapshotToken &&
+          (historyGeneration === undefined ||
+            historyGeneration === found.historyGeneration),
+        "SOURCE_DRIFT",
+        "Service privacy/restore boundary changed during history read; refresh again",
+        409,
+      );
     fail(
       Number.isInteger(max_threads) && max_threads >= 1 && max_threads <= 100,
       "INVALID_INPUT",
@@ -1092,10 +1405,20 @@ export class PortfolioManager {
       "Project history inventory changed; refresh before reading another page",
       409,
     );
+    const attachmentCoverage = await this.#projectAttachments(
+      found,
+      attachment_continue,
+      assertCurrent,
+    );
+    historyGeneration = found.historyGeneration;
+    const discoveryComplete =
+      this.snapshot.coverage.complete &&
+      (!this.history.attachedThreadPaging || attachmentCoverage.complete);
     let current = null;
-    const binding = this.store
-      .list("project")
-      .find((x) => x.root === found.row.root);
+    const canBind = allowsRootBinding(found.row);
+    const binding = canBind
+      ? this.store.list("project").find((x) => x.root === found.row.root)
+      : null;
     if (!found.root_error) {
       const currentRoot = assertProjectRoot(found.row.root);
       fail(
@@ -1110,9 +1433,10 @@ export class PortfolioManager {
         "Project overlaps private service or account data",
         403,
       );
-      current = await inspectProject(found.row.root, {
-        sourceRefs: binding?.source_refs ?? [],
-      });
+      if (canBind)
+        current = await inspectProject(found.row.root, {
+          sourceRefs: binding?.source_refs ?? [],
+        });
     }
     const items = [
         ...(current?.work_records ?? []),
@@ -1170,12 +1494,24 @@ export class PortfolioManager {
         ? thread_offset + sourceThreads.length
         : null;
     const itemContinuations = [];
+    const pendingItemCursors = new Map();
     for (const thread of sourceThreads) {
       try {
+        const cwd = resolve(thread.cwd);
+        fail(
+          !this.#privateRoot(cwd),
+          "PRIVATE_PATH",
+          "The native chat points to private application/account data",
+          403,
+        );
+        if (cwd !== found.row.root) assertProjectRoot(cwd);
         const meta = await this.history.read(thread.id);
         fail(
           meta.thread?.id === thread.id &&
-            resolve(meta.thread.cwd) === resolve(thread.cwd),
+            typeof meta.thread.cwd === "string" &&
+            isAbsolute(meta.thread.cwd) &&
+            resolve(meta.thread.cwd) === cwd &&
+            (meta.thread.projectId ?? null) === thread.native_project_id,
           "SOURCE_DRIFT",
           "Native thread changed project ownership",
           409,
@@ -1197,7 +1533,7 @@ export class PortfolioManager {
           const observed = await this.#pagedTurns(
             thread.id,
             max_turn_pages,
-            continuingItems ? item_cursor : undefined,
+            admission?.continuation_state,
           );
           if (!observed.fallback) {
             pages += observed.turnPages;
@@ -1217,7 +1553,7 @@ export class PortfolioManager {
                   "More persisted turns remain beyond this page's configured turn limit",
                 max_turn_pages,
               });
-            if (observed.metadataTurns === 0) {
+            if (observed.totalMetadataTurns === 0) {
               emptyHistoryThreads++;
               threadWarnings.push({
                 code: "NATIVE_HISTORY_EMPTY",
@@ -1238,7 +1574,11 @@ export class PortfolioManager {
             }
             if (
               threadWarnings.some(
-                (warning) => warning.code !== "NATIVE_ITEM_PAGE_LIMIT",
+                (warning) =>
+                  ![
+                    "NATIVE_ITEM_PAGE_LIMIT",
+                    "NATIVE_TURN_PAGE_LIMIT",
+                  ].includes(warning.code),
               )
             )
               nonItemPageComplete = false;
@@ -1269,18 +1609,21 @@ export class PortfolioManager {
             };
             itemContinuations.push(continuation);
             const key = JSON.stringify([id, thread.id]);
-            if (observed.nextItemCursor)
-              this.itemCursors.set(key, {
-                cursor: observed.nextItemCursor,
-                snapshot: snapshotToken,
-                generation,
-                source_revision: current?.revision ?? null,
-                answered_turn_ids: [...answered],
-                thread_offset: admission?.thread_offset ?? thread_offset,
-                next_thread_offset: nextThreadOffset,
-                non_item_page_complete: nonItemPageComplete,
-              });
-            else this.itemCursors.delete(key);
+            pendingItemCursors.set(
+              key,
+              observed.nextItemCursor
+                ? {
+                    cursor: observed.nextItemCursor,
+                    snapshot: snapshotToken,
+                    generation,
+                    source_revision: current?.revision ?? null,
+                    answered_turn_ids: [...answered],
+                    thread_offset: admission?.thread_offset ?? thread_offset,
+                    next_thread_offset: nextThreadOffset,
+                    continuation_state: observed.continuationState,
+                  }
+                : null,
+            );
             continue;
           }
         }
@@ -1364,14 +1707,15 @@ export class PortfolioManager {
         warnings.push({ thread_id: thread.id, ...publicError(error) });
       }
     }
-    fail(
-      generation === this.generation &&
-        this.rows.get(id) === found &&
-        this.snapshot.checked_at === snapshotToken,
-      "SOURCE_DRIFT",
-      "Service privacy/restore boundary changed during history read; refresh again",
-      409,
-    );
+    assertCurrent();
+    if (continuingItems)
+      fail(
+        this.itemCursors.get(JSON.stringify([id, item_thread_id])) ===
+          admission,
+        "SOURCE_DRIFT",
+        "This history continuation was already consumed; use the current page",
+        409,
+      );
     const merged = new Map();
     for (const item of items) {
       const key = workIdentity(item);
@@ -1390,24 +1734,27 @@ export class PortfolioManager {
             source_revision: current.revision,
           }
         : {}),
-      history_status: "observed",
       known_work_items: work.length,
     };
     pageComplete = pageComplete && nonItemPageComplete;
-    for (const continuation of itemContinuations) {
-      const pending = this.itemCursors.get(
-        JSON.stringify([id, continuation.thread_id]),
-      );
-      if (pending) pending.non_item_page_complete = nonItemPageComplete;
-    }
+    for (const [key, pending] of pendingItemCursors)
+      if (pending)
+        this.itemCursors.set(key, {
+          ...pending,
+          non_item_page_complete: nonItemPageComplete,
+        });
+      else this.itemCursors.delete(key);
     const complete =
       !continuingItems &&
       thread_offset === 0 &&
       nextThreadOffset === null &&
       pageComplete &&
-      this.snapshot.coverage.complete;
+      discoveryComplete;
     const result = {
-      project,
+      project: {
+        ...project,
+        history_status: complete ? "observed" : "partial",
+      },
       threads: sourceThreads,
       work_groups: projectWorkGroups(work),
       goal: project.goal,
@@ -1422,7 +1769,8 @@ export class PortfolioManager {
           ? { item_thread_id, consumed_item_cursor: item_cursor }
           : {}),
         item_cursors: itemContinuations,
-        discovery_complete: this.snapshot.coverage.complete,
+        discovery_complete: discoveryComplete,
+        attachments: attachmentCoverage,
         snapshot_checked_at: snapshotToken,
         thread_offset: admission?.thread_offset ?? thread_offset,
         next_thread_offset: nextThreadOffset,
@@ -1446,7 +1794,11 @@ export class PortfolioManager {
         },
         native_acceptance_inferred: false,
       },
-      warnings: [...project.warnings, ...warnings],
+      warnings: [
+        ...project.warnings,
+        ...(found.attachments?.warnings ?? []),
+        ...warnings,
+      ],
       checked_at: now(),
     };
     this.details.set(id, result);

@@ -135,6 +135,313 @@ test("pagination bounds and repeated cursors are visible, never declared a compl
   assert.equal(manager.get().status, "stale");
 });
 
+test("catalog and archive paginate independently and continue without dropping prior projects or chats", async (t) => {
+  const { root, home, dataDir } = await fixture(t);
+  const empty = join(home, "empty");
+  const worktree = join(home, "worktree");
+  await mkdir(join(empty, "docs/project"), { recursive: true });
+  await mkdir(worktree);
+  await writeFile(
+    join(empty, "docs/project/CHECKPOINT_UA.md"),
+    "## Мета\nEMPTY-PROJECT-CANARY\n",
+  );
+  const calls = [];
+  const native = {
+    allThreads: async ({ cursor, archived }) => {
+      calls.push([archived ? "archive" : "active", cursor]);
+      return archived
+        ? { data: [{ id: "archived", cwd: root }] }
+        : cursor
+          ? { data: [{ id: "second", cwd: root }] }
+          : {
+              data: [{ id: "first", cwd: worktree, projectId: "native-root" }],
+              nextCursor: "next-thread",
+            };
+    },
+    projectCatalog: async ({ cursor }) => {
+      calls.push(["catalog", cursor]);
+      return cursor
+        ? {
+            data: [
+              { id: "empty", name: "Empty Project", roots: [{ path: empty }] },
+            ],
+          }
+        : {
+            data: [
+              {
+                id: "native-root",
+                name: "Native Name",
+                roots: [{ path: root }],
+                metadata: { private: "ignored" },
+              },
+            ],
+            nextCursor: "next-project",
+          };
+    },
+  };
+  const manager = new PortfolioManager({
+    store: store(),
+    codex: native,
+    dataDir,
+  });
+  const first = await manager.refresh({ max_pages: 1 });
+  assert.equal(first.coverage.thread_streams.archived.count, 1);
+  assert.equal(first.coverage.registered_projects, "partial");
+  assert.equal(
+    first.projects.find((project) => project.root === root).thread_count,
+    2,
+  );
+  const second = await manager.refresh({
+    max_pages: 1,
+    continue_from: first.coverage.continuation,
+  });
+  assert.equal(second.coverage.registered_projects, "observed");
+  assert.equal(second.coverage.registered_project_count, 2);
+  assert.equal(second.coverage.local_inventory_complete, true);
+  assert.equal(second.coverage.continuation, null);
+  assert.deepEqual(calls, [
+    ["active", undefined],
+    ["archive", undefined],
+    ["catalog", undefined],
+    ["active", "next-thread"],
+    ["catalog", "next-project"],
+  ]);
+  const observed = second.projects.find((project) => project.root === root);
+  assert.equal(observed.name, "Native Name");
+  assert.equal(observed.native_project_id, "native-root");
+  assert.equal(observed.active_thread_count, 2);
+  assert.equal(observed.archived_thread_count, 1);
+  assert.equal(
+    second.projects.some((project) => project.root === worktree),
+    false,
+  );
+  const registeredEmpty = second.projects.find(
+    (project) => project.root === empty,
+  );
+  assert.equal(registeredEmpty.name, "Empty Project");
+  assert.equal(registeredEmpty.thread_count, 0);
+  assert.equal(registeredEmpty.binding_id, null);
+  assert.ok(!JSON.stringify(second).includes("EMPTY-PROJECT-CANARY"));
+  assert.equal(
+    (await manager.project(registeredEmpty.id)).goal.text,
+    "EMPTY-PROJECT-CANARY",
+  );
+  await assert.rejects(
+    manager.refresh({ continue_from: first.coverage.continuation }),
+    (error) => error.code === "SOURCE_DRIFT",
+  );
+});
+
+test("an unavailable project catalog stays visible after completing a separate thread stream", async (t) => {
+  const { root, dataDir } = await fixture(t);
+  let catalogCalls = 0;
+  const adapter = {
+    allThreads: async ({ archived, cursor }) =>
+      archived || cursor
+        ? { data: [] }
+        : { data: [{ id: "chat", cwd: root }], nextCursor: "end" },
+    projectCatalog: async () => {
+      catalogCalls++;
+      throw new ServiceError("CODEX_RPC_ERROR", "Method not found", 502, {
+        rpc_code: -32601,
+      });
+    },
+  };
+  const manager = new PortfolioManager({
+    store: store(),
+    codex: adapter,
+    dataDir,
+  });
+  const first = await manager.refresh({ max_pages: 1 });
+  assert.equal(first.coverage.registered_projects, "unavailable");
+  const next = await manager.refresh({
+    continue_from: first.coverage.continuation,
+  });
+  assert.equal(next.coverage.registered_projects, "unavailable");
+  assert.equal(next.coverage.complete, true);
+  assert.equal(next.coverage.local_inventory_complete, false);
+  assert.ok(
+    next.warnings.some(
+      (warning) => warning.code === "NATIVE_PROJECT_CATALOG_UNAVAILABLE",
+    ),
+  );
+  assert.equal(catalogCalls, 1);
+});
+
+test("distinct native projects sharing a folder retain their own history and cannot inherit a root binding", async (t) => {
+  const { root, dataDir } = await fixture(t);
+  const listed = [
+    { id: "first-chat", cwd: root, projectId: "first" },
+    { id: "second-chat", cwd: root, projectId: "second" },
+    { id: "unassigned", cwd: root },
+  ];
+  const readTurns = [];
+  const adapter = {
+    projectCatalog: async () => ({
+      data: [
+        { id: "first", name: "First", roots: [{ path: root }] },
+        { id: "second", name: "Second", roots: [{ path: root }] },
+      ],
+    }),
+    allThreads: async ({ archived }) => ({ data: archived ? [] : listed }),
+    attachedThreads: async (owner, { archived }) => ({
+      data:
+        owner === "first-chat" && !archived
+          ? [{ id: "attached-cross-project", cwd: root, projectId: "second" }]
+          : [],
+    }),
+    readThread: async (id) => ({ thread: listed.find((row) => row.id === id) }),
+    historyTurns: async (id) => {
+      readTurns.push(id);
+      return { data: [] };
+    },
+  };
+  const bindings = {
+    project: [{ id: "legacy-binding", name: "Legacy workspace", root }],
+  };
+  const manager = new PortfolioManager({
+    store: store(bindings),
+    codex: adapter,
+    dataDir,
+  });
+  const catalog = await manager.refresh();
+  const first = catalog.projects.find(
+    (row) => row.native_project_id === "first",
+  );
+  const second = catalog.projects.find(
+    (row) => row.native_project_id === "second",
+  );
+  const unassigned = catalog.projects.find(
+    (row) => row.binding_id === "legacy-binding",
+  );
+  assert.equal(catalog.projects.length, 3);
+  assert.equal(first.binding_scope, "native-shared-root");
+  assert.equal(second.binding_id, null);
+  assert.equal(unassigned.binding_scope, "root");
+  assert.equal(unassigned.id, `discovered-${sha(root).slice(0, 20)}`);
+  assert.equal(
+    manager.get().projects.find((row) => row.id === first.id).binding_id,
+    null,
+  );
+  const history = await manager.project(first.id);
+  assert.deepEqual(
+    history.threads.map((thread) => thread.id),
+    ["first-chat"],
+  );
+  assert.deepEqual(readTurns, ["first-chat"]);
+  assert.equal(history.project.binding_id, null);
+  assert.ok(
+    history.warnings.some(
+      (warning) => warning.code === "NATIVE_ATTACHMENT_OUTSIDE_PROJECT",
+    ),
+  );
+  assert.ok(
+    history.warnings.some(
+      (warning) => warning.code === "NATIVE_PROJECT_ROOT_CONFLICT",
+    ),
+  );
+});
+
+test("a native chat newly assigned to a project does not expose turns through its stale unassigned workspace", async (t) => {
+  const { root, dataDir } = await fixture(t);
+  let readTurns = 0;
+  const adapter = {
+    allThreads: async ({ archived }) => ({
+      data: archived ? [] : [{ id: "chat", cwd: root }],
+    }),
+    readThread: async () => ({
+      thread: { id: "chat", cwd: root, projectId: "another-project" },
+    }),
+    historyTurns: async () => {
+      readTurns++;
+      return { data: [] };
+    },
+  };
+  const manager = new PortfolioManager({
+    store: store(),
+    codex: adapter,
+    dataDir,
+  });
+  const catalog = await manager.refresh();
+  const history = await manager.project(catalog.projects[0].id);
+  assert.equal(readTurns, 0);
+  assert.equal(history.coverage.threads_read, 0);
+  assert.ok(
+    history.warnings.some((warning) => warning.code === "SOURCE_DRIFT"),
+  );
+});
+
+test("attached chat discovery can continue the selected project without changing native history or skipping archive", async (t) => {
+  const { root, dataDir } = await fixture(t);
+  const listed = Array.from({ length: 129 }, (_, index) => ({
+    id: `chat-${index}`,
+    cwd: root,
+  }));
+  const attachedCalls = [];
+  const native = {
+    allThreads: async ({ cursor, archived }) =>
+      archived
+        ? { data: [] }
+        : cursor
+          ? { data: listed.slice(100) }
+          : { data: listed.slice(0, 100), nextCursor: "older" },
+    attachedThreads: async (owner, { archived }) => {
+      attachedCalls.push([owner, archived]);
+      return {
+        data:
+          owner === "chat-128" && archived
+            ? [{ id: "nested-old", cwd: root }]
+            : [],
+      };
+    },
+    readThread: async (threadId) => ({ thread: { id: threadId, cwd: root } }),
+    historyTurns: async () => ({
+      data: [
+        {
+          id: "turn",
+          status: "completed",
+          items: [
+            { id: "answer", type: "agentMessage", text: "A verified result" },
+          ],
+        },
+      ],
+    }),
+  };
+  const manager = new PortfolioManager({
+    store: store(),
+    codex: native,
+    dataDir,
+  });
+  const snapshot = await manager.refresh();
+  const id = snapshot.projects[0].id;
+  const first = await manager.project(id, { max_threads: 1 });
+  assert.equal(first.coverage.attachments.pages, 256);
+  assert.equal(first.coverage.attachments.complete, false);
+  assert.equal(first.coverage.attachments.count, 0);
+  const options = {
+    snapshot_checked_at: snapshot.checked_at,
+    attachment_continue: first.coverage.attachments.continuation,
+    max_threads: 1,
+  };
+  const second = await manager.project(id, options);
+  assert.equal(second.coverage.attachments.complete, true);
+  assert.equal(second.coverage.attachments.count, 1);
+  assert.ok(
+    attachedCalls.some(([id, archived]) => id === "nested-old" && archived),
+  );
+  const last = await manager.project(id, {
+    thread_offset: 129,
+    snapshot_checked_at: snapshot.checked_at,
+  });
+  assert.equal(last.threads[0].id, "nested-old");
+  assert.equal(last.threads[0].archived, true);
+  assert.equal(last.threads[0].attached_to_thread_id, "chat-128");
+  await assert.rejects(
+    manager.project(id, options),
+    (error) => error.code === "SOURCE_DRIFT",
+  );
+});
+
 test("a bound project with no native session still has its source-backed goal and work map", async (t) => {
   const { root, dataDir } = await fixture(t);
   await mkdir(join(root, "docs/project"), { recursive: true });
@@ -1147,6 +1454,7 @@ test("public Codex discovery explicitly requests all kinds and state-db-only pag
   assert.equal(calls[0].params.useStateDbOnly, true);
   assert.ok(!Object.hasOwn(calls[0].params, "cwd"));
   assert.ok(calls[0].params.sourceKinds.includes("subAgent"));
+  assert.deepEqual(calls[0].params.modelProviders, []);
   assert.equal(calls[0].params.archived, true);
   assert.equal(calls[1].params.itemsView, "full");
   assert.equal(calls[2].params.itemsView, "notLoaded");
@@ -1170,6 +1478,8 @@ test("native-index history transport has a private read facade and rejects all m
     ["command/exec", {}],
     ["account/read", { refreshToken: true }],
     ["thread/list", {}],
+    ["project/list", { limit: 101 }],
+    ["project/create", {}],
     ["thread/read", { includeTurns: true }],
     ["thread/turns/list", { itemsView: "full", limit: 1000 }],
     ["thread/turns/list", { itemsView: "summary", limit: 10 }],
@@ -1249,6 +1559,7 @@ test("native-index history transport has a private read facade and rejects all m
   assert.equal(reader.resume, undefined);
   assert.equal(reader.turn, undefined);
   await reader.allThreads({ limit: 1 });
+  await reader.projectCatalog({ limit: 1 });
   await reader.historyTurns("scoped-thread", { limit: 5 });
   await reader.historyItems("scoped-thread", { limit: 5 });
   await reader.close();
@@ -1262,6 +1573,7 @@ test("native-index history transport has a private read facade and rejects all m
     "initialized",
     "account/read",
     "thread/list",
+    "project/list",
     "thread/turns/list",
     "thread/items/list",
   ]);
@@ -1425,6 +1737,111 @@ test("bounded item continuation retains exact cursor admission, newer answers an
     }),
     (error) => error.code === "SOURCE_DRIFT",
   );
+});
+
+test("history continues older turn metadata after the last item page and preserves its observed answer", async (t) => {
+  const { root, dataDir } = await fixture(t);
+  let itemCalls = 0;
+  const adapter = {
+    allThreads: async ({ archived }) => ({
+      data: archived ? [] : [{ id: "chat", cwd: root }],
+    }),
+    readThread: async () => ({ thread: { id: "chat", cwd: root } }),
+    historyTurns: async (_id, { cursor }) =>
+      cursor === "older"
+        ? { data: [{ id: "older", status: "completed" }] }
+        : {
+            data: [{ id: "recent", status: "completed" }],
+            nextCursor: "older",
+          },
+    historyItems: async () => {
+      itemCalls++;
+      return {
+        data: [
+          {
+            turnId: "recent",
+            item: {
+              id: "recent-answer",
+              type: "agentMessage",
+              text: "Recent answer",
+            },
+          },
+          {
+            turnId: "older",
+            item: {
+              id: "older-answer",
+              type: "agentMessage",
+              text: "Original older answer",
+            },
+          },
+        ],
+      };
+    },
+  };
+  const manager = new PortfolioManager({
+    store: store(),
+    codex: adapter,
+    dataDir,
+  });
+  const snapshot = await manager.refresh();
+  const id = snapshot.projects[0].id;
+  const first = await manager.project(id, { max_turn_pages: 1 });
+  assert.equal(first.coverage.page_complete, false);
+  assert.equal(first.coverage.non_item_page_complete, true);
+  assert.equal(
+    first.warnings.find((warning) => warning.thread_id === "chat").code,
+    "NATIVE_TURN_PAGE_LIMIT",
+  );
+  const continuation = first.coverage.item_cursors[0].next_cursor;
+  assert.ok(continuation);
+  const next = await manager.project(id, {
+    item_thread_id: "chat",
+    item_cursor: continuation,
+    max_turn_pages: 1,
+    snapshot_checked_at: snapshot.checked_at,
+  });
+  assert.equal(itemCalls, 1);
+  assert.equal(next.coverage.item_cursors[0].items_complete, true);
+  const accumulated = manager.observedPages.get(id).pages.get(0);
+  const older = accumulated.work_groups
+    .flatMap((group) => group.items)
+    .find((item) => item.turn_id === "older");
+  assert.equal(older.outcome, "Original older answer");
+  assert.equal(older.status, "answer_received");
+  assert.equal(accumulated.coverage.page_complete, true);
+  assert.equal(
+    accumulated.warnings.some(
+      (warning) => warning.code === "NATIVE_TURN_PAGE_LIMIT",
+    ),
+    false,
+  );
+  assert.equal(manager.get().projects[0].history_status, "observed");
+});
+
+test("privacy invalidation during native item paging cannot repopulate a cleared continuation", async (t) => {
+  let finish;
+  let started;
+  const active = new Promise((resolve) => {
+    started = resolve;
+  });
+  const response = new Promise((resolve) => {
+    finish = resolve;
+  });
+  const f = await itemHistoryFixture(t, async (_id, { cursor }) => {
+    if (cursor) return { data: [], nextCursor: "still-older" };
+    started();
+    return response;
+  });
+  const request = f.manager.project(f.id, { max_turn_pages: 1 });
+  await active;
+  f.manager.invalidate();
+  finish({
+    data: [entry("answer", "agentMessage", { text: "Old response" })],
+    nextCursor: "older",
+  });
+  await assert.rejects(request, (error) => error.code === "SOURCE_DRIFT");
+  assert.equal(f.manager.itemCursors.size, 0);
+  assert.equal(f.manager.observedPages.size, 0);
 });
 
 test("repeated item cursors, a single oversized item and empty answer text remain explicit coverage gaps", async (t) => {
