@@ -1,5 +1,6 @@
 {
   "schema_version": "codex-agents.release/1",
+  "repository_branch": "main",
   "repository_version": "1.4.0-rc.5",
   "suite_version": "6.1.0",
   "release_date": "2026-11-11",
@@ -80,5 +81,12 @@
     "final_adoption_performed": false,
     "implementation_status": "docs/evolution/2026-11-10/IMPLEMENTATION.en.md"
   },
-  "release_status": "Service candidate with preserved next-action context, supported direct MCP and Codex image generation. WORK is deferred."
+  "release_status": "Published repository candidate with verified local Agent Atelier 0.5.0 adoption. Full 1.4.0 acceptance remains open. WORK is deferred.",
+  "publication": {
+    "commit": "e1e6cbbbf534dbb04f2d6a2265b53ad6c9cccb96",
+    "implementation_commit": "c86ce907544410afcb8bbd19181f1640446aefb7",
+    "pull_request": "https://github.com/alex-hohaizel/codex-agents/pull/4",
+    "validation": "https://github.com/alex-hohaizel/codex-agents/actions/runs/42935500589",
+    "source_bundles": "https://github.com/alex-hohaizel/codex-agents/actions/runs/42935500589/artifacts/13817734962"
+  }
 }

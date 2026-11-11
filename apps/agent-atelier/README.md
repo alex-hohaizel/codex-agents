@@ -6,7 +6,9 @@ The 33-core skill suite, optional orchestrator and this service have separate ve
 
 ## Build and launch
 
-Use the pinned lockfile and Node.js24.22.2 or a verified compatible runtime. From this directory:
+Select the published source revision recorded for the version you need. For the 0.4.0 to 0.5.0 update, follow the service migration to preserve the data directory and existing work. [Current release record](../../releases/current.json) · [Update and rollback](../../releases/migrations/repository-1.4.0-rc.5.md)
+
+Use the pinned lockfile and Node.js 24.22.2 or a verified compatible runtime. Run these commands from this directory.
 
 ```sh
 npm ci --ignore-scripts
@@ -32,7 +34,7 @@ For development run the backend and Vite in separate terminals. Set an explicit 
 
 1. Open the live workbench, choose your language and refresh the native Codex portfolio. Open a project to inspect its work groups, target, observed agents and next steps. Preview the exact directory and bind it before control. Existing direct-Codex work can appear through native history; there is no automatic Home scan.
 2. Open actual sources, requirements/context and identity. Source-only, observed integration, independent review and owner acceptance are distinct. Unsupported schemas/capabilities retain explicit warnings rather than reset state.
-3. Use the universal task entry with your objective and acceptance. Review its routing proposal and available project agent; the actual orchestrator interprets context and can reuse a specialist, continue through a verified project agent, invoke the agent constructor for a genuine gap or coordinate system maintenance. A matching label alone does not verify an agent. Prepare a bounded task with filesystem scope and deadline. Review its exact capsule/source pins, obligations, allowed roots and current capability scope. Missing required access blocks dispatch or produces a concrete handoff.
+3. Open the displayed next action to carry its full text into the task form, or use the universal task entry to enter your own objective. Edit the objective and acceptance before preparing the task. Review its routing proposal and available project agent; the actual orchestrator interprets context and can reuse a specialist, continue through a verified project agent, invoke the agent constructor for a genuine gap or coordinate system maintenance. A matching label alone does not verify an agent. Prepare a bounded task with filesystem scope and deadline. Review its exact capsule/source pins, obligations, allowed roots and current capability scope. Missing required access blocks dispatch or produces a concrete handoff.
 4. Dispatch only the approved scope. Follow actual host/thread/turn receipts and outputs. Pause prevents new dependent work; interruption is `cancel_requested` until the host confirms a terminal outcome.
 5. Review the actual result against the original task and accepted references. Owner review is not independent QA. A completed model turn does not establish a successful build, artifact delivery or production acceptance.
 
@@ -53,8 +55,6 @@ For an existing GitHub CLI login, select GitHub CLI and enter the exact reposito
 Select **OpenAI Docs MCP** to search the official documentation. Open the returned source link to read the page.
 
 Select **Codex Image** to generate an image with the existing ChatGPT login and supported Codex host. Enter an image brief and generate it, then preview or download the PNG. This uses included Codex limits. If Codex reports an uncertain outcome, check its generated images before retrying.
-
-The next-action button carries the displayed objective into the task form. Edit the objective and acceptance before reviewing its route and preparing the task.
 
 Use **Continue in Codex** for tools that need the native host. Paste the handoff into the intended project chat and select the actual plugin there. Check the exact operation, data, access and any charge before running it. A handoff leaves execution and the result pending in that host.
 
@@ -98,7 +98,7 @@ Settings let the owner choose service-history/event/input-cache/backup periods o
 
 Forgotten record/root tombstones filter restores. Pending file cleanup stores reviewed target hashes; a replacement at the same path requires a fresh preview. Pruned task inputs revoke dispatch/continue until a new preparation. Diagnostic export first shows only redacted aggregates for review, then writes/downloads that exact content locally; it sends nothing externally.
 
-The bounded personal Mac update was observed on source `b49dfcb7cb7eecaedf6aac541f9dea8fc2df3e19`: the original SQLite file, four bindings, owner settings and prior task/job history were retained. After a verified stopped filesystem copy, the same owned service was opened by its updated launcher. Actual report reading, keyboard interaction and one native grouped work result were checked; history coverage was visibly partial. See the [per-case results](../../docs/evolution/2026-11-10/FULL-CASE-RESULTS.en.md) and [observed status](../../docs/evolution/2026-11-10/STATUS.json). This is bounded evidence, not acceptance of every vendor operation, future product or WORK host.
+The personal Mac update to 0.5.0 was verified on source `c86ce907544410afcb8bbd19181f1640446aefb7`. The service reopened through the updated launcher with the same SQLite file, four project bindings, owner settings and existing task/job history. The filesystem backup was checked before replacement. The earlier 0.3.1 observation remains available with its own source and history-coverage limits. [0.5.0 release and verification](../../releases/repository-1.4.0-rc.5.md) · [0.3.1 checkpoint](../../docs/evolution/2026-11-10/STATUS.json)
 
 ## Verification and maintenance
 
@@ -108,6 +108,6 @@ npm test
 npm run build
 ```
 
-Server tests use isolated fixtures; real loopback/model/browser checks require the corresponding local runtime permissions. Their observed scopes and final release status are in `governance/RELEASE_6_VERIFICATION.json` at repository root. Private execution IDs, inventories and logs are kept outside distributable sources. No universal creative, accessibility or device certification is claimed.
+Server tests use isolated fixtures. Real loopback, model and browser checks require the corresponding local runtime permissions. The 0.5.0 record covers the next-action form, a persisted prepared task with zero dispatches, real OpenAI Docs results, and a downloaded Codex-generated PNG. Find earlier checks under their original release scope. [0.5.0 verification](../../releases/repository-1.4.0-rc.5.md) · [Historical 6.0 verification](../../governance/RELEASE_6_VERIFICATION.json)
 
 `shared/API.md` describes commands, receipts and boundaries. Server modules separate native project reads, context compilation, store/command recovery, Codex transport and supported skill updates. Client components separate the stable workbench, adaptive views, dialogs, API state and localization. Formatting, pinned dependencies and focused tests support ordinary human maintenance.

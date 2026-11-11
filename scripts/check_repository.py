@@ -124,7 +124,12 @@ def check(root: Path, *, links: bool = True) -> dict:
             except (OSError, ValueError) as exc:
                 errors.append(f"kit integrity {relative}: {exc}")
 
-    for field in ["release_notes", "migration", "requirements"]:
+    release_paths = ["release_notes", "migration", "requirements"]
+    release_paths.extend(
+        field for field in ("repository_release_notes", "repository_migration")
+        if field in current
+    )
+    for field in release_paths:
         relative = current.get(field)
         if not relative:
             errors.append(f"release lacks {field}")
@@ -141,6 +146,40 @@ def check(root: Path, *, links: bool = True) -> dict:
         for marker in ["## Before", "## Steps", "## Verify", "## Rollback", "## Existing projects"]:
             if marker not in text:
                 errors.append(f"migration lacks {marker}")
+
+    branch = current.get("repository_branch")
+    if branch is not None and (
+        not isinstance(branch, str) or not branch or any(char.isspace() for char in branch)
+    ):
+        errors.append("release repository_branch must name the active GitHub branch")
+
+    service = current.get("local_service")
+    if service:
+        try:
+            source = service.get("source")
+            version = service.get("version")
+            if not isinstance(source, str) or not source or not isinstance(version, str) or not version:
+                raise ValueError("local service source and version are required")
+            package = load(f"{source}/package.json")
+            lock = load(f"{source}/package-lock.json")
+            contracts = safe_path(root, f"{source}/shared/contracts.mjs").read_text(encoding="utf-8")
+            runtime = re.search(r'^export const SERVICE_VERSION = "([^"]+)";$', contracts, re.M)
+            versions = {
+                "package.json": package.get("version"),
+                "package-lock.json": lock.get("version"),
+                "package-lock.json root package": lock.get("packages", {}).get("", {}).get("version"),
+                "shared/contracts.mjs": runtime.group(1) if runtime else None,
+            }
+            requirements_file = safe_path(root, f"{source}/requirements.json")
+            if requirements_file.is_file():
+                versions["requirements.json release_candidate"] = load(
+                    f"{source}/requirements.json"
+                ).get("release_candidate")
+            for origin, actual in versions.items():
+                if actual != version:
+                    errors.append(f"local service {origin} version {actual!r} differs from release {version}")
+        except (OSError, ValueError) as exc:
+            errors.append(f"local service release record: {exc}")
 
     requirements = root / current.get("requirements", "__missing__")
     if requirements.is_file():
@@ -212,6 +251,7 @@ def check(root: Path, *, links: bool = True) -> dict:
                     errors.append(f"{rel}: broken local link: {target}")
     return {"ok": not errors, "suite_version": suite_version,
             "repository_version": current.get("repository_version"),
+            "repository_branch": branch, "requirements": current.get("requirements"),
             "skills": len(skills), "verified_skill_files": verified_files,
             "translations": len(translated_locales), "errors": errors, "warnings": warnings}
 

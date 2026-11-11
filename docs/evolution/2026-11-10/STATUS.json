@@ -1,6 +1,8 @@
 {
   "schema": "ai-data-production.proposal-status/1",
   "passport": "ai-data-production-evolution/0.2",
+  "record_scope": "Historical passport checkpoint for repository 1.4.0-rc.3. The current_implementation and current_service_runtime fields describe that observation.",
+  "active_release_record": "../../../releases/current.json",
   "date": "2026-11-11",
   "status": "scoped-service-update-verified; full-programme-acceptance-open",
   "owner_approval": {

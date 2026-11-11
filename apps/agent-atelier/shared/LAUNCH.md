@@ -1,11 +1,11 @@
 # Local launcher and operator contract
 
-Requires macOS and Node.js 24 or newer, an existing supported Codex CLI, and the owner's existing Codex sign-in. Installation never creates an API account or authorizes new API charges. WORK integration is deferred to a separate task.
+Use macOS, Node.js in the supported range `>=24.22.2 <27`, a supported Codex CLI, and the owner's existing Codex sign-in. Use the current release record to select the source revision and migration for the installed version. WORK remains deferred. [Current release record](../../../releases/current.json) · [0.5.0 update and rollback](../../../releases/migrations/repository-1.4.0-rc.5.md)
 
 From `apps/agent-atelier` inside the canonical checkout:
 
 ```sh
-npm ci
+npm ci --ignore-scripts
 npm run build
 node launcher/atelier.mjs start
 node launcher/atelier.mjs status
@@ -27,7 +27,7 @@ The service uses the public Codex app-server protocol, actual `skills/list`, thr
 
 Default tasks deny ambient MCP/apps, shell network and public web search. An explicit `capability_scope.public_web_read` can request the supported public search route; private project data must never be included in queries. Other external effects or required unavailable tools block dispatch and require a capable reviewed host route. A permission request cannot enlarge the prepared task's scope through a generic accept button.
 
-The current restricted-profile HOME read boundary and final end-to-end execution proof remain release checks, tracked by the implementation evidence. Earlier temporary-fixture runtime proof must not be presented as proof for every current profile or user directory. `operation_tested: false` and capability failures remain visible until the exact installed host route is verified. Do not relax the filesystem policy to bypass a failed capability check.
+Review the observed scope for the exact service release. The 0.5.0 checks cover preparation from the displayed next action, OpenAI Docs search and a downloaded native Codex image. Regular job dispatch still depends on the selected project's authority, source and filesystem checks. Capability failures and `operation_tested: false` remain visible until the exact host operation is verified. [0.5.0 verification](../../../releases/repository-1.4.0-rc.5.md)
 
 One active service job owns a project's write scope. A timeout, disconnect or restart without a terminal receipt becomes `outcome_unknown`; reconciliation reads the actual thread/turn before another attempt. Interrupt is a request until the host confirms a terminal interruption. Existing chats require exact ID/cwd preview, idle state and explicit handoff. A service lease does not fence an independent Codex Desktop client: do not continue the same chat concurrently in both interfaces. Owner review and independent QA/product acceptance are separate records.
 

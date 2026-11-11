@@ -1,7 +1,7 @@
 {
   "schema_version": "atelier.product-requirements/1",
   "product_id": "agent-atelier",
-  "release_candidate": "0.1.1",
+  "release_candidate": "0.5.0",
   "baseline_reference": "Current selected operational-platform marketing reference; translated into usable actual controls, not decorative fake capability",
   "requirements": [
     {
@@ -127,5 +127,20 @@
   ],
   "native_product_state_migration": false,
   "owner_approval": "Implementation authorized in skills-management workspace; private actual quote kept outside reusable source",
-  "owner_acceptance": "Not inferred from author tests or source review"
+  "owner_acceptance": "Not inferred from author tests or source review",
+  "historical_baseline_candidate": "0.1.1",
+  "current_release": "../../releases/current.json",
+  "current_requirements": {
+    "register": "../../governance/requirements.csv",
+    "ids": [
+      "REQ-046",
+      "REQ-047",
+      "REQ-048",
+      "REQ-049",
+      "REQ-050"
+    ],
+    "verified_release_evidence": "../../releases/repository-1.4.0-rc.5.md",
+    "local_catalog_evidence": "../../releases/repository-1.4.0-rc.4.md",
+    "baseline_acceptance_evidence": "../../governance/RELEASE_6_VERIFICATION.json"
+  }
 }
