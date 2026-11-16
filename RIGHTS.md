@@ -4,4 +4,4 @@ This repository is currently maintained for its owner's use. No new open-source 
 
 Agent System is an independent collection of instructions, scripts and templates for supported hosts. References to ChatGPT, Codex and other products identify compatibility and do not imply vendor endorsement. Subscription access, model usage, third-party tools, hosting and store accounts have their own terms and costs.
 
-Marketing concept graphics are original vector studies created for this repository. They illustrate workflows and potential project categories; they are not screenshots of shipped products or evidence of measured commercial outcomes. The owner will select a concept before final campaign production.
+The showcase uses the selected original campaign artwork alongside workflow diagrams made for this repository. Both illustrate possible projects and workflows. The illustrated interfaces portray concepts, and commercial outcomes require their own evidence. See the [artwork provenance and delivery notes](marketing/campaign/README.md).

@@ -283,7 +283,7 @@ def default_stages(root: Path) -> list[Stage]:
     artifacts = "reports/local-campaign-artifacts"
     version = json.loads((root / "releases/current.json").read_text(encoding="utf-8"))["suite_version"]
     galleries = ("en", "uk", "de", "it", "es", "fr", "zh-CN")
-    source = (s, "assets/marketing/current", "locales.json", "marketing/README.md",
+    source = (s, "assets/marketing/current", "assets/marketing/concepts", "locales.json", "marketing/README.md",
               "releases/current.json", "scripts/showcase_pipeline.py",
               *(f"marketing/{locale}/README.md" for locale in galleries))
     exports = tuple(f"{s}/{name}" for name in ("index.html", "Showcase.pdf", "exports.json",

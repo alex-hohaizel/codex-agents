@@ -15,7 +15,7 @@ This contract protects completed work when an executor, tool or conversation sto
 
 ## Current campaign stages
 
-Read `marketing/CURRENT_CAMPAIGN.json` and the active campaign README. The current source is `marketing/campaign/`, with corresponding English and Ukrainian artwork. Preserve the exact Ukrainian source-cover checksum; keep the English composition tied to its Ukrainian counterpart. Do not resume a retired gallery or rejected renderer.
+Read [the current campaign record](../marketing/CURRENT_CAMPAIGN.json) and [gallery build notes](../marketing/campaign/README.md). Preserve the original PNG master digests and all decoded pixels of the English and Ukrainian artwork. Maintain the seven localized captions and routes to the matching diagrams and guides.
 
 ```sh
 python3 -B marketing/campaign/build_campaign.py
@@ -26,7 +26,7 @@ python3 -m unittest discover -s scripts/tests -v
 python3 -B scripts/build_packages.py
 ```
 
-The compatible `scripts/showcase_pipeline.py` runner uses `export` → `build` → `validate` → `package` for this current source. Canonical outputs are `marketing/campaign/index.html`, `en.html`, `uk.html`, compact `pdf/Campaign.en.pdf` and `pdf/Campaign.uk.pdf`, and `exports.json`. Full-quality PDFs and standalone galleries remain private delivery artifacts under `reports/local-campaign-artifacts/`; they are not duplicate Git sources. The default `reports/local-showcase-pipeline.json` checkpoint name remains compatible. Its checkpoint and logs are local execution data, not release artifacts. Keep their paths outside packaged roots and stage outputs. A moved checkout needs a new path-bound receipt; retain the old one as evidence rather than rewriting it to fabricate continuity.
+The `scripts/showcase_pipeline.py` runner stages export, build, validation, and packaging. The repository keeps the language selector, seven HTML editions, the PDF of the current illustrations, and the export manifest in `marketing/campaign/`. The runner builds the standalone `Showcase.zip` under `reports/local-campaign-artifacts/`. It contains both visual layers and links to the guides. Keep the checkpoint and logs outside packaged roots and stage outputs. For a moved checkout, create a new path-bound receipt and retain the previous one as historical evidence.
 
 ## Acceptance and interruption
 
