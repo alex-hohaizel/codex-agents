@@ -1,5 +1,7 @@
 # Install Codex Agent System
 
+[Repository home](../README.md) · [Your first task](../START_HERE.md#install-and-verify) · [Component versions](../releases/README.md)
+
 Start with the 33 core skills. Add the managed Codex profile and twelve role definitions when you need the provided roles. Atelier Orchestrator, the maintenance skill, and Agent Atelier for Mac have separate controls. [Current component versions](../releases/current.json)
 
 ## Before

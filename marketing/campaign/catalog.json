@@ -5,7 +5,7 @@
     "intro": "Start with a useful task or carry an existing product forward. These illustrated scenarios show decisions, inputs and outcomes you can work through with the suite.",
     "guide": "Start the guide",
     "view": "Open this workflow in the guide",
-    "pdf": "Illustrated PDF",
+    "pdf": "Technical diagrams PDF",
     "offline": "Offline gallery",
     "choose": "Choose a language",
     "cards": [
@@ -14,49 +14,56 @@
         "title": "A connected workspace",
         "alt": "A logistics map, an agenda, a game world and validated documents on a shared desk.",
         "caption": "A developer can move from a focused repair to a reusable project workflow with the same source and review controls.",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "The campaign brings together a desktop operations map, a personal agenda and a coastal game world."
       },
       {
         "id": "product",
         "title": "My Day",
         "alt": "An agenda and route continue from a phone to a larger workspace.",
         "caption": "Start with a daily planning task. Preserve appointments and route decisions while adding a reviewed change that works across product surfaces.",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "A laptop and three phones show My Day’s daily agenda, route options, confirmation and the updated plan."
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "A coastal world map, a character reference and a playable build checkpoint.",
         "caption": "Carry the original explorer and coastal setting through game design, asset production and a playable review. Record a device claim only after observing the actual build.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Sunridge Studio combines a coastal game world, its explorer and the matching character development art."
       },
       {
         "id": "conversation",
         "title": "Assistant",
         "alt": "A conversation offers a separate confirmation before a receipt is shown.",
         "caption": "Check product details, stage the purchase as an example, then specify the exact authorized target and confirmation. Keep a pending effect open until a verified receipt arrives.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "The assistant compares a game controller and shows a separate confirmation before surfacing the order."
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "A disrupted route, a viable alternative and a reviewed outcome.",
         "caption": "Inspect a shipment exception, compare feasible routes, review the affected account and record the outcome once the operational state confirms it.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Global Logistics shows a European hub network and a shipment exception, with route options, estimated arrivals and a reviewed outcome."
       },
       {
         "id": "documents",
         "title": "Spreadsheet to documents",
         "alt": "A table becomes validated records and prepared files, with one record set aside.",
         "caption": "Validate three shipment rows and hold the fourth, which has no address. After clarification, verify the corrected row and generate its document without duplicating the earlier output.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "A shipment spreadsheet sits beside prepared documents and a highlighted row with a missing delivery address."
       },
       {
         "id": "specialists",
         "title": "A specialist for a recurring task",
         "alt": "A scoped API contract is handed to a specialist and an independent check.",
         "caption": "Start with an API contract audit. Give a named specialist the exact contract, evidence and return condition, then use an independent check to verify the type mismatch and proposed change.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "A custom specialist checks an API contract, identifies a type mismatch and hands the change off for review."
       },
       {
         "id": "retrieval",
@@ -80,7 +87,38 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "To download the offline gallery, sign in to GitHub and open a successful validation run for main. Under Artifacts, download product-showcase, then extract Showcase.zip and open index.html."
+    "offline_help": "To download the offline gallery, sign in to GitHub and open a successful validation run for main. Under Artifacts, download product-showcase, then extract Showcase.zip and open index.html.",
+    "concept_note": "These product concepts show a few possible uses for the suite. Each concept retains the lettering printed in the original artwork. Release versions are listed on the repository home page.",
+    "concept_label": "Original product concept",
+    "english_art": "English artwork",
+    "ukrainian_art": "Ukrainian artwork",
+    "full_art": "Open full-size artwork",
+    "technical": "Technical workflow",
+    "more_concepts": "More concept artwork",
+    "home": "Repository home",
+    "engineering": "Engineering guide",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "Product lifecycle",
+        "alt": "Research and design flow through build, verification, release and later improvement.",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "The same project continues",
+        "alt": "Requirements, decisions and product identity carry forward into the next piece of work.",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "Your next task",
+        "alt": "Bring a focused fix, an existing project or a new product to the same starting point.",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "Companion cover",
+    "worked_retrieval": "Worked RAG example"
   },
   "uk": {
     "label": "Українська",
@@ -88,7 +126,7 @@
     "intro": "Почніть із конкретної задачі або продовжте наявний продукт. Ілюстрації показують вхідні дані, рішення й результати, з якими можна працювати за допомогою набору навичок.",
     "guide": "Відкрити посібник",
     "view": "Відкрити цей сценарій у посібнику",
-    "pdf": "Ілюстрований PDF",
+    "pdf": "PDF із технічними схемами",
     "offline": "Офлайн-галерея",
     "choose": "Обрати мову",
     "cards": [
@@ -97,49 +135,56 @@
         "title": "Єдиний робочий простір",
         "alt": "Логістична мапа, розклад, ігровий світ і перевірені документи на одному столі.",
         "caption": "Розробник може перейти від локального виправлення до відтворюваного процесу з тими самими правилами перевірки джерел і результатів.",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "Обкладинка кампанії поєднує операційну мапу на великому екрані, особистий розклад та ігровий світ на узбережжі."
       },
       {
         "id": "product",
         "title": "Мій день",
         "alt": "Розклад і маршрут переходять із телефона на більший екран.",
         "caption": "Почніть із планування дня. Збережіть наявні зустрічі й рішення щодо маршруту та перевірте, що зміна коректно працює на різних екранах.",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "Ноутбук і три телефони показують розклад, варіанти маршруту, підтвердження та оновлений план у «Моєму дні»."
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "Мапа узбережжя, референс персонажа й контрольна точка ігрової збірки.",
         "caption": "Збережіть мандрівницю й прибережний світ від проєктування до підготовки матеріалів та огляду ігрової збірки. Підтверджуйте поведінку пристрою після фактичного спостереження.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Sunridge Studio поєднує ігровий світ на узбережжі, персонажа-дослідника та ескізи його дизайну."
       },
       {
         "id": "conversation",
         "title": "Асистент",
         "alt": "Діалог окремо показує запит на підтвердження й отриману квитанцію.",
         "caption": "Перевірте дані товару, підготуйте тестове замовлення й уточніть дозволений об’єкт та спосіб підтвердження. Залиште дію відкритою, доки не отримаєте перевірену квитанцію.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Асистент порівнює ігровий контролер, запитує окреме підтвердження й показує результат замовлення."
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "Порушений маршрут, придатна альтернатива й результат перевірки.",
         "caption": "Дослідіть виняток у перевезенні, порівняйте доступні маршрути, перевірте обліковий запис і зафіксуйте підсумок після звірки фактичного стану.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Global Logistics показує європейську мережу хабів, затримку перевезення, альтернативні маршрути, час прибуття та результат після перевірки."
       },
       {
         "id": "documents",
         "title": "З таблиці до документів",
         "alt": "Перевірені рядки таблиці перетворюються на документи, а один рядок відкладено.",
         "caption": "Перевірте три рядки відправлень і утримайте четвертий без адреси. Після уточнення перевірте його та згенеруйте документ без дублювання попередніх результатів.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Поруч із таблицею перевезень видно готові документи й виділений рядок без адреси доставки."
       },
       {
         "id": "specialists",
         "title": "Спеціаліст для повторюваної задачі",
         "alt": "Окреслений контракт API передається спеціалісту й на незалежну перевірку.",
         "caption": "Почніть з аудиту контракту API. Передайте точний контракт, докази й умови повернення, а потім незалежно перевірте розбіжність типів і запропоновану зміну.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Спеціаліст перевіряє контракт API, знаходить невідповідність типів і передає зміну на перевірку."
       },
       {
         "id": "retrieval",
@@ -163,7 +208,38 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "Щоб завантажити офлайн-галерею, увійдіть до GitHub і відкрийте успішний запуск перевірки для main. У розділі Artifacts завантажте product-showcase, розпакуйте Showcase.zip і відкрийте index.html."
+    "offline_help": "Щоб завантажити офлайн-галерею, увійдіть до GitHub і відкрийте успішний запуск перевірки для main. У розділі Artifacts завантажте product-showcase, розпакуйте Showcase.zip і відкрийте index.html.",
+    "concept_note": "Ці концепції показують кілька можливих застосувань системи. Написи на оригінальних ілюстраціях збережено. Актуальні версії продукту вказані на головній сторінці репозиторію.",
+    "concept_label": "Оригінальна концепція продукту",
+    "english_art": "ілюстрація англійською",
+    "ukrainian_art": "ілюстрація українською",
+    "full_art": "Відкрити зображення в повному розмірі",
+    "technical": "Технічна схема",
+    "more_concepts": "Більше концепцій",
+    "home": "Головна сторінка репозиторію",
+    "engineering": "Інженерний посібник",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "Життєвий цикл продукту",
+        "alt": "Дослідження й дизайн переходять у розробку, перевірку, випуск і подальший розвиток.",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "Той самий проєкт триває",
+        "alt": "Вимоги, рішення й ідентичність продукту переходять у наступне завдання.",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "Ваше наступне завдання",
+        "alt": "Почніть із конкретного виправлення, наявного проєкту чи нового продукту.",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "Додаткова обкладинка",
+    "worked_retrieval": "Практичний приклад RAG"
   },
   "de": {
     "label": "Deutsch",
@@ -171,7 +247,7 @@
     "intro": "Beginnen Sie mit einer konkreten Aufgabe oder entwickeln Sie ein bestehendes Produkt weiter. Die Illustrationen zeigen Eingaben, Entscheidungen und Ergebnisse für typische Arbeitsabläufe.",
     "guide": "Leitfaden öffnen",
     "view": "Diesen Ablauf im Leitfaden öffnen",
-    "pdf": "Illustriertes PDF",
+    "pdf": "Technische Diagramme als PDF",
     "offline": "Offline-Galerie",
     "choose": "Sprache auswählen",
     "cards": [
@@ -180,49 +256,56 @@
         "title": "Ein gemeinsamer Arbeitsbereich",
         "alt": "Eine Logistikkarte, ein Kalender, eine Spielwelt und geprüfte Dokumente auf einem Schreibtisch.",
         "caption": "Von einer einzelnen Korrektur zum wiederverwendbaren Ablauf bleiben Quellen und Prüfschritte nachvollziehbar.",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "Eine Logistikkarte, ein Kalender, eine Spielwelt und geprüfte Dokumente auf einem Schreibtisch."
       },
       {
         "id": "product",
         "title": "My Day",
         "alt": "Termine und Route wechseln vom Telefon in einen größeren Arbeitsbereich.",
         "caption": "Ändern Sie eine Tagesplanung und prüfen Sie die Änderung auf den relevanten Oberflächen. Termine und bisherige Entscheidungen bleiben erhalten.",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "Termine und Route wechseln vom Telefon in einen größeren Arbeitsbereich."
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "Eine Küstenwelt, eine Figurenreferenz und ein spielbarer Prüfstand.",
         "caption": "Übernehmen Sie Figur und Gestaltungsidentität in die Produktion. Aussagen über Geräte folgen erst nach Prüfung des tatsächlichen Builds.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Eine Küstenwelt, eine Figurenreferenz und ein spielbarer Prüfstand."
       },
       {
         "id": "conversation",
         "title": "Assistent",
         "alt": "Der Dialog fordert eine ausdrückliche Bestätigung und zeigt dann einen Beleg.",
         "caption": "Bereiten Sie eine Beispielbestellung vor und prüfen Sie Ziel und Berechtigung. Schließen Sie den Vorgang erst mit bestätigtem Beleg.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Der Dialog fordert eine ausdrückliche Bestätigung und zeigt dann einen Beleg."
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "Eine gesperrte Route, eine Alternative und ein geprüftes Ergebnis.",
         "caption": "Untersuchen Sie die Transportstörung und vergleichen Sie verfügbare Routen. Erfassen Sie das Ergebnis nach Abgleich des Betriebsstatus.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Eine gesperrte Route, eine Alternative und ein geprüftes Ergebnis."
       },
       {
         "id": "documents",
         "title": "Von der Tabelle zum Dokument",
         "alt": "Geprüfte Tabellenzeilen werden zu Dateien. Ein offener Datensatz bleibt zurück.",
         "caption": "Erzeugen Sie Dokumente für gültige Zeilen. Klären Sie die fehlende Adresse und verarbeiten Sie die Zeile ohne doppelte Ausgabe.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Geprüfte Tabellenzeilen werden zu Dateien. Ein offener Datensatz bleibt zurück."
       },
       {
         "id": "specialists",
         "title": "Ein Spezialist für wiederkehrende Aufgaben",
         "alt": "Ein eingegrenzter API-Vertrag geht an einen Spezialisten und eine unabhängige Prüfung.",
         "caption": "Übergeben Sie Vertrag, Belege und Rückgabekriterien. Lassen Sie die Typabweichung und den vorgeschlagenen Fix unabhängig prüfen.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Ein eingegrenzter API-Vertrag geht an einen Spezialisten und eine unabhängige Prüfung."
       },
       {
         "id": "retrieval",
@@ -246,7 +329,38 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "Melden Sie sich bei GitHub an und öffnen Sie einen erfolgreichen Validierungslauf für main. Laden Sie unter Artifacts product-showcase herunter, entpacken Sie Showcase.zip und öffnen Sie index.html."
+    "offline_help": "Melden Sie sich bei GitHub an und öffnen Sie einen erfolgreichen Validierungslauf für main. Laden Sie unter Artifacts product-showcase herunter, entpacken Sie Showcase.zip und öffnen Sie index.html.",
+    "concept_note": "Diese Produktkonzepte zeigen einige Einsatzmöglichkeiten. Die Beschriftung der Originale ist erhalten. Die aktuellen Release-Versionen stehen auf der Startseite des Repositorys.",
+    "concept_label": "Originales Produktkonzept",
+    "english_art": "englische Bildfassung",
+    "ukrainian_art": "ukrainische Bildfassung",
+    "full_art": "Bild in voller Größe öffnen",
+    "technical": "Technischer Ablauf",
+    "more_concepts": "Weitere Konzepte",
+    "home": "Startseite des Repositorys",
+    "engineering": "Technischer Leitfaden",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "Produktlebenszyklus",
+        "alt": "Auf Recherche und Entwurf folgen Entwicklung, Prüfung, Veröffentlichung und Weiterentwicklung.",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "Dasselbe Projekt fortsetzen",
+        "alt": "Anforderungen, Entscheidungen und Produktidentität bleiben bei der nächsten Aufgabe erhalten.",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "Ihre nächste Aufgabe",
+        "alt": "Beginnen Sie mit einer konkreten Korrektur, einem bestehenden Projekt oder einem neuen Produkt.",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "Ergänzendes Titelbild",
+    "worked_retrieval": "RAG-Praxisbeispiel"
   },
   "it": {
     "label": "Italiano",
@@ -254,7 +368,7 @@
     "intro": "Parti da un compito preciso o prosegui su un prodotto esistente. Questi esempi illustrano dati di ingresso, decisioni e risultati dei flussi di lavoro.",
     "guide": "Apri la guida",
     "view": "Apri questo flusso nella guida",
-    "pdf": "PDF illustrato",
+    "pdf": "PDF dei diagrammi tecnici",
     "offline": "Galleria offline",
     "choose": "Scegli la lingua",
     "cards": [
@@ -263,49 +377,56 @@
         "title": "Uno spazio di lavoro condiviso",
         "alt": "Una mappa logistica, un’agenda, un gioco e documenti verificati sulla stessa scrivania.",
         "caption": "Passa da una correzione mirata a un processo riutilizzabile mantenendo fonti e verifiche tracciabili.",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "Una mappa logistica, un’agenda, un gioco e documenti verificati sulla stessa scrivania."
       },
       {
         "id": "product",
         "title": "My Day",
         "alt": "Agenda e itinerario proseguono dal telefono a uno spazio di lavoro più ampio.",
         "caption": "Modifica il piano della giornata e verifica l’aggiornamento sulle interfacce interessate, preservando gli appuntamenti e le decisioni.",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "Agenda e itinerario proseguono dal telefono a uno spazio di lavoro più ampio."
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "Una costa di gioco, riferimenti del personaggio e un punto di verifica giocabile.",
         "caption": "Mantieni il personaggio e l’identità della costa durante la produzione. Conferma il comportamento sul dispositivo dopo aver verificato la build effettiva.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Una costa di gioco, riferimenti del personaggio e un punto di verifica giocabile."
       },
       {
         "id": "conversation",
         "title": "Assistente",
         "alt": "La conversazione separa la conferma esplicita dalla ricevuta finale.",
         "caption": "Prepara un ordine di esempio e verifica il destinatario e l’autorizzazione. Chiudi l’operazione dopo aver osservato la ricevuta.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "La conversazione separa la conferma esplicita dalla ricevuta finale."
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "Una tratta interrotta, una via alternativa e un esito verificato.",
         "caption": "Esamina l’eccezione e compara gli itinerari disponibili. Registra l’esito dopo aver verificato lo stato operativo.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Una tratta interrotta, una via alternativa e un esito verificato."
       },
       {
         "id": "documents",
         "title": "Dal foglio di calcolo ai documenti",
         "alt": "Le righe convalidate diventano documenti e un’eccezione resta in sospeso.",
         "caption": "Elabora le righe valide e chiarisci l’indirizzo mancante. Genera il documento corretto senza duplicare quelli già prodotti.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Le righe convalidate diventano documenti e un’eccezione resta in sospeso."
       },
       {
         "id": "specialists",
         "title": "Uno specialista per un’attività ricorrente",
         "alt": "Un contratto API delimitato passa a uno specialista e a una verifica indipendente.",
         "caption": "Consegna il contratto esatto, i riscontri e i criteri attesi. Verifica in modo indipendente il conflitto di tipi e la correzione proposta.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Un contratto API delimitato passa a uno specialista e a una verifica indipendente."
       },
       {
         "id": "retrieval",
@@ -329,7 +450,38 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "Accedi a GitHub e apri una convalida riuscita per main. In Artifacts scarica product-showcase, estrai Showcase.zip e apri index.html."
+    "offline_help": "Accedi a GitHub e apri una convalida riuscita per main. In Artifacts scarica product-showcase, estrai Showcase.zip e apri index.html.",
+    "concept_note": "Questi concept di prodotto illustrano alcuni possibili usi del sistema. Le scritte originali rimangono visibili. Le versioni correnti sono indicate nella pagina iniziale del repository.",
+    "concept_label": "Concept originale del prodotto",
+    "english_art": "illustrazione in inglese",
+    "ukrainian_art": "illustrazione in ucraino",
+    "full_art": "Apri l’immagine a grandezza intera",
+    "technical": "Flusso tecnico",
+    "more_concepts": "Altri concept",
+    "home": "Pagina iniziale del repository",
+    "engineering": "Guida tecnica",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "Ciclo di vita del prodotto",
+        "alt": "Dalla ricerca e dal design allo sviluppo, alle verifiche, al rilascio e alle evoluzioni successive.",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "Lo stesso progetto continua",
+        "alt": "Requisiti, decisioni e identità del prodotto accompagnano il lavoro successivo.",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "Il prossimo compito",
+        "alt": "Inizia con una correzione mirata, un progetto esistente o un nuovo prodotto.",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "Copertina aggiuntiva",
+    "worked_retrieval": "Esempio pratico di RAG"
   },
   "es": {
     "label": "Español",
@@ -337,7 +489,7 @@
     "intro": "Empieza por una tarea concreta o continúa un producto existente. Las ilustraciones muestran entradas, decisiones y resultados de flujos de trabajo representativos.",
     "guide": "Abrir la guía",
     "view": "Abrir este flujo en la guía",
-    "pdf": "PDF ilustrado",
+    "pdf": "PDF de diagramas técnicos",
     "offline": "Galería sin conexión",
     "choose": "Elegir idioma",
     "cards": [
@@ -346,49 +498,56 @@
         "title": "Un espacio de trabajo conectado",
         "alt": "Un mapa logístico, una agenda, un juego y documentos validados en una misma mesa.",
         "caption": "Pasa de una corrección puntual a un proceso reutilizable y conserva las fuentes y comprobaciones.",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "Un mapa logístico, una agenda, un juego y documentos validados en una misma mesa."
       },
       {
         "id": "product",
         "title": "My Day",
         "alt": "La agenda y la ruta continúan del teléfono a un espacio de trabajo más amplio.",
         "caption": "Revisa un cambio del plan diario en las interfaces correspondientes sin perder las citas y decisiones de ruta.",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "La agenda y la ruta continúan del teléfono a un espacio de trabajo más amplio."
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "Un mundo costero, una referencia del personaje y un punto de verificación jugable.",
         "caption": "Conserva el personaje y la identidad del mundo durante la producción. Verifica la compilación real antes de describir su comportamiento en un dispositivo.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Un mundo costero, una referencia del personaje y un punto de verificación jugable."
       },
       {
         "id": "conversation",
         "title": "Asistente",
         "alt": "La conversación separa la confirmación explícita del comprobante final.",
         "caption": "Prepara un pedido de ejemplo, verifica el objetivo y la autorización, y confirma el resultado mediante el comprobante.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "La conversación separa la confirmación explícita del comprobante final."
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "Una ruta interrumpida, una alternativa viable y un resultado revisado.",
         "caption": "Investiga la incidencia, compara las rutas disponibles y registra el resultado después de verificar el estado operativo.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Una ruta interrumpida, una alternativa viable y un resultado revisado."
       },
       {
         "id": "documents",
         "title": "De la hoja de cálculo a los documentos",
         "alt": "Las filas validadas se convierten en documentos y se retiene una excepción.",
         "caption": "Procesa las filas válidas y aclara la dirección ausente. Genera el documento de esa fila sin duplicar los anteriores.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Las filas validadas se convierten en documentos y se retiene una excepción."
       },
       {
         "id": "specialists",
         "title": "Un especialista para una tarea recurrente",
         "alt": "Un contrato de API acotado pasa a un especialista y a una revisión independiente.",
         "caption": "Entrega el contrato exacto, la evidencia y las condiciones de entrega. Verifica el conflicto de tipos y la propuesta mediante una revisión independiente.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Un contrato de API acotado pasa a un especialista y a una revisión independiente."
       },
       {
         "id": "retrieval",
@@ -412,7 +571,38 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "Inicia sesión en GitHub y abre una validación completada con éxito para main. En Artifacts, descarga product-showcase, extrae Showcase.zip y abre index.html."
+    "offline_help": "Inicia sesión en GitHub y abre una validación completada con éxito para main. En Artifacts, descarga product-showcase, extrae Showcase.zip y abre index.html.",
+    "concept_note": "Estos conceptos de producto muestran algunos usos posibles del sistema. Se conservan los textos impresos en las ilustraciones originales. Las versiones actuales figuran en la portada del repositorio.",
+    "concept_label": "Concepto original del producto",
+    "english_art": "ilustración en inglés",
+    "ukrainian_art": "ilustración en ucraniano",
+    "full_art": "Abrir imagen a tamaño completo",
+    "technical": "Flujo técnico",
+    "more_concepts": "Más conceptos",
+    "home": "Portada del repositorio",
+    "engineering": "Guía técnica",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "Ciclo de vida del producto",
+        "alt": "La investigación y el diseño dan paso al desarrollo, la verificación, el lanzamiento y la mejora continua.",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "El mismo proyecto continúa",
+        "alt": "Los requisitos, las decisiones y la identidad del producto se conservan en la tarea siguiente.",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "Tu próxima tarea",
+        "alt": "Empieza con una corrección concreta, un proyecto existente o un producto nuevo.",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "Portada complementaria",
+    "worked_retrieval": "Ejemplo práctico de RAG"
   },
   "fr": {
     "label": "Français",
@@ -420,7 +610,7 @@
     "intro": "Partez d’une tâche concrète ou reprenez un produit existant. Ces illustrations présentent les entrées, les décisions et les résultats de parcours représentatifs.",
     "guide": "Ouvrir le guide",
     "view": "Ouvrir ce parcours dans le guide",
-    "pdf": "PDF illustré",
+    "pdf": "PDF des schémas techniques",
     "offline": "Galerie hors ligne",
     "choose": "Choisir la langue",
     "cards": [
@@ -429,49 +619,56 @@
         "title": "Un espace de travail connecté",
         "alt": "Carte logistique, agenda, univers de jeu et documents contrôlés sur un même bureau.",
         "caption": "Passez d’une correction ciblée à un processus réutilisable en gardant les sources et les contrôles vérifiables.",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "Carte logistique, agenda, univers de jeu et documents contrôlés sur un même bureau."
       },
       {
         "id": "product",
         "title": "My Day",
         "alt": "L’agenda et le trajet passent du téléphone à un espace de travail plus complet.",
         "caption": "Modifiez le programme de la journée, conservez les rendez-vous et vérifiez la mise à jour sur les interfaces concernées.",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "L’agenda et le trajet passent du téléphone à un espace de travail plus complet."
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "Une carte du littoral, une référence du personnage et une étape de contrôle jouable.",
         "caption": "Préservez le personnage et l’identité du décor jusqu’à la production. Vérifiez la version réelle sur l’appareil avant d’en affirmer le comportement.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Une carte du littoral, une référence du personnage et une étape de contrôle jouable."
       },
       {
         "id": "conversation",
         "title": "Assistant",
         "alt": "La conversation distingue la confirmation explicite et le reçu final.",
         "caption": "Préparez une commande de démonstration, vérifiez la cible et l’autorisation, puis confirmez l’effet à partir du reçu.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "La conversation distingue la confirmation explicite et le reçu final."
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "Un itinéraire perturbé, une solution de rechange et un résultat vérifié.",
         "caption": "Analysez l’incident, comparez les trajets disponibles et enregistrez le résultat après contrôle de l’état opérationnel.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Un itinéraire perturbé, une solution de rechange et un résultat vérifié."
       },
       {
         "id": "documents",
         "title": "Du tableur aux documents",
         "alt": "Les lignes validées deviennent des documents. Une ligne incomplète reste en attente.",
         "caption": "Traitez les lignes conformes, clarifiez l’adresse manquante, puis générez le document corrigé sans reproduire les précédents.",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "Les lignes validées deviennent des documents. Une ligne incomplète reste en attente."
       },
       {
         "id": "specialists",
         "title": "Un spécialiste pour une tâche récurrente",
         "alt": "Un contrat d’API circonscrit est confié à un spécialiste et à une vérification indépendante.",
         "caption": "Transmettez le contrat exact, les éléments probants et les critères attendus. Vérifiez séparément la divergence de type et la correction.",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "Un contrat d’API circonscrit est confié à un spécialiste et à une vérification indépendante."
       },
       {
         "id": "retrieval",
@@ -495,7 +692,38 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "Connectez-vous à GitHub et ouvrez une validation réussie pour main. Dans Artifacts, téléchargez product-showcase, extrayez Showcase.zip et ouvrez index.html."
+    "offline_help": "Connectez-vous à GitHub et ouvrez une validation réussie pour main. Dans Artifacts, téléchargez product-showcase, extrayez Showcase.zip et ouvrez index.html.",
+    "concept_note": "Ces concepts illustrent quelques usages possibles du système. Les inscriptions d’origine ont été conservées. Les versions actuelles figurent sur la page d’accueil du dépôt.",
+    "concept_label": "Concept de produit original",
+    "english_art": "illustration en anglais",
+    "ukrainian_art": "illustration en ukrainien",
+    "full_art": "Ouvrir l’image en taille réelle",
+    "technical": "Déroulement technique",
+    "more_concepts": "Autres concepts",
+    "home": "Accueil du dépôt",
+    "engineering": "Guide technique",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "Cycle de vie du produit",
+        "alt": "La recherche et la conception précèdent le développement, la vérification, la publication et les améliorations.",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "Le même projet se poursuit",
+        "alt": "Les exigences, les décisions et l’identité du produit accompagnent la prochaine tâche.",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "Votre prochaine tâche",
+        "alt": "Commencez par une correction ciblée, un projet existant ou un nouveau produit.",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "Couverture complémentaire",
+    "worked_retrieval": "Exemple pratique de RAG"
   },
   "zh-CN": {
     "label": "简体中文",
@@ -503,7 +731,7 @@
     "intro": "从具体任务开始，或继续开发已有产品。以下示例展示典型工作流程的输入、决策与结果。",
     "guide": "打开指南",
     "view": "在指南中查看此流程",
-    "pdf": "图解 PDF",
+    "pdf": "技术流程图 PDF",
     "offline": "离线图库",
     "choose": "选择语言",
     "cards": [
@@ -512,49 +740,56 @@
         "title": "关联的工作区",
         "alt": "同一个工作台上展示物流地图、日程、游戏世界和已校验的文档。",
         "caption": "从局部修复逐步建立可复用流程，并保留可追溯的来源和验证步骤。",
-        "section": "first-task"
+        "section": "first-task",
+        "concept_alt": "同一个工作台上展示物流地图、日程、游戏世界和已校验的文档。"
       },
       {
         "id": "product",
         "title": "My Day",
         "alt": "日程和路线从手机延续到更大的工作界面。",
         "caption": "调整当天的安排，保留已有预约和路线决策，并核查相关界面的更新。",
-        "section": "workflow"
+        "section": "workflow",
+        "concept_alt": "日程和路线从手机延续到更大的工作界面。"
       },
       {
         "id": "game",
         "title": "Sunridge Studio",
         "alt": "海岸世界地图、角色参考图和可运行版本的检查点。",
         "caption": "从设计到制作保留角色与海岸场景的辨识度。通过实际版本验证后，再说明设备上的行为。",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "海岸世界地图、角色参考图和可运行版本的检查点。"
       },
       {
         "id": "conversation",
         "title": "对话助手",
         "alt": "对话明确区分确认步骤和最终凭证。",
         "caption": "准备示例订单，核查具体对象和授权。取得已验证的凭证后，才确认操作结果。",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "对话明确区分确认步骤和最终凭证。"
       },
       {
         "id": "operations",
         "title": "Global Logistics",
         "alt": "受阻的路线、可行的替代路线和已经核查的结果。",
         "caption": "分析运输异常并比较可用路线。确认实际运行状态后记录结果。",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "受阻的路线、可行的替代路线和已经核查的结果。"
       },
       {
         "id": "documents",
         "title": "从表格到文档",
         "alt": "已校验的数据行生成文档，缺少信息的一行暂缓处理。",
         "caption": "处理有效的行，补齐缺失地址，再生成该行的文档，避免重复生成已有结果。",
-        "section": "operations"
+        "section": "operations",
+        "concept_alt": "已校验的数据行生成文档，缺少信息的一行暂缓处理。"
       },
       {
         "id": "specialists",
         "title": "用于重复任务的专员",
         "alt": "限定范围的 API 契约交给专员和独立核查人员。",
         "caption": "提供确切契约、证据和验收条件，独立核实类型差异和拟议修改。",
-        "section": "catalog"
+        "section": "catalog",
+        "concept_alt": "限定范围的 API 契约交给专员和独立核查人员。"
       },
       {
         "id": "retrieval",
@@ -578,6 +813,37 @@
         "section": "workbench"
       }
     ],
-    "offline_help": "登录 GitHub 并打开 main 分支的一次成功验证。在 Artifacts 中下载 product-showcase，再解压 Showcase.zip 并打开 index.html。"
+    "offline_help": "登录 GitHub 并打开 main 分支的一次成功验证。在 Artifacts 中下载 product-showcase，再解压 Showcase.zip 并打开 index.html。",
+    "concept_note": "这些产品概念展示了系统的一部分用途。我们保留了原画中的文字。请在仓库首页查看当前发布版本。",
+    "concept_label": "原版产品概念图",
+    "english_art": "英文原画",
+    "ukrainian_art": "乌克兰语原画",
+    "full_art": "打开全尺寸图片",
+    "technical": "技术流程",
+    "more_concepts": "更多概念图",
+    "home": "仓库首页",
+    "engineering": "工程指南",
+    "more": [
+      {
+        "id": "lifecycle",
+        "title": "产品生命周期",
+        "alt": "从研究和设计进入开发、验证、发布和后续改进。",
+        "section": "workflow"
+      },
+      {
+        "id": "continuity",
+        "title": "延续同一个项目",
+        "alt": "在下一项任务中保留既有的需求、决策和产品特色。",
+        "section": "workflow"
+      },
+      {
+        "id": "next-task",
+        "title": "你的下一项任务",
+        "alt": "从一个小修复、一个现有项目或一个新产品开始。",
+        "section": "first-task"
+      }
+    ],
+    "alternate_cover": "补充封面",
+    "worked_retrieval": "RAG 实例"
   }
 }

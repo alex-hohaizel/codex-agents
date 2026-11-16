@@ -2,9 +2,16 @@
 
 在 Codex 中完成一项具体任务，和专长角色一起开发产品，或设计可复用的智能体。系统为每项工作记录实际来源、负责人和可以验证的结果。
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [图解示例](../../marketing/zh-CN/README.md)
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-[安装](#install) · [第一个任务](#first-task) · [工作流](#workflow) · [RAG](#retrieval) · [评估](#evals) · [Mac 工作台](#workbench) · [运维](#operations) · [目录](#catalog)
+## 选择起点
+
+- **试用 Codex。** [安装并验证](#install) · [完成第一个任务](#first-task) · [查看图解流程](../../marketing/zh-CN/README.md)
+- **开发或运营项目。** [选择工作流](#workflow) · [查找技能或角色](#catalog) · [Mac 工作台](#workbench) · [运维与恢复](#operations)
+- **了解系统如何工作。** [Harness 运行框架](#harness) · [子智能体](#subagents) · [上下文胶囊](#context) · [模型与成本](#models)
+- **寻找和验证证据。** [知识检索（RAG）](#retrieval) · [评估（evals）](#evals) · [工具与权限](#permissions)
+
+[技术主题（英文）](../OPERATING_MODEL.md#engineering-topics) · [RAG 实例（英文）](../technical/RETRIEVAL.md) · [产品需求](../../governance/requirements.csv)
 
 <a name="install"></a>
 ## 安装并确认技能可用
@@ -32,12 +39,29 @@ ChatGPT Work 通过自身界面管理个人技能。使用 Work 包，并在对�
 <a name="workflow"></a>
 ## 选择工作路径并保留上下文
 
-- **Harness（运行框架）。** Codex 提供运行时、工具和权限控制。仓库提供 `AGENTS.md`、技能描述和资源、领域契约、角色与检查。确认实际加载的指令，并在工具真正执行时核对权限。
-- **工作路径。** 可直接完成任务、调用技能或由 `$atelier-orchestrator` 选择。应用、聊天机器人和游戏的完整生命周期由相应的主管技能协调。用 `$agent-foundry` 为重复出现的工作设计智能体或团队，构建前审阅方案资料，随后用原始任务验证准备好的包。用 `$design-specialist-skills` 设计带有清晰触发条件和验收用例的可复用流程。
-- **角色与子智能体。** 把独立产出或独立审查交给合适的角色。写明执行者、来源版本、输入路径、写入范围、交付物、限制、停止条件和返回位置。为共享的可变状态指定一个写入负责人。集成前取回子智能体的实际结果。
-- **上下文胶囊。** 从项目的权威需求、身份、当前决策和检查点开始。固定来源的准确哈希，并携带适用要求、许可操作、延后事项、交付物、未确认的影响和下一步。来源发生变更或不可读时，重新验证受影响的义务。交接只传递下一项工作需要的内容，原始来源继续作为准据。
+可直接完成任务、调用技能或由 `$atelier-orchestrator` 选择。应用、聊天机器人和游戏的完整生命周期由相应的主管技能协调。用 `$agent-foundry` 为重复出现的工作设计智能体或团队，构建前审阅方案资料，随后用原始任务验证准备好的包。用 `$design-specialist-skills` 设计带有清晰触发条件和验收用例的可复用流程。
+
+<a name="harness"></a>
+### Harness 运行框架与权限
+
+Codex 提供运行时、工具和权限控制。仓库提供 `AGENTS.md`、技能描述和资源、领域契约、角色与检查。确认实际加载的指令，并在工具真正执行时核对权限。 [运行框架与权限](../OPERATING_MODEL.md#harness-and-authority)
+
+<a name="subagents"></a>
+### 角色与子智能体
+
+把独立产出或独立审查交给合适的角色。写明执行者、来源版本、输入路径、写入范围、交付物、限制、停止条件和返回位置。为共享的可变状态指定一个写入负责人。集成前取回子智能体的实际结果。 [工作路径与子智能体](../OPERATING_MODEL.md#routes-and-subagents)
+
+<a name="context"></a>
+### 上下文胶囊
+
+从项目的权威需求、身份、当前决策和检查点开始。固定来源的准确哈希，并携带适用要求、许可操作、延后事项、交付物、未确认的影响和下一步。来源发生变更或不可读时，重新验证受影响的义务。交接只传递下一项工作需要的内容，原始来源继续作为准据。
 
 将 `preferred_language` 写入项目上下文，并在交接中传递。保留命令、选择器、标识符、引用与原文摘录。[工作模型](../OPERATING_MODEL.md#project-context-and-handoffs) · [项目上下文模板](../../templates/project-context.json) · [交接模板](../../templates/HANDOFF.md)
+
+<a name="models"></a>
+### 模型与成本
+
+比较不同路径时，记录模型、推理强度和结果。成本较低的方案在相同输入下通过相同的验收检查后，方可采用。 [模型选择与成本](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## 加入知识检索和 RAG
@@ -80,7 +104,12 @@ node launcher/atelier.mjs doctor
 <a name="operations"></a>
 ## 运维、恢复与更新
 
-用工具执行写入前，核对操作、目标、授权、费用、限制和预期回执。超时或缺少回执时，首先读取这项确切请求的权威状态。仅在权限仍有效并有经过验证的去重保障时重试。记录未确认的影响及证据。在真实产品中验收结果，分别记录任务准备、命令执行和文件创建。
+<a name="permissions"></a>
+### 工具与权限
+
+用工具执行写入前，核对操作、目标、授权、费用、限制和预期回执。超时或缺少回执时，首先读取这项确切请求的权威状态。仅在权限仍有效并有经过验证的去重保障时重试。记录未确认的影响及证据。在真实产品中验收结果，分别记录任务准备、命令执行和文件创建。 [工具执行结果与证据](../OPERATING_MODEL.md#tools-evidence-and-recovery)
+
+### 恢复与更新
 
 更新时使用稳定发行包及其确切计划，并保留日志和原有状态。发生中断后，先核对真实目标再续接。通过各自日志回滚核心、配置或可选技能。按手册备份工作台数据库和文件，使用正确的数据目录重启，并验查项目列表及一个小任务。产品数据、原生对话与账户各有自己的负责人和恢复流程。[安装与恢复](../INSTALL.md#rollback) · [恢复工作](../../governance/RESUMABLE_WORK.md)
 

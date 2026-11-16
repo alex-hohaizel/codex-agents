@@ -2,9 +2,16 @@
 
 Erledigen Sie eine einzelne Aufgabe mit Codex, entwickeln Sie ein Produkt mit Fachrollen oder entwerfen Sie einen wiederverwendbaren Agenten. Das System verknüpft die Arbeit mit ihrer tatsächlichen Quelle, einer verantwortlichen Person und einem überprüfbaren Ergebnis.
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [Bildbeispiele](../../marketing/de/README.md)
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-[Installation](#install) · [Erste Aufgabe](#first-task) · [Ablauf](#workflow) · [RAG](#retrieval) · [Evals](#evals) · [Mac-Oberfläche](#workbench) · [Betrieb](#operations) · [Katalog](#catalog)
+## Einstieg wählen
+
+- **Codex ausprobieren.** [Installieren und prüfen](#install) · [Erste Aufgabe erledigen](#first-task) · [Abläufe mit Bildbeispielen](../../marketing/de/README.md)
+- **Ein Projekt entwickeln oder betreiben.** [Ablauf wählen](#workflow) · [Skills und Rollen finden](#catalog) · [Mac-Oberfläche](#workbench) · [Betrieb und Wiederherstellung](#operations)
+- **Das System verstehen.** [Harness](#harness) · [Subagenten](#subagents) · [Kontextkapseln](#context) · [Modelle und Kosten](#models)
+- **Belege finden und prüfen.** [Wissenssuche (RAG)](#retrieval) · [Evals](#evals) · [Werkzeuge und Berechtigungen](#permissions)
+
+[Technische Themen (Englisch)](../OPERATING_MODEL.md#engineering-topics) · [RAG-Beispiel (Englisch)](../technical/RETRIEVAL.md) · [Produktanforderungen](../../governance/requirements.csv)
 
 <a name="install"></a>
 ## Installieren und Erkennung prüfen
@@ -32,12 +39,29 @@ Prüfen Sie die Überschrift `# Checklist` und den ursprünglichen Inhalt von `n
 <a name="workflow"></a>
 ## Arbeitsweg und Kontext festlegen
 
-- **Harness.** Codex stellt Laufzeit, Werkzeuge und Berechtigungen bereit. Das Repository liefert `AGENTS.md`, Skill-Beschreibungen und Ressourcen, Fachverträge, Rollen und Prüfungen. Verifizieren Sie die geladenen Anweisungen und die Berechtigung am tatsächlichen Werkzeug.
-- **Arbeitsweg.** Erledigen Sie die Aufgabe direkt, wählen Sie einen Skill oder lassen Sie `$atelier-orchestrator` entscheiden. Ein Director koordiniert den gesamten Lebenszyklus einer App, eines Chatbots oder Spiels. `$agent-foundry` entwirft einen Agenten oder ein Team für wiederkehrende Arbeit. Prüfen Sie den Agentenpass vor der Erstellung und testen Sie das vorbereitete Paket mit einer Originalaufgabe. Für einen wiederverwendbaren Ablauf mit Auslösern und Abnahmefällen dient `$design-specialist-skills`.
-- **Rollen und Subagenten.** Delegieren Sie eigenständige Ergebnisse oder unabhängige Prüfungen. Nennen Sie Rolle, Quellrevision, Eingabepfade, Schreibbereich, Ausgabe, Grenzen, Abbruchbedingung und Rückgabeort. Legen Sie für gemeinsam veränderlichen Zustand einen Schreibverantwortlichen fest. Fordern Sie vor der Integration das tatsächliche Ergebnis an.
-- **Kontextkapsel.** Beginnen Sie mit maßgeblichen Anforderungen, Projektidentität, Entscheidungen und Kontrollpunkt. Binden Sie exakte Quell-Hashes, relevante Pflichten, erlaubte Auswirkungen, zurückgestellte Arbeit, Ausgabe, ungeklärte Auswirkungen und den nächsten Schritt. Bei einer geänderten oder fehlenden Quelle prüfen Sie die betroffene Verpflichtung erneut. Die Übergabe überträgt diesen Ausschnitt an die nächste Aufgabe oder Umgebung; die Originalquellen bleiben maßgeblich.
+Erledigen Sie die Aufgabe direkt, wählen Sie einen Skill oder lassen Sie `$atelier-orchestrator` entscheiden. Ein Director koordiniert den gesamten Lebenszyklus einer App, eines Chatbots oder Spiels. `$agent-foundry` entwirft einen Agenten oder ein Team für wiederkehrende Arbeit. Prüfen Sie den Agentenpass vor der Erstellung und testen Sie das vorbereitete Paket mit einer Originalaufgabe. Für einen wiederverwendbaren Ablauf mit Auslösern und Abnahmefällen dient `$design-specialist-skills`.
+
+<a name="harness"></a>
+### Harness und Berechtigungen
+
+Codex stellt Laufzeit, Werkzeuge und Berechtigungen bereit. Das Repository liefert `AGENTS.md`, Skill-Beschreibungen und Ressourcen, Fachverträge, Rollen und Prüfungen. Verifizieren Sie die geladenen Anweisungen und die Berechtigung am tatsächlichen Werkzeug. [Harness und Berechtigungen](../OPERATING_MODEL.md#harness-and-authority)
+
+<a name="subagents"></a>
+### Rollen und Subagenten
+
+Delegieren Sie eigenständige Ergebnisse oder unabhängige Prüfungen. Nennen Sie Rolle, Quellrevision, Eingabepfade, Schreibbereich, Ausgabe, Grenzen, Abbruchbedingung und Rückgabeort. Legen Sie für gemeinsam veränderlichen Zustand einen Schreibverantwortlichen fest. Fordern Sie vor der Integration das tatsächliche Ergebnis an. [Arbeitswege und Subagenten](../OPERATING_MODEL.md#routes-and-subagents)
+
+<a name="context"></a>
+### Kontextkapseln
+
+Beginnen Sie mit maßgeblichen Anforderungen, Projektidentität, Entscheidungen und Kontrollpunkt. Binden Sie exakte Quell-Hashes, relevante Pflichten, erlaubte Auswirkungen, zurückgestellte Arbeit, Ausgabe, ungeklärte Auswirkungen und den nächsten Schritt. Bei einer geänderten oder fehlenden Quelle prüfen Sie die betroffene Verpflichtung erneut. Die Übergabe überträgt diesen Ausschnitt an die nächste Aufgabe oder Umgebung; die Originalquellen bleiben maßgeblich.
 
 Speichern Sie `preferred_language` im Projektkontext und geben Sie die Einstellung bei Übergaben weiter. Bewahren Sie exakte Befehle, Selektoren, IDs, Quellverweise und Originalzitate. [Betriebsmodell](../OPERATING_MODEL.md#project-context-and-handoffs) · [Projektkontext](../../templates/project-context.json) · [Übergabe](../../templates/HANDOFF.md)
+
+<a name="models"></a>
+### Modelle und Kosten
+
+Halten Sie beim Vergleich von Arbeitswegen das Modell, den Denkaufwand und das Ergebnis fest. Nutzen Sie eine kostengünstigere Variante, wenn sie mit denselben Eingaben dieselben Abnahmeprüfungen besteht. [Modellwahl und Kosten](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Wissenssuche und RAG ergänzen
@@ -80,7 +104,12 @@ node launcher/atelier.mjs doctor
 <a name="operations"></a>
 ## Betrieb, Wiederherstellung und Aktualisierung
 
-Prüfen Sie vor einem schreibenden Werkzeugaufruf Operation, Ziel, Berechtigung, Kosten, Grenzen und erwarteten Beleg. Nach einem Timeout oder ohne Beleg lesen Sie den maßgeblichen Zustand der exakten Anfrage. Wiederholen Sie einen Vorgang nur mit gültiger Berechtigung und geprüftem Schutz vor Duplikaten. Halten Sie ungeklärte Auswirkungen und Belege sichtbar. Bewerten Sie Ergebnisse im tatsächlichen Produkt und erfassen Sie Vorbereitung, Ausführung und Dateierstellung als eigene Zustände.
+<a name="permissions"></a>
+### Werkzeuge und Berechtigungen
+
+Prüfen Sie vor einem schreibenden Werkzeugaufruf Operation, Ziel, Berechtigung, Kosten, Grenzen und erwarteten Beleg. Nach einem Timeout oder ohne Beleg lesen Sie den maßgeblichen Zustand der exakten Anfrage. Wiederholen Sie einen Vorgang nur mit gültiger Berechtigung und geprüftem Schutz vor Duplikaten. Halten Sie ungeklärte Auswirkungen und Belege sichtbar. Bewerten Sie Ergebnisse im tatsächlichen Produkt und erfassen Sie Vorbereitung, Ausführung und Dateierstellung als eigene Zustände. [Werkzeugwirkungen und Belege](../OPERATING_MODEL.md#tools-evidence-and-recovery)
+
+### Wiederherstellung und Aktualisierung
 
 Verwenden Sie für Updates das stabile Archiv und den exakten Plan. Bewahren Sie Journale und vorhandene Daten auf. Nach einer Unterbrechung prüfen Sie zuerst das tatsächliche Ziel. Setzen Sie Kern, Profil oder optionalen Skill mit deren jeweiligem Journal zurück. Sichern Sie Datenbank und Dateien der Oberfläche nach der beschriebenen Prozedur. Starten Sie sie im eigenen Datenordner und prüfen Sie Projektbestand und eine begrenzte Aufgabe. Produktdaten, native Chats und Konten haben eigene Verantwortliche und Wiederherstellungsschritte. [Installation und Wiederherstellung](../INSTALL.md#rollback) · [Arbeit fortsetzen](../../governance/RESUMABLE_WORK.md)
 

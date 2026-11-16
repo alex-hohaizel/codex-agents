@@ -1,5 +1,7 @@
 # Verify the product
 
+[Repository home](../README.md) · [Evals and evidence](../docs/OPERATING_MODEL.md#evals-and-evidence) · [Native Codex canary](../evaluations/README.md#run-a-focused-native-codex-canary)
+
 ## Check the sources
 
 ```sh

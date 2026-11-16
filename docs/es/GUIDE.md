@@ -2,9 +2,16 @@
 
 Resuelve una tarea concreta con Codex, desarrolla un producto con especialistas o diseña un agente reutilizable. El sistema vincula el trabajo con su fuente, una persona responsable y un resultado verificable.
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [Ejemplos visuales](../../marketing/es/README.md)
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-[Instalación](#install) · [Primera tarea](#first-task) · [Flujo](#workflow) · [RAG](#retrieval) · [Evaluaciones](#evals) · [Panel para Mac](#workbench) · [Operación](#operations) · [Catálogo](#catalog)
+## Elige por dónde empezar
+
+- **Prueba Codex.** [Instala y verifica](#install) · [Haz una primera tarea](#first-task) · [Flujos ilustrados](../../marketing/es/README.md)
+- **Desarrolla u opera un proyecto.** [Elige un flujo de trabajo](#workflow) · [Encuentra una habilidad o un rol](#catalog) · [Panel para Mac](#workbench) · [Operación y recuperación](#operations)
+- **Entiende el sistema.** [Harness](#harness) · [Subagentes](#subagents) · [Cápsulas de contexto](#context) · [Modelos y costes](#models)
+- **Encuentra y verifica evidencias.** [Búsqueda de conocimiento (RAG)](#retrieval) · [Evaluaciones (evals)](#evals) · [Herramientas y permisos](#permissions)
+
+[Temas técnicos (en inglés)](../OPERATING_MODEL.md#engineering-topics) · [Ejemplo práctico de RAG (en inglés)](../technical/RETRIEVAL.md) · [Requisitos del producto](../../governance/requirements.csv)
 
 <a name="install"></a>
 ## Instala y verifica la detección
@@ -32,12 +39,29 @@ Comprueba `# Checklist` y el contenido original de `notes.txt`. Para esta tarea 
 <a name="workflow"></a>
 ## Elige el flujo y conserva el contexto
 
-- **Harness.** Codex proporciona el entorno de ejecución, las herramientas y los permisos. El repositorio aporta `AGENTS.md`, descripciones y recursos de habilidades, contratos de dominio, roles y comprobaciones. Confirma qué instrucciones se cargaron y aplica la autorización en la herramienta real.
-- **Flujo.** Trabaja directamente, llama a una habilidad o pide a `$atelier-orchestrator` que seleccione el camino. Un director coordina el ciclo de vida de una aplicación, chatbot o juego. `$agent-foundry` diseña un agente o equipo para trabajo recurrente. Revisa su pasaporte antes de construir y prueba el paquete preparado en una tarea original. `$design-specialist-skills` define un flujo reutilizable con activadores y casos de aceptación.
-- **Roles y subagentes.** Delega resultados separados o una revisión independiente. Indica actor, revisión de la fuente, rutas de entrada, autorización de escritura, resultado, límites, condición de cierre y destino de la entrega. Asigna un único escritor al estado compartido. Recoge el resultado real antes de integrarlo.
-- **Cápsula de contexto.** Abre los requisitos autorizados, la identidad, las decisiones y el punto de control. Fija las huellas exactas e incluye requisitos aplicables, efectos permitidos, trabajo aplazado, resultado, efectos pendientes y próxima acción. Si una fuente cambia o falta, vuelve a verificar la obligación afectada. El traspaso lleva esta selección a otra tarea o entorno y conserva la autoridad de las fuentes originales.
+Trabaja directamente, llama a una habilidad o pide a `$atelier-orchestrator` que seleccione el camino. Un director coordina el ciclo de vida de una aplicación, chatbot o juego. `$agent-foundry` diseña un agente o equipo para trabajo recurrente. Revisa su pasaporte antes de construir y prueba el paquete preparado en una tarea original. `$design-specialist-skills` define un flujo reutilizable con activadores y casos de aceptación.
+
+<a name="harness"></a>
+### Harness y permisos
+
+Codex proporciona el entorno de ejecución, las herramientas y los permisos. El repositorio aporta `AGENTS.md`, descripciones y recursos de habilidades, contratos de dominio, roles y comprobaciones. Confirma qué instrucciones se cargaron y aplica la autorización en la herramienta real. [Harness y permisos](../OPERATING_MODEL.md#harness-and-authority)
+
+<a name="subagents"></a>
+### Roles y subagentes
+
+Delega resultados separados o una revisión independiente. Indica actor, revisión de la fuente, rutas de entrada, autorización de escritura, resultado, límites, condición de cierre y destino de la entrega. Asigna un único escritor al estado compartido. Recoge el resultado real antes de integrarlo. [Flujos y subagentes](../OPERATING_MODEL.md#routes-and-subagents)
+
+<a name="context"></a>
+### Cápsulas de contexto
+
+Abre los requisitos autorizados, la identidad, las decisiones y el punto de control. Fija las huellas exactas e incluye requisitos aplicables, efectos permitidos, trabajo aplazado, resultado, efectos pendientes y próxima acción. Si una fuente cambia o falta, vuelve a verificar la obligación afectada. El traspaso lleva esta selección a otra tarea o entorno y conserva la autoridad de las fuentes originales.
 
 Registra `preferred_language` en el contexto y transmítelo al traspasar trabajo. Conserva comandos, selectores, identificadores, referencias y citas exactas. [Modelo operativo](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contexto de proyecto](../../templates/project-context.json) · [Traspaso](../../templates/HANDOFF.md)
+
+<a name="models"></a>
+### Modelos y costes
+
+Al comparar flujos, registra el modelo, el nivel de razonamiento y el resultado. Usa una variante de menor coste si supera las mismas comprobaciones de aceptación con los mismos datos de entrada. [Selección de modelos y costes](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Añade búsqueda de conocimiento y RAG
@@ -80,7 +104,12 @@ node launcher/atelier.mjs doctor
 <a name="operations"></a>
 ## Opera, recupera y actualiza
 
-Antes de escribir con una herramienta comprueba operación, destino, autorización, coste, límites y recibo esperado. Si se agota el tiempo o falta un recibo, consulta el estado autorizado de la solicitud exacta. Repite la acción con autorización vigente y protección comprobada contra duplicados. Deja visibles los efectos pendientes y la evidencia. Evalúa el resultado en el producto real y registra de forma separada preparación, ejecución y creación de archivos.
+<a name="permissions"></a>
+### Herramientas y permisos
+
+Antes de escribir con una herramienta comprueba operación, destino, autorización, coste, límites y recibo esperado. Si se agota el tiempo o falta un recibo, consulta el estado autorizado de la solicitud exacta. Repite la acción con autorización vigente y protección comprobada contra duplicados. Deja visibles los efectos pendientes y la evidencia. Evalúa el resultado en el producto real y registra de forma separada preparación, ejecución y creación de archivos. [Efectos de las herramientas y evidencias](../OPERATING_MODEL.md#tools-evidence-and-recovery)
+
+### Recuperación y actualizaciones
 
 Usa el paquete estable y su plan para actualizar componentes. Guarda los registros y los datos existentes. Tras una interrupción, examina el destino real antes de continuar. Revierte núcleo, perfil y habilidad opcional con sus registros respectivos. Haz una copia del panel y su base de datos según la guía, reinicia en el directorio de datos establecido y verifica proyectos y una tarea acotada. Los datos de producto, los chats nativos y las cuentas tienen propietarios y rutas de recuperación propios. [Instalación y recuperación](../INSTALL.md#rollback) · [Continuar trabajo](../../governance/RESUMABLE_WORK.md)
 

@@ -4,8 +4,10 @@
   "offline_entry": "marketing/campaign/index.html",
   "illustrated_pdf": "marketing/campaign/Showcase.pdf",
   "artwork_manifest": "marketing/campaign/artwork.json",
+  "concept_art_manifest": "marketing/campaign/concept-art.json",
   "catalog": "marketing/campaign/catalog.json",
   "artwork_source": "assets/marketing/current",
+  "concept_art_source": "assets/marketing/concepts",
   "languages": [
     "en",
     "uk",
@@ -17,5 +19,7 @@
   ],
   "artwork_language": "neutral",
   "illustrations": 10,
+  "concept_art_languages": ["en", "uk"],
+  "concept_plates_per_language": 10,
   "kind": "representative_workflows"
 }

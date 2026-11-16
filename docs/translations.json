@@ -1,7 +1,7 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
+  "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
   "default_locale": "en",
   "repository_version": "1.5.1",
   "guide_editions": 7,
@@ -15,13 +15,13 @@
     "fr",
     "zh-CN"
   ],
-  "verification_scope": "Current product handbook for install, first task, harness, delegation, context, retrieval, evals, local workbench, operations and the complete skill and role inventory. Shared anchor IDs, command blocks, locale and showcase destinations, all skill and role names, and equivalent section structure checked. Runtime results are separate from this language review.",
+  "verification_scope": "Current product handbook for installation, first task, harness, delegation, context, models and cost, retrieval, evals, local workbench, permissions, operations, and the complete skill and role inventory. Shared anchors, command blocks, locale and gallery destinations, skill and role names, equivalent sections, and navigation destinations are checked. Runtime results are separate from this language review.",
   "translations": [
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -38,8 +38,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "d24a578e701e17fae26d39249a5ad95365df06a08b566c9809d7d82f917a0e97",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "4fd600bab120b553c45a0b40859433b41fff757d3945aba7cd4e506fe217c327",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -56,8 +56,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "6f7d696a078da85d109d00173061e88f68e40ab274c74c81ad1ac024079a0788",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "ff43d6836953bf412ffe771b7ba6c5d02cd092dbb64a682f772aaa3bcdc06368",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "86410cfb33a44834653352eabd867944c28c9fe4f70446b110dfa90b80e1d64f",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "985f29f51710b2529026db9b3c416cd8ca638baecf27806866d10a079c98d08f",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -92,8 +92,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "247b444d0ca0f444c37e5c48389655f1f1307d992d6e9a01a0c77224adf5edf1",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "a480216246438718583687c4430da8c9870eb25786fa93bb7cf799c599530e77",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -110,8 +110,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "8ed6d824a8977d52d60c67decc30fe6390d728d639abadd4feda596178793522",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "971fe35f1e9aefafc4debf68331459093bf906768fd37d234df112227d7cb7bc",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -128,8 +128,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c",
-      "sha256": "b4baf5cb6098eef79b672e251b80b913ea55496268458dff61e16a2af3539ae0",
+      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "sha256": "f1a70ef99054b21554c25d87c3ef18dd23b38e03687a23996d163b002330cf3a",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -145,8 +145,8 @@
     }
   ],
   "language_review": {
-    "method": "Reviewed parallel handbook sections for semantic parity and checked exact shell commands, selectors, role names, sections and stable source references.",
+    "method": "Reviewed parallel handbook sections and navigation labels for semantic parity and checked exact shell commands, selectors, role names, sections, and shared destination paths.",
     "native_human_review": "not_performed",
-    "source_freeze_sha256": "4c91081d640aeeec18f00808f70b52c6ac68621843db9a1e11e9d04d8c64748c"
+    "source_freeze_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c"
   }
 }
