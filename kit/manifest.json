@@ -80819,8 +80819,8 @@
       "files": {
         "SKILL.md": {
           "mode": 420,
-          "sha256": "3a278091cd167e21832b83dd36986a17a73c85c0842ea9134aa8496ca75a8eb1",
-          "size": 9462
+          "sha256": "37cf4e37fe45d8fd6a0c4d3fd18b30f7470f488bf628e87c24a5c2b8dd49448a",
+          "size": 9716
         },
         "agents/openai.yaml": {
           "mode": 420,

@@ -5,7 +5,7 @@
       "size": 3474
     },
     "manifest.json": {
-      "sha256": "81525a80871497c30394c3969823a58c78dfaff90eeb65ac1294900c012f99ec",
+      "sha256": "2c3aa159ed17c9b047ac58f0b92635af68a938308ae9a984c339431540b0907c",
       "size": 3871659
     },
     "portable/check_generated_inheritance.py": {
@@ -5469,8 +5469,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-qa/SKILL.md": {
-      "sha256": "3a278091cd167e21832b83dd36986a17a73c85c0842ea9134aa8496ca75a8eb1",
-      "size": 9462
+      "sha256": "37cf4e37fe45d8fd6a0c4d3fd18b30f7470f488bf628e87c24a5c2b8dd49448a",
+      "size": 9716
     },
     "skills/chatbot-atelier-qa/agents/openai.yaml": {
       "sha256": "00fbad7649b3ff3cf689227211b582ba2b56ac794244912e0d3e6216f451c5bd",
@@ -12778,7 +12778,7 @@
     }
   },
   "hardware_bound": false,
-  "manifest_sha256": "81525a80871497c30394c3969823a58c78dfaff90eeb65ac1294900c012f99ec",
+  "manifest_sha256": "2c3aa159ed17c9b047ac58f0b92635af68a938308ae9a984c339431540b0907c",
   "release": "6.2.0",
   "schema": "agent-release-integrity/1",
   "scope": "curated-reusable-core-33-skills"
