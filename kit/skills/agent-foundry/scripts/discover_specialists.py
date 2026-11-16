@@ -51,6 +51,22 @@ def frontmatter_name(content):
     return name if len(name) <= 64 and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name) else None
 
 
+def source_version(content):
+    """Current quoted metadata first; retain legacy versioned headings."""
+    header = re.match(r"\A---[ \t]*\r?\n(.*?)\r?\n---[ \t]*(?:\r?\n|\Z)", content, re.S)
+    if not header:
+        return "unknown"
+    frontmatter = header.group(1).replace("\r\n", "\n") + "\n"
+    metadata = re.findall(r'^metadata:[ \t]*\n((?:[ \t][^\n]+\n)*)', frontmatter, re.M)
+    if len(metadata) == 1:
+        versions = re.findall(r'^  version: "([^"]+)"[ \t]*$', metadata[0], re.M)
+        if len(versions) == 1 and re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?", versions[0]):
+            return versions[0]
+    title = re.search(r"(?m)^# ([^\n]*)", content[header.end():])
+    old = re.search(r"\b(\d+\.\d+(?:\.\d+)?)\b", title.group(1)) if title else None
+    return old.group(1) if old else "unknown"
+
+
 def contained(path, roots):
     return any(path == root or root in path.parents for root in roots)
 
@@ -61,13 +77,12 @@ def source_record(path, roots):
     if path.is_symlink() or not contained(path.resolve(), roots):
         raise ValueError("source is outside approved roots or is a symlink")
     content = path.read_bytes()
-    name = frontmatter_name(content.decode("utf-8"))
+    instructions = content.decode("utf-8")
+    name = frontmatter_name(instructions)
     if not name:
         raise ValueError("missing or invalid leading frontmatter name")
-    title = re.search(r"(?m)^# ([^\n]*)", content.decode("utf-8"))
-    heading = re.search(r"\b(\d+\.\d+(?:\.\d+)?)\b", title.group(1)) if title else None
     source = {"path": str(path.resolve()), "sha256": digest(content),
-              "version": heading.group(1) if heading else "unknown", "files": []}
+              "version": source_version(instructions), "files": []}
     card = path.parent / "assets" / "capability-card.json"
     if card.is_file():
         if card.is_symlink() or not contained(card.resolve(), roots):

@@ -1,7 +1,7 @@
 interface:
-  display_name: Конструктори · Навички · 6.0.0
-  short_description: Предметні навички з контрактами й доказами якості
-  default_prompt: 'Використай $design-specialist-skills: досліди мою задачу, визнач предметні правила й перевірки, спроєктуй команду та погоджену навичку або сімейство.'
+  display_name: Конструктори · Навички
+  short_description: "Design and verify reusable specialist skills"
+  default_prompt: "Use $design-specialist-skills to identify the right reusable workflow, prepare the exact proposal, and validate the approved skill."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

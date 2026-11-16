@@ -1,24 +1,29 @@
-# Релізний контракт
+# Release workflow
 
-## Ранні виходи
-Створити release-feasibility record: target clients/countries/distribution, official sources/date, actual account/tool/device readiness, one-time/monthly/variable costs, testing prerequisites, exact unknowns/owner/due gate. Невідомий акаунт не заважає широкому пошуку, але до full build конфлікт має бути видимим і власник вирішує залежний scope.
+## Early outputs
+
+Create a feasibility record with target clients, countries and distribution, dated official sources, actual account, tool, and device readiness, one-time, monthly, and variable costs, testing prerequisites, and each unknown's owner and due gate. Discovery can proceed while account details are unresolved. Surface conflicts before full build so the owner can decide the dependent scope.
 
 ## Release packet
-Вхід: accepted concept/design/budget, PRD/TDD, actual builds/web/backend/support, hashes, QA, privacy/data flow, conditional billing lifecycle, resources і authorization. Вихід: reproducible build/config/source, current checklist і source links, store metadata/media, signing/setup без secrets, migration/runbook, release plan/rollback і готові exact actions. Test placeholders або Android screenshot не замінюють iOS/core evidence.
 
-Перевірити upgrade/restore на реалістичних версіях і даних; code rollback не обіцяє rollback зовнішньої транзакції чи несумісної міграції. Store/billing rules можуть залежати від країни, типу товару й акаунта; підтвердити актуальні первинні умови. Не фіксувати універсальну комісію або ціну з пам’яті.
+Inputs include accepted concept, design, and budget, PRD/TDD, actual builds, web, backend, and support, hashes, QA, privacy and data flow, applicable billing lifecycle, resources, and authority. Outputs include reproducible build, config, and source, current checklist and sources, store metadata and media, signing and setup without secrets, migration, runbook, release plan, rollback, and exact prepared actions. Supply client-specific core evidence, including for iOS, independently of placeholders or Android screenshots.
 
-## Effect protocol
-Concrete target/parameters/current hashes -> capability check -> sufficient grant -> local pending -> actual call -> receipt -> read-back. Не дублювати unknown upload/payment/deploy. Provider idempotency за наявності, local ledger не гарантує remote exactly-once. Зміна artifacts/target/cost/permission до dispatch вимагає перевірки чинності scope.
+Check upgrade and restore on realistic versions and data. Assess reversibility of external transactions and incompatible migrations independently of code rollback. Store and billing requirements can depend on country, goods type, and account. Use current primary sources for commissions, costs, and prerequisites.
 
-## Корисний запуск
-Показати окремо local build, device verified, submitted, approved, released, externally available, observed core action. Для web перевірити реальний URL/health/core; для stores стан і доступність; для support канали/auth/fallback. Неперевірені runtime/monitoring не оголошувати активними.
+## External effects
 
-## Особистий bridge
-Вказати точну причину, verified URL/working path, підготовлені файли/hashes, minimal owner action, очікуваний receipt і return validation. Не перекладати на власника весь setup. Не надавати фіктивного шляху або command flag.
+Confirm exact target, parameters, and current digests, verify capability, establish sufficient authority, record pending work locally, invoke the actual tool, and verify the receipt and read-back. Reconcile unknown uploads, payments, or deploys before a retry. Use provider idempotency when available. Treat a local ledger as a local record, with remote uniqueness established separately. After a pre-dispatch change to artifact, target, cost, or permission, verify that authority still covers it.
 
-## Видимий результат і достатність підходу
+## Availability and first use
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: готовність точного артефакту, маршрут випуску, чинний effect scope, квитанції й фактична доступність. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Show separate states for local build, device verification, submission, approval, release, external availability, and an observed core action. For web, check the actual URL, health, and core path. For stores, check current state and availability. For support, check channels, auth, and fallback. Keep runtime and monitoring claims pending until observed.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: readiness окремо від дозволу, актуальні platform/account умови, migration/rollback і зовнішній read-back. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+## Owner handoff
+
+Provide the exact reason, a verified URL or working path, prepared files and hashes, the minimum owner action, the expected receipt, and the return check. Complete the available setup before handing it over. Verify every path and command option you provide.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show readiness of the exact artifact, release route, current authority for each effect, receipts, and actual availability. Distinguish completed work, inherited current decisions, and future results with their due gates. Scale depth and specialist roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, choose the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review readiness separately from authority, current platform and account conditions, migration and rollback, and external read-back. Inspect raw sources for omitted requirements. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve project context, current approvals, and unaffected results.

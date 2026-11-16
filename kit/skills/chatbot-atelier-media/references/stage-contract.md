@@ -1,37 +1,31 @@
-# Контракт етапу chatbot-atelier-media
+# Stage contract for chatbot-atelier-media
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати досяжні варіанти досвіду, прийняті masters, реальний виробничий pipeline, матеріальні альтернативи й покомпонентну таблицю перевірки changed outputs. Візуальне/мовне/аудіо приймання відділити від decode/hash і факту доставки.
+Show feasible user experiences, approved masters, an actual production pipeline, material alternatives, and a component-level check table for changed outputs. Keep visual, speech and audio acceptance distinct from decode, hash and delivery.
 
-## Обов’язковий предметний маршрут
+## Establish the media and delivery contract
 
-## Замисел і здійсненний pipeline
+Identify user purpose, scene, emotion, character, rights, audience, format/device, canvas/alpha, timing, audio/captions, editable master, budget and recipient. Ground the concept in a feasible target pipeline. Preserve approved originals and fingerprints. Distinguish a derivative from a fresh generated asset.
 
-Визначити user purpose/scene/emotion/character, формат/target device, rights, duration/frame/canvas/alpha/audio/captions, editable masters, output budget й recipient. Реалістичний concept reference відображає можливий final pipeline; не обіцяти картинку/рух, яких доступний інструмент не може зберегти при інтеграції. Approved originals/fingerprint immutable; derived frames/new generated sources чесно розрізняти.
+Verify separate operation contracts for image generation/editing, layer extraction and DCC, rig/key poses/interpolation, composition/encoding, montage, music source, synthesis/TTS, mux, runtime manifest, publication and readback. Confirm effective settings and supported schemas, capabilities, rights and cost before relying on them. In the actual attempt, save prompts, parameters, inputs, outputs and job IDs. Carry approved rights and paid-use limits.
 
-Окремі operation passports для image generate/edit, layer extraction/DCC, rig/keyposes/interpolation, compositing/encode, montage, source music, synthesis/TTS, mux, runtime manifest, publication/readback. Supported parameters/schema/effective use звірити before dependent work; unsupported ignored flag не виконує requirement. Не вводити paid provider/voice без чинного дозволу. Actual prompts/params/inputs/outputs/jobIDs зберігати у спробі одразу, не в пам’яті root.
+## Verify the actual file and playback
 
-## Предметна якість
+Check shape, proportions, face/character identity, scene meaning, expressions, consistent topology/key poses, alpha, and clipping. Observe the changed animation in real and slower playback for anticipation, action, settle, trajectory, transitions and loop seams. Contact sheets and frame rate are partial evidence. Decode audio/video streams. Verify requested/licensed sound, trim/loop/mix/fades/levels, clipping, captions, duration/order/framing and accessibility. Check actual audio mapping and playback. Keep private media out of group progress, errors and cancel output.
 
-Visual: identity/silhouette/proportions/limbs/face, scene meaning/unique emotion/emoji, topology/keypose consistency, clean alpha/no clipping. Motion: anticipation/action/settle/trajectory/speed, transitions, loop seam, no ghosting/dissolve/jumps/blank/static wiggle замість потрібної дії. Дивитися весь changed цикл у реальному й slow темпі; contact sheet/FPS не заміняють рух.
+After the generator finishes, freeze actual output files. Validate format, dimensions, timing, audio streams and decoded content against the master. Recompute file hashes and check runtime manifest, order, lineage and identity. A result URL with HTML, unexpected bytes, or changed identity remains undelivered. Keep a frozen independent final and append repair evidence with the parent's SHA. Authorized publication has its own native item/file readback and fingerprint.
 
-Audio/video: actual source track/licence, requested sound preserved, streams/decode, trim/loop/mix/fade/levels/clipping, captions/accessibility, duration/order/framing. За -an/немає audio mapping не обіцяти музику; actual listening окремо від metadata. Прогрес/error/cancel не розкриває private media в group.
+Deliver source, effective recipe, changed-asset symptom/cause/repair/QA table, exact final bytes/manifest, render/playback evidence, known gaps and actual delivery scope. Measure one integrated media slice before scaling. Keep unchanged sources and retest outputs affected by shared generator changes.
 
-## Freeze, integration і публікація
+## Handoff
 
-Чекати завершення encoder/generator. Freeze final copies, probe/full decode/frame timing/streams, compare candidate/output, recompute hash після checks; independent FINAL immutable, repair addendum parent SHA. Перевірити runtime manifest/order/file/hash/source lineage; після authorized publication actual platform item/file/readback/fingerprint. ZIP/Render deploy не доводить sticker membership.
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-Пакет: sources, recipe/effective params, exact changed asset table symptom/cause/repair/QA, final files/manifest, playback/probe evidence, missing modality gaps, delivery receipt/limits. Перед масштабним набором виміряти representative route до integration/QA. Незмінені assets не перевиробляти; shared generator change транзитивно активує залежні outputs.
+## Criteria and completion
 
-## Контракт передачі
+Check applicability for these criterion IDs first: character_semantics, temporal_quality, audiovisual_fidelity, media_delivery, provider_constraints, bounded_resources. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
-
-## Критерії та завершення
-
-Першочергові criterion IDs для перевірки застосовності: character_semantics, temporal_quality, audiovisual_fidelity, media_delivery, provider_constraints, bounded_resources. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.

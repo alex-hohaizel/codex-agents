@@ -1,47 +1,47 @@
-# Розвиток, винагороди й довгі цілі
+# Progression, rewards and long-term goals
 
-## Застосування, вхід і власний результат
+## Applicability, inputs and owned outputs
 
-Застосовувати до розвитку досвіду в часі; RPG-статистики, loot, crafting, сезони й постійну силу не нав'язувати. Прийняти правила, структуру світу/контенту, навчальний граф, доступний launch scope і бізнес-модель. Власний результат — progression/reward graphs, typed unlock rules, player journeys, pace/balance model і novelty/exhaustion plan. Використовувати [шаблон](../../assets/domain-templates/development-rewards.template.json) як authoring fragment, а не альтернативний registry.
+Apply to how the experience develops over time. Add RPG stats, loot, crafting, seasons or permanent power when they serve the design. Read the rules, world and content structure, learning graph, available launch scope and business model. Deliver progression and reward graphs, typed unlock rules, player journeys, pacing and balance model, and novelty and exhaustion plan. Use the [development and rewards template](../../assets/domain-templates/development-rewards.template.json) within the authoritative project records.
 
-## Визначити, що саме розвивається
+## Define what develops
 
-Відокремити застосовні шари: майстерність і знання; стан у межах спроби/матчу/задачі; сталі можливості персонажа/інструментів/техніки; collection/loadouts; світ/access/consequences; optional social/team goals; довгий postgame. Непотрібний шар вимкнути з предметним поясненням. Навіть без permanent power гравець може розвивати знання, інструментарій і доступ; не замінювати розвиток нескінченним лічильником.
+Distinguish applicable layers: mastery and knowledge, state within a run, match or task, persistent character, tool or vehicle abilities, collections and loadouts, world, access and consequences, optional social and team goals, and long-term postgame. Give a domain reason for unused layers. Games without permanent power can develop player knowledge, tools and access. Progression needs an effect beyond incrementing a counter.
 
-Для вузла графа задати ID, player goal, prerequisites, unlock/grant, нову дію/можливість, trade-off, застосування, старий контекст, який він переосмислює, наступну видиму ціль, earned/paid relation, persistence/reset/cap і evidence. Для ребра — умова, authority, cost/time, presentation, reversible/irreversible behavior, failure/recovery. Значення й формули мають units/ranges/rounding, source/rationale й один runtime/config source.
+For a graph node specify ID, player goal, prerequisites, unlock or grant, new action or opportunity, tradeoff, use, older context it reinterprets, next visible goal, earned and paid relationship, persistence, reset and cap, and evidence. For an edge specify condition, authority, cost or time, presentation, reversibility, failure and recovery. Bind values and formulas to units, ranges, rounding, source and rationale, and one runtime or config source.
 
-Глибина предметів/навичок/техніки визначається відмінними рішеннями. Нова дальність, режим, взаємодія з матеріалом, мобільність або обмеження можуть бути значущими; десять +1 не створюють десять playstyles. Власні характеристики й enemy progression мають зрозумілу для гравця роль, cues і межі. Якщо є дерево/набір модулів, задати сумісність, previews/comparison, respec/switch rules, duplicate handling і відсутність dead choices. Не вимагати випадкового loot за прикладом іншої гри.
+Depth in items, skills and vehicles comes from distinct decisions such as range, mode, material interaction, mobility or a constraint. Repeated +1 increases need evidence of distinct play. Give player stats and enemy progression understandable roles, cues and bounds. For trees or modules specify compatibility, preview and comparison, respec and switching, duplicates and useful choices. Add random loot only where it serves this game.
 
-## Винагорода як завершений цикл
+## Rewards as a complete cycle
 
-Для reward family описати за що вона надається, яке зусилля/ризик визнає, що очікує гравець, точний предмет/право/зміну стану, claim/presentation, реальне застосування й наступну змістовну мету. Це можуть бути здібність, інструмент, предмет, світ/access, знання, customization або визнання — за задумом, а не загальний «XP».
+For each reward family describe the reason, effort or risk recognized, player expectation, exact item, entitlement or state change, claim and presentation, practical use and next meaningful goal. Depending on the design this can be an ability, tool, item, world access, knowledge, customization or recognition. Use XP when it has a defined role.
 
-Задати guaranteed/chance/choice, pool/weights/version за застосовності, доступну гравцю інформацію, repetition/duplicates, eligibility, caps, expiry/claim window, authoritative grant, retry/deduplication, persistence/revoke. Рідкісність не є цінністю без змістовного використання. Підсилення presentation не повинно приховувати нульову функціональну різницю. Випадкова нагорода й paid randomness — різні продуктові рішення.
+Specify guaranteed, random or chosen outcome, pool, weights and version as applicable, information available to the player, repetition and duplicates, eligibility, cap, expiry and claim window, authoritative grant, retry and deduplication, persistence and revocation. Show meaningful use separately from rarity and presentation. Earned randomness and paid randomness are distinct product choices.
 
-Зв'язати reward із конкретним progression node і сценарієм використання. Порівняти винагороду за mastery, exploration, risk, completion, comeback та інші застосовні до гри причини. Не примушувати всі ці категорії. Reward schedule має підтримувати player agency й чесні цілі; не створювати штучний frustration wall для продажу полегшення.
+Connect each reward to a progression node and use scenario. Compare rewards for mastery, exploration, risk, completion, returning and other relevant goals. Choose applicable reasons. Preserve player agency and fair goals. Avoid deliberately blocking enjoyment to sell relief.
 
-## Пейсинг і повна арка
+## Pacing and complete arc
 
-Скласти конкретні journeys: перший вхід/перший завершений цикл; наступне повернення; рання, середня й пізня гра; перерва/повернення; завершення launch content; postgame. Часові точки обрати за жанром і scope, не як універсальну квоту. Для кожної — що гравець знає/може, які нові рішення й контексти має, яку нагороду отримує/використовує, чому хоче продовжити й що може набриднути.
+Define first opening and completed loop, next return, early, middle and late play, absence and return, launch-content completion and postgame. Choose time markers for this genre and scope. For each record what the player knows and can do, new decisions and contexts, rewards and uses, reasons to continue and what could become repetitive.
 
-Показати розвиток як послідовність introduction → practice → combination → meaningful variation → mastery/новий контекст. [Навчальний граф](experience.md) забезпечує потрібні знання до перевірки. [Світ](world.md) дає нові можливості й добровільне повернення. Відкрита зона без нової ролі або весь розвиток через більший HP не закриває арку.
+Show introduction, practice, combination, meaningful variation, and mastery or reinterpretation in a new context. The [learning graph](experience.md) supplies needed knowledge before assessment. The [world](world.md) supplies opportunities and reasons for voluntary return. Prove new roles and decisions when opening zones or increasing stats.
 
-Для скінченного launch scope визначити content exhaustion, можливі завершення, optional challenges і допустимий повтор. Довга гра не зобов'язана вимагати нескінченного grind або щотижневого ручного event. Якщо передбачений ongoing content, пов'язати cadence з реальною authoring/QA місткістю й витратами.
+For finite launch scope define content exhaustion, endings, optional challenges and useful replay. A long game can sustain play without indefinite grind or weekly manual events. If ongoing content is in scope, tie cadence to actual authoring and QA capacity and costs.
 
-## Моделювання й контрприклади
+## Modeling and counterexamples
 
-За складних кривих виконати модель з casual/regular/skilled, newcomer/returning, lucky/unlucky, nonpayer/payer profiles за обраною моделлю. Записати playtime/session assumptions, performance policies, seeds/config/version і raw outputs. Перевірити time-to-meaningful-unlock, starvation/overflow, stranding, mandatory unlocks, snowball, catch-up, dominant build, content exhaustion, платний cumulative advantage та softlocks. Coverage класів важливіша за довільну кількість seeds.
+For complex curves model casual, regular and skilled players, newcomers and returning players, lucky and unlucky outcomes, and nonpayers and payers where the business model applies. Record playtime and session assumptions, performance policies, seeds, config and version, and raw outputs. Check time to meaningful unlock, scarcity and overflow, stranding, mandatory unlocks, snowballing, catch-up, dominant builds, content exhaustion, cumulative paid advantage and soft locks. Prioritize scenario-class coverage over an arbitrary count of seeds.
 
-Контрприклади: нагорода, яку ніде застосувати; гілка без корисного сценарію; обов'язковий paid counter; новий інструмент обходить усі старі обмеження; повторна покупка дає прихований refill; повернення дає лише той самий бій без нової мети; «50 годин» дорівнює невідомому множнику grind. Виправляти причину, а не додавати ще валюту.
+Counterexamples include unusable rewards, a branch without a useful scenario, a mandatory paid counter, a tool that bypasses all existing limitations, repeat purchase that creates a hidden refill, return that only repeats the same fight without a new goal, and an unsupported «50 годин» (“50 hours”) estimate based on a grind multiplier. Repair the cause before adding currency.
 
-## Строк доказу, взаємодії й ролі
+## Evidence timing, interactions and roles
 
-Concepts доводить причинний ранній/середній/пізній задум та використання нагород, не точний баланс. Preproduction задає typed graphs/rules й concrete worked examples. Slice реалізує unlock→presentation→use→save→return у реальному runtime; застосовні device/control cues перевіряються фактично. Beta перевіряє розуміння, tempo, бажання повернутися й meaningful choice на людях. Release незалежно перевіряє critical grant/save/purchase integrity. Liveops використовує реальні cohorts без видавання targets за факти.
+Concepts establish a causal early, middle and late arc and reward use. Exact balance is a separate claim. Preproduction defines typed graphs and rules with concrete worked examples. The slice exercises unlock, presentation, use, save and return in the actual runtime and verifies applicable device and input cues. Beta observes understanding, pacing, reasons to return and meaningful choices with players. Release independently checks critical grant, save and purchase integrity. Live operations rely on real cohorts and distinguish targets from observations.
 
-Progression/reward specialist готує graphs/models; systems/world/UX/commerce узгоджують їхні наслідки; runtime реалізує ті самі IDs; independent review шукає dead paths і домінантність. Зміна reward price, tool capability або world access відкриває пов'язані model/UX/content/commerce/save перевірки.
+The progression and rewards specialist owns graphs and models. Systems, world, UX and commerce coordinate implications. Runtime uses the same IDs. Independent reviewers look for dead paths and dominance. A change to reward price, tool capability or world access reopens affected model, UX, content, commerce and save checks.
 
-## Джерела й статус рекомендацій
+## Sources and status of recommendations
 
-- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) — приклад collectable abilities, варіативного проходження й доступу; не шаблон обов'язкового метапрогресу.
-- [Roblox: Onboarding techniques](https://create.roblox.com/docs/production/game-design/onboarding-techniques) — рекомендації платформи щодо навчання в момент релевантної взаємодії.
-- Typed unlock/reward graphs, симуляційні профілі й due gates — правила агента. Симуляція не доводить retention, попит або бажаність нагороди для людей.
+- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) illustrates collectible abilities, varied routes and access.
+- [Roblox: Onboarding techniques](https://create.roblox.com/docs/production/game-design/onboarding-techniques) covers teaching at the moment of relevant interaction.
+- Typed unlock and reward graphs, simulation profiles and evidence timing are Game Atelier requirements. Observe retention, demand and player valuation independently from simulation.

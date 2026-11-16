@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · QA · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-qa до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · QA
+  short_description: "Verify Android, iOS, and web release readiness"
+  default_prompt: "Use $app-atelier-qa to verify this build against the accepted app requirements and identify any open checks."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

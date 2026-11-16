@@ -1,47 +1,47 @@
-# Усі екрани й взаємодії
+# Screen states and interaction contracts
 
-## Інвентар reachable UX
+## Reachable experience inventory
 
-Перелічити boot/splash, loading/update, first-run onboarding, consent/permissions where applicable, account/guest/link/delete, main hub, profile, settings, accessibility, controls/tutorial/practice, loadout/collection/upgrades, shop/offers/pass/events, level/run selection, gameplay HUD, pause, disconnect/reconnect, win/fail/reward/retry, progress/unlock, leaderboard/social if applicable, credits/support/privacy, error/maintenance, suspend/resume/quit/return. Категорію absent-by-design обґрунтувати; не створювати непотрібний account лише для чекліста.
+List applicable boot and splash, loading and update, first use, consent and permissions, account and guest upgrade and unlink or delete, hub, profile and settings and accessibility, controls and tutorial and practice, loadout and collection and upgrades, shop and offers and pass and events, level and run selection, gameplay HUD, pause, disconnect and reconnect, win and fail and reward and retry, progression and unlock, leaderboards and social, credits and support and privacy, errors and maintenance, suspend and resume and quit and return. Give a reason for intentionally absent branches.
 
-Для кожного visible screen/overlay/state:
+For every screen, overlay and visible state, specify:
 
-- stable screen/state ID, purpose, entry guards, source of truth, empty/loading/populated/error/offline/locked/disabled/selected/focus states;
-- exact visible text/resources, source data IDs, hierarchy, CTA, back/escape/system gesture behavior, validation and feedback;
-- logical coordinate system, anchors/constraints, safe areas/notch/keyboard, min/max aspect/font scale, localization expansion/RTL if supported;
-- inputs, gesture ownership, hit areas, focus/order, duplicate input protection, cancel/retry/idempotency;
-- animation timeline/easing/duration/interruption/reduced-motion behavior;
-- audio/haptic cue IDs, concurrency/priority, mute/reduction/haptic settings;
-- transitions, side effects, persistence, permission or payment boundary, failure/recovery and acceptance.
+- Stable ID, purpose, guards, source of truth, empty, loading, populated, error, offline, locked, disabled, selected, and focused states.
+- Exact text and assets, data IDs, hierarchy, actions, back and escape and system gestures, validation, and feedback.
+- Coordinates, anchors, constraints, safe areas and cutouts and keyboard, aspect and type-scale ranges, locale expansion and RTL where supported.
+- Input and ownership, hit areas, focus and order, duplicate protection, cancellation, retries, and idempotency.
+- Motion timing, easing, duration, interruption, and reduced motion.
+- Audio and haptic cue IDs, concurrency and priority, mute, reduction and haptic settings.
+- Transitions and effects, persistence, permission and payment boundary, recovery and acceptance.
 
-## Transition row
+## Transition record
 
 `from_state + event + guard → side effects + next state + feedback + persistence + recovery`.
 
-Не описувати тільки happy path. Приклад upgrade: insufficient earned currency→disabled CTA + clear deficit/earned route; request pending→prevent duplicate; success→wallet/item revision + feedback; timeout→reconcile with authority; return after kill→show actual result once; refund/revoke→consistent inventory state. UI animation не має виконувати grant самостійно.
+Specify success and failure. For a purchase or upgrade, insufficient earned currency shows the deficit and earned path, pending prevents duplicates, success binds wallet and item revision and feedback, timeout triggers reconciliation, return after termination shows actual results once, and refund or revoke reconciles inventory. A UI animation consumes the authoritative result.
 
-## Input/gameplay boundary
+## Input and gameplay boundaries
 
-Touch areas must not conflict with system edges, HUD, dominant thumb or camera controls. Specify gesture arbitration (tap/hold/drag/swipe/multi-touch), thresholds/units, dead zones, sensitivity, buffering/coyote time if applicable, release/cancel semantics and pause. Movement/jump/aim action rules must match animation/physics. Feedback on invalid action should explain relevant cause without noise.
+Keep touch areas clear of edges, HUD, dominant thumb and camera controls. Define arbitration for tap, hold, drag, swipe and simultaneous contacts, thresholds and units, deadzones and sensitivity, applicable input buffers and coyote time, release and cancellation and pause. Align movement, jump and aim with motion and physics. Give meaningful invalid-action feedback without clutter.
 
-Settings include separate music/SFX/voice, mute, haptic intensity/off, reduced effects/motion, color accessibility, language, controls and privacy/account options that actually exist. Respect platform audio interruption/background behavior. Accessibility cannot rely only on color, sound or vibration to convey essential action. Test readability at target gameplay size, not only on desktop artboard.
+Offer applicable music, effects and voice controls, mute, haptic levels and off, reduced effects and motion, color accessibility, language, inputs, and privacy and account controls. Respect background and audio focus behavior. Use alternative channels for essential information and check real target-size readability.
 
 ## Coverage
 
-Build a directed state graph from real data; check unreachable states, missing transitions, dead ends, unsafe Back, repeated purchase/claim and unresolved modal stacks. Trace every screen entry and system lifecycle transition. Critical money/save/auth/delete/consent paths need all reachable transitions and fault injection; other combinations use explicit risk coverage with residual limitations. Never claim every mathematically possible touch sequence tested.
+Derive a directed graph from actual data. Check unreachable states, missing transitions and exits, unsafe back behavior, duplicate purchase and claim, and unresolved modal stacks. Trace each screen entry and system lifecycle transition. Cover reachable high-risk money, save, authentication, deletion and consent transitions and injection of failures. Select other combinations by risk and show limits.
 
-High-fidelity targets must cover every screen family and distinct material state, including errors/purchase/loading/late game. Component reuse can cover repeated layout behavior if mappings and exceptions are explicit. Wireframes are architecture aids, not final visual approval. Long translations and narrow devices must retain hierarchy and action affordance.
+Use high-fidelity targets for every screen family and material state, including errors, commerce, loading, and late play. Reuse components with mappings and explicit exceptions. Track wireframe and visual acceptance separately. Check hierarchy and action affordances on narrow devices and with long translations.
 
-## Камера й навчання як поведінка 4.0
+## Camera and learning
 
-Розділяти оглядовий кадр для презентації та gameplay framing. Для each camera state задати key-object screen-size envelope, visibility/reaction requirement, follow/lookahead/zoom/damping, offscreen threats, obstruction і transitions. Не вміщувати весь світ ціною втрати керованої дії. Не обирати рухому камеру лише заради різноманіття: фіксована теж допустима, коли обґрунтована механікою.
+Distinguish presentation framing from gameplay framing. Each camera state has subject-size bounds, visibility and reaction, tracking and lookahead and zoom and damping, offscreen threats and occlusion and transitions. Use a fixed or moving camera based on the mechanics and preserve playable action scale.
 
-Навчання — граф залежностей умінь. Для кожної можливості: передумова знань, природний trigger, коротка cue, safe practice, meaningful application, combination, independent transfer; skip/replay/return та assistance після помилки. Відкривати UI/resources/shop у момент потреби. Не вважати показ повідомлення засвоєнням; окремо перевіряти дію без підказки автора. Невдало використаний жест може бути проблемою input/camera, а не «неуважністю гравця».
+Model learning as a skill dependency graph. Define prior knowledge, natural trigger, concise cue, practice, meaningful application, combination, and independent transfer, with skip, repeat, return, and help after failure. Introduce UI, resources, and commerce when relevant. Observe independent action. Investigate recognition and camera causes when a gesture fails.
 
-## Намір, commitment й збереження
+## Intent, commitment, and persistence
 
-Тримати intent/action/input/presentation окремо. Pointer ID ownership, recognizer thresholds/units/hysteresis, preview/commit/cancel/refund, system gesture/capture/modal transitions і pause/resume мають input traces. Camera requests мають priority/owner/release/return без oscillation; attention arbitration визначає aggregate/defer/drop/mix critical cues.
+Keep intent, action, input, and presentation separate. Trace stable pointer ownership, thresholds and units and hysteresis, preview and commit and cancel and refund, system gestures and capture and modality, and pause and resume. Resolve camera ownership, priority, release and return without oscillation. Define cue aggregation, deferral, suppression, and mixing.
 
-Для back/exit/crafting/story/respec/route вказати irreversible boundary і recovery. Навчальна remediation відрізняє unseen affordance, unknown rule/input, recognition defect, timing mistake й експеримент. Повторний вхід відновлює meaningful goal/context без примусової спойлерної відповіді. Локалізація включає string/context/plural/placeholders/terms/units/price/glyph/fonts/RTL за мовами.
+For back and exit, crafting, story, respec, and route decisions, state irreversible boundary and recovery. Diagnose unseen affordance, unknown rule or gesture, recognizer defect, timing error, and intentional experiment separately. Recover a meaningful goal and context on return without forced spoilers. Localization covers stable strings, context, plural rules, placeholders, terminology, units, price, script, fonts, and relevant RTL.
 
-UI status розрізняє local saved/cloud pending/synced/conflict/error; ordinary combat cue не чекає storage/network. Критичний success не випереджає належну durable/verification boundary.
+Distinguish local saved, cloud pending, synced, conflict, and error. Immediate ordinary combat cues run independently of storage and network. Critical success appears only after the appropriate durable and verified result.

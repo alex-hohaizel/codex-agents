@@ -1,142 +1,47 @@
 ---
 name: app-atelier-support
-description: "App Atelier: спроєктувати, створити, інтегрувати й супроводжувати окремого бота підтримки продукту в Android/iOS, web і вибраних зовнішніх каналах. Використовуй для бази знань, тону відповідей, guest/account контексту, зв’язування вибраного bot channel, контрольованих дій, нерозв’язних звернень, витрат і перевірки підтримки. Сам бот створюється в дозволеному продуктовому scope; навичка не є вже запущеною службою."
+description: "Design, implement, or repair product support across app clients and approved channels. Use for support knowledge, identity linking, case handling, and safe support actions."
+metadata:
+  version: "6.2.0"
 ---
 
-# App Atelier 6.1.0 · Підтримка
+# App Atelier Support
 
-## Виробнича якість і контекст6.0
+## Define support for the actual product
 
-Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+Bind the accepted product/version, PRD, data and authorization contracts, rules, known incidents, current plans/prices, allowed knowledge, channels, budget and stop. Do not import unrelated bot code, persona, data, roles or credentials. Separate skill availability, a support project, running backend and reachable channels. Use actual product journeys to cover onboarding, use, errors, access and payment where applicable. Define a versioned matrix of intent/category, mode, channel, backend identity/scope, evidence, allowed fields, permitted effects, and case outcome or escalation. Keep explicit guest/personal modes for products with accounts. Without accounts, preserve the approved local/guest support instead of adding hidden identity.
 
-Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+Build one shared knowledge, rules and case workflow for Android, iOS, web and the selected external channels. Preserve usable in-product support with states, reachable help and a case ID. Discover actual platform audience, provider API/account, transport settings, limits and operation before choosing an adapter; no assumed external platform. Verify authentication and update size/rate/retry bounds before costly processing. Route adapters/jobs to `chatbot-atelier-integrations` and a complex approved component to `chatbot-atelier-director` only as needed. App Atelier owns the product's support, access and knowledge contract. A link alone does not prove integrated or external delivery.
 
-## Умовні AI/data та виробничі профілі6.1
+## Verify identity at each boundary
 
-Коли задача справді потребує збору чи аналізу даних, LLM/RAG, прогнозування, адаптації моделі, серійного виробництва матеріалів або їх оцінювання, прочитати лише застосовні частини [AI/data виробничого маршруту](references/ai-production.md). Обрати потрібні DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA чи EVALUATION всередині чинної предметної команди. Спочатку достатній наявний виконавець і метод; нові агент, framework чи глобальний індекс не є типовою передумовою.
+Authorize each read, tool call and effect on trusted backend subject/session, tenant, scope and current recipient. Show public help and permitted own session to guests. Show signed-in users only allowed own records, fields and history. Isolate retrieval, cache, attachments, tool responses, sessions, logs and data egress by subject and grant. Reject unauthorized, public/group, foreign-tenant and out-of-purpose requests before invoking a model. Matching display names, usernames, emails and text IDs do not authorize access. A private payment request without verified linkage gets a safe sign-in/linking or escalation route without exposing the amount in either response or trace.
 
-Зберегти первинний результат, усі застосовні вимоги, прийняті оригінали, налаштування, дозволи й відкладене в тому самому рідному стані. Типізовані матеріали та `scripts/ai_production.py` використовувати лише для доречних оголошених перевірок. Їхній PASS не доводить фактичного збору, навчання, якості, споживання, незалежності чи прийняття власником. Виявлена втрата прийнятої працюючої властивості відхиляє кандидата; неперевірений потрібний доказ лишається відкритим.
+For personal external support require verified binding of channel identity to app subject/tenant, expiry and single use, replay protection, revocation and authorization on every operation. Confirm the exact link in the signed-in app/web session. For a selected Telegram route, use a short-lived one-time challenge from authorized app/web to private bot and app/web confirmation, binding numeric sender ID. Use a platform-specific contract elsewhere. Public/group/workspace or account changes need explicit scope and negative cases. Do not include credentials or personal fields in linking URLs or analytics/logs. Do not merge history without approved identity rules. Invalidate derived context and permissions upon logout, revoke or deletion, including recovery from backup.
 
-## Спільний спосіб роботи6.0
+## Keep knowledge, state, permissions and cost observable
 
-На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
+Version knowledge by product, release, language and authoritative source. Keep user help, personal status, legal guidance and current terms separate. Follow accepted tone and allow correction with explicit provenance. Treat messages, attachments and retrieved data as untrusted content with no authority to change rules. Use structured facts or search first, and retrieve or invoke an LLM only for measured value with adequate rights and caps. State uncertainty honestly. Do not promise unsupported help or a nonexistent operator/SLA.
 
-Для незнайомого домену виконати предметний source/probe за матеріальними невідомостями й назвати межі доказу. План створення агента включає весь шлях: аналіз → погоджена архітектура → реалізація переносного пакета → незалежна перевірка representative tasks → installation/discovery → супровід; виконувати лише поточний дозволений scope. Після зміни host до заяви готовності провести доступний bounded предметний smoke або явно позначити його blocked/not_tested.
+Start with read-only advice. For any approved action, require current auth, precise parameters/confirmation, idempotency, receipt and effect verification. Do not assert a refund, restoration, deletion or permission change without actual evidence. Reconcile uncertain results before retrying. Use user/session/global caps, timeout, abuse handling and provider-outage fallback. For unresolved requests provide a case ID, minimal authorized diagnosis and a safe route, keeping locale and status. Repeated manual exceptions trigger an operating-model review instead of an obligation on the owner.
 
-## Узгоджена взаємодія
+## Deliver the verified support assembly
 
-Тримати одного відповідального за продукт і чинний project state. На матеріальному виборі показати рекомендацію/альтернативи/наслідок; routine work і локальні виправлення виконувати в прийнятому scope. Чинні погодження успадковувати. Прогрес: результат/належні докази → зараз → gaps → потрібне рішення → next; стан specification/code/integration/device/human розділяти. Питання не скасовує роботу. Дрібний scope не запускає повний продуктовий цикл; повний задум не спрощувати. Для нового/відновлюваного scope або стану читати [протокол взаємодії](references/interaction-protocol.md); `python3 -B scripts/interaction.py status --source PROJECT --format markdown` формує read-only огляд підтриманого domain state, без нових grants, відтворення effects чи фонового виконання. Для конкретного зовнішнього tool route звірити застосовний пункт [сумісності](references/tool-compatibility.md).
+Before personal access and release, test actual client/backend/KB/adapter/policy versions, channel reach and linking; prove A-to-B, replay/revoke, webhook/group, stale/injected KB, unknown-effect, cap/fallback and recovery cases as applicable. Record exact hashes and remaining proof against the subject/field and category/mode/channel matrices. Retain knowledge and tone sources, access contracts, adapters, cases, monitoring scope, receipts, cost and open gates. Follow project human-test restrictions and distinguish controlled fixtures, actual integration, independent QA and launch. Register versioned artifacts in canonical state and report next authorized action.
 
-Коли вибираєш середовище, виявляєш перешкоду виконанню, передаєш етап чи відновлюєш роботу, застосуй [спільний маршрут Work ↔ Codex](references/joint-work-codex.md) разом із предметними правилами. Перевір фактичні входи, права та можливості. Виконай єдиний придатний дозволений маршрут. Якщо потрібна дія власника, дай точний наступний крок.
+## Use the contracts required by this task
 
-## БРИФ, ВІДНОВИ й передача наступного етапу
+Use the requested output language, then the applicable project preference, then the language of the request. Preserve native identifiers, accepted terminology, example inputs and original user wording. For material work in an existing product, apply the relevant [core contract](references/core-contract.md) and [requirements](references/requirements-contract.md) to `.appatelier/profile.json`, `.appatelier/state.json` and the actual artifacts. Reconstruct only an authorized missing record. For small standalone work, read the supplied contract and the few sources needed to complete it. Use the applicable part of the [stage workflow](references/workflow.md) and check [stage acceptance](references/acceptance.md) and [evidence](references/evidence-contract.md) before claiming a material result.
 
-Визначити поточний scope й чинні рішення. Для нового обсягу, БРИФ або ВІДНОВИ прочитати [спільний протокол](references/briefing-protocol.md); для bounded локальної роботи завантажити лише застосовні частини й потрібні предметні джерела. Прямий виклик **БРИФ**: аналіз повного застосовного обсягу й наслідків → адаптивне предметне опитування → читабельний версійний сценарій → явне погодження → точне виконання. **ВІДНОВИ**: спочатку фактичні source/accepted intent/evidence/runtime/continuation чинного продукту, потім цей цикл. Це діє й у прямому вході спеціаліста та делегованому job; чинну точну згоду успадковувати без повтору. Саме відновлення не знімає pause й не дозволяє залежне виконання.
+| Task condition | Relevant local resources |
+| --- | --- |
+| Scope, resume, or delegated work | [Context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) for current authority, input hashes, due and deferred requirements, allowed paths, outputs, consumer, resource caps and stop. |
+| Material choice or explicit `БРИФ` / `ВІДНОВИ` | [Briefing protocol](references/briefing-protocol.md), [domain guide](references/briefing-domain-guide.md), [stage topics](assets/briefing-topics.json) and [interaction protocol](references/interaction-protocol.md). Reuse exact existing decisions. Resume does not lift a pause or enable an external effect. |
+| New or changed cross-client scope, deep domain work or project modeling | [Cross-domain contract](references/cross-domain-core.md), [app system model](references/app-system-contract.md), [stage depth](references/app-depth.md), [system template](assets/app-system.template.json) and [stage templates](assets/app-depth.templates.json). Use linked project artifacts and one authoritative state. |
+| Visual masters, editable assets, production fidelity or identity | [Production quality](references/production-quality.md), its [medium profiles](assets/production-profiles.json) and [visual identity](references/visual-identity.md). Keep approved originals, scope, icons, colors and downstream fidelity. |
+| Private data, support, external tool or significant cost | Relevant [data and support](references/data-support-contract.md), [budget](references/budget-contract.md) and [tool compatibility](references/tool-compatibility.md) clauses. Verify the actual capability, rights, destination, plan and stop. |
+| Domain uncertainty, data or AI evaluation, or batch work | Relevant [research and synthesis](references/research-and-synthesis.md) or [AI and data production](references/ai-production.md) profile. Prefer the sufficient method before adding new tools or infrastructure. Establish a real representative result before expansion; track every batch item's outcome. |
+| Work across hosts or another agent family | [Work and Codex](references/joint-work-codex.md), [cross-family routing](references/cross-family-routing.md) and [handoff](references/handoff-contract.md). Preserve product ownership, stable component and requirement IDs, exact launch/return steps and actual receipts. |
+| Read or record native work | [Runtime contract](references/runtime-contract.md) and local `scripts/state.py --help`. Use verified paths from this skill's loaded directory. [Read-only interaction status](references/interaction-protocol.md) comes from `python3 -B scripts/interaction.py status --source PROJECT --format markdown`. |
 
-Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
-
-Редакція інструментарію **6.0.0**. Перед залежною предметною роботою прочитати [наскрізний контракт](references/cross-domain-core.md) та [виробничу глибину етапу](references/app-depth.md) і [модель систем застосунку](references/app-system-contract.md). Інстанціювати потрібні [рецепти й матрицю покриття](assets/app-depth.templates.json) у проєктних artifacts і реєструвати їх у чинному canonical state; шаблон не є виконаною операцією або доказом.
-
-Обов’язок входу: До персональної інтеграції закрити category×mode×channel coverage, KB/version/locale authority, subject/field matrix, action/case transitions, linking/revoke та budget/fallback contracts. Не додавати RAG/LLM/voice/оператора без здійсненного потрібного маршруту.
-
-Обов’язок виходу: До release передати whole-support assembly для actual client/backend/KB/model/policy versions, ізоляційні/ін’єкційні/unknown-effect/revoke negatives та фактичні channel/cost/fallback proofs. Невідомий канал або нерозв’язний case не оголошувати готовою підтримкою.
-
-
-Створювати підтримку конкретного продукту, зберігаючи його чинні вимоги та межі користувача.
-Повертати інтегратору предметні результати, докази й точні блокери.
-Не переносити код, доступи, особистість, приватну пам’ять або групові функції попереднього бота через саму аналогію.
-Відокремлювати навичку, проєкт підтримки, працюючий backend та доступні користувачам канали.
-
-## Вхід і читання
-
-1. Прочитати [core](references/core-contract.md) та актуальні `.appatelier/profile.json` і `.appatelier/state.json`.
-2. Звірити [вимоги](references/requirements-contract.md), рішення власника, scope, бюджет і точку зупинки.
-3. Перед контекстом прочитати [дані й підтримку](references/data-support-contract.md).
-4. Вести докази за [evidence](references/evidence-contract.md), передачу за [handoff](references/handoff-contract.md).
-5. Перед платними викликами й фоновою роботою прочитати [бюджет](references/budget-contract.md).
-6. Для предметної роботи завантажити [workflow](references/workflow.md); до приймання — [acceptance](references/acceptance.md).
-
-Входи: прийнята концепція/PRD, канали, правила продукту, auth/data contracts, дозволені джерела KB.
-Додати актуальні ціни/плани, функції за версіями, відомі помилки й мінімальну діагностику.
-Невідомі дані, правила, інструменти або права позначати pending/blocked із due gate.
-Не вимагати акаунта лише заради бота; реєстрація належить продуктовій специфікації.
-
-## 1. Узгодити предмет підтримки
-
-Вивести категорії звернень із сценаріїв продукту: початок, використання, помилки, доступ, оплата за застосовності.
-Для кожної визначити публічну відповідь, потрібний власний контекст, можливу операцію й завершення.
-Закріпити KB/тон, дозволені поля, одержувачів, retention/redaction/delete/revoke до персональної інтеграції.
-За наявності акаунтів забезпечити обидва режими: guest та дозволений персональний.
-Без акаунтів залишити погоджені гостьові/локальні можливості без прихованої наскрізної ідентичності.
-Оцінити автоматизацію й витрати до обіцянки сервісу; не закладати щоденних операторів або ручної праці власника.
-
-## 2. Побудувати єдине ядро й канали
-
-Виділити спільне ядро знань/правил/case workflow та інтерфейси Android, iOS, web і лише потрібних зовнішніх bot channels. На вході з’ясувати платформу й audience, існуючий акаунт/API, доступи, регіональні/комерційні межі та фактичний доступний connector. Для невизначеної назви каналу уточнити її, не підставляти Telegram.
-Не нав’язувати постачальника, LLM, стек або важку інфраструктуру до оцінки продукту.
-Забезпечити вбудований інтерфейс, стани очікування/помилки, номер звернення та доступну довідку.
-До виклику моделі відхиляти updates поза погодженими tenant/audience/purpose. Private support не розширюється на public/group канал автоматично; окремий shared сценарій має явний scope, правила й докази.
-Перевіряти обраний transport/webhook/socket/polling за актуальним platform contract, обмежувати розмір запиту, частоту й повтори до дорогого оброблення.
-Не вважати посилання на зовнішній канал доказом працюючої підтримки в app або web. Канальний adapter/job/action можна передати `@chatbot-atelier-integrations`; складний bot component — `@chatbot-atelier-director`. App Atelier зберігає ownership продуктового support/auth/KB contract, а локальна довідка не запускає новий bot project.
-
-## 3. Ізолювати контекст
-
-Backend, а не LLM, установлює subject/session та перевіряє кожне читання і дозволену дію.
-Гостю надавати public KB, власну обмежену сесію та дозволену добровільну діагностику.
-Авторизованому користувачу надавати лише необхідні дозволені власні записи, поля й історію.
-Не відкривати приватні дані за email, username, ID у тексті, вкладенням або твердженням про власність.
-Ізолювати кеш, retrieval, вкладення, tool responses й історію за subject та чинним scope.
-Не зливати guest-історію з акаунтом або різні канали без дозволеного правила ідентифікації.
-Після logout/revoke/delete припинити доступ та інвалідовувати залежні контексти.
-Не записувати секрети, необмежені діалоги чи приватні reasoning traces у skills, telemetry або загальну KB.
-
-## 4. Зв’язати вибраний канал без підміни особи
-
-Перший дозволений режим зовнішнього каналу — public KB і власна обмежена гостьова сесія, якщо це відповідає support contract.
-Для персонального контексту визначити channel-scoped identity, внутрішній subject/tenant, обидві сторони підтвердження, expiry, одноразовість, replay-захист, відкликання й повторну перевірку перед доступом. Username, email або переданий у тексті ID не встановлює право.
-Не передавати пароль, access token або персональні поля у linking URL; token/challenge відділити від analytics/logs.
-Спосіб зв’язування обирати за доведеними platform APIs та App auth contract через `@chatbot-atelier-integrations`; MCP або plugin назва не підтверджує підтримку цієї операції.
-Для Telegram, коли він вибраний: короткоживучий одноразовий challenge з авторизованого app/web → private bot → підтвердження конкретного зв’язку в чинній app/web сесії; mapping numeric sender ID → internal subject. Для іншого каналу потрібен власний adapter conformance proof; не копіювати Telegram identity/audience правила буквально.
-Груповий/публічний audience, workspace install й account switch мають окремі негативні сценарії та явно погоджені межі даних.
-
-## 5. Вести перевірну базу знань
-
-Версіонувати матеріали за продуктом, релізом, мовою, джерелом та статусом актуальності.
-Синхронізувати знання зі схваленими правилами, фактичними функціями й відомими інцидентами.
-Відокремлювати допомогу, стан акаунта, правові тексти та поточні комерційні умови.
-Не давати LLM права переписувати правила через повідомлення користувача, вкладення або retrieved текст.
-Починати зі структурованих джерел і пошуку; RAG додавати за виміряної потреби, прав і бюджету.
-Утримувати погоджений характер: зрозуміло, по суті, без вигаданих функцій, обіцянок чи оператора.
-За відсутнього доказу уточнювати або чесно повідомляти межу з корисним наступним кроком.
-
-## 6. Обмежити дії та невизначеність
-
-Початково реалізувати read-only допомогу; нові продуктові ефекти додавати окремим погодженим scope.
-Для дії визначити auth, параметри, підтвердження, idempotency, receipt і перевірку результату.
-Не видавати refund, зміну прав, видалення чи відновлення за виконані без фактичної квитанції.
-Після timeout звірити зовнішній стан до повтору; не дублювати невідомий ефект.
-Нерозв’язному зверненню дати case ID, дозволену діагностику, статус і агреговану технічну задачу агенту.
-Не обіцяти неіснуючий SLA; повторювані ручні винятки повертати на перегляд моделі продукту.
-
-## 7. Утримати вартість і довести роботу
-
-Спочатку використовувати довідку/готовий маршрут, далі пошук, AI — за потрібності в погоджених межах.
-Задати session/user/global caps, timeout, abuse limits, fallback та відмову постачальника.
-Не вважати безкоштовний тариф або підписку власника необмеженим production API.
-Перед персональним режимом перевірити data matrix, ізоляцію, linking і негативні fixtures.
-До релізу фактично пройти канали, fallback, бюджет, revoke/delete та оновлення KB.
-За чинного профільного обмеження не проводити людські випробування чи експерименти на жодній фазі. Права на конкретну взаємодію перевіряти окремо; version update не змінює погоджену політику.
-Синтетичні сценарії не доводять попиту або людської зручності; self-check не є незалежним QA.
-
-Вихід: support contract, KB/tone sources, матриця прав/даних, source/adapters за scope, cases і докази.
-Додати фактичні статуси доступності, caps, відновлення, monitoring за дорученням і відкриті залежності.
-Оновити canonical state; інші JSON-артефакти є його refs, а не паралельними реєстрами.
-Для runtime спочатку прочитати `scripts/state.py --help`; не вигадувати прапорці або зовнішні capabilities.
-Передати інтегратору scope, hashes, findings і наступну дозволену дію.
-Не оголошувати службу запущеною за текстом навички, планом або неперевіреним deploy.
-
-## Компоненти іншого агента або чатбота
-
-Перед прийомом компонента Agent Foundry, делегуванням у ChatBot Atelier або створенням нової спеціалізованої методики прочитати [стабільні виклики й межі компонентів](references/cross-family-routing.md). Використовувати поточні джерела за незмінним `name`, shared product/requirement/contract IDs та точний launch/return пакет; не починати окремий продуктовий цикл для локальної підтримки.
-
-Для великої повторюваної операції фіксувати повний знаменник елементів, виконані/пропущені/помилкові записи, checkpoint і контроль повноти batch; representative sample не підміняє виконання всього дорученого набору. Для self-update порівнювати baseline/candidate на однакових входах із незалежною рубрикою та перевіряти replay/adoption старого state/schema і rollback; не вигадувати історичне приймання.
+A declared structural check has its own scope. For example, `python3 scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` checks the `draft`, `design` or `production` structure with the appropriate gate. `scripts/context_capsule.py`, `scripts/adaptive_work.py`, `scripts/briefing.py` and `scripts/ai_production.py` validate their own formats. They do not confer authority or certify task execution, model quality, or owner acceptance. For a skill or toolkit update, compare baseline and candidate on identical inputs with an independent rubric, and check current-state compatibility and rollback. Keep historical evidence tied to its original inputs.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Skills repository maintenance"
   short_description: "Sync skill releases, guides and migration steps"
-  default_prompt: "Maintain alex-hohaizel/codex-agents for this skill change and verify the complete release contract."
+  default_prompt: "Use $codex-agents-maintenance to verify this component change and prepare its release and rollback."

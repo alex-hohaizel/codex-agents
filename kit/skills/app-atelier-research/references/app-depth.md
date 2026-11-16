@@ -1,30 +1,35 @@
-# App Atelier: дослідження як предметна модель доказів
+# App research and evidence model
 
-Зміст: intake → decomposition → порівняння → джерела → synthesis → передача.
+Contents include scope, decomposition, comparison, sources, synthesis, and handoff.
 
-## Визначити питання і межі
-Після `cross-domain-core.md` і `app-system-contract.md` перетворити запит на research questions із decision impact: хто має потребу, коли, який наслідок, як нині вирішує, чому потрібен новий app, що має змінитися, хто платить, як досягається аудиторія, хто експлуатує. Розділити широку карту й поглиблення вже прийнятого напряму. Кожне питання має джерельний метод, cutoff/географію, owner, expected artifact, cap, критерій достатності та контрдоказ. Не шукати наперед лише докази улюбленої функції.
+## Questions and boundaries
 
-## Повна предметна декомпозиція
-Побудувати taxonomy потреб/ситуацій/типів користувача/платника/частоти/перешкод/невдалих станів. Застосовні app-system tracks використовувати як контроль перехресних меж: дані, права, sync/offline, correctness, accessibility, канал, cost, support, exit. Не нав’язувати фінтех чи медичні критерії всім доменам. Для спеціалізованої сфери підняти її власні якісні первинні матеріали, стандарти й operational practices; запланувати предметну компетенцію, якщо наслідки помилки цього потребують. Інструмент/домен без доступного підтвердження лишити unknown.
+Read `cross-domain-core.md` and `app-system-contract.md`. Turn the request into research questions tied to decisions: who has the need, when it arises, its consequence, the current workaround, why an app could help, what needs to change, who pays, how to reach the audience, and who operates the service. Separate broad mapping from a deeper investigation of a chosen direction. For each question define a source method, cutoff and geography, owner, expected artifact, cap, sufficiency criterion, and potential counterevidence. Look for disconfirming evidence as well as support.
 
-Знайти direct alternatives та непрямі: OS feature, таблиці, месенджер, діючий процес, existing service, nothing. Порівняти однаковий job/end-to-end outcome, дані/експорт/перенесення, limitations, комерційну модель, crossplatform, adoption friction, операційні dependencies. «Не знайшов» має query log/межі й не означає «не існує». Скриншот не доводить доступність/якість runtime, pricing page — actual margin, review volume — TAM.
+## Domain decomposition
 
-## Claim/evidence contract
-Для substantive claim: ID; exact statement; fact/source-claim/observation/inference/calculation/hypothesis/unknown; source/URL; accessed_at; event/version date; geography/segment; quotation або власний paraphrase; evidence scope; limitation; freshness trigger; dependent decisions. Одне джерело/передруки не є незалежними спостереженнями. Відкривати оригінал і контекст, не приймати search snippet за перевірку. Технічний факт SDK перевірити actual docs/version; юридичний/платіжний — належними поточними первинними джерелами та окремими невідомостями.
+Build a taxonomy of needs, situations, users, payers, frequency, barriers, and failure states. Use applicable app-system tracks to check boundaries around data, permissions, sync and offline use, correctness, accessibility, channel, cost, support, and exit. Apply domain-specific criteria where relevant. For specialized domains, use their own quality primary materials, standards, and operational practices. Plan appropriate domain expertise when an error has material consequences. Record unverified domain facts and tool capabilities as unknown.
 
-Відокремити заявлену на сайті функцію від виконаної операції. Якщо є allowed read-only product access, зафіксувати platform/build/scenario/expected/observed. Не створювати акаунт, контакт, оплату або людський дослід у межах desk research. Синтетичні users/scenarios підтримують reasoning, але не підтверджують потребу людей чи willingness-to-pay.
+Identify direct and indirect alternatives, including OS features, spreadsheets, messengers, existing processes and services, and doing nothing. Compare the same job and end-to-end outcome, data export and portability, limitations, commercial model, cross-platform coverage, adoption friction, and operating dependencies. Record query logs and search boundaries for findings of absence. A search result of «Не знайшов» does not establish «не існує». Screenshots support claims about depicted states. Accessibility and runtime quality require other evidence, as do actual margins and total addressable market.
 
-## Синтез для рішення
-Картка напряму: user job/trigger/current workaround→перевірена прогалина→потенційна користь app→цілісні core/edge/recovery scenarios→конкурентний exception→платіжна й acquisition hypotheses→операційна модель→applicability tracks→потрібні technical probes→найсильніший reject case. Для завершеної research shortlist кожна картка має порівнювану повноту; коротку ідею позначити sketch.
+## Claim and evidence contract
 
-Must-фільтри перед weighted rank. Не підганяти кількість кандидатів слабкими. Відсутність доведеного попиту не маскувати сильним craft score; сформулювати вузький висновок, що справді підтримують джерела. Розбіжні дані показати з альтернативними поясненнями й material next question. Припинити пошук за визначеною достатністю/cap, а не нескінченними раундами без нових доказів.
+For each substantive claim, record its ID, exact wording, type (fact, source claim, observation, inference, calculation, hypothesis, or unknown), source or URL, accessed_at, event or version date, geography and segment, quotation or original paraphrase, scope, limitation, freshness trigger, and dependent decisions. Reprints share a source. Read the original in context. Verify SDK claims against the actual docs and version, and legal or payment claims against current, relevant primary sources with explicit unknowns.
 
-## Передача й актуальність
-Cold receiver отримує research plan/query log, opportunity map, source/claim ledger, comparison matrix, rejected branches, applicability/unknowns, decision packet і affected REQ-ID. Точні hashes/input versions реєструються в canonical state. Новий тариф/видалена функція/регуляторна зміна інвалідує залежні висновки й економіку, не переписує всю історію. Незалежний reviewer перевіряє матеріальні claims на оригіналах та найсильніший контраргумент. Structural coverage не є empirical validation.
+Distinguish an advertised feature from an observed operation. Where read-only product access is allowed, capture platform, build, scenario, expected behavior, and observation. Keep account creation, outreach, payment, and research with participants outside desk research. Synthetic scenarios support reasoning. Real demand and willingness to pay require corresponding real-world evidence.
 
-## Видимий результат і достатність підходу
+## Synthesis for decision-making
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: питання й джерельна карта, перевірні claims, альтернативи, контрдокази, невідомості та рішення, яке підтримує кожний висновок. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+A direction card links user job, trigger, and workaround to the verified gap, potential app value, full core, edge, and recovery paths, competitive exceptions, payment and acquisition hypotheses, operational model, applicable tracks, technical probes, and strongest case for rejection. Give each shortlisted option comparable depth. Label shorter ideas as sketches.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: достатність джерел, незалежність підтверджень і переносимість висновків у конкретний домен. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+Apply mandatory filters before weighted ranking. Keep only supported candidates. Strong craft and weak demand can coexist. State the narrowest conclusion supported by the sources. Present conflicting evidence with alternative explanations and the next material question. Stop at the defined cap or sufficiency criterion unless new evidence warrants a scoped follow-up.
+
+## Handoff and freshness
+
+Give a fresh receiver the research plan and query log, opportunity map, source and claim ledger, comparison matrix, rejected branches, applicability and unknowns, decision packet, and impacted REQ-ID. Record hashes and input versions in canonical state. A new tariff, removed feature, or regulatory change invalidates dependent conclusions and economics. Keep history intact. Have an independent reviewer check material claims against originals and examine the strongest counterargument. Track structural coverage and empirical validation separately.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show questions and sources, verifiable claims, alternatives, counterevidence, unknowns, and the decisions each conclusion supports. Distinguish completed work, inherited decisions, and future results with due gates. Scale depth and specialist involvement to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review source sufficiency, independence of corroboration, and applicability to the specific domain. Inspect raw sources for omitted requirements. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve project context, current approvals, and unaffected results.

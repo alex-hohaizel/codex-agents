@@ -1,44 +1,44 @@
-# Стратегія незалежної перевірки
+# Independent verification strategy
 
-## Незалежність
+## Independence
 
-Автор може виконувати unit tests, smoke й self-check; reviewer відповідного результату має бути іншою фактичною особою/агентом. Фінальне full-stage приймання за істотного scope має новий незалежний погляд; не створювати формальну «раду» з повторного авторського переказу. Actual actor identity, task scope й output refs зберігати після виконання. AI roles не є людськими playtesters.
+Authors may perform unit tests, smoke tests and self-checks. Assign independent review to a different actual actor. Use fresh independent judgment for material full-stage acceptance. A nominal «раду» that repeats the author’s account cannot supply independent review. After execution record actor identity, task scope and output references. Use human participants for human playtest evidence only when authorized.
 
-## Scope та шари доказів
+## Scope and evidence levels
 
-| Шар | Приклад | Дозволений висновок |
+| Level | Example | Supported conclusion |
 |---|---|---|
-| Structural | schema/files/hashes/refs | Передані bytes повні за контрактом |
-| Deterministic model | economy property test, grammar validation | Модель задовольняє перевірені invariants/assumptions |
-| Engine/runtime | replay, scene check, integration | Runtime у named environment відтворив case |
-| Native device | install, profiler, haptics/audio focus | Named build/device пройшов визначений сценарій |
-| Human playtest | actual observation/interview | Названі учасники показали спостережувану реакцію |
-| Live cohort | measured retention/conversion/refunds | Названа когорта за період дала виміряний показник |
+| Structural | Schemas, files, hashes and refs | Delivered bytes meet structural and completeness requirements. |
+| Deterministic model | Economy property test or grammar validation | The model meets scoped invariants and assumptions. |
+| Engine or runtime | Replay, scene check, integration | The named runtime reproduced the case. |
+| Native device | Install, profiler, haptics or audio focus | The named build and device passed the scenario. |
+| Human playtest | Actual observation or interview | Participants showed the reported reaction. |
+| Live cohort | Measured retention, conversions or refunds | The named cohort produced the measured outcome over the stated period. |
 
-Не підвищувати шар доказу автоматично. Mock purchase не є sandbox store purchase; sandbox purchase не є real revenue; screenshots не доводять animation quality; full test suite не доводить fun.
+Preserve evidence boundaries between mocked purchases, provider sandbox purchases and real revenue. Observe animation over time. User enjoyment requires relevant human evidence.
 
-## Матриця
+## Coverage matrix
 
-Кожен requirement ID має owner, expected artifact, test method, oracle ref, current revision, actual evidence і status. Кілька IDs можуть закриватися одним scenario, якщо він справді discriminates їх. Не створювати дублікати case лише для числа тестів.
+Bind each requirement ID to an owner, expected artifact, method, oracle, current revision, evidence, and state. Reuse a case across requirements when it distinguishes the relevant outcomes. Select cases by coverage.
 
-Обов'язкові групи: end-to-end user journeys; every screen/state/transition; mechanics/control/physics; generator/content/repetition; run/meta/mastery; economy/commerce; saves/migration/offline; account/privacy; audio/haptics/accessibility/localization; native/platform/performance; rights/brand/source lineage.
+Cover end-to-end journeys, every screen, state and transition, mechanics, controls and physics, generation, content and repetition, runs, meta progression and mastery, economics and commerce, saves, migration and offline, accounts and privacy, audio, haptics, accessibility and localization, native platforms and performance, and rights, brand and source lineage.
 
-Для кожного вказати happy, boundary, interruption/fault і recovery cases. Пріоритет — money/data loss/privacy/softlocks/install failures, потім core gameplay/fidelity/performance, потім polish. Severity виходить із player impact, не складності fix.
+For applicable claims check success, boundaries, interruption or controlled failure, and recovery. Prioritize financial or data loss, privacy, softlocks and installation, then core play, fidelity and performance, then polish. Rate severity by player impact.
 
 ## Oracles
 
-Expected outcome має походити з approved rule/table/design, official platform contract або відтворюваного invariant. Незалежно обчислити boundary examples. Порівняння implementation із копією тієї самої формули не ловить помилкову формулу. Додати metamorphic/property tests: rerender не змінює reward; duplicate callback не змінює balance; resource conversion не створює value; generator output satisfies reachability; migration не втрачає inventory.
+Use accepted rule, table or design, official platform contract, or reproducible invariant. Derive boundary answers independently from implementation. Use meaningful metamorphic or property tests: rerender preserves reward, duplicate callback preserves balance, a resource conversion cannot create unaccounted value, generated content respects reachability, and migrations preserve inventory.
 
-## Невідомості
+## Unknowns and blocked work
 
-Суперечливі design specs — `blocked` із upstream decision. Відсутній пристрій — `not_tested`; не fake pass і не автоматичний дефект реалізації. Необрана platform — `absent_by_design` якщо так визначено scope. Порожній/unsupported test account — test setup gap, не product pass. Продовжувати незалежні перевірки, поки окремий блокер чекає.
+Mark contradictory design specifications `blocked` with an upstream decision. An unavailable device is `not_tested`; record the proof gap separately from any implementation defect. A deliberately omitted platform is `absent_by_design` with its scope reason. Missing or unsupported test accounts are setup gaps. Continue independent checks.
 
-## Нормативне виведення scope 4.0
+## Derive scope under 4.0
 
-До task скласти case set за `scope-derivation.md`, current game-model/actual features, due gate та dependency impact. `qa-case-catalog.json` — patterns, не граничний перелік гри. Порожні task modality/review flags не знімають proof, потрібний фактичній feature/claim. Розбіжність model/runtime — upstream contradiction, не можливість вибрати зручніший scope. Застосовність, denominator й not-tested зберігати окремо від pass.
+Use `scope-derivation.md`, current model, actual features, due gate, and affected dependencies to build the case set. `qa-case-catalog.json` supplies reusable patterns. Missing evidence-modality or review flags cannot waive proofs required by features or claims. Escalate contradictions between model and runtime. Track applicability, denominator and not-tested independently from passes.
 
-## Scope completeness й cold receiver
+## Scope completeness and a fresh receiver
 
-C1/T completeness перевірити окремо від files/schema: незнайомий consumer без історії чату знаходить required inputs і відтворює named сценарій/expected trace. Pass потребує конкретного artifact/method/output, не назви reviewer. Due production proof розрізняє descriptor/catalog/installed/operation-tested/integrated/native; artistic/perceptual/human/livestatus окремі.
+Review C1 and T completeness independently of file and schema checks. A receiver without chat history can find required inputs and reproduce named scenarios and expected traces. Record actual artifact, method, and outcome for each pass. Distinguish descriptor, catalog, installed, operation-tested, integrated and native proof. Keep artistic, perceptual, human and live observations separate.
 
-Для numeric/riskdistribution перевірити tails/thresholds/overkill, не лише means. Для D1/D2 cross-systemcases потрібні actual expectedpriority/capture/persistence semantics; кількість tests непоказникповноти. Historical3.0proof зберегти з provenance, не успадковувати4.0acceptance.
+For numerical and risk distributions check tails, thresholds and overkill as well as means. In D1 and D2 cross-system cases, verify exact priority, value capture and persistence. Carry historical 3.0 evidence with provenance and require current 4.0 acceptance for the current scope.

@@ -1,54 +1,54 @@
-# Виведення обов’язкового QA scope 4.0
+# Derive the required QA scope
 
-Цей контракт доповнює загальні QA правила конкретним алгоритмом. Зміст: джерела → scope → due gates → cases → закриття. Приклади в assets — плани перевірок, не докази виконання.
+Use this procedure to derive scope and cases from authoritative sources and the due gate. Files under `assets` supply test plans. Actual results have separate evidence.
 
-## Джерела й пріоритет
+## Sources and priority
 
-1. Прочитати чинні user requirements/decisions, accepted target, current game-model із maturity C0/C1/T, actual content/runtime inventory та dependency impact. Власний дизайн не є доказом того, що всі вимоги враховано.
-2. Порівняти `features[domain].enabled/rationale`, `domains`, сценарії й actual implementation. Прихована реалізована покупка або противник не звільняються від перевірки через disabled feature. Розбіжність потребує repair моделі/реалізації або чинного material decision; QA не змінює scope мовчки.
-3. Успадкувати вимоги й заплановані докази зі спільної моделі. Для наявного scope додати journeys, недоступні в одному кадрі: menus/loading, learning/transfer, game/failure/retry, rewards/inventory/upgrades, shop/purchases, return/exhaustion, settings/account/support за fit.
-4. Обчислити зачеплені systems і транзитивні dependencies. Unknown impact — дослідження й розширення scope, а не автоматичний full-stage запуск. Money/privacy/auth/data-loss/release — критичні навіть при малому diff.
+1. Read current owner requirements and decisions, the accepted target, current model maturity (C0/C1/T), actual content and runtime inventory, and dependency impact. Reconcile against the original requirements.
+2. Compare `features[domain].enabled/rationale`, `domains`, scenarios, and runtime behavior. A disabled flag for an implemented purchase or enemy signals a conflict. Repair the model or implementation, or obtain a material scope decision.
+3. Carry forward requirements and scheduled proofs from the shared model. Include applicable journeys beyond a single screen, such as menus and loading, learning and transfer, play and failure and retry, rewards and inventory and upgrades, shop and purchases, returning and exhaustion, and settings, account, or support.
+4. Determine affected systems and transitive dependencies. Investigate unknown impact and expand scope where necessary. Money, privacy, authentication, data loss, and release changes are critical even in a small diff.
 
-## Правило відбору cases
+## Select cases
 
-Взяти застосовні patterns із `assets/qa-case-catalog.json`, зв’язати з реальними requirement/rule/scenario IDs та переписати generic preconditions у конкретні стани/дані. Додати всі feature-specific boundaries, fault/recovery й historical defects, яких каталог не покриває. Каталог не дозволяє не тестувати неназвану фічу.
+Choose applicable patterns from `assets/qa-case-catalog.json` and connect them to actual requirement, rule, and scenario IDs. Bind generic preconditions to concrete states and data. Add feature-specific boundaries, fault and recovery paths, and historical defects outside the catalogue.
 
-Обов’язковий scope визначається **фактичними можливостями + due gate + матеріальними claims**. Опціональні task flags лише додають scope, не можуть зняти потрібну modality/незалежність. Для активної feature не приймати rationale «не попросили тест», «це small», «тільки один персонаж» або «немає tool» як N/A. N/A має посилатися на agreed product rule: наприклад, у грі немає покупок/супротивників; їхні cases не запускаються. Відсутність функції не знімає її залежності: гра без ворогів усе одно може мати hazards і readable failure.
+The required scope follows actual capability, the due gate, and material claims. Optional flags may add checks. Each required type of proof and independent review remains due. Mark N/A with the accepted rule that excludes a feature, such as a game intentionally excluding purchases or enemies. Missing tools or access remain blockers. A game without enemies may still require readable hazards and failure.
 
-## Due gates й evidence
+## Evidence due at each gate
 
-| Gate | Мінімальний належний доказ у named scope |
+| Gate | Minimum suitable evidence for the named scope |
 |---|---|
-| concept | C0 лише labelled sketch; C1 кожного завершеного кандидата покриває всі застосовні 20напрямів, архітектуру сімейств/світу/розвитку/ризику/commerce, full concept handoff і сценарії зміни рішень; independent semantic review; image inspection перед показом; feasibility profile. Без native/fun/retention claims. |
-| preproduction | Повний T: точні rules/state/data/journey/launch catalogue або grammar, StateCatalogue, production recipes/semanticedges і receiver intake; reachability, бюджети/межі й economy assumptions; model/property/invariant checks там, де обчислювано; test plan з незалежними oracles. |
-| slice | Actual engine/runtime trace для representative систем і їхніх перетинів; source→runtime visual/motion/audio parity; physical device proof для заявленого native touch/thermal/haptics; sandbox commerce, якщо commerce входить у slice. Відсутня фіча поза slice лишається future obligation. |
-| beta | Зібраний agreed beta scope, journeys/recovery і platform checks; actual first-use/learning transfer та gameplay observations людей. Окремі longitudinal questions потребують реальних повторних заходів, не одноразового наміру. |
-| release | Увесь заявлений launch scope/target platform matrix: критичні journeys, final assets/config, install/update/save, sustained devices, actual store sandbox/ad failures, policy/rights/privacy. Human observations за продуктовими claims; live market success не вимагається й не вигадується. |
+| concept | Label C0 as a sketch. Each completed C1 candidate covers the applicable 20 areas, mechanic, world, progression, risk, and commerce architecture, the full concept handoff, and scenarios that change decisions. Include independent semantic review, a feasibility profile, and inspection before showing images. Reserve native, enjoyment, and retention claims for their actual evidence. |
+| preproduction | Complete T rules, state, data, journey, launch catalogue or grammar, StateCatalogue, production recipes, semantic dependencies, and receiver intake. Verify reachability, budgets and limits, economy assumptions, computable properties and invariants, and the test plan with independent oracles. |
+| slice | Actual engine or runtime trace for representative systems and their intersections. Verify source-to-runtime visuals, motion, and audio, and use physical devices for claimed touch, thermal, and haptic behavior. Include sandbox commerce in scope when applicable. Carry forward excluded features as future obligations. |
+| beta | Verify the actual beta build, agreed journeys and recovery, and platform checks. Observe human first use, learning transfer, and play. A longitudinal claim requires actual repeat visits. |
+| release | Cover the full launch scope and named platform matrix, critical journeys, final assets and configuration, installation and updates and saves, sustained device performance, real store sandbox and ad error behavior, policy, rights, and privacy. Match required human observations to product claims. Market success has a separate evidence base. |
 
-Після release у liveops відділяти actual cohorts від beta/simulation/internal tests. Без real datasource видавати diagnosis/measurement plan, а не вигаданий retention чи revenue. Детальні modality names й canonical evidence fields брати з `model-format.md`, не створювати другу authority registry.
+For live operations, distinguish actual cohorts from beta, simulations, and internal tests. With unavailable production data, supply a diagnosis and measurement plan. Use canonical evidence fields and types from `model-format.md`.
 
-## Конкретний case
+## Specify a case
 
-Записати: case ID; source requirement і rule IDs; model/artifact/build hashes; domain/feature і trigger застосовності; due gate; precise preconditions/state/seed; action/procedure; expected observable + independent oracle source; changed decision/контрприклад де доречно; boundary/fault; required evidence layer/modalities; actual result/status; raw evidence refs; observer/author/reviewer; limitations/owner.
+Record case ID, source requirement and rule IDs, model/artifact/build hashes, domain and feature and applicability trigger, due gate, precise preconditions and state and seed, action and procedure, expected observation and independent oracle, changed decision and counterexample where relevant, boundary or fault, required evidence types, actual result and status, raw proof references, observer, author, reviewer, limits, and owner.
 
-Успадкований сценарій моделі використовує `id,domains,initial_state,action,expected_observable,changed_decision,without_rule`. У QA packet додаються execution details, не підміняючи ці поля. Файл кейсу не стає canonical `evidence` доки не виконано його метод, не збережено actual proof і не внесено відповідний evidence record із checksum/provenance. Не підставляти case ID замість evidence ID.
+A scenario inherited from the model has `id,domains,initial_state,action,expected_observable,changed_decision,without_rule`. Keep those fields and attach execution details in the QA packet. Create canonical `evidence` after execution, storage of raw proof, and an evidence record with checksum and provenance. Use distinct case and evidence IDs.
 
-Expected береться з approved rule/table, офіційного platform contract або незалежно виведеного invariant. Не тестувати формулу копією тієї самої implementation formula. Для UX/craft фіксувати observable acceptance й procedure до запуску, а не підганяти target після огляду.
+Derive expectations from an accepted rule or table, an official platform contract, or an independently derived invariant. Avoid copying the implementation formula as the oracle. Set observable acceptance and procedure for UX and craft in advance.
 
-## Покриття без формальності
+## Assess coverage
 
-Показати denominator: кількість належних journeys/state transitions, rule families, enemy/encounter families, item/ability interactions, content phases, offers і platforms у scope; actual tested/not-tested. Не заявляти «100% гри» за закритим переліком, якщо inventory неповний.
+Record the denominator and actual tested and untested cases for journeys and transitions, rule families, enemy and encounter families, item and ability interactions, content phases, offers, and platforms in scope. Check completeness of the inventory before claiming full coverage.
 
-Порівнювати strongest simple policy в різних контекстах; rule/resource ablation; old task after unlock; early/mid/late; baseline/alternate/full paid portfolio; no-offer. Записувати яке рішення й чому змінилося. Новий seed, recolor, збільшене HP або додаткова кнопка не закривають цю перевірку.
+Compare the strongest simple policy in different contexts, removing a rule or resource, revisiting a task after an unlock, early/mid/late contexts, baseline and alternative and full paid portfolio, and no offer. Record which decisions changed and why. Seeds, recolors, health inflation, and additional controls need observable decision differences to establish variety.
 
-Для комбінацій застосувати risk-based pairwise та відомі критичні 3+ взаємодії, boundary/recovery й curated seeds; fuzz/property де є meaningful oracle. Повна матриця всіх випадкових комбінацій не потрібна й не підміняє огляд складних систем.
+Use risk-based pairwise testing, known critical interactions across three or more factors, boundary and recovery behavior, curated seeds, and property and fuzz tests when a meaningful oracle exists. Review complex systems directly and choose combinations from known risks.
 
-## Закриття
+## Close the scope
 
-Валідний handoff/model доводить структуру/посилання, а не фактичне виконання. Незалежний reviewer перевіряє raw proof проти expected rule та достатність scope. Missing modality — `not_tested`/`blocked`; fake human/actor IDs заборонено. Unresolved must закривається repair, named test scope або explicit product decision в належному authority, а не середньою оцінкою. Видавати exact boundary до наступного gate; інсталяція toolkit не підтверджує продуктову готовність.
+Use structural validators for references and byte integrity. An independent reviewer checks raw evidence against the expected rule and scoped coverage. Mark missing evidence `not_tested` or `blocked`. Record actual actors. Resolve an open must by repair, a named test scope, or an explicit decision under the relevant authority. State the exact boundary of the next gate. Assess product readiness through product evidence.
 
-## Вивести cases 4.0 з актуальних контрактів
+## Derive cases from actual Game Model contracts
 
-Розгорнути resolver/contact/lifecycle, Actor/Knowledge/Action/Decision/Encounter/Boss, State Catalogue/Consistency Groups, operation DAG і semantic transformations у concretecases. Інвентар перевіряє всі активні 20напрямів, meaningful variation/opportunity/exhaustion, native adapter conformance/cold first use/transition memory/egress/symbolmatch. Детальні контрприклади — у[маршруті4.0](v4-route.md).
+Create cases for the resolver, contact and lifecycle, Actor/Knowledge/Action/Decision/Encounter/Boss, State Catalogue and Consistency Groups, production dependency graph, and semantic transformations. Inventory the applicable 20 areas, actual variation, opportunity and exhaustion, native adapter conformance, first cold use, transition memory, network egress, and symbol matching. See the [QA route and counterexamples](v4-route.md).
 
-Критичні слоти: multi-hurtbox/substepdedup, pooled generation, DoT tick/expiry/snapshot, simultaneousdeath/phase/reward/kill, topologybreak/nav/restore, partial bundle/offlineconflict, ignored provider parameter, wrong axis/contact time й timeout reconcile. Не вимагати actualdevice на C1 без такого claim, але не знімати future obligation.
+Include applicable multi-hurtbox and substep deduplication, pooled generation, damage-over-time tick/expiry/snapshot, simultaneous death/phase/reward/kill, topology break/navigation/restoration, partial bundles and offline conflicts, ignored parameters, wrong axes or contact timing, and reconciliation after timeout. Physical device evidence is due at the actual claim or gate. Keep future obligations tracked.

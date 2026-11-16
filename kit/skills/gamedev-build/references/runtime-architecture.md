@@ -1,55 +1,55 @@
-# Архітектура runtime
+# Runtime architecture
 
-Прочитати [model-runtime-bindings](model-runtime-bindings.md) і чинну модель до вибору schemas/adapters. Stable model IDs пов’язують camera/input/systems/actors/world/progression/rewards/learning/art/commerce/lifecycle/equipment з runtime. Schema validity не доводить, що engine consumers виконують ті самі правила; потрібні scenario oracles та actual observations.
+Read [model and runtime bindings](model-runtime-bindings.md) and the active model before selecting schemas or adapters. Stable IDs link camera, input, systems, actors, world, progression, rewards, learning, art, commerce, lifecycle, and equipment. Verify consumer behavior with scenario oracles and observations.
 
-## Рушій обирають доказами
+## Choose the engine from evidence
 
-Зберігати затверджений engine/render path. Якщо він не визначений, порівняти Godot, Unity чи інший відповідний рушій на representative native scene, renderer/physics/audio needs, exporter maintenance, device support, license/fees та доступності developer workflow. Godot — кандидат з відкритим кодом, не універсальний автоматичний вибір. Для дорогого або принципово іншого шляху потрібен user choice до залежної роботи. Не приписувати Codex доступ до Blender/Unity/Xcode лише тому, що є навичка про них.
+Preserve the approved engine and render path. If undecided, compare Godot, Unity, or another candidate using a representative native scene, renderer and physics and sound requirements, exporter support, target devices, license and costs, and developer workflows. Verify actual Blender, Unity, or Xcode access. Obtain the user's material choice for costly or fundamentally different routes before dependent work.
 
-Pin engine version/build SHA, export template version/hash, plugins/native libs, language toolchain, renderer, color space, physics timestep, import defaults, SDK selection та lockfiles. Вести reversible installation log. Read-only inventory/ordinary authorized installs продовжувати без зайвих підтверджень; фінансові/публічні/account identity зміни потребують чинного scope.
+Pin engine version and build SHA, export templates and hashes, plugins and native libraries, language tools, renderer and color space, time step and import defaults, SDKs, and locks. Record reversible installation. Inspect and perform ordinary authorized setup directly. Confirm authority for financial, public, or account identity changes.
 
-## Канонічне ядро та платформи
+## Shared core and platform adapters
 
-| Canonical shared | Android/iOS adapter |
+| Canonical shared | Android and iOS adapters |
 |---|---|
-| Rules, content IDs, economy, save schema, progression, entitlement meaning | Store transport, signing, notifications, secure storage |
-| Input intent, simulation timing policy, seed stream | Touch events, safe area, hardware capability |
-| Audio event IDs, bus priorities, haptic intent | Audio focus/interruption, native haptic renderer |
-| Network contracts, retries, conflict policy | Connectivity, background lifecycle, platform auth |
+| Rules, content IDs, economy and save schema, progression, entitlement meaning | Store transport, signing, notification, protected storage |
+| Input intent, simulation time, seed streams | Native touch, safe areas, hardware capability |
+| Sound event IDs, bus priority, haptic intent | Audio focus and interruption, native haptics |
+| Network contracts, retries, and conflict rules | Connectivity, background lifecycle, platform authentication |
 
-Не дублювати «майже ту саму» економіку у двох platform clients. Renderer/OS adapters можуть відрізнятися за implementation, але не порушують agreed visual hierarchy, timings, rewards або access rules. Відмінності мають explicit permitted-deviation record та targeted parity tests.
+Use one economy authority across clients. Allow renderer and OS implementation differences inside accepted visual hierarchy, timing, rewards, and access. Record permitted deviations and test parity.
 
-## Input, physics та animation
+## Input, physics, and motion
 
-- Input: capture timestamp/device orientation, normalized intent, gesture thresholds, cancellation, multi-touch policy, UI capture, pause/resume, low-FPS behavior. Не прив'язувати gameplay speed до render FPS.
-- Simulation: fixed/variable step policy, substeps, collision masks/layers, units, mass/friction/restitution, gravity, restitution caps, coyote time/input buffer/aim assist лише за design. Явно визначити out-of-bounds, tunneling, stuck resolution, simultaneous events та numeric tolerance.
-- RNG: content seed, reward seed, cosmetic seed окремими streams; versioned generator; input replay. Однаковий seed не гарантує bit-identical cross-platform physics без спеціальної детерміністичної реалізації.
-- Character: rig hierarchy, hitbox vs hurtbox vs visual mesh, root motion authority, blend/state graph, interruption/priority, IK contacts, attachment sockets, foot/hand contact, ragdoll boundary.
-- Camera: projection, FOV, target offset, damping, collision, screen shake limits, death/restart transition, safe composition on aspect ratios. Reduced motion має device-test.
-- Scene assembly: import units, pivot/origin, scale, layer/depth, materials/shaders, lighting/exposure, shadows, texture filtering/mipmaps, batching, quality tiers. При зміні tier не губити gameplay telegraphs.
+- Input records capture time, orientation, normalized intent, thresholds, cancellation, simultaneous pointers, UI ownership, pause and return, and low-frame-rate behavior. Keep simulation speed independent of render frame rate.
+- Simulation pins fixed and variable steps, substeps, layers and masks, units, mass, friction, restitution and caps, gravity, applicable coyote time, buffer, and assists. Define out-of-bounds, tunneling, stuck recovery, simultaneous results, and numeric tolerance.
+- Use separate content, reward, and cosmetic random streams, versioned generation, and input replay. Verify determinism per target.
+- Character contracts define hierarchy, hit and hurt and visual geometry, root motion authority, blend and states, interruption and priority, IK contacts and sockets, foot and hand contacts, and ragdoll boundary.
+- Camera specifies projection, field of view, target offset, damping, collision, shake limits, death and retry, and composition at supported aspect ratios. Verify reduced motion on device.
+- Assembly pins units, pivot and origin, scale, depth and layers, materials and shaders, lighting and exposure, shadows, filtering and mipmaps, batching, and quality tiers. Preserve all necessary cues across tiers.
 
-## Camera/input та видимість рішення
+## Camera, controls, and visible decisions
 
-Відтворити model camera states, tracking/lookahead/dead zones, composition/screen-size envelopes, transitions, offscreen threat rules і per-aspect policies. Налаштування одного screenshot не замінюють temporal controller. Перевіряти camera collision/occlusion, різкі зміни цілі, precise action/peak events, phone-scale silhouette/contact та доступну дистанцію реакції. Не зменшувати героя для демонстрації всього світу, якщо це не approved gameplay need.
+Implement model camera states, tracking and lookahead and dead zones, composition and subject-size bounds, transitions, offscreen rules, and aspect policies. Test the temporal controller for collision and occlusion, abrupt target change, precise and peak actions, phone-scale identity and contact, and available reaction distance. Preserve approved subject size unless an explicit gameplay change requires otherwise.
 
-Input adapter перетворює native events у domain intents без дублювання правил. Задати who owns gesture, press/hold/drag/release/cancel, contextual guards, simultaneous two-thumb actions, hardware/accessibility alternatives, feedback visible outside finger і interruption/low-FPS behavior. Незручна трипальцева комбінація не стає готовою через існування трьох handlers. Вимірювати actual latency за named method/device; simulation timestamps не є відчуттям гри.
+Translate native input into canonical intent. Define gesture ownership, press and hold and drag and release and cancel, guards, simultaneous two-thumb actions, alternatives, visible cues beyond finger occlusion, interruptions, and low-frame-rate behavior. Test actual ergonomics and measure latency with a named device and method.
 
-## Audio та haptics
+## Audio and haptics
 
-Runtime споживає accepted event palette. Кожен cue має trigger, bus, gain/pitch range, max polyphony, priority, cooldown, spatial mode, transition/ducking та interruption policy. Music stems синхронізуються до musical boundary; loop seam/intro/outro працюють у грі, а не лише у DAW preview. Не зашумлювати feedback дрібними дубльованими triggers.
+For each accepted cue record trigger, bus, gain and pitch, voice limit, priority, cooldown, spatial mode, transition or ducking, and interruption. Align music stems to musical boundaries. Verify intro, loop seam, and outro in the actual game. Deduplicate incidental cues.
 
-Haptic intent може мати intensity/sharpness/duration/profile, але реалізація враховує hardware/API capability та settings. No-support fallback зберігає visual/audio feedback. Перевірити фактичний дотик на пристрої, music ducking під interruption, silent/background, headphones та accessibility.
+Map haptic intent such as intensity, sharpness, duration, and profile through actual hardware, API, and user settings. Preserve visual and audio feedback where unsupported. Observe haptics on device, and test ducking and interruptions, silent and background modes, headphones, and accessibility.
 
-## Lifecycle й asynchronous work
+## Lifecycle and asynchronous work
 
-Є owner/cancel policy для scene tasks, requests, animations і callbacks. Після unload не застосовувати response до знищеного scene/state. Pause заморожує simulation за design, а durable transactions проходять reconciliation. Kill/restart відновлює checkpoint і pending purchases/rewards без double credit. Background timing не створює negative progress або reward exploits.
+Assign owners and cancellation for scene tasks, requests, animations, and callbacks. Reject late responses to unloaded states. Pause simulation as designed while durable transactions reconcile. Resume checkpoints and pending purchases and rewards after termination without duplicated grants. Maintain time and reward invariants across background limits.
 
-## Backend та безпека
+## Conditional backend and security
 
-За offline single-player не створювати backend без користі. Якщо потрібен — зафіксувати authoritative systems, auth/session expiry, least privilege, server-side validation, replay/idempotency, rate limits, retries/deadlines, version compatibility, observability та deletion. Client не містить store verification secret/signing key. Local obfuscation не є довірою до monetary state; tampering risk фіксується під обраний business model.
+Add backend only for a justified requirement. Specify authority, authentication and session expiry, least privilege, server validation, replay handling and idempotency, rate limits, retries and deadlines, version compatibility, observability, and deletion. Keep signing and store verification secrets outside clients. Model monetary tampering risks for the chosen commerce authority.
 
-## Runtime authority й системні probes
+## Runtime authority and probes
 
-Collision matrix розділяє blocking, hit/hurt, interaction, perception, pickups/debris; solver event provenance і missing-value semantics перевіряються під pinned backendversion. Relative contact velocity включає rotation; impulse/energy перетворюються на HP лише defined damagepolicy. Не дублювати physics response додатковим impulse. Topology revision інвалідує nav/cover/visibility/plans, controller/ragdoll/respawn має єдиного transform owner.
+Distinguish blocking, hit and hurt, interaction, perception, collection and debris masks. Verify contact provenance and unavailable values with the pinned physics backend. Include rotation in relative contact velocity. Translate impulse or energy into damage only under the defined rule. Prevent duplicate physical response. A topology revision invalidates dependent navigation, cover, visibility and plans. Keep one transform owner for controller, ragdoll, and respawn.
 
-Забезпечити bounded scenario lab, reason inspector і sanitized repro capsule як різні dev tools. Qualitycontroller за обраної адаптації має thresholds/hysteresis/cooldown і preserve criticalrules/cues. Cold first-use, resource residency/lifetime/unload, transition overlap і actual SDK egress мають instrumented tests. Exact releasedsymbols й content epoch лишаютьсяпов’язаними з artifact.
+Keep the development-only scenario lab, reason inspector, and sanitized repro capsule distinct. If adapting quality, define thresholds, hysteresis and cooldown and preserve critical cues and rules. Instrument cold first use, resource residency and lifetime, unloading, transition overlap, and observed SDK egress. Bind matching release symbols and content epoch to the exact artifact.

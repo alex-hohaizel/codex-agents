@@ -1,4 +1,4 @@
-# Повний UI-пакет
+# Complete game UI production package
 
 Start from design screen/state/transition inventory. Produce editable complete screens and component masters; tokens; licensed font binaries/glyph coverage; icon/illustration sources; atlases/slices/exported sizes; layout constraints; motion timelines and actual context previews. Wireframes, a generic component library or one pretty menu cannot close all screens.
 
@@ -8,13 +8,13 @@ For each ID define target image, editable source, runtime scene/prefab/component
 
 Include boot/onboarding, hub/settings/account if present, collection/loadout/progression, store/pass/events if present, HUD/pause/results/reward/retry, offline/loading/empty/error/locked/pending/refund/reconnect and lifecycle. Device keyboard, long text/locale expansion, narrow/wide aspect, notch/system bars, scale and reduced-motion settings are real states. No dead CTA, invisible disabled reason or overlapping critical button.
 
-## Навчання, винагороди та магазин у тому самому досвіді
+## Learning, rewards, and commerce in the player journey
 
-Споживати model learning/reward/progression/commerce IDs. Кожна learning interaction має потрібні affordance/cue, safe practice, success/failure/help, optional skip/replay і повернення після перерви. Візуальна підказка не замінює спостережувану самостійну дію. Не показувати весь інструментарій на першому екрані лише тому, що він існує в грі; reveal follows accepted learning dependencies.
+Consume learning, reward, progression and commerce IDs from the model. Each teaching interaction includes the required affordance or cue, safe practice, success, failure and help, optional skip and replay, and return after interruption. Observe independent action separately from following a visible cue. Reveal controls according to accepted learning dependencies.
 
-HUD пояснює ресурси й наступне рішення: наявність/витрату/відновлення, альтернативний стан і причину недоступності. Health, heat, stamina, noise чи інший показник використовувати за model fit, а не як однакову смужку в кожній грі. Якість — у читабельності й корисній інформації, не в числі gauges.
+Use the HUD to explain resources and the next decision, including availability, spending, recovery, alternatives, and why an action is unavailable. Choose displays for health, heat, stamina, noise, and other metrics according to the model. Judge their readability and usefulness.
 
-Reward flow відображає actual earned/granted/unclaimed/duplicate/capped status, приріст можливостей і перше використання. Shop показує exact contents/use/limits/price/currency/eligibility, trial/earned/decline path та pending/cancel/error/restore/refund states за обраною моделлю. Offer presentation не може підмінити або прискорити durable grant; purchase outcome походить від commerce authority. Перевірити перехід shop→equip/use у поточному save, коли це обіцяна цінність.
+Show actual earned, granted, unclaimed, duplicate and capped status, capability gains, and first use. The store shows exact contents, use, limits, price, currency and eligibility, trial, earned and decline routes, and pending, cancel, error, restore and refund states as applicable. Bind completed purchases to commerce authority and durable grants. Test store to equip or use on the current save when that is part of the promise.
 
 ## Visual specifications
 
@@ -30,8 +30,8 @@ Specify ease/duration/delay/overshoot, focus/press/release/disabled/selected tra
 
 Review complete flows, not individual artboards only. Capture same state/data/resolution for target/actual comparisons; diff layout/font/color/icon critical regions and inspect on phone size. Run narrow/wide devices and long locale strings. Every runtime state must map to actual source/target or documented inherited component coverage. Missing final UI state means that scope remains partial.
 
-## Committed action, localization і continuity
+## Committed actions, localization, and continuity
 
-Input presentation відповідає actual recognizer: drag не малювати як дві самостійні кнопки; складна дія може мати contextual/gesture profile зі stable pointer ownership, preview/commit/cancel. Pointer loss/menu transition не спричиняє stuck control чи clickthrough purchase.
+Match input presentation to the actual recognizer. Show a drag as one gesture. Complex actions may use contextual input or gestures with stable pointer ownership, preview, commit and cancel. Handle lost pointers and menu transitions without stuck controls or click-through purchases.
 
-Виробити State Catalogue-related local-saved/cloud-pending/synced/conflict/error displays, reorientation/current goal, failure cause/recovery, exhaustion/partial-owned bundle states за fit. String IDs/context/plural/select/placeholders/terms/numbers/units/price/font glyphs/shaping/RTL задаються мовним scope; screen-state parity перевірити з actual strings.
+Derive locally saved, cloud pending, synced, conflict and error displays from the State Catalogue. Cover reorientation and current goal, failure and recovery, exhaustion and partly owned bundle states where relevant. Define string IDs, context, plural and select rules, placeholders, terminology, numbers, units, prices, glyphs, shaping and RTL from language scope. Verify state parity with actual strings.

@@ -1,39 +1,39 @@
-# Concepts: повний C1 у 4.0
+# Complete C1 concepts for Game Model 4.0
 
-## Maturity та охоплення
+## Maturity and coverage
 
-C0 — попередній ескіз для пошуку; явно показати невизначеність і не називати його готовою концепцією. Кожний кандидат, поданий як завершений для остаточного вибору, отримує C1. Повний TDD з усіма запусковими числовими рядами створюється для прийнятої до розробки гри на наступному етапі.
+Label C0 as a provisional exploration with explicit unknowns. Every candidate presented as complete for selection needs C1. Build the complete implementation TDD and launch data for the selected game at the next stage.
 
-Для C1 пройти всі 20 напрямів моделі й позначити застосовність із rationale. Описати не тільки core loop, а й довгу арку, finite launch, повернення, завершення/вичерпання, повний player journey, інструментальну досяжність і cost drivers. Пряме динамічне керування Game of 2027 лишається чинною вимогою.
+At C1, determine applicability across all 20 model tracks with rationale. Cover the core loop, long progression, finite launch scope, return, completion and exhaustion, complete player journey, feasible tool path, and major costs. Preserve direct dynamic control for the approved Game of 2027 scope.
 
-## Побудувати до зображення
+## Design before illustration
 
-1. Визначити fantasy/дію/основні рішення, production scale, topology, camera/input grammar, art language та commerce fit незалежними осями. Новий портфель не будувати випадковим декартовим добутком.
-2. Задати повну архітектуру сімейств предметів/дій/навичок/техніки: роль, властивості, умови, сумісність, розвиток, acquisition, counterplay, representation і opportunity. Два-три приклади не видавати за всю систему.
-3. Спроєктувати світ як authored macro→mission/progression→space→encounter→persistent consequences. Генерацію застосовувати за fit; authored сцени допустимі. Визначити constraints, failure repair/fallback і семантичну новизну.
-4. Для AI розділити Actor/Knowledge/Action/Decision/Encounter/Boss; видимий cue, доступні відповіді, пам’ять і канали знання. Поведінкова фаза змінює рішення або має конкретну драматичну мету.
-5. Для ризику визначити damage/contact-to-outcome architecture, living/downed/disabled/dead/retry лише за fit; ціну помилки, що втрачається/зберігається, recovery й anti-softlock. Не нав’язувати HP, смерть або бій небойовій грі.
-6. Прокласти mastery/run/permanent/world progression, reward→meaningful use і capability×opportunity. Дати early/mid/late/exhaustion scenarios, а не фіктивну нескінченність seed.
-7. Розділити intent/action/input/presentation. Порівняти доречні профілі на first/peak/late tasks; camera size/рух і touch cues мають відповідати зображенню.
-8. Показати commerce на рівні метасистем, partial ownership і cumulative portfolio. Детерміновані покупки default; earned RNG прозорий; paid RNG окреме рішення. Допустиму перевагу часу/можливостей/сили описати чесно й окремо визначити competition.
-9. Вказати persistence policy кожного значущого класу стану, cloud/restore/account boundaries, public capability status та required future proof. Не обіцяти автоматичний cloud від самого store.
-10. Для image/profile зафіксувати actual planned representation та production recipe. Raster target не означає rig/stems/3D-ready; оглянути кожний generated frame до показу.
+1. Specify fantasy, actions and decisions, production scale, topology, camera and input grammar, art language, and business-model fit. Select candidate combinations from actual causal relationships.
+2. Define the full architecture of items, actions, skills, and techniques with role, properties, conditions, compatibility, development, acquisition, counters, representation, and opportunities. Include the complete family rules alongside examples.
+3. Design the world from authored macro structure through mission and progression, space, encounters, and persistent consequences. Choose authored or generated content to fit. Define constraints, repair and fallback, and meaningful novelty.
+4. For AI, separate Actor, Knowledge, Action, Decision, Encounter, and Boss. Specify readable cues, player responses, memory, and knowledge channels. A phase changes a decision or serves a specific dramatic purpose.
+5. Define damage or contact-to-outcome as applicable. Include relevant alive, downed, disabled, dead, retry, cost of failure, retained state and losses, recovery, and prevention of softlocks. Use health, death, and combat only where they serve the design.
+6. Map mastery, run, permanent and world progression, reward-to-use, and capability with real opportunity. Cover early, mid and late play and exhaustion. Establish actual novelty beyond variation in seeds.
+7. Separate intent, action, input and presentation. Compare suitable profiles against first use, peak, and late-state tasks. Align character size, camera motion, and touch cues with the visual reference.
+8. Design commerce within the metagame, including partial ownership and combined paid portfolio. Prefer deterministic purchase and transparent earned randomness. Paid randomness requires a separate decision. Describe any advantage in time, capability, or power and assess competition independently.
+9. Specify persistence for each significant state class, cloud and restore and account boundaries, actual public capability status, and future evidence. Verify cloud availability independently of store access.
+10. Bind each image to feasible representation and production recipe. Verify rig, stems, and 3D readiness independently from raster art. Inspect every generated frame before presentation.
 
-## Пакет C1
+## C1 package
 
-| Зміст | Приймання |
+| Component | Acceptance |
 |---|---|
-| Concept document + canonical model | Усі активні системи, roles, rules/relationships, scope, lifecycle й confidence; linked IDs |
-| Сімейства/варіативність | Простір можливостей, constraints, progression й корисні контексти; не довільна item quota |
-| Scenario atlas | First/normal/peak/late/failure/retry/return/completion; конкретні рішення й наслідки |
-| Creative/input/camera lock | Constructive style, framing/movement, sensory grammar, actual inspected originals/hash |
-| Production/economy profile | Operations/rights/costs, models/risks, due native/human proof; не вже виконана інтеграція |
-| Receiver handoff | Tech-design reviewer відтворює задум без історії чату й називає визначені/open decisions |
+| Concept and canonical model | Applicable systems, roles, rules and dependencies, scope, lifecycle, confidence, and linked IDs |
+| Families and variation | Decision space, constraints, development, and useful contexts |
+| Scenario atlas | First, normal, peak and late use, failure, retry, return and completion, with concrete decisions and effects |
+| Creative, input, and camera baseline | Reproducible style, composition and motion, sensory grammar, inspected originals and hashes |
+| Production and economy profile | Operations and rights and costs, models and risks, and pending native or human evidence |
+| Receiver handoff | A technical design reviewer reconstructs the game without chat history and identifies settled and open decisions |
 
-Відкриті T-level параметри мають предметний owner, межу/мету уточнення й due stage. Відсутній концептуальний механізм, необґрунтоване N/A або неописана довга арка блокують C1. Не можна позначити весь концепт C0, щоб показати неповний результат як готовий.
+A deferred T parameter has an owner, bounds or purpose, and due gate. An undefined core mechanic, unjustified N/A, or missing long progression blocks C1. Present provisional work with its actual status.
 
-## Контрприклади
+## Counterexamples
 
-Зображення кнопок замість declared drag; master artoverview замість gameplay camera; три upgrade ±стат замість архітектури; ворог знає unseen input; новий платний комплект закриває всі слабкості попередніх; нова reward після останнього opportunity; replay seed не змінює рішення; смерть не має resume/retry semantics.
+Buttons drawn for a declared drag, key art used for a gameplay camera, a few stat upgrades presented as a whole upgrade architecture, an enemy reading unseen input, a paid kit bypassing all previous weaknesses, rewards after the last opportunity to use them, replay seeds that leave decisions identical, and death without resume or retry rules.
 
-Після C1 selection не означає production approval. Передати exact accepted version/hash/decisions, sources, scenarios, feasibility reviews і чітку stop boundary. Для запиту «10 ігор по 3 екрани» кількість frames не знімає C1 з жодного завершеного кандидата.
+After C1, record concept choice and production authority independently. Transfer accepted version and hash and decisions, sources, scenarios, feasibility reviews, and exact stop. A brief for 10 games with 3 screens each still requires C1 for every completed candidate.

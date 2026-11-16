@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Інтеграції · 6.0.0
-  short_description: Надійні дії, callbacks, jobs та інтеграції
-  default_prompt: Використай $chatbot-atelier-integrations для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Інтеграції
+  short_description: Channel adapters, jobs, and reliable effects
+  default_prompt: Use $chatbot-atelier-integrations. Connect and verify the requested operation through its real channel, state, and provider boundary.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

@@ -1,44 +1,44 @@
-# Причинні правила, спорядження та агенти
+# Causal rules, equipment and game agents
 
-## Застосування, вхід і власний результат
+## Applicability, inputs and owned outputs
 
-Застосовувати до правил будь-якої гри; обладнання, техніку, ворогів і бій активувати лише за задумом. Прийняти fantasy, системний паспорт, input/камеру, карту світу й розвиток. Власний результат — виконуваний rulebook, interaction matrix, каталоги застосовних actor/ability/equipment, сценарії рішень і invariants. [Шаблон](../../assets/domain-templates/system-rulebook.template.json) деталізує авторську роботу; у canonical model використовувати domains `systems`, `actors`, `equipment` та чинні `source_requirement_ids`, features, scenarios, dependencies, evidence. Не оголошувати заповнений шаблон доказом глибини.
+Use for a game's rules. Include equipment, vehicles, opponents and combat when the design calls for them. Start with the fantasy, system profile, input and camera, world map and progression. Deliver an executable rulebook, interaction matrix, applicable actor, ability and equipment catalogs, decision scenarios and invariants. The [system rulebook template](../../assets/domain-templates/system-rulebook.template.json) guides authoring. Use canonical domains `systems`, `actors` and `equipment` with current `source_requirement_ids`, features, scenarios, dependencies and evidence. Demonstrate depth in play or a relevant model.
 
-## Механіка як правило
+## Mechanics as rules
 
-Задати ID, player purpose, state variables, units/ranges, input/trigger, guards, authority, phases/timing, transform, cost, outcome, feedback, error/counterplay, recovery, persistence/reset. Вказати порядок подій, clamp/rounding/tie-break, fixed/variable time, collision ownership і interrupt rules. Один runtime/config source; опис і UI посилаються на нього.
+Specify ID, player purpose, state variables, units and ranges, inputs and triggers, guards, authority, phases and timing, transformation, cost, outcome, feedback, error and counterplay, recovery, persistence and reset. Specify event order, clamp, rounding and tie-breaking, fixed or variable time, collision ownership and interruptions. Keep one authoritative runtime or config source and reference it from description and UI.
 
-Ребро взаємодії зараховувати, коли зміна однієї системи змінює доступну дію, позицію, timing, ризик, пріоритет або наслідок іншої. Спільний колір, валюта чи слово «синергія» ребром не є. Показати конкретні цикли через застосовні movement/tool/environment/agent/resource/objective layers. Невелика кількість добре взаємодіючих правил допустима; число кнопок/предметів/статів не доводить глибини.
+Count an interaction when a rule changes an available action, position, timing, risk, priority or outcome of another rule. Show concrete loops across relevant movement, tools, environment, agents, resources and objectives. A small set of interacting rules can support depth. Shared color, currency or the label «синергія» (“synergy”) alone does not establish a causal edge.
 
-Для важливої комбінації описати стартовий стан → намір → input → зміни → відповідь світу/агента → наступний вибір → помилка/відновлення. Дати той самий інструмент у різних контекстах із різними розумними рішеннями. Провести ablation: що перестає працювати без правила; чи «складна система» лише відтворює заготовлений спецефект; чи найдешевша політика перемагає все.
+For an important combination trace starting state, intent, input, changes, world or agent response, next choice, failure and recovery. Show different sensible decisions with the same tool in different contexts. Test an ablation to see which behavior is lost without a rule, whether complexity only triggers a canned effect, and whether the cheapest policy dominates.
 
-## Ресурси, властивості та спорядження
+## Resources, attributes and equipment
 
-Ресурс може бути HP, запасом, теплом, імпульсом, шумом, концентрацією або іншим значущим станом. Вибрати тільки потрібні. Для кожного задати sources/sinks, capacity/regen, витрату й альтернативну витрату, overflow/depletion, recovery, cue, reset/persistence й пов'язані дії. HP не зобов'язаний мати складну підсистему лікування; якщо вона є, її вибори й ціна повинні бути конкретними.
+Choose meaningful resources such as HP, stock, heat, momentum, noise or concentration. Define sources and sinks, capacity and regeneration, spend and opportunity cost, overflow and depletion, recovery, cues, reset and persistence, and related actions. Where healing is part of the design, specify its decisions and cost.
 
-Для предмета/здібності визначити функціональну роль, acquisition/unlock, actions, targets, reach/shape, startup/active/recovery/cancel, charges/cooldowns, modifiers, compatibility, strengths/limits/counters, equip/switch rules і progression links. Status effects задають duration, stack cap, additive/multiplicative/exclusive composition, refresh/replace, immunity, cleansing, death/scene/reset і cues. Різні назви з тим самим +damage не є різними способами гри.
+For an item or ability define function, acquisition or unlock, actions, targets, reach or shape, startup, active, recovery and cancel windows, charges and cooldowns, modifiers, compatibility, strengths, limits and counters, equip and switching rules, and progression links. For status effects specify duration, stack cap, additive, multiplicative or exclusive composition, refresh and replacement, immunity, cleansing, death, scene and reset rules, and cues. Demonstrate different choices beyond equivalent damage values.
 
-Для техніки, якщо вона є ядром, розділити chassis/handling, propulsion, functional modules, attachments й їхні budgets/compatibility. Показати, як маса/баланс/живлення/місткість або інші обрані властивості змінюють дію й маршрут. Не нав'язувати всі перелічені параметри. Описати складання, порівняння, збереження loadout, пробу, зміну модуля, недійсну конфігурацію, repair/recovery. Кастомізація має давати різний досвід, а не десятки декоративних слотів.
+If vehicles are central, distinguish chassis and handling, propulsion, functional modules and attachments, budgets and compatibility. Show how selected properties such as mass, balance, power or capacity influence actions and routes. Specify assembly, comparison, saved loadout, trial, module changes, invalid configurations, repair and recovery. Customization should produce a distinct experience.
 
-## Агенти, супротивники й контргра
+## Agents, opponents and counterplay
 
-Для застосовного агента задати роль у виклику, body/movement affordances, senses/ranges/occlusion, memory/forgetting, knowledge uncertainty, intent, decision priorities/utility, actions, navigation, resource use, transitions, coordination, retreats/recovery. Відокремити actual world state від того, що агент сприйняв і пам'ятає. Визначити, як шум, сліди, пошкодження, геометрія й дії інших змінюють рішення. FSM, utility, behavior tree або інша структура — реалізаційний вибір за fit, не обов'язкова технологія.
+For an applicable agent define role in the challenge, body and movement affordances, senses, ranges and occlusion, memory and forgetting, uncertainty, intent, decision priorities or utility, actions, navigation, resource use, transitions, coordination, retreats and recovery. Separate world state from perceived and remembered state. Define the effect of noise, tracks, damage, geometry and other actors. Select finite state, utility, behavior tree or other representation based on fit.
 
-Для небезпечної дії задати telegraph, readable commitment, hit/avoid conditions, reaction opportunity, counters, interruptability, cooldown і наслідок помилки. Зв'язати offscreen behavior із камерою; не додавати невидимі неминучі атаки. Складність може змінювати поведінковий набір і координацію в описаних межах, але не приховано читати input чи вигадувати силу заради купівлі. Відокремити чесну адаптацію від таємного підтасовування.
+For an in-game threat, define telegraph, readable commitment, hit and avoidance conditions, response opportunity, counters, interruptibility, cooldown and consequence. Align offscreen behavior with the camera and provide a fair response. Difficulty can change behaviors and coordination within stated bounds. Check adaptation against hidden input reading and difficulty distortions intended to prompt purchases.
 
-Каталог ворогів/викликів містить відмінну tactical role, зміну рішення гравця, комбінації/заборони, навчальні prerequisites, середовище й production cost. Звичайні, елітні, особливі й босові форми потрібні лише за задумом. Нова шкіра/HP без нової ролі не закриває відмінність. Без бою ці ж принципи застосовуються до суперників, фізичних перешкод, задач або інших релевантних джерел виклику.
+The opponent and challenge catalog distinguishes tactical role, effect on player choices, combinations and exclusions, learning prerequisites, environment and production cost. Use ordinary, elite, special and boss forms where the design needs them. Require a distinct role beyond skin and HP changes. Without combat, apply these principles to rivals, physical obstacles, tasks or other relevant challenges.
 
-## Зв'язки й перевірки
+## Dependencies and verification
 
-Пов'язати правило з [input/feedback/learning](experience.md), [world/encounters](world.md), [unlock/rewards](progression.md), [елементами art/motion/audio](creative.md), [commerce](commerce.md) та save/analytics у [lifecycle](lifecycle.md). Зміна hit timing відкриває залежні animation/camera/telegraph/control checks; новий платний інструмент — не лише SKU test, а interaction/dominance review.
+Connect rules to [input, feedback and learning](experience.md), [world and encounters](world.md), [unlocks and rewards](progression.md), [art, motion and audio](creative.md), [commerce](commerce.md), and save and analytics in [lifecycle](lifecycle.md). Hit timing changes reopen animation, camera, telegraph and control checks. A new paid tool needs interaction and dominance review as well as its SKU test.
 
-До концепту потрібні причинні сценарії та чесні невідомі. До preproduction — typed values/contracts і межові приклади. На slice виконати ті самі inputs із recorded state/seed; спостерігати normal/peak/error/recovery, animation/contact та реальний touch. На beta перевірити людське читання намірів/контргри. Перед release незалежно перевірити critical save/money/authority paths. Модель може знайти softlock чи домінантність, але не сертифікує fun.
+Concepts need causal scenarios and explicit unknowns. Preproduction needs typed values and contracts and boundary examples. Exercise identical inputs at the slice with recorded state and seed. Observe normal, peak, error and recovery, animation and contact, and actual touch. At beta observe how people read intent and counterplay. At release independently check critical save, money and authority paths. Use models to find soft locks and dominance and observe player experience separately.
 
-Gameplay/systems author виробляє правила; AI/encounter specialist — застосовні агенти; runtime engineer — реалізацію/trace; UX/creative — cues; незалежний reviewer перевіряє контрприклади. Одна людина/агент може виконувати кілька авторських компетенцій; це не робить self-check незалежним.
+Systems authors define rules, AI and encounter specialists define applicable agents, runtime engineers implement and trace, and UX and creative specialists design cues. Independent reviewers exercise counterexamples. An author may hold multiple design roles and still needs an independent reviewer for the affected claims.
 
-## Джерела й статус рекомендацій
+## Sources and status of recommendations
 
-- [Epic: AI Perception](https://dev.epicgames.com/documentation/en-us/unreal-engine/ai-perception-in-unreal-engine) — офіційна документація інструмента; відокремлення сприйняття, пам'яті й рішень придатне як принцип, API не переноситься автоматично.
-- [Epic: Behavior Tree Overview](https://dev.epicgames.com/documentation/en-us/unreal-engine/behavior-tree-in-unreal-engine---overview) — документація конкретної реалізації, не вимога обрати Unreal або behavior tree.
-- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) — практика зміни досвіду через здібності, а не вимога копіювати badges.
-- Rulebook, ablation й due-proof gates вище — правила агента; їхні числові значення обираються й перевіряються для конкретної гри.
+- [Epic: AI Perception](https://dev.epicgames.com/documentation/en-us/unreal-engine/ai-perception-in-unreal-engine) documents a specific tool. Separating perception, memory and decisions applies independently of its API.
+- [Epic: Behavior Tree Overview](https://dev.epicgames.com/documentation/en-us/unreal-engine/behavior-tree-in-unreal-engine---overview) documents a concrete implementation option.
+- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) illustrates how abilities can change the experience.
+- Rulebooks, ablation and evidence gates above are Game Atelier requirements. Choose and verify numeric values for the actual game.

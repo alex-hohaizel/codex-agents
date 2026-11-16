@@ -1,37 +1,35 @@
-# Контракт етапу chatbot-atelier-knowledge
+# Stage contract for chatbot-atelier-knowledge
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати карту джерел і власників, правила audience/ACL/freshness/retention, альтернативи retrieval та належні evals. Перенесення між чатами/проєктами перевіряти за фактичним доступом; summary або embedding не розширює права і не підміняє первинний контекст.
+Show sources and owners, audience and access rules, freshness and retention, retrieval alternatives and relevant evaluations. Verify actual access before transferring knowledge between chats or projects. Summaries and embeddings keep source scope and provenance.
 
-## Обов’язковий предметний маршрут
+## Define memory and permissions
 
-## Модель пам’яті
+Separate session, task, durable personal, group, and workspace state. For each fact preserve authoritative source ID/version, observations versus inference, actor/author/audience/purpose, validity range and time zone, corrections, verification, retention, consent, and privacy epoch. A summary, embedding or view inherits the same permissions. A temporary preference, quotation, question, or denial does not establish durable consent.
 
-Розділити session/task/durable personal/group/workspace knowledge. На факт: authoritative source IDs/versions, observed vs inferred, author/actor/audience/purpose, validFrom/Until, timezone за потреби, correction chain, confidence/verification, retention/consent/privacyEpoch. Похідні summaries/views/embeddings не створюють ширшого дозволу. Разове/денне побажання не стає постійним профілем; цитата/питання/заперечення не автоматичне право запису.
+Choose the source of truth and precedence for corrections, conflict, identity ambiguity, expiration, and old summaries. Resolve “remember,” “forget,” and “not now” to the scope and actual state without exposing technical modes. Track accessible Work, Codex, and channel history separately with source lineage and authority.
 
-Для correction/conflict визначити owner і precedence: пряме authoritative виправлення проти старого summary, freshness/expiry, ambiguous identity. Природний запит «пам’ятай/забудь/не зараз» пов’язати зі scope й actual state; не нав’язувати технічний режим. Не заявляти, що бот бачить Work/Codex/Telegram контекст без фактичної lineage/доступу.
+## Retrieve the current allowed answer
 
-## Retrieval лише за потреби
+Start with questions, corpus and labeled examples. Try direct current context, exact ID/path, ordinary search or SQL first. For justified retrieval, specify ingestion, parsing, chunks, indexing, ACL filtering before exposure, reranking, citation, abstention, deletion and reindexing. Compare exact/lexical and hybrid approaches with frozen inputs. Record source version, citation span, date, language and units. Return an explicit absence if only a revoked or other-tenant match is available. Document or tool text cannot expand permission.
 
-Почати з питань/corpus/ground truth і перевірити, чи достатньо current context/звичайного search/SQL. Якщо RAG active: ingestion/parse/chunk/index/filter/rerank/citation/abstention/delete/reindex lifecycle, ACL до exposure, source freshness і units/language. Framework/vector DB — кандидати, не критерії якості. Tool result/document prompt injection не підміняє policy/permissions.
+Measure retrieval relevance, recall and precision separately from grounded answers, attribution, abstention, cost and latency. Bind caches to source/parser/chunker/model/ACL/version; invalidate downstream evidence after changes. Test denied, revoked, and private-DM content across query, cache, summary, and export.
 
-Вимірювати retrieval relevance/recall/precision, answer attribution/factuality, abstention й cost/latency окремо на frozen cases. Cache keys включають source/parser/chunker/model/ACL/version; version change інвалідує залежні claims. Source-access revocation і private DM мають негативні probes для cache/search/summary/export.
+## Carry deletion through recovery
 
-## Erasure/restore та перевірка
+Track dependencies from primary data through summaries, embeddings, indexes, views, caches, pending/running jobs, prompts, outputs, media and exports. Check current privacy epoch and tombstones before committing or delivering late results. An old backup must reapply current tombstones. Explain when retention permits physical deletion from immutable backups.
 
-Lineage cascade primary data→summaries→embeddings→indexes/views/cache→pending/running jobs→prompts→outputs/media/exports. Privacy epoch/tombstone guards перевіряються перед commit і delivery пізнього result. Старий backup при restore має застосувати current tombstones; фізичне стирання immutable backup за фактичною retention policy, не вигадане миттєве.
+Test cross-chat/tenant/topic read and write, corrections, temporary preferences, forget during jobs, late embeddings, deleted snippets, revoked tools and restore. Use synthetic conversations. Deliver schema, ACL/retention and migration contracts, deletion trace, retrieval evaluation, restore limits, and the receiving owner.
 
-Позитивні/негативні сценарії: cross-chat/tenant/topic read/write, corrected fact, temporary preference, forget during running, late embedding, cached deleted snippet, revoked tool source, old restore. Вихід: data/ACL/retention/schema/migration contracts, actual deletion trace, retrieval evals, backup/restore limits й receiver. Не використовувати production private transcripts за тестову базу.
+## Handoff
 
-## Контракт передачі
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
+## Criteria and completion
 
-## Критерії та завершення
+Check applicability for these criterion IDs first: audience_privacy, source_grounding, forgetting_integrity, consent_authority. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-Першочергові criterion IDs для перевірки застосовності: audience_privacy, source_grounding, forgetting_integrity, consent_authority. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.

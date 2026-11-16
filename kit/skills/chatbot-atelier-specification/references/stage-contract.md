@@ -1,37 +1,31 @@
-# Контракт етапу chatbot-atelier-specification
+# Stage contract for chatbot-atelier-specification
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати предметну й цілісну модель, контракти компонентів, архітектурні/мовні ADR з наслідками, карту взаємодій і acceptance. Специфікація агентної команди й архітектура цільового продукту — окремі рішення; обидва мають покривати весь застосовний намір.
+Show a complete domain model, component contracts, architecture and language decisions with consequences, interactions and acceptance. Specify the agent team's structure and the target product architecture as separate decisions. Both must cover the applicable intent.
 
-## Обов’язковий предметний маршрут
+## Model each active system
 
-## Формалізувати кожну активну систему
+Record ID, purpose, applicability, owner, typed fields/units/ranges, authoritative state, inputs/outputs/events, permissions/audience, dependencies, failure recovery, migration, and acceptance. Specify rule order, observation time, validation boundaries and golden cases. For probabilistic behavior, specify acceptable outputs, abstention, and evaluation distribution.
 
-Вести system register: ID/purpose/applicability/owner/entities/typed fields/units/ranges, authoritative state, ingress/output/events, permissions/audience, dependencies, failure, restore/migration, acceptance. Кожне правило має algorithm/order, sampling/snapshot time, validation boundaries і golden vectors. Для ймовірнісної LLM поведінки визначити допускаємі виходи/abstention/evaluation distribution; не обіцяти детермінізм, якого нема.
+Carry tenant/workspace/chat/topic, actor and audience, request and logical operation, source and version, privacy epoch, authorization, and causal trace. Separate platform event, domain command, tool request, effect, outcome, and delivery. Maintain one source of truth for each commitment, consent, memory, and delivery across schema, API, events, prompts, tests, and rollout.
 
-Визначити envelope tenant/workspace/chat/topic/actor/audience, request/logicalOperation/source/version/privacyEpoch, authorization scope і causal trace. Розвести platform event, domain command, tool request, external effect, outcome й delivery. Вибрати один owner/джерело істини для кожного commitment/consent/memory/delivery; ERD↔API↔events↔prompts↔tests↔rollout узгодити.
+## Specify transitions and cross-system effects
 
-## Lifecycle та фізично здійсненна семантика
+Make guards and atomic boundaries explicit for proposal, needed input, authorization, preparation, dispatch, running, success, failure, uncertain outcome, cancel, expiry, reconciliation, and delivery. Define deduplication identity and retention, version fences, retry class, attempt cap and deadline/backoff, and recovery after each crash point. A planned cancellation prevents a future dispatch only when the state transition and worker fence guarantee it. Bind the request to a stable event and series ID, project the same accepted state in UI, and return the original receipt on replay. Decide how cancellation races with an in-flight send before freezing the contract. Reconcile ambiguous effects before retry; claim exactly-once only in the proved scope.
 
-Визначити exact guards/atomic boundaries для proposal/needs_input/authorization/prepared/dispatch/running/succeeded/failed/uncertain/cancel/expiry/reconcile/delivery. Dedup identity/retention, version fence, retry class/attempt/deadline/backoff і recovery після кожного crash point. За external uncertainty пояснити reconcile/compensation; не писати «exactly once» без доведеного scope.
+Specify persistence, replay/migration/backup/restore, retention and tombstones. Use UTC instants and IANA civil zones with DST gaps/folds, recurrence and misfire handling. Define memory provenance, correction, TTL and derived invalidation. Preserve group roster, authorship, consent and late join rules, and media source through delivery identity.
 
-Persistence: поля, authoritative owner, transaction boundary, replay/migration/version compatibility, backup/restore, retention/tombstones. Time: UTC instant і IANA civil zone, DST gap/fold/recurrence/misfire/reschedule. Memory: provenance, corrections/TTL/privacy and derived invalidation. Group: roster/consent/authorship/late join; media: source/export/runtime/delivery identity.
+Trace active dependencies through cause, allowed order, failure, repair, persist boundary, feedback, and acceptance. Cover memory/jobs/delivery, DM/group, persona and tool truth, platform/domain ACK, scheduler/revoke, media/resources, and schema/rollback. Record conditional applicability and open unknowns. Deliver the typed model, decisions, sequences, golden and negative cases, integration and migration plans, and owner map. Feed infeasible promises back to the product owner with evidence.
 
-## Перетини й вихід
+## Handoff
 
-Для кожної active pair залежності cause→effect→allowed order→failure→repair→persist boundary→UI feedback→acceptance. Обов’язково check memory/jobs/delivery, DM/group, persona/tool truth, platform/domain ACK, scheduler/revoke, media/resources, schema/rollback. Позначити conditional/N/A з причиною; unknown не unchanged.
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-Передати typed model, state/event/API/schema contracts, alternatives/ADR, sequences/golden vectors, all journey states/negative cases, migration/observability plan, production recipe/receiver map. Статус specified означає узгоджену специфікацію, не execution. Build повертає нездійсненні capabilities upstream із конкретним доказом, а не спрощує promise мовчки.
+## Criteria and completion
 
-## Контракт передачі
+Check applicability for these criterion IDs first: execution_truth, consent_authority, lifecycle_reliability, version_continuity. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
-
-## Критерії та завершення
-
-Першочергові criterion IDs для перевірки застосовності: execution_truth, consent_authority, lifecycle_reliability, version_continuity. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.

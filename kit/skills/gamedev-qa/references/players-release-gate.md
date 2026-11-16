@@ -1,50 +1,44 @@
-# Людські тести та рішення про випуск
+# Playtesting and release decisions
 
-## Що потребує людей
+## Evidence from people
 
-Fun/feel, зрозумілість керування, змістовна варіативність, бажання ще однієї спроби, тривала мотивація, комфорт haptics/audio і perceived fairness не доводяться самим code/model review. AI може знайти логічний ризик і підготувати тест; actual human observations мають власний статус.
+Use actual human observations for enjoyment and feel, control comprehension, meaningful variation, desire for another attempt, sustained motivation, audio and haptic comfort, and perceived fairness. AI and code or model review can identify logical risks and help design the test. Track execution with real players separately.
 
 ## Playtest protocol
 
-Заздалегідь сформулювати питання й falsifiable criteria. Вибрати relevant audience/accessibility/device mix, describe actual recruitment/consent. Учасникам дати raw game/task без рекламної підказки expected reaction. Не пояснювати механіку під час first-use, якщо це не частина протоколу. Не збирати зайві personal data.
+Write the research question and falsifiable criteria in advance. Select relevant audience, access needs, and devices, and record actual recruitment and consent. Give participants the raw game and task without promotional framing about the expected reaction. Avoid first-use coaching unless specified in the protocol. Collect only necessary personal data.
 
-Приклади:
-- New player без допомоги розуміє goal/input/failure і знаходить retry/next goal.
-- Після кількох runs може описати нові decision tradeoffs, а не лише іншу картинку.
-- Після поразки розуміє власну помилку й доступний free improvement path.
-- Paid mechanical variant сприймається з ясними tradeoffs; неплатник не відчуває прихованої штучної перешкоди.
-- Returning player знаходить нову мету й не губить progress/content context.
+Examples include a new player independently understanding the goal, controls and failure and finding a retry or next objective, a player who can describe new decision trade-offs across runs, a player who understands a loss and finds a free improvement path, participants who see clear trade-offs in a paid mechanical variant and encounter no concealed barriers along the free path, and a returning player finding a new objective without losing progress or context.
 
-Зберігати actual sample size, recruitment bias, session length, build/device, task, observations/timecodes, quotes за згодою, dropoff/assistance, conclusions та limitations. Малий formative тест ловить проблеми, але не прогнозує D7/LTV на ринку. Поздовжній тест потребує реальних повторних заходів у часі; одноразове «я б повернувся» не є retention.
+Record actual sample size, recruitment bias, duration, build and device, task, observations and timecodes, quotes with consent, drop-off and assistance, conclusions, and limitations. A small formative study can expose usability problems. Market D7 or LTV requires separate evidence. A longitudinal test needs actual return visits at the specified times. Record stated intent to return separately from measured retention.
 
-## Монетизація й fairness
+## Monetization and fairness
 
-Simulation видає acquisition time/price/reward outcomes під assumptions. Людський тест виявляє comprehension/pressure/fairness; live cohort дає фактичні conversion/refunds/revenue/retention. Не змішувати. Жоден рівень не гарантує успіх. Негативні відповіді не переписувати як позитивні; повернути mechanism issue до відповідного design owner.
+Simulation estimates acquisition time, price, and rewards under stated assumptions. Human tests show comprehension, pressure, and perceived fairness. A live cohort measures actual conversion, refunds, revenue, and retention. Preserve the evidence level for each finding. Report negative responses accurately and send the underlying mechanism issue to its design owner.
 
 ## Full-stage verdict
 
-Узгодити exact product scope і platforms. Для кожного must є current verdict/evidence або explicit blocker. Прийняття потребує належної незалежності, actual native/platform checks, fidelity/craft review, data/commerce/privacy checks, required human evidence та відсутності unresolved release-blocking defects. Умови по human evidence залежать від claimed stage: beta може збирати невідоме; це не підтверджений market success.
+Agree the exact product scope and platforms. Each must has a current verdict and evidence or an explicit blocker. Acceptance requires independent review where applicable, native platform checks, fidelity and craft review, data, commerce, and privacy checks, required human evidence, and closure of release blockers. A named beta may test open hypotheses. Establish any market result from actual market evidence.
 
-Статуси:
-- `accepted_for_named_test`: дозволена конкретна beta/test ціль, remaining hypotheses відкриті.
-- `accepted_for_release_review`: технічні/продуктові gates прийняті у названому scope; `gamedev-release` перевіряє актуальний store setup/submission.
-- `blocked`: missing required evidence/defects/rights/signing/platform.
-- `scoped_complete`: локальна перевірка завершена; не вся гра.
+- `accepted_for_named_test` authorizes the named test or beta objective within the existing scope. Remaining hypotheses stay open.
+- `accepted_for_release_review` passes the technical and product gates for the named scope. `gamedev-release` verifies actual store setup and submission requirements.
+- `blocked` identifies missing required evidence, defects, rights, signing, or platform coverage.
+- `scoped_complete` completes the named local check.
 
-Не створювати вічний цикл «ще одна рада». Після закриття named scope повторно відкривати лише за новою зміною, новим evidence, залежністю або invalid prior claim. User може обрати beta з конкретними невідомостями; не маскувати її як full release-ready.
+After closing the named scope, reopen only for a new change, evidence, dependency, or invalidated prior claim. Record any unknowns the owner accepts for the specific beta. Full release readiness requires its own evidence.
 
-## Handoff до release
+## Handoff to release
 
-Accepted exact source/build, sanitized evidence manifest, requirement matrix, per-platform status, known issues, store policy snapshot, rights/brand bundle, privacy/data map, store SKU/contracts, migrations/rollback, test-access instructions і next action. Production publish потребує окремо чинного дозволу на external action; QA verdict не створює такий дозвіл.
+Include exact accepted source and build, sanitized evidence manifest, requirements matrix, per-platform status, known defects, store policy snapshot, rights and brand package, privacy and data map, store SKU and contracts, migrations and rollback, test access, and next action. Confirm current authorization for production publication separately from the QA verdict.
 
-## Learning transfer і різноманітність 4.0
+## Learning transfer and variation
 
-Для кожного суттєвого навченого вміння виділити teaching/practice/transfer tasks. Transfer — новий контекст із тією самою причинною логікою без повторної інструкції, якщо саме так спроєктовано гру. Фіксувати actual success/error/assistance/time й пояснення гравця; невдалий перенос повертати owner навчання/читабельності, а не переписувати як успіх за tutorial completion. Порогові значення визначати до тесту за ризиком і аудиторією, не нав’язувати універсальні секунди чи sample counts.
+For each material skill the game teaches, define teaching, practice, and transfer tasks. Transfer uses the same causal rule in a new context without repeating instruction when that is the intended design. Record actual success, errors, help, time, and the player's explanation. Route failed transfer to the onboarding or readability owner and record tutorial completion separately. Set thresholds in advance from the risk and audience.
 
-Для варіативності показати contexts із різними constraints і спостерігати фактичні рішення/контрдії/компроміси. Не підказувати бажаний build. Відрізняти доступність/вивченість опції від її сили. Для добровільного повернення запропонувати видимі цілі, записати actual вибір і пізніший візит за окремим longitudinal protocol; відсутні повторні візити не вигадувати.
+For variation, choose contexts with different constraints and observe actual choices, counters, and trade-offs. Avoid steering toward a preferred build. Separate awareness and availability of an option from its strength. For voluntary return, present visible goals, record the actual choice, and observe later visits using a longitudinal protocol. Record any visits that were not observed.
 
-## Failure, reorientation й допомога
+## Failure, reorientation, and assists
 
-Спостерігати, чи учасник розрізняє прочитане правило, доступну контрдію, recognition defect і помилку виконання; failure cause/recovery повинні давати наступний осмислений крок. Після реальної перерви перевірити goal/context/loadout reorientation без повтору всього tutorial.
+Observe whether participants can distinguish a rule they understood, an available counter, a recognition defect, and an execution mistake. Failure causes and recovery should give them a meaningful next step. After a real break, test whether they recover their goal, context, and loadout without replaying the whole tutorial.
 
-Assists мають явні semantics/scoring/persistence і compatibility;не припускати універсального позбавлення нагород за доступність. Paying/free participants оцінюють саме погоджену power/time/access policy;допустима перевага документується,а hidden baseline harm не підміняє монетизацію.
+Define assist behavior, scoring, persistence, and compatibility. Any change to rewards requires an explicit design rule. Paying and free participants assess the accepted power, time, and access policy. Document allowed advantages and test the free baseline for hidden harm.

@@ -1,37 +1,37 @@
-# Нативність, пристрої та performance
+# Native builds, devices, and performance
 
 ## Platform evidence
 
-Артефакт прив'язаний до source commit, baseline hash, toolchain/config і actual build log. Перевірити package/bundle ID, version/build, architectures, min/target OS, permissions/entitlements, signing status, SDK/native-library compatibility та artifact SHA. Не робити висновок з розширення файла.
+Bind the artifact to its source commit, baseline hash, toolchain and configuration, and actual build log. Inspect package or bundle ID, version and build, architectures, minimum and target OS, permissions and entitlements, signing status, SDK and native-library compatibility, and artifact SHA. Inspect the artifact itself.
 
-Android APK локально встановити й пройти launch/update smoke. AAB перевірити через derived splits або internal track; перевірити assets/ABI/language delivery. Android native libraries і page size перевіряти поточними SDK tools та відповідним device/emulator profile. iOS Simulator `.app`, archive і device-signed IPA/TestFlight мають окремі claims; Simulator не доводить haptics, thermal чи production renderer.
+Install the Android APK and smoke test first launch and update. Validate an AAB through derived splits or an internal track and check asset, ABI, and language delivery. Check Android native libraries and page size using current SDK tools and a relevant device or emulator profile. Record separate claims for an iOS Simulator `.app`, archive, and device-signed IPA or TestFlight. Use physical evidence for haptics, thermal behavior, and the production renderer.
 
-Офіційні live references: [Android App Bundle](https://developer.android.com/guide/app-bundle), [Android page sizes](https://developer.android.com/guide/practices/page-sizes), [Apple upcoming requirements](https://developer.apple.com/news/upcoming-requirements/). Store requirements recheck при release; QA snapshot має дату/URL/результат.
+Use current platform requirements for the release and record the date, URL, and result in the QA snapshot. [Android App Bundle](https://developer.android.com/guide/app-bundle) [Android page sizes](https://developer.android.com/guide/practices/page-sizes) [Apple upcoming requirements](https://developer.apple.com/news/upcoming-requirements/)
 
 ## Device matrix
 
-Для обраних платформ визначити lower/mid/high target tiers, OS range, phone/tablet лише якщо підтримується, aspect ratios/safe areas/notches, renderer/refresh-rate variations, storage/memory constraints. Кожний row має actual availability, build, test scenarios, result і remaining risk. Один flagship не закриває lower tier; emulator не позначати physical device.
+For selected platforms, define target low, mid, and high tiers, OS range, supported phone or tablet classes, aspect ratios, safe areas and notches, renderer and refresh-rate variants, and storage and memory constraints. For each row, record actual availability, build, test scenarios, result, and remaining risk. Validate lower tiers with representative observations. Label emulator and physical results separately.
 
-План не може обіцяти всі devices світу. Scope обґрунтувати support policy та representative risks. Якщо потрібен cloud device lab, вказати actual access/вартість; підписка Codex не означає включені device-lab хвилини.
+Derive coverage from the support policy and representative risks. If a cloud device lab is needed, verify actual access and cost separately from the Codex subscription.
 
-## Методика вимірювання
+## Measurement
 
-Фіксувати build quality tier, scenario/seed, duration, warm-up, battery/temperature state, power mode, network, refresh rate й profiler overhead. Міряти frame-time distribution/p95/p99 та hitch count, CPU/GPU bottleneck, peak/steady memory/allocations/leaks, startup/load time, battery/thermal behavior, network requests/latency та IO.
+Record build quality tier, scenario and seed, duration, warm-up, battery and thermal state, power mode, network, refresh rate, and profiler overhead. Measure frame-time distribution, p95, p99, and hitch count, CPU/GPU bottlenecks, peak and steady memory, allocations and leaks, startup and load time, battery and thermal effects, requests and latency, and I/O.
 
-Порівнювати із frozen budgets; averages недостатньо. Sustained representative gameplay достатньої тривалості визначається ризиком thermal/session design. Не вигадувати 60 FPS за коротким editor demo. Для audio перевірити latency/underruns/polyphony, для touch input-to-feedback — виміряти доступним методом із його похибкою.
+Compare against frozen budgets. Include tails and sustained representative gameplay long enough to cover the thermal and session risks. Claims such as 60 FPS need evidence from the required native scope. Measure audio latency, underruns, and polyphony and, for touch-to-feedback, record the measurement method and uncertainty.
 
-Worst-case scenes: максимальний accepted enemy/particle/audio count, stacked modifiers, long run/high collection state, content streaming, network retries, opening heavy UI, season/shop inventory, low storage, repeated resume. Перевірити graceful degradation без зникнення важливих telegraphs.
+Use representative worst cases, including the accepted maximum enemy, particle, and audio counts, stacked modifiers, a long run and large collection, streaming, retries, heavy UI, season and shop inventory, low storage, and repeated resumption. Verify graceful degradation and preservation of critical cues. Pin an independent trace and result for each required target profile. Report unavailable profiles with their evidence gap.
 
-## Lifecycle та interruptions
+## Lifecycle and interruption
 
-Pause/resume/kill, OS memory pressure, incoming call/audio focus, headphones/Bluetooth change, lock/unlock, notification/deep link, permissions denied/revoked, network airplane/slow/flaky switch, battery saver/thermal throttling, background purchase/reward callbacks. Progress/save/reward state має зберігати invariants і зрозумілий player recovery.
+Cover pause, resume, and process termination, OS memory pressure, calls and audio focus, wired and Bluetooth equipment changes, lock and unlock, notifications and deep links, denied and revoked permissions, airplane and slow or changing network, battery saver and thermal throttling, and background purchase or reward callbacks. Preserve progress, saves, and reward invariants with a clear recovery path for the player.
 
 ## Artifact lineage
 
-Raw profile/capture/log містить build hash/device/OS/time/procedure. Скріншот профайлера без trace може бути допоміжним; відсутній raw result не підміняти точними числами. Retest після optimization має порівнюваний scenario. Release binary відрізняється від profiled debug — провести релевантний release smoke та назвати вимірювальну різницю.
+Raw profiles, captures, and logs record build hash, device, OS, time, and procedure. A screenshot of the profiler can supplement its trace. Record missing raw measurements explicitly. Optimize and retest with a comparable scenario. Run the applicable smoke test on the exact release binary and disclose the differences from the profiled build.
 
-## Cold use, transition і adaptive quality
+## Cold use, transitions, and adaptive quality
 
-Профілювати cold install/cache/driver/first shader/effect/animation/audio/load окремо від warmrun. Вимір transition включає old+newscene overlap, decode/UI buffers, owner/lifetime/unload і повторніпереходи; filesize не RAM/VRAM. Для qualitycontroller перевірити threshold/hysteresis/cooldown івідсутність oscillation/втрати criticalcue/зміни physics.
+Profile first installation, cold caches and drivers, and first shader, effect, animation, sound, and loading separately from warm execution. Measure old and new scene overlap during transitions, decode and UI buffers, ownership and lifetime, unloading, and repeated transitions. Report file size, RAM, and VRAM separately. Verify threshold, hysteresis, and cooldown behavior for adaptive quality. Ensure the controller does not oscillate, lose critical cues, or change physics.
 
-Nativeadapterconformance виконуєтьсяпід signed release для neededcallbacks/lifecycle/account/cancel/errors. Input-to-present latency має namedmethod/errorbar;60FPS не гарантує one-frame response. Зіставити exactcrashsymbols з buildidentity й actualnetworkegress зі privacyclaims.
+Verify native adapter conformance on a signed release for required callbacks, lifecycle, accounts, cancellation, and errors. Measure input-to-present latency with a named method and uncertainty. Record frame rate separately. Match crash symbols to exact build identity and verify observed network egress against privacy claims.

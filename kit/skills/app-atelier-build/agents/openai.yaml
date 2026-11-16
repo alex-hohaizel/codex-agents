@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Реалізація · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-build до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Реалізація
+  short_description: "Build verified Android, iOS, and web app paths"
+  default_prompt: "Use $app-atelier-build to implement the accepted scope and verify it on the available target builds."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

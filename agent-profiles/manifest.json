@@ -1,6 +1,6 @@
 {
   "schema": "atelier.role-profiles/1",
-  "release": "6.1.0",
+  "release": "6.2.0",
   "roles": [
     {
       "file": "foundry-architecture.toml",
@@ -53,9 +53,10 @@
     },
     {
       "file": "foundry-privacy.toml",
-      "sha256": "583e5f3ca05974007d18ce8c12a8fa81999d1da0e8d41bbc13aeadc52c9122ab",
+      "sha256": "d377c5098988e3472d21fade0132f0424a9682bb35cbbafe5a7a65da9a51e557",
       "previous_sha256": [
-        "a388eb03d32ada6032d39f2bfcc84f01da6a6e33a8de9fd314d4206763fc3d84"
+        "a388eb03d32ada6032d39f2bfcc84f01da6a6e33a8de9fd314d4206763fc3d84",
+        "583e5f3ca05974007d18ce8c12a8fa81999d1da0e8d41bbc13aeadc52c9122ab"
       ]
     },
     {
@@ -67,9 +68,10 @@
     },
     {
       "file": "foundry-qa.toml",
-      "sha256": "2c0fd90e1f1550413e8acb3e2b0f91417c78e846eeebddcc4c93d55924a3965a",
+      "sha256": "232459f722a80d56a4c76c3bc41d7acf254cf2c905252646de296635aa504bbd",
       "previous_sha256": [
-        "b2dae52242c9d988d8bfd5dae4abe4674df93f054940a4bcd380d5c816f74c0e"
+        "b2dae52242c9d988d8bfd5dae4abe4674df93f054940a4bcd380d5c816f74c0e",
+        "2c0fd90e1f1550413e8acb3e2b0f91417c78e846eeebddcc4c93d55924a3965a"
       ]
     },
     {

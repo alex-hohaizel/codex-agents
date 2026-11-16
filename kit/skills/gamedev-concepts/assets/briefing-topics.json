@@ -4,17 +4,17 @@
   "common_topics": [
     {
       "id": "COMMON-INTENT",
-      "label": "Поточний намір і рівень результату",
-      "why": "Розрізняє бриф, відновлення, локальну зміну, виготовлення інструмента й виконання продукту.",
+      "label": "Current intent and outcome maturity",
+      "why": "Distinguishes briefing, resumption, local change, tool creation, and product execution.",
       "questions": [
-        "Що потрібно зараз: новий задум, продовження, уточнення, ремонт, оцінка чи зміна самого агента?",
-        "Який результат поточного етапу має бути готовий і де зупинитися?"
+        "What do you need now: a new concept, continuation, clarification, repair, evaluation, or a change to the agent?",
+        "What result is due at this stage, and where should work stop?"
       ],
       "decisions": [
-        "Режим роботи",
-        "Поточний етап і межа зупинки"
+        "Work mode",
+        "Current stage and stopping point"
       ],
-      "applies_when": "Завжди; відновити відповідь із фактичного запиту та чинного стану.",
+      "applies_when": "Always. Recover existing answers from the actual request and current state.",
       "downstream": [
         "director",
         "studio",
@@ -31,17 +31,17 @@
     },
     {
       "id": "COMMON-SOURCES",
-      "label": "Чинні джерела, рішення й успадкований контекст",
-      "why": "Захищає прийнятий задум і запобігає повторному опитуванню.",
+      "label": "Current sources, decisions, and inherited context",
+      "why": "Preserves accepted intent and avoids repeated questions.",
       "questions": [
-        "Який із наданих матеріалів є актуальним, якщо вони суперечать один одному?",
-        "Що вже прийнято і має зберегтися під час цього продовження?"
+        "Which supplied source is current if they conflict?",
+        "What has already been accepted and must survive this continuation?"
       ],
       "decisions": [
-        "Джерело істини і provenance",
-        "Чинні рішення, поправки та вплив змін"
+        "Authoritative source and provenance",
+        "Current decisions, amendments, and change impact"
       ],
-      "applies_when": "Завжди; спочатку прочитати доступні оригінали, стан, хеші й попередні відповіді.",
+      "applies_when": "Always. Read available originals, state, hashes, and prior answers first.",
       "downstream": [
         "director",
         "studio",
@@ -58,18 +58,18 @@
     },
     {
       "id": "COMMON-AUDIENCE",
-      "label": "Отримувач, реальна ситуація й користь",
-      "why": "Прив’язує результат до людини, задачі та спостережуваної зміни.",
+      "label": "Recipient, real context, and value",
+      "why": "Ties the result to a person, action, and observable improvement.",
       "questions": [
-        "Для кого і в якій реальній ситуації потрібен результат?",
-        "Як це робиться зараз і що саме має покращитися?",
-        "Хто користується, хто платить, хто керує й хто приймає результат?"
+        "Who needs the result and in what real situation?",
+        "How do they do this now and what should improve?",
+        "Who uses, pays for, operates, and accepts the result?"
       ],
       "decisions": [
-        "Цільові учасники й контекст",
-        "Спостережувана користь і baseline"
+        "Target participants and context",
+        "Observable benefit and baseline"
       ],
-      "applies_when": "Завжди; різні ролі уточнювати лише коли вони існують у задумі.",
+      "applies_when": "Always. Distinguish roles when they exist.",
       "downstream": [
         "director",
         "studio",
@@ -86,19 +86,19 @@
     },
     {
       "id": "COMMON-AMBITION",
-      "label": "Повний задум, запуск і перевірочний експеримент",
-      "why": "Зберігає амбіцію та відокремлює послідовність виробництва від скорочення мети.",
+      "label": "Complete target, launch, and trial",
+      "why": "Preserves ambition and distinguishes production sequence from a change in goal.",
       "questions": [
-        "Яким має бути повний прийнятий результат, коли він реалізований?",
-        "Що має входити до першого запуску, а що лише до окремого експерименту?",
-        "Які спрощення, заміни або втрати властивостей неприйнятні?"
+        "What does the complete accepted result look like?",
+        "What belongs in the first release and what belongs in a separate experiment?",
+        "Which simplifications, substitutions, or lost properties are unacceptable?"
       ],
       "decisions": [
-        "Повна ціль",
-        "Окремі launch/probe scope",
-        "Відхилені спрощення"
+        "Full goal",
+        "Separate launch and probe scope",
+        "Rejected simplifications"
       ],
-      "applies_when": "Завжди; не перетворювати обмежений тест на мовчазну заміну повної цілі.",
+      "applies_when": "Always. Keep the full goal visible alongside a bounded test.",
       "downstream": [
         "director",
         "studio",
@@ -115,19 +115,19 @@
     },
     {
       "id": "COMMON-PRIORITY",
-      "label": "Акценти, приклади й негативні приклади",
-      "why": "Перетворює слова про якість на предметні вимоги та ранні залежності.",
+      "label": "Priorities, examples, and counterexamples",
+      "why": "Turns quality expectations into domain requirements and dependencies.",
       "questions": [
-        "Що в цьому задумі найважливіше і чому?",
-        "Який конкретний приклад близький до бажаного результату та що саме в ньому підходить?",
-        "Який результат формально виконає завдання, але вас не влаштує?"
+        "What matters most in this idea, and why?",
+        "Which concrete example is close to the intended result and which features fit?",
+        "What would meet the wording but still be unacceptable?"
       ],
       "decisions": [
-        "Must і акценти",
-        "Критерії якості",
-        "Негативні приклади"
+        "Musts and priorities",
+        "Quality criteria",
+        "Counterexamples"
       ],
-      "applies_when": "Завжди; відомі приклади й акценти перенести дослівно з посиланням на джерело.",
+      "applies_when": "Always. Preserve exact examples and priorities with their sources.",
       "downstream": [
         "director",
         "studio",
@@ -144,19 +144,19 @@
     },
     {
       "id": "COMMON-CONSTRAINTS",
-      "label": "Межі, етапні результати й залежності",
-      "why": "Дає основу для плану без довільних часових або функціональних лімітів.",
+      "label": "Constraints, milestones, and dependencies",
+      "why": "Establishes real planning constraints.",
       "questions": [
-        "Які строки, залежні події та обов’язкові проміжні результати вже існують?",
-        "Які жорсткі умови, сумісність або зовнішні залежності не можна змінювати?",
-        "Які рішення ви делегуєте експертам, а які хочете обрати особисто?"
+        "Which deadlines, dependent events, and required interim results already exist?",
+        "Which hard requirements, compatibility constraints, or external dependencies must remain?",
+        "Which choices do you delegate and which do you want to make yourself?"
       ],
       "decisions": [
-        "Milestones і due gates",
-        "Жорсткі constraints",
-        "Межі делегування"
+        "Milestones and due gates",
+        "Hard constraints",
+        "Delegated decisions"
       ],
-      "applies_when": "Завжди; не встановлювати ліміти годин, платформ чи функцій за користувача.",
+      "applies_when": "Always. Use actual owner constraints for time, platforms, and features.",
       "downstream": [
         "director",
         "studio",
@@ -173,19 +173,19 @@
     },
     {
       "id": "COMMON-RESOURCES",
-      "label": "Бюджет, час, наявні ресурси й компроміси",
-      "why": "Погоджує здійсненний маршрут і реальну ціну якості.",
+      "label": "Budget, time, resources, and trade-offs",
+      "why": "Establishes a feasible route and the cost of quality.",
       "questions": [
-        "Які гроші, час, пристрої, підписки, матеріали й допомога вже доступні?",
-        "Які одноразові й регулярні витрати прийнятні та які потребують окремого рішення?",
-        "Як обираємо між обґрунтованими альтернативами, якщо бажана якість не вкладається у чинні ресурси?"
+        "Which budget, time, devices, subscriptions, assets, and help are already available?",
+        "Which one-time and recurring costs are accepted and which require a decision?",
+        "How should we choose if the desired quality exceeds current resources?"
       ],
       "decisions": [
-        "Ресурсні межі й spend scope",
-        "Одноразові та регулярні витрати",
-        "Погоджені компроміси або новий ресурс"
+        "Available resources and spend authority",
+        "One-time and ongoing costs",
+        "Accepted trade-off or new resource"
       ],
-      "applies_when": "Завжди; невідомі ціни перевіряти на момент прив’язки операції.",
+      "applies_when": "Always. Verify actual prices when binding an operation.",
       "downstream": [
         "director",
         "studio",
@@ -202,19 +202,19 @@
     },
     {
       "id": "COMMON-RIGHTS",
-      "label": "Матеріали, права й незмінні оригінали",
-      "why": "Дозволяє законно використовувати, змінювати та передавати конкретні матеріали.",
+      "label": "Materials, rights, and immutable originals",
+      "why": "Identifies legal use, editing, and transfer of actual materials.",
       "questions": [
-        "Які наявні тексти, дизайн, код, бренди, голоси чи інші матеріали потрібно використати?",
-        "Що дозволено змінювати, генерувати, публікувати й передавати, кому належать права?",
-        "Які оригінали або атрибуцію необхідно зберегти?"
+        "Which existing text, design, code, brands, voices, and other materials must be used?",
+        "What can be edited, generated, published, or transferred, and who owns the rights?",
+        "Which originals or attribution must be retained?"
       ],
       "decisions": [
-        "Права, ліцензії й attribution",
-        "Accepted originals і editable sources",
-        "Обмеження похідних матеріалів"
+        "Rights, licenses and attribution",
+        "Accepted originals and editable sources",
+        "Derivative restrictions"
       ],
-      "applies_when": "Коли є вхідні чи створювані матеріали; відсутній доказ права лишається окремою прогалиною.",
+      "applies_when": "When using or producing materials. Track missing evidence of rights separately.",
       "downstream": [
         "director",
         "studio",
@@ -231,19 +231,19 @@
     },
     {
       "id": "COMMON-DATA",
-      "label": "Дані, доступи, приватність і життєвий цикл",
-      "why": "Рано виявляє зміни архітектури через чутливість або збереження даних.",
+      "label": "Data, access, privacy, and lifecycle",
+      "why": "Identifies architecture constraints from sensitive or persistent data.",
       "questions": [
-        "Які дані потрібні, хто їх контролює і кому можна їх показувати?",
-        "Що потрібно пам’ятати, синхронізувати, експортувати або видаляти?",
-        "Які наслідки втрати, помилки чи відкликання доступу неприйнятні?"
+        "Which data is needed, who controls it, and who may access it?",
+        "What must be remembered, synchronized, exported, or deleted?",
+        "Which losses, errors, or revoked-access consequences are unacceptable?"
       ],
       "decisions": [
-        "Дані й межі довіри",
+        "Data and trust boundaries",
         "Retention/export/delete/recovery",
-        "Потрібні права доступу"
+        "Required access"
       ],
-      "applies_when": "Коли результат читає, створює чи зберігає дані; мінімальний контекст також оцінити на приватність.",
+      "applies_when": "When the result reads, produces, or stores data. Check privacy even for minimal context.",
       "downstream": [
         "director",
         "studio",
@@ -260,19 +260,19 @@
     },
     {
       "id": "COMMON-EFFECTS",
-      "label": "Зовнішні дії, ризик і участь власника",
-      "why": "Відокремлює підготовку від точного дозволеного зовнішнього наслідку.",
+      "label": "External actions, risk, and owner steps",
+      "why": "Separates preparation and authorized external effects.",
       "questions": [
-        "Які зовнішні дії входять до цього доручення: зміни акаунтів, повідомлення, публікація, платежі або запуск сервісу?",
-        "Які конкретні дії потребують вашої особистої участі чи окремого рішення?",
-        "Як зупинитися, відкотитися й перевірити результат після переривання?"
+        "Which external effects are authorized: account changes, messages, publication, payments, or service activation?",
+        "Which actions require your involvement or a separate decision?",
+        "How should work stop, revert, or check an interrupted result?"
       ],
       "decisions": [
-        "Точний scope повноважень",
-        "Людські кроки",
-        "Stop, rollback і reconcile"
+        "Exact action authority",
+        "Owner-only steps",
+        "Stop, rollback, and reconciliation"
       ],
-      "applies_when": "Коли можливі зовнішні дії; чинну точну згоду зберегти без повторного запиту.",
+      "applies_when": "When external actions are possible. Carry valid exact permission forward.",
       "downstream": [
         "director",
         "studio",
@@ -289,19 +289,19 @@
     },
     {
       "id": "COMMON-HOST",
-      "label": "Середовище, доступні можливості й передача",
-      "why": "Робить виконання та повернення результату фактично можливими.",
+      "label": "Environment, capability, and handoff",
+      "why": "Makes execution and return practical.",
       "questions": [
-        "Де результат має працювати, де ви ним керуєте й куди має повернутися пакет?",
-        "Які host, інструменти, акаунти та цільові пристрої вже перевірені?",
-        "Як передати роботу до іншого середовища і що має перевірити одержувач?"
+        "Where should this result run, where will you operate it, and where should outputs return?",
+        "Which hosts, tools, accounts, and target devices have been verified?",
+        "How should work transfer, and what must the receiver verify?"
       ],
       "decisions": [
-        "Фактичний capability map",
+        "Observed capability map",
         "Host/target/bridge",
-        "Launch і return acceptance"
+        "Launch and return acceptance"
       ],
-      "applies_when": "Коли потрібні інструменти, установка, виконання або передача; назва сервісу не доводить операційну доступність.",
+      "applies_when": "When tooling, installation, execution, or a transfer is needed. Check actual operations.",
       "downstream": [
         "director",
         "studio",
@@ -318,19 +318,19 @@
     },
     {
       "id": "COMMON-ACCEPTANCE",
-      "label": "Приймання, докази й незалежна перевірка",
-      "why": "Пояснює, що саме доводить завершення поточного етапу.",
+      "label": "Acceptance, evidence, and independence",
+      "why": "Specifies what establishes the stage outcome.",
       "questions": [
-        "Яку поведінку або артефакт ви перевірите, щоб прийняти результат?",
-        "Які помилки, граничні умови й ситуації відновлення потрібно показати?",
-        "Де потрібні незалежний експерт, реальний користувач, пристрій чи спостереження після запуску?"
+        "What behavior or artifact will you inspect to accept the result?",
+        "Which errors, boundaries and recovery cases must be shown?",
+        "Where do you need an independent expert, actual user, device, or post-launch observation?"
       ],
       "decisions": [
-        "Observable acceptance по must",
-        "Потрібна модальність доказів",
-        "Reviewer і неперевірені межі"
+        "Observable acceptance for each must",
+        "Required evidence type",
+        "Reviewer and coverage limits"
       ],
-      "applies_when": "Завжди; схема чи чекліст не замінюють предметну якість і фактичне використання.",
+      "applies_when": "Always. Check actual use and domain quality separately from schemas or checklists.",
       "downstream": [
         "director",
         "studio",
@@ -347,19 +347,19 @@
     },
     {
       "id": "COMMON-UNKNOWNS",
-      "label": "Невідомі, дослідження й майбутні рішення",
-      "why": "Закриває суттєві прогалини без примусу користувача вигадувати відповіді.",
+      "label": "Research, unknowns, and future decisions",
+      "why": "Resolves material gaps without requiring the owner to invent answers.",
       "questions": [
-        "Щодо яких рішень ви ще не знаєте відповіді і хочете дослідження та рекомендацію?",
-        "Які з досліджених варіантів найкраще відповідають вашим критеріям і чи приймаєте рекомендований варіант?",
-        "Які майбутні параметри можна уточнювати пізніше у визначених межах і до якого milestone?"
+        "Which choices need research and a recommendation?",
+        "Which researched option best matches your criteria, and do you accept the recommendation?",
+        "Which details can be decided later within bounds, and by what milestone?"
       ],
       "decisions": [
-        "Research tasks і рекомендовані альтернативи",
-        "Закриття material unknowns",
-        "Owner, baseline/range, due gate і reopen для deferred"
+        "Research tasks and recommended options",
+        "Closure of material unknowns",
+        "Owner, baseline or range, due gate and reopening trigger for deferrals"
       ],
-      "applies_when": "Завжди; перед погодженням сценарію виконання закрити всі застосовні матеріальні невідомі.",
+      "applies_when": "Always. Resolve applicable material unknowns before accepting the execution plan.",
       "downstream": [
         "director",
         "studio",
@@ -381,17 +381,17 @@
       "topics": [
         {
           "id": "game.director.product-arc",
-          "label": "Повна ігрова обіцянка",
-          "why": "Розрізняє повну гру, запусковий обсяг і перевірку ризику, щоб короткий зразок не визначив усе виробництво.",
+          "label": "Full game promise",
+          "why": "Separates the complete game, release scope, and risk probe.",
           "questions": [
-            "Ким має відчувати себе гравець, які рішення він приймає і що має відкритися з досвідом?",
-            "Яка повна цільова гра, що саме входить до першого випуску і яке окреме питання має перевірити найближча проба?"
+            "Who should players feel like, what decisions do they make, and what changes as they gain experience?",
+            "What is the full target game, what belongs in the first release, and what does the nearest probe test?"
           ],
           "decisions": [
-            "Обіцянка, стовпи і критерії відхилення",
-            "Окремі межі повної цілі, запуску та проби"
+            "Promise, pillars, and rejection criteria",
+            "Separate full target, launch and probe scopes"
           ],
-          "applies_when": "Для нового задуму, зміни амбіції або відновлення неповного опису.",
+          "applies_when": "For a new game, a change of ambition, or recovery of incomplete context.",
           "downstream": [
             "concepts",
             "preproduction",
@@ -403,17 +403,17 @@
         },
         {
           "id": "game.director.route-maturity",
-          "label": "Маршрут і зрілість пакета",
-          "why": "Підбирає потрібні залежності за фактичним станом без повторного запуску всього циклу.",
+          "label": "Route and maturity",
+          "why": "Selects the needed dependencies from actual state.",
           "questions": [
-            "Який потрібний результат зараз: пошук, вибір концепції, проєктування, готова гра, аудит, ремонт, випуск чи розвиток?",
-            "Які прийняті рішення, оригінали, код, збірки й докази вже існують і де лежить їхня чинна версія?"
+            "What is needed now: search, concept selection, design, built game, audit, repair, release, or operations?",
+            "Which accepted decisions, originals, code, builds, and evidence exist, and where are current versions?"
           ],
           "decisions": [
-            "Вхідний маршрут і фактичні upstream матеріали",
-            "Потрібна зрілість C0, C1 або T та межа поточного доручення"
+            "Entry route and actual upstream inputs",
+            "Required maturity C0, C1, or T and current scope"
           ],
-          "applies_when": "На вході та після зміни поточного завдання.",
+          "applies_when": "At intake and whenever the task changes.",
           "downstream": [
             "studio",
             "concepts",
@@ -429,17 +429,17 @@
         },
         {
           "id": "game.director.platform-experience",
-          "label": "Платформи і спосіб гри",
-          "why": "Камера, хват і пристрої впливають на правила та виробничий маршрут ще до вибору рушія.",
+          "label": "Platforms and play context",
+          "why": "Device, grip, and camera inform rules and feasibility before engine selection.",
           "questions": [
-            "На яких пристроях і в яких обставинах люди гратимуть; що вже остаточно обрано щодо орієнтації, керування та камери?",
-            "Які можливості й якість мають зберегтися на всіх обраних платформах, а які розбіжності припустимі?"
+            "On which devices and in what situation will people play, and which orientation, controls, or camera decisions are fixed?",
+            "Which features and quality must be consistent across platforms, and which differences are permitted?"
           ],
           "decisions": [
-            "Платформний обсяг, пристрої та сенсорні вимоги",
-            "Матеріальні обмеження камери, керування й паритету"
+            "Platform scope, devices, and sensory requirements",
+            "Material limits for camera, input, and parity"
           ],
-          "applies_when": "Якщо платформа або спосіб взаємодії впливають на доручений результат; відомі відповіді переносити з джерел.",
+          "applies_when": "When platform or input affects the authorized outcome. Reuse answered decisions.",
           "downstream": [
             "concepts",
             "preproduction",
@@ -453,17 +453,17 @@
         },
         {
           "id": "game.director.system-applicability",
-          "label": "Застосовність систем і ранні залежності",
-          "why": "Повна концепція потребує явного охоплення всіх релевантних систем, а не однакового набору механік у кожному жанрі.",
+          "label": "System applicability and early dependencies",
+          "why": "Derives relevant systems from the game.",
           "questions": [
-            "Які вже відомі обов’язкові або небажані системи: сюжет, бій, фізика, предмети, економіка, мережа, соціальна гра чи інші?",
-            "Які майбутні вимоги вже зараз змінять задум, джерела контенту, збереження або витрати?"
+            "Which systems are required or excluded, such as narrative, combat, physics, items, economy, networking, or shared play?",
+            "Which later requirements change the concept, content sources, saving, or cost now?"
           ],
           "decisions": [
-            "Реєстр застосовності TR01–TR20 з предметними причинами",
-            "Ранні питання з майбутніх етапів та їхні власники"
+            "TR01–TR20 applicability with domain rationale",
+            "Early downstream questions and owners"
           ],
-          "applies_when": "Для планування повної гри, зміни систем або перевірки прогалин; відсутній інструмент не є причиною N/A.",
+          "applies_when": "For full-game planning, system changes, or gap analysis. Missing tools remain blocked.",
           "downstream": [
             "concepts",
             "preproduction",
@@ -483,17 +483,17 @@
       "topics": [
         {
           "id": "game.studio.identity-continuity",
-          "label": "Ідентичність студії та спадкоємність",
-          "why": "Прийнятий майстер і його права мають пережити наступні етапи.",
+          "label": "Studio identity and continuity",
+          "why": "Carries the approved master and rights into later stages.",
           "questions": [
-            "Чи існує студія, назва, знак або прийнятий майстер; що з цього слід зберегти дослівно або в точних оригінальних файлах?",
-            "Яке відчуття має передавати студія та які приклади або небажані асоціації це пояснюють?"
+            "Does a studio name, mark, or accepted master already exist, and which wording or original bytes must be retained?",
+            "What should the studio evoke and which examples or unwanted associations explain that?"
           ],
           "decisions": [
-            "Нова чи чинна ідентичність",
-            "Незмінні майстри й допустимі зміни"
+            "New or existing identity",
+            "Immutable masters and permitted changes"
           ],
-          "applies_when": "Коли створюється, відновлюється або змінюється студія.",
+          "applies_when": "When creating, resuming, or changing the studio.",
           "downstream": [
             "concepts",
             "assets",
@@ -504,17 +504,17 @@
         },
         {
           "id": "game.studio.brand-sources",
-          "label": "Джерела та сімейство експорту",
-          "why": "Фінальний знак потребує відтворюваних джерел і потрібних носіїв.",
+          "label": "Brand sources and exports",
+          "why": "Produces reproducible sources and required placements.",
           "questions": [
-            "Де використовуватиметься ідентичність: іконки, магазин, гра, сайт, відео чи інші носії?",
-            "Які редаговані джерела, шрифти, звуковий знак і формати експорту вже є або потрібні?"
+            "Where will the identity appear: icons, store, game, site, video, or elsewhere?",
+            "Which editable sources, fonts, sonic mark, and export formats exist or are needed?"
           ],
           "decisions": [
-            "Носії та необхідні джерела й похідні",
-            "Правила розміру, читабельності й відтворення"
+            "Placements, sources, and derivatives",
+            "Size, legibility, and reproduction rules"
           ],
-          "applies_when": "Коли результат включає бренд або переносний студійний пакет.",
+          "applies_when": "When creating a brand or portable studio package.",
           "downstream": [
             "assets",
             "build",
@@ -525,17 +525,17 @@
         },
         {
           "id": "game.studio.public-legal-identity",
-          "label": "Публічна й юридична ідентичність",
-          "why": "Імена, контакти й ринки впливають на магазини, договори й облікові записи.",
+          "label": "Public and legal identity",
+          "why": "Names, contacts, and markets affect accounts and agreements.",
           "questions": [
-            "Яке ім’я видавця, публічні контакти та країни або ринки вже обрано?",
-            "Які юридичні, податкові чи платіжні реквізити підтверджує сам власник, а які дії дозволено підготувати або виконати?"
+            "What publisher name, public contacts, and countries or markets are chosen?",
+            "Which legal, tax, or payout confirmations must the owner do, and which actions are authorized for assistance?"
           ],
           "decisions": [
-            "Публічні та юридичні дані з окремими статусами",
-            "Власник особистих підтверджень"
+            "Separate public and legal facts and status",
+            "Owner of personal confirmations"
           ],
-          "applies_when": "Коли готуються реальні облікові записи, публікація, оплата або правовласність.",
+          "applies_when": "For actual account setup, publication, payment, or ownership.",
           "downstream": [
             "release",
             "liveops"
@@ -545,17 +545,17 @@
         },
         {
           "id": "game.studio.services-accounts",
-          "label": "Сервіси та облікові записи",
-          "why": "Наявність логотипу не доводить готовність магазинів, аналітики й підтримки.",
+          "label": "Services and accounts",
+          "why": "Tracks current store, analytics, and support readiness from evidence.",
           "questions": [
-            "Які магазини, аналітика, реклама, сховище та канал підтримки вже використовуються?",
-            "Хто володіє акаунтами, які доступи фактично є і які платні сервіси або налаштування дозволено?"
+            "Which stores, analytics, ads, storage, and support channels are already in use?",
+            "Who owns accounts, what access exists, and which costs or settings are authorized?"
           ],
           "decisions": [
-            "Реєстр сервісів і доступів",
-            "Дозволений setup та точні особисті кроки"
+            "Service and access inventory",
+            "Authorized setup and exact owner steps"
           ],
-          "applies_when": "Якщо сервіси потрібні обраному маршруту; мережу й платні підписки не додавати автоматично.",
+          "applies_when": "When needed for the selected route. Add network or paid services only within actual scope.",
           "downstream": [
             "preproduction",
             "build",
@@ -567,17 +567,17 @@
         },
         {
           "id": "game.studio.rights-ledger",
-          "label": "Права студійних матеріалів",
-          "why": "Права мають дозволяти заплановані продукти та передачу джерел.",
+          "label": "Studio rights ledger",
+          "why": "Checks each planned use and source transfer.",
           "questions": [
-            "Які матеріали належать власнику, надані партнерами або ліцензовані та чи є підтвердження умов?",
-            "Чи потрібні комерційне використання, редагування, передача вихідних файлів і повторне використання в інших іграх?"
+            "Which materials are owned, partner-supplied, or licensed, and what proves the terms?",
+            "Do we need commercial use, editing, source redistribution, or reuse in other games?"
           ],
           "decisions": [
-            "Реєстр прав і обмежень",
-            "Дозволені виробничі та дистрибуційні маршрути"
+            "Rights and restrictions",
+            "Permitted production and distribution routes"
           ],
-          "applies_when": "Для кожного зовнішнього знака, шрифту, аудіо, зображення або шаблону.",
+          "applies_when": "For each external mark, font, audio file, image, or template.",
           "downstream": [
             "concepts",
             "assets",
@@ -594,17 +594,17 @@
       "topics": [
         {
           "id": "game.concepts.audience-evidence",
-          "label": "Гравці, потреба й альтернативи",
-          "why": "Аудиторія та її реальні альтернативи визначають обіцянку й перевірку інтересу.",
+          "label": "Players, needs, and alternatives",
+          "why": "Audience and real alternatives determine the promise and how to test interest.",
           "questions": [
-            "Для яких реальних гравців і ситуацій обираємо гру; що вони вже люблять або покидають?",
-            "Які спостереження, відгуки чи дослідження існують, а що наразі лише наша гіпотеза?"
+            "Which players and situations are we targeting, and what do they already enjoy or abandon?",
+            "Which observations, feedback, or research exist, and what remains a hypothesis?"
           ],
           "decisions": [
-            "Сегменти та ігрові ситуації",
-            "Досліджувані альтернативи й прогалини доказів"
+            "Audiences and play situations",
+            "Alternatives and evidence gaps"
           ],
-          "applies_when": "Для нового пошуку або зміни цільової аудиторії.",
+          "applies_when": "For a new search or change in audience.",
           "downstream": [
             "preproduction",
             "qa",
@@ -616,17 +616,17 @@
         },
         {
           "id": "game.concepts.search-space",
-          "label": "Напрям і межі пошуку",
-          "why": "Кількість кандидатів і простір відмінностей мають походити з доручення.",
+          "label": "Search direction and limits",
+          "why": "The brief defines candidate count and meaningful diversity.",
           "questions": [
-            "Які жанри, фантазії, масштаби чи референси слід дослідити, а які відкинути з поясненням причини?",
-            "Який результат пошуку потрібен і за якою ознакою його завершимо; чи є вже кандидати, які варто продовжити?"
+            "Which genres, fantasies, scales, or references should we explore or exclude, and why?",
+            "What finishes the search, and which existing candidates merit continuation?"
           ],
           "decisions": [
-            "Скінченний обсяг пошуку й критерій зупинки",
-            "Осі різноманітності та прийняті фаворити"
+            "Finite search scope and stop rule",
+            "Axes of diversity and saved favorites"
           ],
-          "applies_when": "Коли доручено пошук, порівняння або продовження концепцій.",
+          "applies_when": "When searching, comparing, or continuing concepts.",
           "downstream": [
             "concepts",
             "preproduction"
@@ -636,17 +636,17 @@
         },
         {
           "id": "game.concepts.fantasy-action",
-          "label": "Фантазія та причинне ядро",
-          "why": "Гачок має перетворюватися на зрозумілі дії й різні рішення.",
+          "label": "Fantasy and causal core",
+          "why": "The premise must yield clear actions and different choices.",
           "questions": [
-            "Ким грає людина, що робить у звичайній ситуації та чому хоче зробити це ще раз?",
-            "Що змінюється в тій самій ситуації, якщо діяти зараз, пізніше, інакше або не діяти?"
+            "Who does the player portray, what do they do in an ordinary situation, and why would they do it again?",
+            "What changes if they act now, later, differently, or do nothing?"
           ],
           "decisions": [
-            "Головні дії, ставки й петлі взаємодій",
-            "Причинні приклади та критерії відхилення вузького демо"
+            "Core actions, stakes, and interaction loops",
+            "Causal examples and rejection criteria for a narrow demo"
           ],
-          "applies_when": "Для кожного кандидата; конкретний зміст виробляє експерт із прийнятих бажань.",
+          "applies_when": "For every candidate. Develop specific mechanics from accepted intent.",
           "downstream": [
             "preproduction",
             "build",
@@ -657,17 +657,17 @@
         },
         {
           "id": "game.concepts.mechanics-resources",
-          "label": "Взаємодії та контекстні ресурси",
-          "why": "Змістовна глибина виникає з наслідків правил, а не кількості систем.",
+          "label": "Interactions and contextual resources",
+          "why": "Depth comes from how rules change decisions.",
           "questions": [
-            "Які різні властивості, інструменти, матеріали або ресурси мають змінювати вибір гравця?",
-            "Де витрата одного ресурсу відкриває можливість, але позбавляє іншої; як гравець це бачить і відновлюється після помилки?"
+            "Which traits, tools, materials, or resources change player choices?",
+            "Where does using one resource open one opportunity and close another, and how does the player read and recover from that?"
           ],
           "decisions": [
-            "Сімейства механік і причинні цикли",
-            "Ролі ресурсів, обмеження й контрприклад універсальної стратегії"
+            "Mechanic families and causal loops",
+            "Resource roles, limits, and a counterexample to a universal strategy"
           ],
-          "applies_when": "Для кожної завершеної концепції; не нав’язує бій, інвентар чи валюту.",
+          "applies_when": "For every complete concept. Include combat, inventory, or currency only where relevant.",
           "downstream": [
             "preproduction",
             "assets",
@@ -679,17 +679,17 @@
         },
         {
           "id": "game.concepts.world-situations",
-          "label": "Світ, ситуації й новизна",
-          "why": "Простір і граматика ситуацій визначають різні рішення та виробничу місткість.",
+          "label": "World, situations, and novelty",
+          "why": "Topology and situation grammar shape choices and production capacity.",
           "questions": [
-            "Як влаштований світ і переміщення між ситуаціями; що в ньому змінюється через дії гравця?",
-            "Звідки беруться нові задачі: авторський контент, генерація чи їх поєднання, і що робить їх змістовно різними?"
+            "How does the world connect situations, and which parts change through play?",
+            "Where do new challenges come from, and what makes authored or generated situations meaningfully different?"
           ],
           "decisions": [
-            "Топологія, маршрутна й ситуаційна граматика",
-            "Новизна, авторські опори та launch capacity"
+            "Topology, routes, and situation grammar",
+            "Novelty, authored components, and launch capacity"
           ],
-          "applies_when": "Коли гра має простір, рівні, задачі, зустрічі або повторювані ситуації.",
+          "applies_when": "When the game has spaces, levels, challenges, encounters, or repeatable situations.",
           "downstream": [
             "preproduction",
             "assets",
@@ -702,17 +702,17 @@
         },
         {
           "id": "game.concepts.actors-risk",
-          "label": "Учасники, ризик і поразка",
-          "why": "Інші учасники та помилки мають створювати зрозумілу протидію й відновлення.",
+          "label": "Actors, risk, and failure",
+          "why": "The world and other actors should offer legible counters and recovery.",
           "questions": [
-            "Хто або що відповідає на дії гравця: суперники, союзники, фізичний світ, час чи інший механізм?",
-            "Як виглядають ризик, помилка, поразка й повторна спроба; що гравець зберігає або втрачає?"
+            "What responds to the player: rivals, allies, physics, time, or another mechanism?",
+            "What do risk, mistake, failure, and retry look like, and what does the player keep or lose?"
           ],
           "decisions": [
-            "Ролі учасників або предметний аналог протидії",
-            "Архітектура ризику, відмови та відновлення"
+            "Actor roles or equivalent counterplay",
+            "Risk, failure, and recovery architecture"
           ],
-          "applies_when": "Для кожного кандидата; AI й вороги умовні, але наслідки дій мають бути пояснені.",
+          "applies_when": "For each candidate. AI and enemies are optional. Explain action consequences.",
           "downstream": [
             "preproduction",
             "assets",
@@ -724,17 +724,17 @@
         },
         {
           "id": "game.concepts.progression-mastery",
-          "label": "Розвиток, майстерність і повернення",
-          "why": "Пізній досвід має змінювати можливості й розуміння знайомих задач.",
+          "label": "Progression, mastery, and returning",
+          "why": "Later play should change capability and understanding.",
           "questions": [
-            "Чим відрізняється перша гра, освоєна гра та тривале повернення?",
-            "Яка нова можливість змусить інакше розв’язати вже знайому задачу та навіщо повертатися після першого завершення?"
+            "How do first play, practiced play, and long-term return differ?",
+            "Which capability changes a familiar decision, and why return after the first completion?"
           ],
           "decisions": [
-            "Арка майстерності, unlocks і метарозвитку",
-            "Гіпотеза повторного проходження й кінцевий запусковий обсяг"
+            "Mastery, unlocks, and metagame arc",
+            "Replay hypothesis and finite launch scope"
           ],
-          "applies_when": "Для кожної завершеної концепції; кількість годин або upgrade-рівнів не задавати без підстав.",
+          "applies_when": "For every complete concept. Derive duration and upgrade counts from scope.",
           "downstream": [
             "preproduction",
             "build",
@@ -746,17 +746,17 @@
         },
         {
           "id": "game.concepts.control-grammar",
-          "label": "Повна граматика керування",
-          "why": "Зручність треба перевіряти на реальних одночасних намірах, а не на ліміті кнопок.",
+          "label": "Complete input grammar",
+          "why": "Ergonomics depends on real simultaneous intentions.",
           "questions": [
-            "Які наміри гравець виконує одночасно, послідовно, утриманням, наведенням або скасуванням?",
-            "Які хват, жести, точність, підтримані контролери й доступність відповідають цій грі; де найважчий пік навантаження?"
+            "Which intentions involve simultaneous, sequential, held, aimed, or cancelled actions?",
+            "Which grip, gestures, precision, controllers, and access options fit, and where is peak input load?"
           ],
           "decisions": [
-            "Намір → жест → дія, simultaneous load і cancel",
-            "Хват, орієнтація, доступність та план ергономічної проби"
+            "Intent, gestures, actions, simultaneous load and cancellation",
+            "Grip, orientation, access, and ergonomic test"
           ],
-          "applies_when": "Для кожного кандидата до ілюстрації; кількість пальців або кнопок не є універсальною межею.",
+          "applies_when": "For each candidate before illustration. Derive control and contact count from play.",
           "downstream": [
             "preproduction",
             "assets",
@@ -768,17 +768,17 @@
         },
         {
           "id": "game.concepts.camera-readability",
-          "label": "Камера й читабельність",
-          "why": "Ракурс і кадр змінюють простір дій, виробництво та сенс ілюстрації.",
+          "label": "Camera and readability",
+          "why": "Framing changes decisions, production, and the meaning of references.",
           "questions": [
-            "Що гравець мусить бачити до дії й під час її наслідку; яка камера та масштаб героя це забезпечують?",
-            "Як камера, HUD і важливі сигнали поводяться в нормальній, піковій і пізній ситуаціях?"
+            "What must the player see before and during actions, and what framing and subject scale support it?",
+            "How do camera, HUD and essential cues behave in ordinary, peak and late play?"
           ],
           "decisions": [
-            "Просторова й часово-поведінкова архітектура камери",
-            "Кадрування, HUD та читабельні стани"
+            "Spatial and temporal camera contract",
+            "Framing, HUD, and readable states"
           ],
-          "applies_when": "Для кожного візуального кандидата до зображень.",
+          "applies_when": "For each visual candidate before image generation.",
           "downstream": [
             "preproduction",
             "assets",
@@ -790,17 +790,17 @@
         },
         {
           "id": "game.concepts.creative-production",
-          "label": "Художня обіцянка й здійсненність",
-          "why": "Ілюстрація має відповідати доступному маршруту реальних джерел, руху та сцени.",
+          "label": "Artistic promise and feasible production",
+          "why": "Illustration needs a feasible path to actual sources, motion, and scene assembly.",
           "questions": [
-            "Які конкретні елементи стилю, руху, світла, матеріалів і звуку визначають бажане відчуття?",
-            "Які прийняті оригінали й негативні приклади вже є; що потрібно реально виготовити та перевірити до тиражування?"
+            "Which specific style, movement, light, materials, and sound define the experience?",
+            "Which accepted originals and counterexamples exist, and which production work needs early proof?"
           ],
           "decisions": [
-            "Художній напрям по елементах і станах",
-            "Доступний production profile та ризиковий representative slice"
+            "Art direction by element and state",
+            "Available production profile and risky representative slice"
           ],
-          "applies_when": "Для кожного кандидата з творчою обіцянкою; особливо до генерації та показу ілюстрацій.",
+          "applies_when": "For each candidate with a creative promise, especially before generating or showing imagery.",
           "downstream": [
             "preproduction",
             "assets",
@@ -812,17 +812,17 @@
         },
         {
           "id": "game.concepts.commerce-value",
-          "label": "Модель оплати й цінність покупки",
-          "why": "Доречна оплата випливає з цінності гри та повної безоплатної або базової арки.",
+          "label": "Pricing model and purchase value",
+          "why": "Commerce follows game value and a complete base path.",
           "questions": [
-            "Який досвід має залишатися повним у базовій версії й за що гравець міг би свідомо заплатити?",
-            "Які моделі оплати варто дослідити з урахуванням аудиторії; які небажані, зокрема реклама, підписка чи платна випадковість?"
+            "Which experience remains complete in the base game, and what extra value might players knowingly pay for?",
+            "Which models suit research for this audience, and which are excluded, including ads, subscriptions, or paid randomness?"
           ],
           "decisions": [
-            "Досліджувані моделі, включно з відсутністю додаткових продажів",
-            "Гіпотези цінності, free path і допустимого впливу оплати"
+            "Candidate models including no extra offers",
+            "Value hypotheses, free path, and allowed paid advantage"
           ],
-          "applies_when": "Для нового продукту або зміни монетизації; готову модель не нав’язувати.",
+          "applies_when": "For a new game or commerce change. Select its own suitable model.",
           "downstream": [
             "preproduction",
             "build",
@@ -835,17 +835,17 @@
         },
         {
           "id": "game.concepts.offer-consequence",
-          "label": "Покупка в тій самій ігровій ситуації",
-          "why": "Обіцянка покупки потребує зрозумілої альтернативи й сукупного ефекту.",
+          "label": "Purchased experience in the same gameplay context",
+          "why": "Checks the actual alternative and cumulative effects.",
           "questions": [
-            "Як базовий і придбаний досвід змінюють рішення, ритм, можливості та компроміси в одній ситуації?",
-            "Як гравець зрозуміє й спробує цінність; що станеться після кількох покупок або для людини без оплати?"
+            "How do baseline and purchased paths change decisions, pace, options, and trade-offs in the same situation?",
+            "How can players understand and try the value, and what happens after multiple purchases or with no purchase?"
           ],
           "decisions": [
-            "Порівняння paid/earned/no-offer та повторного використання",
-            "Межі сукупного доступу, сили й конкурентних умов"
+            "Paid, earned, and no-offer comparison and repeat use",
+            "Total access and power and competitive limits"
           ],
-          "applies_when": "Коли запропоновано покупки, рекламу з винагородою, підписку або платні розширення.",
+          "applies_when": "When proposing purchases, rewarded ads, subscriptions, or expansions.",
           "downstream": [
             "preproduction",
             "build",
@@ -858,17 +858,17 @@
         },
         {
           "id": "game.concepts.continuity-social",
-          "label": "Збереження, мережа й соціальний досвід",
-          "why": "Ідентичність та authority впливають на гру й витрати раніше за backend.",
+          "label": "Persistence, networking, and social play",
+          "why": "Identity and authority affect play and costs before backend selection.",
           "questions": [
-            "Що має зберігатися після виходу, зміни пристрою або тривалої перерви?",
-            "Чи потрібні гра без мережі, спільна гра, змагання, облікові записи або поширення, і яку конкретну користь вони дають?"
+            "What must survive exit, device change, or long absence?",
+            "Does the game need offline play, shared play, competition, accounts, or sharing, and what value does each add?"
           ],
           "decisions": [
-            "Модель продовження та умовний online/social scope",
-            "Ранні вимоги authority, приватності й сервісної вартості"
+            "Continuation model and conditional online/social scope",
+            "Early authority, privacy, and service cost"
           ],
-          "applies_when": "Для завершеної концепції; cloud, backend і соціальні функції лише за потребою.",
+          "applies_when": "For a complete concept. Add cloud, backend, and social capability only where needed.",
           "downstream": [
             "preproduction",
             "build",
@@ -881,17 +881,17 @@
         },
         {
           "id": "game.concepts.c1-selection-proof",
-          "label": "Завершеність C1 і вибір",
-          "why": "Вибір має спиратися на повний концепт і відомі ризики, а не лише красивий кадр.",
+          "label": "Complete C1 and concept selection",
+          "why": "Selection uses complete concepts and their actual risks.",
           "questions": [
-            "Які переваги й ризики мають визначити вибір і що може змусити відмовитися від кандидата?",
-            "Які питання потребують короткої перевірки до вибору, а які числові налаштування можна лишити з діапазоном, методом і строком уточнення?"
+            "Which strengths and risks determine selection, and what would disqualify a candidate?",
+            "What needs a small probe before selection, and which numeric settings can wait with range, method and due date?"
           ],
           "decisions": [
-            "C1 для кожного завершеного кандидата",
-            "План розрізнювальних проб і явний користувацький вибір"
+            "C1 for each completed candidate",
+            "Discriminating tests and actual owner choice"
           ],
-          "applies_when": "Перед поданням концепції як завершеної та перед переходом обраної гри у виробництво.",
+          "applies_when": "Before presenting a concept as complete or moving the selected game into production.",
           "downstream": [
             "preproduction",
             "assets",
@@ -908,17 +908,17 @@
       "topics": [
         {
           "id": "game.preproduction.production-scope",
-          "label": "Каталоги запуску й авторинг",
-          "why": "Виконавець повинен знати повний обсяг контенту або точну граматику його створення.",
+          "label": "Launch inventory and authoring",
+          "why": "Producers need the complete content scope or exact construction grammar.",
           "questions": [
-            "Які сімейства, варіанти, ситуації, режими й кінцівки входять до погодженого запуску?",
-            "Який контент створюється вручну, генерується або редагується після випуску; хто цим користуватиметься?"
+            "Which families, variants, situations, modes, and endings belong to launch?",
+            "Which content is authored, generated, or editable after release, and who will operate it?"
           ],
           "decisions": [
-            "Повний launch catalogue або grammar",
-            "Авторинг, ownership та межі майбутніх розширень"
+            "Complete launch catalogue or grammar",
+            "Authoring owners and expansion bounds"
           ],
-          "applies_when": "Перед виробничою передачею T.",
+          "applies_when": "Before the T production handoff.",
           "downstream": [
             "assets",
             "build",
@@ -930,17 +930,17 @@
         },
         {
           "id": "game.preproduction.typed-rules",
-          "label": "Правила, математика й час",
-          "why": "Типізовані правила виключають самовільне придумування поведінки під час реалізації.",
+          "label": "Rules, calculations, and time",
+          "why": "Typed rules settle behavior before implementation.",
           "questions": [
-            "Які правила, часові вікна, пріоритети, стани й взаємні впливи вже є прийнятими продуктовими рішеннями?",
-            "Для яких чисел експерт має визначити початкове значення, допустимий діапазон, метод налаштування та негативні приклади?"
+            "Which rules, time windows, priorities, states, and interactions are accepted?",
+            "Which parameters need an expert baseline, interval, tuning method, and counterexamples?"
           ],
           "decisions": [
-            "Typed behavior/state/RNG contracts, units і simulation order",
-            "Exact baseline, tolerances та fixtures для T"
+            "Typed behavior, state, RNG, units, and simulation order",
+            "Exact baseline, tolerances, and T fixtures"
           ],
-          "applies_when": "Для всіх активних правил; числову техніку делегувати, матеріальну зміну задуму погодити.",
+          "applies_when": "For all active rules. Delegate technical details and bring material design changes to the owner.",
           "downstream": [
             "assets",
             "build",
@@ -951,17 +951,17 @@
         },
         {
           "id": "game.preproduction.physics-contact",
-          "label": "Фізика, контакт і відгук",
-          "why": "Рух і контакт потребують визначених одиниць, solver mapping і відчутного результату.",
+          "label": "Physics, contact, and feedback",
+          "why": "Motion and contact need units, solver mapping, and observable effects.",
           "questions": [
-            "Яке фізичне відчуття потрібне для руху, зіткнень, ваги, поверхонь, руйнування або керування об’єктом?",
-            "Де симуляція, авторська анімація чи їх поєднання визначають результат, і які ризикові контакти треба перевірити в ранній сцені?"
+            "What should motion, collisions, mass, surfaces, breakage, or manipulation feel like?",
+            "Where do simulation and authored motion determine behavior, and which risky contacts need an early scene?"
           ],
           "decisions": [
             "Body/collider/material/joint/contact architecture",
-            "Fixed tick, contact adapter, crash policy та representative fixtures"
+            "Fixed tick, contact adapter, crash behavior, and representative fixtures"
           ],
-          "applies_when": "Коли фізичні взаємодії або кінематичний рух впливають на рішення чи відчуття.",
+          "applies_when": "When physics or kinematic movement affects decisions or feel.",
           "downstream": [
             "assets",
             "build",
@@ -972,17 +972,17 @@
         },
         {
           "id": "game.preproduction.damage-failure",
-          "label": "Пошкодження, відмова й відновлення",
-          "why": "Результат контакту, пошкодження та життєвий цикл сутності є окремими правилами.",
+          "label": "Damage, failure, and recovery",
+          "why": "Separates contact, damage, and lifecycle rules.",
           "questions": [
-            "Які події спричиняють шкоду, несправність, смерть, втрату або завершення та як гравець їх передбачає?",
-            "Які захисти, повторні контакти, одночасні події, відновлення та винятки змінюють результат?"
+            "Which events cause damage, malfunction, death, loss or completion, and how does the player anticipate them?",
+            "Which defenses, repeated contacts, simultaneous events, recovery, and exceptions change outcomes?"
           ],
           "decisions": [
-            "Resolution pipeline і lifecycle priority",
-            "Failure/retry/recovery contracts та граничні приклади"
+            "Resolver and lifecycle priority",
+            "Failure, retry, recovery, and boundaries"
           ],
-          "applies_when": "Коли гра має пошкодження, аварію, програш або іншу відмову; не нав’язує HP.",
+          "applies_when": "When damage, crash, defeat, or other failure applies. Use HP only where suitable.",
           "downstream": [
             "assets",
             "build",
@@ -993,17 +993,17 @@
         },
         {
           "id": "game.preproduction.abilities-compatibility",
-          "label": "Можливості, спорядження й сумісність",
-          "why": "Каталог має створювати відмінні стратегії та правила композиції.",
+          "label": "Abilities, equipment, and compatibility",
+          "why": "Defines distinct strategies and valid compositions.",
           "questions": [
-            "Які сімейства можливостей і їхні властивості дають різні способи дії?",
-            "Які слоти, конфлікти, взаємні підсилення, обмеження й реальні нагоди застосування визначають сумісність?"
+            "Which ability families and properties create different approaches?",
+            "Which slots, conflicts, synergies, limits, and realistic opportunities govern compatibility?"
           ],
           "decisions": [
-            "Повні family/compatibility/catalog contracts",
-            "Сценарії альтернативних стратегій і dominance counterexample"
+            "Complete families, catalogue, and compatibility",
+            "Alternate strategies and dominance counterexample"
           ],
-          "applies_when": "Коли гра має здібності, інструменти, машини, предмети, builds або їхні предметні аналоги.",
+          "applies_when": "When abilities, tools, vehicles, items, builds, or equivalent mechanics apply.",
           "downstream": [
             "assets",
             "build",
@@ -1015,17 +1015,17 @@
         },
         {
           "id": "game.preproduction.world-generation",
-          "label": "Світ і генерація ситуацій",
-          "why": "Новизна має зберігати розв’язність, ритм і змістовні відмінності.",
+          "label": "World and situation generation",
+          "why": "Preserves solvability, pacing, and meaningful novelty.",
           "questions": [
-            "Які місця, переходи, маршрути й стійкі наслідки має містити світ?",
-            "Як визначаємо законність і різницю ситуацій; що робить генератор, коли немає придатного результату?"
+            "Which places, transitions, routes, and persistent consequences belong to the world?",
+            "What sets legality and novelty, and what happens after generation fails?"
           ],
           "decisions": [
-            "Топологія й authored/generator contracts",
-            "Constraints, RNG/version, repair/fallback та novelty signature"
+            "Topology and authored or generated content",
+            "Constraints, RNG version, repair and fallback, novelty signature"
           ],
-          "applies_when": "Для світу, рівнів, процедурних задач, encounter-послідовностей або іншої граматики контенту.",
+          "applies_when": "For worlds, levels, procedural challenges, encounters, or other content grammar.",
           "downstream": [
             "assets",
             "build",
@@ -1037,17 +1037,17 @@
         },
         {
           "id": "game.preproduction.actors-ai",
-          "label": "Учасники, сприйняття й AI",
-          "why": "AI має діяти з обмеженого знання та давати гравцеві читабельну протидію.",
+          "label": "Actors, perception, and AI",
+          "why": "Limits AI knowledge and establishes visible counterplay.",
           "questions": [
-            "Що бачить, пам’ятає й знає кожний тип учасника та що він може зробити у відповідь?",
-            "Як відрізняються ролі, фази, навігація, координація й помилки; які дії гравця мають змінювати рішення AI?"
+            "What can each actor sense, remember, and do in response?",
+            "How do roles, phases, movement, coordination, and errors differ, and which player actions change AI choices?"
           ],
           "decisions": [
             "Actor/knowledge/action/decision/navigation contracts",
-            "Encounter/boss state machines та counterplay fixtures"
+            "Encounter and boss state, counterplay fixtures"
           ],
-          "applies_when": "Коли є керовані системою учасники; відсутність ворогів не вимагає додавати їх.",
+          "applies_when": "When system-controlled actors exist. Add opponents only if required.",
           "downstream": [
             "assets",
             "build",
@@ -1058,17 +1058,17 @@
         },
         {
           "id": "game.preproduction.lore-narrative",
-          "label": "Лор, знання й сюжетні наслідки",
-          "why": "Наратив потребує канону, умов і пам’яті про рішення.",
+          "label": "Lore, knowledge, and story consequences",
+          "why": "Tracks canon, conditions, and history of decisions.",
           "questions": [
-            "Який канон, персонажі, фракції, знання й теми мають впливати на гру?",
-            "Як дії змінюють квести, діалоги, реакції світу та відомості персонажів, і що має пережити збереження?"
+            "Which canon, characters, factions, knowledge, and themes affect play?",
+            "How do actions change quests, dialogue, world reactions, and character knowledge, and what persists?"
           ],
           "decisions": [
-            "Канон, сюжетні графи й authored texts",
-            "Conditions/effects/knowledge і narrative persistence"
+            "Canon, story graphs, authored text",
+            "Conditions, effects, knowledge, and persistence"
           ],
-          "applies_when": "Коли сюжет, діалоги, квести або реактивний лор входять до задуму.",
+          "applies_when": "When story, dialogue, quests, or reactive lore applies.",
           "downstream": [
             "assets",
             "build",
@@ -1080,17 +1080,17 @@
         },
         {
           "id": "game.preproduction.progression-rewards",
-          "label": "Розвиток і винагороди",
-          "why": "Відкриття повинні мати нагоду застосування, темп і наслідки.",
+          "label": "Progression and rewards",
+          "why": "Connects unlocks to actual use, pace, and consequence.",
           "questions": [
-            "Які передумови відкриттів, тимчасові й постійні зміни та межі спеціалізації?",
-            "За що й коли надаються винагороди, де їх застосувати та що відбувається з дублікатами, лімітами або невдалим наданням?"
+            "Which prerequisites, temporary or permanent changes, and specialization limits apply?",
+            "When are rewards granted, where can they be used, and what happens with duplicates, limits, or a failed grant?"
           ],
           "decisions": [
             "Unlock/opportunity/reward contracts",
-            "Exact curves, grant semantics і сценарії early/mid/late/return"
+            "Curves, grant behavior, early/mid/late and return examples"
           ],
-          "applies_when": "Коли гра має розвиток, винагороди, колекції або повторне проходження.",
+          "applies_when": "When progression, rewards, collections, or replay applies.",
           "downstream": [
             "assets",
             "build",
@@ -1102,17 +1102,17 @@
         },
         {
           "id": "game.preproduction.economy-offers",
-          "label": "Економіка й повна модель пропозицій",
-          "why": "Ціни, ресурси та права мають узгоджуватися з реальною ігровою цінністю.",
+          "label": "Economy and complete offers",
+          "why": "Aligns prices, resources, entitlements, and actual value.",
           "questions": [
-            "Які джерела, витрати, обміни, ліміти, строк дії й частота пропозицій потрібні обраній моделі?",
-            "Як змінюються час до мети, доступ і сила для різних earned/paid портфелів та що робить покупку зрозумілою?"
+            "Which sources and sinks, exchange, limits, expiration, and offer frequency fit this model?",
+            "How do time to goal, access, and strength differ for earned and paid portfolios, and how is the purchase understood?"
           ],
           "decisions": [
-            "Economy/commerce contracts і cumulative-effect model",
-            "Exact offer value, trial, eligibility, ownership, expiry та no-offer fixtures"
+            "Economy, commerce, and cumulative effects",
+            "Offer value, trial, eligibility, ownership, expiry, no-offer fixtures"
           ],
-          "applies_when": "Якщо активні ресурси, продажі, реклама з винагородою чи платні права.",
+          "applies_when": "When resources, sales, rewarded ads, or paid rights apply.",
           "downstream": [
             "assets",
             "build",
@@ -1125,17 +1125,17 @@
         },
         {
           "id": "game.preproduction.input-camera-contract",
-          "label": "Розпізнавання input і політика камери",
-          "why": "Повний контракт розділяє намір, розпізнавання, дію та показ.",
+          "label": "Input recognition and camera policy",
+          "why": "Separates intent, recognition, action, and presentation.",
           "questions": [
-            "Як кожний намір розпізнається в різних станах, при одночасних жестах, втраті фокуса, скасуванні або перехопленні UI?",
-            "Хто володіє кожним дотиком і запитом камери; як арбітруються стеження, приціл, ручна зміна та постановочні події?"
+            "How do different states, concurrent gestures, focus loss, cancellation, and UI capture recognize each intent?",
+            "Who owns each touch and camera request, and how do tracking, aim, manual input, and scripted shots arbitrate?"
           ],
           "decisions": [
             "Intent/recognizer/pointer/action/presentation contracts",
-            "Camera arbitration, cancel, accessibility та peak-load cases"
+            "Camera arbitration, cancellation, accessibility, peak-load cases"
           ],
-          "applies_when": "Для обраної гри до реалізації керування й production UI.",
+          "applies_when": "For the selected game before implementation of controls and production UI.",
           "downstream": [
             "assets",
             "build",
@@ -1146,17 +1146,17 @@
         },
         {
           "id": "game.preproduction.journey-learning",
-          "label": "Повний шлях, навчання й доступність",
-          "why": "Ігровий екран не покриває запуск, помилки, перерви та повернення.",
+          "label": "Complete journey, learning, and accessibility",
+          "why": "Covers first use, errors, interruptions, and resumption.",
           "questions": [
-            "Як гравець проходить перший запуск, навчання, звичайну сесію, помилку, вихід і повернення?",
-            "Які налаштування, локалізації, читабельність, асисти, зменшений рух і альтернативи звуку або haptics потрібні?"
+            "How do players move through first launch, learning, ordinary sessions, failure, exit, and return?",
+            "Which settings, locales, legibility, assists, reduced motion, and alternatives to sound or haptics matter?"
           ],
           "decisions": [
-            "Screen/state/transition atlas та contextual learning",
-            "Predictive/confirmatory/error/recovery cues й accessibility contracts"
+            "Screens, states, transitions, and learning context",
+            "Predictive, confirmation, error, recovery, and access cues"
           ],
-          "applies_when": "Для кожної обраної гри; приховані системи й меню включати за фактичним обсягом.",
+          "applies_when": "For every selected game. Include interface and system states actually in scope.",
           "downstream": [
             "assets",
             "build",
@@ -1168,17 +1168,17 @@
         },
         {
           "id": "game.preproduction.sensory-construction",
-          "label": "Зображення, рух, музика й тактильність",
-          "why": "Творчий target має бути розкладений на реальні джерела, події та збірку.",
+          "label": "Visual, motion, music, and haptic production",
+          "why": "Translates the reference into sources, events, and assembly.",
           "questions": [
-            "Які форми, матеріали, світло, rig/кліпи, VFX, музичні фрази, SFX і haptics потрібні для кожного важливого стану?",
-            "Як забезпечимо узгодженість дії, контакту й багатоканального відгуку без втрати важливої інформації при вимкнених каналах?"
+            "Which forms, materials, lights, rigs or clips, effects, music, sounds, and haptics support each major state?",
+            "How do action, contact, and multimodal feedback stay consistent and informative with channels off?"
           ],
           "decisions": [
-            "Art/audio/motion/haptic construction contracts і finite inventory",
-            "Source→export→import→scene recipes та parity tolerances"
+            "Creative production contracts and finite inventory",
+            "Source, export, import, and scene recipes with parity tolerances"
           ],
-          "applies_when": "Для всіх потрібних творчих модальностей обраної гри.",
+          "applies_when": "For all required creative media in the selected game.",
           "downstream": [
             "assets",
             "build",
@@ -1189,17 +1189,17 @@
         },
         {
           "id": "game.preproduction.save-authority",
-          "label": "Стан, authority й продовження",
-          "why": "Покупки, розвиток і світ потребують явних меж збереження та відновлення.",
+          "label": "State, authority, and continuation",
+          "why": "Sets durable boundaries for purchases, progression, and world.",
           "questions": [
-            "Які стани є тривалими, відновлюваними, тимчасовими, кешем або секретами; коли гравцеві можна підтвердити винагороду чи витрату?",
-            "Як гра поводиться без мережі, після crash, зміни часу, конфлікту пристроїв, оновлення схеми або видалення акаунта?"
+            "Which states are durable, reconstructible, transient, cached, or secret, and when can a reward or spend be confirmed?",
+            "What happens offline, after crashes, clock changes, device conflicts, schema upgrades, or account deletion?"
           ],
           "decisions": [
-            "State catalogue, simulation/durable boundaries і consistency groups",
+            "State catalogue, simulation and durable boundaries, consistency groups",
             "Restore/merge/migration/RNG/time/cloud contracts"
           ],
-          "applies_when": "Для будь-якого змінного стану; cloud та акаунти лише коли обрані.",
+          "applies_when": "For mutable state. Cloud and accounts apply only if selected.",
           "downstream": [
             "build",
             "qa",
@@ -1211,17 +1211,17 @@
         },
         {
           "id": "game.preproduction.engine-native-budgets",
-          "label": "Рушій, нативний маршрут і бюджети",
-          "why": "Архітектура має відповідати прийнятим платформам і творчій якості.",
+          "label": "Engine, native path, and budgets",
+          "why": "Matches architecture to the accepted platforms and craft.",
           "questions": [
-            "Які фактично доступні рушії, SDK, хости, пристрої й виробничі інструменти відповідають цільовій грі?",
-            "Які FPS, frame pacing, memory, thermal, battery, loading та download budgets потрібні й як перевірити їх на representative slice?"
+            "Which actual engines, SDKs, hosts, devices, and production tools meet the target?",
+            "Which frame rate and pacing, memory, heat, power, loading, and download budgets should the representative slice verify?"
           ],
           "decisions": [
-            "Досліджені альтернативи та engine/renderer ADR",
-            "Pinned toolchain, device matrix і вимірювані бюджети"
+            "Researched alternatives and engine or renderer decision",
+            "Pinned toolchain, devices, and measured budgets"
           ],
-          "applies_when": "Перед технічним вибором і витратним виробництвом; матеріальний компроміс якості вирішує власник.",
+          "applies_when": "Before technical choice and costly production. Bring material quality trade-offs to the owner.",
           "downstream": [
             "assets",
             "build",
@@ -1233,17 +1233,17 @@
         },
         {
           "id": "game.preproduction.privacy-network",
-          "label": "Дані, безпека й умовна мережа",
-          "why": "Мережеві та зовнішні компоненти змінюють authority, приватність і експлуатацію.",
+          "label": "Data, security, and conditional networking",
+          "why": "External and network components change authority, privacy, and operations.",
           "questions": [
-            "Яку конкретну користь дає кожний SDK, акаунт, сервер, соціальна або multiplayer функція?",
-            "Які дані, дозволи, ризики зловживань, вікові обмеження й зовнішні витрати вони створюють?"
+            "What specific value do each SDK, account, server, social or multiplayer feature add?",
+            "What data, rights, abuse risk, age limits, and external costs result?"
           ],
           "decisions": [
             "Data inventory, consent/auth/security scope",
-            "Умовні network/platform contracts і operational owners"
+            "Conditional network and platform contracts and operating owners"
           ],
-          "applies_when": "Коли обрано мережу, зовнішні SDK, акаунти, рекламу або збір даних.",
+          "applies_when": "When networking, external SDKs, accounts, ads, or data collection applies.",
           "downstream": [
             "build",
             "qa",
@@ -1255,17 +1255,17 @@
         },
         {
           "id": "game.preproduction.t-handoff-oracles",
-          "label": "Передача T і план доказів",
-          "why": "Повна передача не повинна залишати прихованих продуктових рішень виконавцеві.",
+          "label": "T handoff and evidence plan",
+          "why": "Settles material product choices before dependent production.",
           "questions": [
-            "Які сценарії, граничні й негативні приклади доведуть кожну важливу обіцянку?",
-            "Що має бути точним до реалізації, яку пробу виконаємо першою та які докази належать пізнішим пристроям або людям?"
+            "Which scenarios, boundaries, and counterexamples verify important promises?",
+            "What must be exact before implementation, which probe runs first, and which device or human proof comes later?"
           ],
           "decisions": [
-            "Споживаний без історії чату T package",
-            "Oracles, DAG, owners, due proof та tuning envelopes"
+            "T package usable without chat history",
+            "Oracles, dependencies, owners, due proof, and tuning limits"
           ],
-          "applies_when": "Перед реалізацією погодженого обсягу або його матеріально змінених залежностей.",
+          "applies_when": "Before implementing accepted scope or its materially affected dependencies.",
           "downstream": [
             "assets",
             "build",
@@ -1282,17 +1282,17 @@
       "topics": [
         {
           "id": "game.assets.inventory-lineage",
-          "label": "Повнота інвентарю та lineage",
-          "why": "Потрібні всі погоджені категорії, стани й варіанти, а не довільні зразки.",
+          "label": "Asset coverage and lineage",
+          "why": "Covers approved categories, states, and variants.",
           "questions": [
-            "Які exact master revisions та accepted originals є джерелом кожного елемента?",
-            "Які персонажі, предмети, середовища, UI, стани, ракурси, локалі й варіанти потрібні за чинним інвентарем?"
+            "Which exact master revisions and accepted originals govern each item?",
+            "Which characters, items, spaces, UI, states, views, locales, and variants does the accepted inventory require?"
           ],
           "decisions": [
-            "Каталог actual source/export/import IDs і hashes",
-            "Повний знаменник охоплення та відкриті item blockers"
+            "Source, export, and import IDs and hashes",
+            "Full denominator and remaining item blockers"
           ],
-          "applies_when": "Для кожного виробничого пакета асетів.",
+          "applies_when": "For each production asset package.",
           "downstream": [
             "build",
             "qa",
@@ -1303,17 +1303,17 @@
         },
         {
           "id": "game.assets.source-craft",
-          "label": "Редаговані джерела й виробничий маршрут",
-          "why": "Зображення саме по собі не замінює mesh, rig, вектор чи музичний проєкт.",
+          "label": "Editable sources and production path",
+          "why": "Required mesh, rig, vectors, and music projects need their own source.",
           "questions": [
-            "Який реальний формат джерела потрібен споживачеві та які інструменти дають прийняту якість?",
-            "Які невідомі ракурси, конструкція, rig або матеріали потребують нового творчого рішення?"
+            "What actual source format does the consumer need, and which tools deliver the accepted quality?",
+            "Which missing views, construction, rigging, or materials need a material creative decision?"
           ],
           "decisions": [
-            "Source/export recipes і редагованість",
-            "Матеріальні невідомі деталі та їх погодження"
+            "Editable source and export recipes",
+            "Material unknowns and decisions"
           ],
-          "applies_when": "Коли виготовляються або ремонтуються творчі джерела.",
+          "applies_when": "When making or repairing creative sources.",
           "downstream": [
             "build",
             "qa"
@@ -1323,17 +1323,17 @@
         },
         {
           "id": "game.assets.motion-contact",
-          "label": "Анімація, rig і контакт",
-          "why": "Рух має відповідати правилам, колізіям та образу.",
+          "label": "Motion, rig, and contact",
+          "why": "Movement must conform to mechanics, collision, and identity.",
           "questions": [
-            "Які кліпи, стани, переходи, blends, IK, constraints і події потрібні для дії та відновлення?",
-            "Як перевіримо опору, хват, вагу, зіткнення й силуэт у русі та з ігрової камери?"
+            "Which clips, states and transitions, blends, IK and constraints, and events support action and recovery?",
+            "How will we check support, grip, weight, collision, and moving silhouette from the gameplay camera?"
           ],
           "decisions": [
             "Rig/motion/event/import package",
-            "Motion/contact inspection та parity findings"
+            "Motion, contact, and parity observations"
           ],
-          "applies_when": "Для анімованих учасників, машин, предметів, середовища або UI.",
+          "applies_when": "For animated actors, vehicles, items, environment, or UI.",
           "downstream": [
             "build",
             "qa"
@@ -1343,17 +1343,17 @@
         },
         {
           "id": "game.assets.audio-music",
-          "label": "Музика, звук і контекстне слухання",
-          "why": "Файли повинні звучати як задуманий повний аудіодосвід у потрібних станах.",
+          "label": "Music, sound, and in-context listening",
+          "why": "Reviews the complete intended audio experience in applicable states.",
           "questions": [
-            "Які музичні фрази, loops, transitions, stems, ambience, voices та SFX потрібні за event matrix?",
-            "Де й ким перевіряються фактичне звучання, шви, динаміка, пріоритети, синхронізація й приглушення?"
+            "Which phrases, loops, transitions, stems, ambience, voices, and effects does the event matrix require?",
+            "Who will listen, where, and how will they check seams, dynamics, priority, synchronization, and ducking?"
           ],
           "decisions": [
             "Actual music/SFX/session/export package",
-            "Контекстне слухання, mix та quality findings"
+            "Contextual audition, mix and quality findings"
           ],
-          "applies_when": "Коли аудіо входить до погодженого досвіду; брак інструмента є blocker.",
+          "applies_when": "When audio is in scope. Missing tools are a blocker.",
           "downstream": [
             "build",
             "qa"
@@ -1363,17 +1363,17 @@
         },
         {
           "id": "game.assets.feedback-accessibility",
-          "label": "VFX, UI й haptics без втрати змісту",
-          "why": "Інформація має лишатися доступною за різних налаштувань.",
+          "label": "Accessible VFX, interface, and haptics",
+          "why": "Keeps information available across settings.",
           "questions": [
-            "Які cue, HUD, typography, safe areas та localized states потрібні в нормальних і пікових сценах?",
-            "Як важлива подія залишається зрозумілою без кольору, звуку, вібрації або з reduced motion?"
+            "Which cues, HUD, typography, safe areas, and locale states are required in ordinary and peak scenes?",
+            "How does an essential event remain readable without color, sound, vibration, or with reduced motion?"
           ],
           "decisions": [
             "Multimodal/UI/accessibility asset package",
-            "Haptic event profile і alternatives"
+            "Haptic profiles and alternatives"
           ],
-          "applies_when": "Для всіх інформаційних творчих каналів.",
+          "applies_when": "For every creative channel conveying information.",
           "downstream": [
             "build",
             "qa"
@@ -1383,17 +1383,17 @@
         },
         {
           "id": "game.assets.native-slice",
-          "label": "Збірка сцени й representative slice",
-          "why": "Source→export→native proof потрібен до масового тиражування.",
+          "label": "Scene assembly and representative slice",
+          "why": "Requires a real path from source through export to native runtime before scaling.",
           "questions": [
-            "Яка сцена представляє найважливіший рух, контакт, камеру, HUD, звук і пікове навантаження?",
-            "Які exact imports, settings, budgets і порівняння з оригіналом визначають приймання цієї сцени?"
+            "Which scene represents the most consequential motion, contact, camera, HUD, audio, and peak load?",
+            "Which exact imports, settings, budgets, and comparisons to the original establish acceptance?"
           ],
           "decisions": [
-            "Representative assembly та native-compatible sources",
-            "Фактичні import/context/parity receipts або точний blocked proof"
+            "Representative scene and native-compatible sources",
+            "Actual import, context and parity evidence or exact blocker"
           ],
-          "applies_when": "До mass production та при зміні shared rig/shader/audio/import route.",
+          "applies_when": "Before scale-up and after changes to shared rig, shaders, audio, or import.",
           "downstream": [
             "build",
             "qa"
@@ -1403,17 +1403,17 @@
         },
         {
           "id": "game.assets.rights-transfers",
-          "label": "Права, інструменти й передача",
-          "why": "Джерела повинні законно використовуватись у runtime і передаватися споживачеві.",
+          "label": "Rights, tools, and transfer",
+          "why": "Checks lawful use in runtime and delivery to the consumer.",
           "questions": [
-            "Які права, атрибуція, комерційні умови й обмеження передачі діють для кожного джерела та інструмента?",
-            "Які сторонні або платні виробничі операції потрібні та чи входять вони в чинний дозвіл?"
+            "What rights, attribution, commercial terms, and redistribution limits apply to sources and tools?",
+            "Which third-party or paid production operations are needed, and does authority cover them?"
           ],
           "decisions": [
             "Asset/font/audio/tool rights ledger",
-            "Дозволений route та повний handoff bytes/manifest"
+            "Allowed route and actual package bytes and manifest"
           ],
-          "applies_when": "Для зовнішніх матеріалів, paid tools або передачі пакета.",
+          "applies_when": "For external materials, paid tools, or a package transfer.",
           "downstream": [
             "build",
             "release"
@@ -1428,17 +1428,17 @@
       "topics": [
         {
           "id": "game.build.toolchain-artifacts",
-          "label": "Фактичний toolchain і платформи",
-          "why": "Код, збирання, підпис і установка є різними перевірюваними результатами.",
+          "label": "Actual toolchain and platform artifacts",
+          "why": "Distinguishes source, build, signing, and installation.",
           "questions": [
-            "Які exact toolchain versions, native hosts, signing routes й пристрої фактично доступні?",
-            "Які артефакти потрібні для кожної обраної платформи та які кроки залежать від особистого доступу власника?"
+            "Which exact toolchain versions, native hosts, signature routes, and devices are actually available?",
+            "Which artifacts are due per platform, and which steps require owner-only access?"
           ],
           "decisions": [
-            "Pinned build recipes і per-platform artifact targets",
-            "Actual capability та launch/return bridge"
+            "Pinned build recipes and output per platform",
+            "Actual capabilities and launch or return transfer"
           ],
-          "applies_when": "На старті реалізації, зміни toolchain або нативного маршруту.",
+          "applies_when": "At implementation start or when changing the toolchain or native route.",
           "downstream": [
             "qa",
             "release"
@@ -1448,17 +1448,17 @@
         },
         {
           "id": "game.build.contract-integration",
-          "label": "Інтеграція правил, даних і асетів",
-          "why": "Реалізація має споживати чинні договорені параметри та джерела.",
+          "label": "Integrate rules, data, and assets",
+          "why": "Binds implementation to current accepted data and sources.",
           "questions": [
-            "Які contracts, data tables, assets та accepted targets визначають кожну поведінку?",
-            "Де є конфлікти інтерфейсів, невизначена поведінка або матеріальна відмінність від прийнятого задуму?"
+            "Which contracts, data, assets, and accepted references govern each behavior?",
+            "Where are incompatible interfaces, undefined rules, or material changes from accepted intent?"
           ],
           "decisions": [
             "Requirement→contract→source/data/asset→runtime mapping",
-            "Ремонт залежностей або погоджений material delta"
+            "Dependency repair or approved material change"
           ],
-          "applies_when": "Для всього реалізованого обсягу; продуктові TBD повертаються до дизайну.",
+          "applies_when": "For implemented scope. Return unresolved product decisions to Design.",
           "downstream": [
             "preproduction",
             "assets",
@@ -1469,17 +1469,17 @@
         },
         {
           "id": "game.build.input-runtime",
-          "label": "Реальні input, камера й цикл станів",
-          "why": "Тести мають довести причинну різницю дії, скасування та перерви.",
+          "label": "Runtime input, camera, and lifecycle",
+          "why": "Observes causal effects of actions, cancellations, and interruptions.",
           "questions": [
-            "Як у runtime працюють одночасні наміри, cancel, lost focus, UI capture та camera arbitration?",
-            "Які captures або input traces показують нормальний, піковий і помилковий шлях на заявленому пристрої?"
+            "How do concurrent intentions, cancel, focus loss, UI capture, and camera arbitration behave?",
+            "Which captures and input traces show ordinary, peak, and failure paths on the claimed device?"
           ],
           "decisions": [
             "Actual control/camera/lifecycle implementation",
             "Now/later/absent/cancel/multitouch runtime evidence"
           ],
-          "applies_when": "Коли реалізується інтерактивний gameplay.",
+          "applies_when": "For interactive gameplay implementation.",
           "downstream": [
             "qa"
           ],
@@ -1488,17 +1488,17 @@
         },
         {
           "id": "game.build.sensory-runtime",
-          "label": "Творчий паритет у runtime",
-          "why": "Правильний імпорт ще не доводить відповідність руху, звуку й кадру.",
+          "label": "Sensory fidelity in runtime",
+          "why": "Compares the actual motion, sound, and scene to the accepted reference.",
           "questions": [
-            "Які runtime captures, прослуховування й фізичні haptic tests потрібні для прийнятих targets?",
-            "Де art/motion/contact/audio/UI відхиляються від оригіналу та чи вкладається відхилення в погоджені tolerances?"
+            "Which runtime captures, actual listening, and physical haptic tests are due?",
+            "Where do art, motion, contact, sound or interface differ from the original, and do they meet tolerance?"
           ],
           "decisions": [
             "Actual native sensory journey",
-            "Parity evidence й item-level defects"
+            "Parity evidence and item-level defects"
           ],
-          "applies_when": "Для творчих каналів, що входять до обраного обсягу.",
+          "applies_when": "For creative channels in the selected scope.",
           "downstream": [
             "assets",
             "qa"
@@ -1508,17 +1508,17 @@
         },
         {
           "id": "game.build.content-authoring",
-          "label": "Контент, генерація й authoring tools",
-          "why": "Повний agreed scope потребує реального наповнення та відтворюваного редагування.",
+          "label": "Content, generation, and authoring tools",
+          "why": "Covers the accepted inventory and repeatable editing.",
           "questions": [
-            "Чи реалізовано весь finite launch catalogue або прийняту grammar з constraints і fallback?",
-            "Як автор перевіряє й додає контент, локалізації або конфігурації без прихованого ручного втручання розробника?"
+            "Does the build cover the finite launch catalogue or the selected grammar with limits and fallback?",
+            "How does an author add and validate content, translations, or configuration without hidden developer steps?"
           ],
           "decisions": [
-            "Повний контент і versioned authoring pipeline",
-            "Validation, reproducibility та runtime diversity evidence"
+            "Complete content and versioned authoring process",
+            "Validation, reproducibility, and runtime variety"
           ],
-          "applies_when": "Коли реалізується контентна система або launch catalogue.",
+          "applies_when": "For content systems or a launch catalogue.",
           "downstream": [
             "qa",
             "liveops"
@@ -1528,17 +1528,17 @@
         },
         {
           "id": "game.build.save-migration",
-          "label": "Збереження, відновлення й міграції",
-          "why": "Втрата або дублювання стану порушує прогрес і довіру.",
+          "label": "Saves, recovery, and migration",
+          "why": "Protects progress against lost and duplicate state.",
           "questions": [
-            "Як реалізовані durable grants/spends, crash recovery, conflicts, schema migration й rollback constraints?",
-            "Які kill/interruption/offline/clock/device-change fixtures доводять збереження інваріантів?"
+            "How do durable grants and spending, crash recovery, conflicts, migration, and rollback limits work?",
+            "Which kill, interruption, offline, clock, and device-change fixtures verify invariants?"
           ],
           "decisions": [
-            "State authority та actual persistence adapters",
-            "Failure/recovery/migration fixtures і evidence"
+            "State authority and actual persistence adapters",
+            "Failure, recovery, migration fixtures and evidence"
           ],
-          "applies_when": "Для будь-якого змінного тривалого стану.",
+          "applies_when": "For mutable durable state.",
           "downstream": [
             "qa",
             "release",
@@ -1549,17 +1549,17 @@
         },
         {
           "id": "game.build.commerce-runtime",
-          "label": "Покупки, винагороди й зовнішні права",
-          "why": "Гроші й права потребують idempotent reconciliation та всіх станів помилок.",
+          "label": "Purchases, rewards, and entitlements",
+          "why": "Requires idempotent reconciliation across financial failures.",
           "questions": [
-            "Як actual sandbox purchase/restore/refund/revoke/pending/offline стани змінюють права й ігровий стан?",
-            "Як уникнути повторного grant або втрати entitlement після timeout, retry, reinstall чи зміни пристрою?"
+            "How do actual sandbox purchase, restore, refund, revoke, pending, and offline affect entitlements and state?",
+            "How does the game prevent duplicate grants or lost rights after timeout, retry, reinstall, or device change?"
           ],
           "decisions": [
-            "Store/ad/entitlement adapters та reconciliation",
-            "Actual sandbox receipts і cumulative paid/earned regression"
+            "Store, ads, entitlements, and reconciliation",
+            "Actual sandbox receipts and combined paid and earned regression"
           ],
-          "applies_when": "Коли обрана модель має покупки, рекламу з винагородою або зовнішні права.",
+          "applies_when": "When purchases, rewarded ads, or external entitlements apply.",
           "downstream": [
             "qa",
             "release",
@@ -1570,17 +1570,17 @@
         },
         {
           "id": "game.build.device-performance",
-          "label": "Тривале навантаження й пристрої",
-          "why": "Короткий запуск не доводить стабільність цільового досвіду.",
+          "label": "Sustained load on target devices",
+          "why": "Measures stability across representative play.",
           "questions": [
-            "На яких representative devices і пікових сценаріях вимірюємо FPS, frame pacing, memory, thermal, battery та loading?",
-            "Яка оптимізація зберігає прийняту якість, а яка виходить за погоджений envelope й потребує рішення?"
+            "Which representative devices and peak tasks measure FPS, frame pacing, memory, heat, power, and load time?",
+            "Which optimization preserves accepted quality, and which material deviation requires a decision?"
           ],
           "decisions": [
-            "Sustained profiles і device matrix findings",
-            "Оптимізації або material tradeoff для власника"
+            "Sustained profiles and device matrix",
+            "Optimizations or an owner trade-off"
           ],
-          "applies_when": "Для заявлених нативних платформ і performance targets.",
+          "applies_when": "For claimed native platforms and performance targets.",
           "downstream": [
             "qa",
             "release"
@@ -1590,17 +1590,17 @@
         },
         {
           "id": "game.build.privacy-network-runtime",
-          "label": "Приватність, мережа й відмови",
-          "why": "Зовнішні компоненти мають працювати з фактичними доступами та безпечно переживати збої.",
+          "label": "Runtime privacy, network, and failures",
+          "why": "Verifies actual external access and recovery behavior.",
           "questions": [
-            "Як реалізовані auth, permissions, consent, data deletion, SDK inventory й secret-safe configuration?",
-            "Що бачить гравець при network failure, server version mismatch, abuse або втраті акаунта?"
+            "How do authentication, permissions, consent, deletion, SDK inventory, and secret-safe configuration work?",
+            "What do players see during network failure, server incompatibility, abuse, or loss of account?"
           ],
           "decisions": [
             "Actual data/network/platform behavior",
-            "Негативні security/privacy/network cases"
+            "Security, privacy, and network failure cases"
           ],
-          "applies_when": "Коли обрані акаунти, SDK, backend, multiplayer, соціальна взаємодія або telemetry.",
+          "applies_when": "When accounts, SDKs, backend, multiplayer, social interaction, or telemetry apply.",
           "downstream": [
             "qa",
             "release",
@@ -1616,17 +1616,17 @@
       "topics": [
         {
           "id": "game.qa.frozen-denominator",
-          "label": "Точний кандидат і охоплення",
-          "why": "Вердикт стосується конкретних bytes і критеріїв, а не назви проєкту.",
+          "label": "Frozen candidate and coverage denominator",
+          "why": "Binds a verdict to exact bytes and criteria.",
           "questions": [
-            "Які exact source/build/config/data/asset revisions заморожено для перевірки?",
-            "Які актуальні must, платформи, пристрої та критерії входять у незалежну перевірку й які докази вже валідні?"
+            "Which exact source, build, configuration, data, and asset revisions are frozen?",
+            "Which musts, platforms, devices, and criteria are independently checked and which evidence remains valid?"
           ],
           "decisions": [
-            "Frozen candidate і denominator coverage",
-            "Незалежний review scope та актуальні evidence links"
+            "Frozen candidate and scope denominator",
+            "Independent review scope and current evidence"
           ],
-          "applies_when": "Перед кожним QA verdict і після material delta.",
+          "applies_when": "Before every QA verdict and after a material change.",
           "downstream": [
             "release"
           ],
@@ -1635,17 +1635,17 @@
         },
         {
           "id": "game.qa.systemic-play",
-          "label": "Причинність, глибина й варіативність",
-          "why": "Функціональні кнопки не доводять повної ігрової обіцянки.",
+          "label": "Causality, depth, and variation",
+          "why": "Verifies the entire game promise from actual decisions.",
           "questions": [
-            "Чи змінюють механіки, ресурси й контекст реальні рішення; чи є домінуюча універсальна політика?",
-            "Чи нові можливості переосмислюють старі задачі та чи відрізняються early/mid/late/return і generated situations?"
+            "Do mechanics, resources, and context change decisions, or does one strategy dominate?",
+            "Do new capabilities reframe earlier tasks and do early, mid, late, return, and generated situations differ?"
           ],
           "decisions": [
-            "Незалежні systemic counterexamples",
-            "Defects у gameplay/progression/world/content closure"
+            "Independent systemic counterexamples",
+            "Gameplay, progression, world, and content defects"
           ],
-          "applies_when": "Для активних систем і прийнятої арки гри.",
+          "applies_when": "For active systems and the accepted progression arc.",
           "downstream": [
             "preproduction",
             "build",
@@ -1656,17 +1656,17 @@
         },
         {
           "id": "game.qa.ergonomic-sensory",
-          "label": "Ергономіка, читабельність і відчуття",
-          "why": "Потрібна перевірка відповідними модальностями та людьми.",
+          "label": "Ergonomics, readability, and feel",
+          "why": "Uses appropriate media and real participants where required.",
           "questions": [
-            "Які фактичні device interaction, motion, listening та haptic findings підтверджують керування і художній target?",
-            "Чи працюють навчання, прогнозування, пік навантаження, cancel, accessibility і критичні сигнали за вимкнених каналів?"
+            "Which actual device, motion, listening, and tactile observations confirm controls and creative target?",
+            "Do learning, anticipation, peak load, cancellation, access, and critical cues work with channels off?"
           ],
           "decisions": [
             "Input/camera/sensory/accessibility verdict",
-            "Окремі observed та unperformed modalities"
+            "Observed and pending evidence separately"
           ],
-          "applies_when": "Для кожної заявленої інтерактивної й сенсорної властивості.",
+          "applies_when": "For each claimed interactive or sensory property.",
           "downstream": [
             "assets",
             "build",
@@ -1677,17 +1677,17 @@
         },
         {
           "id": "game.qa.money-economy",
-          "label": "Економіка, чесність і цілісність грошей",
-          "why": "Модель і sandbox потребують окремих предметних перевірок.",
+          "label": "Economy, fairness, and financial integrity",
+          "why": "Separates model evaluation and real sandbox checks.",
           "questions": [
-            "Як відрізняються free/earned/low-payer/paid portfolios у доступі, часі до мети та сукупній перевазі?",
-            "Чи перевірені grant/restore/refund/revoke/retry/offline й випадкові нагороди з фактичними receipts?"
+            "How do free, earned, low-spend, and paid portfolios differ in access, time to goal, and total advantage?",
+            "Do actual receipts cover grant, restore, refund, revoke, retry, offline, and applicable random rewards?"
           ],
           "decisions": [
-            "Economy/dominance та entitlement integrity verdict",
-            "Залишкові purchase/ad/offer defects"
+            "Economic dominance and entitlement integrity verdict",
+            "Remaining purchase, ad, and offer defects"
           ],
-          "applies_when": "Коли активні економіка, покупка, реклама або платна випадковість.",
+          "applies_when": "When economy, purchases, ads, or paid randomness apply.",
           "downstream": [
             "preproduction",
             "build",
@@ -1699,17 +1699,17 @@
         },
         {
           "id": "game.qa.continuity-failure",
-          "label": "Перерви, відмови й сумісність",
-          "why": "Нормальний шлях не покриває втрату стану та несумісність версій.",
+          "label": "Interruptions, failures, and compatibility",
+          "why": "Exercises state loss and version conflicts.",
           "questions": [
-            "Чи переживає гра crash, kill, pause/resume, save conflict, clock change, міграцію та видалення даних за контрактом?",
-            "Які actual negative fixtures перевіряють network, auth, corrupt save, content/config mismatch та recovery?"
+            "Does the game follow contract through crashes, termination, pause and resume, save conflict, clock change, migration, and deletion?",
+            "Which executed fixtures cover network and authentication, corruption, version mismatch and recovery?"
           ],
           "decisions": [
             "Lifecycle/save/migration/network verdict",
-            "Reproducible failure fixtures й critical defects"
+            "Reproducible failures and critical defects"
           ],
-          "applies_when": "Для всіх активних persistence/platform/network залежностей.",
+          "applies_when": "For active persistence, platform, and network dependencies.",
           "downstream": [
             "build",
             "release",
@@ -1720,17 +1720,17 @@
         },
         {
           "id": "game.qa.devices-performance",
-          "label": "Платформи й стале навантаження",
-          "why": "Доказ однієї платформи не переноситься автоматично на іншу.",
+          "label": "Platform and sustained performance",
+          "why": "Requires actual proof for each claimed platform.",
           "questions": [
-            "Які exact builds фактично зібрані, встановлені й перевірені на кожній заявленій платформі?",
-            "Чи проходять representative sustained/peak profiles, input/audio interruptions та device-specific layouts?"
+            "Which exact builds were built, installed, and tested for each platform?",
+            "Do representative sustained and peak tests, input and sound interruptions, and device layouts pass?"
           ],
           "decisions": [
             "Per-platform installed/tested status",
-            "Performance/reach та compatibility verdict"
+            "Performance, reach, and compatibility verdict"
           ],
-          "applies_when": "Коли заявляється підтримка пристроїв або нативна готовність.",
+          "applies_when": "When claiming devices or native readiness.",
           "downstream": [
             "build",
             "release"
@@ -1740,17 +1740,17 @@
         },
         {
           "id": "game.qa.human-evidence",
-          "label": "Реальні гравці й межі висновків",
-          "why": "AI review та симуляція не доводять людського інтересу або доходу.",
+          "label": "Actual players and evidence limits",
+          "why": "Bounds findings on interest, understanding, and commerce.",
           "questions": [
-            "Які реальні люди й сегменти доступні для playtest та які питання їм перевіряємо?",
-            "Які висновки дозволяють actual observations, а що лишається гіпотезою через малий або зміщений набір даних?"
+            "Which actual participants and segments are available, and what will their playtest examine?",
+            "Which conclusions follow, and which remain hypotheses due to sample size or bias?"
           ],
           "decisions": [
-            "Human test scope та evidence provenance",
-            "Обмеження fun/learning/retention/commerce conclusions"
+            "Human test scope and provenance",
+            "Limits on enjoyment, learning, retention, and commerce claims"
           ],
-          "applies_when": "Коли потрібний висновок про людський досвід; ранні desk findings не підвищувати до playtest.",
+          "applies_when": "When human experience is claimed. Track desk review separately.",
           "downstream": [
             "concepts",
             "preproduction",
@@ -1762,17 +1762,17 @@
         },
         {
           "id": "game.qa.triage-acceptance",
-          "label": "Дефекти, регресія й приймання",
-          "why": "Критичні must не компенсуються середнім score.",
+          "label": "Defects, regression, and acceptance",
+          "why": "Requires each blocking must to pass.",
           "questions": [
-            "Які дефекти блокують поточний gate, хто ремонтує залежності та які докази слід повторити?",
-            "Які відомі обмеження допускаються в погодженому scope і що саме власник приймає як творчий результат?"
+            "Which defects block this gate, who repairs each cause, and which checks need to be rerun?",
+            "Which limitations are allowed in scope and what exact creative outcome is the owner accepting?"
           ],
           "decisions": [
-            "Severity/owner/closure і dependency-based regression",
-            "Окремі independent verdict та user acceptance"
+            "Severity, owner, closure, and affected regression",
+            "Independent verdict and actual user acceptance"
           ],
-          "applies_when": "На виході QA та після ремонту.",
+          "applies_when": "At QA closure and after repair.",
           "downstream": [
             "preproduction",
             "assets",
@@ -1790,16 +1790,16 @@
         {
           "id": "game.release.release-candidate",
           "label": "Exact release candidate",
-          "why": "Випуск має вказувати точні binaries, конфігурації й схеми.",
+          "why": "Pins binaries, configuration, and schemas.",
           "questions": [
-            "Які signed binaries, content/config epochs, save schemas, symbols та hashes входять до випуску?",
-            "Які актуальні QA verdict, критичні gaps і особисті signing/account кроки залишаються?"
+            "Which signed binaries, content and config epochs, save schemas, symbols, and hashes are included?",
+            "Which current QA verdicts, critical gaps, and owner-only signing or account steps remain?"
           ],
           "decisions": [
-            "Exact RC manifest і readiness state",
-            "Заблоковані кроки й власник виконання"
+            "Exact RC manifest and readiness state",
+            "Blocked steps and accountable actor"
           ],
-          "applies_when": "Перед submission або rollout.",
+          "applies_when": "Before submission or rollout.",
           "downstream": [
             "liveops"
           ],
@@ -1808,17 +1808,17 @@
         },
         {
           "id": "game.release.current-store-policy",
-          "label": "Чинні вимоги магазинів",
-          "why": "Правила магазинів, платежів і SDK потрібно перевірити на дату залежної дії.",
+          "label": "Current store requirements",
+          "why": "Uses policies and SDK rules current at the time of action.",
           "questions": [
-            "Які actual storefronts, країни, вікові аудиторії й типи контенту охоплює випуск?",
-            "Які чинні офіційні вимоги до SDK, payment, privacy, testing, ads і disclosures застосовні до exact candidate?"
+            "Which storefronts, markets, age groups and content types does release cover?",
+            "Which current official SDK, payment, privacy, testing, ads, and disclosure rules apply to the exact candidate?"
           ],
           "decisions": [
             "Date-stamped primary-source compliance matrix",
             "Concrete store/policy corrections"
           ],
-          "applies_when": "Для реального магазинного випуску; досліджує експерт за фактичними параметрами.",
+          "applies_when": "For actual store release. Investigate using the concrete product parameters.",
           "downstream": [
             "build",
             "qa",
@@ -1829,17 +1829,17 @@
         },
         {
           "id": "game.release.store-truth",
-          "label": "Метадані, матеріали й обіцянки",
-          "why": "Сторінка магазину має чесно представляти actual runtime й права.",
+          "label": "Metadata, media, and claims",
+          "why": "Ensures the listing matches runtime and rights.",
           "questions": [
-            "Які назви, описи, screenshots, відео, локалі, ціни й launch markets обрано?",
-            "Чи кожна видима обіцянка відповідає збірці; які права, атрибуція та support/privacy контакти мають бути вказані?"
+            "Which names, copy, screenshots, video, locales, prices and launch markets are selected?",
+            "Does each claim match the build, and which rights, credit, support, and privacy contacts must be shown?"
           ],
           "decisions": [
             "Approved metadata/store media",
-            "Truthfulness, rights та localization review"
+            "Accuracy, rights, and localization review"
           ],
-          "applies_when": "Коли готуються публічні сторінки або промоматеріали.",
+          "applies_when": "When preparing public listings or promotion.",
           "downstream": [
             "liveops"
           ],
@@ -1848,17 +1848,17 @@
         },
         {
           "id": "game.release.commerce-accounts",
-          "label": "Магазинні товари й виплати",
-          "why": "Sandbox не доводить реальну готовність товарів, рахунків та прав.",
+          "label": "Store products and payouts",
+          "why": "Validates real products, accounts and rights separately from sandbox results.",
           "questions": [
-            "Які product IDs, локальні ціни, доступність, entitlement mappings і state transitions мають бути активні?",
-            "Які account agreements, tax/payout або особисті підтвердження фактично завершені та які exact receipts це показують?"
+            "Which product IDs, prices, availability, entitlements, and state transitions must be active?",
+            "Which agreements, tax or payout, or personal confirmations are complete, and which exact receipts show them?"
           ],
           "decisions": [
             "Production catalog/account readiness",
-            "Непідтверджені money/account states та точний owner bridge"
+            "Unverified finance and account state and exact owner step"
           ],
-          "applies_when": "Коли випуск включає продажі, рекламу, підписки або платні права.",
+          "applies_when": "When release includes sales, ads, subscriptions, or paid rights.",
           "downstream": [
             "liveops"
           ],
@@ -1867,17 +1867,17 @@
         },
         {
           "id": "game.release.rollout-recovery",
-          "label": "Розгортання, спостереження й відкат",
-          "why": "Випуск потребує межі впливу та відновлення сумісного стану.",
+          "label": "Rollout, observation, and recovery",
+          "why": "Bounds impact and preserves coherent state through failure.",
           "questions": [
-            "Для кого й якими кроками відкриваємо випуск; які фактичні сигнали зупиняють або розширюють rollout?",
-            "Як відновити binary/config/content й зберегти сумісність saves та entitlements після невдалого оновлення?"
+            "Who receives the release at each stage, and which actual signals stop or expand it?",
+            "How can we restore binaries, configuration and content and keep saves and entitlements compatible?"
           ],
           "decisions": [
             "Rollout/kill-switch/recovery plan",
-            "Measured stop criteria та migration constraints"
+            "Measured stop criteria and migration limits"
           ],
-          "applies_when": "Перед дозволеним production rollout.",
+          "applies_when": "Before authorized production rollout.",
           "downstream": [
             "liveops"
           ],
@@ -1886,17 +1886,17 @@
         },
         {
           "id": "game.release.support-observability",
-          "label": "Підтримка й operational ownership",
-          "why": "Після випуску має існувати реальний маршрут звернень та інцидентів.",
+          "label": "Support and operational ownership",
+          "why": "Provides a real support and incident path after release.",
           "questions": [
-            "Куди звертаються гравці щодо втрати прогресу, покупки, бага чи приватності та хто відповідає?",
-            "Які actual crash/analytics/support signals, alert owners і runbooks доступні без обіцянки нествореного monitoring?"
+            "Where can players report lost progress, purchases, bugs or privacy issues, and who responds?",
+            "Which actual crash, analytics, and support signals, alert owners and runbooks are available?"
           ],
           "decisions": [
-            "Support/incident ownership та runbooks",
-            "Actual observability capability і дозволена cadence"
+            "Support and incident owners and runbooks",
+            "Actual observation capability and authorized cadence"
           ],
-          "applies_when": "Для beta або публічного випуску.",
+          "applies_when": "For beta or public release.",
           "downstream": [
             "liveops"
           ],
@@ -1905,17 +1905,17 @@
         },
         {
           "id": "game.release.authorized-effect",
-          "label": "Публікація й перевірений результат",
-          "why": "Конкретна зовнішня дія повинна мати чинний scope та фактичний receipt.",
+          "label": "Publication and verified result",
+          "why": "External action needs exact current authority and an actual receipt.",
           "questions": [
-            "Яку exact submission/release дію, магазин, акаунт, версію й rollout scope охоплює чинний дозвіл?",
-            "Як перевіримо submitted/store-approved/released status і що робимо, якщо відповідь сервісу невідома?"
+            "Which exact submission or release action, store, account, version, and rollout are covered?",
+            "How do we verify submitted, approved, and released status, and reconcile an unknown provider result?"
           ],
           "decisions": [
             "Concrete reviewable external action",
-            "Actual job/receipt/status та read-only reconciliation"
+            "Actual job, receipt, status, and read-only reconciliation"
           ],
-          "applies_when": "Безпосередньо перед зовнішнім effect; чинну згоду не перепитувати.",
+          "applies_when": "Immediately before the external effect. Carry forward valid exact approval.",
           "downstream": [
             "liveops"
           ],
@@ -1929,17 +1929,17 @@
       "topics": [
         {
           "id": "game.liveops.actual-state",
-          "label": "Фактичний production стан",
-          "why": "Продовження має спиратися на реальні версії та спостереження.",
+          "label": "Actual production state",
+          "why": "Uses observed production versions and evidence.",
           "questions": [
-            "Які версії, content/config epochs, схеми, rollout states та зовнішні job outcomes зараз фактичні?",
-            "Які актуальні telemetry, support reports, provider receipts й known incidents доступні та наскільки вони повні?"
+            "Which versions, content and config epochs, schemas, rollout states, and job results are current?",
+            "Which current telemetry, support reports, provider receipts and incidents exist, and what gaps do they have?"
           ],
           "decisions": [
-            "Reconciled released state і evidence sources",
+            "Reconciled release state and evidence",
             "Current incident/change scope"
           ],
-          "applies_when": "На вході супроводу, resume або після невідомої зовнішньої відповіді.",
+          "applies_when": "At operations intake, on resume, or after an unknown provider outcome.",
           "downstream": [
             "preproduction",
             "assets",
@@ -1952,17 +1952,17 @@
         },
         {
           "id": "game.liveops.incident-recovery",
-          "label": "Інцидент, гроші й прогрес",
-          "why": "Ремонт має захистити стан гравців і усунути причину.",
+          "label": "Incidents, money, and progress",
+          "why": "Protects player state while repairing the cause.",
           "questions": [
-            "Який реальний вплив на гравців, прогрес, платежі, приватність або доступність і як його відтворити?",
-            "Який найменший дозволений mitigation, як повернути цілісний стан та які залежності потребують QA і release?"
+            "What is the actual effect on players, progress, payments, privacy or availability, and how can it be reproduced?",
+            "Which smallest authorized mitigation restores coherent state, and which dependencies need QA and release?"
           ],
           "decisions": [
-            "Incident severity, owner і recovery actions",
-            "Root cause, migration/compensation scope та regression"
+            "Severity, owner, and recovery action",
+            "Root cause, migrations or compensation, and regression"
           ],
-          "applies_when": "Коли є збій, money/save/privacy defect або деградація.",
+          "applies_when": "For outages, payment, save, or privacy defects, or degradation.",
           "downstream": [
             "preproduction",
             "assets",
@@ -1975,17 +1975,17 @@
         },
         {
           "id": "game.liveops.cohorts-learning",
-          "label": "Гравці, когорти й продуктові висновки",
-          "why": "Зміни мають відповідати actual поведінці та межам даних.",
+          "label": "Players, cohorts, and findings",
+          "why": "Treats actual behavior within the limits of the data.",
           "questions": [
-            "Що показують різні сегменти, когорти, платформи й earned/paid portfolios про навчання, відмову та повернення?",
-            "Який висновок підтверджують дані, які альтернативні пояснення є і що перевіримо наступним?"
+            "What do segments, cohorts, platforms, and earned and paid portfolios show about learning, abandonment and return?",
+            "Which claim is supported, what alternative explanations remain, and what should we test next?"
           ],
           "decisions": [
-            "Evidence-backed hypothesis і uncertainty",
-            "Обґрунтований change/test scope"
+            "Evidence-based hypothesis and uncertainty",
+            "Justified change or test scope"
           ],
-          "applies_when": "Коли оцінюється людський досвід, retention, економіка або commerce.",
+          "applies_when": "When evaluating player experience, retention, economy, or commerce.",
           "downstream": [
             "concepts",
             "preproduction",
@@ -1997,17 +1997,17 @@
         },
         {
           "id": "game.liveops.content-cadence",
-          "label": "Розвиток контенту й новизна",
-          "why": "Оновлення повинні розширювати рішення та зберігати місткість виробництва.",
+          "label": "Content growth and novelty",
+          "why": "Expands useful decisions within production capacity.",
           "questions": [
-            "Яка нова можливість, ситуація або сюжетна зміна має дати змістовний новий досвід?",
-            "Як зміна вплине на старі задачі, world state, сумісність контенту та finite production capacity?"
+            "Which new capability, situation or story change should introduce a different experience?",
+            "How will it change old tasks, world state, content compatibility, and finite production capacity?"
           ],
           "decisions": [
-            "Content/evolution scope і cadence",
-            "Affected catalogs, states, assets та continuity requirements"
+            "Content evolution and cadence",
+            "Affected catalogues, states, assets, and continuity"
           ],
-          "applies_when": "Коли замовлено новий контент, сезон або розширення.",
+          "applies_when": "When requesting new content, a season, or expansion.",
           "downstream": [
             "preproduction",
             "assets",
@@ -2020,17 +2020,17 @@
         },
         {
           "id": "game.liveops.economy-change",
-          "label": "Економіка, пропозиції й експерименти",
-          "why": "Зміна live ціни або нагороди має сукупні наслідки для різних гравців.",
+          "label": "Economy, offers, and experiments",
+          "why": "Accounts for cumulative effects of pricing and rewards.",
           "questions": [
-            "Яку конкретну проблему вирішує зміна цін, reward curves, cadence, ads або пропозицій?",
-            "Як вона змінить старі права, paid/earned portfolios, часові цілі та ризик dominance; які guardrails і stop criteria потрібні?"
+            "Which exact problem should a change in price, reward curves, cadence, ads or offers solve?",
+            "What changes for existing rights, earned and paid portfolios, time targets, and dominance, and which guardrails and stopping rules apply?"
           ],
           "decisions": [
-            "Impact model та protected entitlements",
-            "Versioned experiment/config scope і дозволений rollout"
+            "Impact model and protected entitlements",
+            "Versioned experiment or configuration and authorized rollout"
           ],
-          "applies_when": "Коли змінюються економіка, монетизація або live experiments.",
+          "applies_when": "When changing the economy, monetization, or a live test.",
           "downstream": [
             "preproduction",
             "build",
@@ -2042,17 +2042,17 @@
         },
         {
           "id": "game.liveops.maintenance-rights",
-          "label": "Сумісність, права й експлуатаційні витрати",
-          "why": "SDK, політики, залежності та ліцензії можуть змінити підтримку гри.",
+          "label": "Compatibility, rights, and operating cost",
+          "why": "Tracks platform and dependency changes that affect support.",
           "questions": [
-            "Які зміни платформ, SDK, сервісів, прав, вартості чи пристроїв реально впливають на підтримку?",
-            "Як оновити залежності, схеми й runbooks зі збереженням прийнятого досвіду та можливості відновлення?"
+            "Which changes in platforms, SDKs, services, rights, cost or devices affect support?",
+            "How do we update dependencies, schemas, and runbooks while preserving the experience and recovery?"
           ],
           "decisions": [
-            "Current maintenance dependencies і source verification",
-            "Upgrade/deprecation/rights plan та affected tests"
+            "Current dependencies and source verification",
+            "Upgrade, deprecation, rights, and affected tests"
           ],
-          "applies_when": "Коли надходить відповідна зміна або дозволена перевірка стану.",
+          "applies_when": "When a relevant change arrives or a maintenance review is authorized.",
           "downstream": [
             "assets",
             "build",
@@ -2064,17 +2064,17 @@
         },
         {
           "id": "game.liveops.observing-scope",
-          "label": "Реальний режим спостереження",
-          "why": "Періодичний супровід існує лише за наявності дозволеного scheduler або service.",
+          "label": "Actual monitoring scope",
+          "why": "Recurring work requires an authorized running scheduler or service.",
           "questions": [
-            "Які джерела й сигнали потрібно регулярно перевіряти, з якою cadence та хто діє на результат?",
-            "Чи потрібне разове дослідження, підготовлений runbook або фактично створений дозволений scheduler?"
+            "Which sources and signals need recurring checks, how often, and who acts on results?",
+            "Do you need one investigation, a runbook, or an actually configured authorized schedule?"
           ],
           "decisions": [
-            "Конкретний observation scope та action ownership",
-            "Actual schedule/service status і checkpoint"
+            "Concrete observation scope and action owner",
+            "Actual schedule or service and checkpoint"
           ],
-          "applies_when": "Коли просять повторюваний моніторинг, нагадування або постійний супровід.",
+          "applies_when": "When requesting monitoring, reminders, or ongoing support.",
           "downstream": [
             "liveops"
           ],

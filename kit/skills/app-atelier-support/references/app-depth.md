@@ -1,60 +1,60 @@
-# Системна підтримка App Atelier
+# App Atelier support system
 
-Зміст: 1 — повний контракт; 2 — knowledge/data; 3 — правила діалогу; 4 — виробництво; 5 — приймання та continuity.
-Прочитати cross-domain-core, data/support, workflow й acceptance. `assets/app-depth.templates.json` є шаблоном linked project artifact; authoritative requirements/effects/evidence залишаються у canonical state.
+Contents: 1 coverage, 2 knowledge and data, 3 dialogue, 4 production, 5 acceptance and continuity.
+Read cross-domain-core, data and support, workflow, and acceptance. Bind the `assets/app-depth.templates.json` template to a project artifact. Canonical state owns requirements, effects, and proof.
 
-Для наскрізних app-specific контрактів застосувати [модель систем застосунку](app-system-contract.md); її requirements/state authority не дублювати.
+Use the [app system model](app-system-contract.md) for cross-cutting contracts. It owns requirements and state authority.
 
-## 1. Побудувати підтримку від продуктового результату
+## 1. Design support around the useful outcome
 
-Побудувати coverage `product rule/version → issue category → user mode → channel/state → required facts → allowed action → answer/case → proof`. Пройти public help, account help за наявності, access/payment/errors/outage, missing feature, stale knowledge, unsupported request і нерозв’язний case. Android/iOS/web та погоджені зовнішні bot channels мають спільну продуктову семантику, проте окремі UI/transport/identity адаптери. Відсутні групові сценарії не імпортувати з універсального chatbot agent; підтримка продукту залишається окремим призначенням.
+Map `product rule/version → issue category → user mode → channel/state → required facts → allowed action → answer/case → proof`. Cover public and applicable account help, access, payment, errors and outages, absent features, stale knowledge, unsupported requests, and unresolved cases. Android, iOS, web, and agreed external bot channels share product semantics and use their own UI, transport, and identity adapters. Include group scenarios only when the support scope calls for them.
 
-Для кожної категорії визначити точний результат: explanatory answer, guided step, authoritative read, allowed operation або tracked case. Рішення «resolved» потребує конкретного спостереження за контрактом; сама відповідь моделі не означає успішне виправлення. Поділ на категорії не змінює product policy чи права.
+Define whether each category needs explanation, guidance, authoritative read, authorized operation, or tracked case. Mark «resolved» only after the defined observation. Categories preserve product policy and rights.
 
-Класифікувати можливості як required/conditional/absent_by_design. Новий LLM/RAG/vector database/voice/CRM оператор не додається автоматично. Коротка структурована довідка може бути достатнім маршрутом. Професійні, фінансові, дитячі або інші відповідальні домени потребують належного предметного review і явних меж, а не вдаваної кваліфікації AI.
+Classify capabilities as required, conditional, or absent_by_design. Choose the minimal sufficient route, including structured help when it works. Add LLM, RAG, vector database, voice, or CRM only when justified. Obtain domain review and explicit boundaries for professional, financial, children's, or other consequential subjects.
 
-## 2. Формалізувати знання та приватний контекст
+## 2. Specify knowledge and private context
 
-Кожна KB entity має stable ID, product/release/language/region, authoritative source+hash, valid_from/valid_until за застосовності, claim scope, owner, review/freshness triggers і fallback. Ціна, policy й entitlement беруться з належного authoritative джерела, а не узагальненої історії. Зміна релізу/плану/правила відкриває залежні відповіді, embeddings/cache і cases; старі accepted originals лишаються відтворюваними.
+Each knowledge item has stable ID, product, release, language and region, authoritative source and hash, valid_from and valid_until when needed, claim scope, owner, review and freshness triggers, and fallback. Resolve price, policy, and entitlement from authoritative sources. Release, plan, or policy changes reopen dependent answers, embeddings, caches, and cases. Preserve accepted originals for reproduction.
 
-Public documents, private customer records, case history, tool outputs і operational receipts — різні класи з окремими access rules. Для кожного поля назвати source, purpose, authority, subject/tenant, recipient, retention, deletion/revoke і backup behaviour. Retrieval фільтрує scope до пошуку і перед відповіддю; prompt не створює авторизації. Cache key включає subject/tenant/permission revision, product/release/locale і source version.
+Give public documents, private customer records, case history, tool results, and receipts separate access policies. For each field specify source, purpose, authority, subject or tenant, recipient, retention, deletion and revocation, and backup behavior. Apply access constraints before searching and again before answering. Cache by subject, tenant and permission revision, product, release and locale, and source version.
 
-Позначити trusted instruction, verified product fact, user statement і retrieved untrusted content. Вкладення/KB/chat не можуть додати tool permission, змінити refund policy чи вимкнути isolation. Не зберігати secrets або приватні reasoning traces у діалозі/логах/skill. Відсутній результат не заповнювати правдоподібною відповіддю.
+Distinguish trusted instruction, verified fact, user claim, and untrusted retrieved content. Attachments, knowledge and chat cannot grant tool permission, change refund rules, or disable isolation. Keep secrets and private reasoning out of chats, logs, and skills. Report missing facts and unavailable results explicitly.
 
-Для вибраного Telegram linking зберегти створений у authenticated app/web challenge, private sender numeric ID, expiry/use state і явне app/web підтвердження конкретного link. Replay/interception/account switch/revoke/logout перевірити як окремі transitions. Username, email у тексті й старий link не дають доступу.
+If Telegram linking is in scope, retain a challenge created in authenticated app or web, the private sender's numeric ID, expiry and usage state, and explicit confirmation for that link on app or web. Test replay, interception, account switching, revocation, and logout as distinct transitions. Username, claimed email, and expired or superseded links convey no rights.
 
-## 3. Задати правила turn, action і case
+## 3. Specify turns, actions, and cases
 
-Turn contract описує user/session/channel identity, transport ID, accepted input types/size, product context revision, retrieval budget, answer claims/citations, tool allowlist, timeout/cancel, cost cap і output validation. Повтор webhook/edit/button не створює нову дію або case без предметного правила. Діалогові, transport, action і case IDs не зливати.
+A turn records user, session and channel identity, transport ID, admitted input type and size, context revision, retrieval budget, answer claims and citations, tool allowlist, timeout and cancellation, cost cap, and output validation. Deduplicate repeated webhook, edit, or button events according to product rules. Distinguish dialogue, transport, action, and case IDs.
 
-Action lifecycle: requested → validated → authorized → pending → succeeded/failed/unknown → reconciled. Для кожного переходу назвати actor/auth, preconditions, exact parameters, idempotency scope, receipt, expected state, retry/compensation та user wording. Unknown не називати failed і не дублювати effect. Повідомлення «повернено кошти» можливе лише після належного authoritative receipt/read-back.
+An action moves requested → validated → authorized → pending → succeeded, failed, or unknown → reconciled. Define actor and authority, prerequisites, exact parameters, idempotency scope, expected state and receipt, retry and compensation, and user wording. Reconcile unknown effects before repeating them. Use «повернено кошти» only after authoritative receipt and read-back.
 
-Case lifecycle: locally_drafted/received/triaged/awaiting_information/queued_for_repair/resolved/closed за потребою. Offline draft не є received. Case ID сам не є дозволом читати дані. Визначити retention, deduplication, reopen, aggregation у технічну задачу та умову справжнього resolved. Не обіцяти людей, SLA чи щоденну роботу власника, яких немає в операційній моделі.
+A case uses applicable locally_drafted, received, triaged, awaiting_information, queued_for_repair, resolved, and closed states. Keep offline drafts distinct from received cases. Enforce authorization separately from case ID. Define retention, deduplication, reopen, aggregation for engineering, and proof of resolution. Commit to staffing, SLA, or owner work only when operational capacity exists.
 
-Довести корисний degraded route: public cached help з версією, truthful status, локальна чернетка або durable case через доступний storage. Session/user/global caps, attachment limits, timeouts, circuit breaker і retrieval fallback задаються числами з економіки, а не словами «дешево» чи «необмежено».
+Prove a degraded route with versioned cached public help, truthful status, local draft, or durable case via available storage. Set quantitative session, user and global limits, attachment sizes, timeout, breaker, and retrieval fallback from the cost model. Terms like «дешево» or «необмежено» need measured bounds.
 
-## 4. Виготовити й інтегрувати
+## 4. Produce and integrate
 
-Recipes охоплюють KB ingestion, chunk/index за потреби, structured retrieval, channel adapters, authenticated tools, answer evaluation, case workflow, deployment і monitoring. Для кожної операції зберегти доступний tool/schema/platform, input/output formats, rights/egress/cost, editable source, exact steps, consumer й validator. Наявність ChatGPT skill не означає production LLM API чи token budget.
+Cover knowledge ingestion, chunking and indexing where needed, structured retrieval, channel adapters, authenticated tools, answer evaluation, case workflow, deployment and monitoring. Record tool, schema and platform, exact input and output format, rights, egress and cost, editable source, exact steps, consumer, and validator. Verify production LLM API and token budget independently of skill availability.
 
-Перед обробкою матеріалів перевірити schema/catalog/actual parameter consumption. HTML/Markdown/encoding/URL/file extraction — окремі transformations з input bounds, content provenance, preserved IDs/locale і втратами. Retrieval score не є ймовірністю правдивості. Для audio/voice за застосовності перевірити транскрипцію, consent/data scope, pronunciation, interruption і доступну текстову альтернативу.
+Check schema, catalog, and actual parameter consumption. Treat HTML and Markdown, encoding, URLs, and file extraction as distinct transformations with bounds, provenance, preserved IDs and locale, and known losses. Retrieval scores measure their defined ranking signal. For audio or voice, verify transcription, consent and data scope, pronunciation and interruption, and text alternatives.
 
-Pending attempts створюються до платного/зовнішнього effect; фактичні request/job IDs і outputs записуються лише після виконання. Зберегти актуальні model/prompt/policy/KB/toolchain hashes, permitted data scope, token/cost observation і fallback. Prompt repair має failure class, нову гіпотезу, ліміт і контрприклад; повтор без зміни причини не є прогресом.
+Record pending attempts before external or costly actions and actual request, job IDs, and outputs when observed. Retain model, prompt, policy, knowledge and toolchain hashes, authorized data scope, observed tokens and costs, and fallback. Prompt repair records failure class, a new hypothesis, cap, and counterexample.
 
-## 5. Прийняти whole-support assembly
+## 5. Verify the integrated support path
 
-Assembly pin-ить exact client/backend/model/policy/KB/config hashes, tenant/subject/link state, channel, raw scenario, expected answer properties/actions, budget і environment. Пройти `user input → auth → retrieval → response/action → presentation → case/receipt → restart/revoke/resume`. Окремий добрий prompt не доводить доступну й безпечну інтеграцію.
+Pin exact client, backend, model, policy, knowledge and config hashes, tenant, subject and link state, channel, raw scenario, expected answer or action properties, budget, and environment. Run `user input → auth → retrieval → response/action → presentation → case/receipt → restart/revoke/resume`. Verify availability and security at the integration level.
 
-Позитивні fixtures: guest public answer; account own context; linked permitted channel; version-specific KB; unknown question; cap/outage fallback; authorized effect з receipt; revoke/delete з наступним доступом. Негативні: A→B ID/cache/file, stale KB/price, forged/group/replayed event, prompt injection, expired challenge, concurrent account switch, delayed tool result після revoke, duplicate case/action, storage full, unresolved effect при restart.
+Positive fixtures cover guest public help, own-account help, authorized linked channel, version-specific knowledge, unanswerable question, cap or outage fallback, authorized receipted action, and access after revoke or delete. Negative fixtures cover A→B IDs, cache and files, stale knowledge and price, forged, group or replayed events, prompt injection, expired challenge, concurrent account switch, late tool results after revocation, duplicate action or case, disk full, and unresolved effects at restart. Run these as authorized defensive checks under the appropriate scope.
 
-Для оцінки розділити factual correctness, groundedness, useful next step, tone, scope/privacy, tool correctness, resolution proof, latency/cost і accessibility. Прийняти hard invariants окремо; середній бал не перекриває privacy/permission fail. Automated oracle обмежити перевірними фактами; вільний judge не є authoritative product source. Незалежний actor отримує raw prompt/inputs без підказки expected answer.
+Evaluate factual correctness, groundedness, useful next action, tone, privacy and scope, tool correctness, resolution evidence, latency and cost, and accessibility separately. Treat mandatory privacy and permission requirements as hard gates. Use automated oracles for verifiable facts and authoritative product sources for the correct answer. Provide independent reviewers raw prompts and inputs without the expected answer.
 
-Оновлення KB/model/policy/tool invalidates залежні cases, cache й assembly; permission revocation застосовується до inflight/queued work. Backup restore не відновлює видалені/відкликані записи. Тестувати всі канали в доступному реальному середовищі; відсутній канал/device залишається blocked із exact bridge. Текст runbook не є запущеним сервісом чи scheduler.
+Changes to knowledge, model, policy, and tools invalidate affected cases, caches and assembly. Apply revocation to running and queued work and through restore. Test each channel on its actual environment when available. Give blocked channels or devices an exact handoff. Verify separate proof of running service and scheduler.
 
-Повернути contracts/KB/editable sources, matrices/fixtures, actual attempts/receipts/evidence, caps/recovery, gaps й next action. Зберегти приватні матеріали лише у дозволеному project scope.
+Return contracts, knowledge and editable sources, matrices and fixtures, attempts, receipts and evidence, caps and recovery, gaps, and next action. Keep private material in permitted project scope.
 
-## Видимий результат і достатність підходу
+## Visible result and proportionality
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: контракт підтримки, канали/права, джерела знань, життєвий цикл звернення й перевірний шлях вирішення. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Apply the [adaptive workflow](adaptive-work.md). Show support contract, channels and rights, knowledge sources, case lifecycle, and an observable resolution path. Distinguish completed work, inherited decisions, and future results with due gates. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: предметна правильність відповіді/дії, приватність, межі делегування й фактичний результат. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review factual and operational correctness, privacy, delegation boundaries, and observed outcome. Inspect raw inputs for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve context, approvals, and unaffected results.

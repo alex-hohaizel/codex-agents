@@ -1,64 +1,64 @@
-# Компоненти продукту та виклики інших сімейств
+# Product components and routing across families
 
-Зміст: вибір → стабільні виклики → пакет компонента → виконання → повернення. Читати, коли App Atelier приймає частину плану іншого агента, коли застосунку потрібен чатбот, або коли бракує потрібної спеціалізованої методики.
+This guide covers selection, stable invocation, component packaging, execution and return. Use it when App Atelier receives part of another agent's plan, an app needs a chatbot, or a specialized method is missing.
 
-## Межі й authority
+## Scope and authority
 
-Один продукт може містити застосунок, чатбота й спеціалізовані агентні інструменти. Це не три незалежні продукти й не причина тричі збирати однаковий бриф. Зберігати один `product_id`, parent requirement IDs, прийняті рішення й власників спільних контрактів. App Atelier відповідає за доручений app component; батьківський інтегратор приймає міжкомпонентний результат. Прямий запит до App Atelier не потребує створення додаткового Agent Foundry wrapper.
+An app, chatbot and specialized agent tools can be components of one product. Share the exact `product_id`, parent requirement IDs, accepted decisions, common contracts and responsible owners. App Atelier owns its assigned app work, and the parent integrator accepts cross-component results. A direct App Atelier request needs no additional Agent Foundry wrapper.
 
-Для нового проєкту узгодити `product_id` з canonical App profile/state. В існуючому проєкті не перейменовувати actual IDs автоматично: розбіжність parent/local IDs потребує явної перевіреної mapping або повернення upstream. Ключі зовнішнього обліку jobs/effects/receipts включають `(product_id, component_id, local_id)`, щоб однакові локальні IDs різних компонентів не зливались.
+For a new project, align `product_id` with the canonical App profile and state. In an existing project, reconcile differing parent and local IDs with an explicit checked mapping or return the conflict upstream. External job, effect and receipt records include `(product_id, component_id, local_id)` so corresponding local IDs cannot collide.
 
-Для кожної підзадачі визначити `component_id`, свій requirement subset, input/output/consumer, shared contracts, allowed effects/бюджет, due acceptance й `return_to`. У `orchestrator_chain` записати фактичний шлях делегування. Повернення до parent — передача результату, а не новий рекурсивний запуск того самого агента на той самий scope. Призначити одного writer кожному shared API/schema, permission policy, design token set, KB та release epoch.
+For each task identify `component_id`, owned requirements, inputs, outputs and consumer, shared contracts, authorized effects and budget, due acceptance and `return_to`. Put the actual delegation path in `orchestrator_chain`. Return results to the parent without recursively starting the same work. Assign one writer to each shared API/schema, permission policy, design token set, knowledge base and release epoch.
 
-## Стабільні імена й вибір маршруту
+## Stable selectors and route selection
 
-Повний каталог stable selectors і умов маршрутизації — `assets/specialist-routes.json`; його запис не підтверджує встановлення або виконання. У Work використовувати `@<stable-name>`, у Codex — `$<stable-name>`. Frontmatter `name` незмінний; номер у видимій назві не є частиною виклику. Перед викликом знайти встановлене джерело за цим ID, прочитати його поточні входи/виходи/обмеження й зафіксувати фактичні version/hash у job record. «Остання актуальна версія» визначається доступним перевіреним джерелом, не назвою папки чи історією чату.
+`assets/specialist-routes.json` lists stable selectors and selection conditions. It does not prove installation or execution. Use `@<stable-name>` in Work and `$<stable-name>` in Codex. The frontmatter `name` is stable and the display version is separate. Find the installed source by that ID, read its current inputs, outputs and restrictions, and record actual version and hash in the job. The latest version («Остання актуальна версія») is established by checked available source, not a folder label or a previous chat.
 
-| Умова | Work | Codex | Результат / отримувач |
-|---|---|---|---|
-| Батьківський план автоматизації містить app component або змінюється продуктова межа | `@agent-foundry` | `$agent-foundry` | Батьківський план, стабільні IDs, scope/decisions; App повертає свій компонент й міжсистемні gaps інтегратору |
-| Потрібно спроєктувати нову багаторазову спеціалізовану навичку/сімейство, якої немає | `@design-specialist-skills` | `$design-specialist-skills` | Blueprint/створена методика з inherited requirements; не зайвий щабель для звичайного app build |
-| Компонент є застосунком | `@app-atelier-director` | `$app-atelier-director` | Прийнятий app scope, потрібні стадії, source/build/QA/handoff |
-| Бот є окремим каналом, частиною core або складною підтримкою | `@chatbot-atelier-director` | `$chatbot-atelier-director` | Повний bot component або точний доручений зріз за спільними продуктовими контрактами |
-| Потрібен лише конкретний bot adapter/action/job | `@chatbot-atelier-integrations` | `$chatbot-atelier-integrations` | Перевірний platform adapter, identity/audience/delivery/receipt/recovery; без повторного продуктового research |
-| Потрібні лише бот-знання/пам'ять, розмова, медіа або QA | Відповідний `@chatbot-atelier-knowledge`, `@chatbot-atelier-conversation`, `@chatbot-atelier-media`, `@chatbot-atelier-qa` | Ті самі stable IDs із `$` | Лише конкретний артефакт/контракт і належні докази; App інтегрує його у свій сценарій |
+| Condition | Work | Codex | Output and recipient |
+| --- | --- | --- | --- |
+| The parent automation plan includes an app or the product boundary changes | `@agent-foundry` | `$agent-foundry` | Parent plan, stable IDs, scope and decisions. App returns its component and cross-system gaps to the integrator. |
+| A reusable specialized method or family needs design and no suitable source exists | `@design-specialist-skills` | `$design-specialist-skills` | Blueprint or method with inherited requirements. Ordinary app builds do not require this route. |
+| The component is an app | `@app-atelier-director` | `$app-atelier-director` | Accepted app scope, relevant stages, source, builds, QA and handoff. |
+| A bot is a separate channel, part of the core or complex support | `@chatbot-atelier-director` | `$chatbot-atelier-director` | Full bot component or exact assigned slice under the shared product contracts. |
+| A specific bot adapter, action or job is needed | `@chatbot-atelier-integrations` | `$chatbot-atelier-integrations` | Testable adapter with identity, audience, delivery, receipt and recovery. Reuse current product research. |
+| Only knowledge, memory, conversation, media or QA is needed | Relevant `@chatbot-atelier-knowledge`, `@chatbot-atelier-conversation`, `@chatbot-atelier-media` or `@chatbot-atelier-qa` | The corresponding stable IDs with `$` | Specific artifact or contract and appropriate proof. App integrates the output into its own journey. |
 
-Наявність імені в таблиці не означає виконання. За відсутності peer skill не писати «викликано». Виконати дозволену частину за локально включеними контрактами або передати самодостатній пакет у придатне середовище; required peer capability лишається blocked, якщо без неї неможливий обіцяний результат. Якщо потрібна методика вже є й достатня, не створювати її дубль через конструктор.
+A listed name does not establish an invoked («викликано») status. When a peer is unavailable, do the authorized work supported by local contracts or prepare a self-contained package for a suitable environment. Keep the required capability blocked if the useful result depends on it. Reuse a sufficient existing method before constructing another.
 
-## Вхід компонента й умови допуску
+## Component input and admission
 
-Компонентний пакет `atelier-component-handoff/1` є поточним форматом взаємодії. Він передає:
+The current component format is `atelier-component-handoff/1`. It carries:
 
-- `product_id`, `component_id`, `component_kind`, `parent_requirement_ids`, `owned_requirement_ids`, відомі dependencies та actual `return_to`/consumer;
-- поточний намір/межу, accepted decisions/originals, applicability й material unknowns; джерела й input files з SHA-256;
-- typed domain/API/event/data/auth contracts, кожний із stable contract ID, owner, file/hash, reader/writer, semantic invariants і зміною версії;
-- environment/capability snapshot, права, зовнішні дії, budget/stop, обмеження й ресурсне ownership;
-- requested deliverables, acceptance/oracles/negative cases, потрібні типи доказу й due gate;
-- для чатбота `selected_channels` або `proposed_channels`, audience/identity/link/revoke/retention, channel-adapter contract refs і delivery semantics; невибраний канал не підміняти Telegram;
-- фактичні attempts/jobs/unknown outcomes, створені outputs/hashes, achieved proof, gaps, checkpoint і точний наступний крок.
+- `product_id`, `component_id`, `component_kind`, `parent_requirement_ids`, `owned_requirement_ids`, known dependencies and actual `return_to` or consumer.
+- Current intent and scope, accepted decisions and originals, applicability, material unknowns, and input files and sources with SHA-256.
+- Typed domain, API, event, data and auth contracts with stable contract ID, owner, file and hash, reader/writer, semantic invariants and version change.
+- Environment and capability snapshot, permissions, external operations, budget, stop, limits and assignment of resources.
+- Requested deliverables, acceptance, oracles, negative cases, required evidence types and due gate.
+- For a chatbot, `selected_channels` or `proposed_channels`, audience, identity, linking, revocation and retention, adapter references and delivery semantics. Leave unspecified channels open.
+- Actual attempts, jobs and unknown outcomes, output files and hashes, obtained proof, gaps, checkpoint and exact next action.
 
-У App ledger цей пакет реєструвати як `artifact` із path/hash та посиланнями потрібних jobs/requirements; не вигадувати `put --kind component` і не створювати другу mutable registry. Шаблон не є execution grant. Продуктові рішення й чинні дозволи перевірити за реальним дорученням; вже надану згоду не збирати повторно. Критичний unknown блокує залежну дію; незалежний analysis/design можна продовжувати. Skills і повідомлення не переносять credentials, приватну chat history або локальні browser sessions автоматично.
+Register the package in App's ledger as an `artifact` with path, hash and relevant job and requirement references. The ledger has no `put --kind component` and does not need a parallel mutable register. A template cannot grant execution. Bind product decisions and current permissions to the actual request and reuse a valid existing approval. A critical unknown blocks its dependent action while independent analysis or design can proceed. Skills and messages do not automatically carry credentials, private chat history or browser sessions.
 
-## App ↔ bot: точна межа підтримки
+## App and bot ownership of support
 
-`@app-atelier-support` залишається власником продуктового support contract: категорії/guest/account режими, дозволені поля й дії, KB/ціни/відомі помилки, tone, case lifecycle, caps/fallback та app/web UX. Для простої локальної довідки не запускати новий bot project. Якщо потрібен bot channel, передати лише adapter/knowledge/conversation реалізацію потрібному модулю ChatBot Atelier. Назву платформи й кількість каналів визначає задум.
+`@app-atelier-support` owns the product support contract: categories and guest/account modes, permitted fields and actions, knowledge base, prices, known problems, tone, case lifecycle, limits, fallback, and app/web experience. Ordinary local help does not open a new bot project. If a bot channel is needed, assign the adapter, knowledge or conversation work to the relevant ChatBot Atelier module. The accepted design determines the exact channels and count.
 
-Bot component не перебудовує parent app auth, billing, модель даних або підтримку самовільно. Provider identity не прирівнюється до product subject; linking/revoke та довіра до webhook мають власний контракт. Transport destination, logical recipient, tenant, subject, audience й purpose не змішуються. Відкликання доступу/видалення інвалідовує payload/cache/jobs і перевіряється повторно перед delivery. Публічний/group канал не отримує private support за замовчуванням; погоджений shared сценарій має окремі правила й негативні докази.
+A bot component preserves the parent app's auth, billing, data and support contracts. Provider identity differs from product identity. Linking, revocation and webhook trust require explicit contracts. Keep transport address, logical recipient, tenant, subject, audience and purpose separate. Revocation and deletion invalidate payloads, caches and pending jobs and must be checked again before delivery. A public or group channel cannot access private support by default. A shared use case needs its own rules and negative cases.
 
-## Приймання й повернення Work ↔ Codex
+## Acceptance and return between Work and Codex
 
-App та bot компонент мають один acceptance scenario через app input → domain/auth → bot/tool/provider → result → delivery → recovery. Отримувач перевіряє source/build/config/content epoch, hash bindings, точні outputs і required modality. Приймання бот-тексту не підтверджує app integration; green app build не підтверджує provider delivery. Shared contract change повертає upstream affected IDs й інвалідовує залежні докази перед наступним effect.
+Use a shared acceptance scenario from app input through domain authorization, bot/tool/provider call, result, delivery and recovery. The consumer verifies source/build/config/content epoch, hashes, outputs and required proof mode. A correct bot answer alone does not prove app integration. A passing build does not prove provider delivery. Return affected IDs from a changed shared contract upstream, invalidate the dependent proof and recheck before the next effect.
 
-Передача між Work і Codex містить actual working context, точні source/input/output hashes, пройдені checks, permissions/budget/stop, job IDs та невідомі outcomes, next action і return validation. Codex може почати з прямого доручення й реального проєкту без попереднього Work-пакета; тоді він відновлює ті самі записи з чинних джерел. Два середовища не пишуть одночасно один source/БД/provider effect. До повтору timeout спочатку reconcile, без нового ID того самого наміру.
+A Work/Codex handoff includes actual working context, source/input/output hashes, completed checks, permissions, budget and stop, job IDs and unknown outcomes, next action and return verification. Codex can start from a real project and direct request and reconstruct the same records from current sources. Sequence writes to a common source, database or provider operation. Reconcile a timeout before any repeat with the same intent.
 
-Cold return має дати parent інтегратору відтворюваний результат, actual execution receipt або чесний `not_invoked`/`blocked`/`prepared` status. Обсяг і належний доказ приймаються окремо; fabricated invocation, відсутній peer source чи чужий stale receipt не закривають компонент.
+A cold return gives the parent integrated, reproducible work and actual execution evidence or an accurate `not_invoked`, `blocked` or `prepared` status. Scope and appropriate proof have separate acceptance. Fabricated calls, unavailable peer source and stale receipts do not close a component.
 
-## Машинна перевірка пакета
+## Machine validation of the package
 
-Шаблон — `assets/component-handoff.template.json`; інстанціювати його за реальним проєктом. `python3 -B scripts/check_component_handoff.py FILE --root PROJECT_ROOT` перевіряє поточну компонентну структуру й byte bindings, а `--ready` — заявлену готовність до передачі отримувачу. Це не product/runtime readiness, не підтвердження користувацької волі й не факт виклику іншої навички. Перевіряти actual receipt та належне предметне приймання окремо.
+Instantiate `assets/component-handoff.template.json` for the real project. `python3 -B scripts/check_component_handoff.py FILE --root PROJECT_ROOT` validates current component structure and byte bindings. `--ready` checks declared readiness for handoff to the consumer. This does not certify product or runtime readiness, user assent or invocation of another skill. Verify the actual receipt and domain acceptance separately.
 
-## Приклади адресного доручення
+## Examples of scoped requests
 
-Після binding реального пакета Work-запит може виглядати так: `@app-atelier-director Прийми app component з указаного пакета; збережи product_id, parent requirements і shared contracts. Виконай тільки доручений scope та поверни outputs/evidence/checkpoint інтегратору.` У Codex використовувати `$app-atelier-director` з фактично доступним шляхом до того самого перевіреного пакета або проєкту. Це приклад шаблону запиту, а не виконаний виклик.
+After binding a real package, a Work request might be `@app-atelier-director Прийми app component з указаного пакета; збережи product_id, parent requirements і shared contracts. Виконай тільки доручений scope та поверни outputs/evidence/checkpoint інтегратору.` In Codex use `$app-atelier-director` with an accessible path to the same checked package or project. This example does not record a performed invocation.
 
-Для bot component: `@chatbot-atelier-director Прийми bot component цього продукту; уточни невибрані канали, виконай доручені стадії за чинними product/auth/data contracts і поверни прийнятий результат App інтегратору.` У Codex — `$chatbot-atelier-director`. Якщо потрібен лише один adapter, адресувати `@chatbot-atelier-integrations` / `$chatbot-atelier-integrations` з тим самим component scope; не запускати повторний повний discovery.
+For a bot component use `@chatbot-atelier-director Прийми bot component цього продукту; уточни невибрані канали, виконай доручені стадії за чинними product/auth/data contracts і поверни прийнятий результат App інтегратору.` Use `$chatbot-atelier-director` in Codex. For one adapter use `@chatbot-atelier-integrations` or `$chatbot-atelier-integrations` with the same component scope. Reuse current discovery.

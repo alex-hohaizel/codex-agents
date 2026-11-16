@@ -1,59 +1,59 @@
-# Операційний протокол
+# Operating protocol
 
-Зміст: scope → input/current state → blueprint → target construction → jobs → effects → пауза → transfer.
+Contents: scope → current inputs and state → blueprint → target construction → jobs → effects → pause → transfer.
 
-## Сфера інструмента
+## Tool scope
 
-`scripts/foundry.py` — внутрішній Python CLI для versioned стану, graph/coverage, source pins, approval, readiness та запису фактичних результатів. Він не розуміє природну мову, не генерує предметний зміст, не викликає зовнішні tools і не створює повноваження. Природний намір, domain research, компетенції й реальні дії виконує агент. Кожне поле authority/evidence має відповідати фактичній відповіді чи спостереженню.
+`scripts/foundry.py` is an internal Python CLI for versioned state, graph and coverage checks, source pins, approval, readiness, and recording observed results. It does not interpret natural language, produce domain content, call external tools, or grant authority. The agent interprets intent, researches the domain, supplies expertise, and performs actual actions. Every authority or evidence field must correspond to a real response or observation.
 
-Перед використанням прочитати `python3 -B <ACTIVE_SKILL>/scripts/foundry.py --help`, потрібний subcommand help і [records](../assets/runtime-records.json). Підставляти фактичний активний шлях зі списку навичок; чужий шлях не є інструкцією для користувача. Локальний стандартний runtime потребує сумісного Python і POSIX locking; фактично перевірені ОС/версії зазначаються в поточному QA, не вгадуються.
+Before use, read `python3 -B <ACTIVE_SKILL>/scripts/foundry.py --help`, the relevant subcommand help, and the [record contracts](../assets/runtime-records.json). Substitute the active source path from the skill list. A path from another system is not a command the user can run. The standard local runtime requires compatible Python and POSIX locking. Report the operating systems and versions actually tested in the current QA record.
 
-## Окремі session roots
+## Separate session roots
 
-Factory session і product execution session мають різні явно обрані roots/purpose. Для існуючого проекту вибрати окрему робочу папку конструктора; вона не перезаписує product state або accepted packages. `init` створює новий ledger, не мігрує довільні старі записи й не обирає компетенції за користувача. Файли canonical authority зберігати й pin-ити; не переписувати стару відмову в нове схвалення через sidecar.
+Select an explicit root and purpose for both the factory session and the product execution session. For an existing project, use a separate construction workspace that preserves product state and accepted packages. `init` creates a new ledger; it does not migrate arbitrary old records or select capabilities on the user's behalf. Preserve and pin authoritative files. Do not use a sidecar to turn an earlier refusal into a new approval.
 
-Після імпорту звірити raw bytes/версії/права/source й відокремити historical metadata від поточних згод. Archive paths/symlinks/resource caps перевіряти; inbound code не виконувати. Великі матеріали передавати контрольованими частинами або versioned artifact storage з hashes/recipe, а не вимикати перевірку чи губити originals.
+After import, verify raw bytes, versions, rights, and source. Separate historical metadata from current authorization. Check archive paths, symlinks, and resource limits. Do not execute inbound code. Transfer large materials in bounded parts or through versioned artifact storage with hashes and a recipe. Retain originals and verification.
 
-## Паспорт до gate
+## Passport before the gate
 
-Агент заповнює фактичний blueprint за [архітектурним контрактом](architecture-contract.md), зв’язує всі capabilities, фазовий DAG, roles/components/outputs/tests, discovery applicability, questions і constraints. Число фаз не визначає число skills. Структурний check потрібний, але предметну повноту й якість підтверджують людина та reviewer.
+Populate the actual blueprint according to the [architecture contract](architecture-contract.md). Bind capabilities, the phase DAG, roles, components, outputs, tests, discovery applicability, questions, and constraints. Phase count does not determine skill count. Structural validation is necessary. A human and a reviewer verify domain completeness and quality.
 
-Читабельний паспорт і список складових показати **до** створення target skills. Approval record pin-ить exact blueprint ID/revision/content hash/scope і реальне джерело позитивної відповіді. Не записувати fake approval, не використовувати заповнений template як згоду. Змінився матеріальний зміст або залежне knowledge/authority — звірити impact і відкрити адресний delta. Негативне, pending, revoked або stale approval не дозволяє build.
+Present the readable passport and component list **before** producing target skills. Pin approval to the exact blueprint ID, revision, content hash, scope, and actual source of the affirmative response. A filled template is not approval. If material content, dependent knowledge, or authority changes, assess impact and reopen the affected decision. Negative, pending, revoked, or stale approval blocks the build.
 
-Перед authoring, перед дорогим dependent job та перед пакуванням виконати актуальний `build-gate`. Перевірка дозволяє лише конкретний scope конструкції; вона не запускає нічого сама. Після gate агент користується Skill Creator й предметними tools, фактично створює outputs, виконує QA, реєструє artifacts/evidence і перевіряє bundle проти approved entry/skillset/coverage. Шаблон із відсутнім змістом не є ready target.
+Run the current `build-gate` before authoring, before an expensive dependent job, and before packaging. It admits a specific construction scope and does not run work on its own. After the gate, use Skill Creator and the relevant domain tools to build actual outputs, run QA, register artifacts and evidence, and check the bundle against the approved entry, skill set, and coverage. An empty or incomplete template is not a ready target.
 
-## Виконання створеним агентом
+## Execution by the generated agent
 
-Виконання продуктового scope потребує окремого actual execution grant із поточною метою/межами/phase IDs. Він може походити з тієї самої відповіді, якщо користувач явно доручив і створити, і виконати; scope не розширювати інтерпретацією. Blueprint acceptance не підміняє execution permission.
+Product execution needs an actual grant identifying the current goal, boundaries, and phase IDs. The same response may authorize construction and execution if the user clearly requested both. Preserve the granted scope. Acceptance of the blueprint does not authorize execution by itself.
 
-Для кожної work unit: concrete goal/owner/skill, current source, exact inputs/dependencies, фазові передумови, due requirements/decisions/evidence/capabilities, outputs, limits і stop. `readiness` перевіряти перед `start`; `complete` після actual output/proof/closure. Pending requirement, над яким task працює, не блокує його створення завчасно, але заявлене fulfillment має закритися до completion. Готовність попередньої фази або scoped prerequisite evidence не можна обійти пропущеним depends_on.
+For each work unit, state its concrete goal, owner and skill, current source, exact inputs and dependencies, phase prerequisites, requirements and decisions due, evidence, capabilities, outputs, limits, and stop condition. Check `readiness` before `start`; call `complete` after the actual output, proof, and closure. A pending requirement can be the task's subject and need not block task creation. Close it before claiming fulfillment. Omitting a `depends_on` edge does not bypass phase readiness or scoped prerequisite evidence.
 
-Завершення pin-ить outputs, proofs і залежності. Зміна bytes/knowledge/source/permission відкриває відповідні tasks/reviews. Бounded self-check не стає незалежним pass; де потрібний незалежний review — відповідний gate явний. Новий предметний must створює свій acceptance і due gate, а не загальну нотатку в кінці.
+Pin outputs, proof, and dependencies at completion. Reopen affected work and reviews if bytes, knowledge, source, or permissions change. If independent review is required, give it an explicit gate; a bounded self-check is separate evidence. Apply newly discovered domain requirements to their specific acceptance conditions and due gates.
 
-## Зовнішні effects
+## External effects
 
-Підготувати конкретний результат для рішення, перевірити actual capability/environment/target, outputs/hashes/parameters і чинну позитивну authority. Effect approval відділене від blueprint та execution grant; scope і bytes точні. Згода на відмовний варіант не є дозволом.
+Prepare a concrete reviewable result. Verify the actual capability, environment, target, outputs, hashes, parameters, and current positive authorization. Effect approval is distinct from blueprint approval and execution permission, and must identify the exact scope and bytes. Approval of a no-action option does not authorize an effect.
 
-Спочатку запис pending/dispatch, потім один actual tool call, потім actual receipt/provider proof. Runtime не виконує effect. Збої, missing receipt і unknown outcome не означають невиконання: read-only status/reconciliation перед retry. Provider idempotency/deduplication застосовувати за підтримки; local state не є distributed exactly-once гарантією.
+Record pending dispatch, make one actual tool call, then retain the actual receipt or provider proof. The Foundry CLI does not execute the effect. On error, missing receipt, or unknown outcome, reconcile through read-only status before retry. Use provider-supported idempotency or deduplication when available. A local ledger does not guarantee distributed exactly-once effects.
 
-## Пауза, контекст і повторне відкриття
+## Pause, context, and reopening
 
-Звіряти stop перед залежною дією. Now блокує нові jobs; future boundary зупиняє на точному artifact/phase. Active pause не скидається новим формулюванням або future-stop. Безпечно записати повернений receipt/checkpoint дозволено; почати нову роботу за stop — ні.
+Check stop state before a dependent action. A stop marked now blocks new jobs; a future stop identifies the exact artifact or phase boundary. Restating the task or setting a future stop does not clear an active pause. Safely record a returned receipt or checkpoint during the pause. Start no new job while the stop applies.
 
-Зберігати читабельний current brief: завершене/поточне/pending, exact source/blueprint versions, questions, gaps, real jobs/effects, limits, next allowed action/host/return. Context вибирає актуальні записи й залежні джерела; це не автоматична семантична пам’ять всіх проектів. Перед resume — files/hashes/knowledge/permissions/external outcomes; не відтворювати завершені effects.
+Keep a readable current brief: completed, current, and pending work; exact source and blueprint versions; questions and gaps; actual jobs and effects; limits; and the next permitted action, host, and return path. Load current records and relevant sources. The brief does not supply automatic semantic memory across projects. Before resuming, check files, hashes, knowledge, permissions, and external outcomes. Do not repeat completed effects.
 
-Інцидент, невелика зміна чи нове знання відкривають зачеплений фрагмент, не весь конструктор заново. Зміна suite має compatibility review й declared impact; routine compatible cleanup не потребує нової анкети користувача. Матеріальна зміна компетенцій/права/якості/вартість — точне адресне рішення.
+An incident, small change, or new knowledge reopens the affected part of the workflow. A suite change needs a compatibility review and stated impact. Routine compatible cleanup needs no new intake. Ask for a concrete decision if capability, rights, quality, or cost changes materially.
 
-## Доставка й manual return
+## Delivery and manual return
 
-Кожний потрібний перехід має читабельний пакет, actual files/hashes/checkpoint/authority, конкретні launch steps, working path, argv чи перевірені UI дії, expected outputs/receipt і return validation. Відсутня можливість ізолює конкретний blocked scope. Зберегти користувачу один next step; не вимагати вибирати назви модулів або повторювати вже наявні джерела.
+Give each required transition a readable packet containing actual files, hashes, checkpoint, and authority; concrete launch steps and working path; argv or verified UI actions; expected outputs and receipts; and return validation. Isolate the specific scope blocked by an unavailable capability. Offer the user one clear next action without asking them to choose internal modules or repeat known sources.
 
-Exit/status CLI тлумачити за actual help/record contract. Успішний запис стану не доводить, що людина щось схвалила, інструмент виконав дію, матеріал має потрібну якість або продукт працює наживо. Ці твердження потребують власних відповідних evidence.
+Interpret CLI exit and status results according to actual help and the record contract. A successful state write only verifies the record. User approval, tool effects, artifact quality, and live product behavior each need relevant evidence.
 
-## Чинний контракт: admission і checkpoints виробництва
+## Production admission and checkpoints
 
-Перед work unit звірити operation/recipe IDs, current material parameter support/consumption, consumer і ресурси. У checkpoint додати maturity, depth model path/hash, operation/recipe/attempt refs, reserved unknown cost, assembly/evidence gaps та exact next validator. Дані attempt залишаються у project ledger; reusable source не містить поточних provider IDs або secrets. Recipe/semantic inputs/importer/target profile/rights change відкривають залежні outputs/proofs; source master не змінюється без причини. Після двох однакових repair без прогресу змінити гіпотезу або повідомити точний blocker. Resume спочатку reconciles незавершений effect, потім продовжує дозволений node.
+Before a work unit, verify operation and recipe IDs, which material parameters the current operation supports and consumes, the consumer, and the resources. Record maturity, depth model path and hash, operation, recipe and attempt references, reserved unknown cost, assembly and evidence gaps, and the exact next validator. Keep attempt data in the project ledger. Reusable source must not contain current provider IDs or secrets. A change in recipe, semantic inputs, importer, target profile, or rights reopens dependent outputs and proofs. Preserve the source master unless the change requires it. After two identical repairs without progress, change the hypothesis or report the specific blocker. On resume, reconcile unfinished effects before continuing with the authorized node.
 
-## Короткий керівний огляд
+## Concise review for the owner
 
-На матеріальному рубежі сформувати [read-only огляд](interaction-protocol.md) з чинного state. Для малої правки коротко показати actual diff/перевірку/результат, без повного нового продуктового циклу. Чинне точне доручення залишається в межах своєї authority; локальний стан/шаблон не надає нового дозволу. Власник бачить рішення з наслідками; технічні подробиці та raw traces доступні за потребою.
+At a material milestone, prepare a [read-only overview](interaction-protocol.md) from current state. For a minor repair, show the actual diff, check, and result without a new product cycle. Carry existing authorization within its exact scope; no local state or template grants additional authority. Show the owner decisions and their consequences. Keep technical details and raw traces available when needed.

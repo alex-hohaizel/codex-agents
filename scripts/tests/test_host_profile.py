@@ -44,15 +44,29 @@ class HostProfileTests(unittest.TestCase):
         self.instructions.write_bytes(before.encode('utf-8'))
         self.make_plan()
         plan = H.load(self.plan)
-        self.assertEqual(len(plan['changes'][0]['compatibility_sources']), 1)
+        self.assertEqual(len(plan['changes'][0]['compatibility_sources']), len(H.PREVIOUS_PROFILE_TEMPLATES))
         H.apply(self.plan, self.journal)
         installed = H.read(self.instructions)
         self.assertTrue(installed.startswith('Owner prefix.\r\n\r\n'))
         self.assertTrue(installed.endswith('\r\n\r\nOwner suffix.\r\n'))
-        self.assertIn('production profile 6.1.0', installed)
+        self.assertIn('production profile 6.2.0', installed)
         self.assertNotIn('production profile 6.0.0', installed)
         H.verify_or_rollback(self.journal, rollback=True)
         self.assertEqual(self.instructions.read_bytes(), before.encode('utf-8'))
+
+    def test_installed_61_can_update_and_roll_back_with_role_settings(self):
+        path, expected = H.PREVIOUS_PROFILE_TEMPLATES[1]
+        prior = H.read(ROOT / path)
+        self.assertEqual(H.sha(prior), expected)
+        before = prior.replace('{{STANDARD_ROOT}}', str(self.standard)) + '\nOwner appendix.\n'
+        self.instructions.write_text(before)
+        self.make_plan()
+        H.apply(self.plan, self.journal)
+        self.assertIn('then the language of the request', H.read(self.instructions))
+        self.assertIn('Owner appendix.', H.read(self.instructions))
+        self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
+        H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(H.read(self.instructions), before)
 
     def test_unknown_change_inside_managed_block_is_not_overwritten(self):
         customized = self.old_profile().replace(H.END, 'Keep this owner policy.\n' + H.END)

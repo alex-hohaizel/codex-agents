@@ -14,11 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24.22.2'
           cache: npm
@@ -41,16 +43,107 @@ jobs:
         run: python3 -m pip install reportlab==4.4.9 pillow==13.0.0 pypdf==6.21.4
       - name: Build and verify campaign, sources, recovery tests and source bundles
         run: python3 -B scripts/showcase_pipeline.py --timeout 300
-      - uses: actions/upload-artifact@v4
+      - name: Select the two declared source archives
+        id: bundles
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import os
+          from pathlib import Path
+          import re
+
+          record = json.loads(Path("dist/BUILD.json").read_text())
+          names = [item["name"] for item in record["files"]]
+          version = record["suite_version"]
+          if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?", version):
+              raise SystemExit("Unexpected core version")
+          expected = [f"Agent_System_{version}_{mode}.zip" for mode in ("WORK", "CODEX")]
+          if names != expected or not all((Path("dist") / name).is_file() for name in names):
+              raise SystemExit("The validated release receipt must name exactly two archives")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as result:
+              for mode, name in zip(("work", "codex"), names):
+                  print(f"{mode}=dist/{name}", file=result)
+          PYTHON
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: agent-system-bundles
-          path: dist/*
+          path: |
+            dist/BUILD.json
+            dist/SHA256SUMS
+            ${{ steps.bundles.outputs.work }}
+            ${{ steps.bundles.outputs.codex }}
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: campaign-downloads-en-uk
           path: reports/local-campaign-artifacts/*
           if-no-files-found: error
+
+  accepted-source-provenance:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'alex-hohaizel/codex-agents'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - name: Read the validated bundles from this exact run
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: agent-system-bundles
+          path: release-bundles
+      - name: Verify exact subjects against the same run's build receipt
+        id: subjects
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import zipfile
+
+          root = Path("release-bundles")
+          record = json.loads((root / "BUILD.json").read_text())
+          version = record["suite_version"]
+          rows = record["files"]
+          if (record["schema"] != "codex-agents.build/1" or record["repository_branch"] != "main"
+              or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?", version)
+              or len(rows) != 2):
+              raise SystemExit("Invalid source build receipt")
+          subjects = []
+          for mode, row in zip(("WORK", "CODEX"), rows):
+              name = f"Agent_System_{version}_{mode}.zip"
+              file = root / name
+              if row["name"] != name or file.is_symlink() or file.stat().st_size != row["size"]:
+                  raise SystemExit("Archive inventory differs from the build receipt")
+              with file.open("rb") as archive:
+                  if hashlib.file_digest(archive, "sha256").hexdigest() != row["sha256"]:
+                      raise SystemExit("Archive digest differs from the build receipt")
+              with zipfile.ZipFile(file) as archive:
+                  package = json.loads(archive.read("PACKAGE.json"))
+                  release = json.loads(archive.read("releases/current.json"))
+                  if (package["mode"] != mode or package["suite_version"] != version
+                      or package["repository_version"] != record["repository_version"]
+                      or release["suite_version"] != version
+                      or release["repository_version"] != record["repository_version"]
+                      or package.get("release_stage") != release.get("release_stage")):
+                      raise SystemExit("Archive descriptors differ from the expected build")
+              subjects.append(file)
+          if {path.name for path in root.iterdir()} != {"BUILD.json", "SHA256SUMS", *[path.name for path in subjects]}:
+              raise SystemExit("Unexpected files in source bundle artifact")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as result:
+              for mode, file in zip(("work", "codex"), subjects):
+                  print(f"{mode}={file}", file=result)
+          PYTHON
+      - name: Attest the verified source archives
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: |
+            ${{ steps.subjects.outputs.work }}
+            ${{ steps.subjects.outputs.codex }}
 
 # Artifacts are downloads, not GitHub Releases. This job writes no repository data,
 # installs no user skill, and changes no product state or repository visibility.

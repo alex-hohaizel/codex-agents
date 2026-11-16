@@ -1,78 +1,79 @@
-# Agent System · Work + Codex
+# Codex Agent System
 
-**A focused task. An existing product. A whole new direction.**
+Reusable skills, specialist roles, and a local workbench for Codex. Start with a task in your own language. The system can handle a focused change directly, continue work with its current owner, coordinate specialists, or help you build a reusable agent for a recurring workflow.
 
-A reusable system of **33 specialized skills** for research, requirements, design, implementation, verification and continued improvement. Review a backend architecture, build an integration, restore an existing service, create an application or develop a game. The specialist team and depth follow the actual task.
+[Start with a task](#quickstart) · [Explore the system](#capabilities) · [Inspect the evidence](#verification-and-releases) · [Browse the showcase](#showcase)
 
-[English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md)
+## Quickstart
 
-**[Start here →](START_HERE.md)** · **[English campaign](marketing/campaign/README.md)** · **[Українська реклама](marketing/campaign/README.uk.md)** · [Changes](CHANGELOG.md) · [Current release](releases/current.json) · [Requirements](governance/requirements.csv)
+1. Follow [Start here](START_HERE.md) for the supported Codex setup. Use the [current release record](releases/current.json) to select the exact package and migration.
+2. Open a fresh Codex chat in a disposable project. Try a task you can verify, such as “Fix the broken relative link in this README and confirm its target exists.”
+3. For help choosing a route, install the optional Atelier Orchestrator and start with `$atelier-orchestrator`. For ongoing work, point Codex to the actual project and its checkpoint. Do not restate facts the project already records.
 
-The active branch is **`main`**. The published repository candidate is **1.4.0-rc.5** with **core 6.1.0**, **Atelier Orchestrator 1.2.0**, **maintenance skill 1.1.0** and **Agent Atelier 0.5.0**. The release record gives the exact source and verification links. [Current release](releases/current.json) · [Requirements](governance/requirements.csv) · [Release evidence](releases/repository-1.4.0-rc.5.md)
+Skills can be used separately. The local workbench is optional. You can give instructions and request artifacts in the language you use at work. The [installation guide](docs/en/GUIDE.md) covers discovery, updating, and recovery.
 
-The owner approved the passport 0.2 implementation and the shown visual foundation. The case ledger records the observed results and outstanding work for full adoption. [Implementation and evidence](docs/evolution/2026-11-10/README.md) · [Український довідник і паспорт](docs/evolution/2026-11-10/README.uk.md) · [29-case ledger](docs/evolution/2026-11-10/FULL-CASE-RESULTS.en.md)
+## Capabilities
 
-![Agent System: English campaign cover](assets/marketing/campaign/en/01-original.png)
-
-The campaign contains **ten matching materials in English and Ukrainian**: applications, game/studio creation, conversational products, platforms, automation, both constructors, product lifecycle, project continuity and a useful next task. The English artwork localizes the corresponding Ukrainian composition. The exact Ukrainian source cover remains preserved. These are conceptual examples of capabilities, not evidence of real customers, orders or released products.
-
-Open the campaign README in your language for its PDF, lightweight download and offline-gallery links. GitHub displays HTML source; download the repository or source package before opening `marketing/campaign/index.html` locally. The current campaign pointer is [CURRENT_CAMPAIGN.json](marketing/CURRENT_CAMPAIGN.json). Superseded concept galleries, draft artwork and the rejected vector replacement have been removed from the current tree.
-
-## Choose the work you need
-
-| Your goal | Start with | Useful outcome |
+| Use the system to… | Starting point | What you can check |
 | --- | --- | --- |
-| Describe any task, continue a project or improve the agent system | Atelier Orchestrator | An appropriate route through direct work, existing skills/project agents or justified agent construction |
-| Review retries, consistency or performance in a backend | Orchestrator or an appropriate existing specialist | A scoped investigation, evidence and a reviewable change |
-| Reconcile spreadsheets and prepare shipping documents | Orchestrator or an appropriate existing specialist | A tailored workflow with clear data, actions and exception handling |
-| Create or improve an Android, iOS or web application | App director | Product decisions, specification, UX, implementation, QA and release preparation |
-| Improve a support bot or conversational product | ChatBot director | Preserved personality and memory rules, knowledge, actions, media and verification |
-| Develop a mobile game | Game director | Studio identity, concepts, game systems, assets, native implementation, QA and live operations |
-| Fix a known issue in an existing product | The relevant existing agent | A targeted change with accepted product requirements preserved |
+| Fix, verify, or research a focused task | Direct Codex work or an existing skill | The resulting change, sources, and a relevant check |
+| Continue an existing product | Its current project agent, an Atelier director, or Orchestrator | Current requirements, identity, decisions, deferred work, and a verified next step |
+| Build a reusable workflow or a project agent | Skill constructor or Agent Foundry | Triggering, tool scope, a staged bundle, and the original task run through the intended consumer |
+| Build and operate an app, chatbot, or game | A family director and its specialists | Requirements, production artifacts, real client behavior, rollout readiness, and remaining evidence |
+| Coordinate specialists and independent review | Native Codex roles and scoped handoffs | The named actor, exact inputs and outputs, integration, and distinct acceptance |
+| Explore local Codex work and supported connections | Agent Atelier for Mac | Source-backed work, explicit project binding, specific tool capabilities, and actual receipts |
 
-Outputs depend on the actual scope, connected tools, data access and execution environment. The toolkit provides instructions and working methods; it does not grant service access or replace native-device testing.
+[Full capability and tool map](docs/CAPABILITIES.md) · [33 core skills](kit/skills/) · [Optional Orchestrator](optional-skills/atelier-orchestrator/) · [Maintenance skill](maintenance-skill/) · [12 role profiles](agent-profiles/) · [Local workbench](apps/agent-atelier/)
 
-## One project across Work and Codex
+## How it works
 
-Work is useful for clarifying a goal, comparing choices, reviewing designs and inspecting connected evidence. Codex is useful for editing a real repository, running scripts, testing and preparing implementation. Their capabilities overlap when the relevant tools exist.
+```mermaid
+flowchart LR
+    A["Request and current project"] --> B{"Choose a route"}
+    B --> C["Direct or existing specialist"]
+    B --> D["Coordinate or construct"]
+    C --> E["Deliver in the target environment"]
+    D --> E
+    E --> F["Verify the result and next action"]
+```
 
-Continuity comes from the same source revision, requirements, decisions, selected language and checkpoint. A handoff carries those records and actual results. It does not silently open another chat or start a desktop session.
+- **Harness** gives Codex maintained instructions, source-controlled contracts, runnable checks, and evidence it can inspect. The simplest route uses the smallest useful set of controls.
+- **Context capsules** retain the original objective, authoritative sources, current decisions, requirements, permissions and the next step. Native project state stays authoritative. Handoffs carry the relevant portion of that evidence to a named actor.
+- **Search and retrieval-augmented generation (RAG)** start with exact files, IDs and ordinary search. Evaluate lexical or hybrid semantic retrieval against a real corpus if the task needs it. A vector database and global chat index are optional extensions.
+- **Evals** test routing, use of tools, artifact outcomes, cost and preservation on pinned cases. Code checks, model behavior, native discovery, installation and external outcomes have separate records.
+- **Tool and effect controls** use the actual host capabilities and permissions. Inspect the operation and target before dispatch. Reconcile an unknown write at its destination before retrying it.
 
-| Family | Skills | Scope |
-| --- | ---: | --- |
-| Constructors | 2 | Tailored agents and reusable specialist skills |
-| App | 11 | Research through application operations |
-| ChatBot | 11 | Conversation, knowledge, integration and continued service |
-| Game | 9 | Studio creation through native games and live operations |
+[Engineering and operating guide](docs/OPERATING_MODEL.md) · [Capability and tool map](docs/CAPABILITIES.md) · [Context contract](standards/context-capsule.md) · [Production quality](standards/production-quality.md) · [Evaluation sources](evaluations/)
 
-The optional [repository maintenance skill](maintenance-skill/SKILL.md) and [Atelier orchestrator](optional-skills/atelier-orchestrator/SKILL.md) are separate from the 33 baseline skills. The [Agent Atelier local Mac workbench](apps/agent-atelier/README.md) shows a source-backed portfolio of available native Codex work, grouped project/task records, goal provenance, next actions and bounded work preparation. Coverage and actual operation receipts remain visible; discovery does not take over another writer.
+## Verification and releases
 
-## Installation and existing projects
+The [release record](releases/current.json) is the source of truth for the current repository edition, core skill suite, optional components, and local service. These independently versioned components have their own compatibility and migration requirements. Follow the [update contract](governance/UPDATE_CONTRACT.md) to decide what changes version, what is checked, and how to roll back.
 
-1. Open [START_HERE.md](START_HERE.md) and choose your language.
-2. Connect GitHub in the host you use and grant this private repository access.
-3. Follow the complete Work or Codex installation section. Reading a repository or extracting an archive is not installation.
-4. Verify source integrity, actual discovery and a small real task separately.
-5. For an existing product, keep its requirements, design identity, native state, decisions and checkpoint, then follow its applicable adoption instructions.
-
-Use the core 6.1.0 migration to install or update the 33 baseline skills. Atelier Orchestrator 1.2.0 provides the optional universal entry for new work, project continuation and reviewed maintenance. Existing projects keep their own adoption and compatibility records. WORK live adoption remains deferred. [Core migration](releases/migrations/6.1.0.md) · [Component handbook](docs/evolution/2026-11-10/IMPLEMENTED-COMPONENTS.en.md)
-
-Agent Atelier 0.5.0 provides local Codex project and history discovery, source-backed task preparation, direct OpenAI Docs MCP search and native Codex image generation on a supported host. The versioned service migration covers installation, verification and rollback. [Workbench guide](apps/agent-atelier/README.md) · [Service migration](releases/migrations/repository-1.4.0-rc.5.md)
-
-## Verify and package
-
-From the repository root:
+Run source checks from the repository root:
 
 ```sh
 python3 -B kit/verify_release.py
+python3 -B scripts/materialize_standards.py --check
 python3 -B scripts/check_repository.py
-python3 -B marketing/campaign/check_campaign.py
-python3 -m unittest discover -s scripts/tests -v
-python3 -B scripts/build_packages.py
 ```
 
-The source bundles identify their core suite and repository edition. They include the service source and its pinned lockfile. Obtain the bundles for the exact source revision and verify their hashes before use. [Package instructions](governance/PACKAGES.md) · [Current build evidence](releases/current.json)
+[Validation and scoped evidence](governance/VALIDATION.md) · [Requirements](governance/requirements.csv) · [Packages](governance/PACKAGES.md) · [Change history](CHANGELOG.md) · [Rights](RIGHTS.md)
 
-[Update contract](governance/UPDATE_CONTRACT.md) · [Requirements](governance/requirements.csv) · [Validation](governance/VALIDATION.md) · [Quality model](governance/QUALITY_MODEL.md) · [Source provenance](kit/PROVENANCE.md) · [Rights](RIGHTS.md)
+A source archive and a successful workflow confirm their documented checks. Follow the migration and verify fresh Codex discovery after installation. Work continuity has a separate guide and depends on the hosted capabilities available there. This independent project does not imply OpenAI endorsement.
 
-This independent project is not an official OpenAI product. Host capabilities vary. No measured speed, revenue or superiority claim is made.
+## Showcase
+
+The artwork shows a small slice of the workflows you can design. You can combine the system's skills, compatible tools, data and integrations for other problems. Each actual workflow depends on its capabilities, access and environment.
+
+| Explore the English materials | Переглянути українські матеріали |
+| --- | --- |
+| [English gallery, PDF and downloads](marketing/campaign/README.md) | [Українська галерея, PDF і пакунки](marketing/campaign/README.uk.md) |
+
+<details>
+<summary>Preview the campaign cover</summary>
+
+![Agent System showcase cover](assets/marketing/campaign/en/01-original.png)
+
+</details>
+
+[English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md)

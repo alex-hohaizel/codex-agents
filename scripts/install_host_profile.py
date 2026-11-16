@@ -10,11 +10,13 @@ import tempfile
 
 START, END = '<!-- agent-system-quality:start -->', '<!-- agent-system-quality:end -->'
 REPO = Path(__file__).resolve().parents[1]
-# Exact generic predecessor from repository commit 43f113b8713588e3569b1c917037f75d88f78c6a.
+# Exact predecessor releases from 43f113b8713588e3569b1c917037f75d88f78c6a and 8d8ecdf85fbb0924f686c4891383591c1513dcd7.
 # This is a compatibility source, not an inferred installation/ownership receipt.
 PREVIOUS_PROFILE_TEMPLATES = (
     ('host-profiles/codex/history/6.0.0-AGENTS.md',
      '8f47c4629edfdf1e4730527e5ea5b6e73e95b45affe8665d9eadadd80a88d891'),
+    ('host-profiles/codex/history/6.1.0-AGENTS.md',
+     '244b911f65c49f6302e90155d4ce1ca717dba814a89945d2bcd78e7972f5d589'),
 )
 
 

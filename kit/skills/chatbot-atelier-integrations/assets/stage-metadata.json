@@ -2,7 +2,7 @@
   "schema_version": "chatbot.atelier-stage/2",
   "toolkit_version": "5.0.0",
   "id": "chatbot-atelier-integrations",
-  "purpose": "Дії, платформи, jobs та інтеграції",
+  "purpose": "Actions, platforms, jobs and integrations",
   "primary_requirement_ids": [
     "practical_completion",
     "scheduling_fidelity",

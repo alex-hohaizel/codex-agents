@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Супровід · 6.0.0
-  short_description: Фактичні спостереження, діагностика й безпечні зміни
-  default_prompt: $gamedev-liveops Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Супровід
+  short_description: "Diagnose and improve the observed game"
+  default_prompt: "Use $gamedev-liveops to inspect actual game evidence, decide the smallest approved change, and preserve rollout and rollback proof."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

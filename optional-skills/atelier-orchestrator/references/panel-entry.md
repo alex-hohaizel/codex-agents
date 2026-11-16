@@ -1,41 +1,33 @@
-# Оркестратор і панель реальних робіт
+# Workbench entry, portfolio and native controls
 
-Читати для входу через Agent Atelier, огляду портфеля, імпорту прямих Codex робіт та продовження через інтерфейс. Наявність цього контракту не підтверджує implementation конкретної операції: прочитати поточні service capabilities/API й actual state.
+Use this contract for Agent Atelier entry, reviewing local work, and continuing an existing Codex task. Verify the service's actual capabilities, relevant API, instance and project before relying on an operation.
 
-## Нативний конструктор через підтверджений шлях панелі
+## Foundry through a verified controller
 
-Якщо обмежений модельний job не має права запису до чинного `.agent-foundry`, готувати потрібний record як звичайний доступний output і повертати точний наступний крок. Доступний у сервісі `controller.preview` приймає bound project, `controller: foundry`, відносний `session_path`, native `operation`, потрібні `params` та фактичний `record_path`. Він фіксує source/input/native-state hashes і показує наслідок; `controller.apply` виконується лише після підтвердження власником exact preview ID/hash. Не підміняти цей шлях прямим записом protected state або прихованим розширенням filesystem дозволів.
+If a bounded model job cannot write an existing `.agent-foundry` directory, prepare an ordinary permitted output and return the exact controller action. Supported `controller.preview` accepts the bound project, `controller: foundry`, relative `session_path`, native `operation`, necessary `params` and actual `record_path`. It evaluates source, input and native-state hashes and shows the effect. `controller.apply` requires the applicable owner's confirmed exact preview ID and hash. Do not bypass protected state or expand filesystem permissions.
 
-Для нового агента шлях може містити owner-confirmed native init, реєстрацію підготовленого паспорта, підтвердження точної native редакції, build-gate та подальшу окремо дозволену побудову. Підтвердження паспорта в UI може використовувати введений власником `owner_approval_text`; preview показує фактичні goal/scope/revision/hash, apply зберігає цю відповідь через незмінений native validator. Воно не є продуктовим execution grant. Чинне canonical authority binding не можна відкинути або переписати з моделі.
+A new agent can use allowed native initialization, registration of the prepared passport, approval of its exact native revision, a build gate and separately authorized construction. `owner_approval_text` represents the owner's actual response to the presented goal, scope, revision and digest. The existing validator checks the native record. This does not grant product execution or replace current authority.
 
-Після native переходу повторно прочитати state і продовжити первинне доручення в його чинному scope. Контролер змінює лише локальні native records: сам не запускає модель, не створює зовнішній ефект і не доводить виготовлення агента чи продукту. Native controller receipts, model jobs, outputs, installed/discovered та незалежне приймання залишаються окремими фактами.
+After native transition, read state again and continue the authorized original work. A controller updates local records only. Keep its receipts, actual model jobs and outputs, installed and discovered sources, and independent acceptance separate. For an unknown controller result, use `controller.reconcile` with observed state and owner confirmation of the exact digest. Do not repeat an uncertain mutation. Source, record, revision or authority changes require a fresh preview.
 
-За unknown receipt спочатку `controller.reconcile`: огляд поточного стану та owner confirmation exact digest без автоматичного повтору або вигаданого успіху попередньої операції. Після зміни source, record, native revision чи service authority потрібний новий preview.
+## Recover and continue
 
-## Початок і продовження
+Let the user confirm the project and desired result. Display the route, actual owner, reason and next useful step. Internal skill names are optional. Keep preparation, authorized dispatch and observed execution distinct.
 
-Користувач обирає або перевіряє проєкт, описує бажаний кінцевий результат і бачить маршрут, фактичного відповідального, причину вибору та наступну корисну дію. Внутрішні назви навичок необов’язкові. Preparation/preview, погоджений запуск і фактичне виконання показуються окремо.
+For existing work, recover native identity and source, accepted goal, actual owner, checkpoint and pending effects. Prefer the installed project agent with verified source, and retain that binding for subsequent Orchestrator requests. Mark an agent that exists only in a passport as planned.
 
-Для роботи з чинним проєктом відновити його native identity, source, accepted goal, owner, checkpoint і незавершені дії. Пропонувати продовження через встановленого проєктного агента з перевіреним source; за наступного запиту до оркестратора зберігати цю прив’язку. Якщо агент лише передбачений паспортом, показувати саме цей стан і потрібний крок.
+## Show the portfolio with provenance
 
-## Портфель і роботи, розпочаті напряму
+Use the supported host, project and thread listing. Retain source locator and time on each candidate item. Do not interpret a cache, chat title or preview as an accepted requirement or completed work. Group by verified project identity and actual task. Leave conflicts unresolved until identified. Show real outputs and their task or requirement links and supporting evidence. A completed turn confirms that turn, not a deployed or accepted product.
 
-Поточний підтриманий host/project/thread listing дає candidate metadata. Для кожного запису зберегти реальний source locator та час спостереження. Це не дозвіл читати довільну домашню теку або розпочати запис у всіх продуктах. Не трактувати cache, назву чату чи preview як actual accepted requirement або виконану роботу.
+Distinguish native declarations, explicit decisions, tool or runtime receipts, extracted suggestions and unresolved evidence. A recommended agent is not a used skill. A mention, actual instruction load and execution receipt are different facts. Missing or unread sources remain visible. Label an inferred goal as a proposal, with available original input and its current decision status. Next actions come from accepted scope, checkpoints and dependencies.
 
-Групувати за підтвердженою project identity й предметною задачею; залишати неоднозначне окремо до resolution. Для виконаних робіт показувати конкретні outputs, зв’язок із task/requirement і доказ завершення, коли він фактично доступний. Нативний finished turn може підтвердити завершення turn, але сам по собі не означає прийнятий дизайн, device proof, deployed product або owner acceptance.
+## Use controls with bounded authority
 
-Показувати походження відомостей: declared in native source; explicitly accepted with source; observed tool/runtime receipt; extracted suggestion; unresolved. Рекомендованого агента не позначати використаним. Mention навички у тексті, actual source load та execution/output receipt є різними доказами. Missing or unparsed source не перетворювати на «завершено» або порожній успішний список.
+Check the exact supported operation and target, rights, budget, paths and effects. A visible native thread is not a service-owned executor. Adoption requires the supported explicit idle transfer. Active or unknown ownership is a conflict. Grouping and display do not migrate product state.
 
-Прийнята ціль проєкту має точний source/revision і видимий статус. Якщо є лише inferred summary, позначити її як пропозицію для звірки, зберегти первинний текст і невідоме погодження. Наступні кроки виходять із accepted scope, native checkpoint, gaps і залежностей; не створювати нові зовнішні дозволи.
+Use exact command identity, revision and receipt. For interrupt, report the request separately until the host confirms the resulting state. Reconcile unknown outcomes before retries. Do not construct a substitute task to hide an unsupported operation or missing writer.
 
-## Дії з панелі та право запису
+Prepared, target checked, delivered, received, started, result, reviewed and accepted have distinct observations. Record a saved but unconfirmed execution as delivered or unknown with the specific next step. Change diagnosis if an identical failure repeats.
 
-Перед кожною дією перевіряти фактичний supported operation, ціль, права, ресурсні межі та allowed paths/effects. Спостережуваний native thread не стає service-owned executor. Перебрати його можна лише за підтриманим explicit idle handoff; active/unknown writer лишається конфліктом. Відображення або grouping не мігрує product state.
-
-Для мутацій використовувати exact command identity, revision та actual receipt. Запит переривання показувати як запит до підтвердженої відповіді host; unknown outcome звірити перед повтором. Не відновлювати чужий native writer через новий task лише для приховування обмеження API.
-
-Стани prepared, target checked, delivered, received, started, result, reviewed і accepted мають власні докази. Якщо повідомлення збережено, але виконання не підтверджено, показувати delivered/unknown, точний blocker і наступну дію. Після однакового збою змінювати діагноз або маршрут; не множити consuming sends. Скріншот красивої панелі не доводить контроль за роботою.
-
-Оцінювати користь інтерфейсу реальними сценаріями: знайти початий напряму проєкт; побачити його прийняту ціль і завершені результати; зрозуміти поточну прогалину; підготувати й виконати дозволене продовження; перевірити результат без знання внутрішніх skills. Фактичний API і результат важливіші за кількість вкладок або демонстраційних прикладів.
-
-WORK використовує свій фактично доступний підтриманий host route. Локальний сервіс, Codex metadata або Work chat з доставленими повідомленнями не підтверджують доступу до Work personal-skill manager чи запуску виконавця. Недоступність залишається видимою; capability не вигадується.
+Verify a useful real flow that finds existing work, shows its accepted intent and available results, identifies a gap, prepares and executes an authorized continuation, and shows evidence without requiring the user to know internal skills. Work has its own supported host route. Local service or Codex listing does not establish access to that host's skill manager or executor.

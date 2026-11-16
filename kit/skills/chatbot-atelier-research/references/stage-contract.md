@@ -1,35 +1,31 @@
-# Контракт етапу chatbot-atelier-research
+# Stage contract for chatbot-atelier-research
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати питання→джерела/контрдокази→невідомості→альтернативи→рекомендація→момент рішення. Дослідити будь-яку застосовну потребу, включно з новою областю поза каталогом сімейства; попередній фаворит не є підставою відкинути альтернативу.
+Trace the question through sources and counterexamples, unknowns, alternatives, recommendation and the decision point. Cover applicable needs outside the current family catalog. Compare alternatives on evidence even when the requester has an initial preference.
 
-## Обов’язковий предметний маршрут
+## Establish practical need and alternatives
 
-## Розкласти проблему та область
+Map stakeholders, actors and audiences, recurring jobs, current workflow, pain, frequency, criticality, data access, domain obligations, channels, and adoption barriers. Compare the manual workflow and simpler rules with an LLM or a new bot. Identify where dialogue, group context, or notifications change the outcome. Select a companion persona only when the use case calls for one.
 
-Побудувати stakeholder/JTBD map, actors/audiences, current workflow, pain/frequency/criticality, доступність даних, регуляторні/професійні межі за сферою, channels і adoption barriers. Розглянути альтернативу без нового бота; визначити, де саме розмова/груповий контекст/notification дають перевагу. Не переносити companion persona у сервісну задачу без підстави.
+Match each requirement to its source and intent, priority, owner, acceptance and negative case, and evidence type. Identify needed domain, platform, language/UX, data/privacy, reliability, automation and media skills. Carry contradictions and gaps into the recommendation.
 
-Виділити області знань і компетенції: domain expert, platform, UX/мови, data/privacy, automation/reliability, media за потреби. Для кожного requirement: джерело/намір, priority, owner, acceptance/negative case, потрібний evidence type. Зберігати contradictions/unknowns; не перетворювати бажання на перевірений факт.
+## Verify platform and provider evidence
 
-## Доказове дослідження
+Start with primary documentation, research, and current code. Record the claim, title, URL, source version and date, exact scope, limits, and verification evidence. Check transport, callbacks, permissions, rates, delivery, SDK and tool availability, environment, costs, licenses, editable outputs, support, and deprecation. A controlled browser demo cannot establish current group API visibility. If runtime and documentation disagree, record the gap and run the smallest permitted read-only probe.
 
-Почати з primary docs/досліджень/чинного коду; фіксувати URL/title/version/date/scope, exact claim і limitations. Перевірити platform transport/callback/permission/rate/delivery semantics, доступний SDK/tool, environment/cost/license, editable outputs, support/deprecation. Для domain-specific best practices визначити конкретний failure/потрібний результат, потім source і метод перевірки. Де документація розходиться з tool schema/actual operation — записати gap і обмежений probe.
+Keep operation claims at their actual level: `catalogued`, `callable`, `executed`, `artifact_checked`, `integrated`, or `live_observed`. Keep unverified requirements open. Ground estimates in an explicit workload and label measured, estimated, or unknown values. Use voice, retrieval, payments, games or social automation only when the intent and evidence support them. Research scope grants no spending or external writes.
 
-Скласти паспорти операцій: catalogued/callable/executed/artifact_checked/integrated/live_observed. Потрібний недоступний доступ не N/A. Умовні RAG/voice/payments/games/social automation активувати тільки за наміром і даними. Платну/зовнішню дію не виконувати через сам research; allowed read-only probes провести за реальною можливістю.
+Deliver a source and claim map, brief, applicability map, concrete journeys, tradeoffs, capability gaps, costs, evidence plan, and recommendation. Give specification the exact unresolved decisions. Demand, naturalness, or effectiveness claims need relevant user evidence.
 
-## Вихід
+## Handoff
 
-Brief, sources/claim map, applicability, systems/actors, concrete journeys, alternatives із tradeoffs, capability gaps, costs як measured/estimated/unknown, risk/evidence plan і recommendation. Передати specification exact unresolved choices, не загальний список технологій. Research не оголошує попит/природність/ефективність доведеними без відповідних користувацьких даних.
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-## Контракт передачі
+## Criteria and completion
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
+Check applicability for these criterion IDs first: human_value, capability_truth, source_grounding. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-## Критерії та завершення
-
-Першочергові criterion IDs для перевірки застосовності: human_value, capability_truth, source_grounding. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.

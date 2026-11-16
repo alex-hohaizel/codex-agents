@@ -1,33 +1,29 @@
-# Приймання дослідження
+# Research acceptance
 
-Прив’язати checks до current requirement IDs проєкту; наведені IDs позначають контракт сімейства.
-Зафіксувати paths/hashes, джерела, дату, метод, observer і межі; self-check не називати незалежним QA.
+Bind checks to the current project's requirement IDs. The IDs below name family contract cases. Record paths and hashes, sources, date, method, observer and limits, and identify author self-checks as such.
 
-| Контракт | Потрібний результат | Негативний сценарій |
-|---|---|---|
-| REQ-05 / TEST-05 | Розрізнити користувача/платника; зберегти пріоритет профілю й сильні допустимі B2B з операційною картою. | Відкинути B2B за ярликом або приховати ручні продажі. |
-| REQ-06 / TEST-06 | Для заданих України/global зберегти дві контекстні карти й однакові критерії. | Видати переклад списку за окремий ринок. |
-| REQ-07 / TEST-07 | Вивести предмет, дані, ризики й експертів зі сценарію. | Нав’язати домен або заміну обов’язкової професійної відповідальності. |
-| REQ-08 / TEST-08 | Надати sources, сегмент, користь, перехід, канал і відповідь конкурента. | Схвалити exception через «кращий UX» чи «додамо AI». |
-| REQ-17 / TEST-17 | Зберегти all-phase заборону людських дослідів і межі desk/synthetic evidence. | Запланувати післярелізний A/B, Play-рекрутинг чи назвати AI-критику готовністю платити. |
-| REQ-33 / TEST-33 | Передати широку коротку карту до поглиблення й owner choice. | Будувати випадковий продукт або дорогі прототипи для всіх. |
+| Contract | Required result | Negative case |
+| --- | --- | --- |
+| REQ-05 / TEST-05 | Distinguish user and payer. Preserve the profile priority and any viable B2B route with an operations map. | Reject B2B by label or hide manual sales. |
+| REQ-06 / TEST-06 | For specified Ukraine/global tracks preserve separate contextual maps with comparable criteria. | Present a translated list as separate market research. |
+| REQ-07 / TEST-07 | Derive domain, data, risks and expertise from the actual journey. | Impose a domain or replace required professional accountability. |
+| REQ-08 / TEST-08 | Provide sources, segment, real value, switching path, channel and a likely competitor response. | Approve an exception from «кращий UX» or «додамо AI» alone. |
+| REQ-17 / TEST-17 | Preserve all-phase restrictions on deliberate human experiments and limits of desk/synthetic evidence. | Plan post-release A/B, Play recruiting, or treat AI critique as willingness to pay. |
+| REQ-33 / TEST-33 | Deliver a broad concise map before going deep or asking the owner to select. | Build an arbitrary product or an expensive prototype for every option. |
 
-## Наскрізні checks
+## Cross-cutting checks
 
-- REQ-03: облікувати ціну/ліміти джерел; не купувати звіт без бюджету й scope.
-- REQ-04, REQ-09: не пропустити бізнес із забороненою ручною рутиною; підкріпити автоматизацію маршрутом, помилками й ціною.
-- REQ-24: рейтинг не заміняє прийнятого напряму; чинне незмінне рішення не перепитувати.
-- REQ-32: до кожного експерименту встановити metric/threshold/horizon/cap/stop; не змінювати поріг заднім числом.
-- REQ-36: зберегти claim/source lineage; змінене джерело відкриває лише залежні результати.
-- REQ-37: критичний exception перевіряє інший фактичний актор; недоступний independent gate лишити pending.
-- REQ-38: виявити ранні store/budget/testing/account conflicts; не обіцяти доступний реліз за невідомих передумов.
-- REQ-42: допустити reject усіх напрямів, що не проходять must; не вигадувати переможця.
+- REQ-03: account for source costs and limits. Buying a report needs budget and scope.
+- REQ-04, REQ-09: reject a business with prohibited manual work. Support automation claims with the route, failures and cost.
+- REQ-24: ranking does not select a direction. Reuse an unchanged accepted decision.
+- REQ-32: define metric, threshold, horizon, cap and stop before each experiment and retain them after results.
+- REQ-36: preserve claim/source lineage. Source changes reopen dependent results only.
+- REQ-37: a critical exception requires a different actual actor. If unavailable, the independent gate stays pending.
+- REQ-38: identify early store, budget, testing and account conflicts. Unverified prerequisites cannot establish release access.
+- REQ-42: reject every direction if none meets the musts. Do not invent a winner.
 
-## Вихід і ремонт
+## Delivery and repair
 
-Перевірити картки, альтернативи, claim/source ledger, контрдокази, exceptions, rejected/pending, unknowns і decision brief.
-Для суттєвих нестабільних фактів перевірити поточне першоджерело; не приймати вигаданих джерел, встановлень, виручки чи конверсії.
-Показати coverage й умову завершення; розділити факт проблеми, висновок про придатність та гіпотезу оплати.
-Передати pin-нуті versions/hashes і чинний вибір напряму або точний pending decision.
-За виправленої ціни/функції оновити affected claims/cards/recommendation і вхід економіки; зберегти попередню підставу.
-За blocked джерела запропонувати доступну альтернативу чи обмежений наступний крок; не закривати unknown оцінним балом.
+Review cards, alternatives, the claim/source ledger, counterevidence, exceptions, rejection and pending records, unknowns and decision brief. Check volatile material facts against current primary sources. Reject invented sources, installs, revenue or conversion. Record coverage and stop. Keep the observed problem, suitability conclusion and price hypothesis distinct. Pass pinned versions and hashes with the accepted direction or precise pending decision.
+
+A corrected price or fact updates dependent claims, cards, recommendation and economic inputs. Preserve the earlier rationale. When a source is blocked, identify a suitable available source or bounded next step. A score cannot resolve missing evidence.

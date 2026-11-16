@@ -3,7 +3,7 @@
   "mode": "brief",
   "family": "choose_actual_family",
   "stage": "choose_current_stage",
-  "goal": "Заповнити точною метою з фактичного доручення",
+  "goal": "Enter the exact goal from the actual assignment",
   "authority_refs": [],
   "baseline": {
     "source": {

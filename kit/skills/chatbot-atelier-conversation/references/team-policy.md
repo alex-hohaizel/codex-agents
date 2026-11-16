@@ -1,74 +1,74 @@
-# Предметна команда та пропорційне приймання
+# Domain team and proportional acceptance
 
-Чинний організаційний контракт для цієї навички. Зберігати всі предметні вимоги, intent, пріоритети, докази, production fidelity й права користувача. Команда організовується за артефактами та компетенціями; критерій є одиницею обліку якості. Згадки інтеграції, top-analysis, guardian і суддів у предметних додатках описують функції приймання в умовах цього контракту; вони не створюють обов’язковий ланцюг посад для локальної зміни.
+Preserve the project's functional requirements, intent, priorities, evidence, production fidelity and permissions. Organize work by artifact and competence. Each criterion gets its own acceptance record. Integration, top analysis, guardian and judge refer to responsibilities within this contract. A local change uses the applicable responsibilities.
 
-## Достатність компетенцій і глибини
+## Sufficient competence and depth
 
-Окремо оцінювати масштаб зміни, невизначеність, критичність наслідків, зв’язність, доступи й належне приймання за [адаптивною роботою](adaptive-work.md). Коротке доручення не гарантує local; великий визначений обсяг не вимагає великої ради. Зберігати чинні profile/gate вимоги незалежності; не вигадувати actor або review заради заповненого поля. Якщо доступна лише самоперевірка, назвати її та залишити точну незалежну прогалину.
+Assess change scope, uncertainty, impact, dependencies, access and acceptance using [adaptive work](adaptive-work.md). A short request can be critical, and a large well-defined task may need few reviewers. Keep profile-specific independence requirements. Use actual actors and review results. If only a self-check is available, record it and the outstanding independent check.
 
-До матеріального делегування показати capability→метод/джерела→output→oracle→receiver: чому виконавець достатньо компетентний, що реально перевіряє та де межа висновку. Різні IDs не доводять компетентності або незалежної роботи. Для нової області провести адресне [дослідження](research-and-synthesis.md); постійна нова роль потрібна за повторюваної прогалини з власним контрактом. Склад команди й число навичок не є KPI.
+For material delegation explain capability → method and sources → output → acceptance check → receiver. Show the actor's competence, what they can test and the limit of the conclusion. Verify actual independence and skill. Use [focused research](research-and-synthesis.md) for an unfamiliar domain. Add a permanent role only for a recurring gap with a defined contract. Match team size to the work.
 
-Зберігати одного інтегратора цілого й один канонічний project registry. Дослідник або рецензент одержує потрібні первинні джерела, scope і аудиторію; делегування не розширює доступ до іншого чату, проєкту, приватних даних чи зовнішньої дії. Незалежні частини виконувати, поки конкретний блокований крок чекає рішення.
+One integrator owns the whole and one registry records project state. Give researchers and reviewers required primary sources, scope and audience. Delegation stays within authorized chat, project, private data and external effects. Keep independent branches moving while a specific blocked step awaits a decision.
 
-## Обрати масштаб
+## Work scopes
 
-| Scope | Виконання й приймання |
+| Scope | Execution and acceptance |
 | --- | --- |
-| local | Потрібний виконавець, незалежний предметний QA, root. Ремонт до погодженої baseline завершується локально. |
-| feature | Потрібні підкоманди й працюючі техліди, QA зачеплених компонентів і їхніх зв’язків, root. |
-| critical | Профільні виконавці, незалежне критичне QA, адресний незалежний рецензент та root. Розмір diff не знижує ризик. |
-| stage | Повний потрібний результат етапу, його незалежне предметне QA, хранитель, рада за компетенціями та root. |
+| local | Needed executor, independent domain QA and root. A repair to the accepted baseline can finish locally. |
+| feature | Necessary subteams and working technical leads, QA for affected components and interactions, and root. |
+| critical | Qualified executors, independent critical QA, an independent reviewer for the risk and root. Evaluate impact independently of diff size. |
+| stage | Complete stage result, independent domain QA, guardian, reviewers matched to relevant skills, and root. |
 
-Критичні фінансові, privacy/authority/security/signing шляхи з profile не можна понизити словом local. Невідомий вплив активує критерій. Усі IDs залишаються в реєстрі; scope лише визначає нову роботу та межі claims.
+Keep the profile's critical finance, privacy, authority, security and signing paths at their required scope. Unknown impact activates the criterion. Retain the complete ID registry. Scope defines added work and the bounds of claims.
 
-## Підпорядкування й відповідальність
+## Responsibility and reporting
 
-Один оркестратор → працюючі предметні техліди → реальні спеціалісти. QA та quality lead/хранитель мають окрему незалежну лінію. Судді є тимчасовим предметним прийманням, не керівниками production. Власник компонента відповідає за наскрізний результат і контракти з сусідами.
+One orchestrator integrates through working domain leads and actual specialists. QA and the quality lead or guardian operate independently of production. Judges evaluate an assigned domain outcome. The component owner is accountable for integration and neighboring contracts.
 
-Зберігати art, UI, animation, audio, backend, commerce, security та platform компетенції за реальною роботою. Не заміняти їх одним універсальним агентом або текстовими посадовими назвами. Техлід може сам виконувати складну частину; його артефакт приймає незалежний QA. Root може поєднувати PM/producer/загальну інтеграцію. За реально великого навантаження додати адресного інтегратора. QA coordination і хранителя можна сумістити за незалежності від виробництва й достатнього ресурсу.
+Assign actual art, UI, animation, audio, backend, commerce, security and platform competence. A working lead may implement difficult work whose artifact an independent QA accepts. Root can combine product management, production and overall integration. Add a dedicated integrator when workload requires it. One independent actor with adequate capacity may coordinate QA and act as quality guardian.
 
-Шість перспектив product/experience/growth/finance/technology/delivery мають відповідальних власників та висновки. Шість окремих executive-агентів не є обов’язковими. Додатковий експерт залучається за конкретною суперечністю, ризиком чи браком компетенції.
+Record findings and owners for product, experience, growth, finance, technology and delivery. A named actor may own multiple perspectives. Consult an additional expert for a specific conflict, risk or skill gap.
 
-Рада великого етапу зазвичай містить 3–5 предметних рецензентів, із розширенням за компетенціями. Це орієнтир, не стеля чи KPI. Один рецензент може вести кілька суміжних критеріїв, даючи кожному окремі verdict, evidence, strongest_objection, uncertainty і reversal_condition. Жодне must не компенсується середнім балом або більшістю. Автор не є власним незалежним QA. Фінальний суддя не є автором, менеджером або попереднім QA оцінюваного рішення.
+A substantial stage usually uses three to five domain reviewers. Change the number to cover actual competence. One reviewer can handle related criteria and supply a distinct verdict, evidence, strongest_objection, uncertainty and reversal_condition for each. A mandatory criterion stands on its own. The author does not fill independent QA. The final judge is independent of the author, manager and previous QA for that result.
 
-## Робота та незалежність
+## Delegation and independence
 
-До запуску передати короткий повний бриф, assigned IDs, точні первинні матеріали, acceptance, dependencies, бюджет, stop і адресата. Використовувати фактичні агентні handles і outputs; не вигадувати ID чи виконання. За недоступного делегування продовжувати корисну роботу, чесно позначивши самоперевірку й потрібні незалежні gaps.
+Send a concise complete brief with assigned IDs, exact primary materials, acceptance, dependencies, budget, stop conditions and receiver. Use actual agent handles and outputs. If delegation is unavailable, continue useful work within scope, label self-checks and state the outstanding independent proof.
 
-Працювати хвилями у фактичному ліміті слотів. Не тримати в слотах керівників, які лише чекають. Root може робити spawn за адресним планом техліда; actual parent, reports_to й reviewer — різні поля. Первинні незалежні порівняння й суддів запускати зі свіжим достатнім контекстом, без фаворита й чужих голосів; адресний повтор може вести той самий незалежний рецензент.
+Work in waves inside the actual slot limit. Keep waiting leads out of occupied slots. Root may spawn roles according to a lead's specific plan. Actual parent, reports_to and reviewer are separate. Run initial independent comparisons and judges with fresh sufficient material and without a predetermined answer or previous votes. An existing independent reviewer can do a targeted retest.
 
-Не копіювати всім історію розмови та всі додатки. Рецензент має доступ до первинних артефактів і негативних доказів; короткий бриф не підміняє цей доступ. Моделі, бюджет і зовнішні дозволи користувача залишаються чинними.
+Provide the reviewer relevant primary artifacts and negative evidence directly. Avoid sending unrelated chat history and appendices. Respect current model, budget and external permissions.
 
-## Аудит, ремонт і завершення
+## Audit, repair and closure
 
-Перед ремонтом відтворити/аудитувати факт, версію, законність сценарію, джерело й першопричину. Для локального дефекту один незалежний QA перевіряє докази, дублі та вплив разом. Окремі додаткові аудити виконуються за матеріальним ризиком, а не на кожну дрібницю.
+Before fixing, verify version, observed defect, source, authorized scenario and cause. One independent domain QA can review evidence, duplicate issues and impact for a local repair. Add other audits only for material risk.
 
-Зафіксувати issue, criterion IDs, severity, acceptance/closure, залежності й потрібний доказ. Розрізняти доведений дефект, підозру, неоднозначне правило, дубль і необов’язкове покращення. Пакетувати пов’язані правки в один ремонт і retest. Необов’язкове покращення поза поточним запитом не затримує завершення; потрібний дефект лишається в роботі.
+Record issue, criterion IDs, severity, acceptance and closure, dependencies and evidence. Separate reproduced defect, suspicion, ambiguous rule, duplicate and optional change. Group related repairs for one retest. Keep optional out-of-scope improvements separate from required closure.
 
-Той самий незалежний QA може перевіряти ремонт. Новий рецензент потрібний за конфлікту незалежності, браку компетенції або в контрольній точці. Після двох невдалих повторів одного способу змінити діагностику/стратегію з новим розрізнювальним тестом; ліміт не дозволяє pass відкритому дефекту. Не приховувати новий цикл як перейменоване питання чи гілку.
+The same independent QA may retest. Use a different reviewer when independence or competence conflicts or a fresh review is required. After two failures from the same method, change the diagnostic strategy and run a discriminating test. Leave failed criteria open when the budget or retry limit is reached. Treat relabeling an issue as the same attempt.
 
-Закрите питання відкривати лише за новим доказом, регресією, зміненою залежністю/вимогою або встановленою помилкою приймання. Нове формулювання того самого заперечення не є новим доказом. Зберігати первинні висновки й незгоду.
+Reopen a closed issue when new evidence, regression, changed dependency or requirement, or a diagnosed acceptance error changes the result. Preserve original conclusions and dissent.
 
-Після матеріальної зміни ядра зберігається ліміт до трьох суттєвих ревізій за раунд. Ліміт означає hold/нову обґрунтовану гіпотезу/адресну зміну підходу, не зниження якості або автоматичне приймання.
+A material core change permits up to three substantial revisions per round. At the limit hold the round, use a new supported hypothesis or change the approach while keeping quality and acceptance criteria intact.
 
-## Чинність доказів між версіями
+## Evidence across versions
 
-Для кожного артефакту/компонента фіксувати exact hash, environment/config identity та depends_on. До замикання впливу включати транзитивні code, generator, rig, mix, shared config, SDK, data й контрактні залежності. Зміна спільного генератора активує всі залежні outputs. Невідомість не дорівнює unchanged.
+Pin each artifact or component by exact hash, environment and configuration identity, and depends_on. Impact includes transitive code, generators, rigs, mixes, shared configuration, SDK, data and contracts. A changed shared generator activates all dependent outputs. Unknown impact remains open.
 
-Доказ поточного формату повторно використовувати через включений immutable review receipt з exact criterion, accepted scope, джерелом/версією/пакетом, report hash та snapshot усіх залежностей. Поточний незалежний QA перевіряє незачепленість. Для повного етапного приймання потрібний попередній суддівський рівень або новий адресний суддя; локальний QA-рівень не видавати за нього. Один QA може перевірити перенесення багатьох критеріїв.
+Carry current-format evidence with an immutable review receipt binding exact criterion, accepted scope, source/version/package, report hash and all dependencies. Current independent QA checks unaffected impact. Stage acceptance uses the relevant previous judge-level proof or new targeted adjudication. Local QA acceptance only covers its actual level. One QA can evaluate many carry records.
 
-Новий package hash не вимагає нового виробництва чи повної ради для незачеплених частин. Він потребує чесного нового freeze й зв’язування актуальних/перенесених висновків. Не копіювати старий підпис під новий hash. Для зміненої залежності повторити потрібне предметне й фактичне виконання.
+An updated package digest needs a fresh freeze with accurately linked current and carried findings. Keep signatures on their original package. Rerun necessary production and observation where a dependency changed.
 
-Для заяви «перевірено весь набір» потрібне повне покриття цього scope. Contact sheet, число файлів, hashes чи кілька зразків не підміняють рух/слухання/native tests. Без фактичного доступу до модальності залишити gap. AI-згода не є human/financial/native доказом.
+Evidence covers the claimed batch. Contact sheets, file count, hashes and samples support only their checks. Verify required motion, listening and native tests on the relevant target. Keep a missing modality as a gap. Human, financial and native proofs require the applicable actual observation and authority.
 
-## Машинні записи
+## Machine records
 
-Чинний профіль — assets/team-profile.json, schema chatbot.team-profile/1. Додати team_policy зі schema_version=chatbot.team/1; усі criterion IDs мають assignment із domain_id та status active/carried/out_of_scope. Scope містить kind, active_requirement_ids, changed_component_ids, statement і за потреби material_baseline_change. Повне stage приймання не має out_of_scope.
+The profile is assets/team-profile.json with schema chatbot.team-profile/1. A team_policy uses schema_version=chatbot.team/1. Assign all criterion IDs to domain_id and active, carried or out_of_scope. Scope records kind, active_requirement_ids, changed_component_ids, statement and optional material_baseline_change. Full stage acceptance has no out_of_scope assignments.
 
-Кожний active assignment містить component_ids, owner_run, qa_run, за умовою judge_run, verdict та evidence_refs. Кожний completed run має actual actor ID, requirement_ids, domain_ids, kind/status/verdict, output_ref та output_sha256. Один run може покривати кілька критеріїв. Фінальний grouped judge має criteria[requirement_id] з окремим змістовним висновком. Його package_hash актуальний, первинний context_mode=fresh; addressed має previous_review_ref/hash. Чинний profile не вимагає окремого actual ID на кожен критерій.
+Each active assignment has component_ids, owner_run, qa_run, applicable judge_run, verdict and evidence_refs. A completed run has the actual actor ID, requirement_ids, domain_ids, kind/status/verdict, output_ref and output_sha256. A run can cover several criteria. A grouped judge writes criteria[requirement_id] with distinct findings, current package_hash and initial context_mode=fresh. An addressed retest adds previous_review_ref/hash. Separate actor IDs per criterion are not mandatory.
 
-Для неактивних IDs потрібні reason, impact=unchanged і незалежний impact_run. У stage вони мають carried з carry_forward receipt. Components: artifact_ref, sha256, environment, depends_on; за ревізії baseline_sha256. Review receipt schema chatbot.review/1: requirement_id, verdict=accept, kind, actor_id, source_version, source_package_hash, report_ref/hash, components={id:{sha256,environment}} для повного dependency closure. Не вигадувати походження згоди чи реальний tool run за заповненим JSON.
+Inactive IDs have reason, impact=unchanged and independent impact_run. A stage carry records carried with carry_forward. Components bind artifact_ref, sha256, environment and depends_on, and baseline_sha256 when revised. A chatbot.review/1 receipt contains requirement_id, verdict=accept, kind, actor_id, source_version, source_package_hash, report_ref/hash and components={id:{sha256,environment}} covering the dependency closure. Verify actual consent and tool runs separately from declarations.
 
-Повний етап має guardian_run і шість perspectives із owner_run/finding. Локальне завершення — scoped_complete; повне — stage_complete поточного контейнера. Локальне приймання не підвищує глобальну готовність, build/device state, profit або popularity.
+A full stage has guardian_run plus six perspectives with owner_run and finding. Local completion is scoped_complete. Full completion is stage_complete in the current container. Evaluate global readiness, devices, profit and adoption independently of local acceptance.
 
-Технічні автоматичні перевірки виконуються до дорогого приймання. Структурний pass перевіряє записи й цілісність, не справжність людей, якість артефактів чи зовнішній успіх. Звірити actual runs, джерела та зміст. Після відновлення прочитати checkpoint й фактичний стан, виконане не починати знову.
+Run automated technical checks before expensive acceptance. Structural validation checks records and integrity. Verify the people, actual runs, evidence, artifact quality and external outcome directly. On resume read current checkpoint and observed state and preserve completed work.

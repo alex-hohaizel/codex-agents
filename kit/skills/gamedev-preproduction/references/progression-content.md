@@ -1,52 +1,52 @@
-# Прогресія й різноманітність, що змінюють гру
+# Progression and variation that change play
 
-## Чотири взаємопов'язані шари
+## Four connected layers
 
-1. **Майстерність.** Що гравець навчається робити: точність, timing, читання telegraphs, маршрути, комбінації, ризик. Назвати observable mastery signals і як гра дає зворотний зв'язок. Зростання чисел без нових рішень не є майстерністю.
-2. **У межах спроби.** Тимчасові weapons/abilities/modifiers/routes/risk-rewards, buildup, climax, завершення. Для кожного вибору задати trade-off і вплив на керування/тактику; три кнопки з однаковим +damage не доводять три playstyles.
-3. **Між спробами.** Unlocks, characters, movement verbs, locations, recipes, collection, bounded power, knowledge та challenge tiers. Задати що зберігається/скидається, навіщо повтор і як уникати power wall.
-4. **Довгий горизонт.** Mastery goals, evolving challenge, content updates, seasonal rules або social aspirations за жанром. Нескінченний counter без нового контексту не є нескінченним змістом.
+1. **Mastery.** Specify learned abilities such as precision, timing, reading cues, routes, combinations, and risk management. Define observable improvement and feedback.
+2. **Within a run.** Define temporary tools, abilities, modifiers and routes, risks and rewards, buildup, climax, and ending. Show the trade-off and effect on control or tactics for each choice.
+3. **Between runs.** Define unlocks, characters, movement actions, places, recipes and collections, bounded power, knowledge and challenge tiers. Specify persistent and reset state, reasons to repeat, and defense against progress being gated by raw power.
+4. **Long-term.** Define mastery targets and evolving challenges, viable new content, seasons, or social goals for the genre. A continual counter needs fresh contexts to serve retention.
 
-Для кожного шару: concrete loop, duration distribution target, inputs/choices, failure/recovery, feedback, content dependency, free/paid relation, novelty exhaustion і evidence. Не змушувати всі ігри бути roguelite; альтернативна структура має виконати ті самі player-value вимоги.
+For each relevant layer, record loop, target duration distribution, inputs and choices, failure and recovery, feedback, content dependency, paid and free relationship, exhaustion, and evidence. Choose a progression structure that fits the game.
 
-## Контентна граматика
+## Content grammar
 
-Розділити authored vocabulary, generation rules та resulting instances. Задати змістовні dimensions: geometry, traversal/combat verbs, surface/obstacle/enemy behavior, objective, resources, environment, opponent/AI, camera, hazards, build synergies, temporal schedule. Арена з іншою текстурою не рахується новим tactical situation. Нові enemy stats без патерну дії не доводять новий encounter.
+Separate authored vocabulary, generator rules, and generated instances. Use relevant geometry, movement and combat actions, surfaces and obstacles and enemy behavior, objectives, resources and environment, AI, camera, hazards, synergies, and event timing. Require tactical differences to establish new situations.
 
-Генератор мусить мати seed та version, entry/exit/socket contracts, reachability/clearance checks, difficulty budget, compatibility/exclusion rules, pacing grammar, affordance readability, safe start, bounded unfairness, deterministic resolution, repair/reject policy та fallback. Спершу скласти finite authored kit, потім генерацію. Для geometry перевірити jump/reach/collision із реальними movement constants; random placements без solver не проходять.
+Pin generator seed and version, entry and exit and connectors, reachability and clearance, difficulty budget, exclusions, pacing, readable cues, safe starts, fairness limits, deterministic resolution, repair and rejection, and fallback. Build a finite authored kit before combining it. Verify jumps, reach, and collision against actual movement values.
 
-Приклад паркуру: route grammar чергує learn→combine→risk choice→recovery; sockets мають position/orientation/velocity bounds, максимальний gap визначений control physics; seed validation не дозволяє unavoidable blind landing. Варіативність з новими wall-run/slides/branch/flow combos змінює рішення; випадкове переміщення тих самих трьох platforms саме по собі недостатнє.
+A parkour grammar can teach, combine, offer a risk choice, and give recovery. Connectors set position, angles, and speed and bound gaps by the real controls. Validate seeds to prevent mandatory blind landings. Wall runs, slides, branches and flow changes can alter decisions. Verify the effect of moved platforms against the same standard.
 
-Приклад arena sport: arena topology, rebound materials, goal conditions, ball behavior, team/opponent strategies, temporary rule modifiers і player kit змінюють angle/timing/risk. Зберегти readable fairness і camera visibility; зміна кольору фону або приховане прискорення ворога не замінює контент.
+In an arena sport, topology, rebounds, goals, ball physics, team tactics, temporary rules, and loadout can change angle, timing, and risk. Keep fairness legible and the camera usable. Test content changes through decisions instead of visual variety alone.
 
-## Показати player journey
+## Show the actual player journey
 
-Зробити конкретну таблицю first launch→run 1→run 2→run 3→session 2→hours 5/20→late game. Для кожного: що нове, що зрозумів/уміє, які рішення відкрились, наскільки змінилась стратегія, що буде наступним, як пояснюється прогрес, що стає одноманітним. Зафіксувати час до першого значущого unlock і choice; не вводити десять валют до розуміння core.
+Provide concrete examples from first launch, runs 1, 2 and 3, session 2, hours 5 and 20, and late play where applicable. Explain what changes, mastery and opened decisions, strategy and the next goal, visible progress, and repetition. Record time to the first meaningful unlock and choice. Introduce currencies when useful to play.
 
-Змоделювати diverse seeds/builds/player policies, включно з найслабшим початківцем, сильним гравцем, unlucky draw, dominant strategy і exploit. Виміряти content repetition window, decision diversity, reachable builds, failure causes, resource starvation, softlocks і progression time distributions. Seed count обґрунтувати coverage; 10000 однотипних прогонів не замінюють пропущений клас.
+Simulate varied seeds, builds, and player policies, including beginner, expert, bad draw, dominant strategy, and abuse cases. Measure repetition window, decision diversity, viable builds, failure causes, resource shortages, softlocks, and progression time distributions. Derive sample size from coverage. A large repeated run count leaves missed classes open.
 
-## Перевірка новизни та виснаження
+## Verify novelty and exhaustion
 
-- Порахувати semantic encounter signatures, а не перестановки чи комбінації арифметично.
-- Задати novelty floor на ранній/середній/пізній фазі й playtest, що гравець розрізняє нові ситуації.
-- Виявити dominant build, mandatory unlock, dead choice, runaway snowball, grind plateau і sunk-cost-only return.
-- Дати fair recovery і challenge ladder, щоб mastery лишалась суттєвою після meta power.
-- Визначити закінчення доступного контенту й чесну postgame loop. Не обіцяти нескінченну ручну різноманітність без ресурсного плану.
+- Count semantic encounter patterns and meaningful choices.
+- Define novelty for early, mid and late play and observe whether players identify new situations.
+- Check dominant builds, mandatory unlocks, dead choices, snowballing, grind plateaus, and return motivated only by sunk cost.
+- Offer fair recovery and challenges that continue to reward mastery.
+- Define exhaustion and a clear postgame. Tie future content to actual authoring capacity.
 
-Референси на Dead Cells/Vampire Survivors/Acecraft використовувати для декомпозиції принципів; не копіювати їхні конкретні системи й не приписувати їм невивчені властивості. Перевірка retention вимагає реальних гравців; simulation лише знаходить структурні проблеми.
+Use Dead Cells, Vampire Survivors, and Acecraft for studied principles, respecting current design and rights. Verify retention with players. Use simulation to surface structural risks.
 
-## Capability, reward і світ у спільній моделі 4.0
+## Capabilities, rewards, and world
 
-Для кожного засобу розвитку зв'язати `що одержано → яка дія/властивість змінилася → де це використати → як пояснено → яка нова ціль`. Item/vehicle/character/ability розвиток має власний meaningful graph, властивості з units/formulas, поєднання й обмеження; він не зобов'язаний наслідувати RPG loot. Якщо достатньо майстерності без інвентаря, обґрунтувати її повну арку.
+Trace each progression path from gain to changed action or property, practical opportunity, learning, and next goal. Give items, vehicles, characters and abilities meaningful graphs, units and rules, combinations and limits. A mastery-led arc can work without inventory when complete.
 
-Винагороди задавати як конкретні grants: інструмент/здатність/властивість/доступ/зміна світу/колекція або інша цінність за fit. Визначити trigger, eligibility, pool/chance, duplicate, guarantee, persistence, presentation і першу можливість застосування. Пов'язати нагороду з добровільною довгою метою; reward animation без grant чи корисного наслідку недостатня.
+Specify rewards as actual grants such as a tool, ability, attribute, access or world change, collection, or other applicable benefit. Define trigger and eligibility, pool and chance, duplicates, guarantees, persistence, presentation, and first use. Connect rewards to voluntary long-term goals. Confirm the grant and useful consequence before accepting presentation.
 
-Світ описувати як граф розвитку досвіду: пов'язані локації/етапи/стани, доступ, маршрути, повернення, знання/інструменти й сталі наслідки. Для revisit визначити зрозумілий objective, очікувану цінність/шанс, нове рішення та добровільний exit. Велика площа, десять завершених кімнат або сто seeds не є довгою аркою. Finite launch scope та exhaustion/postgame не приховувати обіцянкою майбутніх сезонів.
+Describe world development through locations and stages and states, gates and routes, revisit, knowledge and tools, and lasting consequences. Revisit needs a clear objective, value or odds, new decision, and voluntary exit. Pin finite launch, exhaustion and postgame independently of planned seasons.
 
-Для противників і небоєвих викликів описати behavior families, roles, perception/knowledge, дію/telegraph/counter/recovery, контекстні поєднання й зміну тактики гравця. Local AI не потребує LLM. Випадкові події мають читабельні причини, constraints і recovery, щоб змінювати стратегію без довільної несправедливості.
+Define enemy and noncombat challenge families with roles and perception, action and cues and counters and recovery, context, and changed tactics. Use local deterministic or conventional AI where suitable. Random events require visible causes, bounds, and recovery.
 
-## Opportunity, exposure та вичерпання
+## Opportunity, exposure, and exhaustion
 
-Вести capability×opportunity: сімейство/розвиток → коли відкрите → частка/умови корисних ситуацій → навчання/перенос/комбінація → повертання у новому контексті → наступна мета. Генератор читає current progression і exposure history, але не підміняє unlock graph випадковістю. Шанс/гарантія/дублікати/overflow мають exact policy.
+For each capability record unlock and progression, frequency and conditions of useful opportunities, learning and transfer and combinations, return under new constraints, and next goal. Generation can consume current progress and exposure while respecting authoritative unlock rules. Define exact probability, guarantee, duplicate, and overflow policy.
 
-Описати all-unlocks/max-upgrades/full-collection/final/postgame/surplus states. Чесний authored фінал допустимий; не обіцяти відсутнє content. Retry/repair/reward/return cycles перевірити на ресурсний exploit/softlock. Після складного unlock гравець повинен мати ще корисну нагоду застосувати його.
+Describe all unlocked, maximum upgrades, complete collection, ending, postgame, and surplus states. A complete authored ending is valid. Test repeat, repair, reward, and return for resource abuse or softlocks. Preserve meaningful opportunities after difficult unlocks.

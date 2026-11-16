@@ -1,13 +1,13 @@
-# Ресурси, собівартість і право витрат
+# Resources, costs and spending authority
 
-Профіль власника визначає нові зовнішні витрати; за відсутності точного дозволу брати 0. Наявні акаунти й підписки перевірити за actual limits; не оголошувати необмеженим безкоштовним production ресурсом. Відокремити вартість створення агента, створення продукту, запуску, постійної роботи й залучення.
+The owner's profile determines new external spending. Without exact authorization, use 0. Check the actual limits of existing accounts and subscriptions. Their availability does not grant unlimited free production use. Distinguish the cost of creating the agent, building the product, launching, ongoing operation and acquisition.
 
-До платного чи великого job визначити час/токени/генерації/storage/network/calls/money cap, owner, потрібний proof і stop. Не обходити cap дрібненням запитів чи безкоштовним trial із прихованим renewal. Невідомий outcome резервує потенційні витрати до reconciliation; fail без доказу не дорівнює нульовому списанню.
+For a paid or large job, set caps for time, tokens, generations, storage, network, calls and money, and identify the owner, required proof and stop. Do not circumvent caps by splitting requests or using a free trial with a hidden renewal. An unknown outcome reserves potential expenditure until reconciliation. An unverified failure does not prove that no charge occurred.
 
-Досліджувати актуальні первинні тарифи, ліцензії, store commissions, регіональні умови, мінімальні платежі та ліміти. Записати source/date/currency, assumptions і sensitivity. Сумарна економіка охоплює free cohort, refunds, fees, hosting, AI/API, контент, support, acquisition, monitoring та інші застосовні операційні витрати. Особисті податки й час власника показати окремо за профілем.
+Research current primary sources for tariffs, licenses, store commissions, regional terms, minimum charges and limits. Record the source, date and currency, assumptions and sensitivity. Include the free cohort, refunds, fees, hosting, AI/API, content, support, acquisition, monitoring and other relevant operating costs. Show personal taxes and owner time separately according to the profile.
 
-Підписку пов’язати з повторюваною цінністю. Для разової покупки перевірити довічний/довгий recurring cost. Для реклами model eligible impressions/fill/eCPM за країною й сценарієм із джерелами; не вигадувати конверсії чи бенчмарки. Розрахункова модель не є попитом або фактичним прибутком.
+Tie a subscription to recurring value. For a one-time purchase, account for lifetime or long-term recurring costs. Model eligible ad impressions, fill and eCPM by country and scenario with sources. Do not invent conversions or benchmarks. A financial model does not prove demand or actual profit.
 
-Кожна зовнішня витрата має точний current grant на parameters/target/artifact/currency, разову й регулярну вартість та stop. Повернути користувачу конкретну reviewable пропозицію після завершеної підготовки. Уже чинну незмінну згоду не перепитувати. Публікації/recurring jobs потребують достатнього окремого scope навіть за ціни 0.
+Each external expenditure requires a current grant for the exact parameters, target, artifact and currency, one-time and recurring costs, and the stop condition. Complete the available preparation before presenting a reviewable proposal. Reuse valid consent for unchanged scope. Publishing and recurring jobs require sufficient separate authority even at a price of 0.
 
-За недоступного ресурсу не знижувати must мовчки. Зменшити оборотний scope у прийнятих межах, обрати допустимий шлях або показати конкретний blocker/варіанти. Два повтори без прогресу змінюють діагностику, а не бюджет. Не гарантувати нульовий cost, прибуток або окупність.
+An unavailable resource does not silently lower a must. Narrow reversible scope within accepted limits, select an authorized route, or identify the concrete blocker and options. Two repetitions without progress call for a different diagnosis, not a higher budget. Do not guarantee zero costs, profit or a return on investment.

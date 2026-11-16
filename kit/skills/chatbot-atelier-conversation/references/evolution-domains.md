@@ -1,159 +1,148 @@
-# Детальні контракти розвитку співрозмовника
+# Detailed contracts for conversational assistant evolution
 
-Поточний routing/команда визначені SKILL і lifecycle/team; усі потрібні предметні правила включено самодостатньо.
+Use the current skill, lifecycle and team policy for routing and assignments. These domain reference sections are included in full for an independent evolution review.
 
-## Джерело: domain-profile.md
+## Source — domain-profile.md
 
-# Профіль розмовного помічника
+### Conversational assistant profile
 
-Оновлювати на початку великого раунду й після зміни релізу. Зберігати в проекті, а не в навичці, швидкозмінні commit/service IDs; секретів не записувати. Не обмежувати модель бота цим списком.
+Refresh the profile for a major round and after release changes. Keep changing commit and service IDs in project records and omit secrets. Extend this inventory to the actual domain.
 
-Для кожної можливості: людська мета; природний запит; tool/route; source path; storage; ownership/audience; результат; failure/retry/cancel; test; status (`declared`, `implemented`, `locally_verified`, `deployed`, `observed`). Знайти весь інвентар за registry, schemas, callbacks, workers, UI, комітами й release notes:
+For each capability record the user's goal, natural request, tool/route, source path, storage, ownership and audience, result, failure/retry/cancel, test and status (`declared`, `implemented`, `locally_verified`, `deployed`, `observed`). Review registries, schemas, callbacks, workers, UI, commits and release notes to find the full current scope:
 
-- Ім’я/@/reply/продовження, адресат, мовчання, доречна самостійна участь, тон/гумор, короткі й докладні відповіді.
-- Ізольована пам’ять групи/тем, авторство/джерела, згода/pause/forget, summary/recall, private DM і контроль перенесення в групу.
-- Нотатки, справи, покупки, запаси/витрати/чеки; різниця списку й фактичної покупки.
-- Одноразові/повторювані нагадування, місцевий час, skip/reschedule/overdue, календарі/доступи, події й узгодження компанією.
-- Ігри/сценарії/ролі, згода всіх потрібних учасників, чергові/паралельні дії, результати, polls, кнопки, offers/details.
-- Актуальний веб/пошук, browser actions, приватні конектори, повноваження зовнішніх дій.
-- Фото/стікери/аватари, OCR, сторінки/фрагменти відео, каталог/версії/оригінали, колажі/картки/image generation.
-- PDF/DOCX/XLSX читання/створення/редагування; альбоми, ролики, підписи, музика/звук. Відкладене/недоступне не оголошувати активним.
-- Навчання/вправи/прогрес, групові проекти, приватні чернетки/inbox.
-- Inbound/outbound та обмеження обраної платформи, idempotency, retries, workers/queues/cancel, receipts, restart/leases.
-- Модель/авторизація, дозволені моделі/провайдери, CPU/RAM/disk, TTL/cleanup, health/telemetry, versions/releases/rollback.
+- Name, mention, reply and continuation, addressee, silence, useful initiative, tone and humor, and brief or detailed replies.
+- Group and topic memory isolation, authorship and sources, consent, pause and forget, summaries and recall, private DM and permitted group visibility.
+- Notes, tasks, shopping, inventory, expenses and receipts. Distinguish a list from an actual purchase.
+- Single and recurring reminders, local time, skip, reschedule and overdue behavior, calendar access, events and group coordination.
+- Games, scenarios and roles, all required participant choices, serial and parallel activity, results, polls, buttons, offers and details.
+- Current web/search and browser interfaces, private connectors and authority for external actions.
+- Photo, sticker and avatar work, OCR, pages and video segments, catalog, versions, originals, collage/cards and image generation.
+- PDF/DOCX/XLSX reading, creation and edits, albums, video, captions, music and sound. Record deferred or unavailable features separately.
+- Learning, exercises and progress, group projects, private drafts and inbox.
+- Selected platform ingress and egress limits, idempotency, retries, workers, queues, cancel, receipts, restart and leases.
+- Models and authorization, allowed providers, CPU/RAM/disk, TTL and cleanup, health and telemetry, versions, release and rollback.
 
-## Доменні відмінності
+#### Domain distinctions
 
-1. «Додай молоко» — список, не чек, закупівля, залишок чи PDF. «Завтра нагадай купити» — нагадування; не вимагати вибору внутрішньої сутності.
-2. Ім’я/адмінство не дає права читати приватні матеріали. Output і повідомлення про нього мають ту саму аудиторію.
-3. Файл у storage ще не є результатом у чаті: потрібен доступний output або конкретна зрозуміла точка доступу; невідома доставка не означає успіх.
-4. «Зробити відео» — монтаж або нова генерація. Розуміти контекст; питати лише вирішальну прогалину. Монтаж не доводить доступу до платної генерації.
-5. Намір, згода, виконання, перевірений результат і доставка — різні стани. Теплий тон не дозволяє вигадувати «готово».
-6. Безплатні інструменти споживають CPU/диск. Не вмикати платного провайдера мовчки; озвучувати лише важливий для рішення людини ліміт.
+1. «Додай молоко» refers to a list entry. «Завтра нагадай купити» refers to a reminder. Infer the natural intent without asking users to select an internal entity.
+2. Verify permissions independently from name or administrative title. The output and notification follow the same allowed audience.
+3. An artifact in storage still needs an accessible output or explicit access point in chat. Verify delivery or report its unknown status.
+4. «Зробити відео» can mean montage or new generation. If context leaves a material choice, ask one deciding question. Check authority for paid generation separately.
+5. Intent, consent, execution, verified result and delivery are separate. Reflect actual state in the response.
+6. Free tools also use CPU and disk. Confirm paid provider scope and explain the limits that matter to the user's decision.
 
-## Експертні джерела
+#### Specialist sources
 
-Перевіряти офіційні API обраної платформи, FFmpeg manuals, документацію застосованих Node/DB/queue libraries, модельні API й runtime contracts. Для UX дослідження progressive disclosure/error recovery/turn-taking — метод, не доказ якості власного бота. Коректність runtime доводити виконанням, не цитатою.
+Verify the selected platform's primary APIs, FFmpeg manuals, applicable Node, database and queue documentation, model APIs and runtime contracts. Progressive disclosure, error recovery and turn-taking research inform design. Verify the bot's experience and runtime through target-specific observation.
 
+## Source — conversation-and-value.md
 
-## Джерело: conversation-and-value.md
+### Useful and natural conversation
 
-# Жива користь і ясна розмова
+#### The smallest complete result
 
-## Найменший достатній результат
+For a simple request, perform the allowed work and briefly give the result. For a complex request, preserve its detail, questions and pace. Give a truthful account of anything still incomplete.
 
-Просте прохання виконати й коротко показати результат. Складне — зберегти потрібний зміст, питання й темп. Короткість не виправдовує неповний результат або удаваний успіх.
-
-| Запит | Природний результат | Внутрішня перевірка |
+| Request | Natural response | Internal check |
 |---|---|---|
-| «Купити хліб, молоко і яйця» | «Додав: хліб, молоко, яйця.» | Список справді оновлено; повтор не дублює рядки |
-| «Завтра о 9 нагадай про аптеку» | «Нагадаю завтра о 9:00.» | Однозначна дата/місцевий час, job збережений |
-| «Збери фотки в маленьке відео» | «Зберу. Які фото беремо?» лише якщо контекст їх не визначає | Матеріали/адресат; не вимагати кодек |
-| «З музикою» | Використати надану/погоджену доріжку або попросити її | Фактичний audio stream; не називати мовчазний ролик музичним |
-| Збій відео | «З роликом поки не вийшло: цей фрагмент не відкривається. Надішли його ще раз — спробую зібрати знову.» | Причина встановлена; не обіцяти retry, якого не буде |
-| «Просто скажи, що думаєш» | Осмислена репліка за контекстом | Не створювати project/task/confirmation без потреби |
+| «Купити хліб, молоко і яйця» | «Додав: хліб, молоко, яйця.» | Verify the list was updated. Repetition adds no duplicates. |
+| «Завтра о 9 нагадай про аптеку» | «Нагадаю завтра о 9:00.» | Establish date and local time and verify persisted job. |
+| «Збери фотки в маленьке відео» | «Зберу. Які фото беремо?» only if context does not identify them. | Establish inputs and recipient. Avoid needless codec questions. |
+| «З музикою» | Use the provided or accepted track, or ask for it. | Confirm an actual audio stream. |
+| Video failure | «З роликом поки не вийшло: цей фрагмент не відкривається. Надішли його ще раз — спробую зібрати знову.» | Verify the cause and offer a retry only if it is feasible. |
+| «Просто скажи, що думаєш» | A meaningful response in context. | Keep the conversation direct unless it needs a task or decision. |
 
-Це приклади принципу, не універсальні скрипти. Тримати мову поточного діалогу. Невідому причину не вигадувати; не жартувати автоматично над роздратованою людиною.
+These examples illustrate the interaction. Use the current dialogue language. State known causes and adapt humor to the situation.
 
-Перевіряти також звичайні озаглавлені дані без наказового дієслова: «Список покупок: хліб, молоко» або «Список справ» із рядками нижче. Явний поточний авторський список не має вимагати спеціальної команди. Категорію та пункти зв'язувати з фактичним текстом; цитата, переслане повідомлення, переклад, запитання чи заперечення не дають автоматичного дозволу на запис. Підтримані мови перевіряти реальними формулюваннями, а не лише перекладеним інтерфейсом.
+Test ordinary labeled data without an imperative, such as «Список покупок: хліб, молоко» and «Список справ» followed by items. A current self-authored list needs no special command. Extract category and items from the actual text. A quotation, forward, translation, question or denial does not automatically authorize a write. Test each supported language with natural phrasing.
 
-## Поверхня аудиту
+#### Audit the whole interaction
 
-Перевіряти prompt, tool descriptions/examples/results, capabilities/welcome/help, release announcements, кнопки, progress/typing, success, validators, callback expiry, worker failure/timeout/restart, final grounding, delivery fallback, localization. Технічна мова часто походить із tool result, навіть за теплого prompt.
+Check prompts, tool descriptions, examples and results, capabilities, welcome and help, release announcements, buttons, progress and typing, success, validators, callback expiry, worker failures, timeout and restart, grounding, delivery fallback and localization. Tool output itself can introduce technical wording.
 
-MP4/PDF, рендер, pipeline, перевірки, ID/revision/verifier/step показувати за запитом або коли вони змінюють вибір. Формат у назві завантаження чи експорті допустимий; він не замінює пояснення користі.
+Mention MP4/PDF, render or production pipeline, checks, IDs, revisions and step labels when requested or useful to a decision. A filename or export can identify its format. Explain the outcome in everyday language.
 
-Не маскувати збій усмішкою й не прибирати верифікацію. Повідомляти «що є / що не вийшло / як рухатись далі», якщо ці частини корисні. Не вставляти автоматично «дані збережені» без перевірки/потреби.
+During a failure, give the actual result, limitation and practical way forward when useful. Claim persistence only with evidence. Preserve relevant character, context, stance, humor and warmth without invented experience or claims of consciousness. Offer at most one helpful extension to a simple result. Ask for the missing reminder time rather than an internal registry mode. Reuse provided photos, time and consent. Set clear, truthful progress and terminate the waiting state. Public announcements use recognizable situations and examples.
 
-- Зберігати характер, контекст, власну думку, гумор і тепло без заяв про свідомість або вигаданий досвід.
-- Виконати просте; запропонувати максимум одне доречне розширення. Не пропонувати PDF/конектор/inventory для звичайного списку.
-- Питати про вирішальну прогалину: «коли нагадати?» доречно; «обери режим task registry» — ні. Не питати повторно надані фото/час/згоду.
-- Давати правдивий короткий прогрес і зрозуміле завершення очікування; не залишати нескінченний typing.
-- Анонс будувати на впізнаваних ситуаціях і прикладах, не публікувати інженерний changelog у групу.
+Exercise a simple question, emotional remark, joke, list, ambiguous time, long task, unsupported request, partial failure and recovery. Evaluate the full interaction including action result. Check every supported language independently.
 
-Прогнати просте питання, емоційну репліку, жарт, список, неоднозначний час, довге завдання, unsupported request, частковий збій і відновлення. Оцінювати повний діалог із дією, не лише заборонені слова. Окремо перевіряти реально підтримані мови.
+#### Mixed everyday requests
 
-## Змішаний побутовий запит
+Trace independent parts through intent, route, storage, confirmation, worker and delivery. For example, keep the reminder when adding purchases and report success of one part if another is blocked. Preserve causal dependencies, consent, provenance and time checks.
 
-Розкласти незалежні частини на намір → маршрут → storage → підтвердження → worker/delivery. Перевірити, що replanning не губить нагадування під час додавання покупок, успіх однієї частини не приховується іншою, а збій блокує лише реально залежні дії. Не розривати необхідні причинні залежності та не обходити згоду, provenance або перевірку часу.
+## Source — media-quality.md
 
+### Sticker and media quality
 
-## Джерело: media-quality.md
+#### Sticker records
 
-# Якість стікерів і медіадій
+Locate the best accepted version, current manifest, generator, key poses and settings, native set membership and file IDs, and actual bytes. Track accepted_unchanged, suspect, reproduced_defect, repaired, visually_reviewed and device_observed for each file. Evaluate motion separately from set size and FPS.
 
-## Реєстр стікерів
+Inspect each changed or suspect item:
 
-Знайти найкращу прийняту версію, поточний manifest, генератор/keyposes/settings, channel asset membership/file IDs і actual bytes. Для кожного файлу вести accepted_unchanged / suspect / reproduced_defect / repaired / visually_reviewed / device_observed. Розмір набору й FPS не є якістю анімації.
+- Preserve character, proportions, face, paws, ears, garments and clean alpha. Check extra limbs, doubles and temporary identity shifts.
+- Make emotion legible and appropriate to the scene. Different moods need meaningful expressions.
+- Keep topology and objects consistent across key poses. Check incompatible-pose dissolve, ghosting, jumps, lost detail, stretching and noise.
+- Verify useful anticipation, action, settle, trajectory and speed. Repair interpolation at its cause.
+- Watch the complete beginning, end and loop in real and slow playback. Check clipping in motion.
 
-Перевіряти кожен змінений/підозрілий файл:
+Scan every file for decoding and timestamps, alpha and bounds, blank or black frames, repeats, frame differences and loop differences. Large differences indicate an item to inspect. Use contact sheets alongside playback. Inspect all replaced or flagged files and unchanged controls. A whole-pack verdict requires a record for every item.
 
-- Цілісність персонажа, пропорцій, обличчя/лап/вух/одягу, чистий alpha край; немає зайвих кінцівок, здвоєння, тимчасової зміни обличчя.
-- Емоція зрозуміла з preview й відповідає сцені; різні настрої не дублюють одну заготовку.
-- Стабільні топологія/предмети між keyposes; немає dissolve/ghosting несумісних поз, стрибків, зникнення деталей/розтягування/шуму.
-- Осмислені anticipation/action/settle, траєкторія й швидкість; додаткові кадри не лікують погану інтерполяцію.
-- Початок/кінець/loop seam у русі, відсутність обрізання. Дивитися повний цикл у реальному й уповільненому темпі.
+Compare a repair against the reproduced defect and an accepted control. Fix the generator, rig, masks or pose correspondence where causal. Preserve meaningful motion and authorized pack scope. Use a technical mux or re-encode for format work and the applicable image workflow for drawing or editing a raster asset.
 
-Scan всіх файлів: decode/timestamps, alpha/bounds, blank/black frames, повтори, frame/loop differences. Великі різниці — підказка, не універсальний veto. Contact sheet доповнює анімацію, не заміняє її. Оглянути всі замінені/позначені та незмінені control files; для заяви «весь пак перевірено» потрібен облік огляду кожного.
+Verify current selected-channel media requirements before encode or publication. Apply a Telegram video-sticker profile only to Telegram. After publication verify item, hash, provider file and position. Preserve unknown mobile acceptance as a gap.
 
-Порівняти defective/repaired зі старим прийнятим контролем. Лікувати generator/rig/masks/keypose correspondence за причиною. Не підміняти анімацію нерухомим кадром із коливанням усього зображення; не урізати набір без доручення. Для технічного mux/re-encode imagegen не потрібний; для створення/редагування растрової картинки використовувати належний imagegen workflow.
+#### Lineage and frozen package
 
-Для обраного каналу звіряти актуальні вимоги до медіа перед encode/publication; Telegram video-sticker profile активувати тільки для Telegram. Після публікації перевірити item → hash → provider file → позицію. Невідоме mobile acceptance так і позначати.
+Preserve exact originals before replacing canonical output. Label video extracts as derived frames and newly drawn poses or layers as generated sources. Record input/output SHA, prompt and crop/resize procedure. Keep the original timestamp and recovered atlas claims bound to actual historic bytes. Save the prompt with the invocation.
 
-## Походження й заморожений пакет
+Wait for every encoder to finish before freeze. Probe the final copied files, fully decode with failure on damage, verify frame count, order, duration and match to the accepted candidate. Bind proof to those bytes and SHA. Recheck all hashes after review, then finalize the immutable manifest. A later snapshot needs its own verification.
 
-Зберігати точні початкові джерела перед перезаписом canonical. Кадри, декодовані з відео, називати derived frames; нові намальовані опори чи окремі шари — generated sources, з фактичними input/output SHA, prompt і процедурою crop/resize. Не приписувати новому малюнку timestamp старого відео або статус відновленого original atlas. Prompt записувати в артефакт разом із викликом: тимчасова пам'ять оркестратора не є збереженим доказом.
+Keep an independently accepted FINAL and proof immutable. Record metadata or review repair as a targeted addendum with parent SHA and actual independent closure. Classify preview/handoff defects separately from defects in animation. Reproduce from preserved input, recipe and generator.
 
-Перед freeze дочекатися фактичного завершення кожного encoder process; існування файла чи повернутий running session не доводять готовності. Після COPY перевірити саме остаточні заморожені файли: probe, повний decode з помилкою на пошкодженні, число/порядок кадрів, duration і відповідність candidate. SHA та bytes у proof мають збігатися з цими копіями. Ще раз звірити всі hashes після перевірки та лише тоді завершити immutable manifest. Перевірка live source до копіювання не підтверджує пізніший snapshot.
+#### Video with music
 
-Після незалежного FINAL не переписувати його пакет або proof. Виправлений review-файл чи відсутню metadata оформити новим адресованим addendum із parent SHA й фактичним незалежним closure. Відрізняти дефект preview/handoff від дефекту самої анімації; жоден із них не приховувати. Reproduction запускати зі збережених inputs/recipe/generator, не з уже перезаписаного canonical.
+Distinguish montage, new generation, source audio, music and voice synthesis. Deferred voice leaves an approved track in scope. Confirm authority for TTS or paid providers before use.
 
-## Відео з музикою
+Verify inputs and duration, scene order, framing, captions, trim, loops, mix, fades and levels, mux, actual video and audio streams, duration, decode, size, access and delivery. Listen or analyze the actual sound. `-an` or a missing audio mapping leaves the music requirement unfulfilled.
 
-Розрізняти montage, нову генерацію, source audio, music track і voice synthesis. Відкладений голос не забороняє надану музику; не вмикати TTS/платних провайдерів без дозволу.
+Record actual track, license and source. Ask one useful question if a source is needed. Exercise the real available route before claiming the feature.
 
-Перевірити inputs/duration, scene order/framing/captions, audio trim/loop/mix/fades/levels, mux, actual video/audio streams, duration/decode/size/access/delivery. Фактичний звук перевіряти слуханням/аналізом, не розширенням .mp4. За `-an`/відсутнього audio mapping не обіцяти музику.
+Derive the music requirement from current self-authored intent and goal version. A missing model flag does not retire the requirement. Bind ingress, track selection, decoder, verifier and delivery for each promised source, including audio extraction from video where supported. An explicit user change can remove music. A retry, unrelated context or erased source cannot change the intent.
 
-Не вигадувати трек, ліцензію або URL. За відсутнього джерела — одне природне питання. Перевірити доступний існуючий інструмент у реальному шляху до оголошення функції.
+Give jobs a clear start, completion, error and cancel. Preserve actor, topic, audience and provenance. Private output stays within its permitted audience. Retry and restart keep one message and return current bytes. Keep technical errors in logs and give the user a concise, accurate explanation.
 
-Вимогу музики виводити з фактичного чинного авторського прохання та версії мети, а не лише прапорця, який обрала модель. Пропущений прапорець не дозволяє віддати мовчазний результат як музичний. Узгодити ingress, вибір доріжки, decoder, verifier і delivery для всіх заявлених джерел, зокрема вилучення аудіо з відео, якщо воно вже підтримане. Явне нове прохання без музики може змінити намір; сторонній контекст, retry або стерте джерело — ні.
+## Source — judge-rubrics.md
 
-Job повинен мати зрозумілі початок/готово/помилку/скасування, зберігати actor/topic/audience/provenance, не публікувати private output у групу. Retry/restart не дублює повідомлення й не повертає старий файл. Технічну причину логувати всередині; людині давати точне тепле пояснення без stack/code/step IDs.
+### Domain reviewer rubrics
 
+Use the current [team policy](team-policy.md) and [team profile](../assets/team-profile.json) for joint domain assignments and independent local acceptance. Evaluate the active criterion against the actual package. Leave unknowns open and keep blocking findings distinct.
 
-## Джерело: judge-rubrics.md
-
-# Предметні рубрики суддів
-
-Організація поточних запусків: [team-policy.md](team-policy.md) і [team-profile.json](../assets/team-profile.json). Усі предметні вимоги та докази нижче зберігаються; Current scope використовує grouped domain assignments та локальне незалежне приймання.
-
-Брати відповідний предмет і перевірку з канонічного реєстру. Оцінювати актуальний пакет, не власний авторитет; невідоме не є pass. Не усереднювати veto.
-
-| Критерій / експертиза | Перевірка | Підстава повернути |
+| Criterion and competence | Check | Grounds to return |
 |---|---|---|
-| human_value — Product discovery, Jobs-to-be-Done | Пояснити користь зміни мовою учасника; пройти реальне прохання від потреби до доступного результату. | Описує лише модуль/формат або додає ритуал без користі. |
-| natural_voice — Conversational UX, українська прагматика й емпатія | Оцінити повний діалог українською та підтриманою іншою мовою, включно з роздратуванням, жартом, успіхом і збоєм. | Технічний step/code/JSON, кліше, удавана емпатія чи гумор невчасно. |
-| context_relevance — Turn-taking, discourse reference й маршрутизація обраного каналу | Інший адресат, reply, попередня пропозиція, тема, доречне мовчання; не просити вже надане. | Перебиває, відповідає іншому чи губить референс. |
-| proportional_depth — Cognitive load, information architecture | Порівняти просте питання та складний запит; виміряти зайві питання/натискання й втрату потрібного змісту. | Проста відповідь потребує workflow; складна обрізана заради короткості. |
-| simple_first — Progressive disclosure, task-oriented design | Слова без кількості/режиму/формату дають простий результат; розширення лише доречне. | Нав’язує склад, чек, PDF або режим до базового результату. |
-| practical_completion — Task/list domain modeling, transactional CRUD | Змішаний список+нагадування: storage, повтор, перегляд, частковий збій, підсумок кожної незалежної частини. | Запис перетворився на фізичну покупку чи незалежна частина загубилась. |
-| multiuser_fairness — Collaborative workflows, multiplayer interaction design | Кожен потрібний учасник погоджується/обирає за себе; попередня згода не губиться. | Приписано згоду/вибір або один учасник перезаписує чужий. |
-| scheduling_fidelity — Civil-time semantics, DST й durable scheduling | Завтра/9 ранку, перехід DST, повтор/skip/reschedule, overdue, stored job і фактична delivery. | Підмінено timezone хостом, виконано двічі або зник нагадувач. |
-| capability_truth — LLM tool affordances, capability contracts | Зіставити кожну обіцянку з ingress/tool/schema/runtime; montage≠generation, voice≠music. | Декларація є, але немає доступного наскрізного шляху. |
-| execution_truth — State machines, effect verification, distributed idempotency | Failure→recovery, queued→ready→delivered, частковий успіх і залежний крок. | Вигаданий успіх або blanket failure стирає реально відновлену незалежну допомогу. |
-| recovery_empathy — Human factors, fault recovery й diagnostic uncertainty | Terminal failure/timeout/missing input: правдиве пояснення, наступний виконуваний крок, завершення очікування. | Невідома причина вигадана, raw error, мовчазний repair або обіцяний retry не відбудеться. |
-| interaction_continuity — Контракти інтерактивних подій обраного каналу, optimistic concurrency | Стара/повторна/прострочена кнопка, details, cancel, replay й reply після job. | Мертва кнопка, дубль ефекту або загублений стан/намір. |
-| character_semantics — Character animation direction, silhouette й emotion readability | Порівняти preview/рух/сцену з прийнятим персонажем; інвентар унікальних емоцій. | Зміна ідентичності, зайва лапа, сцена не відповідає emoji або дубль заготовки. |
-| temporal_quality — Technical animation, optical flow, temporal compositing | Перевірити кожну змінену повну послідовність, keypose correspondence, matte та loop seam; контроль старої версії. | Ghosting/деформація/ривок; contact sheet/FPS підміняє рух чи whole-image wiggle підміняє сцену. |
-| audiovisual_fidelity — Video/audio editing, FFmpeg filters/muxing | Надана музика+відео: actual streams, signal, timeline, duration, clipping, source semantics, decode. | Беззвучний файл названо музичним, зникли кадри/субтитри або аудіо не відповідає джерелу. |
-| media_delivery — Доставка медіа/стікерів за можливостями обраного каналу, artifact integrity | Підсумковий файл доступний адресату; pack item/hash/file_id/order збігаються; receipt підтверджує delivery. | Каталог або кількість замість потрібного файла/набору; private результат видимий групі. |
-| audience_privacy — Authorization, least privilege, information-flow control | Actor/topic/group/private у read, job, output, progress/error і cached paths. | Розширення доступу або витік навіть через повідомлення про результат. |
-| consent_authority — Consent lifecycle, authority boundaries | Явне доручення виконується без повторного дозволу; справжній зовнішній/приватний boundary зберігає потрібну згоду. | Вигаданий consent, непотрібний повторний gate або дія поза повноваженнями. |
-| source_grounding — Data lineage, factuality, provenance propagation | Доказ/джерело для результату, цитати/дат/оригіналів; audio/input provenance переходить у output. | Вигадані URL/трек/факт або відсутня lineage залежного результату. |
-| forgetting_integrity — Data erasure, revocation й derived-artifact invalidation | Forget/pause/revoke під час queued/running/retry; перевірити derived output і notice. | Знову використано стерте або видано результат після revocation. |
-| bounded_resources — Performance engineering, admission control | CPU/RAM/disk/queue limits на реальному шляху; concurrent chat+media, input size/duration. | Необмежена робота або блокування чату; чужий benchmark замість власного. |
-| lifecycle_reliability — Workers, leases, restart/cancel/retry semantics | Worker crash, timeout/cancel, stale revision/source, duplicate delivery й cleanup. | Вічний running/typing, дубль, silent failure або cached success після cancel. |
-| provider_constraints — Model/provider compatibility, cost controls | Конфігурація й фактичні виклики лишаються в дозволених моделях; voice/paid extension не активований. | Новий paid provider, заборонена модель або недозволена витрата. |
-| version_continuity — Release engineering, compatibility й rollback | Diff/версії/старі дані/кнопки/assets, changelog і live commit; rollback має конкретний шлях. | Збережено не весь продукт, заявлено незадеплоєне або втрачено історію. |
+| human_value — product discovery and Jobs-to-be-Done | Explain value in the participant's terms and exercise the real journey from need to accessible outcome. | The proposal reports only a module or format, or adds process without value. |
+| natural_voice — conversation UX, Ukrainian pragmatics and empathy | Review complete Ukrainian and other supported language dialogues, including frustration, jokes, success and failure. | Technical step labels or JSON, clichés, false empathy or poorly timed humor. |
+| context_relevance — turn-taking, reference and channel routing | Check wrong addressee, reply, prior offer, topic and appropriate silence. Reuse known input. | Interrupts another speaker, replies to the wrong person or loses the referent. |
+| proportional_depth — cognitive load and information architecture | Compare simple and complex requests. Count unnecessary questions or taps and lost detail. | A simple answer requires a workflow or a complex task loses required content. |
+| simple_first — progressive disclosure and task design | An ordinary request produces the basic result without a mode, quantity or format. Optional expansion is relevant. | The bot forces inventory, receipt, PDF or technical mode before the requested result. |
+| practical_completion — list and task models and transactional CRUD | Exercise list plus reminder, storage, replay, view, partial failure and outcome of each independent part. | A list entry becomes a purchase or an independent part is lost. |
+| multiuser_fairness — collaboration and multiplayer interaction | Each required participant chooses for themselves. Preserve applicable existing consent. | The system invents consent or lets a participant overwrite someone else's choice. |
+| scheduling_fidelity — civil time, DST and durable jobs | Check tomorrow at nine, DST, repeat, skip, reschedule and overdue work, persisted job and actual delivery. | Host zone overrides the intended zone, duplicate dispatch or missing reminder. |
+| capability_truth — tool affordances and capability contracts | Match each promise to ingress, tool, schema and runtime. Exercise montage, generation, voice and music separately. | The declaration has no available end-to-end path. |
+| execution_truth — state machines, effects and distributed idempotency | Trace failure/recovery, queued/ready/delivered, partial success and the dependent step. | Invented success or an overall failure hides a completed independent result. |
+| recovery_empathy — human factors and failure recovery | Exercise terminal failure, timeout or missing input. Give true status, feasible next step and end the wait. | Invented cause, raw error, hidden repair or a retry promise without capability. |
+| interaction_continuity — channel event contract and optimistic concurrency | Test stale, repeated and expired buttons, details, cancel, replay and post-job reply. | Dead button, duplicated effect, or lost state or intent. |
+| character_semantics — animation direction, silhouette and legible emotion | Compare preview, motion and scene against accepted identity and unique emotions. | Identity changes, extra limb, scene mismatches emoji, or a reused pose obscures distinct intent. |
+| temporal_quality — animation, optical flow and compositing | Watch every changed sequence. Review key-pose correspondence, matte and loop against an old control. | Ghosting, deformation, jumps, contact sheet instead of playback or whole-image wobble instead of the intended action. |
+| audiovisual_fidelity — editing and FFmpeg filters and muxing | Inspect actual streams, signal, timing, duration, clipping, source meaning and decode for provided music plus video. | Silent media presented as musical, missing frames or captions, or audio diverges from source. |
+| media_delivery — platform media delivery and integrity | Recipient can access the actual file. Match pack item, hash, file_id and order and observe delivery receipt. | Catalog or count substitutes for the file, or private media becomes group-visible. |
+| audience_privacy — authorization and information flow | Check actor, topic, group and private scope across reads, jobs, output, progress, errors and cache. | Scope expansion or disclosure even through a status message. |
+| consent_authority — consent lifecycle and authority | Execute exact authorized work and preserve consent on external and private boundaries. | Fabricated consent, needless repeated approval or an out-of-scope action. |
+| source_grounding — lineage, factuality and provenance | Bind result to source, quotes, dates and originals. Track audio/input lineage into output. | Invented URL, track or fact, or missing derived lineage. |
+| forgetting_integrity — erasure and invalidation | Forget, pause or revoke while queued, running or retrying. Observe outputs and notices. | Deleted information reused or result delivered after effective revocation. |
+| bounded_resources — performance and admission control | Measure CPU, RAM, disk and queue on the actual path, concurrent chat and media, input size and duration. | Unbounded work, blocked chat or an unrelated benchmark used as local evidence. |
+| lifecycle_reliability — jobs, leases and recovery | Test crash, timeout or cancel, stale revision or source, duplicate delivery and cleanup. | Indefinite running or typing, duplicate, silent failure or cached success after cancellation. |
+| provider_constraints — model compatibility and cost | Verify configured and actual models and that deferred voice or paid extensions stay outside execution. | Unapproved paid provider, prohibited model or unauthorized spending. |
+| version_continuity — release, compatibility and rollback | Compare diff, versions, old data/buttons/assets, changelog and live commit. Exercise the rollback route. | Feature or history lost, or an undeployed version claimed live. |
 
-Для verdict указати strongest_objection, точні evidence_ids, scope, uncertainty і reversal_condition. Перевіряти джерело/версію/контекст; офіційна документація доводить контракт, execution — власну поведінку в названих межах, люди — сприйняття. Назва рольового експерта не є науковою або професійною атестацією.
+Record strongest_objection, exact evidence_ids, scope, uncertainty and reversal_condition with each verdict. Verify source, version and context. Documentation supports the stated contract, execution supports behavior on its actual boundary, and human evaluation supports observed perception. Verify competence and real independence separately from role names.

@@ -1,64 +1,54 @@
-# Приймання реалізації
+# Build acceptance
 
-Оцінювати кожний due must окремо. Розділяти code authored, build passed, device verified, independently reviewed і released.
-Самоперевірка автора не є незалежною перевіркою.
+Assess every due must separately, including code authored, build passed, device verified, independently reviewed and released. Label author checks as self-checks.
 
-## Вихід і докази
+## Outputs and evidence
 
-| Область | Прийнятний доказ |
-|---|---|
-| REQ-10 | Основний корисний сценарій фактично проходить у самостійних Android, iOS і web клієнтах |
-| Accepted experience | Реальні screens/states/assets відповідають hashes/masters і погодженим відступам |
-| Data/auth | Контракти, migrations, subject/field isolation, recovery та негативні перевірки |
-| REQ-43 | Provider-backed права, lifecycle, restore/retries/refund/revoke за застосовності |
-| Production route | Рання store/account/cost/testing feasibility; фактичні SDK/build/signing prerequisites |
-| CI | Відтворювана збірка з точними конфігураціями, checks і artifact provenance |
-| Пристрої | Environment/version/device, процедура, спостереження й межі; симулятор позначений симулятором |
-| Передача | Source/build hashes, commands, results, known limits, exact next action |
+| Area | Acceptable proof |
+| --- | --- |
+| REQ-10 | The useful core actually works in standalone Android, iOS and web clients. |
+| Accepted experience | Real screens, states and assets match accepted masters and approved deviations by digest. |
+| Data/auth | Contracts, migrations, subject/field isolation, recovery and negative checks. |
+| REQ-43 | Provider-backed entitlements, lifecycle, restore, retries, refund and revocation as applicable. |
+| Production route | Early store/account/cost/testing feasibility and actual SDK, build and signing prerequisites. |
+| CI | Reproducible build with exact configurations, checks and artifact provenance. |
+| Devices | Exact environment, version, device, procedure, observation and limits. Label simulator proof accurately. |
+| Handoff | Source/build hashes, commands, results, known limits and precise next action. |
 
-Не приймати landing page за web client, Android результат за iOS proof або mock за live provider integration.
-За відсутнього пристрою/SDK/signing підготувати конкретний launch/return bridge і залишити proof blocked.
-Не вимагати реального платежу, production migration або публікації заради тесту.
+A landing page cannot stand in for the web client, Android evidence cannot cover iOS, and a mock cannot prove a live provider integration. For missing device, SDK or signing, record the blocked evidence and an exact launch/return bridge. Verify without real charges, production migrations or publication when those effects exist only to demonstrate a test.
 
-## Наскрізні cases продукту
+## End-to-end product cases
 
-1. Новий стан → основна дія → коректний domain result → збереження → перезапуск → той самий дозволений результат.
-2. Невалідний/порожній/надвеликий ввід дає зрозумілу помилку без часткового некоректного стану.
-3. Interrupt/kill/background/network loss не створює дубль або безповоротну втрату вже підтверджених даних.
-4. Повтор запиту після timeout звіряє стан; відомий transaction/effect не застосовується повторно.
-5. User A/guest не бачить записи B через API IDs, кеш, файли, support history або deep link.
-6. Logout/revoke/delete прибирає належні права/контекст і не відновлюється старим cache/backup без правила.
-7. Обраний local/offline режим працює в межах обіцянки; unavailable функції повідомляються до хибного завершення.
-8. App/schema upgrade з реалістичних попередніх даних зберігає invariants і має перевірний recovery.
-9. Platform permissions denied/revoked, різні viewport/input і доступність не руйнують core.
-10. External API unavailable/quota/cost cap дає погоджений degraded шлях без прихованої платної петлі.
+1. New state, core action, correct domain result, persistence, restart and the same allowed result.
+2. Invalid, empty and oversized input gives a comprehensible error without leaving incorrect partial state.
+3. Interruption, kill, backgrounding or network loss does not duplicate actions or permanently lose confirmed data.
+4. A retry after timeout reconciles state and does not repeat a known transaction or effect.
+5. User A or a guest cannot view B's records through API IDs, cache, files, support history or deep link.
+6. Logout, revocation and deletion remove the relevant grants and context. Old caches or backups do not restore them outside policy.
+7. The agreed local/offline mode fulfills its promise and reports unavailable functions before claiming completion.
+8. App and schema upgrade from realistic prior data keeps invariants and has tested recovery.
+9. Denied/revoked platform permissions, differing viewports or input methods and accessibility settings do not break the core.
+10. External API outage, quota or cost cap uses the accepted degraded behavior without a hidden paid loop.
 
-## Billing/entitlement cases за моделлю
+## Billing and entitlement cases by model
 
-| Case | Перевірити |
-|---|---|
-| Provider sandbox успіх | Право надається після довіреної verification, а не UI success |
-| Pending/aborted/failed checkout | Немає хибного paid доступу або втрати вже чинного права |
-| Restore/reinstall/device switch | Повертаються саме заявлені належні права |
-| Duplicate event/callback/webhook | Відсутній подвійний ефект/credit/продовження |
-| Delayed/out-of-order event | Старе повідомлення не перекриває актуальний стан |
-| Expiry/cancel/renewal failure | Строки й дозволи відповідають provider model; cancel не дорівнює негайному revoke |
-| Refund/revoke | Потрібна зміна стану підтверджена authoritative route |
-| Offline/recovery | Право й час повторної verification відповідають обіцянці та загрозам |
-| Cross-client access | Android/iOS/web дають погоджені права без обіцянки непідтримуваної переносимості |
-| Unknown outcome | Спершу reconciliation; повтор не дублює покупку або effect |
-| Price/plan disclosure | Користувач бачить реальну вартість, період, ліміти й умови |
-| Ads failure/cap/ad-free restore | Core не ламається; реклама позначена, ненав’язлива, paid ad-free відновлюється |
+| Case | Check |
+| --- | --- |
+| Provider sandbox success | Entitlement follows trusted verification rather than a UI success message. |
+| Pending, aborted or failed checkout | No incorrect paid access and no loss of already valid access. |
+| Restore, reinstall or device switch | Exactly the stated applicable entitlements return. |
+| Duplicate event, callback or webhook | No duplicate effect, credit or extension. |
+| Delayed or reordered event | An old message cannot replace current state. |
+| Expiry, cancellation or renewal failure | Timing and access follow the provider model. Cancellation does not imply immediate revocation. |
+| Refund or revocation | Authoritative route confirms the necessary state change. |
+| Offline or recovery | Access and re-verification timing fit the promise and threat model. |
+| Cross-client access | Agreed Android, iOS and web access without promising unsupported portability. |
+| Unknown outcome | Reconcile before retrying to avoid a duplicate purchase or effect. |
+| Price and plan disclosure | Show the real cost, period, limits and terms. |
+| Ads failure, cap and ad-free restore | Core remains usable, advertising is labeled and unobtrusive, and paid ad-free access restores. |
 
-Не оголошувати всі branches N/A через відсутній доступ до provider. N/A потребує предметної причини обраної моделі.
-Subscription не нав’язується разовому продукту; one-time purchase не фінансує невраховані безстрокові AI/API витрати.
+Missing provider access cannot make a branch N/A. Justify inapplicability from the selected model. A one-time product does not require a subscription, and one-time revenue cannot cover unmodeled indefinite API or AI costs.
 
-## Регресія й завершення
+## Regression and closure
 
-Для bugfix відтворити raw failing case, зафіксувати причину, виправити та пройти affected regressions.
-Не повторювати весь тестовий набір без нової причини, якщо локальні зміни й ризики вже закриті.
-Не знижувати quality/coverage без рішення через короткий строк чи недоступний інструмент.
-Не проводити людські тести/експерименти; owner review і synthetic personas не є доказом ринкового попиту.
-Передати іншому реальному QA actor код/builds/raw logs та критерії, не підказаний verdict.
-Зберегти фактичні commands, result/exit status, hashes, platform/env та залишкові risks у canonical state refs.
-При failed/blocked due must передати точну залежність і наступний крок; не називати release готовим.
+For a repair, reproduce the raw case, identify the cause, fix it and test affected behavior. Repeat the full suite only when justified by impact. Time or unavailable tools cannot silently lower agreed coverage. Honor current human-test constraints and distinguish owner or synthetic observations from demand evidence. Give a different actual QA actor code, builds, raw logs and criteria without a suggested verdict. Register real commands, exit/result, hashes, platform, environment and residual risks in canonical state. When a due must fails or is blocked, record the exact dependency and next action before claiming readiness.

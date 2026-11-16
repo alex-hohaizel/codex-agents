@@ -1,12 +1,12 @@
-# Рішення: {{question}}
+# Decision — {{question}}
 
-- **Чому зараз:** {{reason_and_due_dependency}}
-- **Рекомендація:** {{recommended_option_and_basis}}
-- **Варіанти та наслідки:** {{alternatives_quality_time_cost_risk}}
-- **Точний обсяг і редакція:** {{scope_source_revision_hash}}
-- **Успадковано:** {{accepted_decisions_and_delegated_bounds}}
-- **Що відкриється після відповіді:** {{dependent_work}}
-- **Що вже може виконуватися:** {{independent_authorized_work}}
-- **Потрібна відповідь:** прийняти / інший варіант / частково / змінити / відкласти.
+- **Why now** — {{reason_and_due_dependency}}
+- **Recommendation** — {{recommended_option_and_basis}}
+- **Options and consequences** — {{alternatives_quality_time_cost_risk}}
+- **Exact scope and revision** — {{scope_source_revision_hash}}
+- **Existing decisions** — {{accepted_decisions_and_delegated_bounds}}
+- **Work this decision unlocks** — {{dependent_work}}
+- **Work already authorized** — {{independent_authorized_work}}
+- **Owner response** — accept, choose another option, accept in part, request a change, or defer.
 
-Це подання чинного рішення, а не окрема authority. Фактичну відповідь і точний scope записати у чинний доменний реєстр. Не заповнювати її за власника. Для routine reversible рішення в делегованих межах виконати самостійно з належною перевіркою; не перетворювати шаблон на обов'язковий approval кожного tool call.
+Record the owner's actual answer and exact scope in the authoritative domain registry. Carry current authority through routine reversible choices inside delegated bounds and verify the outcome. Use this presentation when a material choice is open.

@@ -58,8 +58,8 @@
     "limitations": []
   },
   "notes": [
-    "Заповнити реальними model/source refs; назви полів row_fields описують авторський журнал, не нову machine schema.",
-    "Відсутність копії та різноманітність портфеля перевіряти окремо.",
-    "Кількість і genre labels не доводять різних рішень або стилю; не вибирати продукт автоматично."
+    "Use actual model and source references. The row_fields describe the authoring record.",
+    "Verify originality and portfolio diversity independently.",
+    "Show distinct decisions and styles beyond candidate count and genre labels. Record the actual product selection separately."
   ]
 }

@@ -128,7 +128,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "Не треба малювати тут мені те, що неможливо реалізувати в подальшому. Ці концепт арти мають стати основою і точкою для фіксації референсу",
-        "intent": "До кожного зображення: перевірений доступний visual production profile, підтриманий camera/HUD/animation/source route, scene budget і element-to-assembly map; після вибору exact original/hash лишається референсом. Actual native/device parity довести на належному пізнішому gate."
+        "intent": "For each image, prove an available visual production profile and an achievable camera, HUD, animation and source route. Record scene budget and element-to-assembly mapping. After selection retain the exact original and digest as reference. Prove native and device parity at the due gate."
       },
       "priority": "must",
       "blocking": true,
@@ -155,7 +155,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "До кожного зображення: перевірений доступний visual production profile, підтриманий camera/HUD/animation/source route, scene budget і element-to-assembly map; після вибору exact original/hash лишається референсом. Actual native/device parity довести на належному пізнішому gate.",
+          "required_deliverable": "For each image, prove an available visual production profile and an achievable camera, HUD, animation and source route. Record scene budget and element-to-assembly mapping. After selection retain the exact original and digest as reference. Prove native and device parity at the due gate.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"
@@ -190,7 +190,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "а продумана дуже обширна система механік, їх взаємодій між собою, з розвиненням подальшим протягом всієї гри",
-        "intent": "Для кожного ілюстрованого кандидата: причинний граф сімейств механік, замкнені міжсистемні ланцюги, різні рішення у конкретних контекстах і контрфактична перевірка; кількість правил не доводить глибини."
+        "intent": "For each illustrated candidate, show a causal graph of mechanic families, closed links across systems, distinct decisions in concrete settings, and a counterfactual check. Rule count alone does not establish depth."
       },
       "priority": "must",
       "blocking": true,
@@ -217,7 +217,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "Для кожного ілюстрованого кандидата: причинний граф сімейств механік, замкнені міжсистемні ланцюги, різні рішення у конкретних контекстах і контрфактична перевірка; кількість правил не доводить глибини.",
+          "required_deliverable": "For each illustrated candidate, show a causal graph of mechanic families, closed links across systems, distinct decisions in concrete settings, and a counterfactual check. Rule count alone does not establish depth.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"
@@ -252,7 +252,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "А продумати максимально гнучку систему нативно удобну і водночас глиббоко продуману",
-        "intent": "Карта action intent → input/context → readable state; стабільні жести, two-thumb simultaneous-load case, first/normal/peak HUD і передбачення/помилка/відновлення без прихованої незручності."
+        "intent": "Map action intent to input and context to readable state. Show stable gestures, simultaneous two-thumb load, first, normal and peak HUD, prediction, error, and recovery without hidden friction."
       },
       "priority": "must",
       "blocking": true,
@@ -279,7 +279,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "Карта action intent → input/context → readable state; стабільні жести, two-thumb simultaneous-load case, first/normal/peak HUD і передбачення/помилка/відновлення без прихованої незручності.",
+          "required_deliverable": "Map action intent to input and context to readable state. Show stable gestures, simultaneous two-thumb load, first, normal and peak HUD, prediction, error, and recovery without hidden friction.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"
@@ -314,7 +314,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "головна мета - альтернативний досвід, не ламаючий основний геймплей, а доповнюючий його",
-        "intent": "Змістовна гіпотеза додаткового досвіду: baseline та альтернатива в тій самій ситуації, відмінні рішення/ритм, tradeoffs, trial, повторне використання, повна free/no-offer арка та cumulative dominance counterexample; декор не підміняє цей brief."
+        "intent": "For an alternative experience, compare baseline and alternative in the same situation, changed decisions and rhythm, tradeoffs, trial, reuse, a complete free/no-offer arc, and a cumulative dominance counterexample. Cosmetic variety alone does not satisfy the brief."
       },
       "priority": "must",
       "blocking": true,
@@ -341,7 +341,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "Змістовна гіпотеза додаткового досвіду: baseline та альтернатива в тій самій ситуації, відмінні рішення/ритм, tradeoffs, trial, повторне використання, повна free/no-offer арка та cumulative dominance counterexample; декор не підміняє цей brief.",
+          "required_deliverable": "For an alternative experience, compare baseline and alternative in the same situation, changed decisions and rhythm, tradeoffs, trial, reuse, a complete free/no-offer arc, and a cumulative dominance counterexample. Cosmetic variety alone does not satisfy the brief.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"
@@ -376,7 +376,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "Це має поступово для гравця давати відчуття розвитку, персонажа, навичок, світу тощо.",
-        "intent": "Ранній/середній/пізній досвід змінює можливості, розуміння й цілі; нова можливість переосмислює стару задачу. Content grammar має конкретно різні рішення, finite launch capacity й причину повернення; seeds/арени/+HP самі не закривають вимогу."
+        "intent": "Early, middle and late play change capabilities, understanding and goals. A new capability reframes a prior task. Give the content grammar genuinely different decisions, finite launch capacity and a reason to return. Seeds, arenas or more HP alone do not satisfy it."
       },
       "priority": "must",
       "blocking": true,
@@ -403,7 +403,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "Ранній/середній/пізній досвід змінює можливості, розуміння й цілі; нова можливість переосмислює стару задачу. Content grammar має конкретно різні рішення, finite launch capacity й причину повернення; seeds/арени/+HP самі не закривають вимогу.",
+          "required_deliverable": "Early, middle and late play change capabilities, understanding and goals. A new capability reframes a prior task. Give the content grammar genuinely different decisions, finite launch capacity and a reason to return. Seeds, arenas or more HP alone do not satisfy it.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"
@@ -438,7 +438,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "ресурси, котрими гравець може користуватись мають бути максимально як комплексними, так і мати звєязок з самім геймплеєм, або ігровими ситуаціями",
-        "intent": "Контекстні ресурси/характеристики мають джерело, перетворення, альтернативну витрату, cue, відновлення та наслідки в інших системах; показати конфлікт витрат і decision-changing cycle, не квоту валют чи смуг."
+        "intent": "Contextual resources and attributes have sources, transformation, competing uses, cues, recovery and consequences in other systems. Show conflicting spends and a cycle that changes a decision, rather than prescribing currencies or meters."
       },
       "priority": "must",
       "blocking": true,
@@ -465,7 +465,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "Контекстні ресурси/характеристики мають джерело, перетворення, альтернативну витрату, cue, відновлення та наслідки в інших системах; показати конфлікт витрат і decision-changing cycle, не квоту валют чи смуг.",
+          "required_deliverable": "Contextual resources and attributes have sources, transformation, competing uses, cues, recovery and consequences in other systems. Show conflicting spends and a cycle that changes a decision, rather than prescribing currencies or meters.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"
@@ -500,7 +500,7 @@
         "kind": "user_message_excerpt",
         "reference": "request:dd9e0086-c436-4300-b7b9-51cd0302dc42",
         "verbatim_quote": "мають бути дуже багатошарові цілі концепції, котрі гравець захоче з вау ефектом відкривати для себе по мірі знаходження у грі, або відкривати варіативності",
-        "intent": "Зрозуміла цілісна фантазія, цілі й арка відкриттів поєднують системи в повну гру; дивний гачок або одна вузька активність не заміняють багатошарову концепцію."
+        "intent": "Clear fantasy, goals and an arc of discovery connect systems into a complete game. An unusual hook or narrow activity alone does not replace a multilayered concept."
       },
       "priority": "must",
       "blocking": true,
@@ -527,7 +527,7 @@
           "stage": "concepts",
           "due_at": "before_each_candidate_illustration",
           "blocking_here": true,
-          "required_deliverable": "Зрозуміла цілісна фантазія, цілі й арка відкриттів поєднують системи в повну гру; дивний гачок або одна вузька активність не заміняють багатошарову концепцію.",
+          "required_deliverable": "Clear fantasy, goals and an arc of discovery connect systems into a complete game. An unusual hook or narrow activity alone does not replace a multilayered concept.",
           "acceptance_method": "Read actual passport/profile causal evidence and independent semantic review; structure alone does not certify quality. Inspect each actual target before showing it.",
           "required_evidence_modalities": [
             "document"

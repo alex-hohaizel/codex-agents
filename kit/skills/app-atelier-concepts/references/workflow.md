@@ -1,87 +1,52 @@
-# Workflow концепції та економіки
+# Concept and economics workflow
 
-Зміст: картка → комерційний досвід → модель → автоматизація → відбір і передача.
+Contents include a complete concept card, commerce, the economic model, automated operations, selection, and handoff.
 
-## 1. Побудувати цілісну картку
+## 1. Build a complete concept card
 
-Вивести задум із прийнятого дослідження; не створювати повторну випадкову добірку.
-Записати candidate ID, requirement IDs, сегмент/платника, problem claim IDs, конкретний job, поточну альтернативу, прогалину та причину переходу.
-Описати першу корисну сесію й повторну сесію без покупки; для рідкісної потреби не вигадувати щоденне повернення.
-Визначити завершений core, явні non-goals, потрібні клієнти, дані, offline/degraded поведінку й критичні інтеграції.
-Задати естетичну основу, контент, просту мову, шлях навчання та помилки/відновлення; лишити точний дизайн для предметного приймання.
-Показати варіативність кандидатів через інше вирішення потреби, процес, cost structure або business model; косметичні назви не рахувати окремими концепціями.
+Start from accepted research. Record candidate and requirement IDs, audience and payer, evidence claim IDs, specific user job, current alternative, gap, and reason to switch. Describe first and repeat useful sessions without requiring purchase. Match revisit patterns to the need's actual frequency. Define the core, explicit non-goals, clients, data, offline and degraded modes, and critical integrations. Set design direction, content and language, learning, errors and recovery, and defer exact design to its own acceptance. Differentiate candidates by problem-solving mechanism, workflow, cost structure, or business model.
 
-## 2. Спроектувати free/paid досвід
+## 2. Design free and paid use
 
-Побудувати карту «потреба → перша користь → розуміння цінності → добровільний вибір → отримане право/результат → повторна користь».
-Для кожної пропозиції записати платника, одиницю оплати, ціну-гіпотезу/валюту, entitlement, момент пропозиції, пояснення й межі.
-Порівняти доречні альтернативи; пояснити, чому обрані моделі відповідають частоті користі, собівартості та сегменту.
-Для free/trial/лімітів показати доступне, момент і причину обмеження, шлях відмови, збереження результату й поведінку після закінчення trial.
-Для subscription описати користь кожного періоду, джерело оновлень/обробки, прозоре поновлення/скасування та доступ після завершення.
-Для usage зафіксувати одиницю споживання, лічильник, cost cap і поведінку при вичерпанні; не сховати непередбачуваний рахунок.
-Для одноразового unlock оцінити довічне навантаження й майбутню підтримку; не фінансувати безстрокові значні API-виклики неврахованою разовою оплатою.
-Для ads розділити формати, місця, opt-in rewards, частоту, позначення, права на персоналізацію та режим без доступної реклами.
-Для remove-ads не продавати видалення реклами, яка ніколи не показується цій cohort; у моделі перемістити покупця з ad cohort у paid cohort.
-Для affiliate показати реальну користь, disclosures, сторонні умови й залежність винагороди; кліки не рахувати підтвердженою комісією.
-Для team license визначити seats/ролі, provisioning, самостійне придбання й обслуговування; прихований sales-assisted процес включити у feasibility.
-Перевірити entitlement/restore/refund/expiry як майбутній product contract; платежі й зовнішні ефекти тут не виконувати.
+Map need, first benefit, understood value, voluntary choice, granted result or entitlement, and repeat benefit. Retain the original example «потреба → перша користь → розуміння цінності → добровільний вибір → отримане право/результат → повторна користь». For each offer, define payer, billing unit, hypothesized price and currency, entitlement, timing, explanation, and limits. Compare relevant models against frequency of value, serving cost, and segment.
 
-## 3. Побудувати відтворювану економічну модель
+For free, trial and limited paths, show what is available, why and when limits apply, decline, result retention, and trial expiry. For subscriptions, define each period's value, source of updates or processing, renewal, cancellation, and post-expiry access. For usage pricing, define consumption unit, meter, cap, and exhausted behavior and make possible charges visible. For one-time unlock, model lifetime load and support, including ongoing API costs.
 
-Почати з чинного визначення цільового прибутку, горизонту й валюти. Якщо цього бракує, показати адресне питання й дозволений незалежний аналіз.
-До input додати ID, значення або unknown/діапазон, одиницю, період, geography/platform/cohort, source/date, kind і confidence.
-Не змішувати ціни без податків із цінами з податками; комісії, курси валют і правила перевіряти за поточними належними джерелами.
-Рахувати валюту точним десятковим способом; зберегти формули, округлення й конвертацію так, щоб модель можна було відтворити.
-Розділити одноразові витрати запуску, фіксовані щомісячні, змінні на дію/користувача, залучення, refunds/chargebacks і support.
-Врахувати hosting/storage/egress, API/AI, контентні ліцензії, домени, store accounts, signing/toolchain та моніторинг за застосовності.
-Показувати витрати на власника/особисті податки окремо відповідно до погодженого визначення; не змінювати метрику непомітно.
+For ads, state formats, placement, opt-in rewards, frequency, disclosure, personalization permission, and fallback. Sell ad removal only to eligible ad-supported cohorts and account for the move from ad-funded to paid. For affiliates, record product value, disclosure, external terms, and compensation dependencies. Distinguish clicks from verified commissions. For team licenses, specify seats, roles, provisioning, self-service purchase and support, and feasibility of any manual sales. Contract entitlement, restore, refund and expiry without executing payment or other effects at concept stage.
 
-Використати символічну модель до наявності обґрунтованих inputs:
+## 3. Model economics for reproduction
 
-| Величина | Розрахунок і межа |
+Use the current profit definition, horizon, and currency. Where missing, ask the material scoped question and continue independent analysis. Each input has an ID, value or range and unknown, unit, period, geography, platform, cohort, source and date, kind and confidence. Keep tax-inclusive and tax-exclusive prices distinct. Verify current commissions, rates, and rules. Use exact decimal arithmetic and retain formulas, rounding, and conversions.
+
+Distinguish launch costs, fixed monthly, variable usage and users, acquisition, refunds and chargebacks, and support. Include applicable hosting, storage and egress, API and AI, licenses, domains, store accounts, signing and toolchain, and monitoring. Track owner time and personal tax according to the accepted metric.
+
+| Quantity | Calculation and limits |
 |---|---|
-| Net purchase revenue | Валові фактичні покупки мінус застосовні комісії, податки/утримання й повернення без подвійного віднімання. |
-| Ad revenue | Eligible impressions × fill × eCPM / 1000; якщо impressions уже served, fill повторно не застосовувати. |
-| Variable cost | Сума usage кожного ресурсу × його застосовна ставка з free-tier/step limits. |
-| Contribution | Чистий дохід cohort мінус її змінні витрати; free users також мають cost. |
-| Operating profit | Contribution усіх cohorts мінус фіксовані операційні та витрати залучення за погодженим визначенням. |
-| Required active scale | За сталого позитивного contribution на active user: ceil((target + fixed cost) / contribution_per_active); інакше розв’язати повну модель. |
+| Net purchase revenue | Gross actual purchases minus applicable commissions, taxes or withholding, and refunds, with each deducted once. |
+| Ad revenue | Eligible impressions × fill × eCPM / 1000. Apply fill only when impressions are eligible instead of already served. |
+| Variable cost | Sum of consumption × applicable rate, including free tiers and step limits. |
+| Contribution | Cohort net revenue minus variable cost. Include serving costs for free users. |
+| Operating profit | Sum of cohort contribution minus fixed operating and acquisition costs within the accepted definition. |
+| Required active scale | For stable positive contribution per active user: ceil((target + fixed cost) / contribution_per_active). Use the full model otherwise. |
 
-Не застосовувати останню формулу за нульової/від’ємної маржі, step costs або змінної cohort mix без перерахунку.
-Одноразові покупки прив’язати до нових платників/повторних дозволених покупок, а не вважати повторюваним доходом від усіх installed users.
-Для annual payments розділити cash flow і щомісячне визнання доходу; не видати стартове надходження за сталий місячний бізнес.
-Для subscription/cohorts врахувати acquisition, activation, conversion, retention/churn і renewals; невідомий churn лишити припущенням.
-Не дублювати дохід одного права між web/store або між subscription і module; виписати upgrade/credit правила.
-Не виводити LTV лише з ARPU/churn за невідповідної моделі; показати cohort contribution, горизонт і невідомий retention.
+Recalculate for zero or negative margin, step costs, or changed cohort mix. Tie one-time revenue to new payers and permitted repeat purchases instead of the installed base. For annual payments, separate cash flow and monthly recognition. Model subscription cohorts through acquisition, activation, conversion, retention or churn, and renewals. Keep unknown churn explicit. Deduplicate revenue across web, stores, subscriptions and modules and specify upgrades and credits. Use cohort contribution, horizon and retention limits for LTV where ARPU and churn alone are inadequate.
 
-Побудувати обґрунтовані низький/базовий/високий сценарії з однаковим визначенням змінних; позначити їх моделями, не ймовірнісним прогнозом.
-Перевірити sensitivity до оплати, частоти usage, ad yield, API cost, conversion, churn і acquisition за релевантністю.
-Показати, що саме має бути правдою для цілі, доступну величину сегмента й досяжність потрібного масштабу; великий TAM не означає досяжних платників.
-Побудувати cash runway: авансові витрати, free-tier cutoff, payout delay/minimum, оборотний дефіцит і можливий stop до доходу.
-За майже нульового бюджету не маскувати необхідне передфінансування обіцянкою майбутньої виручки.
+Build justified low, base and high scenarios under consistent definitions and distinguish scenarios from probability forecasts. Test relevant sensitivity to payment, usage, ad yield, API cost, conversion, churn, and acquisition. State what must be true to reach the target and compare required scale with reachable payers. Model cash runway, upfront cost, free tier cutoffs, settlement timing and minimums, working-capital deficits and stop before revenue. Surface required upfront funding independently of projected revenue.
 
-## 4. Перевірити автоматизовану експлуатацію
+## 4. Verify automated operations
 
-Зробити operational table: процес → тригер → tool/provider → дані/права → частота/вартість → помилка/невідоме → fallback/stop → допустима участь людини.
-Включити залучення, контент/дані, onboarding, оплату, підтримку, модерацію, оновлення й видалення/припинення.
-За обмеженої участі власника не додавати йому регулярний блогінг, продажі, переклад, перевірку кожної AI-відповіді чи ручну модерацію.
-Відокремити разові особисті передумови на кшталт MFA/юридичного рішення від щоденної операційної моделі.
-Показати крайні випадки автомодерації, provider outage, budget exhausted, спірного звернення й невідомого результату; не гарантувати повне вирішення довільного випадку.
-Перетворити нерозв’язні повторні ручні потоки на ризик/reject, а не на невидимий ресурс власника.
-Передати product-specific support KB/rules/tone/data needs як brief майбутнього окремого бота; не копіювати інший бот чи його приватну пам’ять.
+Map process, trigger, tool or provider, data and rights, frequency and cost, failure and unknown outcome, fallback and stop, and permitted human involvement. Include acquisition, content and data, onboarding, payment, support, moderation, updates, deletion, and retirement. Honor limits on recurring owner work including blogging, sales, translation, AI-response review and moderation. Separate one-off MFA or legal prerequisites from daily operations.
 
-## 5. Відбір і передача
+Cover automation edge cases, outages, exhausted budgets, disputes, and unknown effects. Treat repeated manual dependencies as risks or rejection grounds. Hand product-specific support facts, rules, tone, and data needs to the separate support bot role. Preserve isolation from other bots and their private memory.
 
-Перевірити must поелементно, включно з конкурентним exception й забороною людських експериментів.
-Показати score лише після must; розділити fit, strength of evidence й uncertainty. Не ранжувати невідоме як підтверджений нуль ризику.
-Визначити continue/pivot/stop до кожного дозволеного кроку; не рухати поріг заднім числом.
-Дати власнику порівняльний decision packet із ціною, benefit, downside, критичними невідомими й рекомендацією; дозволити reject усіх.
-Передати accepted candidate, economic model, operations/acquisition briefs, prototype scenarios, evidence hashes та відкриті decisions.
-Прототипу дати основний і помилковий сценарії, навчання, free/paid перехід, технічні ризики та перевірний критерій якості; не видавати статичний рендер за інтерактивність.
-Не переходити до значного build без прийнятих scope/design, early release feasibility, growth plan і фактичного representative slice.
+## 5. Select and hand off
 
-## Видимий результат і достатність підходу
+Check mandatory requirements individually, including competitive exceptions and restrictions on human experiments. Score only eligible candidates and separate fit, evidence strength, and uncertainty. Define continue, pivot, and stop for each allowed step before the result. Give the owner comparable cost, benefit, downside, critical unknowns, and recommendation, including rejection of all options.
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: повна застосовна концепція, причинні користувацькі й комерційні шляхи, архітектура систем, виробнича здійсненність і порівняння альтернатив. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Hand off the accepted candidate, model, operations and acquisition briefs, prototype scenarios, evidence hashes, and open decisions. Test normal and failed paths, onboarding, free and paid transition, technical risks, and observable quality in any prototype. Verify actual interaction independently of static renders. Before significant build, establish accepted scope and design, early release feasibility, growth plan, and an observed representative slice.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: цілісність досвіду, найсильніший контраргумент і припущення економіки. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show the complete concept, causal user and commerce journeys, system design, production feasibility and alternatives. Distinguish completed work, inherited decisions, and due future results. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review whole experience, strongest counterargument, and economic assumptions. Inspect raw inputs for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve context, approvals, and unaffected results.

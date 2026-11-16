@@ -1,16 +1,16 @@
-# Одна ідентичність у кожному матеріалі
+# One visual identity across all assets
 
-Взяти camera/art/input IDs, feature applicability і scenarios з чинної моделі гри; construction spec є виробничою проєкцією із source model hash, не альтернативним дизайном. Для нової гри спершу визначити власну form/surface/light/type/motion/audio основу, а не автоматично переносити минулий render preset. Різноманітність концепцій оцінюється до production; після прийняття конкретної гри підтримувати цілісність її напряму.
+Use camera, art, and input IDs, feature applicability, and scenarios from the current game model. Bind the construction specification to its source model hash. For a new game, establish its own form, surface, light, typography, motion and audio rather than inheriting the previous render preset. Explore variety at the concept stage. Keep the selected direction coherent during production.
 
 ## Canonical references
 
-Зберігати immutable exact approved image, intended scene/state/device/aspect, version/hash і джерело user choice. Розкласти його на construction data: world units, camera/projection/FOV, composition, scale, silhouette/proportion landmarks, shape language, palette/color space, value hierarchy, materials/shader behavior, light direction/temperature/exposure, postprocessing, edge/detail density, UI/font/icon tokens, motion/audio palette. Усього цього не можна однозначно витягти з картинки; unresolved задати як питання/actual sample до production.
+Preserve the exact approved image as immutable, with intended scene, state, device and aspect ratio, version, hash, and source of the user's choice. Translate observable traits into construction data for world units, camera, projection and FOV, composition, scale, silhouette and proportion landmarks, shape language, palette and color space, value hierarchy, materials and shader behavior, light direction, temperature and exposure, post-processing, detail and edge density, UI, type and icon tokens, and motion and audio palette. Resolve properties the image cannot determine through a question or actual sample before production.
 
-Creative reference не перегенеровувати під виглядом «того самого». Якщо original має artifact/impossible geometry, зберегти оригінал і запропонувати правку з actual sample. Новий runtime baseline має явний mapping до reference й agreed deviations; не стерти первинний target новим generated frame.
+Preserve the creative reference when asked for «того самого». If the original has rendering artifacts or impossible geometry, keep it and propose a correction with an actual sample. Map the runtime baseline to the reference and record agreed deviations. Maintain traceability to the original target as generated images change.
 
 ## Style bible must be constructive
 
-| Розділ | Що повинно бути відтворюваним |
+| Area | Reproducible properties |
 |---|---|
 | Form | Proportion landmarks, silhouette rules, bevel/roundness, sharpness, line/edge treatment, forbidden motifs |
 | Color | Named palette values in declared color space, allowed roles/contrast, material response, grading/LUT if used |
@@ -22,18 +22,18 @@ Creative reference не перегенеровувати під виглядом
 | Audio/haptics | Timbre/instrument/motif/dynamic vocabulary, cue hierarchy and sensory synchronization |
 | Studio | Exact approved logo/wordmark variants, placement/clear space/contrast and credits/legal use |
 
-A moodboard is input, not this specification. Do not copy a competitor's identifiable character, logo, UI composition or extracted asset. Compare workmanship/readability with current released relevant gameplay only after actual access; page metadata does not prove video review.
+Use moodboards as inputs to an implementable specification. Develop original characters, logos, UI compositions and assets. Compare workmanship and readability with relevant current released gameplay only after actual access. Record what media was actually reviewed.
 
-## Camera та масштаб як поведінка
+## Camera and scale as behaviors
 
-Розрізняти overview і реальну gameplay camera. За model camera states зафіксувати projection, FOV/orthographic size, target/follow axes, lookahead, dead zones, damping/limits, occlusion/collision, zoom/state transitions, shake/reduced motion та engine bindings. Не задавати всю гру одним кадром; stationary, follow, rail, over-shoulder, top-down чи інша політика має випливати з дії й доступної інформації.
+Distinguish overview and gameplay camera states. Record projection, FOV or orthographic size, target and follow axes, lookahead, dead zones, damping and limits, occlusion and collision, zoom and transitions, shake and reduced motion, and engine bindings. Derive stationary, follow, rail, over-shoulder, top-down or another behavior from the action and information the player needs.
 
-Для normal/precision/peak contexts визначити керований об’єкт, його screen-size envelope, focal hierarchy, потрібну дистанцію реакції, видимість contact/landing/target і offscreen cues. Частку екрана обґрунтувати жанром; універсального мінімального відсотка для всіх ігор немає. Перевірити в русі та на narrow/wide aspects, safe areas, thumb occlusion, low-contrast/overlapping effects. Структура camera у style-lock template вимагає цих рішень, але заповнення форми не доводить їхню якість.
+For normal, precision, and peak contexts, define controlled-object screen size, focal hierarchy, reaction distance, visibility of contact, landing and targets, and offscreen cues. Derive the screen-size envelope from the genre and action. Observe movement at narrow and wide aspect ratios, safe areas, thumb occlusion, and low contrast or overlapping effects. Use the style-lock camera template to record these choices and verify their quality in gameplay.
 
 ## Whole-frame validation
 
-Create normal, peak, low-contrast/background, motion and narrow-device contexts. Every material is judged at gameplay size and in scene, not only isolated render. Texture detail that sparkles at phone scale is a defect. Strong standalone hero art with unfinished arena/HUD is not a completed frame.
+Create normal, peak, low-contrast/background, motion and narrow-device contexts. Judge assets at gameplay size in the full scene. Texture detail that sparkles at phone scale is a defect. Include the arena and HUD alongside hero art in a complete frame.
 
-Use deterministic capture conditions for comparison: seed, scene, camera, pose/time, resolution, quality, UI/data. Static UI/icon export can use pixel diff within agreed tolerance; animated 3D uses geometric/color/composition landmarks plus perceptual/motion review. Tolerance must be accepted before assessment, not widened to pass poor output.
+Use deterministic capture conditions: seed, scene, camera, pose or time, resolution, quality, UI, and data. Static UI and icon exports can use pixel comparison within agreed tolerances. Use geometric, color, and composition landmarks plus perceptual motion review for animated 3D. Agree tolerances before assessment.
 
-Allowed technical derivatives (compression, mipmaps, LOD, safe-area adaptation) preserve identity and pass QA. New silhouette, font, palette family, camera or music motif needs sampled change request when material. Routine repairs to approved baseline do not need repeated permission.
+Technical derivatives such as compression, mipmaps, LOD and safe-area adaptation preserve identity and pass QA. Submit a sampled change request for material changes to silhouette, font, palette, camera, or music motif. Routine repairs use existing authority.

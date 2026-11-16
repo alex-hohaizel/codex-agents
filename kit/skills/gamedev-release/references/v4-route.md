@@ -1,33 +1,33 @@
-# Release: точний випуск 4.0
+# Release the exact Game Model 4.0 candidate
 
-## Прийняти frozen RC
+## Admit the frozen release candidate
 
-Звірити exact accepted model/data/source/assets/config/catalog/content/save epoch, independent QA, actual native/sandbox/device proofs, platform capability map, toolchain/exporter versions і symbols. Maturity T або model validation не означають built/native-tested. Зміна після QA відкриває залежний retest; підписаний artifact перевірити саме після signing.
+Verify exact accepted model and data and source and assets, configuration and catalogue and content and save epochs, independent QA, actual native and sandbox and device evidence, platform capability map, toolchain and exporter, and symbols. Track T maturity, construction and testing as separate gates. Retest affected claims after changes. Verify the exact signed artifact.
 
-## Послідовність до дозволеної дії
+## Before authorized external action
 
-1. Прочитати current official store/SDK/engine/platform вимоги, зафіксувати dated applicability snapshot. Не переносити назавжди номериAPI/OS або quotas із дослідження 2 листопада 2026.
-2. Зв’язати feature→hardware/API/plugin→detector→allowed fallback→actual tested profile. Native Android+iOS і 60 FPS лишаються targets; unsupported branch не ховати в broad coverage claim.
-3. Перевірити release conformance cloud/IAP/ads/audio/haptic bridges: signing/minification/lifecycle/threading/account/late callbacks/cancel/error. Debug pass не закриває release path.
-4. Покрити all launch journeys і content families, damage/death/crash/retry/reward/save boundaries, paired/grant consistency, old-save migration/reinstall/cloud conflict за fit. Representative slice не є всім запусковим scope.
-5. Замкнути store offer→SKU→localized price→receipt/verification→entitlement/grant/cap/duration/expiry→use/restore/refund/revoke. Consumed consumable не відновлюється повторною видачею; partial bundle ownership має точний outcome.
-6. Звірити actual SDK dependency/network data egress із rights/credits/privacy/age/consent declarations; не вважати manifest або checksum доказом відсутності мережевих передач.
-7. Підготувати activation/rollback-forward: epoch/dependency closure/client-schema compatibility, exact patch base за incremental delivery, старий coherent набір при обриві; exact released bytes зберігаються.
-8. Виконати лише дозволений channel/submission/rollout із immutable artifacts і receipt. Unknown upload/action outcome reconcile до retry. Не просити повторний дозвіл на вже наданий scope.
+1. Check current official store, SDK, engine, and platform requirements. Record date and applicability. Revalidate API and OS versions and provider quotas against the current source.
+2. Map feature, hardware or API or plugin, detection, permitted fallback, and actual tested profile. For approved Android and iOS or 60 FPS targets, record evidence per applicable profile and each unsupported branch explicitly.
+3. Check signed release adapter conformance for cloud, commerce, ads, audio, and haptics, including signing, minification, lifecycle, threads, account, late callbacks, cancellation, and errors. Keep debug results separate.
+4. Cover launch journeys and content, damage and death and crash and retry through reward and save, consistency of paired effects and grants, old-save migration, reinstall, and applicable cloud conflicts. Extend checks beyond the representative slice to the full launch scope.
+5. Map offer to store SKU and localized price, receipt and verification, entitlement and grant and caps and duration and expiry, use, restoration, refunds and revocation. Keep consumed items consumed. Pin outcomes for partial ownership.
+6. Compare actual SDK dependencies and observed network egress to declarations on rights, credits, privacy, age, and consent. Use runtime evidence for transfer claims.
+7. Plan atomic activation and rollback or roll-forward with epoch, affected dependencies, client and schema compatibility, exact patch base for incremental delivery, and fallback to the old coherent set on interruption. Preserve exact released bytes.
+8. Execute only the authorized channel, submission, or rollout against immutable artifacts. Record the actual receipt. Reconcile unknown upload or action outcomes before retrying. Use valid existing authorization.
 
-## Recovery contract
+## Recovery
 
-Binary rollback, halt rollout, flags/content/offer disable, compatible backend revert та forward hotfix — різні дії. Save schema після migration може не читатися старим binary; підготувати rollback restrictions і tested recovery. Не стирати earned progress/paid rights для «ремонту».
+Distinguish binary rollback, halting rollout, disabling flags or content or offers, compatible backend revert, and forward fix. Check the old binary against the migrated schema and test recovery with stated rollback limits. Preserve earned progress and paid rights.
 
-Для local/cloud state окремо перевірити exact owner/profile, consistency groups, quota/conflict, two devices і old client. Втрата cloud service, закриття account, deletion/tombstone та offboarding мають policy лише за відповідної функції. Нова хмарна система не нав’язується offline грі.
+For local and cloud state, verify exact owner and profile, consistency groups, quota and conflict, two devices, and old clients. Define failure of cloud service, account closure, deletion and tombstones, and offboarding where supported. Preserve local-only design where accepted.
 
-## Точна передача liveops
+## Handoff to live operations
 
-| Частина | Передати |
+| Area | Transfer |
 |---|---|
-| Release identity | Source/artifact/config/catalog/content/save epoch, toolchain/recipe/attempt, signature/channel/regions/receipt/status |
-| Diagnostics | Matching symbols/UUID/BuildID, event/reason dictionary, bounded repro capsule/inspector access без secrets |
-| Operations | Actual dashboards/alerts delivery proof, runbooks, failure budgets, halt/recovery/compatibility boundaries |
-| Player continuity | Golden migrations/restores, entitlements/reward authority, support path, known issues/owners |
+| Release identity | Source, artifact, config, catalogue, content and save epoch, toolchain and recipe and attempt, signature, channel and regions, receipt and status |
+| Diagnostics | Exact symbols and UUID or BuildID, event and reason dictionary, scoped repro and inspector access without secrets |
+| Operations | Actual dashboards and alert delivery, runbooks, failure budgets, halt, recovery and compatibility boundaries |
+| Player continuity | Golden migrations and restore, entitlement and reward authority, support route, known issues and owners |
 
-Розрізняти prepared/uploaded/in-review/approved/available/live. Store approval не є market success, source provenance не є artistic quality. Не заявляти scheduled/background monitoring без реального налаштованого сервісу; завершити конкретним checkpoint та next action.
+Track prepared, uploaded, in review, approved, available, and live separately, and measure each market outcome independently. Assess visual quality through applicable evidence. Record monitoring only where actually configured and running. Leave a checkpoint and next action.

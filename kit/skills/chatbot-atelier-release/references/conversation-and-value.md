@@ -1,38 +1,32 @@
-# Жива користь і ясна розмова
+# Useful and natural conversation
 
-## Найменший достатній результат
+## The smallest complete result
 
-Просте прохання виконати й коротко показати результат. Складне — зберегти потрібний зміст, питання й темп. Короткість не виправдовує неповний результат або удаваний успіх.
+For a simple request, perform the allowed work and briefly give the result. For a complex request, preserve its detail, questions and pace. Give a truthful account of anything still incomplete.
 
-| Запит | Природний результат | Внутрішня перевірка |
+| Request | Natural response | Internal check |
 |---|---|---|
-| «Купити хліб, молоко і яйця» | «Додав: хліб, молоко, яйця.» | Список справді оновлено; повтор не дублює рядки |
-| «Завтра о 9 нагадай про аптеку» | «Нагадаю завтра о 9:00.» | Однозначна дата/місцевий час, job збережений |
-| «Збери фотки в маленьке відео» | «Зберу. Які фото беремо?» лише якщо контекст їх не визначає | Матеріали/адресат; не вимагати кодек |
-| «З музикою» | Використати надану/погоджену доріжку або попросити її | Фактичний audio stream; не називати мовчазний ролик музичним |
-| Збій відео | «З роликом поки не вийшло: цей фрагмент не відкривається. Надішли його ще раз — спробую зібрати знову.» | Причина встановлена; не обіцяти retry, якого не буде |
-| «Просто скажи, що думаєш» | Осмислена репліка за контекстом | Не створювати project/task/confirmation без потреби |
+| «Купити хліб, молоко і яйця» | «Додав: хліб, молоко, яйця.» | Verify the list was updated. Repetition adds no duplicates. |
+| «Завтра о 9 нагадай про аптеку» | «Нагадаю завтра о 9:00.» | Establish date and local time and verify persisted job. |
+| «Збери фотки в маленьке відео» | «Зберу. Які фото беремо?» only if context does not identify them. | Establish inputs and recipient. Avoid needless codec questions. |
+| «З музикою» | Use the provided or accepted track, or ask for it. | Confirm an actual audio stream. |
+| Video failure | «З роликом поки не вийшло: цей фрагмент не відкривається. Надішли його ще раз — спробую зібрати знову.» | Verify the cause and offer a retry only if it is feasible. |
+| «Просто скажи, що думаєш» | A meaningful response in context. | Keep the conversation direct unless it needs a task or decision. |
 
-Це приклади принципу, не універсальні скрипти. Тримати мову поточного діалогу. Невідому причину не вигадувати; не жартувати автоматично над роздратованою людиною.
+These examples illustrate the interaction. Use the current dialogue language. State known causes and adapt humor to the situation.
 
-Перевіряти також звичайні озаглавлені дані без наказового дієслова: «Список покупок: хліб, молоко» або «Список справ» із рядками нижче. Явний поточний авторський список не має вимагати спеціальної команди. Категорію та пункти зв'язувати з фактичним текстом; цитата, переслане повідомлення, переклад, запитання чи заперечення не дають автоматичного дозволу на запис. Підтримані мови перевіряти реальними формулюваннями, а не лише перекладеним інтерфейсом.
+Test ordinary labeled data without an imperative, such as «Список покупок: хліб, молоко» and «Список справ» followed by items. A current self-authored list needs no special command. Extract category and items from the actual text. A quotation, forward, translation, question or denial does not automatically authorize a write. Test each supported language with natural phrasing.
 
-## Поверхня аудиту
+## Audit the whole interaction
 
-Перевіряти prompt, tool descriptions/examples/results, capabilities/welcome/help, release announcements, кнопки, progress/typing, success, validators, callback expiry, worker failure/timeout/restart, final grounding, delivery fallback, localization. Технічна мова часто походить із tool result, навіть за теплого prompt.
+Check prompts, tool descriptions, examples and results, capabilities, welcome and help, release announcements, buttons, progress and typing, success, validators, callback expiry, worker failures, timeout and restart, grounding, delivery fallback and localization. Tool output itself can introduce technical wording.
 
-MP4/PDF, рендер, pipeline, перевірки, ID/revision/verifier/step показувати за запитом або коли вони змінюють вибір. Формат у назві завантаження чи експорті допустимий; він не замінює пояснення користі.
+Mention MP4/PDF, render or production pipeline, checks, IDs, revisions and step labels when requested or useful to a decision. A filename or export can identify its format. Explain the outcome in everyday language.
 
-Не маскувати збій усмішкою й не прибирати верифікацію. Повідомляти «що є / що не вийшло / як рухатись далі», якщо ці частини корисні. Не вставляти автоматично «дані збережені» без перевірки/потреби.
+During a failure, give the actual result, limitation and practical way forward when useful. Claim persistence only with evidence. Preserve relevant character, context, stance, humor and warmth without invented experience or claims of consciousness. Offer at most one helpful extension to a simple result. Ask for the missing reminder time rather than an internal registry mode. Reuse provided photos, time and consent. Set clear, truthful progress and terminate the waiting state. Public announcements use recognizable situations and examples.
 
-- Зберігати характер, контекст, власну думку, гумор і тепло без заяв про свідомість або вигаданий досвід.
-- Виконати просте; запропонувати максимум одне доречне розширення. Не пропонувати PDF/конектор/inventory для звичайного списку.
-- Питати про вирішальну прогалину: «коли нагадати?» доречно; «обери режим task registry» — ні. Не питати повторно надані фото/час/згоду.
-- Давати правдивий короткий прогрес і зрозуміле завершення очікування; не залишати нескінченний typing.
-- Анонс будувати на впізнаваних ситуаціях і прикладах, не публікувати інженерний changelog у групу.
+Exercise a simple question, emotional remark, joke, list, ambiguous time, long task, unsupported request, partial failure and recovery. Evaluate the full interaction including action result. Check every supported language independently.
 
-Прогнати просте питання, емоційну репліку, жарт, список, неоднозначний час, довге завдання, unsupported request, частковий збій і відновлення. Оцінювати повний діалог із дією, не лише заборонені слова. Окремо перевіряти реально підтримані мови.
+## Mixed everyday requests
 
-## Змішаний побутовий запит
-
-Розкласти незалежні частини на намір → маршрут → storage → підтвердження → worker/delivery. Перевірити, що replanning не губить нагадування під час додавання покупок, успіх однієї частини не приховується іншою, а збій блокує лише реально залежні дії. Не розривати необхідні причинні залежності та не обходити згоду, provenance або перевірку часу.
+Trace independent parts through intent, route, storage, confirmation, worker and delivery. For example, keep the reminder when adding purchases and report success of one part if another is blocked. Preserve causal dependencies, consent, provenance and time checks.

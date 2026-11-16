@@ -37,6 +37,51 @@ def strict_json_loads(raw):
     return json.loads(raw, object_pairs_hook=unique, parse_constant=finite)
 
 
+def validate_policy(policy, route, state, creation_requested):
+    """Check bounded decisions from observations supplied by the caller."""
+    if not isinstance(policy, dict):
+        return ["routing.policy must be an object"]
+    errors = []
+
+    def require(condition, message):
+        if not condition:
+            errors.append(message)
+
+    require(policy.get("schema") == "atelier.orchestrator-policy/1", "unsupported routing.policy schema")
+    sufficient = policy.get("single_actor_sufficient")
+    require(type(sufficient) is bool, "routing.policy.single_actor_sufficient must be boolean")
+    limit, planned = policy.get("delegation_limit"), policy.get("planned_delegations")
+    counts_valid = type(limit) is int and type(planned) is int and 0 <= planned <= limit
+    require(counts_valid, "planned delegations must fit the declared limit")
+    impact = policy.get("effect_class")
+    require(impact in ("read_only", "local_reversible", "external"), "invalid routing.policy.effect_class")
+    blockers = policy.get("required_capability_gaps")
+    valid_blockers = isinstance(blockers, list) and all(isinstance(value, str) and value.strip() for value in blockers)
+    require(valid_blockers, "required_capability_gaps must be an array of named gaps")
+
+    active = state in ("started", "result", "reviewed", "accepted")
+    if valid_blockers and blockers:
+        require(not active, "unresolved required capability gaps cannot accompany completed execution")
+    if route == "direct":
+        require(sufficient is True and planned == 0, "direct route requires one sufficient actor and no delegation")
+        require(impact in ("read_only", "local_reversible"), "direct route requires bounded local work")
+        require(creation_requested is False, "direct route must not construct an agent")
+    if route == "compose":
+        reason = policy.get("coordination_reason")
+        require(reason in ("independent_outputs", "distinct_judgment", "independent_acceptance"),
+                "compose route must record its specific reason for coordination")
+        require(counts_valid and planned > 0, "compose route requires a bounded delegation plan")
+    if route == "create_agent":
+        basis = policy.get("construction_basis")
+        require(basis in ("user_request", "observed_reuse_gap"),
+                "construction requires a direct request or an observed gap in existing capabilities")
+    if impact == "external" and active:
+        ref = policy.get("effect_authority_ref")
+        require(isinstance(ref, str) and bool(ref.strip()),
+                "an external effect requires an authority reference before execution")
+    return errors
+
+
 def validate(data, ready=False):
     contract = strict_json_loads((ROOT / "assets/routing-contract.json").read_text(encoding="utf8"))
     errors = []
@@ -183,7 +228,13 @@ def validate(data, ready=False):
         require(text(continuation.get("next_action")), "continuation.next_action required")
         if entry.get("surface") == "delegated":
             require(text(continuation.get("return_to")), "delegated task requires an exact upstream return")
-    return result(errors, "declared", route, state)
+    outcome = result(errors, "declared", route, state)
+    if "policy" in routing:
+        policy_errors = validate_policy(routing["policy"], route, state, creation.get("requested"))
+        errors.extend(policy_errors)
+        outcome["valid"] = not errors
+        outcome["policy_status"] = "invalid" if policy_errors else "declared_consistent"
+    return outcome
 
 
 def result(errors, status, route=None, state=None):

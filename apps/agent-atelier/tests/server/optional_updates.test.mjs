@@ -160,6 +160,64 @@ test("optional update preserves icon/policy, verifies all bytes/modes, backs up 
   assert.deepEqual(await pins(f.target), f.before);
 });
 
+test("optional update takes the candidate release from metadata and keeps the legacy installed version", async (t) => {
+  const f = await fixture(t);
+  const candidateVersion = "1.2.0-rc.3+build.7";
+  await writeFile(
+    join(f.source, "SKILL.md"),
+    [
+      "---",
+      "name: atelier-orchestrator",
+      "description: Coordinate the synthetic result.",
+      "metadata:",
+      "  upstream:",
+      '    version: "8.5.0"',
+      `  version: '${candidateVersion}' # Exact candidate release`,
+      "---",
+      "",
+      "# Atelier Orchestrator",
+      "## Release history 9.9.9",
+      "",
+    ].join("\r\n"),
+  );
+  const p = await f.manager.preview({ name: "atelier-orchestrator" });
+  assert.equal(p.ready, true);
+  assert.equal(p.installed_version, "1.0.1");
+  assert.equal(p.candidate_version, candidateVersion);
+  const done = await f.manager.apply(exact(p));
+  const verified = await f.manager.verify({ journal_id: done.id });
+  assert.equal(verified.installed_source_verified, true);
+  const installed = await f.manager.preview({ name: "atelier-orchestrator" });
+  assert.equal(installed.noop, true);
+  assert.equal(installed.installed_version, candidateVersion);
+});
+
+test("optional version ignores nested metadata and Markdown examples outside the frontmatter", async (t) => {
+  const f = await fixture(t);
+  await writeFile(
+    join(f.source, "SKILL.md"),
+    [
+      "---",
+      "name: atelier-orchestrator",
+      "description: Coordinate the synthetic result.",
+      "metadata:",
+      "  upstream:",
+      '    version: "7.0.0"',
+      "---",
+      "",
+      "# Orchestrator1.1.0",
+      "```yaml",
+      "metadata:",
+      '  version: "8.0.0"',
+      "```",
+      "",
+    ].join("\n"),
+  );
+  const p = await f.manager.preview({ name: "atelier-orchestrator" });
+  assert.equal(p.installed_version, "1.0.1");
+  assert.equal(p.candidate_version, "1.1.0");
+});
+
 test("unknown installed edits and visual/policy changes never become an automatic overwrite", async (t) => {
   const f = await fixture(t);
   await writeFile(

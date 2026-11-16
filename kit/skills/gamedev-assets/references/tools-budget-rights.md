@@ -1,4 +1,4 @@
-# Реальні інструменти, витрати та походження
+# Verified tools, costs, and provenance
 
 ## Capability first
 
@@ -28,8 +28,8 @@ Do not include credentials, tokens, signing keys or private account exports in h
 
 Provide pinned tool/config, local relative paths, source dependencies, export/import settings, command or exact manual recipe, input/output hashes, seed where supported, actual log, observed limitations. Re-export in clean working copy when material. Do not run untrusted embedded code from upstream without inspection/isolation; a file inventory validator must not execute generators automatically.
 
-## Descriptor, binding і actual witness
+## Verify operation support, binding, and effects
 
-Capability admission перевіряє actual operation schema/catalog/required inputs, formats, parameters that are consumed, versions/host/target, права/privacy/ліміти/cost, witness/freshness й fallback. Catalog-verified або installed статус не означає operation-tested/integrated/native verified.
+For each capability verify operation schema and catalog, required inputs and formats, consumed parameters, version, host and target, rights, privacy, limits and cost, actual proof and freshness, and fallback. Track catalog, installed, operation-tested, integrated and native-verified status independently.
 
-Вести immutable actual attempts. За unknown outcome зберегти job/requestID і reconcile provider state/output/cost перед retry. Після двох однакових failures класифікувати source ambiguity/capability mismatch/production/integration/perceptual cause; відсутній rig не лікується новим загальним prompt. Новий host bridge pin inputs/toolchain/output contract і return validation; old receipt не підтверджує новий input.
+Keep immutable records of actual attempts. For an unknown outcome save the job or request ID and reconcile provider state, output and cost before retrying. After two equivalent failures, identify whether the cause is source ambiguity, missing capability, production, integration, or perception. Route a missing rig capability to a suitable tool or actor. Pin inputs, toolchain, output contract and return validation for a new host handoff. Bind each receipt to its actual input.

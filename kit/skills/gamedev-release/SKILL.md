@@ -1,115 +1,50 @@
 ---
 name: gamedev-release
-description: "Game Atelier: підготувати й провести дозволений випуск нативної гри Android/iOS після незалежного QA — signing, exact binaries, store metadata, внутрішній магазин/IAP/ads/privacy, beta/rollout та операційна передача. Використовувати для release readiness, store submission/rejection або адресного повторного випуску; перевіряти реальний досвід і content scope, не лише наявність збірки. Замикати release adapter conformance, повний launch scope, atomic activation, save compatibility й matching symbols."
+description: "Prepare or perform an authorized mobile game release. Use for exact release candidate review, native signing, store readiness, privacy, commerce, phased rollout and recovery."
+metadata:
+  version: "6.2.0"
 ---
 
-Відповідати за конкретні перевірені artifacts/config та дозволений distribution scope. Публікувати лише exact RC після належного QA; перевіряти authoritative payment/save/native boundaries та можливість відновлення.
+# Game Atelier Release
 
-## Виробнича якість і контекст6.0
+## Scope and current evidence
 
-Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+Use the caller's language, then the project preference, then Ukrainian. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
 
-Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+For **BRIEF (БРИФ)** or **RESUME (ВІДНОВИ)**, follow the [briefing protocol](references/briefing-protocol.md), with the [topics](assets/briefing-topics.json) and [domain guide](references/briefing-domain-guide.md) where relevant. Reconcile current sources and runtime before resuming. Reuse exact authority, ask only about unresolved material decisions, and honor the existing pause. Close a stage with the deliverable, due evidence, remaining gaps, and the next action or decision. Separate the full target, first release, and representative slice.
 
-## Контракт 4.0 та предметне завантаження
+Before making or changing material, apply [production quality](references/production-quality.md) and the relevant profile in `assets/production-profiles.json`. Keep reference composition, scale, interaction, and functional depth. Demonstrate a representative slice on the actual medium before scaling a dependent batch. Use the relevant [AI and data workflow](references/ai-production.md) for applicable data, retrieval, model, media, or evaluation work. Seek an evidenced need before adding infrastructure. Keep original data, rights, and creative identity in their native sources. Discuss material deviations with the owner and retain current visual identity using the [visual identity contract](references/visual-identity.md).
 
-Перед новим scope прочитати [вихід і приймання цього маршруту](references/v4-route.md). Звірити maturity **C0 / C1 / T** окремо від фактичного implementation stage. C0 — позначений ескіз; C1 — повний задум кожного представленого завершеного кандидата; T — точний виробничий контракт прийнятої до розробки гри. Ранній обмежений spike дозволений до T; він має питання, inputs, oracle й межу, а не статус готової реалізації.
+Give each artifact one owner and use independent reviewers for the checks the stage requires. Use [research and synthesis](references/research-and-synthesis.md) for consequential unfamiliar decisions. Consult the [interaction protocol](references/interaction-protocol.md) for status or handoff. A structural helper validates records. Record separate observations for craft, function, source, native or device execution, independent review, and owner acceptance. Keep due blocked evidence visible. After two attempts with the same failure, change the diagnosis.
 
-Шість логічних компетенцій P1 завантажувати за предметом, а не як шість додаткових етапів:
+Use [Work and Codex continuity](references/joint-work-codex.md) for authorized cross-host recovery and transfer. Give exact inputs, capabilities, steps, expected receipt, and return verification. Apply [tool compatibility](references/tool-compatibility.md) to the actual operation, target, rights, and costs. Reconcile unknown effects before retrying. For batches report the denominator and separate completed, blocked, skipped, and failed entries. Test self-updates on comparable inputs, preserve the known predecessor, and verify recovery.
 
-| Компетенція | Точний ресурс |
-|---|---|
-| Поведінка, математика, фізика, стани, RNG | [Math](references/v4/math.md) |
-| Каталоги, сумісність, комплекти, розвиток, винагороди | [Catalogs/progression](references/v4/catalog-progression.md) |
-| Світ, генерація, маршрути, encounters, ритм, AI | [World/AI](references/v4/world-ai.md) |
-| Лор, знання, сюжет/діалоги, реактивний канон | [Lore/narrative](references/v4/lore-narrative.md) |
-| Намір, touch, камера, UX, навчання, мультимодальність | [Experience](references/v4/experience-commerce.md) |
-| Метагра, економіка, монетизація, магазин, платежі | [Commerce](references/v4/experience-commerce.md) |
+Use one versioned Game Model and the current game workflow and handoff contracts. Keep the distinct maturity gates C0 labelled exploration, C1 complete candidate concept, and T production design. A bounded early spike has a question, precise inputs, an oracle, and a stop. It supplies evidence for that question. Cover every applicable production domain and assign due proof. Separate game maturity from implementation, native build, and distribution status. Keep legacy sources unchanged and reconstruct the current projection from accepted source facts, using the supported current format and explicit mappings. Check installed capabilities for the operation; host names alone give no tool, runtime, or device proof.
 
-Наскрізно підключати [Persistence](references/v4/persistence.md) для state/continuity й [Production](references/v4/production.md) для операцій/ролей/recipes/доказів. Логічний поділ компетенцій не вимагає одного файла або одного агента на кожну. Source IDs й accepted masters зберігати. Для продовження відновити фактичні вимоги, рішення й матеріали продукту та створити поточні contracts; попередні формати результатів не читати й не конвертувати.
+## Name the release and establish the current candidate
 
-Для активних систем вести один зв’язок requirement → rule/state/catalog → production operation → consumer → scenario → actual evidence. Перевіряти застосовність усіх 20 виробничих напрямів; не вимагати 20 окремих документів чи агентів. Missing tool/device — блокер належного доказу, а не `absent_by_design`.
+Read the [release playbook](references/release-playbook.md), [stores, tools and sources](references/stores-tools-sources.md), and [forms](assets/release-templates.md). Bind actual source, package and build digests, frozen QA, config, content/catalog/economy and saves, studio identity and rights, model, device matrix, privacy, accounts and current provider state. Name internal, test/beta or production scope, platform, regions, channel/track, seller/team, signing and rollout. A changed binary, content or config creates a new candidate identity with applicable retests. Scope approval, asset acceptance and external authority differ.
 
-# Game Atelier 6.1.0 · Випуск
+Derive due proof from active runtime features, Game Model, actual commerce, device and launch matrix. Resolve contradictions with optional flags. Name unavailable access or modalities as blockers. Verify the full released journey from first launch and learning through play/failure, rewards, save/return/upgrade, settings/support/recovery, and applicable shop/decline/use/restore. A prototype or one native slice does not establish full launch coverage. Match listing claims, actual features and playable content.
 
-## Умовні AI/data та виробничі профілі6.1
+## Prove store, device and commerce readiness
 
-Коли задача справді потребує збору чи аналізу даних, LLM/RAG, прогнозування, адаптації моделі, серійного виробництва матеріалів або їх оцінювання, прочитати лише застосовні частини [AI/data виробничого маршруту](references/ai-production.md). Обрати потрібні DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA чи EVALUATION всередині чинної предметної команди. Спочатку достатній наявний виконавець і метод; нові агент, framework чи глобальний індекс не є типовою передумовою.
+Maintain a dated compliance snapshot tying each applicable official source and platform/SDK rule to the exact artifact and result. Verify install/update and lower tiers against named runtime requirements. Validate Android package/version/ABI, signed APK versus AAB and Play App Signing, SDK and compatibility. For iOS record Simulator, actual device, archive/dSYM and signed IPA/TestFlight separately. Verify team, bundle, signing, entitlements, deployment, privacy disclosures and native dependencies. Preserve source, actual SDK egress, reviewer access, age rating, consent/tracking, privacy/deletion, rights and support. distinguish runtime screenshots from illustrations. Give exact owner steps for MFA, legal signature, personal account/payout or hardware barriers, without credentials in artifacts.
 
-Зберегти первинний результат, усі застосовні вимоги, прийняті оригінали, налаштування, дозволи й відкладене в тому самому рідному стані. Типізовані матеріали та `scripts/ai_production.py` використовувати лише для доречних оголошених перевірок. Їхній PASS не доводить фактичного збору, навчання, якості, споживання, незалежності чи прийняття власником. Виявлена втрата прийнятої працюючої властивості відхиляє кандидата; неперевірений потрібний доказ лишається відкритим.
+For every active payment, map permitted store product and receipt to bundle ID, exact candidate, account, offer/content, entitlement, cost/cadence and expiry, track, and QA digest. Verify actual sandbox success/cancel/pending/failure, duplicate/reordered callbacks, kill/network loss at verify/grant/ack, reinstall/restore/refund/revoke and device/account switch where applicable. A matching item, bundle, identity, track and digest are required. Restore of a different item or receipt for another app blocks promotion. Give durable exactly-once verified grants, clear pricing and ability to decline and continue. Preserve earned/free baseline, unlocks, cumulative offers and caps. Disclose approved subscription or paid random terms only where chosen. For rewarded ads verify opt-in, delivery, limits, cap/cooldown, duplicate callbacks, offline/deny/no-fill. Keep native sandbox, mock and revenue evidence distinct.
 
-## Спільний спосіб роботи6.0
+Verify launch-native camera/controls, media, sustained time/memory/thermal, install and old save/migration, interruptions, network/storage, recovery, atomic content epoch, old-client compatibility and symbols with exact build evidence. Use the [release case catalog](assets/release-case-catalog.json), and send material changes to independent QA. Separate observed state continuity from template or simulation results.
 
-На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
+## Execute only the admitted rollout
 
-Для незнайомого домену виконати предметний source/probe за матеріальними невідомостями й назвати межі доказу. План створення агента включає весь шлях: аналіз → погоджена архітектура → реалізація переносного пакета → незалежна перевірка representative tasks → installation/discovery → супровід; виконувати лише поточний дозволений scope. Після зміни host до заяви готовності провести доступний bounded предметний smoke або явно позначити його blocked/not_tested.
+Prepare reviewable exact binaries, listing and locale, QA/store/policy and support material, monitoring and stop rules, flags, backup/restore and rollback or forward repair. Use actual verified API/CLI or authorized browser paths. Execute upload/submission, migrations, agreements, production rollout or new spending only in actual approved scope. Reconcile unknown provider results before a repeat. Record actual build/channel/time/receipt and post-action checks. Distinguish prepared, locally tested, sandbox verified, uploaded, in review, approved, available to testers and live. A store rejection requires upstream change, new candidate identity and affected retests. Halt rollout, narrow flag/config revert and binary forward updates have separate capabilities. Preserve older clients and entitlements.
 
-## Узгоджена взаємодія
+Return the immutable source/build/config/content/catalog/economy/save versions, model/QA, actual provider receipts, symbols and migration, support/privacy/rights, observations and next owner to LiveOps. Use actual Game Model, Atelier and pipeline CLI help. Accepted evidence does not authorize a recurring service.
 
-Тримати одного відповідального за продукт і чинний project state. На матеріальному виборі показати рекомендацію/альтернативи/наслідок; routine work і локальні виправлення виконувати в прийнятому scope. Чинні погодження успадковувати. Прогрес: результат/належні докази → зараз → gaps → потрібне рішення → next; стан specification/code/integration/device/human розділяти. Питання не скасовує роботу. Дрібний scope не запускає повний продуктовий цикл; повний задум не спрощувати. Для нового/відновлюваного scope або стану читати [протокол взаємодії](references/interaction-protocol.md); `python3 -B scripts/interaction.py status --source PROJECT --format markdown` формує read-only огляд підтриманого domain state, без нових grants, відтворення effects чи фонового виконання. Для конкретного зовнішнього tool route звірити застосовний пункт [сумісності](references/tool-compatibility.md).
+## Supporting references
 
-Коли вибираєш середовище, виявляєш перешкоду виконанню, передаєш етап чи відновлюєш роботу, застосуй [спільний маршрут Work ↔ Codex](references/joint-work-codex.md) разом із предметними правилами. Перевір фактичні входи, права та можливості. Виконай єдиний придатний дозволений маршрут. Якщо потрібна дія власника, дай точний наступний крок.
+Open the references applicable to the current deliverable and its due proof.
 
-## БРИФ, ВІДНОВИ й передача наступного етапу
+- **Game Model disciplines**. [Math](references/v4/math.md), [Catalog progression](references/v4/catalog-progression.md), [World ai](references/v4/world-ai.md), [Lore narrative](references/v4/lore-narrative.md), [Experience commerce](references/v4/experience-commerce.md), [Persistence](references/v4/persistence.md), [Production](references/v4/production.md).
 
-Визначити поточний scope й чинні рішення. Для нового обсягу, БРИФ або ВІДНОВИ прочитати [спільний протокол](references/briefing-protocol.md); для bounded локальної роботи завантажити лише застосовні частини й потрібні предметні джерела. Прямий виклик **БРИФ**: аналіз повного застосовного обсягу й наслідків → адаптивне предметне опитування → читабельний версійний сценарій → явне погодження → точне виконання. **ВІДНОВИ**: спочатку фактичні source/accepted intent/evidence/runtime/continuation чинного продукту, потім цей цикл. Це діє й у прямому вході спеціаліста та делегованому job; чинну точну згоду успадковувати без повтору. Саме відновлення не знімає pause й не дозволяє залежне виконання.
-
-Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
-
-Діяти українською як предметний модуль `gamedev-director`. Завершити конкретний release scope з фактичними receipts або exact blockers. Інструмент 4.0.0 не є вже випущеною грою й не змінює автоматично game save/handoff schema. Основне середовище — Codex у canonical game repository; Work може працювати з metadata/консолями через фактично доступні tools. Наявність Work не доводить доступ до Mac/signing/device/session.
-
-## 1. Прийняти продукт і scope
-
-Прочитати [єдиний вхід](references/unified-agent.md), [спільний контракт](references/core-contract.md), [досвід](references/experience-contract.md), [системний задум](references/systemic-design.md), [модель і due gates](references/game-model-workflow.md), [формат моделі](references/model-format.md), [handoff](references/handoff-contract.md), [вимоги](references/requirements.md) і [контекст команди](references/agents-context.md). Для роботи прочитати [release playbook](references/release-playbook.md), [актуальні джерела/інструменти](references/stores-tools-sources.md) та [форми](assets/release-templates.md).
-
-Прийняти frozen source commit/tag, exact QA verdict/build hashes і build receipts, accepted studio/runtime references й права, game-model/requirements/decisions, content/economy/catalog/save/config versions, device matrix, privacy map і known issues. Зіставити actual files/current provider state; старий ZIP чи `git HEAD` не є доказом поточного RC. Зміна binary/config/catalog/content після QA створює нову identity та dependency-based retest.
-
-Визначити beta/internal/production target, platforms/regions/audience, account/legal seller, signing, monetization/ads/backend/provider/price scope і rollout boundaries. Переносити чинні рішення; запитувати лише невідомі матеріальні розвилки. Preview/favorite/master acceptance не створюють production choice чи зовнішнього дозволу. Workflow-аудит/створення toolkit не запускають game design/release.
-
-## 2. Вивести release readiness з actual features
-
-Порівняти поточну game-model `features/domains/scenarios/dependencies` та її контракти 4.0, runtime inventory та QA coverage. Для кожної активної фічі в launch scope належний release proof обов’язковий незалежно від optional task flags. Приховану IAP/SDK/account/online-фічу не пропускати через disabled field; усунути суперечність upstream. Немає пристрою/доступу — `not_tested`/`blocked`, не N/A. Продукт без покупок/ads не потребує їхніх SDK або sandbox cases.
-
-Перевірити повний узгоджений journey: first launch/learning → key play/помилка/retry → reward/save/unlock → inventory/upgrade/return → shop/trial/decline/purchase/use/expiry/restore за fit → settings/account/support/recovery. Камера/масштаб/керування, AI/encounters/world, progression/rewards та finite content scope мають відповідати exact accepted runtime. Не рекламувати target-only mechanic, майбутню expansion або більше контенту, ніж доступно. Один representative slice не закриває всю launch content matrix.
-
-Назвати поточний stage: `concept`, `preproduction`, `slice`, `beta` чи `release` за спільним workflow. Release не підвищує concept/model evidence до runtime/device/human. На named beta дозволені конкретні відкриті market hypotheses; released readiness не означає доказ прибутку або retention.
-
-## 3. Перевірити capability, правила й інфраструктуру
-
-На кожному випуску відкрити чинні офіційні store/SDK/platform вимоги. Зберегти dated `compliance-snapshot.json`: URL, applies-because, exact artifact/version, method/result/blocker. Не фіксувати назавжди API/SDK числа з пам’яті; engine compatibility і store policy перевіряти окремо.
-
-Виконувати достатнім plugin/API/CLI або дозволеним browser доступні account/config/store actions у чинному scope. Наявність connector не надає publish rights; відсутність connector не виключає CLI. Реальні owner-only MFA/legal signature/payout/secret/device кроки підготувати до конкретного handoff з expected receipt. Не просити передавати passwords/private keys/tax/KYC у chat/ZIP. Accounts/backend/API/paid tools не вважаються включеними в ChatGPT/Codex; нові витрати погоджувати після підготовки reviewable result.
-
-Встановлювати лише потрібні обрані adapters із source/license/version/native deps/permissions/privacy/cost/rollback checks. Для Android перевірити package/versionCode, signed APK/AAB, ABIs/page-size compatibility/min-target SDK/Play App Signing; AAB не встановлювати як APK. Для iOS відділити Simulator app, archive/dSYM, signed device build/exported IPA/TestFlight; перевірити team/bundle/profiles/entitlements/deployment SDK/privacy manifests. Без фактичного Mac/signing не називати source installable IPA.
-
-## 4. Перевірити commerce і повний RC
-
-Один release owner зводить mobile/signing, store/privacy, commerce/backend та operations; інший фактичний actor перевіряє RC. Локальний repair не запускає порожню раду. Очікувані outcomes брати з accepted design/platform rules, а не з копії implementation.
-
-За [acceptance cases](assets/release-case-catalog.json) й playbook перевірити:
-
-- Exact store product ↔ internal offer ↔ entitlement/currency/content/duration/cap/expiry/restore/refund mappings; локальну реальну store price, eligibility/owned/expired/stale/error states. Гравець бачить точні contents/limits до commitment, може відмовитися й повернутися до гри. Trial/kit switch не роблять невказаний reset/refill; paid portfolio й boosters зберігають перевірені free/no-offer арку та cumulative limits.
-- Actual native store sandbox: success/cancel/fail/pending/deferred/duplicate/reordered callbacks, app kill/network loss на verify/grant/ack boundaries, reinstall/restore/refund/revoke/account switch/два пристрої за fit. Verified entitlement видавати стійко один раз; pending не є paid success; не дублювати consumed consumables через restore. Subscriptions/random rewards додавати тільки якщо обрані, з duration/renewal/pool/odds/pity/disclosures за правилами ринків.
-- Rewarded ads: opt-in/reward disclosure, eligibility/cap/cooldown, no-fill/timeout/decline/offline/consent denied, earned/duplicate callback/scene unload/restart, SSV де застосовне. No-fill або відмова не блокують нормальний free core. Test/live placements і config розрізняти; simulated impressions не є revenue.
-- Install/update/old saves/atomic migration/backup restore, lifecycle interruptions, offline/network/low-storage, all screens і recovery. Sustained physical-device frame-time/memory/thermal/audio/haptic/input checks для належних target tiers; placeholders/simulator не закривають відповідні sensory claims.
-- Actual SDK/network data → policy/Data safety/App privacy/age/consent/tracking/account deletion за fit; права/credits/studio originals; support/reviewer access. Маркетингові illustrations відділяти від runtime screenshots/video. Не підміняти store policy повним юридичним висновком для всіх країн.
-
-Raw receipts/logs/captures мають exact build/device/environment/time/method/observer й sanitized transaction references. Unknown outcome зовнішньої дії спочатку reconcile; не повторювати upload/purchase/migration наосліп після timeout.
-
-Звірити [release contract 4.0](references/v4-route.md): signed adapter conformance, full launch closure, State/Continuity і damage/death/retry consistency, actual data egress, exact symbols/patch base, atomic content epoch і compatible recovery. Historical proof не підвищувати через новий номер навички.
-
-## 5. Підготувати, виконати й передати
-
-До потрібного фінального дозволу повністю підготувати binaries, metadata/locales, catalog/privacy/reviewer notes, staging/backup/restore evidence, monitoring/kill switches, rollout/stop/rollback-forward, compatibility з older clients та exact target summary. Read-only/reversible роботу продовжувати в чинному scope.
-
-Upload/submission/production rollout/migration/paid purchase/agreement виконувати лише в чинному конкретному дорученні. Не перепитувати вже наданий scope; не домислювати іншу країну/ціну/channel. За дії з невідомим outcome спочатку перевірити provider state. Зберегти actual receipt/build/version/channel/time/URL й post-action smoke.
-
-Розрізняти `prepared`, `locally-tested`, `sandbox-verified`, `uploaded`, `in-review`, `approved`, `available-to-testers`, `live`, `blocked`. Submission rejection → exact upstream repair → new identity → relevant independent QA. Store binary rollback не миттєвий: halt rollout, disable precise flags/content/offers, compatible backend/config revert або forward binary hotfix мають різні межі.
-
-Передати `gamedev-liveops` immutable exact source/build/config/catalog/content/economy/save versions, model/rule/QA refs, provider receipts, install/test access, symbols, migration/rollback boundaries, metric/event dictionary й alerts delivery proof, rights/privacy/support/runbooks, known issues і конкретну next action. Один release не запускає нескінченний monitoring без окремої automation.
-
-Відкрити actual `--help` `scripts/game_model.py`, `scripts/atelier.py` та `scripts/pipeline.py` перед командами; не вигадувати flags і не init повторно existing project. Structural validation/seal не дає product acceptance або publish permission. Фінал: що фактично готове/виконане, де тестувати, exact versions/channel, gaps/owners і next step.
-
-Версія інструмента: **6.0.0**.
-
-Для великої повторюваної операції фіксувати повний знаменник елементів, виконані/пропущені/помилкові записи, checkpoint і контроль повноти batch; representative sample не підміняє виконання всього дорученого набору. Для self-update порівнювати baseline/candidate на однакових входах із незалежною рубрикою та перевіряти replay/adoption старого state/schema і rollback; не вигадувати історичне приймання.
+- **Working contracts**. [V4 route](references/v4-route.md), [Unified agent](references/unified-agent.md), [Core contract](references/core-contract.md), [Experience contract](references/experience-contract.md), [Systemic design](references/systemic-design.md), [Game Model domain modules](references/game-model-workflow.md), [Model format](references/model-format.md), [Handoff contract](references/handoff-contract.md), [Requirements](references/requirements.md), [Agents context](references/agents-context.md).

@@ -1,52 +1,52 @@
-# Canonical model → виконувана гра
+# Bind the canonical model to the playable game
 
-Читати перед importer/data architecture і кожною зміною системи. Об’єкти, правила й залежності canonical game model визначено у [model format](model-format.md); цей документ описує runtime binding та фактичну перевірку. GDD, CSV, engine resources і UI labels — керовані проєкції одних правил.
+Use this before designing import or data flow and before changing a system. The [model format](model-format.md) defines canonical objects, rules, and dependencies. GDD, CSV, engine resources, and interface labels are projections of the shared rules.
 
-## Binding і generation
+## Binding and generation
 
-Для кожного imported object/rule зафіксувати model ID/domain/revision/hash, canonical field path, runtime target path/type/unit, adapter/schema version, event consumers, fixtures/oracle/scenarios. Розділяти generated files і authoring sources; ручна зміна generated numeric data не є зміною дизайну. Одне поле може мати кілька consumers з явним mapping, але не кілька незалежних джерел істини.
+For each imported object and rule, record model ID, domain, revision and hash, canonical path, runtime target and type and units, adapter and schema version, event consumers, fixtures, oracle, and scenario IDs. Keep generated output separate from editable sources. Map each consumer of a common field to one authority. Change generated numbers through that source.
 
-Стартова форма — `assets/runtime-bindings.template.json`. Evidence додається тільки після actual observation. Зміни знаходити через model dependencies та runtime consumer map; `game_model.py impact MODEL --changed ID` допомагає знайти structural closure, але не виявляє всіх семантичних наслідків автоматично.
+Use `assets/runtime-bindings.template.json` as a starting format. Add measured evidence after observation. Derive affected work from model dependencies and runtime consumers. `game_model.py impact MODEL --changed ID` reports structural reach. Review semantic impact as a separate step.
 
-| Domain | Runtime binding | Змістовний oracle |
+| Domain | Runtime binding | Domain oracle |
 |---|---|---|
-| Camera | Projection/FOV/zoom, tracking/dead zones/lookahead, transitions, aspect/visibility/collision rules | На gameplay speed видно потрібні action/threat/contact; wide overview не підміняє follow policy |
-| Input | Intent/gesture thresholds, context/cancel/hold/release, UI ownership, simultaneous actions | Задумана комбінація зручно доступна; однаковий gesture не виконує непередбачувану дію |
-| Systems/equipment | State/effect formulas, units/stack/cap order, interaction preconditions, cost/recovery | Предмет змінює конкретне рішення; межа/контра працює і після swap/restart |
-| Actors | Perception/knowledge/memory, decision/action graph, cooldown/telegraphs, navigation/team roles | Ворог/агент реагує на actual доступне знання; різні ролі змінюють відповідь гравця |
-| World | Authored topology/grammar, gates/routes, interactable state, event/pacing budgets, revisits | Reachable/fair composition, змістовний risk/reward, сталі наслідки, bounded fallback |
-| Progression | Unlock/access graph, capability changes, resets/catch-up, long-arc milestones | Reachability from zero; нова можливість переосмислює знайомий контекст |
-| Rewards | Trigger/authority/grant identity, table/pool/odds/guarantee/cap/duplicates, UI presentation | Durable grant exactly once; meaningful use; bad RNG/cap/failure recovery не губить ціль |
-| Learning | Skill dependency/unlock, trigger/hint/mastery/skip/re-entry policy | Гравець самостійно використовує вивчене; hidden prerequisite не блокує прогрес |
-| Art | Source/import settings/animation/events/audio buses/haptic adapter/quality | Exact baseline lineage й читабельність у normal/peak і unsupported-device fallback |
-| Commerce | Eligibility/offer/store price/entitlement/transaction/reconciliation/ad cap | No-offer/free path, pending/cancel/refund/restore/restart; cumulative purchases перевірено |
-| Lifecycle | Atomic save/migration/checkpoint/RNG/pending work, offline/auth/sync/telemetry | Kill/resume/corruption/version/cloud conflict не дублюють і не втрачають прогрес |
+| Camera | Projection, FOV and zoom, tracking and dead zones and lookahead, transitions and aspect and visibility and collision | Required actions, threats, and contact visible at actual play speed with the accepted follow behavior |
+| Input | Intent and thresholds, context and cancel and hold and release, UI ownership, concurrent actions | Intended combinations are usable and gestures have predictable outcomes |
+| Systems and equipment | State and effect, units, stack and cap order, conditions, cost and recovery | An item changes a concrete decision and counters and limits hold after swap and restart |
+| Actors | Perception, knowledge and memory, decision and action, cooldown and cues, navigation and roles | Actors use available knowledge and different roles change player responses |
+| World | Topology and grammar, gates and routes, interactive states, event and pacing budget, revisit | Reachable fair composition, meaningful risks and rewards, persistent consequences, and bounded fallback |
+| Progression | Unlock and access, new capability, resets and catch-up, long progression milestones | Reachability from initial state and new ways to solve known contexts |
+| Rewards | Trigger and authority and identity, tables and odds and guarantees and caps and duplicates, UI | Durable grant once, meaningful use, and recovery from adverse random draws or failures |
+| Learning | Dependencies and unlocks, triggers and hints and mastery and skip and reentry | Players use learned capabilities independently and known prerequisites are reachable |
+| Art | Source and import, motion and cues, audio bus, haptics, and quality | Exact lineage, normal and peak readability, and fallback for unsupported devices |
+| Commerce | Eligibility and offer and store price, entitlements and transaction and reconciliation, ad cap | Free and no-offer path, pending and cancellation and refund and restore and restart, and combined purchase effects |
+| Lifecycle | Atomic save and migration and checkpoint and RNG and pending effects, offline and auth and sync and telemetry | Kill and resume and corruption and migration and cloud conflict preserve progress without duplication |
 
-## Семантика подій та влада над станом
+## Events and state authority
 
-Визначити owner симуляційного стану й порядок одночасних подій. Gameplay rule створює semantic event; animation/audio/UI споживають його. Presentation completion не надає винагороду, damage або entitlement. Візуальний anticipatory feedback може з’явитися до confirmed durable result лише коли його значення відрізняється й rollback/reconcile зрозумілий.
+Define simulation ownership and ordering of simultaneous events. Gameplay rules emit semantic events for motion, sound, and UI. Grant damage, rewards, and entitlements at their proper authority. Predictive cues can precede a durable commit where their meaning is clear and rollback or reconciliation is defined.
 
-Physics/render/input timestamps мають explicit clock/tick policy. Не прив’язувати game speed до FPS; не припускати cross-platform bit determinism від seed. Replay fixtures містять engine/content versions та tolerances. RNG streams для content/reward/cosmetic відокремити за design. Повторний callback, reconnect чи scene re-entry не повторює durable effect.
+Define the clocks and tick policy for physics, rendering, and input. Keep simulation speed independent of render rate. Replay binds engine and content versions and tolerances. Verify actual determinism per target. Use distinct RNG streams for content, reward, and cosmetic effects as needed. Duplicate callbacks, reconnection, and scene reentry preserve durable effect identity.
 
-## Сценарії та приймання
+## Scenarios and acceptance
 
-Кожний scenario задає initial state, action і expected observable незалежно від коду, changed decision та counterfactual without-rule за форматом моделі. Додати actual input/seed/save/build/device/repro, observed evidence і verdict у виконувану test receipt. CSV `assets/system-scenarios.template.csv` є проєкцією scenario IDs, не другою версією expected behavior.
+Each scenario pins initial state, action, independent expected outcome, changed decision, and counterfactual. For an executed case, add actual input, seed, save, build, device, reproduction, evidence, and verdict. Use `assets/system-scenarios.template.csv` as a projection of canonical scenario IDs.
 
-Використати змішані перевірки: deterministic numeric/property tests; state/event integration; authored/seed content validation; visual/motion/audio review; device touch/thermal/haptic checks; людський playtest для зрозумілості й задоволення. Автосимуляція balance/extreme policies є модельним результатом, не виміряним retention/revenue або доказом fun.
+Use applicable deterministic numeric and property tests, state and event integration, authored and generated content validation, visual and motion and audio review, device touch and thermal and haptic checks, and human playtests. Keep simulation, actual retention and revenue, and enjoyment separate.
 
-Перед масовим контентом native slice перевіряє найризиковіші спільні bindings. Beta охоплює весь finite approved scope, boundary/lifecycle і target devices. Release додає актуальні platform/store/privacy/commerce gates. Недоступний gate лишається blocked/unperformed; не підвищувати статус через існування receipt file.
+Before scaling content, use the native slice to verify risky shared bindings. Beta covers the accepted finite scope, boundaries and lifecycle, and target devices. Release adds the exact platform, commerce, and privacy checks. Keep unavailable gates blocked or unperformed.
 
-## Негативні контролі
+## Negative controls
 
-- Importer використовує старі числові значення при новому model hash — drift.
-- Equipment description обіцяє інший playstyle, але consumer змінює лише damage multiplier — semantic mismatch.
-- Дві AI family мають ті самі perception/decision/action і відрізняються HP — не доказ змістовного diversity.
-- World generator проходить count check, але створює softlock або одну оптимальну відповідь усюди — content failure.
-- Навчання вимагає locked ability або tutorial success фіксується натисканням «далі» — learning defect.
-- Native build успішний, а camera/HUD/input не відтворює accepted experience — build proof не закриває якість.
+- Importer loads obsolete numbers under a new hash.
+- Equipment claims a different style but changes only damage.
+- AI families share all decisions but have different HP.
+- A generator passes inventory count while producing softlocks or one universal strategy.
+- Onboarding requires a locked capability or marks a button press as mastery.
+- A successful build with mismatched camera, HUD, or inputs leaves experience acceptance open.
 
-## Semantic edges й виробничі записи
+## Transformations and production records
 
-Runtime binding перевіряє не тільки ID/path, а unit/precision/capture/timebase/axis/color/audio/motion semantics. SemanticTransformation містить exact source/target convention, preserved properties, intentional loss й discriminating validator. Shared golden fixtures перевіряють reference/runtime parity; однакова formula prose не достатня.
+Verify unit, precision, capture time, axes, color, sound, and motion as well as ID and path. A `SemanticTransformation` defines source and target conventions, preserved properties, intentional loss, and a discriminating validator. Verify shared design and runtime parity using golden fixtures.
 
-Для production DAG вказати accepted inputs/interfaces/owner/resource locks, actual supported operation/recipe/outputs/consumer. Attempt/unknown job reconciliation, semantic cache freshness, post-import lint/source roundtrip і whole-scene AssemblyEvidence пов’язані зі current model. Нова operation або tool version не переносить старий witness автоматично.
+For each production edge, pin accepted inputs, interface, owner and resource locks, supported operation and recipe, outputs and consumer. Link attempts and unknown-result reconciliation, semantic cache freshness, post-import checks and source round trip, and whole-scene `AssemblyEvidence` to the current model. Reverify relevant operations and versions after change.

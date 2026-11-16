@@ -1,40 +1,40 @@
-# Докази, defects та regression
+# Evidence, defects, and regression coverage
 
 ## Case result
 
-`case_id`, requirement IDs, scope, baseline/source/build hashes, platform/device/OS, preconditions, scenario/seed/input, expected outcome + design ref, procedure/fault, observed outcome, raw artifact refs/hashes, execution actor/time, independent reviewer, verdict, limitations. Зберігати actual result лише після виконання. Templates лишаються clearly examples.
+Record `case_id`, requirement IDs, scope, baseline/source/build hashes, platform/device/OS, preconditions, scenario, seed and input, expected outcome and design reference, procedure or fault, observed outcome, raw artifact references and hashes, execution actor and time, independent reviewer, verdict, and limitations. Write the actual result after execution and label templates as examples.
 
 ## Defect record
 
-ID; severity/player impact; requirement IDs; exact failing revision/build; reproducible steps/state/seed; expected design/official rule; actual result; raw screenshot/video/audio/log/profile; owner; affected dependency closure; repair revision; retest evidence; closure. «Поганий звук» без cue/timecode/condition — недостатньо; «cue ui.confirm clips на X при duplicate event» — адресна перевірка.
+Include ID, severity and player impact, requirement IDs, exact failing revision and build, reproduction steps, state and seed, expected design or official rule, actual result, raw screenshot/video/audio/log/profile, repair owner, affected dependency closure, repair revision, retest evidence, and closure. For an audio defect, record the cue, timecode, and triggering condition, such as clipping on `ui.confirm` during a repeated event.
 
-## Інваріанти evidence
+## Evidence requirements
 
-- Hashes актуальні для exact bytes; нова revision не успадковує pass автоматично.
-- Review actor відрізняється від автора артефакту; actor name сам по собі не доводить actual review.
-- Evidence зі старого source/build має carry-forward decision й dependency impact.
-- Build receipt, test result, listening acceptance, human observation та market metric — різні types.
-- Відсутність evidence відображається `not_tested`/`blocked`, а не порожнім pass.
-- Credentials, private keys, raw payment tokens/PII не входять у portable evidence.
+- Hash the exact observed bytes. Review evidence for a new revision before carrying acceptance forward.
+- An independent reviewer differs from the artifact author. Record actual work and evidence as well as actor identity.
+- Carrying forward evidence from an earlier source or build requires a recorded decision and dependency assessment.
+- Distinguish build receipts, test results, listening acceptance, human observations, and market metrics.
+- Mark missing evidence `not_tested` or `blocked`.
+- Exclude credentials, private keys, raw payment tokens, and personal data from portable evidence.
 
-## Regression selection
+## Select regression cases
 
-Change → direct dependencies → transitive product effects → required checks. Приклад font change зачіпає all font consumers/layout/localization/screenshots; economy table change — acquisition/save/offer/analytics/migration tests; collision layer change — усі actor/arena contacts; audio bus change — every cue family/interruption/mute/device mix.
+Trace the change through direct dependencies and transitive product effects to the required checks. A font change affects font consumers, layout, localization, and screenshots. An economy table change affects acquisition, saves, offers, analytics, and migration. A collision layer change affects all associated actor and arena contacts. An audio bus change affects every associated cue family, interruption, mute behavior, and device mix.
 
-Unchanged content з exact hashes і незачепленими dependencies зберігає acceptance. Unknown impact потребує розширення checks, а не повного re-review за звичкою. Локальний defect repair повторно приймає той самий незалежний QA; material redesign вимагає нового target/choice і відповідного review.
+Retain acceptance for unchanged bytes when dependencies remain unaffected. Investigate unknown impact and expand checks only as the consequences require. The same independent QA actor retests a localized repair. A material redesign needs an updated target or decision and an applicable review.
 
-## Archive та final report
+## Archive and final report
 
-Використати common handoff schema/validator; включити machine matrix + короткий людський звіт. У звіті: outcome early; tested scope/platform/build; strongest evidence; blocking failures; not-tested/hypotheses; exact repair owner/next action. Не перераховувати сотні успішних tests, якщо вони не пояснюють ризик.
+Use the common handoff schema and validator. Include the machine-readable matrix and a short report. Start with the outcome, tested scope, platform and build, strongest evidence, blockers and untested hypotheses, exact repair owner, and next action. Summarize passing tests by the risks they address.
 
-Зберегти immutable accepted packet, відокремивши working repair branch. Release отримує exact accepted revision; після нової зміни release candidate має impact/retest, не тиху підміну bytes під старим pass.
+Freeze the accepted package and keep repair work on a separate branch. Send the exact accepted revision to release. When a release candidate changes, assess impact and retest affected claims before accepting the changed bytes.
 
-## Binding предметних доказів 4.0
+## Bind domain evidence
 
-QA plan/case pattern не є execution evidence. Для canonical game-model evidence зберегти точні `domain,stage,modality,proof_path,sha256,observer_id,author_ids,method,observed_at,environment,origin` за `model-format.md`; кейс зв’язати з current requirement/rule/scenario й build/state/seed. Структурний валідатор перевіряє records/bytes, reviewer оцінює достатність actual proof та expected outcome. Приклад-файл не закриває gate; document review не стає device/human/live доказом через назву modality. Не змішувати author і reviewer або model simulation та real players.
+For canonical game-model evidence, record exact `domain,stage,modality,proof_path,sha256,observer_id,author_ids,method,observed_at,environment,origin` as defined in `model-format.md`. Connect executed cases to current requirements, rules, and scenarios, and to the observed build, state, and seed. A structural validator checks records and bytes. The reviewer checks the adequacy of actual proof and the expected outcome. A template or document review needs further evidence for any device, human, or live claim. Distinguish authors and reviewers, and simulated results and actual players.
 
-## Freshness та незалежність execution evidence
+## Freshness and independence
 
-Evidence scope pin semantic inputs, rule/data/recipe/importer/toolchain/build/configversions і actual modality. Зміна input/edge означає selectiveinvalidation за impactclosure; acceptedoriginal не переписується. Зберегти authors/observer/revieweractualIDs та rawoutputs; hash/status самсобою не доводять незалежної роботи.
+Pin semantic inputs, rule/data/recipe/importer/toolchain/build/configuration versions, and actual evidence type. Follow affected dependencies when an input or relationship changes, and preserve accepted originals. Record actual author, observer, and reviewer IDs and raw outputs. Establish independence from evidence of their actual roles.
 
-Operationwitness, production attempt, assembly test, native run, physical observation, human playtest й live query різні outputs. Unknownexternaloutcome передавати з job/requestID/reconciliation, не як failedretriablebydefault.
+Keep the operation witness, production attempt, assembly test, native run, physical observation, human playtest, and live query as separate outputs. An unknown external result carries the job or request ID and stays open for reconciliation before the retry decision.

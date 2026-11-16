@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Реалізація · 6.0.0
-  short_description: Повний наскрізний runtime чатбота
-  default_prompt: Використай $chatbot-atelier-build для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Реалізація
+  short_description: End-to-end implementation of the chatbot
+  default_prompt: Use $chatbot-atelier-build. Build and verify the smallest complete runtime path that proves the requested capability.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

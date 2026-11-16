@@ -1,20 +1,19 @@
-# Перевірки й докази
+# Checks and evidence
 
-До початку визначити capability/requirement -> artifact -> test -> потрібний proof -> observer -> due gate. Evidence pin-ить точні artifact/proof/source bytes, метод, середовище, час, фактичного observer і limitations. Artifact має реальний відносний path та hash. Claims окремі від evidence.
+Before work, connect capability or requirement to artifact, test, required proof, actual observer and due gate. Bind evidence to the exact artifact, proof and source bytes, along with method, environment, time, observer and limits. Each artifact has an actual relative path and hash. Track claims separately from evidence.
 
-Структурна перевірка доводить структуру. Unit fixture доводить свою гілку коду. Синтетичний сценарій не доводить, що людина зрозуміла продукт або заплатить. Твердження постачальника, desk research, розрахунок і власне вимірювання мають різні статуси. Ринкову ціль і власний прибуток не вважати підтвердженими до фактичних відповідних спостережень.
+A structural check proves structure. A unit fixture covers its tested code path. A synthetic case cannot establish that a person understood the product or would pay for it. Provider claims, desk research, calculations and direct measurements have distinct statuses. Market targets and owner profit remain unconfirmed until the relevant observations exist.
 
-Незалежний reviewer не є автором артефакту. Передати raw request, потрібні джерела й артефакти без gold answer/підказаного діагнозу для первинного forward case. Diagnostic retest після finding може мати repro і є іншим видом перевірки. Зберігати actual actor IDs; назви уявних ролей не є незалежними акторами.
+An independent reviewer did not author the artifact. For an initial forward case, provide the raw request and necessary sources and artifacts without the expected answer or a suggested diagnosis. A diagnostic retest after a finding can include reproduction steps and is a separate kind of check. Record actual actor IDs. Imagined role labels do not identify independent actors.
 
-Для продукту прийняти окремо функціональні сценарії, errors/recovery, дані/auth, conditional payments/entitlements, design fidelity, доступність, цільові пристрої, latency/resource/cost, backup/restore і release state. Недоступний фізичний пристрій не замінювати текстовою обіцянкою; показати точний blocked proof і bridge. Синтетичні store-тестувальники не є виконанням вимоги магазину.
+Record separate product results for useful behavior, errors and recovery, data and authorization, applicable payments and entitlements, design fidelity, accessibility, target devices, latency/resources/cost, backup and restore, and release state. When a physical device is unavailable, identify the exact blocked evidence and launch/return route. Synthetic store testers do not satisfy a real store testing requirement.
 
-Для оплат за застосовності: авторитет провайдера, restore, duplicate/delayed/reordered events, unknown receipt, expiry/cancel/refund, заявлена міжклієнтська політика прав та offline відновлення. Не виконувати live платежі лише заради тесту; використовувати sandbox/fixtures, де вони достатні.
+Where payment applies, check provider authority, restoration, duplicate/delayed/reordered events, unknown receipts, expiry, cancellation, refund, stated cross-client entitlements and offline recovery. Use sandbox or fixtures where sufficient. A test does not grant a live payment.
 
-Фіксувати finding/severity/repro/input/output hashes і вплив. Автор усуває причину; незалежний reviewer повторює зачеплені checks. Старий fail не переписувати pass. Зміна source/artifact/proof відкриває відповідний verdict. Не повторювати весь набір після локальної зміни без відповідного impact.
+Capture findings, severity, reproduction, input/output hashes and impact. The author fixes the cause. An independent reviewer repeats the affected checks. Preserve historical failures. Changing a source, artifact or proof reopens the affected verdict. Repeat the full suite after a local repair only when the impact justifies it.
 
-Completion вимагає всіх due must і конкретних outputs; file count, красивий звіт і середній score не закривають незадоволений критерій. Future proof залишається pending із owner/due gate. Чесно розділяти self-check, structural pass, independent review, owner acceptance, device proof і live observation.
+Closure requires all due musts and concrete outputs. File counts, a polished report and an average score cannot compensate for an unmet requirement. Future evidence remains pending with an owner and due gate. Record self-check, structural pass, independent review, owner acceptance, device proof and live observation separately.
 
+## Admission in 6.0
 
-## Admission6.0
-
-Нова реєстрація evidence відхиляє supplied старі artifact/requirement/proof pins; не переприв’язувати незмінне старе спостереження до current bytes. Due artifact/build/observer/actual target proof зберігає власний scope. Strict JSON readers відхиляють duplicate keys до mutation.
+When registering evidence, reject stale artifact, requirement or proof pins. Keep an unchanged old observation linked to its original bytes. Each due artifact, build, observer and target proof retains its own scope. Strict JSON readers reject duplicate keys before mutation.

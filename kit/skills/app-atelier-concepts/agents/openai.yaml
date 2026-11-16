@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Концепції та економіка · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-concepts до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Концепції та економіка
+  short_description: "Compare app concepts and test their unit economics"
+  default_prompt: "Use $app-atelier-concepts to compare the strongest concepts, their economics, and the next decision."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

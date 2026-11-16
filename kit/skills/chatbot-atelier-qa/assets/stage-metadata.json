@@ -2,7 +2,7 @@
   "schema_version": "chatbot.atelier-stage/2",
   "toolkit_version": "5.0.0",
   "id": "chatbot-atelier-qa",
-  "purpose": "Незалежне предметне QA",
+  "purpose": "Independent domain QA",
   "primary_requirement_ids": [
     "human_value",
     "execution_truth",

@@ -8,7 +8,7 @@
     {
       "id": "APP-BLD-R01",
       "status": "template",
-      "title": "Предметне правило → три клієнти",
+      "title": "Domain rule → three clients",
       "requirement_ids": [],
       "accepted_input_refs": [
         {
@@ -105,7 +105,7 @@
     {
       "id": "APP-BLD-R02",
       "status": "template",
-      "title": "Локальний стан → sync/upgrade",
+      "title": "Local state → sync and upgrade",
       "requirement_ids": [],
       "accepted_input_refs": [
         {
@@ -202,7 +202,7 @@
     {
       "id": "APP-BLD-R03",
       "status": "template",
-      "title": "Conditional purchase → право",
+      "title": "Conditional purchase → entitlement",
       "requirement_ids": [],
       "accepted_input_refs": [
         {

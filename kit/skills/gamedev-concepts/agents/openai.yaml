@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Концепції · 6.0.0
-  short_description: Повні концепції C1, різноманіття й здійсненний задум
-  default_prompt: $gamedev-concepts Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Концепції
+  short_description: "Compare complete and feasible game concepts"
+  default_prompt: "Use $gamedev-concepts to research and compare distinct gameplay loops within my approved scope and device budget."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

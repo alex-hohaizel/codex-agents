@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Матеріали · 6.0.0
-  short_description: Редаговані асети, звук і перевірена інтеграція
-  default_prompt: $gamedev-assets Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Матеріали
+  short_description: "Produce and verify integrated game assets"
+  default_prompt: "Use $gamedev-assets to implement the scoped asset inventory and verify exact editable sources and engine playback."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

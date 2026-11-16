@@ -1,80 +1,53 @@
-# Workflow дослідження
+# App research workflow
 
-## 1. Сформувати пошукову рамку
+## 1. Define the search
 
-Взяти з проєкту мету, ринки, обмеження ресурсів, участі власника, платформ і даних.
-Для чинного продукту шукати лише дозволені суміжні можливості або причини ремонту; не створювати новий бізнес замість супроводу.
-Побудувати матрицю «сегмент × ситуація × нинішній спосіб × наслідок × частота»; дати місце повсякденним і професійним сценаріям.
-Не визначати сферу за знайомими технологіями. Вивести предметну компетенцію з наслідків помилки й типу даних.
-Задати скінченний search plan: запити/мови, каталоги й прямі продукти, часовий зріз, evidence gaps, cap та stop.
+Read project goals, markets, resources, owner participation, platforms, and data constraints. For an existing product, investigate authorized adjacent opportunities or causes of the reported issue. Build a matrix such as «сегмент × ситуація × нинішній спосіб × наслідок × частота» across everyday and professional scenarios. Derive the domain and required expertise from user needs, data type, and failure impact. Set queries, languages, catalogs and direct products, time range, evidence gaps, cap, and stop.
 
-## 2. Вести окремі ринки
+## 2. Research markets independently
 
-Якщо профіль задає Україну й global, для України перевірити локальні процедури, мову, доступність сервісів, локальні альтернативи та поточні джерела потреби.
-Для global назвати конкретний початковий сегмент і досяжні країни/мови, а не «всіх користувачів світу».
-Не екстраполювати локальну актуальність, ціну або звичку на інший трек без доказу.
-Застосувати однакові критерії користі/конкуренції/економіки/операцій; зберегти різні фактичні контексти.
-Відмітити, що ціни, доступність і store ranking можуть різнитись за країною, платформою, акаунтом і датою.
+If the profile specifies Ukraine and global markets, check current Ukrainian procedures, languages, availability, local substitutes, and evidence of need. Specify a reachable initial segment, countries, and languages for global work instead of the broad audience «всіх користувачів світу». Validate applicability before extrapolating relevance, price, or behavior. Use common criteria for value, competition, economics, and operations while preserving market differences. Record that prices, availability, and store rankings vary by country, platform, account, and date.
 
-## 3. Зібрати докази потреби
+## 3. Gather evidence of need
 
-Використати першоджерела: офіційні процедури, відкриті статистичні набори, чинні product docs, тарифи, changelog, оригінальні публічні звернення й відгуки.
-До чужого дослідження записати метод/вибірку/дату й межу переносимості; не видавати його за власний user research.
-Перевірити, чи скарга стосується чинної версії; закриту минулу проблему не подавати актуальною прогалиною.
-Порівняти потребу з витратами нинішнього обходу: час, помилки, гроші, необхідні навички, регулярність.
-Відокремити саму проблему від частоти, масштабу сегмента й готовності переходити/платити; невідомі не заповнювати вигаданими процентами.
+Use original sources: official procedures, public statistical data, current product docs and pricing, change logs, and firsthand public feedback. When using external research, record method, sample, date, and transfer limits, and attribute the research to its authors. Check whether complaints apply to the current version. Compare need with the time, errors, money, skills, and frequency of the current workaround. Distinguish problem, frequency, market size, willingness to switch, and willingness to pay. Mark unsupported percentages unknown.
 
-Вести claim ledger:
-
-| Поле | Правило |
+| Claim ledger field | Rule |
 |---|---|
-| claim_id, opportunity_id | Зв’язати висновок із карткою та requirements. |
-| kind | Розрізнити fact, observation, inference, hypothesis, unknown. |
-| source_id, URL, origin | Показати оригінал і залежність від передруку. |
-| accessed_at, effective_at, version, geography | Позначити свіжість і контекст. |
-| support, counterevidence, limits | Записати доведене, спростоване й неперевірене. |
-| confidence, affected_ids | Обґрунтувати впевненість та майбутню інвалідацію. |
+| claim_id, opportunity_id | Link the conclusion, opportunity, and requirements. |
+| kind | Distinguish fact, observation, inference, hypothesis, and unknown. |
+| source_id, URL, origin | Identify the original and any reprint dependency. |
+| accessed_at, effective_at, version, geography | Record freshness and context. |
+| support, counterevidence, limits | Record supported, contradicted, and unverified claims. |
+| confidence, affected_ids | Explain confidence and affected dependencies. |
 
-## 4. Розібрати альтернативи
+## 4. Compare alternatives
 
-Порівняти однакове user job, результат, платформу й доступ, а не лише каталоги функцій.
-Для альтернативи записати першу користь, onboarding, ціну/умови, дані/права, обмеження, перенесення даних і силу звички.
-Включити «нічого не робити» й ручний обхід: незручність може не виправдовувати нового застосунку.
-Не називати відсутність аналога доказом попиту або межу свого пошуку доказом абсолютної унікальності.
-Перевірити доступний сегмент, мережеві ефекти, власність даних/контенту та бар’єри залучення.
+Compare the same user job, outcome, platform, and access. For each alternative record first value, onboarding, price and terms, data and rights, limits, portability, and habit. Include manual workarounds and «нічого не робити». Compare inconvenience with the adoption cost of a new app. Report the search boundary and keep demand and uniqueness claims separate. Check the reachable segment, network effects, data and content ownership, and acquisition barriers.
 
-## 5. Оформити конкурентний виняток
+## 5. Document a competitive exception
 
-За небажаної конкуренції передати exception packet:
+When competition is a constraint, provide the exception packet.
 
-1. Назвати вузький сегмент і потребу, яку поточне рішення справді покриває погано; прив’язати до чинних джерел.
-2. Показати суттєву власну користь і поріг переходу; відокремити спостереження від гіпотези.
-3. Обґрунтувати створення й обслуговування в ресурсних межах, включно з усіма потрібними клієнтами.
-4. Назвати доступний автоматизований шлях до перших користувачів без уявної наявної аудиторії.
-5. Побудувати сильний контраргумент: що буде, якщо конкурент додасть функцію або знизить ціну.
-6. Показати критичну невідомість, дозволений спосіб її перевірки та причину можливого reject.
+1. Identify a narrow segment and underserved need with current sources.
+2. Show distinct benefit and a switching threshold. Separate observations and hypotheses.
+3. Establish feasibility of building and operating all required clients within limits.
+4. Show an accessible automated route to first users from the real starting audience.
+5. Explain the strongest counterargument, including a competing feature or price cut.
+6. Record the critical unknown, allowed test, and rejection criterion.
 
-Не закривати exception риторикою про дизайн, AI, великий ринок або слабкий бренд конкурента.
-Залишити рекомендацію рекомендацією до рішення власника; зберегти rejected/pending з підставами.
+The exception needs evidence beyond design, AI, market size, or competitor brand. Keep recommendations pending owner decision and retain rejected or pending options with reasons.
 
-## 6. Перевірити операційну здійсненність
+## 6. Verify operating feasibility
 
-Визначити контент, права джерел, оновлення, інтеграції, модерацію, продажі й підтримку.
-Для B2B перевірити self-service придбання та onboarding; постійні переговори не називати автоматизацією.
-Для UGC показати помилки, скарги, невизначеність, cost caps і припинення ризикового потоку, а не лише класифікатор.
-Для регульованого сценарію виявити потрібні права/професійну участь через належні джерела; недоступну відповідальність не приписувати агенту.
-API, store accounts і обов’язкові людські передумови показати ранніми feasibility залежностями.
-Не виконувати платні/live дії в межах дослідження.
+Identify content, source rights, updates, integrations, moderation, sales, and support. For B2B check self-service purchase and onboarding and report any ongoing negotiations as manual work. For UGC cover errors, complaints, uncertainty, cost caps, and shutdown of risky flows. Verify regulated prerequisites and appropriate professional participation from current sources. Identify API, store account, and human requirements early. Keep paid and live actions outside research scope.
 
-## 7. Передати карту для рішення
+## 7. Hand off a decision map
 
-Випустити короткі картки до дорогого поглиблення. Спочатку перевірити must, потім ранжувати fit, докази, ресурси й доступність залучення.
-Показати найсильнішу причину не обирати кожного фіналіста й відмінність від найближчого замінника.
-Віддати owner decision packet і дані для concepts; не створювати PRD чи випадковий прототип до наступного scope.
-За cap видати частковий перевірений результат із coverage gaps; непереглянуті ніші не називати відхиленими.
+Produce short opportunity cards before costly research. Apply mandatory requirements before ranking fit, evidence, resources, and acquisition. Give the strongest rejection reason and closest substitute for each finalist. Hand the owner a decision packet and pass accepted evidence to concepts. Advance to specification or prototyping under the corresponding scope. At the cap, report verified partial coverage and remaining gaps. Mark unreviewed niches accordingly.
 
-## Видимий результат і достатність підходу
+## Visible result and proportionality
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: питання й джерельна карта, перевірні claims, альтернативи, контрдокази, невідомості та рішення, яке підтримує кожний висновок. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Apply the [adaptive workflow](adaptive-work.md). Show questions, source map, verifiable claims, alternatives, counterevidence, unknowns, and supported decisions. Distinguish completed work, inherited decisions, and due future results. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: достатність джерел, незалежність підтверджень і переносимість висновків у конкретний домен. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+For material gaps, use the appropriate [research, synthesis, or reconciliation mode](research-and-synthesis.md). Check source adequacy, independent corroboration, and transfer to the domain. Review raw inputs for missed requirements. Verify reviewer competence beyond actor ID and keep structural proof at its actual level. Preserve the project context, decisions, and unaffected results.

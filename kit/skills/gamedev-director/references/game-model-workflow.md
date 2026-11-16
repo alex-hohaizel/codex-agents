@@ -1,45 +1,55 @@
-# Game Atelier4.0 — модель і процес
+# Game Atelier 4.0 game model and workflow
 
-Зміст: вхід → authority → gates → orchestration → handoff → зміни.
+This reference covers intake, model authority, gates, orchestration, handoff, and changes.
 
-## Вхід
+<a id="вхід"></a>
 
-Читай [v4/index](v4/index.md) і current intent/checkpoint. Визнач C0/C1/T та відповідний scope. Нові завершені концепції4.0 мають C1; production передача T. Studio не вигадує game model до появи гри. Пошук, аудит, update/pause не обирають гру й не запускають новий раунд.
+## Intake
 
-## Одна модель
+Read [v4/index](v4/index.md), the current intent, and checkpoint. Identify C0, C1 or T and the corresponding scope. New complete 4.0 concepts require C1. Production transfer requires T. Studio plans the game model only when an actual game is available. Search, audit, update and pause preserve the existing choice and round.
 
-Project-owned `design/game-model.json` або чинний equivalent має stableIDs/source/constraints/features/domains/dependencies/scenarios/evidence. Розширення4.0 `production` зберігається в тому самому envelope; з нього походять20tracks/behavior/catalog/state/production contracts. Підключені specs/data мають exact path/hash. Чинні requirements/decisions лишаються authority; sidecar є pin/mapping. Формат/CLI — [model-format](model-format.md). Six logical competencies та conditional applicability — [v4/index](v4/index.md).
+<a id="одна-модель"></a>
 
-Не прив’язуй small до арени, projection до tracking, world доRPG, genre доart/input/commerce. Disabled має предметну причину; missing tool не вимикає потрібної фічі. Фіксована камера залишається activecamera, коли вона існує в грі. Actor може бути NPC/суперником/союзником. No-offer/premium baseline не отримує обов’язкових IAP/ads.
+## One model
+
+The project owns `design/game-model.json` or an existing equivalent. Keep stable IDs, sources, constraints, features, domains, dependencies, scenarios and evidence. Retain the 4.0 `production` extension in the same envelope. The 20 tracks, behavior, catalogs, state and production contracts derive from this model. Pin linked specifications and data by exact path and digest. Existing requirements and decisions govern. A sidecar provides binding and mapping. Use [model-format](model-format.md) for the schema and CLI, and [v4/index](v4/index.md) for the six logical competencies and conditional applicability.
+
+<a id="3-предметні-модулі"></a><a id="предметні-модулі"></a>
+
+Apply the relevant domains without equating small games with arenas, projection with tracking, world with RPG, or genre with a particular art, input or commerce pattern. A disabled feature requires a domain reason. Missing tooling leaves required work open. A fixed camera is an active camera. An actor can be an NPC, opponent or ally. Apply IAP or ads only when the accepted commerce model uses them.
 
 ## Gates
 
-| Gate | Належний результат |
+| Gate | Due result |
 |---|---|
-| concept | ПовнийC1, причинні сценарії й counterexamples, feasibility profile, незалежне смислове приймання; C0 тільки internal preliminary |
-| preproduction | T: exact contracts/launch catalogue/generator/persistence/recipes/assets/input/AI/math, fixtures і pinned specs; cold receiver може почати реалізацію |
-| slice | Actual native representative assembly для declaredplatforms: input/camera/motion/contact/visual/audio/haptic/save; due device proof |
-| beta | Реальне людське навчання/перенесення/late mastery/різноманітність/цінність і scope вибірки |
-| release | ExactRC/signing/config/epoch/schema/symbols, purchase/cloud sandbox за обсягом, device/performance/policy/recovery |
+| concept | Full C1, causal scenarios and counterexamples, a feasibility profile, and independent domain acceptance. Use C0 for clearly identified early work. |
+| preproduction | T with exact contracts, launch catalog, generation, persistence, recipes, assets, input, AI and math as applicable, fixtures and pinned specifications. A fresh consumer can start implementation. |
+| slice | Actual native representative assembly on the declared platforms, with input, camera, motion, contact, visuals, audio, haptics and save evidence as applicable. Verify the physical-device claims due at this stage. |
+| beta | Actual player learning, transfer, later mastery, variety and value, with the scope of the sample. |
+| release | Exact RC, signing, config, epoch, schema, symbols, applicable purchase and cloud sandbox proof, device and performance evidence, policy and recovery. |
 
-`plan` перелічує due checks; `validate --design-only` перевіряє authoring і завжди `stage_ready:false`. Ніякий прапорець не усуває must. `quality_certified:false`: schema/link/bytes/check не є fun/balance/device/human/revenue. Валідатор читає тільки поточну модель. Для нового або відновленого контексту автор наповнює C0 фактичними contracts і отримує належні C1/T та stage докази.
+`plan` lists due checks. `validate --design-only` checks authoring and always returns `stage_ready:false`. A must keeps its designated proof regardless of flags. `quality_certified:false` identifies the claim boundary. Schema, link, byte and validator checks establish their observation; enjoyment, balance, native device behavior, human observation and revenue require actual evidence. The validator reads the current model format. For new and resumed work, populate C0 from actual contracts and obtain the C1, T and stage proofs that are due.
 
-## Реальна команда
+<a id="реальна-команда"></a>
 
-Директор інтегрує, предметні автори виробляють outputs, техлід узгоджує interfaces, інший actualactor перевіряє critical. Один writer на path і sharedresource; actualslots є межею. Task має input/hash, assignedIDs, ownedpaths, acceptance/consumer, capability/operation/host, dueevidence, budget/stop/cancel/reconcile. Відокрем independent author alternatives від reviewer. Немає фіксованої ради за кожний рядок.
+## Working team
 
-Після двох однакових невдалих ремонтів зміни причину/діагностику/route; не множ generators/promptretries за відсутньої capability. Recipe й productionattempts — [production](v4/production.md). World/physics/commerce/currentnativeSDKdetails перевіряй першоджерелами під pinnedversions; acceptedmodel не робить toolavailable.
+The director integrates, domain authors produce outputs, leads maintain interfaces, and a different observable actor reviews critical work. Assign one writer to each path and shared resource. Use the actual concurrency limit. Each task records inputs and hashes, assigned IDs, writable paths, consumer and acceptance, capability, operation and host, due proof, resource budget, and how to stop, cancel and reconcile. Separate independent alternatives from independent review. Choose reviewers for the work and risks.
+
+After two attempts with the same failure, reconsider the cause, diagnosis, or available route. Check the actual capability before another generator or prompt. Find recipes and production attempts in [production](v4/production.md). Use appropriate primary sources for world, physics, commerce and the pinned native SDK. Confirm actual tool availability separately from model acceptance.
 
 ## Handoff
 
-`pipeline.py` використовує чинний transport/schema/suite **1.0.0**, `atelier.py` — чинний state **2.0.0**; обидва вимагають toolkit **6.0.0**. Nonstudio accepted handoff має `game_model:{path,sha256}` з поточною моделлю **4.0.0** й належним stage proof. Попередній формат результату відхиляється також у draft. `seal` hashes не є дозволом чи review. Companion modelplan/report/traces входять як звичайні artifacts.
+`pipeline.py` uses the current **1.0.0** transport, schema and suite. `atelier.py` uses current **2.0.0** state. Use the toolkit marker implemented by these tools and stated by the exact package. An accepted handoff outside Studio carries `game_model:{path,sha256}`, current model **4.0.0**, and due stage proof. Drafts also use the current supported format. A `seal` binds hashes. Authority and review remain separate. Add model plans, reports and traces as normal artifacts.
 
-Defaultstage→gate: concepts→concept; preproduction→preproduction; assets/build→slice; qa→beta; release/liveops→release. QA може мати design_review/contract_review/slice_review/beta_review/release_readiness; liveops incident_analysis/design_change/runtime_change/player_experiment/release_change. Scope потребує scope_ref на поточну requirement/decision і опис; scopedreview не обирає productionconcept/engine. Release таrelease_change не знижуються доslice. Деталі — [handoff](handoff-contract.md).
+Default stage-to-gate mapping: concepts → concept, preproduction → preproduction, assets and build → slice, QA → beta, release and liveops → release. QA can use design_review, contract_review, slice_review, beta_review or release_readiness. LiveOps can use incident_analysis, design_change, runtime_change, player_experiment or release_change. Bind scope to a current requirement or decision with scope_ref and a description. A scoped review keeps product concept and engine decisions in their approval route. Release and release_change retain the release gate. See [handoff](handoff-contract.md).
 
-## Impact і продовження
+<a id="impact-і-продовження"></a>
 
-Зміна → semanticreads/writes/contracts → залежні specs/data → assets/code → scenarios → builds/release. Граф має причину кожного ребра; gameplayfeedbackcycles допустимі, unlock/DAG prerequisites — ні. `impact` допомагає записаним closure, не виявляє пропущені смислові ребра. Зміна grip може відкрити routes/input/economy, але не studiooriginal.
+## Impact and continuation
 
-Scoped evidence reuse враховує declareddependencyclosure/toolchain/recipe/version/outputs; не переписуй hash як заміну review. Nativeobservations bind exact build/scene/config/scenarios. Acceptedoriginal лишається byteidentical; stochasticprovider не має гарантії повторного identicalgeneration.
+Track changes through semantic reads, writes and contracts to dependent specifications and data, assets and code, scenarios, builds and release. Give each edge a cause. Gameplay feedback cycles can apply. Unlock and prerequisite graphs are acyclic. `impact` uses recorded dependencies. Review it for missing semantic edges. A change to grip may affect routes, input and economy, while the same studio original remains intact.
 
-Installskill не переписує game saves, раунди, decisions, .gameatelier або .atelier чинного проєкту. Work і кожний Codexhost перевіряються окремо. Недоступний host отримує inputpinned launch/returnbundle з exactcommands, outputs/receipts і returnvalidation. Після release лишається actualstate/checkpoint; schedulerбезфактичногозапуску не існує.
+Reuse scoped evidence only for the declared dependency closure, toolchain, recipe, version and outputs it covered. Keep old observations bound to their exact inputs and repeat affected review. Bind native observations to the build, scene, config and scenarios. Retain the accepted original byte for byte. A nondeterministic provider supports only the repeatability actually measured.
+
+Installing skills preserves game saves, rounds, decisions, .gameatelier and .atelier state. Verify Work and each Codex host separately. Where a host is unavailable, prepare a pinned launch and return bundle with exact commands, expected outputs and receipts, and verified return steps. Retain actual state and checkpoint after release. Report scheduling once it is running and observed.

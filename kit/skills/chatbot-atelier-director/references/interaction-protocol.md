@@ -1,57 +1,52 @@
-# Зрозуміле керування роботою й огляд стану
+# Work control, decisions and status
 
-Один предметний директор відповідає за прийняту мету, вимоги та інтеграцію. Чинний проєктний реєстр залишається authority; чат, картка рішення, статус і handoff є його проєкціями. Допоміжний огляд не створює ще одного backlog, погодження або сервісу виконання.
+One director or integrator owns the accepted result and its integration. The native project ledger has authority. Status views, decision cards, chat and handoffs describe that state.
 
-## Делегування та рішення
+## Assign and decide
 
-На вході відновити мету, повний target, поточний scope, чинні рішення, фактичні capabilities й найближчий потрібний вибір. Використати доступні джерела до повторних запитань. Для локальної оборотної правки достатньо точного короткого маршруту; для значного нового обсягу застосувати предметний БРИФ. Повний задум, перший випуск і перевірний зріз мають окремий scope; зріз не закриває весь задум.
+Recover the goal and target, current scope, decisions, actual capabilities and nearest outstanding choice. Read existing sources before asking. A local reversible repair can use a precise short route. A substantial new scope may need the applicable briefing workflow. Keep the full target, first release and representative slice distinct.
 
-Власник погоджує мету, важливі продуктові рішення, матеріальні зміни й результат етапу. Звичайне виконання та виправлення в чинному дорученні автономні. Зміна аудиторії, продуктової поведінки, launch-платформи, монетизації, правил доступу/даних або істотної залежності потребує адресного рішення, якщо його ще не делеговано. Зовнішня дія звіряється з фактично чинним scope і правом; уже наданий точний дозвіл не перепитувати. Числовий бюджет/поріг не вигадувати.
+The owner decides goals, material product choices, material changes, and stage acceptance. Carry out ordinary authorized work and repairs autonomously. Before changing audience, behavior, release platform, monetization, data or access rules, or significant dependencies, verify current authority and delegated limits. Do not ask again for the same exact authorization or invent a budget.
 
-Картка рішення: питання → чому потрібне зараз → рекомендація й підстава → реальні альтернативи та наслідки → точний scope/редакція → чинні успадковані рішення → відповідь власника. Використати `assets/decision-card.template.md`. Прийняти, відхилити, змінити, відкласти й прийняти частину мають різні наслідки. Сам запис `confirmed`, hash, порада, мовчання або відповідь виконавця не створюють волі користувача.
+Use `assets/decision-card.template.md` for a material choice. State the question, why it is due, recommendation and grounds, feasible alternatives and consequences, exact scope and version, inherited decisions and actual response. Acceptance, refusal, changes, deferrals and partial acceptance have different consequences. A declaration, hash, recommendation, silence or executor's statement does not supply user authority.
 
-Матеріальна дельта відкриває причинно зачеплені рішення/результати; незалежні гілки зберігаються. Якщо залежність невідома, встановити її або явно пояснити обережно ширшу перевірку. Спільні writers мають одного інтегратора та перевірку редакції. Статус «прийнято власником» можливий лише після фактичної застосовної відповіді, окремо від технічного PASS.
+Reopen only the decisions and results causally affected by a material change. Preserve independent results. Resolve unknown dependencies or explain a justified wider check. Assign one integration owner for shared writes and verify revisions. Record owner acceptance separately from a technical pass.
 
-## Прогрес, втручання і завершення
+## Show progress and continue
 
-Огляд відповідає на п'ять питань: мета; що вже перевірено й на якій редакції; що виконується; що блокує залежне продовження; яке рішення потрібне від власника. Показувати змістовні зміни й фактичні межі доказів. Подробиці, журнали й IDs відкриваються за потребою. Кількість документів, ролей і tool calls не є якістю продукту.
+State the goal, observed results and revisions, active work, actual blocked dependencies, and the decision needed from the owner if any. Report substantive changes and evidence boundaries. Provide logs and IDs when useful. Counts of documents, roles or calls do not measure quality.
 
-Уточнювальне питання під час роботи не скасовує активної задачі. «Продовжуй» відновлює точний дозволений крок. Пауза, скасування, blocked, очікування доказу та завершення відрізняються; після розпочатого effect спершу звірити actual outcome до повтору. Фонове виконання існує лише за реально запущеного дозволеного scheduler/runtime.
+A clarifying question leaves current work active. A request to continue resumes the authorized step. Keep pause, cancellation, blocked, waiting for evidence and complete distinct. Reconcile an external effect before retrying it. Background execution requires an actual authorized scheduler and runtime.
 
-Приймання етапу містить сам результат, відповідність due-вимогам, перевірені сценарії, матеріальні gaps і рекомендоване продовження. Завершений scope може мати terminal closeout без вигаданого наступного етапу чи обов'язкової анкети. Контекст і exact launch/return зберігаються у потрібному пакеті; короткий чат не змушує переписувати всі ці матеріали в кожному повідомленні.
+For closure, include the result, due requirements, checked scenarios, material gaps and continuation. A completed scope can close without a new stage or questionnaire. Keep the exact launch and return context only in the artifact or handoff where it is useful.
 
-## Read-only helper
+## Inspect recorded state with the read-only helper
 
-`scripts/interaction.py` — stdlib CLI, який читає існуючі native records і формує JSON або Markdown. Він не викликає модель/інструмент, не змінює реєстр, не схвалює рішення й не запускає background job. Поточні native gates виконуються відповідним контролером; цей helper не підміняє його domain readiness.
+`scripts/interaction.py` reads existing records and returns JSON or Markdown. Its output describes recorded source state. The actual domain and runtime controls establish execution, access and acceptance.
 
-```bash
+```sh
 python3 -B scripts/interaction.py status --source /absolute/project --format markdown
 python3 -B scripts/interaction.py status --source /absolute/project/.appatelier/state.json --format json
 python3 -B scripts/interaction.py status --source /absolute/project/round.json --project-root /absolute/project --format markdown
 python3 -B scripts/interaction.py decision --source /absolute/project --id D-1 --format markdown
 ```
 
-Підтримані джерела:
+| Domain | Native schema and path |
+| --- | --- |
+| Foundry | `1.0.0` with native layout, `.agent-foundry/state.json` |
+| Game | `2.0.0` with toolkit and journal layout, `.gameatelier/orchestrator/state.json` |
+| App | `app-atelier-state/1`, `.appatelier/state.json` |
+| ChatBot round | `chatbot.round/1`, pass the exact existing file |
+| ChatBot blueprint | `chatbot.blueprint/3`, pass the exact existing file |
 
-| Домен | Native schema та шлях |
-|---|---|
-| Foundry | `1.0.0` з native layout; `.agent-foundry/state.json` |
-| Game | `2.0.0` з toolkit/journal layout; `.gameatelier/orchestrator/state.json` |
-| App | `app-atelier-state/1`; `.appatelier/state.json` |
-| ChatBot round | `chatbot.round/1`; точний існуючий файл задається явно |
-| ChatBot blueprint | `chatbot.blueprint/3`; точний існуючий файл задається явно |
+Select the exact source if several native ledgers exist. `--scope VALUE` selects exact scope matches including related evidence. Leave it unset for a full view. The projection schema is `assets/status-view.schema.json`. A revision and digest identify the observed bytes.
 
-Коли в root кілька відомих ledger, обрати точний файл; автоматичного пріоритету немає. `--scope VALUE` означає тільки точний збіг scope, включно з доказами; це не загальний project gate. Для повного огляду параметр scope пропустити. JSON schema проєкції: `assets/status-view.schema.json`. Ревізія й SHA-256 стосуються прочитаних bytes, а не довіри до автора чи автентичності згоди.
+Foundry and Game snapshot or journal hashes are checked. App and ChatBot record the lack of that native signature. Keep `specification/code/integration/device/human` separately as `recorded_pass`, `recorded_failed`, `recorded_pending`, `recorded_unresolved` or `unknown`. Chatbot `completion.assessments` respect failed and pending records even when other evidence is positive. A passed record needs a successful linked proof. `not_assessed` and `not_applicable` do not establish readiness. Maturity, stage or reviewer names do not establish proof.
 
-Для Foundry/Game звіряються native snapshot/journal hashes. Для App/ChatBot вказано відсутність такого native підпису. У будь-якому випадку це контроль цілісності, не proof людської волі або поточної доступності tool. Кожна вісь `specification/code/integration/device/human` окрема: `recorded_pass`, `recorded_failed`, `recorded_pending`, `recorded_unresolved` або `unknown`. ChatBot `completion.assessments` враховуються явно: failed/pending не перекриваються позитивним evidence; passed із відсутнім або unsuccessful linked proof не стає pass. `not_assessed`/`not_applicable` не означають готовності. Самі stage/maturity/імена reviewer не дають позитивного доказу. Для Foundry/Game/App авторитетним outcome є native `status`, для ChatBot — `result`; сторонні `axis/result` fields не перекривають native modality/test kind/status. Recorded stale не стає pass. Пройдені локальні checks не переносяться мовчки в native/device/human readiness.
+The controlling outcome for Foundry, Game and App is native `status`; ChatBot uses `result`. Other result fields cannot override native modality, test kind or status. Stale proof is not a pass. ChatBot round `stage_complete` and `scoped_complete` describe recorded scope. Determine outstanding requirements from unresolved IDs, reviews and carry claims, rather than applicability flags. Blueprint `attempt.result` shows running, passed or failed separately from maturity and delivery.
 
-ChatBot round `stage_complete`/`scoped_complete` показуються як записане завершення власного scope; відкриті вимоги беруться з unresolved IDs і recorded reviews/carry claims, а не з applicability `state=active/unchanged`. Це не новий current proof. Blueprint `attempt.result` відокремлює running/passed/failed, а записаний maturity показується окремо й сам не закриває delivery-вимоги.
+The helper reads only the selected file or fixed ledger. It does not scan credentials or execute referenced components. The consumer checks referenced artifact freshness. Inputs reject symbolic links, ambiguous layout, inconsistent journals, duplicate JSON keys, nonfinite numbers and oversize files. Output selects fields and masks common secrets, including quoted JSON assignments, on a best-effort basis. Keep secret values out of ledger material.
 
-Helper читає лише заданий JSON/fixed ledger, не обхід папок, configs або credentials. Не читає чи не виконує referenced scripts/proof/artifact files; тому їхня свіжість лишається native domain gate. Paths нормалізуються перед containment check; symlink перевіряється й у початковому traversal. Symlinks, неповний або неоднозначний layout, неузгоджений journal, дубльовані JSON keys, nonfinite numbers і oversize inputs відхиляються. Виводяться лише вибрані поля; поширені секрети в тексті, зокрема quoted JSON assignments, маскуються best-effort; path/read помилки не віддзеркалюють довільне ім’я файлу. Секрети взагалі не мають потрапляти в проєктний ledger або публічні описи.
+Use domain review for substantive completeness, independence, actual builds, external receipts and owner acceptance. A workbench can display this projection after integration. Work chat control requires its own supported capability.
 
-Повноту правил, якість гри/застосунку/розмови, незалежність actual actors, native builds, external receipts і людське приймання перевіряти предметно. Майбутня панель може читати цю проєкцію після належної інтеграції, але сама її наявність не надає керування довільним Work-чатом.
-
-
-## Видима стратегія й продовження5.0
-
-За [адаптивним контрактом](adaptive-work.md) повідомляти очікуваний результат, достатність підходу, актуальний стан, доказ, перешкоду й наступний крок. Статусне запитання не скасовує активну роботу. Зміну вимог поширювати лише на залежні результати. Підтверджене збереження, доставка, запуск, результат і приймання мають різні докази. Постійне фонове виконання заявляти тільки за фактичного scheduler/executor. Нові generated outputs успадковують ці правила та [збереження іконок](visual-identity.md).
+See [adaptive work](adaptive-work.md) for visible strategy, evidence and exact continuation and [visual identity](visual-identity.md) for stable presentation.

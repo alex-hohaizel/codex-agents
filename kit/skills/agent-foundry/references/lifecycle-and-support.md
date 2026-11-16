@@ -1,106 +1,106 @@
-# Від створення агента до роботи результату й подальшого супроводу
+# From agent construction to live use and support
 
-Читати при визначенні кінцевого результату, передачі, запуску, зміні середовища, розвитку або інциденті. Застосовувати лише потрібні фази, зберігаючи затверджений scope і наскрізні вимоги.
+Use this when defining a final outcome, transferring work, launching, changing environments, evolving a result, or handling an incident. Use applicable phases, preserving accepted scope and requirements.
 
-Зміст: три життєві цикли → виходи й handoff → живий запуск → інструкції → супровід → оновлення й завершення.
+Contents: three lifecycles → outputs and handoff → live launch → instructions → support → updates and retirement.
 
-## Три різні життєві цикли
+## Three separate lifecycles
 
-| Рівень | Що завершується | Який доказ потрібен |
+| Level | What it delivers | Necessary evidence |
 |---|---|---|
-| Конструктор | Дослідження потреби, затверджений паспорт, створені й доставлені компетенції цільового агента | Actual skills/resources, coverage, QA, installation/discovery/use у заявленому scope |
-| Створений агент | Виконання дорученого маршруту та передача кожного проміжного результату | Current artifacts/evidence, закриті due вимоги й рішення, зрозуміла next action |
-| Кінцевий результат | Реальна корисна робота в обраному середовищі, коли це входить у мету | Фактичний запуск, спостережувана дія/read-back, доступність, приймання та операційна готовність |
+| Constructor | Researched need, accepted passport, and delivered capabilities of the target agent | Actual skills and resources, coverage, QA, and install, discovery and use for the stated scope |
+| Generated agent | Execution of the authorized workflow and handoff of intermediate results | Current artifacts and evidence, requirements and decisions due closed, and a clear next step |
+| Final outcome | Actual useful operation in the chosen environment if included in the goal | Actual launch, observed action or read-back, availability, acceptance and operational readiness |
 
-Затвердження одного рівня не затверджує всі наступні. Користувач має знати, чи отримав він агента, локально перевірений результат, установлений інструмент, зовнішнє подання або вже доступну робочу версію. До цих статусів не прирівнювати один ZIP чи README.
+Approval at one level does not approve subsequent levels. Tell the user whether they received an agent, locally verified result, installed tool, external submission, or available live version. An archive or README does not establish these states.
 
-Розділити factory case, створене сімейство та робочий project state. Для переходу від виготовлення агента до роботи над результатом зафіксувати actual execution authority та дозволені фази; звичайний запуск інсталятора цього не робить. Раніше явно дозволений незмінний scope не перепитувати. Право виконання проекту й право конкретного зовнішнього effect перевіряються окремо.
+Separate factory case, generated family and working project state. When moving from building the agent to doing product work, record current execution authority and allowed phases. Running an installer does not grant that authority. Carry forward explicit unchanged permission. Verify product execution and authorization for a particular external effect separately.
 
-## Динамічний маршрут і виходи
+## Dynamic workflow and outputs
 
-Граф фаз береться з паспорта. Для кожної фази визначити:
+Derive the phase graph from the passport. For each phase define:
 
-- Початкові джерела, constraints, прийняті рішення, потрібні capabilities і поточні hashes.
-- Матеріальні outputs: файли, дані, джерела/експорти, конфігурації, виконані дії або спостереження.
-- Due must, метод приймання, потрібну незалежність і відповідного observer.
-- Що ще не доведено цим результатом; майбутні докази з owner/due gate.
-- Передачу наступному виконавцю, умови повернення upstream і точний stop.
-- Власні ресурсні/часові межі, право зовнішніх дій та recovery.
+- Starting sources, constraints, accepted decisions, required capabilities, and current hashes.
+- Tangible outputs: files, data, sources or exports, configurations, actions performed, or observations.
+- Requirements due, acceptance method, required independence, and observer.
+- What remains unproven, with owner and due gate for later evidence.
+- Handoff, conditions for returning upstream, and exact stop.
+- Time and resource limits, authorization for external effects, and recovery.
 
-Результат проміжного етапу має бути зрозумілий користувачу й придатний для наступного кроку без здогадок. Handoff передає потрібні exact bytes, походження, права, IDs/versions, dependency/evidence hashes, open decisions, знання та checkpoint. Не дублювати історію рекурсивно й не переносити секрети чи зайві приватні дані.
+Make interim results intelligible to the user and directly usable by the next worker. Hand off exact needed bytes, provenance, permissions, IDs and versions, dependency and proof hashes, open decisions, knowledge, and checkpoint. Limit history, secrets and private data to what the recipient is permitted and needs to know.
 
-Один прийнятий майстер або специфікація визначає намір у своєму scope. Downstream реалізація зберігає його; нову суттєву альтернативу повертає на рішення. Адресний дефект не запускає дослідження всієї місії заново. Новий feature або інцидент проходить зачеплені гілки, потрібні checks і дозвіл зовнішнього випуску.
+Use one accepted master or specification as the authority in its scope. Preserve it downstream and refer a material alternative back for decision. A localized defect does not reopen the entire mission. A new feature or incident follows affected branches, necessary checks, and external release authority.
 
-## Запуск, який можна побачити
+## Verifiable launch
 
-Коли мета включає робочий результат, у паспорті відразу визначити першу корисну операцію, середовище й видимий критерій успіху. Запуск — частина проектування й реалізації, а не останній рядок інструкції.
+If the goal includes operation, define the first useful action, environment, and observable success criterion in the passport. Plan launch as part of design and implementation.
 
-Перед зовнішнім запуском мають бути готові: узгоджений результат і версія, актуальні перевірки, джерела/конфігурації, дані та права, потрібні середовища/облікові записи, контроль витрат, rollback/repair, support owner і точне чинне повноваження на effect. Відкритий блокер позначає лише залежний scope.
+Before external launch prepare an agreed result and version, current checks, sources and config, data and rights, required environment and accounts, cost control, rollback and repair, support owner, and exact current effect authority. An unresolved issue blocks only its dependent scope.
 
-Автоматизувати доступним достатнім connector/API/CLI або дозволеним інтерфейсом у межах доручення. Не вимагати власника для всіх налаштувань наперед. Для справді особистого підтвердження, MFA, підпису, секретного матеріалу чи фізичної дії підготувати все інше й попросити тільки конкретний крок.
+Automate within authorized scope using an adequate connector, API, CLI or interface. Do not require the owner for all setup. For a personal confirmation, MFA, signature, secret material, or physical step, finish other work and request only that action.
 
-Не обіцяти реєстрацію, витрати, права або політику провайдера з пам’яті. Актуальні правила, ціни, prerequisites і ліцензії перевіряти за відповідними первинними джерелами перед залежним рішенням. Підписка чи встановлений plugin не оплачують довільні сторонні послуги.
+Verify changing provider rules, prices, rights, prerequisites and licenses from relevant primary sources before relying on them. A subscription or installed plugin does not pay for arbitrary third-party services.
 
-Після effect зберегти provider/version/config/artifact references і квитанцію; зробити потрібний read-back. Показати реальне місце, спосіб доступу й дію перевірки. Submission, approval, deployment, availability і фактичне використання — різні спостереження. Якщо результат невідомий, спочатку status reconciliation, а не повтор.
+After an effect, retain provider, version, configuration, artifact references and receipt, and perform necessary read-back. Show actual location, access and a verification action. Submission, approval, deployment, availability and use are separate observations. Reconcile unknown results before retrying.
 
-## Інструкція користувача й launch/return
+## User guide and launch and return
 
-Кожний фінальний комплект містить людський START_HERE та повну інструкцію використання з конкретним способом відтворити перший результат. Назви файлів є конвенціями пакета; їх потрібно оголосити в actual manifest, а не вдавати, що вони з’явилися автоматично.
+Include a human-readable START_HERE and complete operating instructions with a reproducible first useful outcome. Declare actual guide files in the manifest rather than assuming conventions create them.
 
-Мінімальний зміст:
+At minimum cover:
 
-1. Що отримано, для кого, які можливості й поточний фактичний статус.
-2. Що встановити або відкрити, у якому середовищі, з точними prerequisites/versions.
-3. Як почати звичайним запитом, які inputs передати й що очікувати.
-4. Для ручного кроку — verified working path/URL, готові файли, exact argv або дії без вигаданих прапорців.
-5. Який output/receipt/поведінка підтверджує успіх і як це перевірити.
-6. Де зберігаються проект, дані, outputs, рішення й контрольна точка; що не переноситься між hosts.
-7. Як зупинити, продовжити, змінити мету, повернути результат і розв’язати відому помилку.
-8. Доступи, безпека, витрати, privacy й обмеження без секретних значень.
-9. Оновлення/конфлікт/backup/recover/rollback, сумісність і фактичні перевірені межі.
-10. Можливості супроводу, канали звернення, потрібні спостереження й наступний крок.
+1. What was delivered, for whom, capabilities and actual status.
+2. Installation or opening, target environment, exact prerequisites and versions.
+3. How to start in natural language, provide inputs and recognize the expected result.
+4. For a manual step, verified working path or URL, ready files, and exact supported argv or actions.
+5. Which output, receipt or behavior proves success, and how to verify it.
+6. Where project, data, outputs, decisions and checkpoint live, and what stays host-specific.
+7. How to stop, resume, change direction, return a result and recover from a known error.
+8. Access, security, costs, privacy and limits without secret values.
+9. Update, conflicts, backup, recovery and rollback, with actual compatibility bounds.
+10. Support capabilities, contact routes, required observations and next step.
 
-Користувачу не потрібно знати назви всіх навичок. Точний ручний запит або команда даються лише коли реальна можливість недоступна тут або потрібна особиста дія. У решті дозволеного scope агент виконує роботу сам.
+The user does not need internal skill names. Give an exact manual prompt or command when the current environment lacks a capability or a personal action is required. Otherwise perform the authorized work.
 
-Міст повернення включає request ID, inputs/hashes, environment/tool/version/capability gap, scope, launch steps, expected outputs, return location, return validation й наступну дію. Одержаний файл перевірити щодо актуального запиту, джерел, прав і hashes. Повідомлення «зроблено» без належного доказу не закриває gate.
+A return packet includes request ID, input hashes, environment, tool and version, capability gap, scope, launch steps, expected outputs, return location, return checks and next action. Verify returned files against current request, sources, rights and hashes. A success message without relevant proof does not close the gate.
 
-## Супровід уже працюючого результату
+## Support for an operating result
 
-Окрема інструкція супроводу входить до фінального комплекту. Вона описує можливості створеного агента після випуску, а не обіцяє запущений постійний сервіс.
+Include a separate support guide. It explains capabilities after launch and the conditions under which they run.
 
-| Напрям | Предметний контракт |
+| Area | Domain contract |
 |---|---|
-| Стан і здоров’я | Які фактичні сигнали перевіряти, джерело, період, owner, межі not_run/unknown/degraded/verified |
-| Звернення й дефекти | Як передати version, scenario, expected/actual, докази без зайвих приватних даних; як визначається severity |
-| Інцидент | Triage, containment, owner, дозволені дії, status/receipt, recovery й адресний regression |
-| Вартість і ресурси | Реальні витрати, caps, alerts і fallback; зміна ціни чи доступу не приховується |
-| Якість і цінність | Узгоджені показники та фактичні спостереження; припущення й causal limits відокремлені |
-| Знання й дані | Свіжість, корекції, право доступу, retention/deletion, invalidation індексів і backups |
-| Нові можливості | Запит → impact → варіанти → рішення → потрібні фази → перевірка → дозволений випуск |
-| Безпека й сумісність | Зміни зовнішніх правил, залежностей, ліцензій, форматів, доступів і migration path |
-| Відновлення | Versioned backups, перевірений restore, data migration, сумісність старого й нового, forward repair |
-| Завершення | Export, відкликання доступів, зупинка дозволених jobs, виконане видалення/retention, фінальний стан |
+| Health and state | Actual signals, source, interval, owner, and distinctions among not_run, unknown, degraded and verified |
+| Reports and defects | Version, scenario, expected and actual, evidence without excess private data, and severity |
+| Incidents | Triage, containment, owner, allowed actions, state or receipt, recovery and targeted regression |
+| Cost and resources | Actual cost, caps, alerts and fallback; surface changes to price or access |
+| Quality and value | Agreed measures and observed results, with assumptions and causal limits separate |
+| Data and knowledge | Freshness, corrections, access, retention and deletion, index and backup invalidation |
+| New capabilities | Request → impact → options → decision → relevant phases → checks → authorized release |
+| Security and compatibility | Changes to external rules, dependencies, licenses, formats, access and migration |
+| Restore and recovery | Versioned backups, verified restore, data migration, compatibility and forward repair |
+| Retirement | Export, revoke access, stop authorized jobs, actual deletion or retention, final state |
 
-Постійний monitoring/розклад потребує конкретного доручення, власника, бюджету, фактично запущеного scheduler/service і тесту сповіщення. Закритий сеанс або текст інструкції не є фоновим оператором. Перед новим effect звіряти поточний дозвіл, input version, cancel/revoke, аудиторію результату та actual service state.
+Monitoring or schedules need specific authorization, owner, budget, an actual running scheduler or service, and a notification check. A closed session or instruction file does not run in the background. Before a new effect, verify authority, input version, cancellation or revocation, audience, and actual service state.
 
-При інциденті почати з поточної робочої версії й відтворення, зберегти докази, визначити зачеплені інваріанти й найменший достатній repair. Не підміняти симптом непогодженим редизайном. Повторна невдача без прогресу змінює діагностику; невідомий зовнішній outcome не лікується повторним запуском.
+Start incidents from the current working version and reproduction, preserve evidence, identify affected invariants, and make the smallest sufficient repair. Do not use an incident to make an unrelated redesign. Repeated failure without progress changes the diagnosis. Reconcile an unknown external outcome before retry.
 
-Code rollback та data rollback мають окрему сумісність і критерії. Повернення старого binary не скасовує міграцію, зовнішній ефект або видалення. Не відновлювати з backup відкликані дані/права без дозволеного актуального стану.
+Code and data rollback have separate compatibility and acceptance. Rolling back a binary does not reverse a data migration, external effect or deletion. Do not restore revoked data or permissions from backup without current authorized state.
 
-## Оновлення агента й продукту
+## Updating the agent and the product
 
-Версія конструктора, створеного агента, його skill packages, проектних даних і кінцевого результату — окремі області. Порівнювати зміст, ancestry, schema й hashes, а не лише назву ZIP або timestamp.
+Constructor, generated agent, skill packages, project data and end-product versions are separate. Compare content, ancestry, schema and hashes.
 
-Новий урок або дефект може змінити локальні знання/задачі без перебудови агента. Зміна компетенцій, місії, зовнішніх прав, якості або складу модулів потребує impact report та відповідного нового затвердження паспорта. Чинні незмінні рішення й proofs зберігаються.
+A new lesson or defect may only affect local knowledge and jobs. Changes to competency, mission, external rights, quality or modules need an impact assessment and applicable passport decision. Retain unchanged decisions and proofs at their verified scope.
 
-Загальну навичку не переписувати мовчки під виглядом проектного навчання. Пропозицію еволюції зберегти окремо; користувач вирішує scope її застосування. Оновлення встановлення має перевірку цілісності, збереження сторонніх правок, конфліктів, резервної копії та фактичного loaded source.
+Do not quietly rewrite a reusable skill as project learning. Keep evolution proposals separate and let the user decide their adoption scope. An install update checks integrity, preserves unrelated edits, resolves conflicts, backs up and verifies actual loaded source.
 
-## Критерій завершення
+## Completion
 
-Поточний scope завершено, коли всі due must мають належні чинні докази й рішення, фактичні outputs доступні, незалежне приймання виконане де потрібно, користувач має зрозумілий запуск/повернення та відомі межі. Future proofs явно залишаються pending на своїх фазах.
+Close current scope when every requirement due has current proof and decisions, actual outputs are available, independent review has happened where needed, and the user has an understandable launch or return path and known bounds. Keep future evidence pending at its own gate.
 
-Якщо частина заблокована, передати все готове, точний blocker/owner/closure і наступну дію. Не називати продукт працюючим без фактичної корисної операції в належному середовищі; не вимагати готових майбутніх результатів для приймання коректно обмеженої поточної фази.
+For a blocked part, hand off finished work with exact blocker, owner, closure test and next action. A working product needs an observed useful operation in its actual environment. A properly bounded current phase can be accepted separately from future results.
 
-## Чинний контракт: спадкування й операційний кінець
+## Inheritance and operational retirement
 
-Agent toolkit version, model/recipe version, deployed product version та schema/data epoch різні. Оновлення навички не мігрує project records чи released services. Для нового результату створити поточний model з actual source lineage й відкритими gaps; непідтримані формати результатів не перетворювати. Продуктові дані, поточні external effects і recovery мають власні чинні правила. При service replacement/end-of-life визначити export/restore/retention/deletion/ownership, відкликання credentials, pending effects, довгострокові витрати й межі доступу. Це умовний предметний план, не автоматична команда видалення або нова recurring задача.
+Agent toolkit, model or recipe, deployed product and data schema epoch are independent versions. An updated skill does not migrate project records or released services. For a new result, create a supported model from actual sources and lineage with open gaps. Do not convert unsupported old formats. Product data, pending external effects and recovery have their own contracts. At replacement or end of life define export, restore, retention, deletion, ownership, credential revocation, pending effects, long-term costs and access. This plan alone does not authorize deletion or recurring work.

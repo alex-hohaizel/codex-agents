@@ -1,125 +1,48 @@
 ---
 name: design-specialist-skills
-description: "Конструктор спеціалізованих навичок і їхніх сімейств: з усного або письмового завдання визначає предметну область, обсяг, критерії якості, потрібні компетенції, інструменти й етапи. Уточнює важливе, пропонує команду та одну навичку або послідовність analysis/design/implementation/deploy/support, отримує погодження і лише потім створює та зберігає вузькі навички через Skill Creator. Використовувати для проєктування нової навички, сімейства, команди під задачу або перенесення предметного командного підходу на іншу область без копіювання чужих критеріїв."
+description: "Design and build a reusable specialist skill or family from a concrete goal and domain evidence. Use for deliberate scope, triggers, roles, reusable resources, handoffs, and verification."
+metadata:
+  version: "6.2.0"
 ---
 
-# Конструктор спеціалізованих навичок 6.1.0
+# Specialist Skill Constructor
 
-## Виробнича якість і контекст6.0
+## Scope and current evidence
 
-Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+Use the caller's language, then the project preference, then Ukrainian. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
 
-Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+For **BRIEF (БРИФ)** or **RESUME (ВІДНОВИ)**, follow the [briefing protocol](references/briefing-protocol.md), with the [topics](assets/briefing-topics.json) and [domain guide](references/briefing-domain-guide.md) where relevant. Reconcile current sources and runtime before resuming. Reuse exact authority, ask only about unresolved material decisions, and honor the existing pause. Close a stage with the deliverable, due evidence, remaining gaps, and the next action or decision. Separate the full target, first release, and representative slice.
 
-## Умовні AI/data та виробничі профілі6.1
+Before making or changing material, apply [production quality](references/production-quality.md) and the relevant profile in `assets/production-profiles.json`. Keep reference composition, scale, interaction, and functional depth. Demonstrate a representative slice on the actual medium before scaling a dependent batch. Use the relevant [AI and data workflow](references/ai-production.md) for applicable data, retrieval, model, media, or evaluation work. Seek an evidenced need before adding infrastructure. Keep original data, rights, and creative identity in their native sources. Discuss material deviations with the owner and retain current visual identity using the [visual identity contract](references/visual-identity.md).
 
-Коли задача справді потребує збору чи аналізу даних, LLM/RAG, прогнозування, адаптації моделі, серійного виробництва матеріалів або їх оцінювання, прочитати лише застосовні частини [AI/data виробничого маршруту](references/ai-production.md). Обрати потрібні DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA чи EVALUATION всередині чинної предметної команди. Спочатку достатній наявний виконавець і метод; нові агент, framework чи глобальний індекс не є типовою передумовою.
+Give each artifact one owner and use independent reviewers for the checks the stage requires. Use [research and synthesis](references/research-and-synthesis.md) for consequential unfamiliar decisions. Consult the [interaction protocol](references/interaction-protocol.md) for status or handoff. A structural helper validates records. Record separate observations for craft, function, source, native or device execution, independent review, and owner acceptance. Keep due blocked evidence visible. After two attempts with the same failure, change the diagnosis.
 
-Зберегти первинний результат, усі застосовні вимоги, прийняті оригінали, налаштування, дозволи й відкладене в тому самому рідному стані. Типізовані матеріали та `scripts/ai_production.py` використовувати лише для доречних оголошених перевірок. Їхній PASS не доводить фактичного збору, навчання, якості, споживання, незалежності чи прийняття власником. Виявлена втрата прийнятої працюючої властивості відхиляє кандидата; неперевірений потрібний доказ лишається відкритим.
+Use [Work and Codex continuity](references/joint-work-codex.md) for authorized cross-host recovery and transfer. Give exact inputs, capabilities, steps, expected receipt, and return verification. Apply [tool compatibility](references/tool-compatibility.md) to the actual operation, target, rights, and costs. Reconcile unknown effects before retrying. For batches report the denominator and separate completed, blocked, skipped, and failed entries. Test self-updates on comparable inputs, preserve the known predecessor, and verify recovery.
 
-Новий6.1 пакет переносить15 спільних ресурсів і7 локальних reference-посилань за [контрактом успадкування](references/joint-use-inheritance.md), включно з трьома AI/data ресурсами. Успадковані предметні формати, ідентичність і права зберігаються. Чинний агент приймає оновлення лише за окремим зіставленням його фактичних джерел і холодною перевіркою; перевірка пакета не є автоматичним прийняттям продуктом.
+## Investigate the intended specialization
 
-## Спільний спосіб роботи6.0
+Use [cross-domain core](references/cross-domain-core.md) on new scope, [domain specialization](references/domain-specialization.md) to derive actual rules, [skill production](references/skill-production.md) before build, and the [inheritance contract](references/inheritance-contract.md) in every generated skill. Accept a natural request, existing skill, reference or examples. Pin source intent and a single project blueprint and requirement lineage. Distinguish required scope, matching outputs, estimates and unknowns. Recover constraints on media, environment, identity, permissions, rights, integration, data, time/cost, and acceptance. Ask about material unresolved gaps and continue independent preparation. Avoid a questionnaire after an adequately specified authorized brief.
 
-На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
+Compare a single feasible cohesive skill, an extension or reuse, and a family when outputs, owners, competencies, recipients, permissions, decisions or acceptance differ. Use [single skill or family](references/single-or-family.md) and [team architecture](references/team-architecture.md). Choose actual stages, interfaces, outcomes, handoff and return, source linkage, proof due dates, first use and ongoing ownership. A document requires the verifier and editing support actually needed. Use explicit capability checks and well-defined facts rather than importing domain templates, executive roles or extra infrastructure. Scope review and team roles to actual requirements and owned artifacts, using distinct independent QA and a final reviewer separate from author and prior QA when critical. Record actual reviewers only after the work.
 
-Для незнайомого домену виконати предметний source/probe за матеріальними невідомостями й назвати межі доказу. План створення агента включає весь шлях: аналіз → погоджена архітектура → реалізація переносного пакета → незалежна перевірка representative tasks → installation/discovery → супровід; виконувати лише поточний дозволений scope. Після зміни host до заяви готовності провести доступний bounded предметний smoke або явно позначити його blocked/not_tested.
+## Approve the exact proposal
 
-## Узгоджена взаємодія
+Show the output, procedure, specialized rules, exact modules, stage ownership, independent tests, positive and near-negative triggers, tool/host, costs and authority, dependencies, repairs and stop. Cover first use, normal and peak use, conflicting scope and input, failure, recovery and changed dependency. Provide a versioned blueprint and exact approval subject. Apply unchanged consent already pinned to that revision and scope. Obtain a new specific decision for material deltas. Prepare research or clearly marked decision examples before approval. Authority to create, install or run the resulting product is explicit to the relevant stage. An instruction to install the existing constructor does not trigger a new design questionnaire.
 
-Тримати одного відповідального за продукт і чинний project state. На матеріальному виборі показати рекомендацію/альтернативи/наслідок; routine work і локальні виправлення виконувати в прийнятому scope. Чинні погодження успадковувати. Прогрес: результат/належні докази → зараз → gaps → потрібне рішення → next; стан specification/code/integration/device/human розділяти. Питання не скасовує роботу. Дрібний scope не запускає повний продуктовий цикл; повний задум не спрощувати. Для нового/відновлюваного scope або стану читати [протокол взаємодії](references/interaction-protocol.md); `python3 -B scripts/interaction.py status --source PROJECT --format markdown` формує read-only огляд підтриманого domain state, без нових grants, відтворення effects чи фонового виконання. Для конкретного зовнішнього tool route звірити застосовний пункт [сумісності](references/tool-compatibility.md).
+Use the actual `scripts/blueprint.py` help and current `skill.blueprint/2` format from `assets/blueprint-template.json`. Compile and check the blueprint, then use `check --approved` before building. Preserve older materials and reconstruct current facts from their sources before mapping to the supported format. Reader and syntax checks establish structure, reference and approval binding. They do not authenticate consent, implementation behavior or professional result.
 
-Коли вибираєш середовище, виявляєш перешкоду виконанню, передаєш етап чи відновлюєш роботу, застосуй [спільний маршрут Work ↔ Codex](references/joint-work-codex.md) разом із предметними правилами. Перевір фактичні входи, права та можливості. Виконай єдиний придатний дозволений маршрут. Якщо потрібна дія власника, дай точний наступний крок.
+## Build, evaluate and use the approved artifact
 
-Під час створення нового агента або спеціалізованої навички обов’язково застосуй [успадкування спільного режиму](references/joint-use-inheritance.md) до кожного нового модуля та до переносного пакета перед його збереженням або видачею.
+Read current `skill-creator` and [build and verify](references/build-and-verify.md). Compose stable name, precise triggers, short English operational entry with progressive disclosure, appropriate UI metadata and applicable resources or scripts. Keep project state, private input and secrets separate. Inventory each child user's required outputs, source/operation, recipe, medium, assembly, consumer, proof and owner. Include common resources inside versioned, self-contained skills. Bind original master to export, integration and actual use. Verify each exact medium (DOCX, XLSX, PPTX, native app, or other requested format) through its actual deliverable and rendering, playback or input behavior where due. A structural check or rendering from altered bytes cannot substitute for the named consumer. Missing real access or modality stays blocked with a specific handoff.
 
-## БРИФ, ВІДНОВИ й передача наступного етапу
+Use inexpensive checks first. Verify a representative slice, actual supported features, links, consistency checker, negative controls and independent raw forward use before a batch where required. Cover local, feature, critical and stage closure, failure/recovery, stale pins, changed upstream contract, self-review, and unauthorized work. Keep proven unaffected dependencies and reopen only affected evidence. Use `scripts/check_consistency.py` and the actual `scripts/verify_depth.py --help` interface with `assets/depth/` evidence as appropriate. Finish practical verification even when a general validator is unavailable, using relevant local parsers and actual use cases. Keep the verdict scoped to its real tool and app.
 
-Визначити поточний scope й чинні рішення. Для нового обсягу, БРИФ або ВІДНОВИ прочитати [спільний протокол](references/briefing-protocol.md); для bounded локальної роботи завантажити лише застосовні частини й потрібні предметні джерела. Прямий виклик **БРИФ**: аналіз повного застосовного обсягу й наслідків → адаптивне предметне опитування → читабельний версійний сценарій → явне погодження → точне виконання. **ВІДНОВИ**: спочатку фактичні source/accepted intent/evidence/runtime/continuation чинного продукту, потім цей цикл. Це діє й у прямому вході спеціаліста та делегованому job; чинну точну згоду успадковувати без повтору. Саме відновлення не знімає pause й не дозволяє залежне виконання.
+For an approved personal install use the native supported mechanism and confirm actual state. For a requested stage, keep the verified deliverable portable and state required dependencies and steps. Independently test the new skill's actual supported invocation and check that it returns the original kind of result under the correct scope and format. Compare accepted result, installed state, observed discovery and runtime use without combining their claims.
 
-Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
+For an exact approved handoff from `agent-foundry`, retain parent intent, authority and IDs, return the requested child implementation, evidence and gaps, and route a substantive delta back to the parent. Use [specialist orchestration](references/specialist-orchestration.md). For app and chatbot components, retain the stable Work `@app-atelier-director` / `@chatbot-atelier-director` and Codex `$app-atelier-director` / `$chatbot-atelier-director` routes with current availability, source/digest and self-contained component handoff. Use only the relevant route.
 
-Версія 6.0.0. Деталізація адаптується до предмета й обсягу; глибина означає замкнуті причинні правила й перевірні результати, а не максимальну кількість ролей або документів.
+## Supporting references
 
-Працювати українською, якщо користувач не визначив іншу мову. Створювати спеціалізований спосіб виконання задачі з предметною командою, перевірними критеріями та пропорційним прийманням. Спочатку узгодити задум навички; потім створити її. Сам продукт, сайт або реліз не виконувати замість конструктора без окремого доручення.
+Open the references applicable to the current deliverable and its due proof.
 
-## 0. Наскрізна модель спеціалізації
-
-Прочитати [спільне ядро](references/cross-domain-core.md) на вході нового scope, [спеціалізацію предмета](references/domain-specialization.md) при аналізі вимог, [виробництво навичок](references/skill-production.md) перед побудовою та [успадкування](references/inheritance-contract.md) для кожної створюваної навички. Ці правила визначають роботу самого конструктора і передаються дітям у предметній формі. Не вимагати від простого документа runtime, базу даних або окремий сервер.
-
-Вести один project-owned blueprint і lineage вимог. Відділяти ескіз, завершену специфікацію та виробничу передачу; попередні приклади не закривають весь launch scope. Для потрібних класів результатів визначити застосовність, правила, інструментальну операцію, рецепт, фактичну спробу, інтегроване приймання й рівень доказу. Відсутня можливість є blocked; N/A допускається лише за предметною причиною. Зберігати окремо задуманий результат, виконану дію й спостережений ефект.
-
-## 1. Відновити задачу й важливі невідомості
-
-Приймати вільний опис, голосовий переказ, приклади, файли або попередню навичку. Використати доступний контекст та актуальні джерела до повторного запитування вже відомого.
-
-Сформувати бриф: кінцевий результат і користувач; предметна область; початкові матеріали; масштаб/повнота; якість і відхилені спрощення; платформи/середовища; бюджет/час/дозволені моделі; інтеграції/права/дані; зовнішні дії та критерії завершення. Відділити must, рекомендації, припущення й невідомості. Не домислювати країну, власника, ліцензію, оплату чи production-доступ.
-
-Уточнити те, що змінює команду, продуктову обіцянку, етапи або допустимий ризик. Питати компактними групами зрозумілих питань, бажано з варіантами. Критичну невідомість позначити pending; для оборотного другорядного рішення можна запропонувати явне припущення. Поки відповідь потрібна, продовжувати незалежний аналіз. За достатнього брифу не вигадувати анкету.
-
-## 2. Визначити одну навичку або сімейство
-
-Прочитати [поділ на етапи](references/single-or-family.md). Порівняти щонайменше один цілісний варіант із доцільним поділом. Одна навичка доречна для зв’язного повторюваного результату з близькими компетенціями й одним прийманням. Сімейство доречне за різних артефактів, компетенцій, доступів, моментів рішення або незалежно повторюваних етапів.
-
-За потреби запропонувати research/вибір рішення → design/специфікація/матеріали → implementation → deploy/operations. Вибирати потрібні етапи, а не автоматично всі чотири. Studio/identity або інший паралельний трек додавати лише за потребою. Підтримка має визначені межі й власника; recurring робота потребує відповідного доручення.
-
-Для кожного етапу визначити вхід, фактичний вихід, DoD, перевірку, майбутні непідтверджені властивості, права зовнішніх дій, handoff, повернення upstream і повторне використання чинних доказів. Не змушувати design повторювати research або deploy повторно винаходити продукт.
-
-## 3. Спроєктувати предметну команду
-
-Прочитати [архітектуру команди](references/team-architecture.md). Вивести критерії з цієї задачі й джерел; не копіювати чужі ігрові критерії, вірусність, монетизацію або фіксований штат у сторонню область.
-
-Для кожного критерію за методикою [предметного аналізу](references/domain-specialization.md) задати ID, джерело/намір, пріоритет, предметного власника, артефакт, acceptance/негативний приклад, метод і потрібний тип доказу. Невідоме не називати підтвердженим. Кілька споріднених критеріїв можуть належати одній компетентній підкоманді; кожен зберігає власний висновок.
-
-Побудувати працюючих техлідів і спеціалістів за реальними артефактами, окреме незалежне QA, quality lead/хранителя та одного оркестратора. Раду активувати за великим результатом, матеріальним вибором чи критичним конфліктом. Її предметний склад визначають потрібні компетенції; типовий орієнтир 3–5 не є нормою чи стелею. Не створювати одного суддю на кожний рядок вимог або керівника, чия єдина робота — переповісти звіт.
-
-Зберегти альтернативні незалежні первинні погляди там, де вони потрібні пошуку. Автор не перевіряє власну роботу як незалежний QA; фінальний рецензент не є автором або попереднім QA оцінюваного рішення. Зберігати actual IDs і реальні outputs лише після виконання. Ролі AI не є людьми, ліцензіями або емпіричними даними.
-
-## 4. Показати пропозицію до створення
-
-Показати зрозуміло й конкретно:
-
-1. Що саме робитиме навичка та що буде на виході.
-2. Важливі вимоги, невідомості й рекомендовані уточнення.
-3. Варіант однієї навички та обґрунтований варіант сімейства, коли такий має сенс; рекомендувати один.
-4. Предметні напрями, виконавці, підпорядкування, незалежні перевірки та умови ради.
-5. Етапи, входи/виходи, handoff і межі research/design/build/deploy/support.
-6. Потрібні tools/skills/ресурси, фактична доступність, витрати та зовнішні дозволи.
-7. Як перевірятиметься якість, як закриватимуться локальні ремонти та що зупиняє повтори без прогресу.
-
-Перед пропозицією перевірити повноту сценаріїв: перше використання, нормальний/піковий обсяг, межі, відмова, повтор, повернення, зміна й завершення. Для невизначеностей дати consequence, due gate, owner і probe. Не обіцяти ідеальної всеохопності за межами погодженого scope.
-
-Зберегти versioned blueprint. Запитати погодження саме цієї пропозиції й важливих відкритих пунктів. Не створювати, встановлювати чи змінювати цільові навички до погодження. Пропозиція й зразки для рішення можуть створюватися до нього. Мовчання й сплив часу не є згодою; точна вже надана згода діє без повторного запиту.
-
-Це правило стосується навичок, які конструктор проєктує для майбутньої задачі. Воно не створює повторного погодження явно дорученого встановлення самого конструктора.
-
-## 5. Після погодження створити й перевірити
-
-Прочитати системну навичку Skill Creator і [створення та контроль](references/build-and-verify.md). Звірити погодження з exact версією blueprint; істотна зміна scope/етапів/команди/витрат потребує нового адресного погодження.
-
-Створити кожну навичку прямо в personal-skills checkout за Skill Creator. Дати вузький trigger, стислий SKILL.md, предметні references, потрібні assets/scripts і UI metadata. Поточні job IDs, credentials та швидкозмінний стан проєкту зберігати в його checkpoint, не в навичці.
-
-Вбудувати [контракт успадкування](references/inheritance-contract.md) у child manifest: кожна застосовна вимога має owner, споживача й acceptance; предметні recipes пов’язують source, editable master, export і інтеграцію; capability перевіряється на рівні конкретної операції. Не копіювати приклади або універсальні постачальники як предметні рішення.
-
-Вбудувати маршрути local/feature/critical/stage, завершене локальне приймання, незалежне QA, перевірений carry-forward за транзитивними залежностями, пакетний ремонт, правила повторного відкриття, зміну діагностики після двох невдалих повторів і чесні статуси. Валідатор має перевіряти покриття вимог і незалежність, не кількість назв ролей. Для простого документа не створювати зайвий програмний валідатор.
-
-Для сімейства зберегти спільні незмінні requirement IDs і контракти передачі. Кожна навичка має бути придатною до самостійного встановлення: потрібні спільні ресурси включати версійовано, без прихованих sibling-path залежностей. Оригінальні матеріали й підписи не переписувати.
-
-Виконати quick_validate у тих самих установлених каталогах. Перед збереженням виконати `python3 scripts/check_consistency.py`; правила збереження узгодженості застосувати також до створюваних спеціалізацій за [перевіркою інструкцій](references/consistency.md). За істотної складності провести обмежені незалежні forward-тести на реалістичних сирих задачах без підказаних відповідей, live mutation і зайвих генерацій. Перевірити й негативний сценарій: відсутнє погодження, критична невідомість, self-review, зміна спільної залежності, повернення з наступного етапу.
-
-Зберегти кожну навичку окремо штатним механізмом Skill Creator та перевірити фактичний стан. У фіналі показати назви, призначення, порядок використання, перевірені межі й невирішені зовнішні залежності. Не називати створені навички вже виконаним продуктом чи розгортанням.
-
-## Виклик із конструктора агентів і міжпродуктова передача
-
-За вхідного погодженого паспорта від `agent-foundry` застосувати [контракт спеціаліста](references/specialist-orchestration.md): Foundry зберігає parent intent, product decisions і authority, а цей конструктор виготовляє потрібні reusable skills/сімейства. Не повторювати вже завершене discovery або погодження незмінного exact scope. Повернути child sources, inherited IDs, gates/evidence, gaps і exact handoff. Матеріальну зміну винести як delta через parent owner.
-
-У створюваних агентах з окремими app/bot компонентами включити stable `@app-atelier-director` / `@chatbot-atelier-director` для Work та `$app-atelier-director` / `$chatbot-atelier-director` для Codex, фактичний availability lookup і self-contained component handoff. Ідентифікатори не містять номера display-версії; завантажувати останню актуальну встановлену редакцію й фіксувати actual source/hash. Якщо компонент не потрібний, ці маршрути не активувати.
-
-## Blueprint і виконання
-
-Для нової спеціалізації використати `python3 scripts/blueprint.py init /absolute/path/blueprint.json`, потім `check`; перед створенням — `check --approved`. Поточний єдиний формат — `skill.blueprint/2` у `assets/blueprint-template.json`. Попередні формати результатів не читаються й не перетворюються. Якщо надані старі документи, відновити чинні вимоги з їхнього змісту та актуальних джерел і підготувати новий поточний blueprint; не вважати старий запис свідченням готовності або чинного дозволу. Поточне явне доручення й незмінні прийняті рішення врахувати без повторної анкети.
-
-
-Реальне виконання й докази записувати за `assets/depth/*`; перевіряти `python3 scripts/verify_depth.py --help` і використовувати фактичний підтримуваний інтерфейс. Не переносити project secrets, actual jobs чи receipts у шаблон навички. Blueprint checker перевіряє структуру, refs, version/hash, coverage й записи згоди, а не справжність користувацької волі, компетентність, правдивість свідчень або професійну якість. Їх звірити з реальною розмовою й матеріалами; не редагувати approval замість погодження.
-
-Для великої повторюваної операції фіксувати повний знаменник елементів, виконані/пропущені/помилкові записи, checkpoint і контроль повноти batch; representative sample не підміняє виконання всього дорученого набору. Для self-update порівнювати baseline/candidate на однакових входах із незалежною рубрикою та перевіряти replay/adoption старого state/schema і rollback; не вигадувати історичне приймання.
+- **Working contracts**. [Joint use inheritance](references/joint-use-inheritance.md), [Consistency](references/consistency.md).

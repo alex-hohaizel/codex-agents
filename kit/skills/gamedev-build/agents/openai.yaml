@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Реалізація · 6.0.0
-  short_description: Цілісна нативна гра за поведінковими контрактами
-  default_prompt: $gamedev-build Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Реалізація
+  short_description: "Build and verify the approved native game"
+  default_prompt: "Use $gamedev-build to implement the accepted contract, prove the representative native slice, and hand off exact build evidence."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

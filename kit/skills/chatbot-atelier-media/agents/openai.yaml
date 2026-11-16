@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Медіа · 6.0.0
-  short_description: Зображення, анімації, звук і доставка
-  default_prompt: Використай $chatbot-atelier-media для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Медіа
+  short_description: Chatbot media production and delivery
+  default_prompt: Use $chatbot-atelier-media. Produce or repair the requested media while preserving the approved source and checking the target playback.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

@@ -1,7 +1,7 @@
-# Приймання operations
+# Operations acceptance
 
-Позитивно: відновлена поточна live/version/permission/cost картина; incident має severity/repro/proof/containment і scoped repair; fix проходить незалежний affected regression, дозволений release і read-back; actual monitor надсилає контрольний сигнал; restore фактично перевірений; profit має фактичні джерела й повний знаменник витрат.
+A successful outcome restores the current live version, permission and cost picture. The incident has severity, reproduction, evidence, containment and a bounded repair. Independently verify affected behavior, authorized release and read-back. Verify a monitoring test signal and actual restore. Use real profit inputs and the complete applicable cost denominator.
 
-Негативні cases: старий green названо поточним health; skill або README названо scheduler; private data у статусі; після релізу самовільний A/B; приховані ручні support обов’язки власника; поріг успіху переписано після fail; unknown billing/deploy повторено; code rollback відновлює видалені дані; backup без restore оголошено надійним; дохід вигадано з формули; end-of-life видаляє дані без scope.
+Reject a stale green status presented as current health, a skill or README described as a running scheduler, private data in status, unauthorized post-release A/B, hidden owner support duties, a threshold changed after failure, a repeated unknown billing/deployment operation, a rollback that resurrects deleted data, an untested backup described as valid, modeled income presented as actual, or retirement that deletes data outside scope.
 
-Постійний monitoring залишається not_run до реального scheduler/service/alert proof. За недоступності data/tool ізолювати blocker і дати конкретний bridge. До закриття scope зберегти current checkpoint і точний next action; не починати новий бізнес замість супроводу прийнятого.
+Recurring monitoring is `not_run` until there is scheduler/service and alert evidence. For unavailable data or tools, isolate the blocker and give concrete launch/return steps. Preserve the current checkpoint and exact next action before closing. Continue the accepted product during routine operations.

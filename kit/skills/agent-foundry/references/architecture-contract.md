@@ -1,99 +1,98 @@
-# Паспорт, компоненти й архітектура створюваного агента
+# Passport, components, and architecture of a generated agent
 
-Читати після дослідження наміру та перед затвердженням, створенням або матеріальною зміною агента. Форми blueprint і runtime records містяться в assets; для точних команд спочатку прочитати фактичну довідку scripts/foundry.py. Цей документ задає зміст, а не вигадує окремий машинний формат.
+Read this after researching intent and before approving, building, or materially changing an agent. Blueprint forms and runtime records live in the assets. Read the actual help for scripts/foundry.py before issuing commands. This document defines what the records must describe; their schemas define the machine format.
 
-Зміст: одиниці архітектури → паспорт → команда → залежності → затвердження → перевірка й зміна.
+Contents: units of architecture → passport → team → dependencies → approval → verification and change.
 
-## Незалежні одиниці архітектури
+## Units of architecture
 
-Один публічний агент — одна зрозуміла точка звернення й відповідальний інтегратор. Це не обмежує кількість навичок, етапів, спеціалістів або інструментів. Одна навичка може вести кілька фаз; одна фаза може використовувати кілька компетенцій. Кількість пакетів не є кількістю процесів або незалежних перевірок.
+One public agent provides one clear point of contact and an accountable integrator. The number of skills, phases, specialists, and tools can vary independently. A skill may lead several phases, and a phase may use several capabilities. Package count does not determine process count or the number of independent checks.
 
-Порівняти цілісний варіант і доцільний поділ. Обирати сімейство, коли різняться артефакти, потрібні компетенції, середовища, доступи, моменти приймання або незалежно повторювані роботи. Обирати компактний модуль для зв’язної задачі з близькими компетенціями. Не встановлювати мінімальну кількість ролей чи фаз заради зовнішньої складності.
+Compare a cohesive design with a justified split. Choose a family when artifacts, expertise, environments, access, acceptance points, or independently repeatable work differ. Choose a compact module for a cohesive task with related expertise. Do not set a minimum number of roles or phases for appearance.
 
-Кожна заявлена можливість має матеріальний результат і шлях реалізації. Назва експерта, plugin або методології не є реалізацією. Рядок «автоматизувати» потребує конкретної операції, доступного інструмента, права, перевірки та відновлення; недоступне має конкретний міст повернення.
+Every claimed capability needs a tangible result and a route to it. Naming an expert, plugin, or method does not implement it. For each automation specify the operation, available tool, access, verification, and recovery. Provide a specific manual return path for unavailable operations.
 
-## Повний зрозумілий паспорт
+## Complete, readable passport
 
-До створення цільового агента показати користувачу versioned паспорт і список складових. Людський документ та структурований blueprint мають описувати один scope.
+Before building the target agent, show the user a versioned passport and component list. The readable document and the structured blueprint must describe the same scope.
 
-1. **Місія та користь:** кому допомагає агент, який результат доводить до завершення, як його побачити.
-2. **Межі:** що входить, що виключено, наявні матеріали й обмеження; де закінчується компетенція.
-3. **Повний каталог можливостей:** дії, сценарії, винятки, результати, взаємодії, якість і приймання кожної.
-4. **Наскрізні вимоги:** точні користувацькі must/акценти, їхні джерела, залежності й докази на всіх потрібних фазах.
-5. **Робочий маршрут:** довільний граф фаз, входи/виходи, шлюзи, паралельність, адресні повернення, pause/resume.
-6. **Архітектура навичок:** одна публічна точка, фактичні модулі, triggers, спільні контракти, окремі залежності.
-7. **Команда:** компетенції, робочі власники артефактів, підзвітність, незалежне QA й умови залучення додаткової оцінки.
-8. **Інструменти:** достатні tools/CLI/підключення, встановлене й неперевірене, альтернативи, права, ліцензії та витрати.
-9. **Середовища:** що виконується де, передумови, ізоляція, налаштування, контроль версій і точні переходи.
-10. **Дані й знання:** source of truth, пам’ять проекту, походження, retrieval, свіжість, видалення/відкликання та права доступу.
-11. **Досвід людини:** мова, ясність, характер взаємодії, дизайн і потрібні канали, доступність, пояснення стану й відновлення.
-12. **Ресурси й цінність:** бюджет, регулярні витрати, виробнича спроможність; комерційний маршрут лише за застосовності.
-13. **Зовнішні дії:** дозволені класи, точні окремі рішення, дані й одержувачі, особисті кроки, невідомий outcome.
-14. **Докази та QA:** тести, сценарії, незалежність, фактичні спостереження, performance та негативні перевірки за предметом.
-15. **Пакети й запуск:** фактичні файли, установка Work/Codex, перша перевірена корисна дія, інструкція користувача й handoff.
-16. **Супровід:** спостереження, дефекти, нові можливості, оновлення агента/продукту, rollback і припинення.
-17. **Ризики й невідомості:** що блокує створення, що відкладено до визначеного моменту, варіанти та умови перегляду.
-18. **Точний предмет згоди:** версія, hash, scope, готовий список компонентів і пояснення, що це схвалення дозволяє.
+1. **Mission and value:** who it helps, what it delivers, and where to see the result.
+2. **Boundaries:** included and excluded work, available materials and constraints, and where the agent's competence ends.
+3. **Capability catalog:** actions, scenarios, exceptions, results, interactions, quality, and acceptance for every capability.
+4. **Requirements across phases:** the user's exact requirements and priorities, their sources and dependencies, and the evidence due at each relevant phase.
+5. **Workflow:** domain-specific phase graph with inputs, outputs, gates, parallel work, targeted returns, pause and resume.
+6. **Skill architecture:** one public entry, actual modules, triggers, shared contracts, and separate dependencies.
+7. **Team:** expertise, artifact ownership, accountability, independent QA, and triggers for additional review.
+8. **Tools:** sufficient tools, CLI and connections; installed and unverified capabilities, alternatives, rights, licenses, and costs.
+9. **Environments:** what executes where, prerequisites, isolation, settings, version control, and exact transitions.
+10. **Data and knowledge:** source of truth, project memory, provenance, retrieval, freshness, deletion and revocation, and access.
+11. **Human experience:** language, clarity, interaction character and design, required channels, accessibility, state explanation, and recovery.
+12. **Resources and value:** budget, ongoing costs, production capacity, and a commercial route where applicable.
+13. **External effects:** allowed classes, exact separate decisions, data and recipients, user-only steps, and unknown outcomes.
+14. **Evidence and QA:** tests, scenarios, independence, actual observations, performance, and domain-relevant negative cases.
+15. **Packages and launch:** actual files, installation in Work or Codex, first verified useful action, operating instructions, and handoff.
+16. **Support:** monitoring, defects, new capabilities, agent and product updates, rollback, and retirement.
+17. **Risks and unknowns:** construction blockers, defined deferrals, options, and review triggers.
+18. **Exact approval subject:** version, hash, scope, the final component list, and what approval authorizes.
 
-Для кожної можливості зв’язати source/intent → capability → owner → phase → component → artifact → test/evidence → acceptance. Незастосовність має причину; критична невідомість не маскується пустим полем. Імена, кількості й шляхи складових мають узгоджуватися між документами й blueprint.
+For every capability, bind source and intent → capability → owner → phase → component → artifact → test and evidence → acceptance. Explain why something does not apply. Record critical unknowns explicitly. Names, counts, and component paths must agree across documents and the blueprint.
 
-## Працююча команда й незалежність
+## Effective team and independent review
 
-Вивести компетенції з артефактів, ризиків і acceptance. Один інтегратор веде намір, вимоги, залежності й результат. Предметний техлід сам виробляє або інтегрує матеріал, декомпозує роботу та приймає інтерфейси; спеціаліст отримує обмежене завдання. QA перевіряє конкретний результат і звітує інтегратору незалежно від автора.
+Derive expertise from artifacts, risks, and acceptance. One integrator owns intent, requirements, dependencies, and the result. The domain lead produces or integrates material, divides work, and accepts interfaces. Specialists receive bounded assignments. QA checks a concrete result and reports to the integrator independently of its author.
 
-Task contract включає IDs вимог, exact inputs/hashes, дозволені paths, очікувані outputs, власника, інтерфейси, cap ресурсу, stop і перевірку завершення. Реальний spawn-tree, виробнича підзвітність і право приймання — окремі зв’язки. Не приписувати виконання ролі, яка не запускалася.
+A task contract specifies requirement IDs, exact inputs and hashes, allowed paths, expected outputs, owner, interfaces, resource cap, stop condition, and completion check. Actual agent spawning, production accountability, and acceptance authority are separate relationships. Credit only roles that ran.
 
-Суміжні обов’язки можна суміщати за навантаженням і компетенцією. Автор не є незалежним QA свого артефакту. Для незалежного повторного висновку не видавати того самого автора або попереднього рецензента за нову незалежну сторону. Окрему широку оцінку активувати для великого freeze, критичного конфлікту чи матеріального вибору, а не для кожного рядка.
+Combine adjacent responsibilities when workload and expertise permit. An author cannot serve as independent QA for their own artifact. A new independent opinion needs someone other than the author or previous reviewer. Use broader review for a material freeze, critical disagreement, or consequential option.
 
-Якщо subagents недоступні, працювати послідовно й чесно відмітити self-check та відсутнє незалежне приймання. Кількість повідомлень або назв ролей не збільшує кількість незалежних емпіричних фактів. Не встановлювати універсальний штат, модель чи кількість раундів.
+If subagents are unavailable, work sequentially. Record self-checks and missing independent acceptance separately. Message or role count does not add empirical evidence. Pick team size, model, and review rounds for the actual work.
 
-## Граф виконання й ресурсів
+## Execution and resource graph
 
-Фази задаються предметом і мають входи, outputs, prerequisites, acceptance, blockers та повернення. Граф має бути ациклічним у межах запланованого проходу; repair створює явно адресований новий прохід зачепленої гілки, а не прихований цикл без завершення.
+Derive phases from the domain. Give each inputs, outputs, prerequisites, acceptance, blockers, and return paths. Keep a planned pass acyclic; a repair creates an explicit new pass over the affected branch.
 
-Залежностями є не тільки файли: користувацькі рішення, версії джерел, права, стан зовнішнього сервісу, результати перевірок, знання, бюджет і доступність. Спільна зміна відкриває транзитивно залежні перевірки; незмінні незалежні докази переносяться з поясненням.
+Dependencies include user decisions, source versions, permissions, external service state, check results, knowledge, budget, and availability, as well as files. A shared change reopens transitively dependent checks. Explain why unchanged independent evidence remains valid.
 
-Паралелити незалежні артефакти за реальним лімітом слотов, ресурсів і доступів. Shared mutations, approvals, міграції та інтеграцію виконувати послідовно. Визначити власника paths або ізольовані робочі області. Окрема робоча копія не ізолює зовнішню базу, акаунт чи production-ефект.
+Parallelize independent deliverables within real slot, resource, and access limits. Sequence shared mutations, admissions, migrations, and integration. Assign paths or isolated workspaces. A separate checkout does not isolate a shared database, account, or production effect.
 
-Задати ресурсні межі: час, генерації, storage, мережа, виклики, гроші й критерій зміни діагностики. Спочатку дешеві перевірки контракту, потім дорогі виробничі спроби. Після повторного однакового ремонту без прогресу змінити діагностику, а не запускати безмежну раду.
+Set resource boundaries for time, generations, storage, network, calls, and spend, and state when to change the diagnosis. Run inexpensive contract checks before costly production attempts. If an identical repair repeats without progress, change the diagnosis.
 
-Пам’ять починати з versioned джерел, IDs, структурованого/лексичного пошуку, dependency graph і readable checkpoint. Семантичний retrieval, SDK, workflow framework, remote tracing або окремий сервіс додаються за конкретною виміряною потребою, з вартістю, правами й перевіркою. Назва технології не дає пам’яті, автономності або correctness.
+Start memory with versioned sources, IDs, structured or lexical retrieval, a dependency graph, and readable checkpoints. Add semantic retrieval, an SDK, workflow framework, remote tracing, or a separate service for a measured need with assessed cost, permissions, and verification. Technology names do not establish memory, autonomy, or correctness.
 
-## Обов’язковий шлюз затвердження
+## Required approval gate
 
-Завершити аналіз, паспорт, альтернативи й список необхідних складових до запиту згоди. Не починати створення чи встановлення цільових навичок та виконання продукту до затвердження цього паспорта. Допустимі дослідницькі матеріали й зразки для вибору чітко позначаються своїм статусом.
+Finish analysis, passport, alternatives, and component list before requesting approval. Target skill creation and installation, and product execution, must wait for passport approval. Label any exploratory material or samples for consideration by their actual status.
 
-Спочатку актуальний blueprint проходить structural check і предметний review. Потім користувачу показується конкретна пропозиція: що отримає, чому такий склад, відкриті питання, витрати, доступи й точна наступна дія. Критичні питання про конструкцію агента мають відповіді; допустимі future decisions мають власника й due gate.
+Run structural and domain review on the current blueprint, then show what the user will receive, why this design fits, open questions, costs, access, and the exact next action. Resolve critical construction questions. Give permitted future decisions an owner and due gate.
 
-Схвалення pin-ить exact revision, sha256, scope і фактичне джерело відповіді. Рекомендація, заповнений JSON, попередній дозвіл на іншу версію, мовчання й час не створюють згоди. Будь-яка нова substantive редакція паспорта потребує нового адресного рішення. Не підміняти первинну волю записом «approved».
+Pin approval to the exact revision, sha256, scope, and actual affirmative response. A recommendation, populated JSON, prior approval of another version, silence, and elapsed time do not supply consent. A substantive passport change requires a decision on that change. Never substitute an approval record for the user's actual decision.
 
-Перед кожним залежним build перевірити поточний build-gate. Старий green report чи перенесений manifest pin не замінюють актуального шлюзу. Усі причини блокування повернути зрозуміло: ID, що відсутнє, навіщо потрібно, що вже готове й який наступний крок. Не блокувати незалежну дозволену підготовку.
+Verify the current build gate before every dependent build. Old green reports or copied manifest pins do not satisfy the gate. Explain blocking reasons by ID, what is missing, why it matters, what is ready, and the next step. Continue independent authorized preparation.
 
-Затвердження паспорта дозволяє побудувати саме описаного агента. Воно не затверджує автоматично кожний майбутній продукт, його публікацію, оплату, передачу даних чи постійний моніторинг. Кожна така дія використовує власний чинний scope повноважень.
+Passport approval authorizes construction of the described agent. A future product, publication, payment, data transfer, or ongoing monitoring uses its own current authorization.
 
-Сесію конструктора та сесію виконання створеного агента розділяти. Призначення factory/project визначається при ініціалізації та не підмінюється повторною ініціалізацією наявного стану. Для роботи над кінцевим результатом потрібна окрема точна execution authority з blueprint hash, scope і дозволеними фазами. Одна фактична відповідь може прямо дозволити і створення, і виконання у визначених межах; тоді зберегти обидва scope без повторної анкети. Жоден із цих записів сам не дає зовнішнього effect grant.
+Separate factory and execution sessions. Declare factory or project purpose at initialization; reinitialization must not replace the purpose of existing state. Work on the end result needs precise execution authority with blueprint hash, scope, and permitted phases. One actual response can expressly grant both construction and execution; record both scopes without asking again. Neither record grants external effects by itself.
 
-## Перевірка й адресна зміна
+## Verification and targeted changes
 
-Після створення перевірити актуальні байти, покриття всіх capabilities, точний skill set, standalone references, узгодженість документації, реальні тести, незалежне приймання й першу корисну дію. Присутність файлів чи названих компетенцій не доводить їхню якість. Валідація відокремлює prepared, structurally_valid, independently_reviewed, accepted, installed і actually_used.
+After construction, verify the current bytes, capability coverage, exact skill set, standalone references, documentation alignment, real tests, independent acceptance, and first useful action. Files and named capabilities do not prove quality. Track prepared, structurally_valid, independently_reviewed, accepted, installed, and actually_used separately.
 
-Forward-тести отримують сирий запит і потрібні джерела без підказаної відповіді чи діагнозу. Перевіряти відсутнє схвалення, нечіткий вхід, критичне питання, зміну вимоги/джерела, self-review, pause/resume, недоступну можливість і відновлення невідомого зовнішнього результату. Тести не повинні виконувати реальну публікацію або витрати заради перевірки.
+Give forward tests the raw request and required sources without an answer or diagnosis. Test missing approval, ambiguous input, critical questions, requirement or source changes, self-review, pause and resume, unavailable capabilities, and recovery from an unknown effect. Do not make real publications or incur costs to test the route.
 
-Нова вимога проходить source → impact → blueprint/component changes → залежні докази → адресне приймання. Не запускати весь процес спочатку для локального ремонту. Розширення місії чи обов’язкової можливості узгодити; оборотну правку в чинному scope виконати самостійно. Підтримувати [контракт створеного агента](generated-agent-contract.md) і [супровід](lifecycle-and-support.md).
+Route a new requirement through source → impact → blueprint and component changes → dependent evidence → targeted acceptance. Use local repairs for local gaps. Agree on mission expansion or new mandatory capabilities; make reversible corrections within current scope directly. Maintain the [generated agent contract](generated-agent-contract.md) and [support workflow](lifecycle-and-support.md).
 
-## Чинний контракт: предметна й виробнича передача
+## Domain and production handoff
 
-Паспорт M1 включає карту застосовних систем, точні поведінкові обіцянки, причинні взаємодії, scope першого результату й спосіб його розширення; M2 матеріалізує typed rules/state/catalog/fixtures, operation capabilities, recipes, transformations, attempts, consumer assemblies і докази. Вивести всі потрібні класи outputs/variants із вимог, не обіцяти повноту довільної невідомої області. Числовий tuning має baseline/range/owner/criterion, не невизначене основне правило.
+The M1 passport includes applicable systems, exact behavioral promises, causal interactions, the first result's scope, and how it can expand. M2 materializes typed rules, state, catalog and fixtures, operation capabilities, recipes, transformations, attempts, consumer assemblies, and proof. Derive required output and variant classes from the requirements; avoid claims of completeness for an unknown domain. Numeric tuning needs a baseline, range, owner, and criterion; define the underlying rule separately.
 
-До кожного component додати inherited contract profile: core/domain/production/evaluation, stable parent→child IDs, exact bundled paths/hashes, input/output/consumer, negative acceptance, cold receiver та dependencies. Зміна спільної моделі відкриває залежні tests/proofs, accepted originals не генеруються повторно. Інваріанти й due gates не губляться при скороченні SKILL або розподілі на family. Пов’язану `foundry-depth/2` зберігати digest-linked до current blueprint; поточні формати не змінювати лише через display-версію й не видавати новий запис за первинне approval.
+For every component, specify its inherited core, domain, production and evaluation profiles; stable parent and child IDs; exact bundled paths and hashes; input, output and consumer; negative acceptance; cold recipient; and dependencies. A shared model change reopens dependent tests and proof. Preserve accepted originals. Keep invariants and due gates when shortening a SKILL file or splitting a family. Digest-link the relevant `foundry-depth/2` to the current blueprint. Do not change formats merely for a display version or represent a new record as the original approval.
 
+## Selected product components
 
-## Обрані продуктові компоненти
+For `components.kind` values app, chatbot, or agent_skill, provide `specialist_route` with a stable `selector`, `handoff_artifact_id`, and `shared_contract_artifact_ids`. Declare the handoff as its own JSON artifact of kind `component_handoff`. A future self-referential ZIP is not the handoff. In a mixed app and chatbot product, identify shared contract artifacts and their single owner. This declaration plans a specialist route. Verify actual resolution, invocation and outputs under the [shared handoff contract](specialist-orchestration.md); factory approval does not prove those events.
 
-Для `components.kind` app/chatbot/agent_skill додати `specialist_route`: stable `selector`, `handoff_artifact_id` і `shared_contract_artifact_ids`. Handoff має бути окремим оголошеним JSON artifact з kind `component_handoff`, не майбутнім self-referential ZIP. У mixed app+chatbot продукті визначити спільні contract artifacts та їхнього одного owner. Ця декларація є планом доступу до спеціаліста; actual resolution/invocation/outputs перевіряються за [спільним handoff контрактом](specialist-orchestration.md) і не випливають із factory approval.
+## Evidence for architecture and sufficiency decisions
 
-## Перевірний вибір архітектури й достатності
+Separate the architecture of agent work (public owner, packaging, expertise, actual actors, handoffs and acceptance) from the architecture of the target result (product, process, research or another output). Add a compact strategy map to the passport: full intent and reconciled sources; results and due stages; comparison of reuse/compose/extend/create_gap; adequacy of expertise; actual gaps; choice and review triggers. Skill, phase and actor are independent units. Demonstrate specialization through outputs and representative requests.
 
-Розділити архітектуру агентної роботи (публічний відповідальний, packaging, компетенції, фактичні actors, передавання й приймання) та архітектуру цільового результату (продукт, процес, дослідження чи інший output). До паспорта додати компактну strategy карту: повний намір і source reconciliation; потрібні результати й due stages; порівняні reuse/compose/extend/create_gap; достатність компетенцій; фактичні gaps; обраний варіант і умови перегляду. Одна skill, одна фаза й один actor — незалежні одиниці; спеціалізація доводиться outputs і representative tasks.
-
-За застосовністю предметного результату спроєктувати концепції, дизайн/мову, архітектуру цілого та компонентів, обґрунтований вибір мов/інструментів/патернів і супровід. Майбутній конкретний параметр може мати owner/due gate; відповідна можливість агента й спосіб її виконання повинні бути визначені. Критичність і невизначеність оцінювати окремо від розміру diff. Дослідження або незалежний review не запускають універсальний фіксований штат.
+When applicable, design the concepts, visual and interaction language, whole and component architecture, justified choice of languages, tools and patterns, and ongoing support for the target result. A specific future setting can have an owner and a due gate; define the corresponding capability and operating route now. Assess criticality and uncertainty separately from diff size. Research or independent review does not require fixed staffing.

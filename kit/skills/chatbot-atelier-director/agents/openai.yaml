@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Директор · 6.0.0
-  short_description: Повний цикл створення й розвитку чатботів
-  default_prompt: Використай $chatbot-atelier-director для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Директор
+  short_description: Chatbot lifecycle and cross-stage coordination
+  default_prompt: Use $chatbot-atelier-director. Restore the chatbot's current state and choose the smallest route that delivers the requested change.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

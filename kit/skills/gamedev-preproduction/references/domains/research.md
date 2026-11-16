@@ -1,48 +1,48 @@
-# Дослідження, різноманітність і перевірка припущень
+# Research, diversity and testing assumptions
 
-## Застосування, вхід і власний результат
+## Applicability, inputs and owned outputs
 
-Застосовувати до пошуку концептів, вибору виробничого маршруту, комерційної моделі й матеріальної зміни гри. Прийняти актуальний намір, дослівні вимоги, попередні відмови, збережених фаворитів, бюджет, доступні інструменти та межу зупинки. Пошук нового раунду, ремонт кандидата й перебудова агента — різні доручення.
+Use for concept discovery, production or commercial choices, and material game changes. Start with current intent, verbatim requirements, previous rejections, saved favorites, budget, available tools and the stopping boundary. Distinguish a new discovery round, candidate repair and changes to the agent.
 
-Власні артефакти: evidence brief, таблиця порівняння релевантних ігор, карта перевірюваних гіпотез і портфельна матриця кандидатів. Використовувати [шаблон](../../assets/domain-templates/research-evidence.template.json) як авторську форму; authoritative requirements/decisions/evidence залишаються в чинних project registries. Не створювати другу історію згоди.
+Deliver an evidence brief, comparable game table, map of testable hypotheses and candidate portfolio matrix. Use the [research evidence template](../../assets/domain-templates/research-evidence.template.json) as an authoring aid. Keep authoritative requirements, decisions, evidence and approval history in the current project registers.
 
-## Від факту до рішення
+## From fact to decision
 
-Для важливого твердження зберегти джерело/дату/ринок/платформу, точне визначення показника, межі доступних даних, спостереження, висновок і спосіб його спростування. Розрізняти:
+For material claims preserve source, date, market and platform, exact metric definition, data limits, observation, inference and a way to falsify it. Distinguish:
 
-- офіційне правило платформи, чинність якого повторно перевіряється перед залежною інтеграцією;
-- задокументовану практику конкретної студії;
-- дизайнерський висновок про можливий перенос принципу;
-- власну гіпотезу, симуляцію та реальний вимір гравців.
+- Official platform rules, with current applicability checked before integration.
+- Documented practices of a particular studio.
+- Design inferences about transfer to this project.
+- First-party hypotheses, simulations and actual measurements with players.
 
-Не виводити причину успіху з одного рейтингу, кількості завантажень чи revenue estimate. Перевірити маркетингові витрати, IP/аудиторію, featuring, час виходу, географію, ціну, модель доступу та життєвий цикл. Порівнювати також релевантні невдалі/зупинені рішення й контрприклади; не приховувати survivorship bias. Чуже утримання не є прогнозом нашої гри. Якщо точних даних немає, записати невідоме й не вигадувати метрику.
+Investigate explanations beyond a rating, download count or revenue estimate. Consider marketing spend, IP and existing audience, featuring, release timing, geography, price, access model and lifecycle. Include relevant failed or abandoned products and counterexamples to account for survivorship bias. Treat other games' retention as context. Mark exact metrics unknown when evidence is unavailable.
 
-Для механіки розібрати дію гравця, стан/правило, ціну вибору, feedback, зміну наступного рішення й розвиток у часі. Для монетизації — конкретний предмет цінності, момент появи бажання, пробу, earned/paid/decline paths, повторне використання, caps, спільну економіку та витрати на підтримку. Саме на цих деталях обґрунтувати fit, а не на наявності популярної назви.
+For mechanics examine player action, state and rule, cost of choice, feedback, changes to the next decision, and development over time. For monetization examine a specific proposition, trigger of demand, trial, earned, paid and decline paths, repeat use, caps, shared economy and support cost. Ground fit in these details.
 
-## Портфель без універсального пресета
+## A portfolio of distinct approaches
 
-Розділити незалежні осі: просторова структура; жанрові дії; камера та масштаб героя; input grammar; темп/форма сесії; розвиток і повернення; художня мова; джерело виклику; бізнес-модель. Малий scope не означає нерухому загальну камеру, а великий світ не означає open world. Назва студії/IP envelope не визначає автоматично жанр, матеріали, HUD чи камеру її різних ігор.
+Distinguish spatial structure, genre actions, camera and hero scale, input grammar, pace and session shape, progression and return, art language, challenge source and business model. A small game can use a moving camera. A large world can have another structure. Preserve each product's design choices within studio and IP identity.
 
-Спершу сформувати аргументовані кластери цілісних задумів, далі покриття портфеля. Не перемножувати осі випадково: кожна композиція пояснює, чому її камера, керування, стиль, зміст і комерційна модель працюють разом. Зберігати визначений користувачем розподіл; його оптимізацію показати як конкретну пропозицію до застосування. Порівняти кандидатів за фактичними рішеннями, а не назвами жанрів. Виявляти дублікати, де після вилучення теми/палітри лишається той самий досвід.
+First define coherent clusters, then choose portfolio coverage. Justify how camera, controls, style, content and commerce work together for each concept. Preserve the user's required distribution and present any optimization as a proposal for decision. Compare actual decisions and detect cases where changing theme and palette leaves the same experience.
 
-Готувати компактний причинний паспорт усіх кандидатів, які показуються для вибору; повний числовий GDD розгортати після вибору. Масовий раунд не дозволяє замінювати зміст copy/paste полями. Обсяг дослідження й рендерів погодити з дорученням та реальною місткістю; не компенсувати невивчену гру кількістю картинок.
+Prepare a compact causal profile for every candidate presented for choice. Expand a full numeric GDD for the selected direction. Preserve individual substance at scale. Scope research and rendering to the assignment and actual capacity. Illustrations support a design argument grounded in analysis.
 
-## Цінність, органічне поширення та експерименти
+## Value, organic sharing and experiments
 
-Пояснити fantasy, зрозумілу першу дію, чому рішення цікаве повторно, що гравець відкриває й що саме захоче показати іншому. Для органічного поширення описати trigger → створений грою момент/результат → добровільний share → користь глядача → шлях у гру. Не вимагати друзів, платежу чи спаму для проходження. Записати вартість виробництва shareable content, приватність capture/імен і доступність функції без сервісу. Заяву «вірусне» залишити гіпотезою до виміру.
+Explain the fantasy, first understandable action, repeatable interest, discovery and what a player might want to show others. Map the trigger, game-created moment or result, voluntary sharing, value to the viewer and path to the game. Keep progress available without requiring friends, payment or spam. Account for producing shareable content, privacy of captures and names, and behavior without an external service. Treat «вірусне» (“viral”) as a hypothesis until measured.
 
-Для ризику обрати найдешевший релевантний експеримент: desk research; правило/баланс-модель; керований control/camera PoC; source/import feasibility; playable encounter; human playtest; обмежений beta cohort. Заздалегідь задати питання, критерій рішення, denominators, збір даних і межі узагальнення. Не підміняти людську зрозумілість LLM-оцінкою, а якість touch — desktop відео.
+For each risk choose the least costly relevant experiment. Options include desk research, rule or balance modeling, a controlled camera or control prototype, source and import feasibility, a playable encounter, real player testing and a bounded beta cohort. Define question, decision criterion, denominator, data collection and limits before testing. Human understanding needs actual participants and touch quality needs device observation.
 
-## Зв'язки, контрприклади та строк доказу
+## Dependencies, counterexamples and evidence timing
 
-Кандидатний паспорт передає stable IDs у [systems](systems.md), [world](world.md), [progression](progression.md), [experience](experience.md), [creative](creative.md), [commerce](commerce.md) і [lifecycle](lifecycle.md). Нове джерело, що змінює припущення, відкриває лише залежні рішення й докази. Saved favorite не стає production choice.
+Candidate profiles carry stable IDs to [systems](systems.md), [world](world.md), [progression](progression.md), [experience](experience.md), [creative](creative.md), [commerce](commerce.md) and [lifecycle](lifecycle.md). Reopen affected decisions and evidence when a new source changes an assumption. A saved favorite needs an explicit production selection.
 
-Контрприклади: дев'ять жанрових назв з однаковими input/camera/run loop; «комерційно доведено» без платформи/джерела; native fidelity з PNG; органічне зростання як синонім нульового бюджету; однаковий платний інструмент у кожній грі. Це repair, а не успішне покриття.
+Repair shallow coverage such as nine genre names with identical controls, camera and loop, an unsupported «комерційно доведено» (“commercially proven”) claim, native fidelity inferred from a PNG, organic growth assumed cost-free, or the same paid item across every game.
 
-На concepts потрібні causal design, evidence limits і plausible production route. На preproduction — обрані typed rules і план перевірки. На slice — runtime/source/device evidence у доступному scope. На beta — реальні люди й коректні метрики. На release — актуальні platform policies та critical integrity checks. Автор-дослідник готує матеріал; предметний спеціаліст перевіряє перенос; незалежний reviewer шукає альтернативні пояснення. Висновок про попит лишається відкритим до реальних даних.
+Concepts need causal designs, evidence limits and plausible production routes. Preproduction needs selected typed rules and validation. The slice needs applicable runtime, source and device evidence. Beta needs actual people and appropriate metrics. Release needs current platform policy and critical integrity checks. The researcher authors, domain specialists check transfer, and an independent reviewer looks for alternative explanations. Demand remains unknown without applicable observation.
 
-## Джерела й статус рекомендацій
+## Sources and status of recommendations
 
-- [Nintendo: Wonder, chapter 1](https://www.nintendo.com/en-za/News/2023/October/Ask-the-Developer-Vol-11-Super-Mario-Bros-Wonder-Chapter-1-2460393.html) — практика конкретної студії: пошук ядра через прототипи й узгоджені зміни світу.
-- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) — практика відбору здібностей, різних маршрутів і способів проходження; не універсальна модель жанру.
-- Розподіл осей, контрфактичний review і строки доказу вище — правила Game Atelier, запропоновані для перевірюваного виконання вимог; це не зовнішній індустріальний стандарт.
+- [Nintendo: Wonder, chapter 1](https://www.nintendo.com/en-za/News/2023/October/Ask-the-Developer-Vol-11-Super-Mario-Bros-Wonder-Chapter-1-2460393.html) describes a studio prototyping the core and coordinating changes to the world.
+- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) illustrates selection of abilities, routes and play styles.
+- The dimensions, counterexample review and evidence timing above are Game Atelier practices for verifiable requirements.

@@ -1,35 +1,29 @@
-# Наскрізний studio payload
+# Portable studio payload
 
-Спільний manifest/hash формат визначає handoff-contract.md. Нижче предметний вміст; він не створює альтернативний top-level manifest.
+Use the manifest and hash format from `handoff-contract.md`. This file defines studio-specific contents. Reference studio records from the canonical Game Model by stable IDs following the [model format](model-format.md). The studio payload owns identity, source, export, and service facts. The Game Model owns dependent uses and effects. Keep one authoritative Game Model and consent registry, with game-specific camera and art decisions.
 
-У поточній моделі studio records підключаються до канонічної Game Model через stable references за [model format](model-format.md). Studio payload лишається власником identity/source/export/service facts, а модель гри — їхніх залежних uses і впливу. Не створювати другу копію Game Model, новий реєстр згод або неявне правило «усі ігри студії мають однакову камеру/графіку».
+## Contents
 
-## Склад
+- `studio/identity.json` records stable `studio_id`, `display_name`, legal name and status, public developer contacts and support and privacy URLs, brand revision, and payload identifiers. Use null and an issue ID for unknown legal or service fields.
+- `studio/brand/` contains immutable master, actual source materials, final exports, tokens, fonts and licenses, approved variants, usage rules, original decisions, and change records. Verify redistribution rights separately. For restrictions, give a lawful restoration path and exact limits.
+- `studio/services.json` records capability, target environment, account and configuration identity without secrets, owner, setup status, usage limits, cost and approval, and current evidence. Keep secrets in the approved store and record references and provisioning steps.
+- `studio/setup/` records exact instructions, dependencies, checklist, and observed confirmation without private documents. `studio/usage-map.json` records actual game and store use, asset IDs, dimensions, and variants needed next.
 
-`studio/identity.json`: stable studio_id, display_name, legal_name/status, public developer contact/support/privacy URLs, brand revision, payload identifiers. Невідомі legal/service fields = null плюс issue ID, ніколи не production-like вигадане значення.
+## Consumer rules
 
-`studio/brand/`: immutable master, actual source materials, final exports, tokens, font/license files, approved variants, usage rules, original choices та delta records. Реальні providers/third-party rights не стають правом на репакування автоматично; за обмежень на redistribution передати законний restore route і exact limitation.
+1. Intake checks actual bytes, paths, hashes, and current revision alongside brand guidance.
+2. Concepts adds the studio usage map and transfers the required lawful payload, retaining the actual studio name.
+3. Preproduction defines applicable boot, splash, about, credits, legal, contact, and listing uses with exact source IDs.
+4. Assets uses approved exports and sources. Review identity for a new compact or monochrome variant.
+5. Build imports exact originals or approved derivatives and records runtime import and compression in the recipe.
+6. QA compares actual screens and store fields to brand and legal identity and pending issues. Release uses the exact legal and public fields.
+7. A studio update creates a revision and an impact map. Preserve existing source outputs and historical approvals, and migrate affected dependencies explicitly.
+8. Resolve source and evidence IDs to portable package-relative paths with bytes and hashes, or an explicit remote restoration route. Flag unavailable historic materials. Retain actual proof independent of scratch paths.
 
-`studio/services.json`: capability, target environment, account/config identity без secret values, owner, setup status, usage constraint, cost/approval requirement і current evidence. Секрети тримати в відповідному secret store; тут тільки reference name й provisioning instructions.
+Identify names, image and font bytes, legal and service status, and their sources. Keep credentials and private identity documents out of delivery artifacts.
 
-`studio/setup/`: послідовна інструкція/залежності/чекліст і raw observed confirmations без приватних документів. `studio/usage-map.json`: де студія використовується у грі й store listing; яких asset IDs/dimensions/variants потребує наступний етап.
+## Operations and portable source
 
-## Consumer правила
+Include relevant operation IDs, capability witnesses, exact recipes and transformations, and lawful source and export bindings. Use the existing IDs for the five operational record types. Exact host transfers pin inputs, toolchain, allowed outputs, and return checks. Track installation and catalogue status separately from native evidence.
 
-1. Intake перевіряє bytes/paths/hash/current revision; не читає тільки брендбук PDF.
-2. Concept додає студійний usage map і передає весь потрібний lawful payload далі; не вводить placeholder назву іншої студії.
-3. Preproduction визначає boot/splash/about/credits/legal/contact/store use cases й exact source IDs; непотрібний довгий splash не нав'язується.
-4. Assets використовує approved exports/sources; новий compact/mono вариант має identity review, якщо його ще немає.
-5. Build імпортує ті самі sources/approved derivatives, а runtime import/compression фіксує recipe.
-6. QA звіряє actual screens/listing metadata із studio identity й legal pending issues; release не підмінює legal name display name.
-7. Studio update створює нову revision з impact map. Інші producer files та історичні approvals не переписуються. Consumer мігрує залежності явно.
-
-8. Резолвити всі передані source/evidence IDs у portable package-relative paths із bytes/hashes або явним remote restore route. Absolute path старого scratch не є переносним доказом; недоступні історичні матеріали позначати unavailable, не зараховувати їх перевіреними повторно.
-
-Один generic README «студія TatterJack» не є payload. Точні назви, image/font bytes, current legal/status/service record мають ідентифіковані джерела. У фінальному archive не пакувати credentials або копії приватних посвідчень.
-
-## Operation records і portable source
-
-Для relevant brand/game production прикласти operation IDs/capability witnesses, exact recipes/semantic transformations і lawful source/exportbinding. П’ять operational record types використовуютьчинні IDs; payload невводитьдругого game-design authority. Hostbridgepinexact inputs/toolchain/allowed output і return checks; installed/catalogstatus не native proof.
-
-Відсутні rights на redistribution не приховувати«self-contained»ярликом: передати permittedoutput+verified restore path/limitations. Current accepted master незмінний; semantic cache інвалідує тільки залежні derivatives.
+When redistribution is restricted, transfer the allowed output, verified restoration path, and limits. Preserve exact accepted masters. Invalidate only derivatives affected by changed semantic inputs.

@@ -1,114 +1,114 @@
-# Game Atelier — системна глибина та здійсненний референс
+# Game Atelier systemic depth and feasible references
 
-> Чинний контракт4.0: спочатку [зрілість/компетенції/authority](v4/index.md), потім потрібні предметні розділи. GA4-P1/D1/D2 доповнюють GA3/UA26 та старі IDs. C1 потрібен для кожної завершеної концепції, T — для виробничої передачі; evidence відповідного gate не замінюється документацією. Історичні джерела й approvals зберегти. R6-профілі, один масштаб, стиль, камера чи one-time kit не є глобальними defaults.
+Read the [maturity, competence, and authority index](v4/index.md), then the applicable domain contracts. GA4-P1/D1/D2 supplement GA3/UA26 and earlier IDs. Each complete concept needs C1 and each production handoff needs T. Collect each gate's actual evidence. Preserve historical sources and approvals. Apply R6 profiles, scale, style, camera, and one-time kits only where selected.
 
-Наскрізний контракт інструмента 3.0.0. Читати разом із чинними experience/product-systems/fidelity; це уточнення їхніх acceptance checks, а не паралельне джерело згоди. Джерело зміни: сім зауважень користувача, запит `dd9e0086-c436-4300-b7b9-51cd0302dc42`. Попередні 90 карток є негативним контрольним набором, не новими кандидатами.
+This cross-stage 3.0.0 contract supplies acceptance checks alongside the current experience, product systems, and fidelity contracts. Use the existing source of authority. The seven owner findings came from request `dd9e0086-c436-4300-b7b9-51cd0302dc42`. The original 90 cards are negative controls.
 
-## 1. Формула приймання
+## 1. Acceptance rule
 
-**Цілісна гра = зрозуміла фантазія × здійсненний художній референс × причинно зв’язана система механік × зручний доступ до її глибини × розвиток і відкриття × осмислені ресурси × доречний додатковий досвід покупки.**
+A coherent game requires a clear fantasy, feasible artistic reference, causally connected mechanics, usable access to their depth, progression and discovery, meaningful resources, and an appropriate optional paid experience where applicable.
 
-Знак множення означає логічний шлюз найслабшої ланки, а не арифметичний рейтинг чи формулу комерційного успіху. Кожний застосовний компонент проходить власну смислову перевірку; брак одного не компенсується красою, довжиною документа, кількістю контенту або середньою оцінкою. `Ready_at_stage = AND(усі застосовні acceptance checks, строк яких настав)`. Майбутній device proof не вимагати в concepts, але неперевірену можливість не називати доведеною.
+Each applicable part passes its own semantic check. This is a logical conjunction, with no arithmetic score or prediction of commercial success. `Ready_at_stage = AND(all applicable acceptance checks due at this stage)`. Verify device claims at their due gate and retain pending status for unobserved capability.
 
-Малий просторовий масштаб обмежує локації, але не перспективу рішень. Великий світ має розширювати взаємодії, знання та наслідки, а не відстань між однаковими боями. Максимізувати змістовний простір вибору в реальній виробничій місткості; не максимізувати кількість правил, кнопок, валют чи порожніх систем.
+Compact worlds can provide broad decision space within a small location set. A large world should expand interactions, knowledge, and consequences. Maximize meaningful choices within feasible production capacity.
 
-## 2. Усі кандидати, включно з ранніми картками
+## 2. Every candidate, including early cards
 
-Кожний кандидат до генерації ілюстрації має компактний **системний паспорт**. Короткий текст для людини є проєкцією паспорта, а не заміною. Не застосовувати вимогу глибини лише до фіналістів: сотня гарних вузьких демо не відповідає широкому системному пошуку. Паспорт ще не GDD: числове балансування, всі рівні/квести, фінальні ассети та повна реалізація залишаються наступним етапам.
+Before illustration, prepare a compact **systemic passport** for every candidate. The short presentation card summarizes the passport. Apply the depth standard across the entire search. Numerical tuning, all levels and quests, final assets, and complete implementation belong to later gates.
 
-Паспорт зберігає: фантазію й цілі; сімейства механік і їхні зв’язки; два причинні сценарії з різним рішенням; керування/читабельність; contextual resources; ранній/середній/пізній розвиток; граматику ситуацій і різницю стратегій; шлях альтернативного досвіду покупки; visual-to-production profile; найсильніше заперечення й наступну перевірку. Відсутню суттєву складову ремонтувати до batch image generation, а не приховувати в короткій картці.
+Record fantasy and objectives, mechanic families and their relationships, two causal scenarios with different decisions, controls and readability, contextual resources, early/mid/late progression, situation grammar and strategies, the alternative purchase experience where applicable, a visual production profile, the strongest objection, and next check. Repair a substantive gap before batch generation.
 
-## 3. Цілісна фантазія й граф механік
+## 3. Fantasy and mechanic graph
 
-Спочатку пояснити людською мовою: ким граєш, що робиш зараз, чому це цікаво, до чого веде гра та яке відкриття змінить бачення вже знайомого. Звичайний жанр із багатими взаємодіями кращий за незрозумілий дивний гачок, що існує заради новизни. Нову властивість світу пояснювати видимою причиною, її межами та наслідком для гравця.
+Explain plainly who the player is, what they do now, what makes it interesting, what the game leads to, and which discovery reinterprets a familiar situation. Establish clear interaction and causality before relying on novelty. Explain new world properties through visible causes, limits, and consequences.
 
-Задати сімейства механік за потребою фантазії: тіло/рух/позиція; дії та інструменти; матеріали/геометрія/стани оточення; агенти/суперники/союзники; contextual resources; цілі/власність/наслідки світу. Це ролі для аналізу, а не вимога додавати всім іграм бій, RPG-інвентар, crafting чи survival. Для відсутньої ролі вказати її предметний аналог або обґрунтовану незастосовність. Не виключати саму вимогу взаємопов’язаної глибини.
+Derive mechanic families from the fantasy. Consider body and movement and position, actions and tools, materials and geometry and environment states, agents and opponents and allies, contextual resources, objectives and ownership and world effects. Include combat, RPG inventory, crafting, and survival only where relevant. Record domain equivalents or reasoned N/A. Keep the requirement for interconnected depth.
 
-Механіка — правило зі станом, дією, ціною/обмеженням, наслідком, протидією/помилкою та відновленням. Ребро `A → B` зараховувати лише коли конкретна зміна A змінює доступну дію, пріоритет, timing, траєкторію, ризик або наслідок B. «Пов’язано з», спільна тематика, одна валюта для всього й пасивні +% не є такими ребрами.
+A mechanic has state, action, cost or constraint, outcome, counter or error, and recovery. Count an edge `A → B` when a change in A affects an available action, priority, timing, trajectory, risk, or outcome in B. A shared theme or currency and passive percentages need demonstrable decision effects to qualify.
 
-Показати замкнені причинні цикли, що перетинають різні сімейства. Для широкого системного brief потрібні щонайменше два різні повні сценарії, у яких ті самі вивчені інструменти створюють інше рішення через стан світу/суперника/ресурсу. Сценарій записати як `стан → намір → input → правило/контакт → спожитий/змінений стан → видимий наслідок → відповідь іншої системи → новий вибір → помилка/відновлення`. Кількість сценаріїв — мінімум доказу пояснення, не кількість контенту чи числовий сертифікат глибини.
+Show closed causal loops across families. A broad systemic brief requires at least two complete scenarios where the same learned tools lead to different decisions given world, opponent, or resource state. Describe `state → intent → input → rule/contact → consumed or changed state → visible outcome → effect from another system → new choice → error/recovery`. The scenario count is a minimum for explanatory evidence.
 
-Виконати контрфактичний review: що зміниться без цього правила; чи можна прибрати «систему» без зміни рішень; чи одна найпростіша політика перемагає в усіх описаних контекстах; чи працює комбінація лише як наперед записаний спецефект. Якщо більшість систем декоративні, результат — repair, незалежно від їхньої кількості.
+In counterfactual review, remove a rule or system and compare choices, test whether the simplest strategy wins in every context, and check whether a combination changes play beyond its scripted effect. Repair decorative systems that do not affect gameplay as required.
 
-## 4. Глибина через зручне керування та зрозумілий UI
+## 4. Use controls and UI to expose depth
 
-Розділити **граматику input** і кількість можливих наслідків. Невеликий набір стабільних жестів може давати великий простір дій через напрям, стан, контакт, таймінг і вибір спорядження. Не обмежувати гру двома діями лише тому, що в HUD дві іконки. Так само не додавати десяток кнопок для імітації складності.
+Separate input grammar from possible outcomes. Stable gestures can support many decisions through direction, state, contact, timing, and loadout. Derive actions and visible controls from the relevant gameplay.
 
-Для режиму/жанру показати карту великих пальців, переміщення й прицілювання, спрямування дії, модифікатори/контекст, взаємодію з предметом, скасування та відновлення. Вказати, як гравець передбачає контекстну дію до натискання; за двозначності дати явний вибір, стабільне правило або безпечне скасування. Не ховати невідому кнопку в довільному жесті. Скласти перевантажений типовий епізод: які одночасні вимоги можна виконати двома пальцями без незручної хватки й перекриття цілі.
+Map thumb activity, movement and aiming, action direction, context and modifiers, item interaction, cancellation, and recovery for the mode. Let the player anticipate the contextual action. Resolve ambiguity with explicit selection, stable priority, or safe cancellation. Test a representative peak episode with the actual grip and visible target while both fingers are occupied.
 
-Дати first-play/normal/peak screen states: новачок бачить наступну корисну дію; досвідчений читає складну ситуацію; пізній контент не розвалює HUD. Для кожної важливої механіки є передбачення, підтвердження, помилка й відновлення. Звук/вібрація підсилюють зрозумілі visual cues; mute/no-haptic зберігають потрібну інформацію. Вказати відкриття технік, affordances предметів, читабельність просторів і мету після повернення з паузи. Кнопки/іконки в target frame повинні відповідати описаній input grammar.
+Show first-use, normal, and peak screen states. A beginner can find a useful next action, an experienced player can read a complex situation, and late-game content fits the HUD. Each major mechanic needs prediction, confirmation, error, and recovery cues. Preserve required information with sound and haptics off. Show discovery of techniques, item affordances, scene readability, and the goal after resumption. Target-frame controls must correspond to the input grammar.
 
-## 5. Розвиток протягом усієї гри й граматика повернення
+## 5. Progression across play and reasons to return
 
-Описати ранню, середню й пізню гру як **зміну можливостей і розуміння**, а не ряди ворогів із більшим HP. Кожне суттєве відкриття змінює дію/комбінацію, робить відомий контекст інакше прохідним або додає нову ціль/наслідок. Показати, що гравець знає спочатку, що відкриває пізніше, як це переосмислює знайому задачу та яку дальшу мету він бачить.
+Describe early, mid, and late play through changing capability and knowledge. Each substantial discovery changes an action or combination, opens a new approach to a known situation, or adds a goal or consequence. Show the player's starting knowledge, subsequent discoveries, changed interpretation, and later objectives.
 
-Варіативність задавати граматикою сумісних сімейств ситуацій: геометрія/маршрути, агенти/наміри, стани матеріалів, інструменти/build, взаємозалежні цілі, ставки/ціна помилки, наслідки попередніх дій. Не всі осі потрібні кожному жанру. Вказати authored vocabulary, правила сполучення, неприпустимі/несправедливі комбінації, виробничу місткість, як нова порція контенту використовує вже створені системи.
+Model variation through compatible families of situations. Use relevant geometry and routes, agents and intentions, material states, tools and builds, related goals, stakes and failure costs, and prior-action consequences. Define authored vocabulary, combination rules, forbidden and unfair combinations, production capacity, and how future content uses existing systems.
 
-Дати конкретні приклади контекстів і сказати **яке рішення змінюється між ними**. Інший seed, новий колір, той самий ворог зі статами або 5–10 переставлених арен без нової логіки не закривають replay. Не називати випадкові комбінації «нескінченним контентом». Для малого простору розвивати його матеріальний/соціальний/тактичний стан і майстерність; для великого — географічні зв’язки, доступ, інструменти, поведінку мешканців і сталі наслідки. Вказати finite launch scope й довгу арку після освоєння першого набору без залежності від щотижневого ручного event.
+For each representative context, identify the decision that changes. Check seeds, recolors, stronger enemies, and reordered arenas against that criterion. Describe finite content honestly. In a small space, evolve material, social, or tactical state and mastery. In a larger world, evolve geography, access, tools, inhabitants, and lasting effects. Establish finite launch scope and a longer progression arc that works without a weekly manual event.
 
-## 6. Ресурси та характеристики як частина дії
+## 6. Resources and attributes in action
 
-Ресурс — значущий змінний стан, а не обов’язково валюта чи смуга. Розглянути за fit фізичний стан, навантаження, тепло, імпульс, шум, сліди, зв’язок із союзниками/територією, увагу агента, інструментальні режими чи матеріали. Не додавати їх як універсальний checklist.
+Treat a resource as a meaningful changing state. Consider the relevant physical state, load, heat, momentum, noise, traces, alliances or territory, agent attention, tool modes, and materials.
 
-Для кожного залишеного ресурсу: джерело; спосіб/момент використання; вплив на дію й ситуацію; альтернативна витрата; ризик накопичення/вичерпання; відновлення; reader cue; persistence/reset. Показати ланцюг `дія → ресурсний стан → зміна можливості/світу → нове рішення`. Пояснити бодай один предметний конфлікт витрат і наслідок для вже відомого прийому. Зайву валюту об’єднати або прибрати, якщо це не змінює рішення. Базові HP/енергія доречні, але самі не є комплексною системою ресурсів.
+For each chosen resource define source, usage and timing, effect on action and context, alternative spend, risks of accumulation and exhaustion, recovery, player-readable cue, persistence and reset. Trace action through resource state and changed capability or world to a new choice. Show a concrete spending conflict and its effect on a known technique. Consolidate redundant currencies. Basic health or energy can be sufficient for some scopes. Claims of resource depth need observed decisions.
 
-## 7. Монетизація альтернативного досвіду
+## 7. Commerce for an alternative experience
 
-Проєктувати цінність разом із ядром. За brief із вимогою альтернативного досвіду кожний кандидат має змістовну пропозицію, яка змінює спосіб переживання/проходження: playstyle, інструмент із новою логікою, персонаж із власним ритмом/діями, суттєвий спосіб взаємодії, нова взаємопов’язана пригода/контент. Декор може доповнювати її, але не підміняти весь задум стандартною лівреєю. Не зобов’язувати всі проєкти до продажу сили, інструментів або десятка бізнес-моделей.
+Design value alongside the core. When the brief requires an alternate experience, each candidate describes a distinct playstyle, tool logic, character rhythm and actions, interaction, or connected adventure or content. Cosmetic changes can supplement this. Choose sale of power, tools, or business models only for actual scope.
 
-Показати той самий ігровий контекст у baseline й альтернативі: що робить палець, які рішення/емоційний ритм змінюються, що новий варіант уміє, чого не вміє, яка ціна/обмеження, чому це може хотітися повторно. Вказати природне бажання, доступну пробу, добровільний момент вибору, точний предмет покупки, багаторазове використання й наступну власну ціль. Не обіцяти, що відмінність вже цікава людям: це предмет human test.
+Compare baseline and alternative in the same context. Show the player's touch actions, changed decisions and emotional pace, capabilities and weaknesses, cost and limits, and reasons for repeat use. Include desire, trial, voluntary choice, exact purchase, reuse, and a next goal. Observe appeal with actual players when due.
 
-Якщо brief вимагає альтернативного досвіду в рамках того ж проходження, дати змогу використати його в поточній кампанії та збереженні; не підміняти це обов’язковим окремим save або повтором усієї кампанії. Прив’язати зміну ролі чи інструмента до конкретних спільних ресурсів, наслідків і обмежень; зміна комплекту не створює невказаного refill/reset/refund. Різноманіття стилів може бути цінністю покупки; не вимагати їх однаковості чи нульової ситуативної користі. Окремо перевірити універсальну домінантність, обхід бюджету, paywall/гринд і конкурентний доступ. Одне активне спорядження та обіцянка майбутнього тесту самі не вирішують такого контрприкладу.
+When same-run play is required, offer it within the current campaign and save. Define shared resources, consequences, and limits for roles or equipment. Switching preserves accepted replenishment, reset, and refund rules. Alternative styles can provide situational benefit. Check universal dominance, budget bypass, paywalls and grind, and competitive access. Test these effects with actual portfolio counterexamples.
 
-Безкоштовна гра залишається самодостатньою з повноцінною аркою, простором mastery і можливістю досягати основних цілей. Схему доступу визначати за моделлю: earned comparable alternatives, free functional baseline або чесно відокремлене premium expansion; не маскувати обов’язкову покупку під optional. Перевірити cumulative collection/access/synergy і strongest counterexample: у яких контекстах куплений портфель стає універсально кращим, скорочує обов’язковий гринд, забирає контргру чи перетворює попередні безкоштовні рішення на пастку. Однакова DPS не доводить horizontal balance. No-offer control залишається повною грою. Paid randomness, recurring spend і store integration не вважати обраними від появи гіпотези в картці.
+A free game remains complete with a progression arc, mastery, and main objectives. Define earned alternatives, a functional free baseline, or a clearly described paid expansion as applicable. Test cumulative collection, access, and synergy. Find contexts where paid ownership dominates, removes required grind, eliminates counterplay, or traps prior free decisions. Compare portfolio effects in addition to individual DPS. The no-offer path remains a full game. Paid randomness, recurring spending, and store integration require their own decision.
 
-## 8. Ілюстрація як здійсненний майбутній референс
+## 8. Illustrate a feasible reference
 
-До image generation для кожного художнього напряму скласти `visual_production_profile`: фактичні доступні й заплановані authoring/runtime tools, стан їхньої перевірки, license/cost, спосіб створення editable sources, sprite/model/rig/animation route, матеріали/освітлення/VFX/UI, камера/масштаб/орієнтація, бюджет видимої сцени й ключові ризики. Один перевірений reusable profile може підтримувати багато кандидатів; концепт-специфічні відхилення аналізувати окремо. Наявність генератора PNG не доводить доступність відповідної 3D-моделі, ріґа чи фізики.
+Before generating images, prepare a `visual_production_profile` for each artistic direction. Record available and planned authoring and runtime tools with verification state, licensing and cost, editable-source route, sprite/model/rig/animation, materials and lighting and VFX and UI, camera and scale and orientation, scene budget, and key risks. Reuse a verified profile where suitable and evaluate candidate-specific changes. Verify separate capabilities for geometry, rigging, and physics.
 
-Генерувати найкращий вигляд, який цей маршрут правдоподібно може зберегти у фінальній грі в заданих ресурсах. Промпт має включати обмеження профілю: реальну gameplay camera, очікуваний screen density, scale, можливий animation representation, читабельний HUD і ефекти. Не просити кінематографічну геометрію/кінцівки/cloth/fluid/global illumination або asset density, якщо маршрут їх не підтримує. Не компенсувати невідоме поясненням «потім зробимо простіше» після вибору користувача.
+Generate the best result the production route can feasibly preserve. Include gameplay camera, intended screen density, scale, feasible animation representation, readable HUD, and effects in the prompt. Respect actual support for geometry, limbs, cloth and fluid, global illumination, and density. Resolve feasibility before asking the owner to choose the reference.
 
-Фактично оглянути кожний згенерований кадр і звірити видимі елементи з паспортом, профілем та input grammar; записати observer, image hash, відхилення й результат. Вибірковий незалежний review чесно охоплює лише свою вибірку й не заміняє цього огляду. Для кожного кадру зберегти exact original/hash, profile ID, image-element → source/assembly plan, видимі core-mechanic states, UI/input correspondence, реально перевірене та відкриті ризики. Якщо художня обіцянка не вкладається в маршрут, спочатку змінити маршрут у бюджеті або переробити target до показу; не показувати завідомо недосяжну картинку як основу вибору.
+Inspect every frame against the passport, profile, and input grammar. Record actor, image hash, deviations, and outcome. Scope an independent sampled review to the actual sample. Preserve each exact original and hash, profile ID, element-to-source and assembly plan, visible mechanic states, UI and input correspondence, observed proof, and risks. If the route cannot support the target, change to a feasible route within budget, revise the target before presentation, or record the specific blocker.
 
-Статус раннього кадру — `feasibility_reviewed_visual_proposal`, а не runtime capture, фінально прийнятий master або device performance proof. Після вибору він стає точним accepted reference в погодженому scope. Прийняту камеру, силует, матеріальність, інтерфейс і рівень якості переносити по lineage до preproduction/assets/build/QA. Репрезентативний production slice перевіряє actual source → import → native runtime → device parity до тиражування. Якщо потрібні засоби недоступні, не видавати feasibility за доведену: обрати до показу реальний підтриманий маршрут або позначити конкретний невирішений блокер.
+Use `feasibility_reviewed_visual_proposal` for an early inspected frame. Runtime capture, final master, and device performance require separate evidence. The owner's selection binds the exact reference and scope. Carry camera, silhouettes, materials, UI, and quality through preproduction, assets, build, and QA. Before scaling, prove source, import, native runtime, and device parity through the representative slice.
 
-## 9. Шлюзи та відповідальність дев’яти навичок
+## 9. Skills and gates
 
-| Навичка | Обов’язок у своєму дозволеному scope |
+| Skill | Responsibility within allowed scope |
 |---|---|
-| director | Зберігати сім вимог, source IDs, stop і dependency graph; вимагати паспорт до зображення; не знижувати глибину через масовий пошук; переносити exact accepted reference. |
-| studio | Передавати незмінний approved master/brand envelope й відомі виробничі обмеження; не плутати знак студії з погодженим тілом/світом персонажа. |
-| concepts | Для кожного кандидата закрити coherent fantasy, causal systems, UX, progression/replay/resources/alternate experience і plausible production profile до target; independent semantic review усіх паспортів; actual visual inspection кожного кадру та пропорційний незалежний visual review. |
-| preproduction | Розгорнути паспорт у state/interaction/data/UI/content/economy contracts, milestone/dependency models і точний slice contract; не відкинути взаємодії як «зайві для MVP» без рішення. |
-| assets | Виробити потрібні стани/читабельні cues/варіанти/рух та editable source lineage; пройти reference parity; не перетворити системні предмети на декор. |
-| build | Реалізувати причинні зв’язки й input semantics, resource consequences, progression/variation/alternate playstyle; продемонструвати відмінні рішення в записаних сценаріях, save/recovery. |
-| qa | Перевірити behavioral counterfactuals, input-load/readability/accessibility, early/mid/late, replay policy, cumulative purchase portfolio й actual visual/device parity; відділити structural check від досвіду гри. |
-| release | Представляти реальний build та досяжні способи гри; узгодити store art/offers із actual contents; не рекламувати недоступні взаємодії. |
-| liveops | Розвивати grammar й взаємодії, а не лише inflation/skins; перевіряти нові домінантні стратегії, відмерлі ресурси, UX overload, cumulative purchase/value й fidelity drift. |
+| director | Preserve the seven requirements, source IDs, stop, and dependencies. Require a passport before illustration. Preserve depth throughout search and carry the exact accepted reference. |
+| studio | Deliver unchanged approved master and brand scope with known production limits. Track the game's character and world identity separately. |
+| concepts | Before choosing targets, establish coherent fantasy, causal systems, UX, progression, replay, resources, optional alternate experience, and a feasible profile for every candidate. Independently review all passports. Inspect every image and scope separate independent visual review. |
+| preproduction | Turn the passport into state, interaction, data, UI, content, and economy contracts, milestones and dependencies, and an exact slice contract. Preserve accepted interactions. |
+| assets | Produce required readable states, cues, variants, motion, and editable-source lineage. Verify parity and preserve the role of interactive items. |
+| build | Implement causal dependencies and input semantics, resources, progression, variation, and alternate play. Demonstrate different decisions in recorded scenarios and verify save and recovery. |
+| qa | Test behavioral counterfactuals, input load and readability and access, early/mid/late, replay strategies, cumulative paid portfolios, and actual visual and device parity. Record tests and experience separately. |
+| release | Represent actual playable build and interactions. Bind listing art and offers to actual included contents. |
+| liveops | Extend grammar and interactions. Check emergent dominance, obsolete resources, UX overload, cumulative purchase value, and fidelity. |
 
-Структурний валідатор перевіряє обов’язкові поля, непорожні сценарії, стабільні ID й посилання. Він не присвоює автоматичний `depth_pass`, `ergonomic_pass`, `fun`, `realizable` або `balanced`. Незалежний смисловий review має виявляти пусті перефразування, причинну неповноту й дублікати; production/device/human claims потребують відповідних фактичних доказів. Два однакові невдалі ремонти змінюють діагностику, а не лише текст картки.
+Structural checks cover required fields, nonempty scenarios, IDs, and references. Determine `depth_pass`, `ergonomic_pass`, `fun`, `realizable`, or `balanced` from their own evidence. Independent review detects generic paraphrase, missing causality, and duplicates. Use observed evidence for production, device, and human claims. Change the diagnosis after two identical failed repairs.
 
-## 10. Негативні контролі
+## 10. Negative controls
 
-- Два борці, поштовх, нахил і набір скінів: локальний гачок є, повний systemic passport відсутній — repair до нового кадру.
-- Три «системи» є трьома словами для однієї атаки; gameplay не змінюється після їх вилучення — fail causal depth.
-- Пізня гра збільшує HP, число хвиль і кольори; знайоме рішення не переосмислюється — fail evolution/replay.
-- Новий персонаж має той самий input і логіку, відрізняється coat/particles — це декор, не заявлений alternate experience.
-- Paid kit має іншу атаку, але власник усіх kit завжди обходить слабкості — unresolved cumulative advantage, не доведений horizontal fit.
-- Усі нові механіки існують, але потребують трьох одночасних touch contacts або непередбачуваного контекстного натискання — fail доступу до глибини.
-- Чудовий frame вимагає невідомого дорогого 3D/animation pipeline, після вибору пропонується примітивний redraw — fail здійсненного референсу й parity.
-- Усі поля заповнено загальними «комбінації/нові рівні/різні стилі», але немає показаної зміни рішення — structural valid, semantic fail.
+- Two wrestlers, a push and tilt, and several skins provide a local hook. Complete the systemic passport before another frame.
+- Three labels for one attack leave choices unchanged when removed. Repair causal depth.
+- More HP, waves, and colors leave late decisions unchanged. Repair progression and replay.
+- A character with the same controls and logic but different clothing and particles adds cosmetics. Supply the required alternate experience when in scope.
+- Every separate paid kit has a drawback, while ownership of all kits bypasses all drawbacks. The cumulative advantage remains open.
+- Requiring unreachable simultaneous touches or unpredictable context overrides blocks usable access to depth. Test the actual grip and controls.
+- An impressive frame depends on an unverified expensive production pipeline. Verify feasibility and parity before selection.
+- A full template without a concrete change in player decision passes structure and fails semantics.
 
-## Джерела, пов’язані записи й технічний шлюз
+## Sources, records, and technical gate
 
-Сім уточнень `UA26-SYS-01…07` у `assets/systemic-user-sources.json` містять точні витяги запиту з оригінальним написанням; interpretation є окремим полем. Переносити ці IDs до того самого project requirement registry та `experience-coverage`, не створювати другу істину або AI-погодження. Відповідність: 01 — здійсненний референс; 02 — системи; 03 — UX; 04 — альтернативний досвід; 05 — розвиток; 06 — ресурси; 07 — цілісна фантазія.
+`UA26-SYS-01…07` in `assets/systemic-user-sources.json` retain the exact source wording with separate interpretation. Record them in the same project requirements and `experience-coverage`. The checks cover feasible reference (01), systems (02), UX (03), alternate experience (04), progression (05), resources (06), and coherent fantasy (07).
 
-У `gamedev-concepts` використовувати `assets/systemic-passport.schema.json` і структурний шлюз:
+For `gamedev-concepts`, use `assets/systemic-passport.schema.json` and the structural gate:
 
 ```bash
 python3 <CONCEPTS_SKILL_DIR>/scripts/concept_gate.py /absolute/passports.json --profiles /absolute/profiles.json --reviews /absolute/reviews.json --for-illustration --json
 ```
 
-За потреби додати `--cards /absolute/cards.json`, `--evidence /absolute/evidence.json`, `--images /absolute/images.json --check-files`. Перед першим використанням відкрити actual `--help`; не вигадувати flags. Review має незалежного actual автора, точний scope `pre_illustration_systemic_passport`, усі застосовні source IDs і canonical SHA-256 паспорта: UTF-8 JSON, `ensure_ascii=False`, `sort_keys=True`, `separators=(',', ':')`; `review_refs` визначити до хешування. Висновки `structurally_valid_review_pending`, `pre_illustration_receipts_valid`, `repair_required` описують записи; `quality_certified` лишається false. Прочитаний receipt не замінює реального смислового review.
+Add `--cards /absolute/cards.json`, `--evidence /absolute/evidence.json`, and `--images /absolute/images.json --check-files` as needed. Read actual `--help` first. Record the independent reviewer, exact `pre_illustration_systemic_passport` scope, applicable source IDs, and canonical SHA-256 of the passport. Use UTF-8 JSON with `ensure_ascii=False`, `sort_keys=True`, and `separators=(',', ':')`. Set `review_refs` before hashing. `structurally_valid_review_pending`, `pre_illustration_receipts_valid`, and `repair_required` describe records. `quality_certified` remains false. Verify actual semantic review.
 
-Паспорт, profile, actual image inspection і reviews реєструвати як звичайні artifacts/evidence з тими самими IDs/hashes у чинному handoff 1.0.0. Завершений preview не потребує `selected_concept` чи нативної збірки і не дає `stage_status=accepted` для залежного повного дизайну без вибору гри. Після узгодження користувачем ID продовжувати вже доручений наступний scope; не додавати повторне погодження тієї самої згоди.
+Register the passport, profile, image inspection, and reviews as artifacts and evidence, preserving IDs and hashes in handoff 1.0.0. A completed preview can close its own scope without `selected_concept` or native build. Full-design `stage_status=accepted` requires the production choice. Continue the authorized next scope after the actual owner selection.

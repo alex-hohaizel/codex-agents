@@ -1,32 +1,37 @@
-# App Atelier: повна концепція і точна економіка
+# Complete app concept and economics
 
-Зміст: результат → системи/шляхи → комерція → числа → виробнича здійсненність → рішення.
+Contents include the outcome, journeys and systems, commerce, the numerical model, production feasibility, and selection.
 
-## Повнота кандидата
-Читати `cross-domain-core.md` і `app-system-contract.md`; зберегти accepted direction/REQ-ID та джерела. Розрізняти sketch і завершену концепцію: кожний фіналіст для остаточного вибору має purpose/audience/trigger, core/edge/recovery/revisit journeys, повну applicability map, предметні сутності/стани/правила на рівні характеру, launch scope, паритет погоджених платформ, UX/brand/content direction, local state й optional sync, authority/permissions/privacy, support/ops, cost/commerce/acquisition, assumptions/ризики/probes/reject criteria. Дві картки екранів не підміняють продуктову систему.
+## Complete candidates
 
-Будувати причинний ланцюг: подія потреби→дія→правило→результат→підтверджений стан→наступне використання. Розкрити перехресні межі: offline і expiry; guest і покупка; data export і privacy; недоступний API і core; support і tenant isolation; тривалий service cost і one-time price. Предметно пояснити, які дані змінює кожна core-дія, хто authority й що станеться при відмові. Не вимагати в концепції всіх exact числових coefficients, але невідомий параметр має range/method/due, а не сховану зміну суті.
+Read `cross-domain-core.md` and `app-system-contract.md`. Preserve the accepted direction, REQ-ID, and sources. A finalist ready for selection covers purpose, audience and trigger, core, edge, recovery and return journeys, applicability, key entities, states and rules, launch scope, agreed platform parity, UX, brand and content direction, local state and optional sync, authority, permissions and privacy, support and operations, cost, commerce and acquisition, assumptions, risks, probes, and rejection criteria. Label early sketches accordingly.
 
-## Комерційна система за fit
-Для доречних моделей описати offer catalogue/definitions, сумісність пакетів/лімітів, free/trial/paid journeys, повторювану користь і собівартість, restore/expiry/refund, account/platform scope. Визначити чому оплата виникає після зрозумілої користі, що людина отримує і як це працює після покупки. Не нав’язувати рекламу, підписку, штучне утримання, платний RNG або ігрові механіки. Умовні bundles/credits мають прозорі cumulative effects: дві покупки не продають двічі одне право, expiry не відбирає неправомірно власні дані.
+Trace the need → action → rule → result → confirmed state → next use. Cover offline with expiry, guest use with purchases, data export with privacy, API outage with the core flow, support with tenant isolation, and recurring service cost with a one-time price. For each core action, state what data changes, which authority governs it, and what happens on failure. Where a concept needs a parameter with an unknown value, record a range, method, and due gate and preserve the underlying intent.
 
-Для взаємодій можливостей скласти catalogue/family rules: prerequisites, compatibility/exclusion, versions, quotas, consumer/platform, entitlement й failure. Перевірити повні сімейства запуску/правила варіацій, не лише два приклади. Розвиток продукту після launch — явна content/feature roadmap з операційною спроможністю й cost, не невичерпна обіцянка.
+## Commerce according to fit
 
-## Числова модель з oracle
-Всі економічні inputs мають kind, source/date, одиниці/період/currency, range і залежність. Розділити gross revenue, refunds, commissions, contribution, fixed/variable/API/AI/support/growth cost, owner time/taxes за визначенням target. Порядок fees/refund/rounding уточнити для фактичного provider. Run check_model.py для арифметики дозволено; output не доводить попит чи майбутній прибуток. Не підвищувати protocol economics/1 через нову версію навички.
+For applicable models, describe the offer catalogue and definitions, package and limit compatibility, free, trial and paid journeys, recurring value and cost, restore, expiry and refund, and account and platform scope. Explain why payment follows demonstrated value, what the person receives, and how it behaves after purchase. Include ads, subscriptions, retention mechanics, paid RNG, or game mechanics only when justified and in scope. Optional bundles and credits have transparent cumulative effects. Duplicate purchases cannot sell the same entitlement twice, and expiry preserves the person's rights to their own data.
 
-Три або більше обґрунтованих сценарії та sensitivity до weakest input. Залежності масштабу включають step-fixed capacity, quotas/overage, churn/cohorts, lag виплат і cash runway за застосовності. Не тримати acquisition cost чи one-time purchases сталими, коли це ламає висновок. Worked example фіксує проміжні значення, conversion/retention definitions, decimal precision і boundary zero/negative margin. Для probabilistic outcome розподіл/percentiles за потреби, не лише average. Дані зі схожого продукту лишаються analog estimate, а не actual metric нового.
+Specify prerequisites, compatibility and exclusions, versions, quotas, consumers and platforms, entitlements, and failures for capability families. Check the full launch catalogue and variant rules. Tie the post-launch roadmap to operating capacity and costs.
 
-## Реалістичне виробництво й операції
-Назвати класи потрібних outcomes, можливі actual routes/tools, editable sources, platform adapters, доступи/ліцензії, recurring costs, probes й due validators. Генерація красивого UI не доводить clickable UX або реальний native client. Для ризикового differentiated feature підготувати bounded prototype/slice question з metric/threshold/horizon/cap/stop. До mass build довести representative complete path; не оголошувати запланований spike виконаним.
+## Economic model and oracle
 
-Операційна карта має тригери, runtime/schedule, bounded automatic action, unknown outcome reconciliation, escalation, monitoring costs, service-loss fallback/exit. Якщо профіль забороняє щоденну ручну працю, не називати людського менеджера AI-автоматизацією. Показати acquisition route з нульової аудиторії й constraints; дохід без досяжного каналу лишається pending hypothesis.
+Give every input a kind, source and date, unit, period and currency, range, and dependency. Distinguish gross revenue, refunds, commissions, contribution, fixed and variable costs, API, AI, support and growth costs, and owner time and taxes as appropriate for the target. Confirm the provider's fee, refund and rounding order. Run check_model.py to verify arithmetic when needed. Demand and future profit require separate evidence. Retain economics/1 unless the protocol itself changes.
 
-## Вибір
-Незалежний критик перевіряє найсильнішу альтернативу/контраргумент, математичні припущення й must failures. Cold packet містить повний concept, alternative comparison, source/economic model, system applicability, catalog/journeys, production/ops/acquisition plan, unknowns, decision delta. Власник обирає продукт у чинному scope; подальші дрібні technical choices не вимагають повторного вибору. Не починати full build або spend із самого score.
+Use three or more justified scenarios and test sensitivity to the weakest input. Where relevant, model step-fixed capacity, quotas and overage, churn and cohorts, settlement delays, and cash runway. Vary acquisition costs and one-time purchases where they can change the decision. A worked example records intermediate values, conversion and retention definitions, decimal precision, and zero and negative margin boundaries. Use distributions or percentiles when probabilistic outcomes need them. Figures from comparable products remain analog estimates for the new one.
 
-## Видимий результат і достатність підходу
+## Production and operations feasibility
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: повна застосовна концепція, причинні користувацькі й комерційні шляхи, архітектура систем, виробнича здійсненність і порівняння альтернатив. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+State the outcome classes, actual tool routes, editable sources, platform adapters, access and licenses, recurring costs, probes, and due validators. Demonstrate clickable UX or a native client on its own medium. For a risky differentiator, define a bounded prototype or slice with metric, threshold, horizon, cap, and stopping condition. Complete one representative end-to-end path before mass build and distinguish proposed spikes from completed proof.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: цілісність досвіду, найсильніший контраргумент і припущення економіки. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+Map triggers, runtime and schedule, bounded automatic actions, reconciliation after unknown outcomes, escalation, monitoring costs, fallback and exit after service loss. Honor restrictions on daily manual work. Show a viable route from zero audience and its constraints. Revenue remains a hypothesis when the required acquisition channel is unproven.
+
+## Selection
+
+An independent critic checks the strongest alternative and counterargument, economic assumptions, and failed mandatory requirements. The handoff includes the full concept, alternatives, source and economic model, system applicability, catalogue and journeys, production, operations and acquisition plans, unknowns, and decision changes. The owner selects the product within current scope. Subsequent routine technical decisions proceed within that scope. Verify authority before full build or spending.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show the complete concept, causal user and commerce journeys, system architecture, production feasibility, and alternatives. Distinguish completed work, inherited decisions, and future results with due gates. Scale depth and specialist involvement to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review coherence of the experience, the strongest counterargument, and economic assumptions. Inspect raw sources for omitted requirements. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve project context, current approvals, and unaffected results.

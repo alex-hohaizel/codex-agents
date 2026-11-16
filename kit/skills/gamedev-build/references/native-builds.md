@@ -1,10 +1,11 @@
-# Нативні збірки й toolchain
+# Native builds and toolchains
 
-## Перед кожним налаштуванням
+## Before configuring a build
 
-Створити build profile з engine version/hash, renderer, dependency lock, toolchain versions, target/min OS, architecture, build type, bundle/package ID, version/build number, signing reference, export recipe та expected output. Поточні вимоги store перевіряти офіційно на дату build/release; tutorial рушія може відставати від store policy.
+Create a profile with engine version and hash, renderer, dependency lock, toolchain versions, target and minimum OS, architectures, build type, bundle or package ID, version and build number, signing reference, export procedure, and expected output. Verify current store rules at build and release. Engine instructions may lag store policy.
 
-Офіційні джерела (перевірені 2026-11-01; повторити при виконанні):
+These official references were reviewed on 2026-11-01. Verify them again for the actual build.
+
 - [Godot Android export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html).
 - [Godot iOS export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_ios.html).
 - [Google Play target API](https://support.google.com/googleplay/android-developer/answer/11926878?hl=en).
@@ -13,15 +14,15 @@
 - [Apple upcoming requirements](https://developer.apple.com/news/upcoming-requirements/).
 - [Apple account capabilities](https://developer.apple.com/help/account/basics/about-your-developer-account).
 
-Не фіксувати назавжди конкретний SDK як «найновіший». У receipt вказати фактичний policy snapshot/date і виконану compatibility перевірку. Для сторонніх native libs перевірити ABI/page-size compatibility, а не лише client manifest.
+Record the actual policy snapshot and date, chosen SDK, and observed compatibility. Inspect third-party native libraries for ABI and page-size compatibility.
 
 ## Android
 
-Потрібні відповідні engine export templates, JDK/Android SDK/NDK/build tools, ABI і signing setup. Debug keystore не є production upload/signing key. Secrets/keystores/паролі не комітити та не включати portable zip.
+Use compatible engine export templates, JDK, Android SDK and NDK, build tools, ABI selection, and signing. Keep debug and release key custody separate. Exclude secrets, keystores, and passwords from Git and packages.
 
-APK — install/test artifact. AAB — publish artifact; його не встановлюють на телефон як APK. Перевірити AAB derived APK splits через актуальний bundletool/Play internal track, потрібні languages/ABIs/assets і install/update path. APK smoke не доводить правильність AAB delivery.
+Install and test APKs. Validate the release AAB through splits derived with the supported `bundletool` or the Play internal track. Check asset, language, and ABI delivery and install and update behavior on that route.
 
-Команди нижче — recipe template для вже перевіреного Godot export preset; фактичний preset name, output extension й engine version зафіксувати у repo. Перед виконанням звірити `godot --help`/документацію pinned version, не переносити flags на інший engine.
+These template commands assume a verified Godot export preset. Pin the actual preset, output extension, and engine version in the repository. Check `godot --help` and pinned documentation before use.
 
 ```bash
 godot --headless --path /absolute/path/game --export-debug "Android" /absolute/path/build/game-debug.apk
@@ -29,35 +30,35 @@ godot --headless --path /absolute/path/game --export-release "Android" /absolute
 adb install -r /absolute/path/build/game-debug.apk
 ```
 
-Preset має явно вибирати належний export format/build mode/architectures. Build output створити поза immutable input. Після build перевірити package ID, version, min/target SDK, native ABIs, permissions, debuggable/signing, asset delivery та binary hash інструментами SDK. У receipts зберегти sanitized metadata, повний build log та test device/install result. Не вважати команду з exit 0 підтвердженим встановленням.
+The preset selects the actual format, build mode, and architectures. Write output outside immutable inputs. Inspect package ID, version, minimum and target SDK, native ABIs, permissions, debuggable flag, signing, asset delivery, and binary hash with SDK tools. Retain sanitized metadata, full diagnostic log, and actual device installation result in separate receipts.
 
 ## iOS
 
-Фактичний iOS export/build потребує Mac, supported Xcode/SDK і відповідного signing/export flow. Linux може виконувати shared code tests, але не підтверджує реальну iOS native build. Personal Team, paid Developer Program, registered devices та TestFlight мають різні права/терміни; перевірити їх актуально до обіцянки способу тесту. Не просити користувача надсилати private signing key у чат.
+Build on a Mac with supported Xcode and SDK and the applicable signing and export flow. Track Linux shared-code tests separately. Verify current rights and durations for Personal Team, paid Developer Program, registered devices, and TestFlight before choosing a test route. Keep private signing keys out of chat.
 
-| Артефакт | Що означає | Чого не доводить |
+| Artifact | Supported claim | Verify separately |
 |---|---|---|
-| Source/Xcode project | Проєкт можна відкрити/зібрати за наявності toolchain | Успішний build або встановлення |
-| Simulator `.app` | Збірка під Simulator architecture/runtime | Запуск на фізичному iPhone; production renderer/performance |
-| `.xcarchive` | Xcode archive з metadata/products; status верифікувати | Exported signed IPA/доступність всіх distribution methods |
-| Signed `.ipa` | Exported device package за конкретним profile/method | Встановлення на довільний iPhone; Store approval |
-| TestFlight build | Uploaded/processed beta за Apple flow | Public store release або real-device QA кожного tier |
+| Source or Xcode project | Project source for the required toolchain | Build and installation |
+| Simulator `.app` | Output for a simulator architecture and runtime | Physical iPhone, production renderer, and its performance |
+| `.xcarchive` | Xcode archive with metadata and products | Signed IPA export and allowed distribution methods |
+| Signed `.ipa` | Device package for a specific profile and method | Supported device installation and App Store approval |
+| TestFlight build | Uploaded and processed Apple beta | Public release and physical coverage of each target tier |
 
-Engine iOS export спочатку перевірити за pinned documentation, зберегти project/export log. Після export використовувати фактичні project/workspace й scheme; discover через `xcodebuild -list`, а не вигадувати scheme. Recipe template:
+Check the engine export against pinned documentation. Retain its project and log. Resolve the actual project or workspace and scheme with `xcodebuild -list`. Adapt this template to the verified settings:
 
 ```bash
 xcodebuild -project /absolute/path/Game.xcodeproj -scheme Game -destination 'generic/platform=iOS' -archivePath /absolute/path/build/Game.xcarchive archive
 xcodebuild -exportArchive -archivePath /absolute/path/build/Game.xcarchive -exportOptionsPlist /absolute/path/ExportOptions.plist -exportPath /absolute/path/build/export
 ```
 
-Конкретні signing settings, export method і destinations залежать від account/engine/Xcode; їх заповнює перевірений adapter. Не package private credentials. Перевірити bundle ID/version, architectures, entitlements, privacy manifests, required reason APIs/SDKs, assets та actual export/install result. Simulator compatibility може залежати від renderer; не перемикати final renderer тихо заради build.
+The verified adapter provides signing settings, export method, and destinations for the current account, engine and Xcode. Exclude credentials. Verify bundle ID, version, architectures, entitlements, privacy manifests, required-reason APIs and SDKs, assets, and actual export and installation. Keep the accepted renderer or record an explicit change when the simulator needs another renderer.
 
-## CI та повторюваність
+## CI and reproducibility
 
-CI job має clean checkout, exact dependencies/cache key, secrets references, export templates, reproducible versioning і artifact retention. Відтворити clean build хоча б одного release candidate, зафіксувати logs/tool versions. Byte-identical signed binaries не завжди досяжні; порівнювати recipe/source inputs та пояснювати timestamps/signature differences. Remote build/CI minutes і Apple account fee не входять автоматично у підписку Codex.
+Use a clean checkout, exact dependencies and cache key, secret references, export templates, reproducible versioning, and artifact retention. Reproduce a clean build of an actual release candidate and retain logs and tool versions. Compare inputs and recipes and record differences from signing and timestamps. Verify remote build and CI capacity and Apple account costs separately from the Codex subscription.
 
-## Release adapter та artifact conformance
+## Release adapters and artifact conformance
 
-На потрібних SDK операціях перевірити debug і signed release callbacks/threading/cancel/account/lifecycle/minification/ABI; cloud/IAP/haptic pluginname не доводить підтримкукожного API. Зберегти exact versions/config/artifacthash/log/symbol identity й актуальні official platformconstraints.
+For relevant SDK operations, exercise debug and signed release callbacks, threads, cancellation, accounts, lifecycle, minification, and ABI. Verify required operations from the actual cloud, IAP, and haptic plugins. Record versions, configuration, artifact hash, logs, symbols, and current official platform constraints.
 
-Після export виконати required install/run/sandbox/device evidence на actual bytes. Cache keys pin source/assets/config/toolchain/importers; provenance не сертифікує behavior або quality. Unknownremote build/uploadoutcome reconcile перед новою спробою; iOShostbridge має exact input/return manifest.
+After export, verify installation, run, sandbox, and device behavior with the exact output bytes. Cache keys pin source, assets, configuration, toolchain, and importers. Verify behavior and quality separately from provenance. Reconcile an unknown remote build or upload before retry. An iOS handoff needs exact input and return manifests.

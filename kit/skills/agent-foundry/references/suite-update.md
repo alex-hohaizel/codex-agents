@@ -1,95 +1,44 @@
-# Оновлення персонального набору Work / Codex
+# Update the personal skill suite in Work or Codex
 
-Зміст: scope → manifest → audit/apply/verify → відновлення → межі доказу.
+Contents: scope → manifest → audit, apply and verify → recovery → evidence limits.
 
-`scripts/update_skill_suite.py` — stdlib helper для **точно 33** персональних
-навичок. Він не публікує Work, не виконує продукт, не змінює `AGENTS.md`,
-конфігурацію Codex, ролі, системні навички або plugin caches. Повне збереження
-персональних Work-навичок лишається штатною операцією відповідного середовища.
+`scripts/update_skill_suite.py` is a standard-library helper for exactly 33 personal skills. It does not publish to Work, execute a product, or change `AGENTS.md`, Codex configuration, roles, system skills, or plugin caches. Save personal Work skills through the supported Work operation.
 
-## Manifest комплекту
+## Kit manifest
 
-Корінь комплекту містить `manifest.json` і `skills/<stable-name>/...`.
-Формат — `atelier.skill-suite/1`, поля:
+The kit root contains `manifest.json` and `skills/<stable-name>/...`. The format is `atelier.skill-suite/1`. Its fields include:
 
-- `suite_id`: непорожній ідентифікатор перевіреного комплекту.
-- `skills`: список рівно 33 унікальних поточних stable names із allowlist helper.
-- Кожний запис: `name`, `version`, `files`, необов'язковий `previous_trees`.
-- `files`: словник POSIX relative path → `{sha256, size, mode}`. `mode` — ціле
-  POSIX permission значення, наприклад 420 для `0644`, 493 для `0755`.
-- `previous_trees`: список `{tree_sha256, source}` відомих перевірених
-  попередників. Це approved source bindings комплекту, а не довільний hash,
-  який можна дописати лише щоб обійти встановлену невідповідність.
+- `suite_id`: a non-empty identifier for the verified kit.
+- `skills`: exactly 33 distinct stable names from the helper's allowlist.
+- Each skill: `name`, `version`, `files`, and optional `previous_trees`.
+- `files`: POSIX relative path → `{sha256, size, mode}`. Mode is an integer POSIX permission value, for example 420 for `0644` or 493 for `0755`.
+- `previous_trees`: verified predecessors identified by `{tree_sha256, source}`. These are accepted source bindings. Do not add an arbitrary hash to hide installed drift.
 
-Для нового узгодженого релізу додати top-level
-`visual_identity_policy: "preserve-existing/v1"`. Це вмикає збереження
-наявних локальних іконок, їхніх `icon_small`/`icon_large` і `brand_color`.
-Manifest лишається `atelier.skill-suite/1`; старі комплекти без цього
-поля зберігають попередню строгість повного tree hash.
+For an agreed new release add top-level `visual_identity_policy: "preserve-existing/v1"`. It preserves existing local icons, their `icon_small` and `icon_large` references, and `brand_color`. The manifest remains `atelier.skill-suite/1`. An older kit without this policy retains strict full-tree matching.
 
-Щоб допустити локальну косметичну відмінність від перевіреного попередника,
-його запис `previous_trees` додатково має `files` — повний канонічний file
-manifest попередника без volatile caches — і `ui_yaml`, точний UTF-8 текст
-його `agents/openai.yaml`. Helper звіряє logical hash, YAML bytes/size і
-file records. Брати ці дані з фактично перевіреного попереднього релізу;
-не оголошувати невідомий drift канонічним лише для обходу перевірки.
+To accept a local visual difference from a verified predecessor, include in its `previous_trees` record the full canonical `files` manifest without volatile caches and `ui_yaml`, the exact UTF-8 text of `agents/openai.yaml`. The helper checks logical hash, YAML bytes and size, and the file records. Take these from the actual verified predecessor. Unknown drift is not a canonical baseline.
 
-## Збереження візуальної ідентичності
+## Preserving visual identity
 
-Audit порівнює функціональну частину з канонічним новим або явним попереднім
-baseline. Дозволена відмінність обмежена трьома полями `interface`:
-`icon_small`, `icon_large`, `brand_color` та bytes/modes їхніх локальних
-image assets. Решта YAML, включно з prompt, policy і dependencies, та всі
-інші файли мають відповідати відомому джерелу. Видима нова версія береться
-з канонічного нового `display_name`; заморожені іконки не перегенеровуються.
+Audit compares behavior-bearing sources against the new canonical or an explicit previous baseline. Permitted differences are the three `interface` fields `icon_small`, `icon_large`, and `brand_color`, and bytes and modes of the referenced local images. Remaining YAML, including prompt, policy, and dependencies, and all other files must match a known source. Take the new visible name from canonical `display_name` and preserve frozen icons.
 
-Підтримувані icon assets — відносні шляхи всередині `assets/` з image
-suffix `.svg/.png/.jpg/.jpeg/.webp/.gif/.ico`. Відсутній файл, зовнішній шлях,
-traversal, symlink, special file, case/Unicode або file/directory collision
-блокують оновлення. Icon pointer не може приховати зміну скрипта, policy
-або іншого неіконкового файла будь-якого оголошеного baseline. Малий і
-великий варіант можуть посилатися на один і той самий image asset.
-Історичний одиничний префікс `./assets/…` нормалізується лише для file lookup;
-точні рядки `icon_small`/`icon_large` зберігаються. Подвійні `././`, traversal
-та довільні альтернативні форми шляху лишаються blocker.
+Supported assets are relative paths under `assets/` with image suffix `.svg/.png/.jpg/.jpeg/.webp/.gif/.ico`. Missing files, paths outside the root, traversal, symlinks, special files, case or Unicode collisions, and file-directory collisions block the update. A pointer cannot hide changes to scripts, policy, or other non-icon files from any declared baseline. Both icon fields may refer to one image. The one historical `./assets/…` prefix normalizes for lookup only. Preserve exact `icon_small` and `icon_large` strings. Double `././`, traversal, and arbitrary alternative forms are blockers.
 
-YAML reader навмисно обмежений одиничними скалярними visual fields у plain
-`interface` mapping. Інші поля зіставляються з точним baseline, без запуску
-загального YAML parser чи виконання тегів/anchors. Неочікувана зміна
-форматування інших полів може вимагати окремої звірки; вона не є дозволом
-ігнорувати функціональний drift.
+The restricted YAML reader handles only single scalar visual fields in a plain `interface` mapping. It checks other fields against the exact baseline, without running a general YAML parser or executing tags or aliases. Unexpected formatting elsewhere can require separate reconciliation and does not permit behavior drift.
 
-Audit записує `visual_preservation` і effective `desired_files` окремо від
-канонічного manifest. Apply повторно перевіряє binding, робить повну копію
-дерева, а icon bytes бере лише з перевіреної копії. Новий код та інструкції
-встановлюються з комплекту. Журнал містить точні before/after hashes;
-rollback повертає попередній YAML, іконки, решту дерева й modes.
+Audit records `visual_preservation` and effective `desired_files` separately from the canonical manifest. Apply rechecks the binding, backs up the whole tree, and takes icon bytes only from that verified copy. New code and instructions come from the kit. The journal records exact before and after hashes. Rollback restores previous YAML, icons, other files and modes.
 
-Для доведення незмінності локально налаштованих іконок verify потребує
-**точного завершеного apply journal**. Перевірка лише поточного файла не
-доводить, що це та сама іконка, яка була до оновлення. Не підставляти старий
-журнал іншого комплекту, destination або незавершеної операції.
+To verify continuity of customized local icons, use the exact completed apply journal. Current files alone do not prove which icons were present before the update. Do not substitute a journal from another kit, target, or unfinished operation.
 
-Різні візуальні ідентичності персональних дублікатів не об’єднуються
-автоматично. Спочатку звірити обраний canonical target; варіант із відмінними
-іконками не можна тихо прибрати через `--retire-known-duplicates`.
-Проєктні агенти не входять у цей 33-core installer; їх оновлення й
-відокремлений visual style проходять явний project-local adoption.
+Do not merge different visual identities of personal duplicates. Reconcile the intended canonical target first. Do not quietly retire differing icons with `--retire-known-duplicates`. Project agents are outside this core installer's scope. Update and preserve them through their own project-local adoption.
 
-Логічний tree hash: SHA-256 UTF-8 послідовності відсортованих рядків
-`relative_posix_path + NUL + file_sha256_hex + LF`. Із логічного hash вилучені
-лише `__pycache__/...` і `.DS_Store`. Повний передопераційний snapshot і backup
-зберігають **усі** файли, порожні каталоги й permission bits, включно з кешами.
-Інші невідомі файли не ігноруються. Шляхи з traversal, symlinks, special files,
-case/Unicode collisions або непередбачені bytes комплекту відхиляються.
+Logical tree hash is the SHA-256 of UTF-8 sorted records `relative_posix_path + NUL + file_sha256_hex + LF`. Only `__pycache__/...` and `.DS_Store` are excluded from the logical hash. Full snapshots and backups preserve all files, empty directories and permission bits, including caches. Unknown files are not ignored. Reject traversal, links, special files, case and Unicode collisions, and unexpected kit bytes.
 
-Спосіб розпакування ZIP може змінити mode вихідних файлів. Helper перевіряє
-їхні bytes/size/path, потім явно встановлює й перевіряє declared **target** modes.
-Спеціальні permission bits не підтримуються.
+Unpacking a ZIP can change source modes. The helper checks source bytes, size and path, then sets and verifies declared target modes. Special permission bits are unsupported.
 
 ## Audit → apply → verify
 
-З кореня готового переносного комплекту, якщо helper покладено в `portable/`:
+From the portable kit root when the helper is under `portable/`:
 
 ```bash
 python3 portable/update_skill_suite.py audit --kit . --plan ../skill-update-plan.json
@@ -97,82 +46,37 @@ python3 portable/update_skill_suite.py apply --plan ../skill-update-plan.json
 python3 portable/update_skill_suite.py verify --kit . --journal /absolute/backup/run-ID/journal.json
 ```
 
-За замовчуванням target — `~/.agents/skills`, додатковий personal discovery
-root — `~/.codex/skills`, backups — `~/Codex_Skill_Backups`. Назви коренів можна
-передати явно через `--destination`, `--legacy-root`, `--backup-root` у `audit`.
-Backup root і plan мають бути поза skill-discovery roots. `audit` без `--plan`
-лише друкує JSON і не створює installation/backup directories.
-У `verify --journal` передати фактичний `journal` із результату завершеного
-apply. Для канонічної установки без локального visual overlay звичайний
-`verify --kit .` перевіряє bytes, але не заявляє continuity без receipt.
+Default target is `~/.agents/skills`, additional personal discovery root is `~/.codex/skills`, and backup root is `~/Codex_Skill_Backups`. Set `--destination`, `--legacy-root`, and `--backup-root` explicitly in `audit` when needed. Keep backup and plan outside discovery roots. `audit` without `--plan` only prints JSON and creates no installation or backup directory.
 
-`apply` споживає точний `--plan`: повторно перевіряє комплект і всі зафіксовані
-target snapshots. Невідомий локальний drift, нове ім'я в зайнятому canonical
-target або зміна після audit дають blocker. Загального `--force` немає.
-Кожна змінювана навичка має повну перевірену копію до заміни. Новий payload
-готується поза discovery roots; заміна дерева виконується rename на тому самому
-filesystem і фіксується в journal. Це per-skill transaction із відновленням,
-а не атомарна транзакція всіх 33 навичок чи гарантія відмовостійкості диска.
-Потрібний ексклюзивний контроль обраних source/target ancestors на час операції.
+For `verify --journal`, use the actual `journal` returned by completed apply. For a canonical install with no visual overlay, `verify --kit .` verifies bytes but cannot prove continuity without its receipt.
 
-Фактично незмінні canonical targets — no-op. Повтор застосування вже
-завершеного plan не створює друге оновлення, якщо його targets залишилися
-точно такими, як записано в receipt. Після подальших змін потрібно новий audit.
+`apply` uses the exact `--plan` and rechecks kit and recorded target snapshots. Unknown drift, a new name in an occupied canonical target, and changes after audit block the operation. There is no blanket `--force`. Make a complete verified backup for each changed skill. Prepare payload outside the discovery roots, replace each tree using same-filesystem rename, and journal the action. This is a recoverable per-skill transaction. It does not make the whole 33-skill update atomic or guarantee recovery from disk failure. Require exclusive control of the relevant source and target ancestors while applying.
 
-## Дублікати й межі пошуку
+An unchanged canonical target is a no-op. Applying an already finished plan again does not duplicate work if its targets still match the receipt. Changed targets require a new audit.
 
-Пошук читає frontmatter без припущення, що назва каталогу дорівнює stable name.
-Перевіряються безпосередні skill entries у personal roots; системні/приховані
-каталоги не обходяться. Невивчені symlinks у discovery root блокують audit,
-бо helper не може підтвердити scope без переходу за посиланням.
+## Duplicates and search scope
 
-Додаткові `--project-root /absolute/project` показують дублікати у його
-`.agents/skills` і `.codex/skills` як **report-only**. Проєктні файли й довільні
-вкладені source kits автоматично не переносяться та не видаляються.
+Discovery reads frontmatter without assuming that the directory name is the stable name. Check immediate personal skill entries and skip system and hidden directories. Unresolved links in a discovery root block audit because their scope cannot be verified without following them.
 
-Відомий personal duplicate можна включити в точний plan повторним audit з
-`--retire-known-duplicates`. Для цього його logical tree має збігтися з новим
-або одним із перевірених `previous_trees`. Копія повністю зберігається в backup,
-після чого прибирається з активного personal discovery root. Unknown duplicate
-і project duplicate лишаються blocker; їх не перезаписують і не підміняють N/A.
+Additional `--project-root /absolute/project` options report duplicates under project `.agents/skills` and `.codex/skills`. These findings are read-only. Project files and arbitrary nested source kits are not automatically moved or removed.
 
-## Переривання й rollback
+A known personal duplicate can be included in a specific plan by running audit again with `--retire-known-duplicates`. Its logical tree must match the new tree or a verified `previous_trees` entry. Back up the complete copy before retiring it from personal discovery. Unknown personal and project duplicates remain blockers.
 
-Результат apply містить точний `journal` у backup `run-.../journal.json`.
-Якщо виконання почалося й впало, journal додається також до JSON error.
+## Interruption and rollback
+
+Apply returns the exact `journal` at backup `run-.../journal.json`. If execution started and failed, the JSON error also includes the journal path.
 
 ```bash
 python3 portable/update_skill_suite.py apply --plan ../skill-update-plan.json --resume /absolute/backup/run-ID/journal.json
 python3 portable/update_skill_suite.py rollback --journal /absolute/backup/run-ID/journal.json
 ```
 
-Resume перевіряє той самий plan і комплект, спостерігає фактичні дерева та
-відновлює лише однозначні фази backup/preparation/old move/new install.
-Active lock не обходиться; stale lock відновлюється лише для того самого
-operation/plan на тому самому host після перевірки, що попередній PID відсутній.
-Інший host, живий/reused PID або неоднозначний стан блокують автоматичний повтор.
+Resume checks the same plan and kit and observes actual trees. It recovers only unambiguous backup, preparation, old move, and new install phases. Do not bypass an active lock. Recover a stale lock only for the same operation and plan on the same host after confirming the old PID is gone. A different host, live or reused PID, or ambiguous state blocks automatic replay.
 
-Якщо процес припинився після створення lock, але до першого `journal.json`,
-точний operation path можна прочитати з `backup-root/.skill-suite.lock`.
-Та сама `apply --plan ... --resume <operation>/journal.json` відновить початок
-лише за збігу plan/lock, відсутності живого PID, незмінності всіх audited targets
-і комплекту та відсутності невідомих operation/staging даних. Невідомі файли не
-видаляються; неоднозначний missing-journal випадок потребує ручного звірення.
+If a process stops after locking but before the first `journal.json`, find the operation path in `backup-root/.skill-suite.lock`. The same `apply --plan ... --resume <operation>/journal.json` restarts only if plan and lock match, the PID is gone, all audited targets and kit are unchanged, and no unknown operation or staging data exists. Preserve unknown files. An ambiguous missing-journal case requires manual reconciliation.
 
-Rollback спершу перевіряє конфлікти всього набору та цілісність потрібних backups.
-Післяопераційні зміни користувача не перезаписуються. Потім відновлюються точні
-попередні дерева й modes або прибираються нові targets, яких раніше не було.
-Перерваний rollback можна продовжити тією самою командою, коли стан однозначний.
-Unknown state спершу звіряється, а не стирається новим operation ID.
+Rollback first checks conflicts across the suite and integrity of all required backups. Preserve later user changes. Restore exact preceding trees and modes, or remove newly created targets that did not exist before. The same rollback command can resume an interrupted rollback with unambiguous state. Reconcile an unknown state before starting another operation.
 
-## Що доведено після verify
+## What verify proves
 
-`verify` перевіряє placement, bytes, modes, stable names і personal duplicates.
-З `--journal` він додатково звіряє effective payload і збережені visual
-identities, окремо повертаючи `canonical_core_verified`,
-`visual_preservation_verified` і список `preserved_visual_identities`.
-Його результат явно має `runtime_discovery_verified=false` і
-`behavior_verified=false`. Наступний крок у **фактичному** Codex host — оновити
-каталог/відкрити свіжу сесію, звірити resolved source і виконати погоджені
-bounded interaction scenarios. ZIP і зелений hash-check не є встановленим
-production продуктом, прийманням власника або доказом native/device/provider дій.
+`verify` checks placement, bytes, modes, stable names, and personal duplicates. With `--journal` it also checks effective payload and preserved visual identity. It reports separate `canonical_core_verified`, `visual_preservation_verified`, and `preserved_visual_identities` values. The output explicitly sets `runtime_discovery_verified=false` and `behavior_verified=false`. Refresh the catalog or open a fresh session in actual Codex, confirm the resolved source, and run the agreed bounded interaction scenarios. A ZIP and successful hash check do not prove installation, owner acceptance, or native, device, or provider behavior.

@@ -1,129 +1,121 @@
-# Намір, touch, камера, UX, відгук і метагра 4.0
+# Player intent, touch, camera, experience, feedback, and metagame 4.0
 
-## Навігація
+Use this contract for concepts, interaction and state presentation, onboarding, rewards, commerce, and player return. Select controls, HUD, systems, and offers that serve the game. Verify them together in demanding play.
 
-1. Повний шлях гравця
-2. Input і camera contracts
-3. Навчання, доступність, presentation
-4. Метасистеми й commerce
-5. Приймання та джерела
+## 1. Cover the complete player journey
 
-Завантажити для задуму, будь-якої взаємодії, представлення стану, навчання, reward/shop/payment/return. Продуктова глибина не вимірюється кількістю кнопок, HUD bars, систем або товарів. Підбирати доречні засоби конкретній грі й перевіряти складну реальну ситуацію.
+Create a state atlas covering launch and first use, applicable consent, profile and save loading and recovery, settings, onboarding and practice, gameplay, pause and interruption, failure and retry and abandonment, rewards and equipment and upgrades, progression and navigation, conditional shopping and purchase and sync, return and reorientation, completion, and support. For each state, define entry, exit, guards, permitted input, effects, commitments, failures, timeouts, save behavior, and return target.
 
-## 1. Покрити весь шлях гравця
+For short, normal, and long sessions, define the smallest meaningful action, safe pause or exit, and continuation. Preserve the appropriate state through interruptions. After a real break, recover the goal, loadout, context, and important changes without repeating the tutorial. In exploratory play, give hints that respect discovery (D1Q08,Q15).
 
-Створити state atlas: launch/first run, consent за обсягом, profile/load/recovery, settings, onboarding/practice, gameplay, pause/interruption, fail/retry/abandon, reward/equip/upgrade, progression/world navigation, conditional shop/purchase/sync, return/reorientation, completion, support. Для кожного entry/exit/guard, allowed inputs, side effects, commitments, failure states, timeouts, save й return target.
+For an action, craft, respec, route, story choice, or purchase, distinguish preview, commitment, application, irreversible boundary, and recovery. Define cancellation before and after commitment. Add confirmation where its consequence warrants it.
 
-Short/normal/long session мають minimum meaningful action, safe pause/exit і continuation policy. Телефонне переривання не означає abandon автоматично. Після реальної перерви повернути мету/комплект/контекст і суттєві зміни без повтору всього tutorial. Підказка дослідницькій грі не повинна силоміць розкривати рішення (D1Q08,Q15).
+## 2. Separate intent, action, recognition, and presentation
 
-Commitment table розрізняє preview→commit→apply→irreversible boundary→recovery для дії, crafting, respec, route, story choice і purchase. Скасування до й після commit має різну точну семантику. Не додавати confirmation modal на кожний клік без причини.
-
-## 2. Розділити чотири input моделі
-
-| Модель | Потрібний зміст |
+| Model | Required content |
 |---|---|
-| Намір | Що гравець хоче зараз: move/aim/guard/choose/cancel |
-| Ігрова дія | Eligibility, states, costs, commitment, time, outcome |
-| Recognition | Pointer ownership, zone/gesture/threshold, state/competition, cancel |
-| Presentation | Visible/temporary cue, affordance, preview, feedback; реальна invite-to-action |
+| Intent | Desired immediate action, such as move, aim, guard, choose, or cancel |
+| Game action | Eligibility, state, cost, commitment, timing, and outcome |
+| Recognition | Pointer ownership, zones, gestures, thresholds, state, competing recognizers, and cancellation |
+| Presentation | Persistent or temporary cue, affordance, preview, feedback, and the visible invitation to act |
 
-Не використовувати одну стандартну схему для всіх ігор. Порівняти доречні профілі на першій дії, піковій і late складній ситуації. Якщо profile вимагає пряме dynamic control, не підміняти його відкладеним вибором/готовою анімацією; застосовність вивести з джерел поточного проєкту.
+Compare applicable input schemes on first use, a simultaneous peak, and a demanding late situation. Ground direct dynamic control in the accepted scope. If required, preserve its immediate interactive qualities in the runtime result.
 
-Input contract: supported device/orientation/grip/handedness, safe area/system edge gestures, contact count, stable pointer IDs, ownership acquire/release, zone capture, physical/logical threshold units, deadzone/curve/hysteresis, sensitivity, tap/hold/drag/swipe recognizer, gesture competition/priority, preview/commit/cancel, input buffering, remap, exit zone, second finger reorder, focus loss, modal handoff, pause/resume, saved settings й traces.
+The input contract defines supported device, orientation, grip and handedness, safe areas and edge gestures, simultaneous contacts, stable pointer IDs, ownership acquisition and release, zone capture, physical and logical threshold units, deadzone, curve and hysteresis, sensitivity, tap and hold and drag and swipe recognition, competition and priority, preview and commit and cancel, buffering, remapping, exit zones, reordered pointers, focus loss, modal handoff, pause and resume, persisted settings, and traces.
 
-UI hit testing і gameplay contacts мають ownership. Дотик, що відкрив магазин, не може «провалитися» в покупку; старий hold не лишає газ після system cancel. Втрата другого пальця не змінює власника steering. Не спиратися на pressure, якого немає на цільових телефонах.
+Define ownership for UI hit testing and gameplay contacts. The touch that opens a shop cannot trigger an offer inside it. A system cancel releases any throttle or held action. Losing one of two fingers must respect the steering owner's identity. Verify any pressure requirements on target devices.
 
-Для аналогового drag точно задати origin/floating origin, deadzone, нормалізацію, transfer curve, max, recenter/release і touch occlusion. Намальовані стрілки не повинні виглядати двома кнопками, якщо модель очікує continuous drag. Для complex sword interaction розділити preview/commit/contact/cancel, щоб correction guard не стала атакою або старий gesture у новому state не став новим прийомом.
+For an analog drag, define fixed or floating origin, deadzone, normalization, transfer curve, maximum, recenter and release, and finger occlusion. A continuous drag needs an affordance distinct from two buttons. For complex weapon interaction, separate preview, commitment, contact, and cancellation so adjusting guard or completing a prior gesture does not trigger a new attack.
 
 ### Camera request policy
 
-Camera contract: projection/angle/follow, subject scale у кадрі, visible action horizon, deadzone/lookahead/zoom bounds, occlusion/collision, motion/acceleration limits, zones/transitions/cut, aim/interaction/boss requests, owner/priority/tie-break, blend/release/return, hysteresis й comfort alternatives.
+Define projection and angle and follow behavior, subject scale, visible action horizon, deadzone and lookahead and zoom bounds, occlusion and collision, motion and acceleration limits, zones and transitions and cuts, aim and interaction and boss requests, owner and priority and tie-break, blend and release and return, hysteresis, and accessible comfort options.
 
-Масштаб персонажа визначати механікою/читабельністю/стилем; не тримати весь світ у кадрі за замовчуванням. Camera movement, scene transition і маршрут мають бути показані в концепті. Одночасні requests не можуть стрибати між owners або перевертати touch direction без правила.
+Derive on-screen character scale from mechanics, readability, and style. Show camera motion, scene transition, and routing at concept. Resolve concurrent requests deterministically, including what happens to touch direction.
 
-Надати trace: tick/input/recognizer state/intent/action/camera request/owner/transform/cue. Вимірювати input→recognition→simulation→render/present→screen на actual targets;60FPS не доводить one-frame latency або tactile comfort.
+Record tick, input, recognizer state, intent, action, camera request, owner, transform, and cue. On actual targets, measure input through recognition, simulation, rendering and presentation, and screen response. Track frame rate, latency, and tactile comfort independently.
 
-## 3. Побудувати навчання, feedback і доступність
+## 3. Design learning, feedback, and accessibility
 
-Для кожної механіки: discover→understand intent→execute input→see result→safe practice→transfer→combine→late reinterpretation. Визначити what player knows, affordance/cue, goal, opportunity, evidence of mastery, retry/remediation і skip/relearn. Не створювати довгий текст замість інтерактивної практики.
+For each mechanic, map discovery, comprehension, execution, observed result, safe practice, transfer, combination, and later reinterpretation. Identify what the player knows, cues and affordances, goal, opportunity, proof of mastery, retry and remediation, and skip and relearn paths. Provide interactive practice where practice is needed.
 
-Learning diagnosis table розрізняє unnoticed opportunity, misunderstood rule, unknown input, misrecognition, timing error і deliberate experiment. Правильна альтернативна стратегія не є tutorial failure. Evidence→remediation не є психологічним профілюванням гравця (D1Q07,Q10).
+Distinguish missed opportunity, misunderstood rule, unknown input, recognition defect, timing error, and deliberate experiment. A valid alternative can demonstrate understanding. Base remediation on observed interaction and keep personal profiling outside the task (D1Q07,Q10).
 
-Failure feedback пов’язує information-before-event, доступні responses, actual action, cause/outcome, lost/retained, next meaningful step. Відділяти брак знання/виконання від technical defect. Не пояснювати промах текстом «недостатньо сили», якщо hit був rejected через range.
+Connect failure feedback to available information and responses before the event, actual action, cause and outcome, what was lost or retained, and the next meaningful step. Distinguish lack of knowledge or execution from a technical defect. Report the actual rejection reason, such as range, for a missed hit.
 
-### Мультимодальний словник і attention
+### Multimodal cues and attention
 
-Semantic dictionary визначає meaning, invariant visual/audio/haptic cues, permitted stylistic variation, forbidden ambiguity, novice/late examples і alternative channels. Новий biome/art не змінює вивчене «можна чіплятися» на небезпеку без навчання. Різні концепції мають різні художні мови, не лише різний palette.
+Define each cue's semantic meaning, invariant visual and auditory and haptic signals, allowed stylistic variation, forbidden ambiguities, novice and late examples, and alternative channels. When a new environment changes a learned cue's meaning, teach the new behavior. Distinct concepts need a coherent visual language beyond color choice.
 
-Event/state matrix пов’язує ID/predicate із animation/VFX/UI/SFX/haptics, priority, timing domain, dedup key, duration/start-update-end, source/location/intensity, suppression/aggregation/defer, stale expiry і alternative mode. Один physics manifold не запускає SFX на кожну точку. Hit feedback використовує simulation outcome; durable reward cue має іншу межу.
+For each event and state, link ID and predicate to animation, VFX, UI, sound, and haptics, with priority, timebase, deduplication key, duration and start/update/end, origin and position and intensity, suppression or aggregation or deferral, stale expiry, and alternatives. Aggregate contact feedback over the relevant manifold. Bind hit cues to simulation and durable reward cues to the corresponding committed effect.
 
-Attention policy визначає concurrency, critical precedence, ducking, clutter/flash/motion limits і fallback. Test peak scene: danger+objective+reward+critical resource, слабший profile, finger occlusion, muted/no-haptic modes. Deferred cue не виглядає новою актуальною загрозою (D1Q03,Q11,Q13).
+Define concurrency, precedence for critical cues, ducking, limits for clutter, flash and motion, and fallback. Test concurrent danger, goal, reward, and critical resources on the weakest target with finger occlusion and muted or haptic-free alternatives. Expire deferred cues before they imply a new threat (D1Q03,Q11,Q13).
 
-### Стиль, асети й localization
+### Style, assets, and localization
 
-На C1 поелементно визначити silhouette, proportions, scale, palette/contrast, material/texture language, edges/shading/light, environment composition, character/equipment/UI/VFX, animation timing, camera relation; sound palette/motifs/mix/feedback. Обґрунтувати achievable 2D/3D pipeline й presentation fidelity. Generated concept image не доводить editable layers, rig, native performance чи production source.
+At C1, define silhouette, proportions and scale, palette and contrast, material and texture, edge and lighting language, composition, characters and equipment, UI and effects, motion timing and camera relation, sound palette and motifs, mix, and feedback. Establish a feasible 2D or 3D pipeline and target fidelity. Verify editable layers, rig, native performance, and production sources separately from concept art.
 
-На T кожен важливий gameplay state/transition має asset/audio/haptic mapping, exact marker/timebase, collision/pivot/attachment, import/export, budget й test scene. Health/heat/guard/durability не копіювати однаковими bars: спосіб показу випливає з decision frequency/urgency/precision; простий лічильник допустимий з обґрунтуванням.
+At T, map every important state and transition to assets, sound, and haptics, exact markers and timebase, collision and pivot and attachment, import and export, budget, and test scene. Choose representation for health, heat, guard, and durability based on decision frequency, urgency, and precision. Use a simple counter where it serves that decision.
 
-Localization contract: stable string IDs, context/speaker, placeholders/types/plural/select, glossary, number/unit/currency/price formatting, font/glyph/license/fallback/shaping, text scaling, subtitles, RTL за мовним scope. Text change не змінює save ID чи формулу. Long strings не приховують price/cancel; псевдомова не доводить підтримане письмо (D1Q12).
+Localization defines stable string IDs, context and speaker, placeholder types, plurals and selects, glossary, numbers and units and currency and price formatting, font coverage and licensing and fallback and shaping, scaling, subtitles, and applicable RTL. Keep save IDs and formulas independent of text. Verify that long localized text leaves price and cancel visible. Validate supported scripts in addition to pseudolocalization (D1Q12).
 
 ### Assist semantics
 
-Альтернативи жестам/довгому hold, zones/sensitivity/handedness, vibration/audio/motion/text options мають зберігати meaningful actions. Settings доступні без складного gesture, який користувач змінює. Інформація не лише одним кольором/звуком/вібрацією.
+Alternatives to complex gestures and sustained holds, zones and sensitivity and handedness, and vibration, sound, motion, and text options preserve meaningful actions. Keep settings reachable without the action being remapped. Offer more than one channel for required information.
 
-Assist record визначає intervention, які decisions збережено/змінено, rule/time/resource effect, switching, save, compatibility, score/competition за обсягом. Не карати фізичну доступність універсальною втратою rewards. Скорингові наслідки показати до участі; assist toggle не reset витрату/claim (D1Q06).
+For each assist, specify intervention, decisions retained or changed, effects on rules, time or resources, switching and saving, compatibility, and scoring or competition scope. Any reward consequence requires an explicit design rule and advance disclosure. Toggling an assist preserves spent and claimed state (D1Q06).
 
-## 4. Проєктувати commerce як частину метасистем
+## 4. Design commerce with the metagame
 
-Почати з player needs/loops і оцінити доречні моделі: premium/unlock, expansions/content, cosmetics/identity, functional ready sets, capacity/convenience, memberships/meta services, capped extra opportunities/rewarded ads, deterministic currency/seasonal structures за задумом. Не розмножувати один skin offer між усіма кандидатами; не додавати всі моделі кожній грі.
+Start from player needs and loops. Compare applicable premium and full unlock, content and expansion, cosmetic identity, ready functional sets, capacity and convenience, membership and ongoing services, capped opportunities or rewarded ads, deterministic currencies, and seasonal structures. Derive offers separately for each concept.
 
-Затверджені default decisions: functional paid sets можуть давати time/options/power advantage за доречності; ефект чесно обчислити й обмежити; competition окремо. Детерміновані покупки default; earned RNG прозорий; paid RNG потребує окремого явного рішення. Hidden success/purchase-based difficulty adaptation не є default. Network/backend/new recurring costs активуються лише проєктним рішенням.
+Functional paid sets may give time, option, or power advantages where appropriate. Quantify and bound those effects and consider competition separately. Default to deterministic purchases and transparent earned randomness. Paid randomness requires an explicit decision. Exclude hidden success- or purchase-based difficulty adaptation from defaults. Add networks, backend, and recurring cost only under the accepted project decision.
 
-### Порівняти paid і earned системи
+### Compare paid and earned paths
 
-Для кожного offer вказати target need і metaloop, components/compatibility, complete usable result, доступні earned routes, time/resource/risk distributions, prerequisites, power/option/time delta, restrictions, caps/expiry, partial ownership, duplicate/overflow, upgrades/respec, recovery і content lifetime.
+For each offer, define target need and metaloop, components and compatibility, usable result, earned routes, distributions of time and resource and risk, prerequisites, difference in power, options and time, restrictions, caps and expiry, partial ownership, duplicate behavior and overflow, upgrades and respec, recovery, and content lifetime.
 
-Ready kit може завершувати задачу, яку гравець довше складає з earned частин; не обмежувати його випадковим окремим `+stat`. Водночас порівняти цілий портфель товарів: разом вони можуть прибрати всі задумні weaknesses. Sum item scores не доводить portfolio balance.
+A ready kit can complete something a player could assemble gradually from earned parts. Check the full paid portfolio for combined effects that remove intended weaknesses. Assess actual situational interactions as well as individual item attributes.
 
-Opportunity/attempt boosters визначають cap, refresh/calendar, earned/purchased limits, stacking, duration, timezone/offline, failed run, ad no-fill і unspent value. Extra opportunity не є unlimited attempts за замовчуванням. Для member benefit після expiry визначити access/read/use/overflow; не руйнувати inventory через завершення періоду.
+For opportunity or attempt boosters, define caps, refresh and calendar, earned and purchased limits, stacking, duration, timezone and offline behavior, failed runs, ad no-fill, and unspent value. Use actual finite limits. For membership expiry, define access, read and use, and overflow while preserving inventory.
 
-Economy contract: sources/sinks, currencies/units, authority, caps/inflation, production/repair/transfer, rewards/duplicates/pity, baseline cohorts/policies, early/late/completion states, time-to-goal distributions, expected vs tails, sensitivity і exploit cycles. Не видавати simulation за revenue. Фінальні store policies/regions/age scope перевірити актуальними офіційними джерелами перед release.
+Define economy sources and sinks, currencies and units, authority, caps and inflation, production, repair and transfer, rewards, duplicates and pity, baseline cohorts and strategies, early and late and completion states, time-to-goal distributions and tails, sensitivity, and exploit cycles. Simulations establish scenario results. Check current store policy, markets, and age requirements before release.
 
-### Shop journey і платежі
+### Shop and payment journey
 
-Offer discovery→зрозумілий preview/result→local/store price→eligibility/ownership→confirmation/platform sheet→pending→verified success→idempotent grant→durable record→store acknowledge/finish за actual SDK→reconciliation. Точний порядок визначає platform contract, не загальна схема.
+Cover discovery, clear preview and result, localized store price, eligibility and ownership, confirmation and platform UI, pending, verified success, idempotent grant, durable record, provider acknowledgment or finish, and reconciliation. Use the exact ordering required by the supported SDK and platform.
 
-Покрити loading/empty/offline/unavailable/parental decline/cancel/deferred/pending/unknown outcome/failed/granted/already owned/partial bundle/refund/revoked/restore/account switch й повторні callbacks. Не показувати success до відповідної authority/durable boundary. Store token не пишеться в public logs; client `owns=true` не є authority.
+Exercise loading, empty, offline, unavailable, parental decline, cancellation, deferred, pending, unknown outcome, failed, granted, already owned, partial bundle, refund, revocation, restoration, account switch, and repeated callbacks. Show success only after the applicable authoritative durable result. Exclude tokens from public logs and use authoritative verified ownership.
 
-Задати canonical product/offer IDs, store mappings, country/currency/price source, validation authority, operation/grant dedup keys, consumable/nonconsumable/lease semantics, partial-set price/compensation, refund effects, offline projections, rollback/migration й support evidence. Local economy й real-money transaction не змішувати непомітно.
+Define canonical product and offer IDs, store mappings, country and currency and price source, validation authority, operation and grant deduplication keys, consumable and non-consumable and lease behavior, partial-set price and compensation, refunds, offline projections, rollback and migration, and support evidence. Track local economy and real-money transactions with distinct authority.
 
-Store purchase restore не тотожне cloud progress restore. Consumed item не видається знову зі старого snapshot; refunded access не воскресає через merge. External dependency failure має deadline/bounded backoff/cancel/reconcile/fallback; no-fill/cloud/store timeout не заморожує локальну гру (D1Q34).
+Define store purchase restoration separately from cloud save restoration. An old snapshot cannot grant consumed goods again or restore refunded access through a merge. Set deadlines, bounded backoff, cancellation, reconciliation, and fallback so no-fill, cloud service failure, or store timeout preserves local play (D1Q34).
 
-### Умовні спільна гра й поширення
+### Conditional shared play and sharing
 
-Якщо прийнято co-op/competitive scope, задати lobby/join/leave/disconnect/rejoin, authority, participant ownership, input/latency envelope, shared/individual progress/rewards, pause/assist/score і conflict recovery. Не переносити NPC coordination як готовий multiplayer protocol. Якщо network scope відсутній, не додавати сервер заради D1Q17.
+For accepted co-op or competition, specify lobby, join, leave, disconnect and rejoin, authority, participant ownership, input and latency bounds, shared and individual progress and rewards, pause, assist, scoring, and conflict recovery. Validate an actual multiplayer protocol. Add a server only for supported scope (D1Q17).
 
-Якщо прийнято sharing/UGC scope, визначити capture/export contents, rights, privacy/hidden knowledge, naming/locale, size/format/compatibility, cancellation, safe import й user intent перед зовнішнім поширенням. Screenshot/replay не повинен включати payment token або private account data. D1Q18 не є автоматичним дорученням публікувати чи надсилати будь-що.
+For accepted sharing or user-generated content, define capture and export contents, rights, privacy and hidden in-game knowledge, naming and locale, size and format and compatibility, cancellation, safe import, and the user's publishing intent. Keep private account data and payment tokens out of exports. Confirm authority for each external action (D1Q18).
 
-## 5. Приймання
+## 5. Acceptance
 
-Consumer відтворює зі специфікації first/peak/late/return/completion, failed input/cancel, failure/recovery й conditional purchase без додумування. Окремо перевірити модель→visible invitation→real action: drag не виглядає двома buttons; tap/hold/swipe не змінюються непомітно в новому state.
+A consumer reproduces first use, peak play, late play, return, completion, failed input and cancellation, failure and recovery, and conditional purchase from the specification. Verify the sequence from model through visible invitation to actual action. A continuous drag must be recognizably continuous. Keep tap, hold, and swipe behavior consistent with documented state changes.
 
-Негативні fixtures: reordered pointers; edge gesture/cancel/focus loss; stale contact у modal shop; aim+boss+zone camera; guard correction interpreted as attack; inaccessible settings; blocked critical cue; wrong tutorial remediation; long localized price/cancel; completed collection reward; paid portfolio dominance; pending timeout+retry grant; partial bundle+refund+cloud old save.
+Negative fixtures include reordered pointers, edge gesture and system cancel and focus loss, a stale touch entering the modal shop, simultaneous aim and boss and zone camera requests, guard correction interpreted as attack, inaccessible settings, a blocked critical cue, wrong tutorial remediation, long localized price and cancel label, a reward for a complete collection, paid portfolio dominance, pending timeout and repeated grant, and partial bundle with refund and an older cloud save.
 
-Human evidence: реальні task, device/profile, participant scope, observed errors/occlusion/fatigue/understanding і limits. Документальний review/input trace не доводить комфорт. Native build не доводить магазинний sandbox; configured analytics не доводить actual data egress або revenue. Scope status зберігати окремо.
+Record actual human task, device and profile, participant scope, errors, occlusion, fatigue, comprehension, and limitations. Track written review, input traces, physical comfort, native execution, store sandbox, configured analytics, observed egress, and observed revenue separately.
 
-## Первинні джерела
+## Primary sources
 
-Методики адаптовано з P1/D1/D2, джерела досліджено2026-11-02. Ці приклади не є гарантією нашого успіху або вимогою копіювати систему. Actual SDK/політику/price/capabilities перевіряти перед використанням.
+These methods adapt P1/D1/D2 sources researched on 2026-11-02. Verify current policy, SDK, price, and capabilities for the actual target at the time of use.
 
-- Android multitouch, stable pointer IDs: https://developer.android.com/develop/ui/views/touch-and-input/gestures/multi
-- Microsoft XAG107 input: https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/107
-- Microsoft XAG108 difficulty: https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/108
-- Microsoft XAG103 additional channels: https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/103
-- Android localization: https://developer.android.com/guide/topics/resources/localization
-- Warframe Prime Access, ready functional set example: https://support.warframe.com/hc/en-us/articles/200092159-Prime-Access-FAQ
-- ESO Plus, metabenefit lifecycle example: https://help.elderscrollsonline.com/app/answers/detail/a_id/26343/kw/plus
-- Steam bundles, partial ownership semantic example: https://partner.steamgames.com/doc/store/application/bundles
-- Play Billing lifecycle: https://developer.android.com/google/play/billing/lifecycle
-- Apple StoreKit transactions: https://developer.apple.com/documentation/storekit/transaction
+- Android multitouch and stable pointer IDs. https://developer.android.com/develop/ui/views/touch-and-input/gestures/multi
+- Microsoft XAG107 input. https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/107
+- Microsoft XAG108 difficulty. https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/108
+- Microsoft XAG103 alternative channels. https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/103
+- Android localization. https://developer.android.com/guide/topics/resources/localization
+- Warframe Prime Access as an example of a ready functional set. https://support.warframe.com/hc/en-us/articles/200092159-Prime-Access-FAQ
+- ESO Plus as a membership benefit lifecycle example. https://help.elderscrollsonline.com/app/answers/detail/a_id/26343/kw/plus
+- Steam bundles as a partial-ownership example. https://partner.steamgames.com/doc/store/application/bundles
+- Play Billing lifecycle. https://developer.android.com/google/play/billing/lifecycle
+- Apple StoreKit transactions. https://developer.apple.com/documentation/storekit/transaction

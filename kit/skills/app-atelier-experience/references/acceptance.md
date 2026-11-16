@@ -1,76 +1,64 @@
-# Приймання досвіду й бренду
+# Experience and brand acceptance
 
-Зміст: рівні доказів → вимоги → gate прототипу → gate передачі → негативні cases → висновок.
+This guide covers evidence levels, requirements, prototype acceptance, build handoff, negative cases and verdict.
 
-## Розділити рівні доказів
+## Distinguish evidence levels
 
-Перевіряти фактичний scope: design spec, interactive prototype, production materials або representative implementation.
-Зберегти artifact/source/proof hash, метод, середовище, observer, час, результат і межі.
-Не вимагати готового продукту для приймання достатньої design spec, але не закривати майбутній device/implementation gate макетом.
-Відрізнити authored/self-check, незалежний review, acceptance власника, фактично запущений prototype та device-verified build.
-Не називати synthetic чи heuristic review дослідженням реальних користувачів або доказом комерційного попиту.
+Verify the actual scope: design specification, interactive prototype, production materials, or representative implementation. Retain artifact, source and proof hashes, method, environment, observer, time, outcome and limits. A sufficient design spec can be accepted before the product exists. An image cannot satisfy a future device or implementation gate. Distinguish authorship and self-check, independent review, owner acceptance, an observed running prototype, and a device-verified build. Synthetic or heuristic review does not prove usability by actual people or commercial demand.
 
-## Перевірити застосовні вимоги поелементно
+## Check each applicable requirement
 
-| Базовий контракт комплекту | Приймання | Належний доказ |
-|---|---|---|
-| REQ-14 / CAP-14: ненав’язлива реклама | Маркування, добровільність/закриття, розміщення, no-ad стан і сумарний вплив не руйнують core | Карта рекламних місць і фактично пройдений відповідний prototype/build flow |
-| REQ-20 / CAP-20: тематичний відмінний сучасний дизайн | Власна цілісна система, реалізовні екрани всіх потрібних станів, актуальні applicable критерії | Порівняння напрямів, accepted masters, component/state inventory, датовані первинні джерела, scoped review |
-| REQ-22 / CAP-22: окремий бренд | Назва, identity, tone й матеріали створені під цей продукт; походження й права відомі | Versioned brand set, source/license records і точне рішення власника |
-| REQ-34 / CAP-34: інтерактивний прототип | Після shortlist реально проходяться core та ризикові error/recovery routes | Запуск і проходження конкретного source/file у відомому середовищі; mock boundaries відкриті |
+| Baseline contract | Acceptance | Suitable evidence |
+| --- | --- | --- |
+| REQ-14 / CAP-14: unobtrusive advertising | Labeling, voluntary interaction and dismissal, placement, ad-free state and combined effects preserve the core. | Placement map and observed prototype or build path. |
+| REQ-20 / CAP-20: distinctive thematic design | Coherent identity, feasible required states and current applicable criteria. | Alternatives, accepted masters, component and state inventory, dated primary sources and scoped review. |
+| REQ-22 / CAP-22: distinct brand | Name, identity, tone and material fit this product, with provenance and rights. | Versioned brand assets, source and license records and exact owner decision. |
+| REQ-34 / CAP-34: interactive prototype | After shortlisting, the core and risky error/recovery paths are actually performable. | Run and exercise the exact source in a known environment and disclose mock limits. |
 
-Точні чинні project IDs і wording брати з registry; наведений mapping не замінює актуальний профіль чи нову вимогу.
-Перевірити також самостійність трьох клієнтів, простоту для нетехнічної аудиторії, аналіз доступності/пристроїв/offline,
-збереження scope/якості/строку, рішення власника, дані, ресурси, stop і відновлення за їхніми current requirements.
-Кожний due must закривати окремим результатом. Гарний core screen не компенсує відсутню помилку, витік чи хибну оплату.
-Not_applicable потребує предметної причини; відсутність tool/access/evidence лишається pending або blocked.
+Use the current project's exact IDs and wording. This mapping cannot replace the accepted profile or new requirements. Check standalone operation of all three applicable clients, accessibility, nontechnical usability, device/offline needs, scope and quality, time, owner decisions, data, resources, stop and recovery. Assign each due must an independent result. A strong main screen cannot compensate for missing error behavior, leakage or an incorrect payment. Document substantive not_applicable; missing tools, access or proof stay pending or blocked.
 
-## Gate інтерактивного прототипу
+## Interactive prototype gate
 
-1. Звірити прийнятий candidate, точний scope і права на поточний design job.
-2. Відкрити actual source/file та виконати перевірений launch; зберегти environment і receipt/спостереження.
-3. Пройти початок → core action → результат → наступний крок, а також щонайменше ризикові помилку/відновлення.
-4. Перевірити дані, loading/empty, back/cancel, invalid input, втрату мережі й повтор за застосовності.
-5. Перевірити платні/рекламні переходи, якщо вони в цьому scope; явно відмітити simulated billing/auth.
-6. Перевірити репрезентативні viewport/input modes і базову доступність; решту матриці не оголошувати пройденою.
-7. Отримати незалежний предметний review там, де він потрібний, і exact acceptance власника до залежного тиражування.
+1. Verify the accepted candidate, scope and current authority for the design job.
+2. Open the actual source and use the checked launch procedure. Record the environment and observation or receipt.
+3. Perform entry, core action, result and next step, plus the riskiest error and recovery.
+4. Check data, loading and empty states, back/cancel, invalid input, network loss and retry as applicable.
+5. Check paid and ad paths in scope. Identify simulated billing and authorization.
+6. Exercise representative viewports, input modes and accessibility. Keep other combinations unverified.
+7. Obtain independent domain review where required and exact owner acceptance before dependent expansion.
 
-Відсутність інтерактивного середовища не лікувати заявою «готово»: передати фактичні матеріали, конкретний blocked scope,
-launch/return bridge і майбутній proof. Прийнятий статичний master лишається статичним master.
+When the interactive host is unavailable, provide the actual materials, blocked scope, exact launch/return steps and missing proof instead of saying «готово». An accepted static master remains a static master.
 
-## Gate передачі у build
+## Build handoff gate
 
-- Є screen/state inventory із предметними термінами, navigation, entry/exit, ролями, даними й винятками.
-- Є tokens/components з behavior/variants/states, responsive/platform rules, semantic/focus/input requirements.
-- Є повні тексти, локалізаційні обмеження, пусті/помилкові/платіжні/support стани та recovery.
-- Є exact accepted source й exports assets, provenance/licenses, recipes, версії та hashes.
-- Є consuming paths/components, формати/розміри/ресурсні межі та спосіб перевірити відповідність implementation.
-- Є список mock/unknown/deferred items із owner і due gate; відсутній факт не заповнений красивою вигадкою.
-- Немає непогоджених витрат, tracking, приватних даних, публікації чи downstream роботи за межами stop.
+- Screen and state inventory with domain language, navigation, inputs and exits, roles, data and exceptions.
+- Tokens and components with behavior, variants, responsive/platform rules, semantics, focus and input.
+- Complete copy, localization constraints, empty/error/payment/support paths and recovery.
+- Exact accepted source and asset exports, provenance and licenses, procedures, versions and hashes.
+- Consumer paths and components, formats, sizes and resource bounds, and a way to check implementation conformance.
+- Mock, unknown and deferred items with owner and due gate. Unobserved behavior stays unverified.
+- No unauthorized spending, tracking, private data, publication or downstream work beyond stop.
 
-## Найсильніші негативні сценарії
+## Material negative cases
 
-| Вхід або ситуація | Неприпустимий результат | Правильна межа |
-|---|---|---|
-| «Зроби відмінний дизайн» без нового accepted concept | Випадковий ребрендинг або нова концепція замість потрібного дизайну | Відновити наявний scope; уточнити тільки матеріальну прогалину |
-| Красивий hero render | Заява, що готовий весь UX або інтерактивний прототип | Перевірити стани/переходи та фактичний launch окремо |
-| «Так само, але дешевше й швидше» | Втрата третього клієнта, accepted fidelity або recovery без рішення | Показати конкретний компроміс і його scope до зміни |
-| Той самий екран на всіх платформах | Самостійність вебу або iOS вважається доведеною Android-макетом | Перевірити core та input/navigation у кожному клієнті |
-| Підписка й одноразова покупка одночасно | Прихований подвійний платіж або незрозумілий обсяг доступу | Узгодити сумарний entitlement/price/restore/cancel flow |
-| Невідомий результат оплати | Success намальовано без підтвердження або retry подвоює effect | Pending/unknown, safe feedback і належне reconciliation |
-| Free/trial model | Універсальна вимога назавжди безкоштовного всього core або прихована пастка | Пояснити чинний scope й добровільний маршрут до оплати |
-| Реклама біля основної дії | Хибні натискання, блокування критичного кроку, маскування під функцію | Переробити placement/маркування/відмову та пройти flow |
-| Зовнішній SVG/font/image | Ліцензія й editable source домислені, актив мовчки запозичено | Перевірити origin/rights/format і missing properties |
-| Мода на animation/3D | Нереалізовний master за недоступного runtime або бюджету | Спершу production route і representative slice |
-| Не задані старі пристрої/offline | Ці можливості взагалі не оцінюються або вигадано жорстку вимогу | Предметна матриця, пояснена applicability і proof due |
-| «Перевір прототип» | Рекрутинг людей, interview/A/B або user-validated claim за AI-проходом | Зберегти заборону; synthetic/heuristic verdict із межами |
-| Support із акаунтом | Приватні дані показані guest або через неправильний профіль після logout | Звірити data/auth scope, очистити контекст і перевірити isolation |
-| Accepted master змінився | Старий build/review продовжує називатися чинним | Відкрити affected dependencies/proofs і адресний repair |
-| Stop після прототипу | Автоматичне виробництво решти матеріалів чи публікація | Зберегти checkpoint і показати готовий результат |
+| Input or circumstance | Unacceptable result | Appropriate resolution |
+| --- | --- | --- |
+| «Зроби відмінний дизайн» without a new accepted concept | Unrequested rebranding or a new product concept. | Restore current scope and clarify only a material gap. |
+| Polished hero render | Claiming the full UX or prototype is done. | Verify states, transitions and actual launch separately. |
+| «Так само, але дешевше й швидше» | Drop a third client, accepted fidelity or recovery without a decision. | Show the concrete compromise and scope first. |
+| Same screen across platforms | Treating an Android mock as iOS or web evidence. | Verify the core, input and navigation in each agreed client. |
+| Subscription and one-time purchase | Hidden double payment or unclear entitlements. | Reconcile the complete entitlement, price, restore and cancel flow. |
+| Unknown payment outcome | False success or a duplicate retry. | Show pending or unknown, safe feedback and reconciliation. |
+| Free or trial | Hidden trap or mandatory forever-free entire core. | Explain current scope and voluntary payment path. |
+| Ad beside a primary action | Mistaps, blocked critical action or disguised promotion. | Repair placement, labeling and dismissal and rerun the flow. |
+| External SVG, font or image | Invented license/source or silent copying. | Verify origin, rights, format and missing properties. |
+| Animation or 3D as a trend | Infeasible master in the available runtime and budget. | Verify a production path and representative slice first. |
+| Old devices or offline scope unspecified | Ignore them or impose arbitrary requirements. | Record applicable matrix and due proof. |
+| «Перевір прототип» | Recruit people, run interviews/A/B or infer human validation from an AI run. | Follow the restriction and state synthetic/heuristic evidence limits. |
+| Account support | Disclosure to guest or wrong account after logout. | Verify data/auth, clear stale context and test isolation. |
+| Accepted master changes | Stale build or review counted as current. | Reopen affected proof and repair the relevant path. |
+| Stop after prototype | Automatically produce later materials or publish. | Save checkpoint and return the actual accepted output. |
 
-## Звіт приймання
+## Acceptance report
 
-Показати предмет перевірки й exact version; що фактично відкрито/пройдено; прийняті вимоги та findings;
-source/proof references, observer та незалежність; pending product proofs, owner/due gate і наступну дозволену дію.
-Повернути короткий статус і рішення, доступні матеріали та докладний змістовний розбір у чаті.
-Не оголошувати installed skill, дизайн, implementation або released product готовими лише через правильні filenames чи hashes.
+Give exact subject and version, what was opened or exercised, accepted criteria and findings, source and proof references, observer and independence, pending production proof, owner and due gate, and next authorized action. Present short status and decisions with detailed materials. Filenames and hashes do not prove a skill is installed or a design, implementation or release is ready.

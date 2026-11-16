@@ -1,67 +1,67 @@
-# Незалежне приймання App Atelier
+# Independent App Atelier acceptance
 
-Зміст: 1 — coverage; 2 — oracles; 3 — interaction matrix; 4 — production audit; 5 — findings та актуальність.
-Прочитати cross-domain-core, чинні workflow/acceptance/evidence. `assets/app-depth.templates.json` задає план cases і evidence, не виконані результати. TEST-01–TEST-44 зберігаються; нові cases їх розширюють.
+Contents: 1 coverage, 2 oracles, 3 interaction matrix, 4 production audit, 5 findings and freshness.
+Read cross-domain-core and the current workflow, acceptance, and evidence references. `assets/app-depth.templates.json` defines planned cases and evidence. Keep TEST-01–TEST-44 and extend them with additional cases.
 
-Для наскрізних app-specific контрактів застосувати [модель систем застосунку](app-system-contract.md); її requirements/state authority не дублювати.
+Use the [app system model](app-system-contract.md) for app-specific contracts. It owns requirements and state authority.
 
-## 1. Вивести достатнє покриття з моделі
+## 1. Derive sufficient coverage
 
-Побудувати `requirement/source → domain rule → state/variant/platform → interaction → artifact → method/oracle → observer → due verdict`. Перевірити не лише присутність рядків: кожна продуктова обіцянка має здійсненний causal route, owner/consumer і належний доказ. Повні класи варіацій/життєвих циклів не підміняти трьома прикладами; комбінації відбирати за залежностями та ризиком, не механічним Cartesian explosion.
+Map `requirement/source → domain rule → state/variant/platform → interaction → artifact → method/oracle → observer → due verdict`. Each product claim needs a feasible causal path, owner, consumer, and appropriate evidence. Cover complete variation families and lifecycles. Select combinations by dependency and risk.
 
-Must є hard gate. Weighted rank/кількість pass/гарний UI не компенсують privacy, data integrity, billing, scope чи release fail. N/A потребує предметного рішення про відсутність функції; missing SDK/account/device — blocked. Future proof має due owner/stage, поточний due must — фактичний pass/fail/blocked.
+Treat mandatory requirements as hard gates. Privacy, integrity, billing, scope, and release failures remain open regardless of other scores. N/A requires a product decision that excludes the capability. Missing SDK, account, or device means blocked. Assign future evidence an owner and due stage, and current required results pass, fail, or blocked.
 
-Author/reviewer IDs звірити з фактичними outputs. Один агент у двох ролях не стає незалежним. За недоступності іншого актора зберегти self-check, залишити independent gate відкритим і дати usable raw packet. Forward actor отримує звичайне завдання, skill і raw inputs; oracle/діагноз/fix залишити evaluator.
+Check author and reviewer IDs against actual work. An author acting under another role remains the author. When independent review is unavailable, retain self-check and an open gate and provide a usable raw packet. Give the actor under evaluation the ordinary task, skill, and raw sources. Keep oracle, diagnosis, and fix with the evaluator.
 
-## 2. Перевірити правила незалежним методом
+## 2. Verify rules independently
 
-Для числового правила перевірити units, ranges, precision/rounding, ordered modifiers, snapshot/read time, null/default, exact error і golden vectors. Порівняти reference calculation з runtime без копіювання тієї самої помилки. Money/currency/scale, calendar/instant/timezone/duration, locale/encoding й ID formats мають explicit boundaries. Для ймовірнісного алгоритму за застосовності оцінити distribution/tails/failure, не тільки average.
+For numerical rules check units, ranges, precision and rounding, modifier order, capture and read time, null and default, exact errors, and golden vectors. Compare with an independently derived reference calculation. Check money, currency and scale, calendar, instant, timezone and duration, locale and encoding, and ID formats. For probabilistic rules, test applicable distributions, tails, and failures as well as averages.
 
-Перевірити state machine transitions і invariants після success/failure/cancel/timeout/unknown/recovery. Forbidden transition має негативний case. Додати model-based/property/metamorphic/differential перевірки лише там, де вони мають змістовний oracle. Mutation або навмисно зламаний fixture має показати, що критичний case може спростувати обіцянку; test, який повторює implementation line-for-line, слабкий.
+Check transitions and invariants after success, failure, cancellation, timeout, unknown outcome, and recovery. Exercise forbidden transitions with negative cases. Use model-based, property, metamorphic, or differential tests when they have a meaningful oracle. Prove a critical test can fail using mutation or a deliberately flawed fixture.
 
-Метод і assertion мають відповідати claim. Schema/hash/format — structure/identity; unit — domain у контурі; sandbox — sandbox integration; E2E — exact scenario/environment; physical device — measured property на цьому device; official receipt/read-back — scoped external state. Жоден не доводить automatic human usability, market demand або revenue. Профільна заборона людських експериментів діє й на QA.
+Match the method and assertion to the claim. Schema, hashes, and format confirm structure or identity. Unit tests cover their domain boundary. Sandbox and E2E results cover their observed integration and environment. Physical devices prove the measured property on that device. Official receipts and read-back prove the scoped external state. Human usability, demand, and revenue require their own evidence. Honor current restrictions on human testing.
 
-## 3. Пройти причинні взаємодії
+## 3. Exercise causal interactions
 
-Окремі компоненти можуть бути правильними, а спільне складання — хибним. Зафіксувати assembly source/build/config/component hashes, actual bindings, initial state/input/event order, expected observations/tolerances, target/modality й actor IDs. Пройти complete core Android/iOS/web та support за scope.
+Pin source, build, config and component hashes, runtime bindings, initial state, inputs and event order, expected observations and tolerances, target, input method, and actor IDs. Run the full scoped core on Android, iOS, web, and support.
 
-| Межа | Основні контрприклади |
+| Boundary | Counterexamples |
 |---|---|
-| Input→command | Double tap, stale screen, invalid/large input, cancel до/після commit |
-| Command→state | Duplicate/out-of-order event, revision conflict, partial effect, missing precondition |
-| State→persistence | Process kill до/після durable boundary, disk full/corruption, duplicate recovery |
-| Offline→sync | Concurrent edits, dependency queue, clock skew, account switch, expired command |
-| Auth→data→UI | A/B tenant, cached/late response після logout/revoke, files/logs/support leakage |
-| Checkout→entitlement | Pending, valid receipt, duplicate/reordered callbacks, cancel/expiry/refund/revoke, restore |
-| Permission→feature | Denied/revoked permission, OS settings change, background/foreground |
-| KB→support action | Wrong version/locale/price, injection, missing fact, unauthorized effect, stale link |
-| Upgrade→recovery | Old schema/client, interrupted migration, rollback mismatch, deleted data resurrection |
-| Build→runtime | Release-only stripping/config/signing mismatch, native callback threading, cold first use |
-| UI→accessibility | Focus/back/keyboard/touch, text resize, reduced motion/mute, localization overflow |
-| Service→budget | Quota/outage, retry storm, storage growth, cap, unresolved job cost |
+| Input → command | Double tap, stale screen, invalid or large input, cancel before and after commit |
+| Command → state | Duplicate or reordered event, revision conflict, partial effect, missing precondition |
+| State → persistence | Process killed before or after durability, disk full or corrupt, duplicate recovery |
+| Offline → sync | Concurrent edits, queued dependency, clock skew, account change, expired command |
+| Auth → data → UI | A/B tenant, cached or late response after logout or revocation, leakage in files, logs, or support |
+| Checkout → entitlement | Pending, valid receipt, duplicate or reordered callback, cancel, expiry, refund, revocation, restore |
+| Permission → feature | Denial, revocation, settings change, background to foreground |
+| Knowledge → support | Wrong version, locale, or price, injection, missing fact, unauthorized effect, stale link |
+| Upgrade → recovery | Old schema or client, interrupted migration, rollback mismatch, revival of deleted data |
+| Build → runtime | Release-only stripping, config or signing mismatch, callback threading, cold start |
+| UI → accessibility | Focus, back, keyboard, touch, text scaling, reduced motion, mute, localization overflow |
+| Service → budget | Quota, outage, retry storm, storage growth, limit reached, unknown job cost |
 
-Два однакові середні показники не роблять досвід однаковим: перевірити p95/p99/tail за доречності, error rate і worst-case input. Пороги обґрунтувати продуктом, аудиторією та вимірюванням. Simulator/emulator/browser/physical evidence не взаємозамінні.
+Check applicable p95, p99, tail behavior, error rate, and worst-case inputs beyond averages. Derive thresholds from the product, audience, and measurement. Record simulator, emulator, browser, and physical evidence independently.
 
-## 4. Аудит виробництва та передачі
+## 4. Audit production and handoff
 
-Звірити кожний output із bound recipe, input/tool/model/exporter/importer hashes, actual attempt і consumer. Параметр, якого схема не підтримує або модель не споживає, не закриває requirement. Descriptor/catalog/PATH discovery не є operation-tested/native proof. Editable master і runtime derivative мають окремі digests, права й transformation invariants.
+Check each output against the bound recipe, input, tool, model, exporter and importer hashes, actual attempt, and consumer. Verify schema support and actual consumption for each required parameter. Record discovery, operation-tested capability, and native proof separately. Preserve distinct editable master and derivative hashes, rights, and transformation invariants.
 
-На перетвореннях перевірити units/timezone/timebase, locale/text/colour/alpha, asset scale/anchor, IDs/money precision, compression/latency і event timing. Format-valid файл може втратити semantic property. Rights/source attribution і data egress перевірити незалежно від технічного формату.
+Verify units, timezone and timebase, locale, text, color and alpha, asset scale and anchor, IDs and money precision, compression and latency, and event timing. Verify meaningful properties beyond format and check rights, attribution, and data egress separately.
 
-Pending/unknown attempts не приховувати. Для timeout перевірити reconciliation route до повтору upload/deploy/payment/LLM job. Циклічні planned execution dependencies, missing consumers, outputs без recipe, dangling proof refs, stale hashes і fake provider IDs — окремі findings. Canonical state залишається єдиним authority; JSON templates/звіт не створюють новий status.
+Report pending and unknown attempts. Reconcile timeouts before retrying upload, deploy, payment, or LLM jobs. Report cyclic planned dependencies, missing consumers and recipes, missing proof references, stale hashes, and fake provider IDs individually. Canonical state owns status and JSON templates and reports describe it.
 
-Work→Codex packet перевірити за manifest/digest/actual paths, доступним toolchain, exact launch/return commands і expected proof. Не довіряти старому переданому green verdict. Скрипт перевірки структури не запускає native build і не засвідчує волю користувача.
+For Work→Codex verify manifest, digest, actual paths, available toolchain, exact launch and return commands, and expected proof. Revalidate any inherited verdict. Structural scripts do not establish native execution or owner authorization.
 
-## 5. Finding, repair та closure
+## 5. Findings, repair, and closure
 
-Finding записує ID/severity, requirement, current subject hash, raw reproduction/expected/observed, environment/actor, proven vs suspected, impact/transitive dependencies, repair owner і next validator. Root cause гіпотеза відділена від спостереження. Repair budget має cap, змінену змінну й stop; після двох однакових безрезультатних гіпотез змінити метод/діагностику.
+Record ID and severity, requirement, current subject hash, raw reproduction and expected and observed behavior, environment and actor, proven or suspected status, impact and dependencies, repair owner, and next validator. Keep causes under investigation separate from observations. Specify cap, changed variable, and stopping condition. Change method or diagnosis after two unsuccessful repetitions of the same hypothesis.
 
-Після fix повторити failed case і affected regressions. Не повторювати дорогі незалежні перевірки незачеплених outputs; carry-forward вимагає unchanged dependency digests, valid environment/permissions/terms та збереженого proof. Зміна source/model/SDK/importer/policy/KB/target відкриває транзитивно залежні докази. Старий proof не отримує вищого рівня лише від оновлення suite.
+Retest the failure and affected regressions. Carry proof forward only with unchanged dependency digests, valid environment, permissions and terms, and preserved evidence. Changes to source, model, SDK, importer, policy, knowledge base, or target reopen dependent proof. Changing the test suite preserves prior evidence level.
 
-Підсумковий verdict містить кожний due must, actual method/result/proof, межі й next action. QA pass не є owner readiness decision або external effect grant. Закриття без фактичного current proof заборонене, навіть коли документація повна.
+Each due requirement needs a verdict with actual method, result and proof, limitations, and next action. Owner readiness and external permission are separate decisions. Close only with current proof.
 
-## Видимий результат і достатність підходу
+## Visible result and proportionality
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: звірка сирих вимог, незалежні сценарії/оракули, прив’язані до ревізії findings і висновок для кожного due must. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Apply the [adaptive workflow](adaptive-work.md). Provide raw requirement reconciliation, independent cases and oracles, revision-bound findings, and a verdict for each due requirement. Distinguish executed work, inherited decisions, and future results with due gates. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: адекватність оракула й компетенції перевіряльника, відсутні вимоги та реальні межі доказу. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review oracle validity, reviewer competence, missing requirements, and evidence scope. Inspect raw inputs for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve project context, approvals, and unaffected results.

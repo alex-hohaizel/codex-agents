@@ -1,6 +1,6 @@
 {
   "id": "DEC-PLATFORMS",
-  "question": "Android, iOS чи обидві платформи?",
+  "question": "Android, iOS, or both platforms?",
   "material": true,
   "status": "pending",
   "answer": null,

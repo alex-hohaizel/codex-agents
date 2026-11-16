@@ -7,6 +7,13 @@ from pathlib import Path
 
 RESOURCES = {
     'production-quality.md': 'references/production-quality.md',
+    'tool-compatibility.md': 'references/tool-compatibility.md',
+    'visual-identity.md': 'references/visual-identity.md',
+    'research-and-synthesis.md': 'references/research-and-synthesis.md',
+    'joint-work-codex.md': 'references/joint-work-codex.md',
+    'interaction-protocol.md': 'references/interaction-protocol.md',
+    'briefing-protocol.md': 'references/briefing-protocol.md',
+    'adaptive-work.md': 'references/adaptive-work.md',
     'context-capsule.md': 'references/context-capsule.md',
     'production-profiles.json': 'assets/production-profiles.json',
     'context_capsule.py': 'scripts/context_capsule.py',

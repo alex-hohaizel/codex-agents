@@ -1,49 +1,49 @@
-# Передача реалізації до QA
+# Handoff from implementation to QA
 
 ## Self-contained package
 
-- Manifest із game/studio IDs, schema/revision, source commit, exact upstream package refs/hashes, chosen platforms та станом кожної.
-- Canonical source, engine project, imported assets/config, content/economy/settings data, dependency locks і build adapters. Exclude caches, secrets, unnecessary generated intermediates; include незамінні authoring sources та rights.
-- Frozen GDD/TDD, decisions, requirement trace, style tokens, canonical images/motion/audio references, allowed deviations, studio logo/fonts/credits/contact identity.
-- Реальні build artifacts і receipts; якщо немає platform artifact — exact blocker, не пустий placeholder із `.apk` у назві.
-- Golden inputs/seeds/saves, migration fixtures, API/contracts/mock boundaries, test logs, runtime captures/profiles, known issues й independent-review status.
-- Clean-restore instructions, toolchain/version inventory, local test instructions, signing references без private material, backend/environment config keys без values, deploy migrations/rollback boundaries.
+- Manifest with game and studio IDs, schema and revision, source commit, exact upstream references and hashes, selected platforms, and status by platform.
+- Canonical source, engine project, imported assets and configuration, content, economy, and settings data, dependency locks, and build adapters. Include required editable masters and rights. Exclude caches, secrets, and unnecessary generated intermediates.
+- Frozen GDD and TDD, decisions and requirements trace, style tokens, canonical image, motion, and audio references, allowed deviations, and exact studio logo, fonts, credits, and contact identity.
+- Actual build artifacts and receipts. Name the exact blocker for a missing platform artifact.
+- Golden inputs, seeds and saves, migration fixtures, APIs and contracts and simulation boundaries, logs, runtime captures and traces, known issues, and independent-review status.
+- Clean restore and local test instructions, toolchain and version inventory, signing references without private material, backend configuration keys without values, migrations and rollback boundaries.
 
-Для другої платформи зберегти transferable source/data/craft; її статус не підвищувати лише від cross-platform engine. QA отримує actual per-platform results й remaining gaps.
+Keep portable source, data, and craft for additional platforms. Record separate actual QA results and gaps for each one.
 
-## Модель і runtime consistency
+## Model and runtime consistency
 
-Додати canonical game model exact bytes/hash, derived GDD/TDD/data versions, runtime adapter/import inventory, model→consumer bindings, dependency-impact report, design-derived scenario fixtures й actual observations. Включити camera/input/actor/equipment/world/progression/reward/learning/commerce/lifecycle coverage за застосовними features. Модель, sidecar/runtime state і handoff manifest мають окремі schema versions; не оголошувати їх усі «3.0» і не reset старі decisions/saves.
+Include exact canonical game-model bytes and hash, derived GDD/TDD and data versions, adapter and import inventory, model-to-consumer bindings, impact analysis, design-derived scenario fixtures, and actual observations. Cover applicable camera, input, actors, equipment, world, progression, reward, learning, commerce, and lifecycle features. Preserve distinct model, runtime state, and handoff schemas, along with existing decisions and save data.
 
-Source completeness, structural validity, independent semantic review, actual build/device proof і human experience acceptance мають окремі scope/status. Відомий змістовний gap не закривається hash pass. Unknown external transaction/deploy outcome передавати з actual request ID та reconciliation next action без сліпого повтору.
+Track source completeness, structure, semantic review, actual build and device evidence, and human acceptance separately. Preserve unresolved content gaps. Transfer an unknown external transaction or deployment result with its actual request ID and reconciliation action before retry.
 
-## Build receipt поля
+## Build receipt fields
 
-Document має `kind="actual_build_receipts"` і непорожній `receipts` array. Кожен запис: `receipt_id`, `game_id`, `platform`, `artifact_type`, `artifact_path` (relative to package), `artifact_sha256`, `source_commit`, `baseline_sha256`, `toolchain`, `command`, `exit_code`, `log_path`, `signing_status`, `built_at`, `build_profile`, `limitations`. Для folder artifacts — deterministic inventory/hash policy. Build logs можуть містити secrets: redact values з явною позначкою redaction, зберігати діагностичний зміст.
+The document uses `kind="actual_build_receipts"` and a nonempty `receipts` array. Each item has `receipt_id`, `game_id`, `platform`, `artifact_type`, `artifact_path` relative to the package, `artifact_sha256`, `source_commit`, `baseline_sha256`, `toolchain`, `command`, `exit_code`, `log_path`, `signing_status`, `built_at`, `build_profile`, and `limitations`. Use a deterministic file inventory for directory artifacts. Redact secrets from logs with explicit markers while preserving diagnostics.
 
-`signing_status` — verified конкретним tool/result або `unsigned`/`not_checked`; не ставити `verified` за існування `.ipa`. Усі execution receipts мають походити з actual run. Шаблон чи dry-run лишається `example`/`planned` і не проходить actual evidence gate.
+Set `signing_status` from an actual verification tool result, or use `unsigned` or `not_checked`. Record actual runs. Keep templates and dry runs `example` or `planned`.
 
-## Test receipt поля
+## Test receipt fields
 
-Build hash; platform/device model/OS; case/scenario/seed/input; procedure; environment/network/consent/account type; start/duration; expected outcome із design ref; observed raw output/capture/profile; verdict; actor role й independence; limitations. Не записувати real credentials, PII або raw payment receipts у передаваний архів.
+Record build hash, platform, device model and OS, case and scenario and seed and input, procedure, environment and network and consent and account class, start and duration, expected result and design reference, actual output or capture or trace, verdict, actor and independence, and limitations. Exclude real credentials, personal data, and raw payment receipts from the portable archive.
 
-## Чотири різні твердження
+## Four distinct claims
 
-1. Source/package complete у named scope.
-2. Build виконано actual toolchain із artifact.
-3. Artifact встановлено/запущено на named device/runtime.
-4. Independent QA прийняв defined product criteria.
+1. Source and package complete for named scope.
+2. Actual build with the named toolchain and exact artifact.
+3. Artifact installed and run on the named device and runtime.
+4. Independent QA accepted defined product criteria.
 
-Ці твердження не замінюють одне одного. Store publish і measured market success — пізніші окремі claims. Структурний валідатор перевіряє completeness/bytes, не fun, visual identity, execution truth або реальних платників.
+Track store publication and market outcomes separately. Structure and byte checks establish their own scope.
 
-## Handoff запит
+## Handoff example
 
-«Використай `$gamedev-qa`. Прийми пакет [path/ID], revision/hash [value], platforms [value]. Перевір scope [IDs], actual builds [receipt refs], unresolved gaps [IDs]. Не змінюй baseline; defects повертай із reproducible evidence до build/assets/design owner».
+“Use `$gamedev-qa` with package [path/ID], revision/hash [value], platforms [value]. Verify scope [IDs], builds [receipt refs], and unresolved gaps [IDs]. Preserve the baseline and return defects with reproducible evidence to their build, asset, or design owner.”
 
-Для directory artifact digest — SHA256 UTF-8 JSON [[relative_posix_path,file_sha256],...] зі sorted paths, ensure_ascii=False та separators=(",",":"); symlinks не допускаються. Це byte inventory, не signature або execution attestation.
+For a directory, compute SHA-256 over UTF-8 JSON `[[relative_posix_path,file_sha256],...]` with sorted paths, `ensure_ascii=False`, and `separators=(",",":")`. Reject symbolic links. The digest records the byte inventory.
 
-## Повна передача 4.0
+## Full Game Model handoff
 
-Включити model maturity/current version,20 track applicability/coverage, T contracts/catalogue/grammar, State Catalogue/golden saves/migrations, exact damage/physics/lifecycle fixtures, input traces, capability/recipe/transformation/attempt refs і AssemblyEvidence. Передавати matching symbols, importer/toolchain locks, content epoch і patch base якщо обрані. Усі приклади/planned outputs відокремити від actual receipts.
+Include current model version and maturity, coverage of the applicable 20 tracks, production contracts and catalogue and grammar, State Catalogue, golden saves and migrations, exact damage, physics, and lifecycle fixtures, input traces, capability, recipe, transformation and attempt references, and `AssemblyEvidence`. Transfer matching symbols, importer and toolchain locks, content epoch and patch base where required. Keep examples and plans separate from receipts.
 
-Новий QA receiver без історії чату запускає named scenario й порівнює independent expected outcome; incomplete input/behavior повертає causal owner. Linux source не доводить signed iOS, старий build receipt не доводить current artifact, cached proof переноситься лише за unchanged semantic dependencies.
+A fresh QA receiver executes the named scenario and compares the result with an independent oracle. Return incomplete input or behavior to its causal owner. Verify signed iOS with the actual route. Bind current artifacts to their own build receipts and carry forward evidence only when semantic dependencies are unchanged.

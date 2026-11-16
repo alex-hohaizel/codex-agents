@@ -1,41 +1,33 @@
-# Розвиток оркестратора, навичок і агентів
+# Improve the Orchestrator, skills and agents
 
-Читати для аудиту, рекомендацій, покращення, переробки або оновлення самої агентної системи. `maintain_system` приймає цілі `self`, `skill`, `constructor`, `family`, `project_agent`, `host_profile`, `service`. Це не нова authority й не право змінювати всі пов’язані продукти.
+Use this contract for auditing, recommending, changing or upgrading the agent system. `maintain_system` supports `self`, `skill`, `constructor`, `family`, `project_agent`, `host_profile` and `service` targets. The actual task scope governs changes to each target.
 
-## Встановити фактичну ціль
+## Identify what actually needs repair
 
-Прочитати початкову потребу, актуальний canonical source/revision, installed source, ownership, local modifications, чинні можливості, UI/іконки/кольори, invocation policy, dependencies, модельні й зовнішні обмеження. Розрізняти джерело репозиторію, встановлення, host discovery, фактичне використання та приймання. Вендорський cache або приватна копія продукту не стають багаторазовим canonical source через зручне розташування.
+Read the original need, canonical current source and revision, installed source and owner, local changes, UI and icon identity, invocation policy, dependencies, model settings and relevant limits. Distinguish repository source, installation, host discovery, task use and acceptance. A vendor cache or private copy does not become a reusable canonical source by location.
 
-Пояснити проблему через конкретний failed user outcome або доказану прогалину. Порівняти адресне виправлення, сумісне розширення та переписування. Обирати достатню зміну з можливістю людського супроводу; новизна технології чи більший обсяг інструкцій не доводять покращення. Для поточних технічних фактів використовувати первинні джерела й actual operation/schema, зберігати невідоме як невідоме.
+Describe a failed user outcome or a demonstrated gap. Compare a targeted repair, compatible extension and larger rewrite. Choose sufficient maintainable change using primary sources and actual operation schemas. Keep uncertainties visible.
 
-Для існуючого проєктного агента відновити його власні requirements, identity/persona, native state, дозволи, accepted artifacts і незавершені роботи. Оновлення toolkit саме собою не приймається всіма старими агентами. Не переініціалізовувати product state і не замінювати невідомий формат іншим сімейством.
+For an existing project agent, recover requirements, persona and identity, native state, rights, accepted artifacts and open work. A toolkit update does not automatically adopt its earlier children. Preserve each supported native format and avoid reinitializing product state.
 
-## Пропозиція або виконання за чинним scope
+## Match the requested action and preserve recovery
 
-`recommend`, `audit`, `plan` та `apply` — різні дії. Підготувати source-backed impact/diff, потрібні компоненти, приймання, сумісність, ризики, source/install/rollback і ресурсні межі. Запит на дослідження не є погодженням install; конкретне доручення змінити відомий scope не вимагає повторного дозволу на ті самі оборотні кроки.
+`recommend`, `audit`, `plan` and `apply` are distinct. Prepare source-backed impact and diff, affected components, acceptance, compatibility, risk, resources, installation and rollback. Research does not authorize installation. An exact approved change does not need another approval for the same reversible steps.
 
-Матеріальна нова місія або можливість проходить належний паспорт Foundry/конструктора навичок та конкретне рішення власника. Локальну правку в погодженому scope виконувати адресно. Для реального створення або перебудови reusable skill залучити фактично доступні `agent-foundry`, `design-specialist-skills` та Skill Creator відповідно до предмету; вони не замінюють semantic review чи виробниче приймання результату.
+Use the relevant constructor or Skill Creator capabilities for new material structure. Keep local authorized repairs scoped. A generator and checker do not replace domain review and actual acceptance.
 
-Зберегти точний before snapshot і source/settings/identity hashes поза active discovery roots. До зовнішнього save/install записати pending з exact target, параметрами й authority; після відповіді зберегти actual receipt та readback/revision. Unknown consuming response звірити до повтору. Невідомі local edits або новіший writer не затирати; назвати конфлікт, exact diff і спосіб зберегти роботу.
+Keep the before copy and source, settings and identity hashes outside discovery roots. Before a consuming write record target, arguments and authority. Record the actual receipt and read the destination back. Reconcile an unknown outcome before retry. Protect unknown local changes and newer writers; show the conflict and a way to preserve work.
 
-## Власне оновлення
+## Upgrade the current Orchestrator
 
-При запиті переписати самого оркестратора цільовий artifact можна готувати в ізольованому candidate. Чинний task продовжує використовувати фактично прочитані source pins і сильніші host/user інструкції. Новий текст не може заднім числом погодити сам себе, розширити дозволи, послабити gates або перепризначити старий proof новим bytes.
+Prepare a candidate in isolation while the current task keeps its original checked source pins and authority. A new instruction cannot approve itself, expand rights, weaken required gates or rebind old evidence. Review the diff, save the before copy, use a supported installer and verify actual source and native discovery. Give a changed task fresh context. Delegate long maintenance only to an actual actor with the same authorized scope.
 
-Перед activation потрібні reviewed diff, before-copy, поточна установка через підтриманий маршрут і фактичне source/discovery підтвердження. Після зміни джерела залежне завдання отримує свіжий контекст; стару проєкцію не підписувати новим хешем як нібито вона вже виконувалася. За потреби передати конкретний довгий maintenance task іншому фактичному виконавцю з тим самим scope.
+Preserve stable names, icon bindings and bytes, colors, system and project classes, invocation policy, dependencies and settings. Work may display a separate avatar under its native contract. A skill change does not authorize model or account changes.
 
-Зберігати stable names, icon paths/bytes, brand colors, system/project class, invocation policy, dependencies та непорушені настройки. Для Work mutable avatar діє окремий host-view контракт; це не redesign portable/Codex identity. Немає дозволу міняти модель або account setting лише через оновлення версії навички.
+## Verify, deliver and recover
 
-## Приймання й доставка
+Compare exact baseline and candidate on representative raw tasks with the same criteria. Check affected current capabilities, nearby negative cases, fresh continuation, documented commands, preservation, discovery and an applicable actual operation. Use independent review with original requests, sources and artifacts. Verify the integrated result. Use the [evaluation profile](ai-production.md) when the task warrants it. A loss of an accepted function or craft blocks adoption. Missing proof stays open.
 
-Порівняти baseline/candidate на однакових сирих задачах та рубриці, додати нові контрольні випадки для зміненої властивості. Перевірити чинні можливості й негативні сценарії, cold continuation, виконання documented commands, preservation, discovery та bounded реальну дію за доступності. Саме переписування інструкцій і structural PASS не доводять професійну якість або перевагу в усіх майбутніх задачах.
+For an authorized reusable release, update source, versions, applicable migration, requirements, equivalent complete guides and packages. Verify the actual remote revision and intended build provenance. Keep credentials, inventories, private chats and products out of reusable distribution. Record source integrity, publication, installation, discovery, runtime and owner acceptance separately.
 
-Незалежний рецензент працює з raw task/source/artifacts; автор не видається за незалежну сторону. Перевірити інтегрований результат, а не лише окремі звіти. Рекомендації щодо іншого домену супроводжувати достатністю джерел/компетенцій і чесними обмеженнями.
-
-Для дозволеного reusable repo оновити source, версії, застосовну міграцію, requirements traceability, повні еквівалентні guide languages і пакети; звірити actual remote revision. Account inventories, credentials, приватні чати й продукти залишаються поза reusable distribution.
-
-Перед відкатом звірити поточний revision/hash і невідомі effects. Відновити тільки власний reviewed scope з actual before copy через підтриманий manager; новіші правки є конфліктом. Відкат навички не скасовує продуктові дані, повідомлення, deployment або інші зовнішні результати.
-
-## Перевірка нового способу роботи
-
-До прийняття покращення звірити точну погоджену редакцію, фактичні джерела, рідні формати, чинні налаштування й повний набір збережених властивостей. Використати доречну EVALUATION частину [AI/data маршруту](ai-production.md). Порівняти достатній чинний спосіб і кандидата на справжній дозволеній задачі; кожна втрата прийнятої працюючої функції чи якості відхиляє кандидата. Не компенсувати регресію новою можливістю, ціною або середнім балом. Невідомий потрібний доказ лишається відкритим. Перевірки структури, source publication, установка, discovery, runtime та owner acceptance мають окремі квитанції.
+Before rollback, check actual revision and hashes and reconcile unknown effects. Restore only the owned scope from its before copy through the supported manager. A newer edit is a conflict. A skill rollback does not reverse data, message, deployment or other external effects.

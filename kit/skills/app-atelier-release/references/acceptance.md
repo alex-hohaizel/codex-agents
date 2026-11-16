@@ -1,7 +1,7 @@
-# Приймання випуску
+# Release acceptance
 
-До full build: current feasibility і конфлікти resource/store/no-human/account оцінені; unknown не приховано. Перед submission повторно перевірені чинні правила/ціни/акаунти/артефакти, full-client QA, privacy/billing/support, власний readiness вибір і достатня згода на конкретний effect. Після - receipt/read-back/спостережена core operation або точно scoped blocker.
+Before full build, assess current feasibility and conflicts involving resources, stores, human testing and accounts. Keep unknowns visible. Before submission recheck current rules, prices, accounts, artifacts, full-client QA, privacy, billing and support, owner readiness and explicit authority for the exact effect. After execution collect the receipt, read-back and observed core behavior or an exact scope blocker.
 
-Негативні cases: старий тариф названо актуальним; fee приховано за zero-budget; tester requirement замінено ботами; змінено platform scope без власника; signing/secret у ZIP; подання видано за approval; timeout спричинив подвійний deploy/платіж; старий QA hash застосовано до нового binary; landing названо вебпродуктом. За кожним потрібен явний fail/pending, не середній рейтинг.
+Reject an outdated price presented as current, hidden fees against a zero budget, bots substituted for required testers, a platform change without the owner, credentials or signing secrets in a ZIP, submission presented as approval, duplicate deployment or payment after timeout, old QA attached to a new binary and a landing page presented as a working web product. Each issue needs an explicit failed or pending outcome instead of an average score.
 
-При недоступному tool/device/account залишити підготовлений packet, exact bridge/owner/due proof. Не виконувати live фінансовий або публічний effect лише заради перевірки. Self-check підготовки й незалежне release приймання звітувати окремо.
+For unavailable tools, devices or accounts, provide a prepared package with exact handoff, owner and due evidence. A test alone does not authorize a live financial or public effect. Record author self-check and independent release acceptance separately.

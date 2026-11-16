@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Випуск · 6.0.0
-  short_description: Точні збірки, перевірені платежі й керований випуск
-  default_prompt: $gamedev-release Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Випуск
+  short_description: "Verify and deliver the exact mobile game release"
+  default_prompt: "Use $gamedev-release to reconcile the approved candidate, platform and commerce proofs and perform the authorized release step."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

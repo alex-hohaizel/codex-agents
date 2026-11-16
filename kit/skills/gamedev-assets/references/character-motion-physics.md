@@ -1,4 +1,4 @@
-# Персонаж і тіло як система
+# Characters, bodies, and motion as a system
 
 ## Character production contract
 
@@ -22,18 +22,18 @@ Use exact simulation units, scale, fixed tick and gravity/friction/restitution/m
 
 Object interactions have explicit approach/contact/grasp/release/throw/bounce/break/recovery state rules and matching animation/audio/VFX/haptic events. Hit reaction cannot silently change competitive hit geometry. Visual limbs may use IK to meet a socket, but do not modify core movement rules without design change.
 
-## Поведінка, властивості та progression cues
+## Behavior, properties, and progression cues
 
-Планувати actor/equipment variants з model object/state/event IDs. Telegraph/commit/recovery/cooldown, status, damage/resource availability, tool mode/charge/heat, upgrade або нова ability мають відтворювану видиму/звукову мову. Не придумувати AI або числа ефектів під animation; source clips і events споживають accepted rules. Новий рівень предмета не обов’язково потребує нового mesh, але його функціональна відмінність і межі мають читатися за задумом.
+Plan actor and equipment variations with model object, state and event IDs. Establish reproducible visual and audio cues for telegraph, commit, recovery and cooldown, status, damage and resource availability, tool mode, charge or heat, upgrades and new abilities. Source clips and events consume accepted rules, including AI behavior and effect values. Reuse a mesh for a new item tier when it still communicates the designed functional difference and limits.
 
-Для complex interaction задати approach/contact/grip/use/release/recovery, доступні interrupts, simultaneous actions і source authority. Перевірити той самий actor/tool у різних world/material states та після релевантного unlock. Не називати recolor новою поведінкою й не додавати бойові сімейства небойовій грі для заповнення inventory.
+For complex interactions specify approach, contact, grip, use, release and recovery, available interruptions, simultaneous actions and authority. Test the same actor or tool in different world and material states and after a relevant unlock. Record recoloring as a visual variation. Scope combat families to products that need them.
 
 ## Delivery checks
 
 Open editable sources and export in a clean/pinned toolchain. Reimport into actual engine project and compare scale/orientation/materials/rig/clips. Capture normal and boundary interactions, multiple camera angles and peak concurrency. Bind evidence to exact source/export hashes. Device-native feel/performance needs actual device receipt; DCC playback is source evidence only.
 
-## Damage і lifecycle representation
+## Damage and lifecycle representation
 
-Collision дає facts; resolver визначає accepted hit/state outcome. Виробити hit/hurt/part/collision markers, telegraph/commit/recovery/cancel/death/disabled/rescue/respawn states лише за design. Root motion/IK/ragdoll не привласнюють damage або reward authority; death-animation completion не дає повторного grant.
+Collision supplies contact facts. The resolver decides the accepted hit and resulting state. Produce hit, hurt, part and collision markers and telegraph, commit, recovery, cancel, death, disabled, rescue and respawn states where designed. Keep damage and reward authority outside root motion, IK, ragdoll, and death animation callbacks. Deduplicate grants at their authority.
 
-Задати controller→ragdoll→respawn transform ownership, contact timebase, spawn/despawn/pooled-generation cleanup та bounded debris. Для broken part оновити source geometry/rig/collision/attachments/cues і actual function binding. Stress poses й integrated contact scene перевірити з current physics backend/timestep; fixed tick не доводить bitwise determinism.
+Define transform ownership from controller to ragdoll to respawn, contact timebase, cleanup for spawn, despawn and pooled generations, and debris limits. For broken parts update source geometry, rig, collision, attachments, cues, and actual function bindings. Test stress poses and integrated contacts with the current physics backend and timestep. Verify any bitwise determinism claim separately from fixed tick.

@@ -1,78 +1,78 @@
-# Системи гри, економіка та збереження
+# Game systems, economy, and persistence
 
-## Від опису до виконуваних даних
+## Canonical executable data
 
-Дані мають stable IDs, schema version, localized labels, dependency IDs, source decision ref, expected runtime binding та fixtures. Не закодовувати повторно numbers з PDF в різних місцях. У repo зберігати canonical validated tables і генерувати runtime imports.
+Store stable IDs, schema version, localized labels, dependencies, source decision, expected binding, and fixtures. Keep validated canonical tables in the repository and generate runtime imports. Reference document values to their data source.
 
-| Система | Мінімальна модель | Потрібні перевірки |
+| System | Minimum model | Required checks |
 |---|---|---|
-| Content | biome/arena/module IDs, connector grammar, difficulty tags, hazards, encounter budgets, excludes, unlocks | reachability, legal composition, no softlock, repetition window |
-| Run | phase graph, choices, reward tables, checkpoints, fail/retry/exit, timer/seed | interrupted/abandoned run, seed replay, final state |
-| Mastery | skill opportunities, timing windows, feedback, score meaning | improvement observable without pay; no auto-win reward |
-| Meta | unlock graph, costs, prerequisites, caps, resets/prestige, catch-up | reachability from zero, unreachable/cyclic dependencies, long gaps |
-| Mechanics variants | character/weapon/playstyle effects and counters | distinct behavior, dominance, synergies/exclusions, telegraphs |
-| Economy | resource precision, sources/sinks/caps, exchange rules, acquisition time | conservation, overflow, negative balances, inflation, free path |
-| Offers | SKU/group/type, price store ref, eligibility, cadence, content, refund policy | no duplicate grant, expired/missing offer, honest disclosure |
-| Seasons | start/end/timezone, pass/free tracks, claims, rollover | offline/time skew, season end during transaction, unclaimed rewards |
+| Content | Biome, arena, and module IDs, connector grammar, difficulty and hazards, encounter budget, exclusions and unlocks | Reachability, legal combinations, no softlocks, repetition window |
+| Run | Phases, choices, rewards, checkpoints, failure and retry and exit, time and seed | Interrupt and abandon, seed replay, terminal state |
+| Mastery | Skill opportunities, timing windows, feedback, score | Improvement without forced purchases and no automatic win reward |
+| Metagame | Unlocks, cost and prerequisites, caps and resets and prestige, catch-up | Reachability, cycles, and long gaps |
+| Mechanic variants | Effects and counters for actors, equipment, and playstyles | Distinct behavior, dominance, synergy and exclusions, readable cues |
+| Economy | Precision, sources and sinks and caps, exchange, acquisition time | Conservation, overflow, negative balance, inflation, and free path |
+| Offers | SKU and group and type, provider price, eligibility, cadence, contents and refund | Exact grants, expiry and missing offer, clear disclosure |
+| Season | Times and timezone, pass and free track, claims and rollover | Offline and skew, season changing during a transaction, missing claims |
 
-Content generation використовує constrained grammar і validated modules. Не вважати кількість combinations доказом meaningful variety. Replay tests класифікують простір рішень/encounters, а curated seed suite містить boundary і погані випадки. Невдала генерація має bounded retries й tested safe fallback.
+Generate with constrained grammar and validated modules. Classify replay by decisions and encounter types. Use curated boundary and adverse seeds, bounded repair and tested safe fallback.
 
-## Actors, equipment і динамічний світ
+## Actors, equipment, and world
 
-Споживати enabled model domains і exact IDs. Actor behavior включає доступні senses/knowledge/memory, goals/decision/action states, telegraph/commit/recovery/cooldown, movement/navigation, team/composition role, counters та adaptation bounds. Випадковість не дає невидимого знання або непередбачуваної атаки без cue. Test fixtures розрізняють стратегії у контексті, не лише HP/speed. Enemy AI не потрібен грі без відповідного виклику.
+Consume exact IDs in enabled model domains. Define available senses, knowledge and memory, goals, decision and action, cue and commitment and recovery and cooldown, navigation, team role, counters, and limits on adaptation. Randomness respects knowledge and telegraph rules. Verify distinct strategies in context beyond HP and speed. Include opponent AI when the experience calls for it.
 
-Equipment/property resolver має units, typed effects, target scope, evaluation/stack/refresh order, caps, synergy/exclusion і persistence. Відокремити stats від capability/access: бонус damage не замінює новий спосіб дії. Прогресія предмета/здібності/актора використовує модель конкретної гри, не обов’язкову RPG rarity tree. Для кожного залишеного параметра показати зміну рішення й відображення у UI/feedback.
+The property resolver handles units, typed effects, target scope, evaluation and stacking and refresh, caps, synergy and exclusions, and persistence. Distinguish statistics from changed capabilities and access. Use the game's item, skill, and actor progression model. Keep meaningful parameters connected to decision and feedback.
 
-World implements topology/connectors/gates, матеріальні стани/interactables, authored або constrained generated challenges, risk/reward routes, events/pacing і сталі наслідки. Revisit має зрозумілу добровільну ціль, доступ/шанс/обмеження та actual useful reward. Перевіряти invalid compositions, camera/navigation clearance, softlocks, несправедливі накладання telegraphs і repetition classes; bounded retries мають real safe fallback.
+Implement topology, connectors and gates, materials and interactables, authored or constrained scenarios, risk and reward routes, event pacing, and lasting effects. For revisits, define a voluntary objective, access and chances and restrictions, and useful reward. Test invalid combinations, camera and navigation clearance, softlock, overlapping cues, and repetition. Verify bounded retries lead to a safe fallback.
 
-## Progression, rewards і learning
+## Progression, reward, and learning
 
-З model progression/rewards/learning вивести unlock/capability/knowledge dependency graphs. Кожне meaningful unlock має source/cost, new possibility, місце безпечного застосування, combination, known-context reinterpretation, наступну мету й reset/persistence. Finite launch повинен мати змістовний цикл і long arc; нескінченні seeds/цифрова inflation/щотижнева обіцянка контенту не підміняють спроєктований продукт.
+Derive unlock, capability, and knowledge dependencies from the model. Each meaningful unlock has source and cost, new capability, safe practice, useful combinations, a known context reinterpreted, a next objective, and reset or persistence. Provide finite launch content with a complete loop and long-term trajectory.
 
-Reward table/pool має version/trigger/eligibility, exact grant type/amount/cap, chance/guarantee/pity лише коли застосовно, duplicate/overflow/revoke і durable identity. Presentation слухає confirmed state. Нагорода повинна переходити у використання предмета/skill/access/world change; інертні очки не доводять reward system. Clock/retry/scene change не дублює grant.
+Each reward table or pool needs version, trigger and eligibility, exact grant and count and cap, applicable odds and guarantees and pity, duplicates and overflow and revocation, and durable identity. Presentation consumes confirmed state. Connect rewards to actual item or skill use or access or a world change. Keep grants once through time, retry, and scene change.
 
-Learning director активує hints/practice на actual prerequisites, розрізняє prompted і independent use, підтримує failure help/skip/re-entry та gradual reveal. Tutorial completion не дорівнює прочитаному tooltip. Human comprehension/mastery потребують окремого тесту з новим гравцем; agent walkthrough не є його заміною.
+The learning director uses actual prerequisites, records prompted and independent use, and supports failed attempts, skip and return, and gradual reveal. Verify comprehension and mastery with actual new players for those claims.
 
-## Progression та economy implementation
+## Economy implementation
 
-Розділяти run power, persistent access, mastery та collection. Усі gains/expenses — typed events із reason, transaction ID, before/after state й version; округлення/precision явно. Не множити currencies без distinct role і зрозумілої UX conversion map. Обчислювати безкоштовний шлях, median/p95 acquisition time за явними model assumptions, bottlenecks, caps і refund corrections; це simulation results, не фактична поведінка ринку.
+Track run strength, persistent access, mastery, and collection separately. Record gains and costs as typed events with reason, transaction ID, before and after state, version, precision, and rounding. Every currency needs an identifiable role and usable conversion display. Model the free path, acquisition median and p95 with explicit assumptions, bottlenecks, caps, and refund adjustments. Report model outcomes as simulations.
 
-Автосимуляція перевіряє extreme policies: never buy, only starter purchases, high skill/low time, low skill/high time, full collection, returning player, bad RNG. Результат не доводить fun/fairness; для них є playtests. Платне mechanically different content має виміряні cumulative access/time/power effects та читабельні tradeoffs. Погоджена P1C допускає доречну перевагу часу/можливостей/сили; competitive fairness задається окремо. Не приховувати домінантний paid portfolio за словом sidegrade. Відхилення від погоджених меж повернути на конкретне рішення; не перепитувати вже затверджену модель.
+Simulate never buying, initial purchases only, high skill and little time, low skill and more time, full collections, returning players, and bad random draws. Use playtests for enjoyment and perceived fairness. For mechanically distinct paid content, measure cumulative effects on time, access, and power and communicate trade-offs. P1C allows appropriate advantage within agreed limits. Competitive fairness is specified separately. Test dominance under full portfolio ownership. Carry forward the accepted model and present material changes for decision.
 
-## Purchase/reward state machine
+## Purchase and reward state machines
 
-Purchase: initiated → store_pending → purchased_unverified → verified → granted → acknowledged/consumed (точний порядок за актуальним SDK/store контрактом) або cancelled/failed/refunded/revoked. Не вважати `pending` успіхом. Reward grant durable idempotency key пов'язаний із authoritative purchase/transaction identity, а не лише client button press. Повторний callback/retry/restart не дає повторної винагороди. Аcknowledge/consume після durable fulfillment у дозволеному строку; server/device reconciliation відновлює незавершені операції.
+Purchase follows initiated, `store_pending`, `purchased_unverified`, verified, granted, and acknowledged or consumed, with cancelled, failed, refunded, and revoked branches. Use actual SDK and provider ordering. Keep pending separate from success. Persist grant identity using the authoritative purchase or transaction. Handle duplicate callback, retry, and restart without granting twice. Acknowledge or consume after durable fulfillment within the supported deadline. Reconcile in-progress transactions from authoritative records.
 
-Rewarded ads: eligible → requested → loaded → shown → provider-earned event → durable grant; no-fill/cancel/error не видають false reward. Винагорода рівно один раз і після background/restart; frequency cap/consent/child eligibility виконуються. Шлях без реклами лишається функціональним згідно з baseline.
+A rewarded ad goes from eligible, requested, loaded and shown to verified provider-earned event and durable grant. Cover no-fill, cancellation and error independently. Grant once across suspend and restart. Enforce frequency, consent, and age eligibility and retain the no-ad path.
 
-Subscriptions, якщо обрані: pending, trial, active, renewal, grace/billing retry, account hold, paused, cancelled-but-entitled, expired, refunded/revoked. Перевірити authoritative store state, account mapping, restore, family-sharing якщо застосовно. Перевстановлення не повинне губити підтверджений durable entitlement.
+When selected, test subscription pending, trial, active, renewed, grace and billing retry, hold, pause, cancelled-but-entitled, expired, refund and revoke. Verify authoritative store status, account mapping, restore, and applicable family sharing. Preserve durable rights after reinstall.
 
-Paid random rewards: exact pool/version/odds/guarantee/pity/reset/duplicate conversion, store disclosures та age/region rules перевіряються актуально. Purchase simulation і sandbox не є реальним revenue. Жодних undocumented hidden odds changes.
+For paid randomness, pin pool, version, odds, guarantee, pity, reset, duplicate conversion, disclosure, and actual market and age rules. Record simulations, sandbox transactions, and revenue separately. Disclose changes to odds.
 
-## Save, offline та sync
+## Save, offline, and sync
 
-Save schema: version, game/content/economy version, profile identity, stable item IDs, progression, settings, run checkpoint, RNG state/policy, durable transaction journal, pending reconciliation, checksum/integrity policy. Atomic write із backup/recovery; відрізняти corrupted bytes, unsupported new schema і missing optional field.
+Save schema records version, game and content and economy versions, profile, stable item IDs, progression, settings, checkpoint, RNG state and policy, durable transaction journal, pending reconciliation, and integrity or checksum. Use atomic write, backup and recovery. Distinguish corrupt bytes, unsupported version, and absent optional fields.
 
-Міграції однонапрямні й tested на historical fixtures; rollback app version не обіцяє rollback save. Дати forward-compatible reader або явний rollback boundary. Tombstones/deletion і guest→account merge мають explicit policy. Conflict resolution не «max everything»: це дублює ресурси. Серверний journal/ownership визначає monetary truth. Для local-only game cloud conflict має зрозумілий user-facing вибір із backup.
+Verify one-way migrations against historical fixtures. A code rollback and a save rollback need separate compatibility. Allow forward reading where designed or state the rollback limit. Define deletion tombstones and guest-to-account merge. Merge using domain rules to preserve spent currency. Base financial state on authoritative journal and ownership. Use a clear recovery choice with backup when resolving relevant local and cloud conflicts.
 
-Offline: які features працюють, які чекають мережі, як повідомляється stale data/price, як expiry визначається без довіри до локального годинника. Device clock не створює infinite daily rewards. Retry bounded + jitter; stale requests не переозначують current screen state.
+Specify which features work offline or require network, how stale data or price displays, and how expiry works when the local clock is untrusted. Prevent replay of daily grants through clock shifts. Bound retries with jitter. Prevent stale commands from modifying the current screen.
 
-## Privacy та telemetry
+## Privacy and telemetry
 
-Event schema має event ID, schema/build/content version, consent applicability, мінімальні fields, retention/deletion behavior. Не логувати access tokens, raw receipts, email або full persistent identifiers у QA artifacts. Маркетингові SDK й personal data collection вимагають належної моделі consent/age/region. Data safety/privacy labels виводити з фактичних SDK/мережевих потоків, а не зі слова «offline» у GDD.
+Specify event ID, schema and build and content versions, consent, minimum fields, retention and deletion. Keep access tokens, raw receipts, email, and full persistent IDs outside QA evidence. Verify age, market, consent, and applicable personal-data requirements for SDKs. Base privacy labels on actual observed data flows.
 
-## Damage/physics/lifecycle resolver
+## Damage, physics, and lifecycle
 
-Розділити candidate contact facts і accepted gameplay hit. Action/target+generation/window dedup, hit eligibility, typed channels, additive/multiply/override/conversion/defense order, rounding/caps, barrier/globalHP/part overflow, positive-loss predicates, statuses/stagger/impulse й lifecycle priority походять із T. DoT має capture per input, exact tick/expiry/refresh/stack/pause/resume/offline policy, effect/tick identity; RNG streams і consumed-roll rules versioned.
+Separate candidate contacts from accepted hits. Implement T's action/target generation/window deduplication, eligibility, typed channels, addition and multiplication and replacement and conversion and defense order, rounding and caps, barrier and HP and part overflow, positive loss, status and stagger and impulse, and lifecycle priorities. Define damage-over-time capture by input, ticks, expiry, refresh, stack, pause and resume and offline, effect and tick identity, and versioned random streams and roll consumption.
 
-Reflection/retaliation мають root/parent/effect ownership і bounded cascades. Despawn/representation cleanup не kill; crash може пошкодити модуль чи disabled без смерті. Simultaneous actor/boss lethal/phase/stagger/goal/rescue не залежить від iteration order. Rewards/costs/retry/checkpoint зберігають consistency group.
+Reflection and retaliation need root and parent and effect identity and bounded cascades. Distinguish cleanup and despawn from kills. A collision can damage a part or disable an actor without death. Resolve concurrent actor and boss death, phase, stagger, goal and rescue independently of iteration order. Keep rewards, costs, retry, and checkpoint in their consistency group.
 
-Simulation commit дає immediate coherent gameplay feedback, durable commit — підтверджену critical spend/reward/victory гарантію, cloud ack — sync status. Не чекати disk/cloud для ordinary hit, не підтверджувати durable success раніше відповідної межі.
+Use simulation commit for immediate coherent feedback, durable commit for critical reward or spending or victory, and cloud acknowledgment for sync. Ordinary hits proceed without waiting for storage or network. Show critical success only after the correct authority confirms it.
 
-## Повний State Catalogue і платформне продовження
+## Full State Catalogue and platform continuation
 
-Перелічити кожне mutable field із type/precision/units/initial/scope/owner/authority/lifetime, durable/reconstructible/ephemeral/cache/secret policy, commit trigger/consistency/restore/migrate/merge/delete/retention/privacy. Meaningful progress/equipment damage/world flags/AI phases/RNG/limits/settings/learning/pending grants зберігаються або відтворюються; touches/runtime pointers безпечно reset/rebuild.
+List each mutable field's type, precision, units, initial value, scope, ownership and authority, lifetime, class (durable, reconstructible, ephemeral, cache, or secret), commit and consistency, restore and migrate and merge and delete, retention and privacy. Preserve or reconstruct significant progression, equipment damage, world flags and AI phases, random states and caps, settings and learning, and pending grants. Reset or rebuild raw touches and runtime pointers safely.
 
-Atomic generations/transactions мають serial revisions, stale-write guard, dirty/checkpoint window, good previous copy, disk-full/kill/corruption recovery. Restore перевіряє envelope/owner/version→migration→semantic invariants→coherent state→derived rebuild→safe controls. 64-bit IDs/seed round-trip точний; не завантажувати untrusted objects.
+Atomic generations or transactions need ordered revisions, stale-write protection, dirty and checkpoint windows, known-good prior copy, and disk-full, termination, and corruption recovery. Verify envelope, owner, version and migration, semantic invariants, coherent state, reconstructed derived values, and safe controls. Round-trip 64-bit IDs and seeds exactly. Deserialize only supported data.
 
-Cloud sync, OS backup, account migration та store purchase restore відокремити. Google platform PlayerID не universal primary profile; i Cloud owner не Game Center/store account. Actual Game Save/PGS/legacy SDK bridges і OS support перевірити під pinned build, не підвищувати мінімум ОС автоматично. Two-offline branches не max/union currency/inventory; spent→crafted causality та tombstone захищають consistency. Paid backend/cross-platform profile — лише обраний scope.
+Keep cloud sync, device backup, account migration, and store restoration separate. Google platform PlayerID and iCloud ownership have different authority from game profile, Game Center, and store accounts. Verify Game Save, PGS and legacy SDK bridges and OS support on the pinned build before changing platform scope. Preserve causality from spend to crafted result across two offline branches and use tombstones for deletions. A paid backend or shared cross-platform profile requires accepted scope.

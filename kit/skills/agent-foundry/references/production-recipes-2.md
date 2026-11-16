@@ -1,46 +1,46 @@
-# Виробнича система Agent Foundry
+# Agent Foundry production system
 
-Зміст: записи → admission → рецепти → спроби → assembly → handoff. Читати до вибору інструментів, авторингу target skills, їх виконання, пакування та зміни інтеграції. Прикладні класи — початкова таксономія, не вимога використати всі.
+Contents: records → admission → recipes → attempts → assembly → handoff. Read before selecting tools, authoring or running target skills, packaging, or changing an integration. Recipe classes are a starting vocabulary; use the applicable classes.
 
-## П’ять пов’язаних записів
+## Five linked records
 
-1. **Capability:** конкретна операція, provider/tool/model/version/host, actual schema/catalog, inputs/outputs/limits, unsupported fields, parameter consumption, editable sources, доступ/права/data scope/cost, observed evidence та freshness triggers. `candidate`, `descriptor_seen`, `configured`, `operation_tested`, `integrated` — різні claims; discovery не доводить тест.
-2. **Recipe:** requirement IDs, accepted inputs+hashes, компетентний owner, consumer, exact bound argv/API fields або numbered GUI procedure, ordered DAG, output/master format, validators, limits, effects, fallback/repair/stop. Незаповнений template не виконується.
-3. **Transformation:** source/target, semantics/units/IDs/time/precision/privacy, preserved invariants, дозволені втрати, actual mapping, validator/oracle/tolerance.
-4. **Attempt:** stable identity перед effect, recipe/input/toolchain digests, actual arguments, request/job refs, append-only observations, status/cost/outputs/receipts, reconciliation і retry relation. Немає вигаданого run ID для плану.
-5. **Assembly:** exact output/component/config/version, bindings, scenario, expected vs observed outcomes, proper evidence modality, author/reviewer, gaps і acceptance. Присутність окремих файлів не доводить цілісну користь.
+1. **Capability:** exact operation, provider, tool, model, version and host, actual schema or catalog, inputs, outputs, limits, unsupported fields and parameter consumption, editable sources, access, rights, data scope, cost, evidence and freshness triggers. `candidate`, `descriptor_seen`, `configured`, `operation_tested`, and `integrated` are separate claims.
+2. **Recipe:** requirement IDs, accepted inputs and hashes, qualified owner, consumer, bound argv or API fields or exact GUI procedure, ordered DAG, output and master formats, validators, limits, effects, fallback, repair and stop. An empty template cannot run.
+3. **Transformation:** source and target, semantics, units, IDs, time, precision and privacy, preserved invariants, permissible losses, actual mapping, validator, oracle and tolerance.
+4. **Attempt:** stable identity assigned before an effect, recipe, input and toolchain digests, actual arguments, request and job refs, append-only observations, status, cost, outputs, receipts, reconciliation and replay relation. A plan has no invented run ID.
+5. **Assembly:** exact output, component, config and version, bindings, scenario, expected and observed outcomes, appropriate medium of evidence, author, reviewer, gaps and acceptance. Individual files do not establish assembled benefit.
 
-## Admission та ресурсна дисципліна
+## Admission and resource limits
 
-Перед node перевірити чинні inputs, operation capability, unsupported material parameters, authority, бюджети, consumer, доступність компетенції й ресурсу, single-writer ownership. Cheap schema/types/ref checks перед дорогими генераціями, builds чи зовнішніми jobs. Зайнятий ресурс не звільняється лише від lease timeout без перевірки фактичного стану. За material gap блокується залежний scope, незалежні роботи продовжуються.
+Before a node, check current inputs, operation support and material parameters, authority, budgets, consumer, competency and resource availability, and single-writer ownership. Run cheap schema, type and reference checks before expensive generation, builds or external jobs. Lease expiry does not establish a resource is free; check actual state. Block the dependent scope on a material gap and continue independent work.
 
-Tools/skills обирати після читання їхніх фактичних контрактів. Каталог не гарантує конектор, установка — доступ, доступ — дозвіл, а підписка — оплачені сторонні API. Порівнювати придатні маршрути за must, правами, керованістю, maintenance і витратами. Framework/SDK/RAG/backend/database — умовний вибір, не список престижних назв.
+Read actual tool and skill contracts before choosing. A catalog listing, installed connector, access, authorization, and paid provider use are separate. Compare workable options against requirements, rights, control, maintenance and cost. Add framework, SDK, RAG, backend or database only for a need.
 
-## Сімейства рецептів
+## Recipe families
 
-| Клас | Конкретний алгоритм і приймання |
+| Class | Workflow and acceptance |
 |---|---|
-| AF-R01 Намір→паспорт | Чинні sources/accepted originals→карта області та застосовності→requirements із негативними cases→альтернативи→M1 blueprint→точний список компонентів/витрат/невідомостей→реальна відповідь на exact revision. Source completeness та предметний review окремо. |
-| AF-R02 Паспорт→спеціалізація | Approved capability→компетенція/межі→вузький trigger/workflow→предметні rules/data/recipes/fixtures→self-contained shared core→UI metadata→syntax/link/contract checks→raw forward task. Наявність YAML не доводить компетентність. |
-| AF-R03 Дані→знання | Правомірне джерело/версія→parse з provenance→структурування/нормалізація з втратами→IDs/index→targeted retrieval→актуальність/конфлікти/видалення→answer із джерелом. RAG індекс — похідний, не друга authority; retrieval precision/recall оцінити на власному корпусі. |
-| AF-R04 Правило→код/adapter | Typed rule/state/oracle→reference fixtures→обрані модулі/сумісні бібліотеки→input validation/authz→domain implementation→API boundary→unit/property/integration→actual consumer scenario. Очікуваний результат визначити незалежно від коду; parser pass не є integration pass. |
-| AF-R05 Намір→зовнішня дія | Чинний scope/дані/одержувач→reviewable parameters/output→capability/auth check→pending key→один submit→receipt/read-back→reconciliation unknown→durable closure. Provider idempotency лише за підтримки. Кінцевий effect має власне спостереження. |
-| AF-R06 Матеріал→модальність | Прийнята поведінка/identity/state inventory→правомірний source/master→редагування/генерація→export/import→actual channel playback/render/use→semantic+perceptual review. Застосовувати лише потрібні текст/зображення/звук/відео/3D канали. Format metadata не доводить якість сприйняття. |
-| AF-R07 Джерело→пакет→host | Прийнятий exact skill set→contained files/modes/hashes→manifest/guide→preflight/dry-run→backup/conflict resolution→apply/verify→host discovery→safe invocation→validated return. Один source, перевірені exports; Work/Codex мають окремий capability profile. |
-| AF-R08 Випуск→експлуатація | Exact deployed artifacts/config/schema→реальний release receipt→перша корисна дія→тільки дозволені observations→incident impact→bounded repair/retest→compatible update/rollback→checkpoint. Runbook не доводить запущений monitoring; service-loss/exit/export path визначити до залежності. |
+| AF-R01 Intent to passport | Current sources and accepted originals → domain and applicability → requirements with negative cases → alternatives → M1 blueprint → exact components, costs and unknowns → actual response to exact revision. Check source coverage and domain quality separately. |
+| AF-R02 Passport to specialization | Approved capability → competency and boundaries → narrow trigger and workflow → domain rules, data, recipes, fixtures → self-contained core → UI metadata → syntax, links and contract checks → raw forward task. YAML does not prove competence. |
+| AF-R03 Data to knowledge | Permitted source and version → parse with provenance → structure and normalize with losses recorded → IDs or index → targeted retrieval → freshness, conflict and deletion → sourced answer. A RAG index is derived. Evaluate precision and recall on the actual corpus. |
+| AF-R04 Rule to code or adapter | Typed rule, state and oracle → reference fixtures → modules and compatible dependencies → input checks and authorization → implementation → API boundary → unit, property and integration checks → actual consumer. Define the expected result independently of the implementation. |
+| AF-R05 Intent to external effect | Current scope, data and recipient → reviewable parameters or artifact → capability and authority check → pending key → one submission → receipt or read-back → reconcile unknowns → durable closure. Use provider idempotency when supported. Verify the effect separately. |
+| AF-R06 Material to medium | Accepted behavior, identity and state inventory → permitted source and master → edit or generate → export and import → actual playback, rendering or channel use → semantic and perceptual review. Use only applicable text, image, audio, video or 3D. Format metadata does not prove perceptual quality. |
+| AF-R07 Source to package to host | Accepted exact skills → contained files, modes and hashes → manifest and guide → preflight and dry run → backup and conflict resolution → apply and verify → discovery → safe invocation → validated return. Keep one source and verified exports; check Work and Codex separately. |
+| AF-R08 Release to operation | Exact deployed artifacts, config and schema → actual release receipt → first useful action → authorized observation → incident impact → bounded repair and retest → compatible update or rollback → checkpoint. Plan service loss, exit and export; a runbook alone does not start monitoring. |
 
-У recipes параметри з прикладів інстанціювати під конкретний предмет і доступну актуальну операцію. У межах однієї capabilities grammar охопити normal/empty/edge/invalid/concurrent/late/cancel/retry/resume та потрібні locale/platform/user-role variants. Не замінювати повний каталог кількома красивими прикладами. До заяви великої спроможності провести виміряний end-to-end цикл одного репрезентативного елемента; записати фактичний час, вартість, частку ремонту й bottleneck. Не екстраполювати малий sample у гарантію.
+Bind example parameters to the actual domain and currently supported operation. Within the capability grammar cover normal, empty, edge, invalid, concurrent, late, cancel, retry and resume cases plus required locale, platform and user-role variants. Representative examples supplement the complete catalog. Before claiming scale, measure one representative end-to-end item, recording actual time, cost, repair rate and bottleneck. Do not generalize a small sample into a guarantee.
 
-## Attempts, cache та ремонт
+## Attempts, cache and repair
 
-Запис pending до costly/remote operation, actual job ID одразу після submission. Timeout означає unknown; cancel request — pending cancel. Зберегти reserved cost до reconcile. Нову спробу не створювати для невідомого старого effect без перевірки provider status/outputs. Append новий verdict, не переписувати старий fail.
+Record pending before costly or remote work and the actual job ID on submission. A timeout is unknown; cancellation requested is pending cancel. Reserve the estimated cost until reconciliation. Check provider status and outputs before any retry of an unknown effect. Append a new verdict and preserve earlier failures.
 
-Класи ремонту: input_contract, unsupported_operation, generation/craft, format, semantic_conversion, integration, environment/access, transient_provider, acceptance_defect. Кожна спроба має гіпотезу, змінену змінну, очікуваний наслідок і наступну перевірку. Дві однакові безрезультатні спроби змінюють діагностику/метод або точний blocker; cap не знімає must.
+Repair classes: input_contract, unsupported_operation, generation/craft, format, semantic_conversion, integration, environment/access, transient_provider, acceptance_defect. Each attempt identifies a hypothesis, changed variable, expected result and next check. After two identical unsuccessful repairs change diagnosis or method, or report the specific blocker. A budget limit does not waive a requirement.
 
-Cache key: semantic inputs+hashes, recipe revision, actual operation/model/toolchain/exporter/importer, parameters, target profile, права/data scope. Зміна importer відкриває derivative/proof, прийнятий master з незмінними bytes зберігається. Нові terms/access/schema/source/authority — freshness triggers. Reuse не створює нову незалежність чи вищу доказовість. AI opaque operation не обіцяє bitwise regeneration.
+Key caches by semantic inputs and hashes, recipe revision, actual operation, model, toolchain, exporter and importer, parameters, target profile, permissions and data scope. An importer change reopens derivatives and evidence and keeps the accepted master if unchanged. Recheck terms, access, schema, source and authority when they change. Reuse adds no new independence. An opaque AI operation cannot promise bitwise regeneration.
 
-## Приймання складання й переходу
+## Assembly and cross-host acceptance
 
-До scenario pin-ити components/config/model/inputs і середовище. Перевірити complete user job, видимий результат, помилку/скасування/відновлення, правильність даних/прав, ресурси й залежні канали. Structural, semantic, domain, integration, human/device, operational/business verdicts окремі. AI critique не є user study, latency simulation не є production observation, факт відправлення не є бізнес-результат.
+Pin scenario components, config, model, inputs and environment. Verify complete user work, visible results, failure or cancellation and recovery, data and permission correctness, resources and dependent channels. Keep structural, semantic, domain, integration, human or device, operational and business verdicts separate. An AI critique is not a user study. Simulated latency is not production observation. Submission does not establish a business result.
 
-Host bridge: reason/scope, producer/consumer host, preflight, exact inputs/hashes/cwd, підтримувані steps/argv, permissions/secret refs без values, очікуваний результат/receipt, return files/hashes, validators і next action. Return перевірити перед ready. Не вимагати від користувача повторного опису відомого чи ручного вибору внутрішніх модулів.
+The bridge records reason and scope, producer and consumer host, preflight, exact inputs, hashes and working directory, supported steps or argv, permissions and secret references without values, expected result and receipt, return files and hashes, validators and next action. Verify return before marking ready. Reuse known input and choose appropriate internal modules on the user's behalf.

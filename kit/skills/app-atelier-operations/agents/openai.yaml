@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Експлуатація · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-operations до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Експлуатація
+  short_description: "Diagnose app incidents and verify recovery in scope"
+  default_prompt: "Use $app-atelier-operations to verify this incident, repair scope, recovery evidence and next action."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

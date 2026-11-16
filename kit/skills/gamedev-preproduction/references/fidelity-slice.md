@@ -1,37 +1,37 @@
-# Від першого кадру до тієї самої гри
+# Preserve the approved reference in the playable game
 
-## Що саме фіксується
+## Lock the reference
 
-Зберегти exact approved image/audio/motion sample, version/hash, full resolution, intended device/aspect/scene/camera/state і actual user choice. Розкласти зразок на construction specification: silhouette/proportions, shapes, palette with color space, materials/shading, lights/exposure/postprocess, depth, camera projection/FOV/distance, world scale, composition/anchors, typography/font binaries/weights/sizes, icon system, UI metrics, VFX timing/readability, animation language, audio palette/motifs/mix/haptics. Позначити неоднозначні або неможливі деталі AI-картинки до тиражування.
+Preserve the exact approved image, audio, or motion sample with version and hash, full resolution, intended device, aspect ratio, scene, camera and state, and the actual owner decision. Derive a construction specification for silhouettes and proportions, forms, palette and color space, materials and shading, light and exposure and postprocessing, depth, camera projection, field of view and distance, world scale, framing and anchors, font binaries and weights and sizes, icon system, UI dimensions, VFX timing and readability, motion language, audio palette and motifs, mix, and haptics. Identify ambiguous or infeasible details in generated references before scaling production.
 
-Одна картинка не містить unseen surfaces, topology, rig, movement, sound чи всі екрани. Для них створити додаткові узгоджені actual targets і отримати вибір лише там, де це materially changes identity. Не робити вигляд, що exact mesh можна однозначно відновити з растра. Якщо картинка фізично/бюджетно нездійсненна — показати source-of-truth trade-off до зміни, не будувати непомітно іншу гру.
+Create further approved targets for unseen surfaces, topology, rig, motion, sound, and other views. Ask the owner only if a choice materially changes identity. Reconstruction from raster introduces choices about geometry. If physical or budget constraints prevent the reference, present the source-of-truth trade-off before adjusting it.
 
 ## Three related baselines
 
-1. **Creative reference:** approved original image і задум. Зберігається незмінно.
-2. **Construction baseline:** reproducible tokens/assets/scene/camera/lighting/render settings, agreed boundaries and unresolved details.
-3. **Runtime slice:** реальна сцена з input, physics, motion, HUD, VFX, music/SFX/haptics та захопленням із конкретного build/device.
+1. **Creative reference** preserves the exact approved original and intent.
+2. **Construction baseline** provides reproducible tokens, assets, scene, camera, lighting and render settings, accepted ranges, and remaining unknowns.
+3. **Runtime slice** is the actual scene with input, physics, movement, HUD, VFX, music, effects, haptics, and evidence from a specific build and device.
 
-Runtime slice має підтвердити в межах погоджених tolerances той самий видимий результат і feel; не обіцяти mathematically identical pixels на різних GPUs, aspect ratios чи animated times. Не використовувати цю технічну межу як дозвіл змінювати персонажа, шрифт, арт чи композицію.
+The runtime slice must match the approved visible result and feel within the accepted tolerances. Establish tolerances for differences in GPU, aspect ratio, and animation timing. Character, typeface, art, and composition changes remain subject to the approved identity.
 
-## Робочий порядок
+## Work in order
 
-- Reconstruct one normal scene and one peak/overlap scene with representative source/export path.
-- Fix deterministic camera, pose/time, seed, resolution, UI state, lighting, quality and capture method.
-- Compare target/actual side-by-side and overlay; inspect full-frame/readability and cropped critical details on phone size.
-- For static deterministic UI/icon/layout use image diff with documented masks/tolerances. For animated/world scene use structure/color/silhouette/layout checks plus independent perceptual review and motion capture.
-- Audit timing/input/physics with recorded traces; motion/audio/haptics need actual time-based evidence.
-- Record each deviation as allowed technical derivative, defect to baseline, or material creative change needing user choice.
-- Do not approve mass production while critical identity/feel mismatch remains.
+- Reconstruct a normal scene and a peak overlap scene using the representative source and export path.
+- Pin deterministic camera, pose and time, seed, resolution, UI state, lighting, quality, and capture method.
+- Compare target and actual side by side and as an overlay. Inspect the full composition and critical details at phone scale.
+- For deterministic static UI, icons, and layout, use image comparison with documented masks and tolerances. For animated world scenes, combine structure, color, silhouette, and layout checks with independent perceptual review and motion capture.
+- Review timing, controls, and physics with traces. Capture actual time-based motion, audio, and haptics where required.
+- Record each deviation as a permitted derivative, a baseline defect, or a material creative change requiring the owner's choice.
+- Resolve critical identity and feel differences before mass production.
 
-Tests can catch drift, but a pixel metric alone does not prove aesthetic equivalence. A render generated by a different pipeline from the game does not establish runtime fidelity. Receipts bind exact scene, source/export hashes, runtime build, device/profile and capture settings.
+Aesthetic equivalence requires perceptual judgment alongside quantitative metrics. Runtime fidelity requires a capture from the actual game pipeline. Each receipt binds the exact scene, source and export hashes, build, device profile, and capture settings.
 
-## Lock and change control
+## Control changes
 
-Lock creative properties and allowed envelopes explicitly: palette/color space, silhouette proportions, typefaces, key UI anchors, camera family, movement/action timing, audio motifs/timbres, loudness relationships, haptic restraint. Allowed derivatives include LOD, texture compression, safe-area adaptation and platform audio encoding only if they stay in the envelope and pass QA. Recoloring, new model, different font, melody, weapon feel or camera style are material when identity/player experience changes; use sampled change request and re-review impacted artifacts.
+Lock creative properties and allowable bounds for palette and color space, silhouette and proportions, typefaces, UI anchors, camera family, action timing, motifs and timbre, relative loudness, and restrained haptics. LOD, compression, safe-area adaptation, and platform audio encodings qualify as derivatives when they stay within those bounds and pass QA. Recoloring, new models, different fonts or melodies, weapon feel, and camera style are material when they change identity or player experience. Review a representative sample with the owner and retest affected artifacts.
 
-## Assembly obligations до mass production
+## Assembly before mass production
 
-Slice покриває потрібні semantic edges у спільній послідовності: input/camera→contact/physics→actor/effects→animation/VFX/audio/haptic→resource/lifecycle→reward/save→return. Перевірити normal/peak/cancel/failure за fit, source round-trip/import lint, low-tier budget і actual needed modality. Окремий гарний rig/audio file не підтверджує цілісну сцену.
+Cover required domain interactions in one connected sequence. Follow input and camera through contact and physics, actors and effects, animation, VFX, audio and haptics, state and resources, reward and save, and return. Verify relevant normal, peak, cancellation, and failure paths, the source round trip and import checks, low-tier budget, and actual proof types. Observe the integrated scene as well as any individual rig or clip.
 
-Записати AssemblyEvidence exact inputs/versions/build/config/components/scenario, invariant outcomes, captures/traces та gaps. Відсутній SDK/device/слухання залишається named proof obligation; поняття native-compatible source не підміняє native verification.
+Record `AssemblyEvidence` for exact inputs, versions, build, configuration, components, scenario, invariant outcomes, captures or traces, and gaps. Keep missing SDK, device, and listening evidence as named obligations. A source claimed to be native compatible still needs actual native verification.

@@ -6,8 +6,8 @@
   "task": {
     "id": "task-id",
     "revision": 1,
-    "goal": "Уточнений фактичний результат",
-    "scope": "Поточне дозволене доручення",
+    "goal": "Refined, observable result",
+    "scope": "Current authorized scope",
     "owner": "actual-actor-id",
     "host": "current-verified-host",
     "status": "planned"
@@ -18,12 +18,12 @@
     "consequence": "reversible",
     "coupling": "isolated",
     "depth": "quick",
-    "rationale": "Точний обмежений результат; замінити фактичним обґрунтуванням",
+    "rationale": "A precise, bounded result. Replace this with the actual rationale.",
     "escalate_when": [
-      "Виявлено ширший причинний вплив"
+      "A broader causal impact is discovered"
     ],
     "reduce_when": [
-      "Отримано достатній адресний доказ"
+      "A targeted check provides sufficient evidence"
     ]
   },
   "sources": [
@@ -41,23 +41,23 @@
       "source_ids": [
         "SRC-1"
       ],
-      "text": "Повний фактичний обов’язок, виділений із джерела",
+      "text": "Complete actual obligation extracted from the source",
       "status": "included",
       "due": "current-scope",
       "output_ids": [
         "OUT-1"
       ],
-      "acceptance": "Предметний спостережуваний критерій"
+      "acceptance": "Observable acceptance criterion for the domain"
     }
   ],
   "strategy": {
     "mode": "direct",
     "reuse_choice": "reuse",
-    "rationale": "Чинний метод і компетенція достатні для обмеженого результату",
+    "rationale": "The existing method and available expertise are sufficient for the bounded outcome",
     "competencies": [
       {
         "id": "COMP-1",
-        "method": "Назвати фактичний метод",
+        "method": "Identify the actual method",
         "provider": "actual-actor-or-tool",
         "availability": "verified",
         "source_ids": [
@@ -68,12 +68,12 @@
         ]
       }
     ],
-    "stop": "Завершити після належної адресної перевірки; розширення за матеріальним новим фактом"
+    "stop": "Stop after an adequate targeted check. Expand only when a new material fact justifies it."
   },
   "outputs": [
     {
       "id": "OUT-1",
-      "description": "Фактичний очікуваний артефакт",
+      "description": "Actual expected artifact",
       "status": "planned",
       "author": "actual-actor-id",
       "evidence_ids": []
@@ -82,7 +82,7 @@
   "evidence": [],
   "effects": [],
   "authority": {
-    "scope": "Чинне точне доручення",
+    "scope": "Current exact authorization",
     "grant_source_ids": [
       "SRC-1"
     ]
@@ -91,7 +91,7 @@
     "state": "not_required"
   },
   "next": {
-    "action": "Виконати поточний дозволений крок",
+    "action": "Perform the current authorized step",
     "owner": "actual-actor-id",
     "requires_user": false
   },

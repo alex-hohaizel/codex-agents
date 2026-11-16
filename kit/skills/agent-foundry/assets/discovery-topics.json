@@ -1,17 +1,17 @@
 {
   "schema_version": "1.0.0",
   "record_kind": "discovery_topic_catalog",
-  "purpose": "Карта адаптивного дослідження довільної предметної області перед проектуванням агента. Це теми й питання, а не готовий список функцій, відповідей або згод.",
+  "purpose": "A topic map for investigating any domain before designing an agent. Use its questions to guide discovery and record actual project answers and authority separately.",
   "rules": [
-    "Кожну тему оцінити щодо застосовності; створити проектний запис із джерелом, статусом, власником і horizon.",
-    "Не показувати користувачу весь каталог як анкету. Обирати поточні питання за впливом на наступну роботу й на структуру агента.",
-    "Чим нечіткіший вхід, тим глибші предметна модель, альтернативи й раунди уточнення; не підміняти це типовим набором можливостей.",
-    "Відповідь з актуального джерела повторно не запитувати. Критичне припущення не перетворюється на відповідь.",
-    "До затвердження паспорта закрити невідомі про саму конструкцію агента. Майбутній продуктовий параметр може бути відкладений лише з owner, due gate, способом рішення й явною межею.",
-    "Підсилений користувачем аспект отримує ранній аналіз і зв’язки з іншими вимогами, а не окремий декоративний розділ наприкінці.",
-    "Not_applicable має предметну причину й scope. Відсутня можливість чи брак інформації не є доказом незастосовності.",
-    "Економіка, публічна ідентичність, матеріальні канали, інтеграції та фоновий сервіс застосовуються за потребою, не як універсальний каталог.",
-    "Підготовлений запис і structural pass не доводять предметну якість, реальний доступ, права, прибуток або згоду."
+    "Assess applicability per topic and record its source, status, owner, and due horizon in the project.",
+    "Select questions by impact on the next action or agent structure. Avoid presenting the entire catalog as a questionnaire.",
+    "Deepen domain modeling, alternatives and clarification when initial input is unclear. Derive capabilities from the actual objective.",
+    "Reuse current source-backed answers. Keep unverified critical assumptions open.",
+    "Resolve agent construction unknowns before passport acceptance. Defer product values only with an owner, due gate, decision method and explicit range or boundary.",
+    "Analyze user priorities early and link each to dependent requirements.",
+    "Mark Not_applicable with a domain rationale and scope. Missing capability or information stays a gap.",
+    "Apply economics, public identity, asset channels, integrations and running services where needed.",
+    "Verify domain quality, actual access, rights, profit and approval independently of record and structural completeness."
   ],
   "project_evaluation_fields": [
     "topic_id",
@@ -29,345 +29,345 @@
   "topics": [
     {
       "id": "DISC-GOAL",
-      "title": "Мета й критерій користі",
-      "purpose": "Визначити конкретний бажаний ефект і межу достатнього результату.",
-      "when": "Завжди; поглибити, якщо людина має лише приблизний задум.",
+      "title": "Goal and useful outcome",
+      "purpose": "Define the desired effect and what a sufficient result looks like.",
+      "when": "Always. Investigate further when the initial idea is rough.",
       "questions": [
-        "Який результат має змінитися для вас або кінцевого користувача?",
-        "Як виглядає нинішня ситуація й чим вона не влаштовує?",
-        "Що ви маєте побачити, щоб сказати: це вдалося?"
+        "What should change for you or the end user?",
+        "What happens today, and where does it fall short?",
+        "What would you need to observe to accept the result?"
       ],
-      "why": "Відповідь визначає місію, можливості й перевірку агента.",
+      "why": "The answer determines mission, capabilities and verification.",
       "evidence": [
-        "Точний запит і поточні матеріали",
-        "Узгоджений спостережуваний критерій користі"
+        "Exact request and current materials",
+        "Agreed observable measure of value"
       ],
-      "closure": "Зафіксовані власник потреби, бажаний ефект, baseline, acceptance і scope.",
-      "horizon": "До вибору структури агента",
-      "defer_rule": "Не відкладати місію; точний майбутній target може бути питанням агента, якщо спосіб вибору визначено."
+      "closure": "Record the need owner, desired effect, baseline, acceptance and scope.",
+      "horizon": "Before choosing agent structure",
+      "defer_rule": "Decide the mission now. A future numerical target may be delegated if its selection method is defined."
     },
     {
       "id": "DISC-SCOPE",
-      "title": "Межі й неприйнятні спрощення",
-      "purpose": "Зберегти курс користувача й відокремити включене від суміжного.",
-      "when": "Завжди; особливо за широкого доручення або існуючих напрацювань.",
+      "title": "Scope and unacceptable simplifications",
+      "purpose": "Preserve the user's objective and draw the boundary around adjacent work.",
+      "when": "Always, especially with broad tasks or existing work.",
       "questions": [
-        "Що обов’язково має входити до результату?",
-        "Які спрощення або наслідки для вас неприйнятні?",
-        "Де потрібно зупинитися й показати результат до продовження?"
+        "What must the outcome include?",
+        "Which simplifications or consequences are unacceptable?",
+        "Where should work stop for review?"
       ],
-      "why": "Межі визначають компетенції, stop, витрати та якість.",
+      "why": "Scope sets capabilities, stop, cost and quality.",
       "evidence": [
-        "Дослівні must/emphasis/constraints",
-        "Прийняті матеріали й попередні рішення"
+        "Verbatim requirements, priorities and constraints",
+        "Accepted materials and earlier decisions"
       ],
-      "closure": "Повний current scope, non-goals, quality floor, stop і перелік невідомих.",
-      "horizon": "До затвердження паспорта",
-      "defer_rule": "Матеріальну межу агента не залишати неявною."
+      "closure": "Record current scope, non-goals, quality floor, stop and unknowns.",
+      "horizon": "Before passport approval",
+      "defer_rule": "State material agent boundaries explicitly."
     },
     {
       "id": "DISC-ACTORS",
-      "title": "Учасники, одержувачі й повноваження",
-      "purpose": "Визначити, хто діє, приймає результат і має право отримувати дані.",
-      "when": "Завжди на мінімальному рівні; деталізувати при кількох учасниках або контекстах.",
+      "title": "Actors, recipients, and authority",
+      "purpose": "Identify who acts, accepts results and can receive data.",
+      "when": "Always at a minimum. Deepen for distinct participants or contexts.",
       "questions": [
-        "Хто користується результатом і хто його затверджує?",
-        "Які дії агент може виконувати сам, а які потребують вашої особистої участі?",
-        "Кому можна показувати результати та повідомлення про стан?"
+        "Who uses and approves the result?",
+        "Which actions can the agent take and which need your direct involvement?",
+        "Who may see results and status?"
       ],
-      "why": "Права й аудиторія змінюють маршрутизацію, інтеграції й приймання.",
+      "why": "Rights and audience affect routing, integrations and acceptance.",
       "evidence": [
-        "Фактичний власник/користувач",
-        "Поточні дозволи, обмеження й source privacy"
+        "Actual owner and user",
+        "Current permissions, limits and source privacy"
       ],
-      "closure": "Описані actor roles, owner, output audience і authority boundaries.",
-      "horizon": "До доступу, передачі й зовнішньої дії",
-      "defer_rule": "Конкретний майбутній одержувач може очікувати свого gate; правила його вибору вже відомі."
+      "closure": "Record roles, owner, recipients and authority boundaries.",
+      "horizon": "Before access, transfer or external action",
+      "defer_rule": "A future named recipient may wait until its gate if selection rules are already known."
     },
     {
       "id": "DISC-DOMAIN",
-      "title": "Предметні сутності, правила й стани",
-      "purpose": "Вивести специфічну модель задачі замість випадкового каталогу функцій.",
-      "when": "Завжди; глибина відповідає складності результату.",
+      "title": "Domain entities, rules, and states",
+      "purpose": "Derive a task-specific domain model.",
+      "when": "Always, with depth proportional to the outcome.",
       "questions": [
-        "Які об’єкти й рішення є основними у вашому процесі?",
-        "Які правила й обмеження не можна порушувати?",
-        "Що змінюється після кожної важливої дії?"
+        "Which objects and decisions are central to the process?",
+        "Which rules and constraints are mandatory?",
+        "What changes after each important action?"
       ],
-      "why": "Модель визначає потрібні експертизи, дані, залежності й тести.",
+      "why": "The model determines expertise, data, dependencies and tests.",
       "evidence": [
-        "Поточний процес/дані/специфікації",
-        "Відтворений або пояснений сценарій"
+        "Current process, data and specs",
+        "Reproduced or explained scenario"
       ],
-      "closure": "Сутності, стани, переходи, інваріанти й причинні зв’язки описані та зрозумілі.",
-      "horizon": "До формування capabilities",
-      "defer_rule": "Невідому предметну властивість дослідити або винести на питання; не домислювати."
+      "closure": "Document entities, states, transitions, invariants and causal links.",
+      "horizon": "Before defining capabilities",
+      "defer_rule": "Research unknown properties or raise a specific question."
     },
     {
       "id": "DISC-SCENARIOS",
-      "title": "Сценарії, винятки й відновлення",
-      "purpose": "Охопити не тільки успішний основний шлях.",
-      "when": "Завжди для кожної ключової можливості.",
+      "title": "Scenarios, exceptions, and recovery",
+      "purpose": "Cover success, failure and continuation.",
+      "when": "For every core capability.",
       "questions": [
-        "Як виглядає перша корисна дія від початку до результату?",
-        "Що має відбуватися при нестачі даних, відмові, скасуванні чи перериванні?",
-        "Що зберігається й як робота продовжується пізніше?"
+        "What is the first useful action from entry to outcome?",
+        "What should happen with missing data, failure, cancellation or interruption?",
+        "What persists and how does work continue later?"
       ],
-      "why": "Винятки змінюють обсяг реалізації, стан, підтримку й довіру.",
+      "why": "Exceptions affect effort, state, support and trust.",
       "evidence": [
-        "Scenario/state map",
-        "Baseline та expected/actual для наявного процесу"
+        "Scenario and state map",
+        "Baseline and expected or observed behavior"
       ],
-      "closure": "Основний, альтернативний, помилковий, cancel/retry/resume і завершальний шляхи мають acceptance.",
-      "horizon": "До детальної структури виконання",
-      "defer_rule": "Майбутні конкретні стани можна деталізувати на відповідній фазі, якщо класи й власники включені до паспорта."
+      "closure": "Define acceptance for core, alternate, failure, cancel, retry, resume and final paths.",
+      "horizon": "Before detailed execution design",
+      "defer_rule": "Detail specific later states when the passport already covers their classes and owners."
     },
     {
       "id": "DISC-INTERACTIONS",
-      "title": "Взаємодія можливостей",
-      "purpose": "Виявити системні наслідки й приховані залежності.",
-      "when": "Коли є більше однієї можливості або спільні ресурси.",
+      "title": "Interactions between capabilities",
+      "purpose": "Find systemic effects and hidden dependencies.",
+      "when": "When capabilities or shared resources interact.",
       "questions": [
-        "Які дії можуть змінювати поведінку інших частин?",
-        "Що має лишатися узгодженим у всіх результатах?",
-        "Які спільні рішення або дані впливають на кілька напрямів?"
+        "Which actions can change other parts' behavior?",
+        "What must stay consistent across outcomes?",
+        "Which shared decisions or data affect several tracks?"
       ],
-      "why": "Локальне покращення може порушити інший must або quality promise.",
+      "why": "A local change can disrupt another requirement or quality promise.",
       "evidence": [
-        "Dependency/impact map",
-        "Контрприклади й перевірки інваріантів"
+        "Dependency and impact map",
+        "Counterexamples and invariant checks"
       ],
-      "closure": "Відомі залежності, спільні джерела й межі повторного приймання.",
-      "horizon": "До паралельного виконання й зміни спільного",
-      "defer_rule": "Невідомий вплив розширює аналіз; не видавати незалежність за факт."
+      "closure": "Identify dependencies, shared sources and reacceptance scope.",
+      "horizon": "Before parallel work and shared changes",
+      "defer_rule": "Investigate uncertain influence before treating tasks as independent."
     },
     {
       "id": "DISC-EXPERIENCE",
-      "title": "Досвід людини й зворотний зв’язок",
-      "purpose": "Зробити результат зрозумілим, керованим і корисним у реальному використанні.",
-      "when": "Коли людина взаємодіє з агентом або результатом.",
+      "title": "Human experience and feedback",
+      "purpose": "Make the outcome understandable and useful in real use.",
+      "when": "When people interact with the agent or output.",
       "questions": [
-        "Як ви хочете починати роботу й отримувати результат?",
-        "Які зусилля, очікування або незрозумілі стани потрібно прибрати?",
-        "Який відгук пояснює успіх, помилку й наступну дію?"
+        "How do you want to start and receive the result?",
+        "Which effort, delays or unclear states should improve?",
+        "What feedback best explains success, failure and next action?"
       ],
-      "why": "Функціональна правильність сама не доводить придатності до використання.",
+      "why": "Usability requires its own evidence.",
       "evidence": [
         "Interaction flow",
-        "Фактичний зразок/використання й приймання"
+        "Actual sample, use and acceptance"
       ],
-      "closure": "Визначені характер взаємодії, стани, сигнали, explainability і спостережуваний критерій якості.",
-      "horizon": "Разом із функціональним задумом",
-      "defer_rule": "Конкретні деталі створюються на своїх фазах; якісна обіцянка й доказовий маршрут визначені до паспорта."
+      "closure": "Define interaction, states, cues, explainability and observable quality.",
+      "horizon": "While defining functional scope",
+      "defer_rule": "Produce detailed design in its stage. Establish quality and evidence route before the passport."
     },
     {
       "id": "DISC-EXPRESSION",
-      "title": "Представлення й цілісний задум",
-      "purpose": "Зберегти особливість та узгодженість потрібних матеріалів і каналів.",
-      "when": "Коли форма представлення впливає на мету, довіру, ясність або приймання.",
+      "title": "Expression and coherent design",
+      "purpose": "Preserve identity and coherence across materials and channels.",
+      "when": "When presentation affects purpose, trust, clarity or acceptance.",
       "questions": [
-        "Яке враження й характер має передавати результат?",
-        "Що вже прийнято як оригінал або зразок?",
-        "Які канали й матеріали потрібні, а які недоречні?"
+        "What impression and character should the outcome convey?",
+        "Which originals or references are already accepted?",
+        "Which channels and materials fit the goal?"
       ],
-      "why": "Представлення має підсилювати предметну дію й утримувати прийнятий задум.",
+      "why": "Presentation should support the task and preserve accepted intent.",
       "evidence": [
-        "Exact accepted originals/hash/provenance",
-        "Порівняльні зразки й per-layer acceptance"
+        "Exact accepted originals with digest and provenance",
+        "Comparable samples and layer-specific acceptance"
       ],
-      "closure": "Намір, канали, правила узгодженості, unknowns і виробничий шлях визначені.",
-      "horizon": "До залежного тиражування",
-      "defer_rule": "Невідомі властивості джерела не вважати схваленими; за незастосовності навести причину."
+      "closure": "Define intent, channels, consistency rules, unknowns and production route.",
+      "horizon": "Before scaling dependent production",
+      "defer_rule": "Keep unknown source properties open and explain inapplicability."
     },
     {
       "id": "DISC-ACCESSIBILITY",
-      "title": "Доступність, мова й обмеження середовища",
-      "purpose": "Перевірити, чи потрібний досвід доступний цільовому користувачу.",
-      "when": "Коли є людська взаємодія; рівень деталізації залежить від аудиторії.",
+      "title": "Accessibility, languages, and usage constraints",
+      "purpose": "Check whether the intended people can use the result.",
+      "when": "For human interaction. Match detail to the audience.",
       "questions": [
-        "Які мови й рівень підготовки слід підтримати?",
-        "Які обмеження використання або альтернативні способи взаємодії важливі?",
-        "Що має залишатися зрозумілим без окремого каналу відгуку?"
+        "Which languages and experience levels should be supported?",
+        "Which usage constraints or alternate inputs matter?",
+        "What must stay understandable without a particular feedback channel?"
       ],
-      "why": "Недоступний шлях може зробити формально готову можливість непридатною.",
+      "why": "An inaccessible path can make a capability unusable.",
       "evidence": [
-        "Цільові умови використання",
-        "Потрібні альтернативні режими й actual checks"
+        "Target conditions",
+        "Alternate modes and actual checks"
       ],
-      "closure": "Визначені applicable доступність/локалізація, fallbacks, owner і тести.",
-      "horizon": "До залежного проектування",
-      "defer_rule": "Реальний доказ має власний due gate; відсутність можливості не дає N/A."
+      "closure": "Define applicable accessibility, localization, fallback, owners and tests.",
+      "horizon": "Before dependent design",
+      "defer_rule": "Track actual proof at its due gate. Missing capability is a proof gap."
     },
     {
       "id": "DISC-IDENTITY",
-      "title": "Публічне представлення й довіра",
-      "purpose": "Визначити, чи потрібні окрема ідентичність, атрибуція й публічні матеріали.",
-      "when": "Коли результат представляється зовнішнім учасникам або має вже прийняту ідентичність.",
+      "title": "Public identity and trust",
+      "purpose": "Determine whether dedicated identity, attribution and public materials are needed.",
+      "when": "For externally presented results or existing accepted identity.",
       "questions": [
-        "Чи вже є прийнята назва, матеріали й правила представлення?",
-        "Чи потрібна окрема публічна ідентичність для цього результату?",
-        "Які відомості й атрибуція мають бути відкритими?"
+        "Which names, assets and presentation rules are already accepted?",
+        "Does the result need its own public identity?",
+        "Which facts and attribution should be visible?"
       ],
-      "why": "Це впливає на джерела, права, структуру матеріалів і підготовку запуску.",
+      "why": "Identity affects sources, rights, deliverables and launch.",
       "evidence": [
-        "Actual originals/licenses/owner declarations",
-        "Рішення щодо застосовності й scope"
+        "Actual originals, licenses and owner declarations",
+        "Applicability and scope decision"
       ],
-      "closure": "Повторне використання, створення або відсутність цього напряму явно обґрунтовані.",
-      "horizon": "До залежних публічних матеріалів",
-      "defer_rule": "Не починати нову ідентичність автоматично; конкретні формальності уточнюються у відповідному scope."
+      "closure": "Explain reuse, new identity or deliberate exclusion.",
+      "horizon": "Before dependent public material",
+      "defer_rule": "Start identity work when justified. Resolve formal prerequisites in their owning scope."
     },
     {
       "id": "DISC-DATA",
-      "title": "Дані, знання й життєвий цикл джерел",
-      "purpose": "Зберегти достовірність, приватність і актуальність контексту.",
-      "when": "Завжди на мінімальному рівні; поглибити за наявності збережень, доступів чи derived knowledge.",
+      "title": "Data, knowledge, and source lifecycle",
+      "purpose": "Protect accuracy, privacy and freshness.",
+      "when": "Always at least minimally. Deepen for persistence, permissions or derived knowledge.",
       "questions": [
-        "Які джерела є актуальними й кому вони належать?",
-        "Що агент повинен запам’ятовувати, як довго й для кого?",
-        "Як виправляти, відкликати або видаляти дані та похідні результати?"
+        "Which sources are current and who controls them?",
+        "What may the agent remember, for which audience and for how long?",
+        "How are data and derivatives corrected, revoked or erased?"
       ],
-      "why": "Пам’ять змінює якість рішень, права й наслідки відновлення.",
+      "why": "Memory affects decisions, rights and recovery.",
       "evidence": [
-        "Source/provenance/access map",
-        "Retention/deletion/revocation policy і dependency links"
+        "Source, provenance and access map",
+        "Retention, deletion, revocation and dependencies"
       ],
-      "closure": "Source of truth, свіжість, scope, аудиторія, invalidation і recovery визначені.",
-      "horizon": "До індексації, інтеграції й залежної роботи",
-      "defer_rule": "Розширення даних потребує impact review; глобальне навчання не випливає з локального уроку."
+      "closure": "Define authority, freshness, scope, audience, invalidation and recovery.",
+      "horizon": "Before indexing, integration or dependent work",
+      "defer_rule": "Review the impact of expanded data. A local lesson grants no global training authority."
     },
     {
       "id": "DISC-TECHNICAL",
-      "title": "Середовища, інтерфейси й сумісність",
-      "purpose": "Визначити реальний контур реалізації й передачі.",
-      "when": "Коли потрібні інструменти, інтеграції або встановлення.",
+      "title": "Environments, interfaces, and compatibility",
+      "purpose": "Identify a real implementation and handoff environment.",
+      "when": "When tools, integrations or installation are needed.",
       "questions": [
-        "Де результат має працювати й де ви будете ним керувати?",
-        "Які системи, формати й інтерфейси вже існують?",
-        "Які доступи та інструменти реально перевірені?"
+        "Where must it run and where will you manage it?",
+        "Which systems, formats and interfaces already exist?",
+        "Which access and capabilities are verified?"
       ],
-      "why": "Назва платформи не доводить наявності потрібної операції чи права.",
+      "why": "Platform names require concrete capability and rights checks.",
       "evidence": [
         "Actual capability report",
-        "Versions/interfaces/dependency compatibility"
+        "Version, interface and dependency compatibility"
       ],
-      "closure": "Визначені environment/tool routes, prerequisites, ownership, gaps і manual bridges.",
-      "horizon": "До технічного зобов’язання й execution",
-      "defer_rule": "Інструмент обирати після вимог; не фіксувати vendor чи framework за звичкою."
+      "closure": "Describe environments and tools, prerequisites, ownership, gaps and owner handoffs.",
+      "horizon": "Before technical commitments or execution",
+      "defer_rule": "Choose vendors or frameworks after requirements and feasibility."
     },
     {
       "id": "DISC-RELIABILITY",
-      "title": "Надійність, безпека й невідомий результат",
-      "purpose": "Передбачити відмови та критичні наслідки до реалізації.",
-      "when": "За наявності змін стану, доступів, паралельності, зовнішніх ефектів або важливих результатів.",
+      "title": "Reliability, security, and unknown outcomes",
+      "purpose": "Define critical failure and recovery before implementation.",
+      "when": "When state changes, rights, parallelism, external effects or high-impact results apply.",
       "questions": [
-        "Які помилки й втрати найбільш неприйнятні?",
-        "Що робити при повторі, розриві зв’язку, скасуванні або перезапуску?",
-        "Який recovery і доказ стану потрібний перед продовженням?"
+        "Which errors or losses are unacceptable?",
+        "What happens during duplicates, disconnection, cancellation or restart?",
+        "What recovery and state proof are needed before continuing?"
       ],
-      "why": "Відсутня квитанція не означає відсутнього effect; повтор може подвоїти наслідок.",
+      "why": "An unresolved effect may already have occurred. Retrying can duplicate it.",
       "evidence": [
-        "Failure/threat/state scenarios",
-        "Idempotency, reconciliation, backup/restore та independent checks за ризиком"
+        "Failure, threat and state scenarios",
+        "Idempotency, reconciliation, restore and independent checks by risk"
       ],
-      "closure": "Критичні інваріанти, authority boundaries, unknown handling і recovery мають власників та тести.",
-      "horizon": "До залежної критичної дії",
-      "defer_rule": "Безпечну незалежну підготовку продовжувати; blocker локалізувати до конкретного scope."
+      "closure": "Assign owners and tests for critical invariants, authority, unknown outcomes and recovery.",
+      "horizon": "Before a dependent critical action",
+      "defer_rule": "Continue safe independent preparation and bind blockers to affected scope."
     },
     {
       "id": "DISC-RESOURCES",
-      "title": "Ресурси, бюджет і виробнича спроможність",
-      "purpose": "Зробити обсяг і якість здійсненними.",
-      "when": "Завжди; деталізувати регулярні й зовнішні зобов’язання.",
+      "title": "Resources, budget, and production capacity",
+      "purpose": "Ground scope and quality in feasible effort.",
+      "when": "Always. Detail ongoing and external obligations where applicable.",
       "questions": [
-        "Які часові, грошові й інші ресурсні межі прийнятні?",
-        "Які наявні інструменти й права вже входять у ваші можливості?",
-        "Що обираємо, якщо прийняту якість неможливо досягти в цих межах?"
+        "Which time, spending and other resource caps are acceptable?",
+        "Which tools and rights are already available?",
+        "What do we choose if the accepted quality exceeds those resources?"
       ],
-      "why": "Недоступний ресурс не виправдовує мовчазного зниження обов’язкової якості.",
+      "why": "A missing resource can require a material decision before changing quality.",
       "evidence": [
-        "Поточні costs/limits/licenses/capabilities",
-        "Репрезентативний production proof і альтернативи"
+        "Current costs, limits, rights and capabilities",
+        "Representative proof and feasible alternatives"
       ],
-      "closure": "Caps, recurring costs, spend authority, quality floor і fallback узгоджені.",
-      "horizon": "До дорогої або платної роботи",
-      "defer_rule": "Неперевірену ціну не називати фактом; нова витрата має конкретне рішення."
+      "closure": "Agree caps, ongoing costs, spending authority, quality floor and fallback.",
+      "horizon": "Before costly or paid work",
+      "defer_rule": "Verify unknown prices and bind new expense to a specific decision."
     },
     {
       "id": "DISC-VALUE",
-      "title": "Попит, придбання й економічна цінність",
-      "purpose": "Перевірити причинний шлях від потреби до бажаної користі й довготривалої цінності.",
-      "when": "Коли попит, дохід, зростання або придбання входять до мети користувача.",
+      "title": "Demand, acquisition, and economic value",
+      "purpose": "Trace need to the desired outcome and sustainable value.",
+      "when": "When demand, revenue, growth or acquisition is an objective.",
       "questions": [
-        "Хто й заради якого бажаного результату обере це рішення?",
-        "Як людина перевірить цінність до зобов’язання?",
-        "Які альтернативи, сумарні витрати та повторна корисність мають значення?"
+        "Who would choose this and for which outcome?",
+        "How can people see its value before committing?",
+        "Which alternatives, total costs and repeated benefits matter?"
       ],
-      "why": "Комерційна обіцянка має формувати продукт від початку, якщо вона є must.",
+      "why": "Commercial requirements shape the product from the outset.",
       "evidence": [
-        "Current primary-source alternatives/research",
-        "Власні hypotheses, discriminating tests і фактичні показники за доступності"
+        "Current primary-source alternatives and research",
+        "Own hypotheses, discriminating tests and observed measures where available"
       ],
-      "closure": "Цінність, добровільний маршрут, альтернативи, витрати, evidence limits і наступні тести визначені.",
-      "horizon": "Від задуму, якщо застосовне",
-      "defer_rule": "Чужий успіх або модельна арифметика не доводять власний результат; незастосовність обґрунтувати."
+      "closure": "Define value, voluntary route, alternatives, costs, evidence limits and next tests.",
+      "horizon": "From concept when applicable",
+      "defer_rule": "Keep competitor success and modeled arithmetic separate from product outcomes. Explain inapplicability."
     },
     {
       "id": "DISC-DELIVERY",
-      "title": "Запуск, установка й видимий результат",
-      "purpose": "Довести agent delivery та потрібний продукт до перевірюваної доступності.",
-      "when": "Завжди для агента; для кінцевого результату — за погодженою метою.",
+      "title": "Launch, installation, and visible result",
+      "purpose": "Make agent delivery and scoped product output verifiably accessible.",
+      "when": "Always for the agent. Use accepted scope for its end product.",
       "questions": [
-        "Як ви хочете запускати агента й отримувати перший результат?",
-        "Де має бути доступний кінцевий результат і хто його перевірить?",
-        "Які особисті кроки чи зовнішні доступи потрібні?"
+        "How should the agent launch and deliver the first result?",
+        "Where should the product be available and who checks it?",
+        "Which personal actions and external access are required?"
       ],
-      "why": "Архів, встановлені інструкції, прочитана навичка й працююча дія — різні факти.",
+      "why": "Archive, installation, discovery and execution each need evidence.",
       "evidence": [
-        "Actual install/discovery/use receipts",
-        "Launch/return bundle і observed first useful action"
+        "Actual install, discovery and usage receipts",
+        "Launch and return bundle with observed first useful action"
       ],
-      "closure": "Точні inputs/commands/environment/expected outputs/return validation та blockers описані.",
-      "horizon": "У паспорті; фактичне виконання на своїй фазі",
-      "defer_rule": "Публікація або витрата не дозволені самим design approval."
+      "closure": "Record exact inputs, commands, environment, expected output, return validation and blockers.",
+      "horizon": "Plan in passport. Execute at the due stage.",
+      "defer_rule": "Obtain scope for publication and spending independently of design approval."
     },
     {
       "id": "DISC-SUPPORT",
-      "title": "Розвиток, спостереження й завершення",
-      "purpose": "Передбачити життя результату після першого запуску.",
-      "when": "Коли результат має повторно використовуватися, змінюватися або працювати тривало.",
+      "title": "Operations, evolution, and exit",
+      "purpose": "Plan for use after the first launch.",
+      "when": "For outcomes with repeated use, ongoing change or sustained operation.",
       "questions": [
-        "Що потрібно підтримувати й розвивати після першого успіху?",
-        "Які сигнали покажуть дефект, втрату якості або потребу змін?",
-        "Хто відповідає за інцидент, витрати, відновлення й припинення?"
+        "What needs maintenance or improvement after first success?",
+        "Which signals would show a failure, loss of quality or need to change?",
+        "Who owns incidents, costs, recovery and retirement?"
       ],
-      "why": "Працюючий результат потребує scope супроводу, а не обіцянки безмежної автономності.",
+      "why": "Ongoing operation needs an actual owner, scope and resources.",
       "evidence": [
-        "Support/incident/upgrade/rollback/exit contract",
-        "Actual scheduler/service та alert proof, якщо доручено постійну роботу"
+        "Support, incident, upgrade, rollback and exit contract",
+        "Observed scheduler, service and alerts when assigned"
       ],
-      "closure": "Власники, signals, cadence, permissions, costs, restore і шлях нових вимог визначені.",
-      "horizon": "До готовності довготривалого результату",
-      "defer_rule": "Постійні jobs створюються лише за конкретним дорученням і реальною capability."
+      "closure": "Define owners, signals, cadence, permissions, costs, recovery and change route.",
+      "horizon": "Before accepting ongoing operation",
+      "defer_rule": "Start recurring jobs only when specifically authorized and actually available."
     },
     {
       "id": "DISC-ACCEPTANCE",
-      "title": "Доказова якість і повний паспорт",
-      "purpose": "Звести всі можливості до перевірюваного й схвалюваного складу.",
-      "when": "Завжди; перед будь-яким build цільового агента.",
+      "title": "Evidence and complete passport",
+      "purpose": "Bind every capability to verifiable acceptance.",
+      "when": "Always before building a target agent.",
       "questions": [
-        "Який доказ приймаємо для кожної обов’язкової можливості?",
-        "Які рішення й невідомі ще змінюють сам склад агента?",
-        "Чи затверджуєте ви саме цей повний паспорт, його межі й складові?"
+        "What proof do we accept for each required capability?",
+        "Which remaining decisions or unknowns affect agent composition?",
+        "Do you accept this complete passport and its exact scope and components?"
       ],
-      "why": "Без конкретного предмета згоди не можна почати коректне створення агента.",
+      "why": "Construction requires current authority for a concrete specification.",
       "evidence": [
-        "Capability→phase→component→artifact→test coverage",
-        "Current passport/blueprint revision/hash/scope та actual user authority"
+        "Capability to phase, component, artifact and test coverage",
+        "Exact passport revision, hash, scope and actual approval"
       ],
-      "closure": "Усі due must й критичні питання конструкції закриті, alternatives/gaps зрозумілі, exact approval записаний.",
-      "horizon": "До створення й установки цільових складових",
-      "defer_rule": "Future product proof залишається pending з власником/due gate; approval конструкції не є зовнішнім дозволом."
+      "closure": "Close due requirements and construction questions, show alternatives and gaps, and record exact approval.",
+      "horizon": "Before construction and installation of target components",
+      "defer_rule": "Assign pending product proof owners and due gates. Verify external effect authority separately."
     }
   ]
 }

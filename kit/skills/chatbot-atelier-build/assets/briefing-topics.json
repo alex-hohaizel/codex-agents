@@ -4,17 +4,17 @@
   "common_topics": [
     {
       "id": "COMMON-INTENT",
-      "label": "Поточний намір і рівень результату",
-      "why": "Розрізняє бриф, відновлення, локальну зміну, виготовлення інструмента й виконання продукту.",
+      "label": "Current intent and outcome depth",
+      "why": "Distinguishes briefing, resumption, local change, tool construction and product execution.",
       "questions": [
-        "Що потрібно зараз: новий задум, продовження, уточнення, ремонт, оцінка чи зміна самого агента?",
-        "Який результат поточного етапу має бути готовий і де зупинитися?"
+        "What do you need now: a new idea, continuation, clarification, repair, assessment or a change to the agent itself?",
+        "What result is due at the current stage, and where should work stop?"
       ],
       "decisions": [
-        "Режим роботи",
-        "Поточний етап і межа зупинки"
+        "Working mode",
+        "Current stage and stopping point"
       ],
-      "applies_when": "Завжди; відновити відповідь із фактичного запиту та чинного стану.",
+      "applies_when": "Always. Recover the answer from the actual request and current state.",
       "downstream": [
         "director",
         "research",
@@ -33,17 +33,17 @@
     },
     {
       "id": "COMMON-SOURCES",
-      "label": "Чинні джерела, рішення й успадкований контекст",
-      "why": "Захищає прийнятий задум і запобігає повторному опитуванню.",
+      "label": "Current sources, decisions and inherited context",
+      "why": "Preserves accepted intent and avoids asking the same questions again.",
       "questions": [
-        "Який із наданих матеріалів є актуальним, якщо вони суперечать один одному?",
-        "Що вже прийнято і має зберегтися під час цього продовження?"
+        "Which supplied material is authoritative if the sources conflict?",
+        "What has already been accepted and needs to carry forward?"
       ],
       "decisions": [
-        "Джерело істини і provenance",
-        "Чинні рішення, поправки та вплив змін"
+        "Authoritative source and provenance",
+        "Current decisions, amendments and change impact"
       ],
-      "applies_when": "Завжди; спочатку прочитати доступні оригінали, стан, хеші й попередні відповіді.",
+      "applies_when": "Always. Read available originals, current state, hashes and earlier replies first.",
       "downstream": [
         "director",
         "research",
@@ -62,18 +62,18 @@
     },
     {
       "id": "COMMON-AUDIENCE",
-      "label": "Отримувач, реальна ситуація й користь",
-      "why": "Прив’язує результат до людини, задачі та спостережуваної зміни.",
+      "label": "Recipient, real situation and value",
+      "why": "Connects the result to an actual person, task and observable improvement.",
       "questions": [
-        "Для кого і в якій реальній ситуації потрібен результат?",
-        "Як це робиться зараз і що саме має покращитися?",
-        "Хто користується, хто платить, хто керує й хто приймає результат?"
+        "Who needs the result, and in what real situation?",
+        "How do they do this today, and what specifically should improve?",
+        "Who uses, pays for, operates and accepts the result?"
       ],
       "decisions": [
-        "Цільові учасники й контекст",
-        "Спостережувана користь і baseline"
+        "Target participants and context",
+        "Observable value and baseline"
       ],
-      "applies_when": "Завжди; різні ролі уточнювати лише коли вони існують у задумі.",
+      "applies_when": "Always. Clarify separate roles only where they exist in the intended product.",
       "downstream": [
         "director",
         "research",
@@ -92,19 +92,19 @@
     },
     {
       "id": "COMMON-AMBITION",
-      "label": "Повний задум, запуск і перевірочний експеримент",
-      "why": "Зберігає амбіцію та відокремлює послідовність виробництва від скорочення мети.",
+      "label": "Full target, launch and confirming experiment",
+      "why": "Preserves ambition by separating production sequencing from scope reduction.",
       "questions": [
-        "Яким має бути повний прийнятий результат, коли він реалізований?",
-        "Що має входити до першого запуску, а що лише до окремого експерименту?",
-        "Які спрощення, заміни або втрати властивостей неприйнятні?"
+        "What does the complete accepted result look like when realized?",
+        "What belongs in the first launch, and what belongs only in a separate experiment?",
+        "Which simplifications, substitutions or lost properties are unacceptable?"
       ],
       "decisions": [
-        "Повна ціль",
-        "Окремі launch/probe scope",
-        "Відхилені спрощення"
+        "Full target",
+        "Separate launch and probe scopes",
+        "Rejected simplifications"
       ],
-      "applies_when": "Завжди; не перетворювати обмежений тест на мовчазну заміну повної цілі.",
+      "applies_when": "Always. Bind a limited test to its own scope and retain the full target.",
       "downstream": [
         "director",
         "research",
@@ -123,19 +123,19 @@
     },
     {
       "id": "COMMON-PRIORITY",
-      "label": "Акценти, приклади й негативні приклади",
-      "why": "Перетворює слова про якість на предметні вимоги та ранні залежності.",
+      "label": "Priorities, examples and counterexamples",
+      "why": "Turns quality expectations into domain requirements and early dependencies.",
       "questions": [
-        "Що в цьому задумі найважливіше і чому?",
-        "Який конкретний приклад близький до бажаного результату та що саме в ньому підходить?",
-        "Який результат формально виконає завдання, але вас не влаштує?"
+        "What matters most in this idea, and why?",
+        "What concrete example is close to the desired outcome, and what exactly fits?",
+        "What would formally satisfy the request yet still be unacceptable?"
       ],
       "decisions": [
-        "Must і акценти",
-        "Критерії якості",
-        "Негативні приклади"
+        "Must requirements and priorities",
+        "Quality criteria",
+        "Counterexamples"
       ],
-      "applies_when": "Завжди; відомі приклади й акценти перенести дослівно з посиланням на джерело.",
+      "applies_when": "Always. Preserve known examples and priorities verbatim with their source.",
       "downstream": [
         "director",
         "research",
@@ -154,19 +154,19 @@
     },
     {
       "id": "COMMON-CONSTRAINTS",
-      "label": "Межі, етапні результати й залежності",
-      "why": "Дає основу для плану без довільних часових або функціональних лімітів.",
+      "label": "Bounds, stage outcomes and dependencies",
+      "why": "Grounds planning in observed time and functional constraints.",
       "questions": [
-        "Які строки, залежні події та обов’язкові проміжні результати вже існують?",
-        "Які жорсткі умови, сумісність або зовнішні залежності не можна змінювати?",
-        "Які рішення ви делегуєте експертам, а які хочете обрати особисто?"
+        "What deadlines, dependent events and required interim results already exist?",
+        "Which hard constraints, compatibility needs or external dependencies must stay in force?",
+        "Which decisions do you delegate to specialists, and which do you want to make yourself?"
       ],
       "decisions": [
-        "Milestones і due gates",
-        "Жорсткі constraints",
-        "Межі делегування"
+        "Milestones and dependent decisions",
+        "Hard constraints",
+        "Delegation bounds"
       ],
-      "applies_when": "Завжди; не встановлювати ліміти годин, платформ чи функцій за користувача.",
+      "applies_when": "Always. Use the actual authorized limits for hours, platforms and capabilities.",
       "downstream": [
         "director",
         "research",
@@ -185,19 +185,19 @@
     },
     {
       "id": "COMMON-RESOURCES",
-      "label": "Бюджет, час, наявні ресурси й компроміси",
-      "why": "Погоджує здійсненний маршрут і реальну ціну якості.",
+      "label": "Budget, time, available resources and tradeoffs",
+      "why": "Grounds a feasible route and the actual cost of achieving quality.",
       "questions": [
-        "Які гроші, час, пристрої, підписки, матеріали й допомога вже доступні?",
-        "Які одноразові й регулярні витрати прийнятні та які потребують окремого рішення?",
-        "Як обираємо між обґрунтованими альтернативами, якщо бажана якість не вкладається у чинні ресурси?"
+        "What funds, time, devices, subscriptions, materials and help are already available?",
+        "Which one-off and recurring costs are acceptable, and which require a separate decision?",
+        "How should we choose among supported alternatives if current resources fall short of desired quality?"
       ],
       "decisions": [
-        "Ресурсні межі й spend scope",
-        "Одноразові та регулярні витрати",
-        "Погоджені компроміси або новий ресурс"
+        "Resource and spending bounds",
+        "One-off and recurring costs",
+        "Approved compromises or additional resources"
       ],
-      "applies_when": "Завжди; невідомі ціни перевіряти на момент прив’язки операції.",
+      "applies_when": "Always. Verify uncertain prices when binding the actual operation.",
       "downstream": [
         "director",
         "research",
@@ -216,19 +216,19 @@
     },
     {
       "id": "COMMON-RIGHTS",
-      "label": "Матеріали, права й незмінні оригінали",
-      "why": "Дозволяє законно використовувати, змінювати та передавати конкретні матеріали.",
+      "label": "Materials, rights and preserved originals",
+      "why": "Establishes authority to use, modify and transfer the specific materials.",
       "questions": [
-        "Які наявні тексти, дизайн, код, бренди, голоси чи інші матеріали потрібно використати?",
-        "Що дозволено змінювати, генерувати, публікувати й передавати, кому належать права?",
-        "Які оригінали або атрибуцію необхідно зберегти?"
+        "Which existing text, design, code, brands, voices or other materials should be used?",
+        "What may be edited, generated, published or transferred, and who owns the rights?",
+        "Which originals or attribution must be preserved?"
       ],
       "decisions": [
-        "Права, ліцензії й attribution",
-        "Accepted originals і editable sources",
-        "Обмеження похідних матеріалів"
+        "Rights, licenses and attribution",
+        "Accepted originals and editable sources",
+        "Limits on derivatives"
       ],
-      "applies_when": "Коли є вхідні чи створювані матеріали; відсутній доказ права лишається окремою прогалиною.",
+      "applies_when": "When input or generated materials are involved. Keep missing proof of rights open.",
       "downstream": [
         "director",
         "research",
@@ -247,19 +247,19 @@
     },
     {
       "id": "COMMON-DATA",
-      "label": "Дані, доступи, приватність і життєвий цикл",
-      "why": "Рано виявляє зміни архітектури через чутливість або збереження даних.",
+      "label": "Data, access, privacy and lifecycle",
+      "why": "Surfaces architecture requirements from sensitive or retained data early.",
       "questions": [
-        "Які дані потрібні, хто їх контролює і кому можна їх показувати?",
-        "Що потрібно пам’ятати, синхронізувати, експортувати або видаляти?",
-        "Які наслідки втрати, помилки чи відкликання доступу неприйнятні?"
+        "What data is necessary, who controls it and who may see it?",
+        "What needs to be remembered, synced, exported or deleted?",
+        "Which consequences of loss, error or access revocation are unacceptable?"
       ],
       "decisions": [
-        "Дані й межі довіри",
+        "Data and trust boundaries",
         "Retention/export/delete/recovery",
-        "Потрібні права доступу"
+        "Required access rights"
       ],
-      "applies_when": "Коли результат читає, створює чи зберігає дані; мінімальний контекст також оцінити на приватність.",
+      "applies_when": "When the result reads, creates or stores data. Review privacy even for minimal context.",
       "downstream": [
         "director",
         "research",
@@ -278,19 +278,19 @@
     },
     {
       "id": "COMMON-EFFECTS",
-      "label": "Зовнішні дії, ризик і участь власника",
-      "why": "Відокремлює підготовку від точного дозволеного зовнішнього наслідку.",
+      "label": "External actions, risk and owner participation",
+      "why": "Separates preparation from the exact external effect authorized.",
       "questions": [
-        "Які зовнішні дії входять до цього доручення: зміни акаунтів, повідомлення, публікація, платежі або запуск сервісу?",
-        "Які конкретні дії потребують вашої особистої участі чи окремого рішення?",
-        "Як зупинитися, відкотитися й перевірити результат після переривання?"
+        "Which external actions are in scope: account changes, messages, publication, payments or service launch?",
+        "Which specific actions require your participation or a separate decision?",
+        "How should work stop, roll back and reconcile the actual result after interruption?"
       ],
       "decisions": [
-        "Точний scope повноважень",
-        "Людські кроки",
-        "Stop, rollback і reconcile"
+        "Exact authorization scope",
+        "Human steps",
+        "Stop, rollback and reconciliation"
       ],
-      "applies_when": "Коли можливі зовнішні дії; чинну точну згоду зберегти без повторного запиту.",
+      "applies_when": "When external effects are possible. Reuse an exact valid grant.",
       "downstream": [
         "director",
         "research",
@@ -309,19 +309,19 @@
     },
     {
       "id": "COMMON-HOST",
-      "label": "Середовище, доступні можливості й передача",
-      "why": "Робить виконання та повернення результату фактично можливими.",
+      "label": "Host, available capabilities and handoff",
+      "why": "Makes execution and return of the actual result feasible.",
       "questions": [
-        "Де результат має працювати, де ви ним керуєте й куди має повернутися пакет?",
-        "Які host, інструменти, акаунти та цільові пристрої вже перевірені?",
-        "Як передати роботу до іншого середовища і що має перевірити одержувач?"
+        "Where must the result operate, where do you manage it, and where should the package return?",
+        "Which hosts, tools, accounts and target devices have already been verified?",
+        "How should work move to another environment, and what should the recipient verify?"
       ],
       "decisions": [
-        "Фактичний capability map",
+        "Observed capability map",
         "Host/target/bridge",
-        "Launch і return acceptance"
+        "Launch and return acceptance"
       ],
-      "applies_when": "Коли потрібні інструменти, установка, виконання або передача; назва сервісу не доводить операційну доступність.",
+      "applies_when": "When tools, installation, execution or handoff are needed. Verify the actual operation in the named service.",
       "downstream": [
         "director",
         "research",
@@ -340,19 +340,19 @@
     },
     {
       "id": "COMMON-ACCEPTANCE",
-      "label": "Приймання, докази й незалежна перевірка",
-      "why": "Пояснює, що саме доводить завершення поточного етапу.",
+      "label": "Acceptance, evidence and independent review",
+      "why": "Defines what demonstrates completion of the current stage.",
       "questions": [
-        "Яку поведінку або артефакт ви перевірите, щоб прийняти результат?",
-        "Які помилки, граничні умови й ситуації відновлення потрібно показати?",
-        "Де потрібні незалежний експерт, реальний користувач, пристрій чи спостереження після запуску?"
+        "What behavior or artifact will you inspect to accept the result?",
+        "Which errors, boundary conditions and recovery situations must be demonstrated?",
+        "Where do we need an independent expert, real user, device or post-launch observation?"
       ],
       "decisions": [
-        "Observable acceptance по must",
-        "Потрібна модальність доказів",
-        "Reviewer і неперевірені межі"
+        "Observable acceptance for must requirements",
+        "Required form of evidence",
+        "Reviewer and unverified boundaries"
       ],
-      "applies_when": "Завжди; схема чи чекліст не замінюють предметну якість і фактичне використання.",
+      "applies_when": "Always. Verify domain quality and actual use independently of schema or checklist checks.",
       "downstream": [
         "director",
         "research",
@@ -371,19 +371,19 @@
     },
     {
       "id": "COMMON-UNKNOWNS",
-      "label": "Невідомі, дослідження й майбутні рішення",
-      "why": "Закриває суттєві прогалини без примусу користувача вигадувати відповіді.",
+      "label": "Unknowns, research and future decisions",
+      "why": "Resolves material uncertainty through research and recommendations.",
       "questions": [
-        "Щодо яких рішень ви ще не знаєте відповіді і хочете дослідження та рекомендацію?",
-        "Які з досліджених варіантів найкраще відповідають вашим критеріям і чи приймаєте рекомендований варіант?",
-        "Які майбутні параметри можна уточнювати пізніше у визначених межах і до якого milestone?"
+        "Which decisions are still open and need research and a recommendation?",
+        "Which researched options fit your criteria, and do you accept the recommended option?",
+        "Which future parameters can be decided later, within what limits and by which milestone?"
       ],
       "decisions": [
-        "Research tasks і рекомендовані альтернативи",
-        "Закриття material unknowns",
-        "Owner, baseline/range, due gate і reopen для deferred"
+        "Research tasks and recommended alternatives",
+        "Resolve material unknowns",
+        "Deferred owner, baseline or range, due point and reopening condition"
       ],
-      "applies_when": "Завжди; перед погодженням сценарію виконання закрити всі застосовні матеріальні невідомі.",
+      "applies_when": "Always. Resolve every applicable material unknown before approving the execution plan.",
       "downstream": [
         "director",
         "research",
@@ -407,19 +407,19 @@
       "topics": [
         {
           "id": "chatbot.director.value",
-          "label": "Робота людини й користь бота",
-          "why": "Канал і технології залежать від реальної роботи, яку має завершити людина.",
+          "label": "Participant's task and chatbot value",
+          "why": "Choose channel and technology for the actual task the participant needs to finish.",
           "questions": [
-            "Для кого бот, у якій ситуації та яку конкретну роботу він має доводити до видимого результату?",
-            "Як люди вирішують це зараз, як часто виникає потреба і що коштує помилка або затримка?",
-            "Які приклади бажаного та неприйнятного результату вже є?"
+            "Who needs the bot, in what situation, and what specific task should it carry through to an observable result?",
+            "How do people handle it today, how often does it arise, and what does an error or delay cost?",
+            "Which examples of acceptable and unacceptable results already exist?"
           ],
           "decisions": [
-            "аудиторії й роботи",
-            "цінність і ціна збою",
-            "приклади приймання"
+            "Audiences and tasks",
+            "Value and cost of failure",
+            "Acceptance examples"
           ],
-          "applies_when": "Для нового продукту або зміни його місії; підтверджений намір чинного бота передзаповнюється з джерел.",
+          "applies_when": "For a new product or a change to its mission. Prefill confirmed intent for an existing bot from authoritative sources.",
           "downstream": [
             "research",
             "specification",
@@ -430,19 +430,19 @@
         },
         {
           "id": "chatbot.director.channel-audience",
-          "label": "Канали, адресати та ролі",
-          "why": "Приватний чат, група й робочий простір мають різні права, досвід і доставку.",
+          "label": "Channels, audiences and roles",
+          "why": "Private, group and workspace contexts have different rights, experience and delivery.",
           "questions": [
-            "Де люди справді користуватимуться ботом: особисто, у групі, у робочому просторі, на сайті або в кількох перевірених каналах?",
-            "Хто власник, оператор, звичайний учасник і гість; чи потрібна одна особа в кількох каналах?",
-            "Які канали вже обрано або налаштовано, а які слід порівняти за поточними можливостями й рекомендувати?"
+            "Where will people actually use the bot: privately, in a group, in a workspace, on a site or across verified channels?",
+            "Who is the owner, operator, member or guest, and must the same person be recognized in multiple channels?",
+            "Which channels have been selected or configured, and which should be compared and recommended using current capabilities?"
           ],
           "decisions": [
-            "канали та контексти",
-            "ролі й межі аудиторії",
-            "зв’язування ідентичностей"
+            "Channels and contexts",
+            "Roles and audience boundaries",
+            "Identity linking"
           ],
-          "applies_when": "Для всіх нових ботів і змін каналів, доступів або членства.",
+          "applies_when": "For all new bots and changes to channels, access or membership.",
           "downstream": [
             "research",
             "specification",
@@ -455,19 +455,19 @@
         },
         {
           "id": "chatbot.director.product-architecture",
-          "label": "Цілісне рішення й активні системи",
-          "why": "Окремі функції мають працювати як один продукт із єдиними зобов’язаннями та станом.",
+          "label": "Complete solution and active systems",
+          "why": "Features work as one product with consistent obligations and state.",
           "questions": [
-            "Який повний шлях людини від першого звернення до фактичного результату й повернення пізніше?",
-            "Які потрібні можливості: відповіді зі знань, особиста пам’ять, дії в сервісах, нагадування, групова взаємодія, медіа чи інші?",
-            "Чи порівняти цілісні альтернативи бота й простішого наявного засобу, а потім рекомендувати рішення з перевіреними компромісами?"
+            "What is the complete journey from initial request to actual result and later return?",
+            "Which capabilities are needed: answers from sources, personal memory, service actions, reminders, group interaction, media or others?",
+            "Should we compare end-to-end chatbot approaches with a simpler existing tool and recommend a route with verified tradeoffs?"
           ],
           "decisions": [
-            "карта систем і journey",
-            "альтернативи архітектури C1",
-            "активні та умовні модулі"
+            "System and journey map",
+            "C1 architecture alternatives",
+            "Active and conditional modules"
           ],
-          "applies_when": "Перед специфікацією нового бота або суттєвого розширення; RAG, голос, ігри й багатоагентність не активуються без потреби.",
+          "applies_when": "Before specifying a new bot or major extension. Activate RAG, voice, games and multiple agents only when they meet a demonstrated need.",
           "downstream": [
             "research",
             "specification",
@@ -482,19 +482,19 @@
         },
         {
           "id": "chatbot.director.behavior-authority",
-          "label": "Характер і право діяти",
-          "why": "Тон, ініціатива та практичні дії залежать від очікувань і дозволів людей.",
+          "label": "Character and authority to act",
+          "why": "Tone, initiative and practical actions depend on people's expectations and permissions.",
           "questions": [
-            "Яку роль і манеру має мати бот: робочий помічник, співрозмовник, ведучий або іншу; які реальні приклади звучать доречно?",
-            "Коли він може почати розмову, а коли має мовчати, чекати або передати запит людині?",
-            "Які дії дозволено виконувати одразу, які потребують рішення конкретної людини, а які заборонено?"
+            "What role and style fit: practical assistant, companion, facilitator or another role? Which examples sound appropriate?",
+            "When may it speak first, and when should it stay quiet, wait or hand off to a person?",
+            "Which actions can proceed immediately, require a specific person's decision, or lie outside its authority?"
           ],
           "decisions": [
-            "роль і межі persona",
-            "ініціатива та тиша",
-            "матриця повноважень"
+            "Role and persona bounds",
+            "Initiative and silence",
+            "Authorization matrix"
           ],
-          "applies_when": "Коли створюється або змінюється поведінка, особливо у спільних чатах і за зовнішніх ефектів.",
+          "applies_when": "When introducing or changing behavior, especially in shared chats or where there can be external effects.",
           "downstream": [
             "conversation",
             "specification",
@@ -506,19 +506,19 @@
         },
         {
           "id": "chatbot.director.continuity",
-          "label": "Чинний бот і збереження можливостей",
-          "why": "Розвиток спирається на актуальний продукт, а не починає довільного нового бота.",
+          "label": "Existing bot and capability preservation",
+          "why": "Development begins with the actual current product.",
           "questions": [
-            "Де поточні код, конфігурація, дані, розгортання й останній працездатний стан?",
-            "Які чинні можливості, обіцянки, стиль і інтеграції потрібно зберегти та які саме проблеми змінити?",
-            "Чи є незавершені дії, нагадування, приватні дані або старі кнопки, які мають пережити оновлення?"
+            "Where are the current code, configuration, data, deployments and last working state?",
+            "Which existing capabilities, promises, style and integrations must be retained, and which problems should change?",
+            "Which outstanding actions, reminders, private data or older buttons must survive the update?"
           ],
           "decisions": [
-            "baseline й impact map",
-            "незмінні можливості",
-            "сумісність незавершених зобов’язань"
+            "Baseline and impact map",
+            "Preserved capabilities",
+            "Compatibility of outstanding obligations"
           ],
-          "applies_when": "Для наявного бота, адресного ремонту, міграції або перенесення; відсутність старого агентського пакета не блокує відновлення з коду.",
+          "applies_when": "For an existing bot, targeted repair, migration or transfer. If an older agent package is unavailable, reconstruct from the code.",
           "downstream": [
             "specification",
             "build",
@@ -531,19 +531,19 @@
         },
         {
           "id": "chatbot.director.demand-economics",
-          "label": "Попит і економіка за наміром",
-          "why": "Витрати, платна цінність і залучення перевіряються щодо фактичної аудиторії.",
+          "label": "Demand and economics relevant to the goal",
+          "why": "Validate cost, value people pay for and acquisition against the actual audience.",
           "questions": [
-            "Хто вже має цю потребу й як можна перевірити корисність із цією аудиторією?",
-            "Якщо задум платний, за який завершений результат люди мають хотіти платити і які наявні дані це підтримують?",
-            "Чи потрібні підписка, платежі, безоплатний доступ або інша модель; які перевірені альтернативи слід зіставити з рекомендацією?"
+            "Who already has this need, and how can we test usefulness with that audience?",
+            "For a paid proposal, what completed result would people pay for, and what current evidence supports that?",
+            "Do we need a subscription, payments, free access or another model? Which verified alternatives should inform the recommendation?"
           ],
           "decisions": [
-            "гіпотези попиту",
-            "умовна монетизація",
-            "метод перевірки цінності"
+            "Demand hypotheses",
+            "Conditional monetization",
+            "Method for testing value"
           ],
-          "applies_when": "Для нового продукту, adoption або комерційної зміни; не нав’язує монетизацію сервісному чи особистому боту.",
+          "applies_when": "For new products, adoption or commercial changes. Service and personal bots need monetization only when it is part of the goal.",
           "downstream": [
             "research",
             "specification",
@@ -560,19 +560,19 @@
       "topics": [
         {
           "id": "chatbot.research.people-workflow",
-          "label": "Люди, потреби та альтернативи",
-          "why": "Дослідження відрізняє бажаний ефект від неперевіреного попиту.",
+          "label": "People, needs and alternatives",
+          "why": "Research distinguishes desired outcomes from unvalidated demand.",
           "questions": [
-            "Які люди й робочі ситуації досліджуємо та до яких фактичних свідчень уже є доступ?",
-            "Які альтернативи вони використовують і за яких умов бот дає перевагу?",
-            "Які припущення про частоту, довіру, звички чи бажання платити слід перевірити першими?"
+            "Which people and workflows are we studying, and what actual evidence can we access?",
+            "Which alternatives do they use, and when does a chatbot improve on them?",
+            "Which assumptions about frequency, trust, habits or willingness to pay should be tested first?"
           ],
           "decisions": [
             "stakeholder/JTBD map",
-            "перевірені альтернативи",
-            "план дослідження попиту"
+            "Verified alternatives",
+            "Demand research plan"
           ],
-          "applies_when": "Коли потреба, аудиторія або перевага розмовного формату ще не підтверджені.",
+          "applies_when": "When the need, audience or advantage of conversation is unconfirmed.",
           "downstream": [
             "director",
             "specification",
@@ -583,19 +583,19 @@
         },
         {
           "id": "chatbot.research.platform-feasibility",
-          "label": "Здійсненність каналів",
-          "why": "Офіційні поточні можливості каналу визначають можливу обіцянку.",
+          "label": "Channel feasibility",
+          "why": "Current official channel capabilities determine which promises are supportable.",
           "questions": [
-            "Які дії й форми повідомлень потрібні в кожному обраному каналі?",
-            "Які акаунти, права, інсталяції та робочі середовища вже доступні?",
-            "Які варіанти каналів або адаптерів слід перевірити за офіційною документацією і порівняти за доставкою, обмеженнями й витратами?"
+            "Which actions and message types does each intended channel require?",
+            "Which accounts, rights, installations and working environments are already accessible?",
+            "Which channels or adapters should be checked against official documentation and compared by delivery, limitations and cost?"
           ],
           "decisions": [
-            "матриця можливостей каналів",
-            "доступи й gaps",
-            "рекомендація адаптера"
+            "Channel capability matrix",
+            "Access and gaps",
+            "Adapter recommendation"
           ],
-          "applies_when": "Для нового каналу або змін його можливостей, прав чи невідомої актуальності.",
+          "applies_when": "For a new channel, changes in capability or permissions, or uncertain current support.",
           "downstream": [
             "specification",
             "integrations",
@@ -607,19 +607,19 @@
         },
         {
           "id": "chatbot.research.domain-evidence",
-          "label": "Предметні знання й джерела",
-          "why": "Бот не може надійно працювати без авторитетних даних та меж компетенції.",
+          "label": "Domain knowledge and evidence",
+          "why": "Reliable domain assistance needs authoritative data and defined limits of expertise.",
           "questions": [
-            "Які предметні питання бот має вирішувати й хто є авторитетним власником правил?",
-            "Які документи, API, бази чи фахівці доступні, наскільки вони актуальні та хто має право їх використовувати?",
-            "Чи є професійні, правові або інші межі, які змінюють обіцянки, перевірку чи передачу людині?"
+            "Which domain questions must the bot address, and who has authority over those rules?",
+            "Which documents, APIs, databases or specialists are available, how current are they, and who may use them?",
+            "Do professional, legal or other boundaries change what the bot can promise, how it verifies or when it hands off?"
           ],
           "decisions": [
-            "джерела й авторитетність",
-            "межі компетенції",
-            "потреба в експертній перевірці"
+            "Source and authority",
+            "Competence boundaries",
+            "Expert review needs"
           ],
-          "applies_when": "Для предметного помічника, knowledge workflow або сфери з істотними наслідками помилки.",
+          "applies_when": "For a domain assistant, a knowledge workflow or a task where errors have material consequences.",
           "downstream": [
             "specification",
             "knowledge",
@@ -630,19 +630,19 @@
         },
         {
           "id": "chatbot.research.capability-probes",
-          "label": "Реальні інструменти й перевірки",
-          "why": "Назва інтеграції не доводить, що потрібна операція доступна.",
+          "label": "Actual tools and probes",
+          "why": "Verify the required operation independently of an integration's label.",
           "questions": [
-            "Які конкретні операції має виконувати бот і які інструменти або API вже підключені?",
-            "Що можна перевірити читанням або оборотним ізольованим probe без зовнішнього ефекту?",
-            "Якщо потрібна операція недоступна, які підтверджені альтернативи й рекомендацію підготувати для рішення?"
+            "Which exact operations should the bot perform, and which tools or APIs are connected?",
+            "What can be verified with a read or a reversible isolated probe without external effects?",
+            "If an operation is unavailable, which verified alternatives and recommendation should we prepare?"
           ],
           "decisions": [
-            "паспорти операцій",
-            "рівні доказів capability",
-            "gaps та альтернативи"
+            "Operation records",
+            "Capability evidence levels",
+            "Gaps and alternatives"
           ],
-          "applies_when": "Для невідомих інтеграцій, генерації медіа, платежів, automation або deployment.",
+          "applies_when": "For uncertain integrations, media generation, payments, automation or deployment.",
           "downstream": [
             "integrations",
             "build",
@@ -653,19 +653,19 @@
         },
         {
           "id": "chatbot.research.constraints-cost",
-          "label": "Обмеження, витрати й утримання",
-          "why": "Обраний шлях має враховувати фактичну ціну роботи й супроводу.",
+          "label": "Constraints, costs and maintenance",
+          "why": "Choose a route with observable operating and maintenance costs.",
           "questions": [
-            "Які очікувані обсяги, географія, мови, затримка й доступність потрібні людям?",
-            "Які provider, hosting, model, media та platform витрати можна виміряти, а які ще лише оцінені?",
-            "Які реальні архітектурні альтернативи слід рекомендувати за повною вартістю, приватністю та переносністю?"
+            "What volume, regions, languages, latency and availability do people require?",
+            "Which provider, hosting, model, media and platform costs can be measured, and which are estimates?",
+            "Which feasible architectures should we recommend based on full cost, privacy and portability?"
           ],
           "decisions": [
-            "виміряні й оцінені витрати",
-            "здійсненні альтернативи",
-            "ризики експлуатації"
+            "Measured and estimated costs",
+            "Feasible alternatives",
+            "Operational risks"
           ],
-          "applies_when": "Коли вибір платформи, моделей, медіа або обсягу впливає на бюджет чи якість; не встановлює довільний ліміт.",
+          "applies_when": "When platform, model, media or scale choices affect budget or quality. Use verified limits.",
           "downstream": [
             "director",
             "specification",
@@ -677,19 +677,19 @@
         },
         {
           "id": "chatbot.research.research-output",
-          "label": "Висновок і нерозв’язані рішення",
-          "why": "Дослідження має дати придатну для рішення рекомендацію з межами доказів.",
+          "label": "Research conclusion and open decisions",
+          "why": "A decision-ready recommendation identifies the limits of evidence.",
           "questions": [
-            "Які рішення мають спиратися на дослідження до затвердження сценарію виконання?",
-            "Які твердження вже доведено джерелами, які залишаються гіпотезами і яка перевірка їх розв’яже?",
-            "Чи потрібен обмежений дослід; який його результат змінить подальший вибір?"
+            "Which decisions need research before an execution plan can be approved?",
+            "Which claims have source evidence, which remain hypotheses, and what check would resolve them?",
+            "Is a bounded experiment needed, and which result would change the next choice?"
           ],
           "decisions": [
             "claim/source map",
-            "рекомендація та заперечення",
-            "залишкові невідомості з власниками"
+            "Recommendation and objection",
+            "Remaining unknowns and their owners"
           ],
-          "applies_when": "На завершенні дослідження та перед матеріальним рішенням із неповними даними.",
+          "applies_when": "At research closeout and before a material decision under incomplete evidence.",
           "downstream": [
             "director",
             "specification",
@@ -705,19 +705,19 @@
       "topics": [
         {
           "id": "chatbot.specification.system-model",
-          "label": "Системи, дані та події",
-          "why": "Специфікація задає джерела істини й точні межі кожної активної можливості.",
+          "label": "Systems, data and events",
+          "why": "The specification assigns sources of truth and exact boundaries for every active capability.",
           "questions": [
-            "Які сутності, стани, входи, результати й події потрібні кожному прийнятому journey?",
-            "Хто є єдиним власником зобов’язання, стану та істини про результат?",
-            "Які архітектурні C1 рішення потрібно закрити зараз, а які числові T параметри можна уточнити пізніше в погодженому діапазоні й до названого рубежу?"
+            "What entities, states, inputs, results and events does each accepted journey require?",
+            "Who is the single owner of the obligation, state and record of the result?",
+            "Which C1 architecture decisions are due now, and which numerical T details can wait within a named range and milestone?"
           ],
           "decisions": [
-            "реєстр систем",
-            "typed contracts та owners",
-            "C1 рішення й T відкладення"
+            "System register",
+            "Typed contracts and owners",
+            "C1 decisions and deferred T details"
           ],
-          "applies_when": "Для кожної активної системи перед реалізацією; технічні варіанти готує експерт, матеріальні компроміси приймає власник.",
+          "applies_when": "For each active system before implementation. Specialists prepare technical options and the owner decides material tradeoffs.",
           "downstream": [
             "conversation",
             "knowledge",
@@ -730,19 +730,19 @@
         },
         {
           "id": "chatbot.specification.identity-consent",
-          "label": "Ідентичність, аудиторія та згода",
-          "why": "Відправник і адресат визначають, що бот може прочитати, запам’ятати чи змінити.",
+          "label": "Identity, audience and consent",
+          "why": "Sender and audience determine what the bot may read, remember or change.",
           "questions": [
-            "Як визначаються людина, tenant, workspace, чат і тема та коли ідентичності можна зв’язати?",
-            "Хто має право ініціювати, підтвердити, скасувати або побачити кожен результат?",
-            "Як обробляються вступ, вихід, гість, зміна ролі, відкликання доступу й приватна відповідь у груповому процесі?"
+            "How do we identify person, tenant, workspace, chat and topic, and when may identities be linked?",
+            "Who can initiate, confirm, cancel or view each result?",
+            "How do join, leave, guest access, role change, revocation and private replies within a group workflow behave?"
           ],
           "decisions": [
             "authorization envelope",
-            "матриця доступів і згод",
-            "правила членства"
+            "Access and consent matrix",
+            "Membership rules"
           ],
-          "applies_when": "Для будь-якого збереження даних або дій; групи й кілька каналів активують додаткові межі.",
+          "applies_when": "For any persistence or action. Group and multi-channel operation introduce additional boundaries.",
           "downstream": [
             "conversation",
             "knowledge",
@@ -755,19 +755,19 @@
         },
         {
           "id": "chatbot.specification.action-lifecycle",
-          "label": "Повний життєвий цикл дії",
-          "why": "Видимий успіх має відповідати фактичному ефекту навіть після повтору чи збою.",
+          "label": "Complete action lifecycle",
+          "why": "User-visible success must reflect the real effect after retries or failures.",
           "questions": [
-            "Які дії мають стани пропозиції, уточнення, дозволу, виконання, успіху, невдачі або невизначеного результату?",
-            "Що означає скасування до та після зовнішнього ефекту, частковий успіх і відновлення після restart?",
-            "Які правила dedup, retry, reconciliation, expiry й доставки експерт рекомендує за реальними гарантіями provider?"
+            "Which actions move through proposal, clarification, authorization, execution, success, failure or unknown outcome?",
+            "What do cancellation before and after an external effect, partial success and restart recovery mean?",
+            "Which deduplication, retry, reconciliation, expiry and delivery rules match actual provider guarantees?"
           ],
           "decisions": [
-            "state machines і guards",
-            "ідемпотентність та невизначеність",
-            "контракти скасування й відновлення"
+            "State machines and guards",
+            "Idempotency and unknown outcomes",
+            "Cancellation and recovery contracts"
           ],
-          "applies_when": "Коли бот виконує, планує або доставляє будь-яку дію з тривалістю, повтором чи зовнішнім ефектом.",
+          "applies_when": "When the bot performs, schedules or delivers any action that takes time, may repeat or has an external effect.",
           "downstream": [
             "integrations",
             "conversation",
@@ -780,19 +780,19 @@
         },
         {
           "id": "chatbot.specification.time",
-          "label": "Час і планування",
-          "why": "Людський локальний час відрізняється від часової зони сервера.",
+          "label": "Time and scheduling",
+          "why": "People act in civil time, which may differ from the server's timezone.",
           "questions": [
-            "Які одноразові або повторні події потрібні й у чиїй часовій зоні?",
-            "Як поводитися під час зміни часу, запізнення, пропущеного запуску, зміни розкладу або мовчання користувача?",
-            "Коли нагадування втрачає сенс і хто може змінити чи відкликати правило?"
+            "Which one-time or recurring events are needed, and in whose time zone?",
+            "How should the bot handle clock changes, lateness, missed runs, schedule changes or user silence?",
+            "When does a reminder become stale, and who can change or revoke its rule?"
           ],
           "decisions": [
-            "часова семантика",
-            "recurrence й misfire policy",
-            "версії розкладу та consent"
+            "Time semantics",
+            "Recurrence and misfire policy",
+            "Schedule and consent versions"
           ],
-          "applies_when": "Лише коли є нагадування, proactive події, дедлайни або інша залежність від часу.",
+          "applies_when": "When reminders, proactive events, deadlines or other time-dependent behavior apply.",
           "downstream": [
             "integrations",
             "conversation",
@@ -805,19 +805,19 @@
         },
         {
           "id": "chatbot.specification.memory-contract",
-          "label": "Пам’ять, знання й стирання",
-          "why": "Особисті факти й предметні документи потребують різних джерел, прав і строків.",
+          "label": "Memory, knowledge and erasure",
+          "why": "Personal facts and domain documents have different sources, rights and lifetimes.",
           "questions": [
-            "Що бот має пам’ятати в межах сесії, завдання, людини, групи або workspace?",
-            "Що можна записувати, як виправляти помилки, як довго зберігати та як людина бачить, експортує й стирає дані?",
-            "Які похідні summaries, індекси, кеші, jobs і backups мають успадковувати виправлення та відкликання?"
+            "What may the bot remember at session, task, person, group or workspace scope?",
+            "What can it store, how can errors be corrected, how long is retention, and how do people view, export and erase data?",
+            "Which derived summaries, indexes, caches, jobs and backups inherit corrections and revocation?"
           ],
           "decisions": [
-            "області пам’яті",
+            "Memory scopes",
             "provenance/retention/erasure",
-            "залежності похідних даних"
+            "Derived-data dependencies"
           ],
-          "applies_when": "Коли є пам’ять, документи, retrieval або збережені результати; відсутню потребу фіксувати з причиною.",
+          "applies_when": "When memory, documents, retrieval or stored results are in scope. Record a reason when the capability is unnecessary.",
           "downstream": [
             "knowledge",
             "integrations",
@@ -830,19 +830,19 @@
         },
         {
           "id": "chatbot.specification.cross-system",
-          "label": "Перетини й приймання",
-          "why": "Помилки часто виникають між правильними окремо компонентами.",
+          "label": "System interactions and acceptance",
+          "why": "Failures often occur between individually correct components.",
           "questions": [
-            "Які залежності пов’язують розмову, права, пам’ять, scheduler, медіа, provider і доставку?",
-            "Який очікуваний результат для конфлікту версій, forget під час running, старої кнопки, cross-chat запиту й часткового збою?",
-            "Які позитивні й негативні сценарії доведуть прийняті правила в усьому journey?"
+            "Which dependencies connect conversation, authorization, memory, scheduler, media, providers and delivery?",
+            "How should version conflicts, forget during execution, stale buttons, cross-chat requests and partial failures behave?",
+            "Which positive and negative scenarios establish the accepted rules across the full journey?"
           ],
           "decisions": [
-            "карта перетинів",
+            "Interaction map",
             "failure/repair sequences",
             "acceptance vectors"
           ],
-          "applies_when": "Для всіх активних міжсистемних залежностей перед build або матеріальною зміною shared контракту.",
+          "applies_when": "For every active cross-system dependency before build or a material shared-contract change.",
           "downstream": [
             "build",
             "qa",
@@ -858,19 +858,19 @@
       "topics": [
         {
           "id": "chatbot.conversation.voice",
-          "label": "Роль, голос і живі приклади",
-          "why": "Природність оцінюється доречними репліками, а не списком прикметників.",
+          "label": "Role, voice and real dialogue examples",
+          "why": "Evaluate naturalness through appropriate utterances using context and audience.",
           "questions": [
-            "Як бот має звучати в робочій, дружній, емоційній і невдалій ситуації; які наявні репліки підходять або відштовхують?",
-            "Які мови, форми звертання, гумор і культурні особливості потрібні?",
-            "Які межі ролі, експертності й особистих тверджень має зберігати persona?"
+            "How should the bot sound in work, friendly, emotional and failure situations, and which existing replies feel appropriate or off-putting?",
+            "Which languages, forms of address, humor and cultural conventions are needed?",
+            "Which limits on role, expertise and personal claims must the persona preserve?"
           ],
           "decisions": [
-            "persona та приклади",
-            "мовні варіанти",
-            "межі ролі"
+            "Persona and examples",
+            "Language variants",
+            "Role boundaries"
           ],
-          "applies_when": "Для створення або зміни характеру; чинний узгоджений голос зберігати й уточнювати лише зачеплене.",
+          "applies_when": "When creating or changing a persona. Keep the accepted voice and refine the affected parts.",
           "downstream": [
             "build",
             "qa",
@@ -881,19 +881,19 @@
         },
         {
           "id": "chatbot.conversation.address-turn",
-          "label": "Адресат, черга й доречне мовчання",
-          "why": "У групі не кожна репліка є дорученням боту.",
+          "label": "Addressee, turn-taking and appropriate silence",
+          "why": "In a group, determine which turns actually authorize or invite a response.",
           "questions": [
-            "Як люди звертаються до бота, один до одного та повертаються до попередньої теми?",
-            "Коли доречні відповідь, коротке уточнення, очікування, мовчання або передача людині?",
-            "Як мають працювати пауза, пряма нова задача після паузи, дві активні пропозиції та неоднозначне «давай»?"
+            "How do people address the bot and each other, or return to a prior topic?",
+            "When is a reply, brief clarification, wait, silence or human handoff appropriate?",
+            "How should pause, a direct new task after pause, two active offers and an ambiguous “go ahead” («давай») work?"
           ],
           "decisions": [
             "recipient/referent policy",
-            "правила черги й паузи",
-            "мінімальні уточнення"
+            "Turn-taking and pause rules",
+            "Minimal clarifications"
           ],
-          "applies_when": "Для будь-якої розмовної взаємодії, особливо групової, ambient або proactive.",
+          "applies_when": "For conversational interaction, especially group, ambient or proactive use.",
           "downstream": [
             "specification",
             "build",
@@ -904,19 +904,19 @@
         },
         {
           "id": "chatbot.conversation.interaction-grammar",
-          "label": "Повна граматика взаємодії",
-          "why": "Людині потрібні зрозумілі входи, вибір, скасування та повернення, а не лише happy path.",
+          "label": "Complete interaction grammar",
+          "why": "People need understandable entry, choice, cancellation and return across the whole journey.",
           "questions": [
-            "Як людина починає, дізнається можливості, дає дані, переглядає деталі, змінює рішення, скасовує та повертається?",
-            "Де доречні текст, команди, кнопки, форми, голос чи інша перевірена можливість каналу?",
-            "Які варіанти експерт рекомендує за зусиллям користувача й доступністю, з урахуванням обмежень обраної платформи?"
+            "How does someone start, discover capabilities, supply data, inspect details, change their decision, cancel and return?",
+            "Where are text, commands, buttons, forms, voice or another demonstrated channel capability appropriate?",
+            "Which input forms fit user effort and accessibility given the selected platform's constraints?"
           ],
           "decisions": [
             "entry/help/choice/exit/return states",
             "callback/version binding",
-            "рекомендовані форми вводу"
+            "Recommended input forms"
           ],
-          "applies_when": "Для кожного journey; кількість кроків і форм не обмежувати довільно.",
+          "applies_when": "For each journey. Choose the number of steps and input forms from the actual interaction needs.",
           "downstream": [
             "integrations",
             "build",
@@ -927,19 +927,19 @@
         },
         {
           "id": "chatbot.conversation.truth-repair",
-          "label": "Правдивий прогрес і ремонт",
-          "why": "Репліка про успіх має спиратися на правильний доказ.",
+          "label": "Accurate progress and recovery",
+          "why": "A success message needs evidence of the corresponding result.",
           "questions": [
-            "Що людина має бачити під час підготовки, черги, виконання, доставки, часткової невдачі й невизначеності?",
-            "Який наступний корисний крок пропонувати, коли бракує доступу, даних або capability?",
-            "Як зберегти прийняту незалежну частину задачі, коли інша частина потребує уточнення чи ремонту?"
+            "What should people see during preparation, queueing, execution, delivery, partial failure and an unknown outcome?",
+            "What useful next action fits when access, data or capability is missing?",
+            "How should the system preserve an accepted independent part when another part requires clarification or repair?"
           ],
           "decisions": [
-            "словник видимих станів",
-            "failure/recovery тексти",
-            "правила часткових задач"
+            "User-visible state vocabulary",
+            "Failure and recovery messages",
+            "Partial task rules"
           ],
-          "applies_when": "Коли відповіді залежать від інструментів, jobs, стану або недоступних можливостей.",
+          "applies_when": "When replies depend on tools, jobs, state or unavailable capabilities.",
           "downstream": [
             "integrations",
             "build",
@@ -950,19 +950,19 @@
         },
         {
           "id": "chatbot.conversation.shared-activity",
-          "label": "Спільні процеси й добровільна участь",
-          "why": "Рішення однієї людини не замінює згоду інших учасників.",
+          "label": "Shared activities and voluntary participation",
+          "why": "Each involved participant retains their own consent.",
           "questions": [
-            "Які спільні задачі або activities потрібні й хто може запрошувати, долучатися, відмовитися та вийти?",
-            "Чи потрібні приватні ролі, власні вибори, поріг голосів, unanimous згода, timeout або late join?",
-            "Яким є перший змістовний крок, повернення після паузи та поведінка при відмові чи втраті учасника?"
+            "Which shared tasks or activities are needed, and who can invite, join, decline and leave?",
+            "Are private roles, individual choices, vote threshold, unanimous consent, timeout or late join needed?",
+            "What is the first meaningful step, how does return after pause work, and what happens when someone declines or drops out?"
           ],
           "decisions": [
-            "участь і roster",
+            "Participation and roster",
             "private/group delivery",
-            "правила спільного lifecycle"
+            "Shared lifecycle rules"
           ],
-          "applies_when": "Лише за спільних workflows, командних рішень або ігор; ігрові механіки не нав’язувати іншим ботам.",
+          "applies_when": "For collaborative workflows, group decisions or games. Use game mechanics only where they serve the intended activity.",
           "downstream": [
             "specification",
             "integrations",
@@ -974,19 +974,19 @@
         },
         {
           "id": "chatbot.conversation.language-accessibility",
-          "label": "Мови, довжина й доступність",
-          "why": "Досвід має працювати у фактичному каналі та для потрібних людям способів сприйняття.",
+          "label": "Languages, length and accessibility",
+          "why": "The experience must work in the actual channel and support the audience's ways of accessing it.",
           "questions": [
-            "Які мови, локалі й вимоги доступності потрібні фактичній аудиторії?",
-            "Як подавати довгі результати, таблиці, вкладення, транскрипти й медіа у кожному каналі?",
-            "Які приклади покажуть доречну глибину: проста репліка, складне пояснення, помилка й повернення?"
+            "Which languages, locales and accessibility needs apply to the actual audience?",
+            "How should long results, tables, attachments, transcripts and media appear in each channel?",
+            "Which examples establish appropriate depth for a simple turn, complex explanation, failure and recovery?"
           ],
           "decisions": [
-            "локалізація й форматування",
-            "текстові альтернативи",
+            "Localization and formatting",
+            "Text alternatives",
             "platform display cases"
           ],
-          "applies_when": "Для підтриманих мов, медіа або обмежених клієнтів; не обрізати складну задачу заради штучної короткості.",
+          "applies_when": "For supported languages, media or constrained clients. Keep necessary content in complex tasks.",
           "downstream": [
             "media",
             "build",
@@ -997,19 +997,19 @@
         },
         {
           "id": "chatbot.conversation.evaluation",
-          "label": "Оцінка розмовного досвіду",
-          "why": "Модельний бал і людське враження є різними доказами.",
+          "label": "Conversation experience evaluation",
+          "why": "Model scores and human perception require distinct evidence.",
           "questions": [
-            "Які заморожені контексти й реальні типи реплік мають представляти потрібний досвід?",
-            "Які помилки найважливіші: зайва відповідь, мовчання, неправильний адресат, повторне питання, втрата задачі чи інші?",
-            "Хто може добровільно оцінити природність і чи потрібне порівняння варіантів із можливістю «обидва погані»?"
+            "Which frozen contexts and real kinds of turns represent the intended experience?",
+            "Which mistakes matter most: unwanted reply, silence, wrong addressee, repeated question, lost task or others?",
+            "Who can voluntarily review naturalness, and should comparisons allow a “both are poor” judgment?"
           ],
           "decisions": [
-            "dialogue fixtures й strata",
-            "метрики з denominator",
-            "план human evaluation"
+            "Dialogue fixtures and strata",
+            "Metrics with denominators",
+            "Human evaluation plan"
           ],
-          "applies_when": "Для заяв про якість або змін persona/router; приватні production діалоги не використовувати без належного дозволу.",
+          "applies_when": "For quality claims or persona and router changes. Require applicable authorization to use private production dialogue.",
           "downstream": [
             "qa",
             "operations"
@@ -1024,19 +1024,19 @@
       "topics": [
         {
           "id": "chatbot.knowledge.scope-write",
-          "label": "Області пам’яті та запис",
-          "why": "Пам’ять має зберігати сенс і межі походження факту.",
+          "label": "Memory scopes and writes",
+          "why": "Preserve the meaning of the fact and the limits of its origin.",
           "questions": [
-            "Які факти потрібні для сесії, задачі, людини, групи й workspace та хто має право їх записувати?",
-            "Як відрізняти пряме прохання пам’ятати від цитати, здогадки, заперечення або тимчасового побажання?",
-            "Які варіанти автоматичного й явного запису експерт рекомендує для цих даних і наслідків помилки?"
+            "Which facts are needed for a session, task, person, group and workspace, and who may write them?",
+            "How do we distinguish a direct remember request from a quotation, guess, denial or temporary preference?",
+            "Which automatic and explicit writes fit the data and consequences of an error?"
           ],
           "decisions": [
             "scope/write contracts",
             "observation vs inference",
-            "згода й строк факту"
+            "Consent and lifetime of a fact"
           ],
-          "applies_when": "Коли активна пам’ять; не додавати довготривале профілювання без потреби.",
+          "applies_when": "When memory is active. Add long-term profiling only when required.",
           "downstream": [
             "specification",
             "build",
@@ -1047,19 +1047,19 @@
         },
         {
           "id": "chatbot.knowledge.correction",
-          "label": "Виправлення й конфлікти знань",
-          "why": "Пізній summary не має переважати авторитетне виправлення.",
+          "label": "Corrections and conflicting knowledge",
+          "why": "An authoritative correction takes precedence over a later summary.",
           "questions": [
-            "Хто може виправити факт, як визначається авторитетне джерело й коли інформація застаріває?",
-            "Як бот має поводитися за суперечливих джерел, невизначеної особи чи невпевненого висновку?",
-            "Як людина може переглянути й виправити те, що бот про неї зберіг?"
+            "Who may correct a fact, how is source authority determined, and when does information become stale?",
+            "How should the bot handle conflicting sources, unclear identity or a low-confidence inference?",
+            "How can someone view and correct what the bot stored about them?"
           ],
           "decisions": [
-            "provenance та correction chain",
+            "Provenance and correction chain",
             "precedence/freshness",
-            "інтерфейс виправлення"
+            "Correction interface"
           ],
-          "applies_when": "Для збережених фактів або кількох джерел, що можуть суперечити одне одному.",
+          "applies_when": "For stored facts or multiple sources that may conflict.",
           "downstream": [
             "conversation",
             "build",
@@ -1070,19 +1070,19 @@
         },
         {
           "id": "chatbot.knowledge.retrieval",
-          "label": "Retrieval за предметною потребою",
-          "why": "Спосіб пошуку визначає набір питань і даних, а не модність технології.",
+          "label": "Retrieval for an actual domain need",
+          "why": "Select a search method from the questions and data it must serve.",
           "questions": [
-            "На які питання бот має відповідати з яких корпусів і який результат вважатиметься правильним?",
-            "Чи достатньо поточного контексту, звичайного пошуку або SQL; якщо ні, які перевірені варіанти retrieval слід порівняти?",
-            "Як джерела оновлюються, цитуються, фільтруються за правами й видаляються?"
+            "Which questions should the bot answer, from which corpora, and what counts as correct?",
+            "Do current context, ordinary search or SQL suffice, and if needed, which verified retrieval options should be compared?",
+            "How are sources updated, cited, filtered by access and deleted?"
           ],
           "decisions": [
-            "необхідність RAG",
+            "Need for RAG",
             "ingestion/retrieval lifecycle",
             "citation/abstention contracts"
           ],
-          "applies_when": "Лише за потреби доступу до зовнішніх знань; vector DB не є автоматичною вимогою.",
+          "applies_when": "When access to external knowledge is required. Adopt a vector database only if justified by the retrieval task.",
           "downstream": [
             "research",
             "specification",
@@ -1094,19 +1094,19 @@
         },
         {
           "id": "chatbot.knowledge.privacy-erase",
-          "label": "Приватність, забування та похідні дані",
-          "why": "Стирання первинного запису не завершує забування його похідних.",
+          "label": "Privacy, forgetting and derived data",
+          "why": "Forgetting also covers the derivatives of the deleted source.",
           "questions": [
-            "Які дані є приватними, для якої аудиторії й мети їх можна використовувати?",
-            "Що має відбутися після «забудь», відкликання доступу, зміни ролі або завершення строку?",
-            "Які фактичні правила backups, exports, embeddings, caches і running jobs дозволяють виконати обіцянку та що потребує окремого рішення?"
+            "Which data is private, and for which audiences and purposes may it be used?",
+            "What must follow a “forget” request («забудь»), access revocation, role change or expiry?",
+            "Which actual backup, export, embedding, cache and running-job rules support that promise, and what needs a separate decision?"
           ],
           "decisions": [
             "ACL/retention/erasure graph",
             "privacy epoch/tombstones",
-            "межі backup deletion"
+            "Backup deletion limits"
           ],
-          "applies_when": "Для будь-яких збережених або похідних даних, зокрема повідомлень і медіа.",
+          "applies_when": "For any stored or derived data, including messages and media.",
           "downstream": [
             "specification",
             "integrations",
@@ -1119,19 +1119,19 @@
         },
         {
           "id": "chatbot.knowledge.eval-migration",
-          "label": "Доказ знань і міграція",
-          "why": "Якість пошуку, відповіді й стирання перевіряється окремо.",
+          "label": "Knowledge evidence and migration",
+          "why": "Evaluate retrieval, answers and erasure independently.",
           "questions": [
-            "Який дозволений заморожений набір питань перевірить релевантність, правильність цитат, відмову й права доступу?",
-            "Які зміни parser, моделей, ACL, індексів або схеми потребують reindex чи повторної оцінки?",
-            "Як міграція й restore збережуть виправлення, строки й tombstones?"
+            "Which authorized frozen question set tests relevance, citation correctness, abstention and rights?",
+            "Which parser, model, ACL, index or schema changes require reindexing or renewed evaluation?",
+            "How do migration and restore preserve corrections, expiry and tombstones?"
           ],
           "decisions": [
             "knowledge evals",
             "cache/version invalidation",
             "migration/restore acceptance"
           ],
-          "applies_when": "Для активної бази знань, пам’яті або зміни їхніх залежностей.",
+          "applies_when": "For active knowledge stores, memory or changes to their dependencies.",
           "downstream": [
             "build",
             "qa",
@@ -1148,19 +1148,19 @@
       "topics": [
         {
           "id": "chatbot.integrations.adapter",
-          "label": "Адаптер кожного каналу",
-          "why": "Фактичні API і права відрізняються навіть у схожих каналах.",
+          "label": "Adapter for each channel",
+          "why": "Verify each channel's actual APIs and rights independently.",
           "questions": [
-            "Які події, callbacks, message types, threads, групи й способи доставки потрібні в кожному каналі?",
-            "Які transport signatures, scopes, rate limits, ACK та delivery гарантії підтверджено поточними джерелами?",
-            "Які підтримані варіанти адаптера експерт рекомендує і де залишаються gaps?"
+            "Which events, callbacks, message types, threads, groups and delivery modes does each channel require?",
+            "Which transport signatures, scopes, rate limits, ACK and delivery guarantees do current authoritative sources support?",
+            "Which supported adapter options fit, and what gaps remain?"
           ],
           "decisions": [
             "platform adapter contracts",
             "ingress authenticity",
-            "перевірені межі доставки"
+            "Verified delivery limits"
           ],
-          "applies_when": "Для кожного selected каналу й змін зачеплених операцій; не переносити правила однієї платформи в іншу.",
+          "applies_when": "For each selected channel and changes to affected operations. Use the contract for the actual platform.",
           "downstream": [
             "specification",
             "conversation",
@@ -1173,19 +1173,19 @@
         },
         {
           "id": "chatbot.integrations.accounts-auth",
-          "label": "Акаунти, credentials і повноваження",
-          "why": "Доступ до сервісу не дорівнює дозволу на кожен зовнішній ефект.",
+          "label": "Accounts, credentials and authority",
+          "why": "Verify authorization for each external effect within an accessible service.",
           "questions": [
-            "Чиї акаунти й робочі простори використовує бот та які права реально надані?",
-            "Чи потрібна дія від імені людини, бота чи спільного сервісу; як зв’язати й відкликати доступ?",
-            "Які дії потребують конкретного confirmation і як не запитувати повторно вже чинний дозвіл у тому самому scope?"
+            "Whose accounts and workspaces does the bot use, and which rights are actually granted?",
+            "Do actions use the person's, bot's or shared service's identity, and how is access linked and revoked?",
+            "Which actions need specific confirmation, and how do we reuse an existing valid grant for the same scope?"
           ],
           "decisions": [
             "auth/identity model",
             "secret ownership",
             "effect authorization"
           ],
-          "applies_when": "Для зовнішніх сервісів, приватних ресурсів, admin операцій або делегованих дій.",
+          "applies_when": "For external services, private resources, administrative or delegated actions.",
           "downstream": [
             "specification",
             "build",
@@ -1197,19 +1197,19 @@
         },
         {
           "id": "chatbot.integrations.operations",
-          "label": "Конкретні інструменти та результати",
-          "why": "Кожна дія має реальні параметри, ціну й доказ завершення.",
+          "label": "Specific tools and outcomes",
+          "why": "Each action has actual parameters, cost and completion evidence.",
           "questions": [
-            "Які read і mutation операції потрібні повному journey та які inputs/outputs вони мають?",
-            "Які параметри, обмеження, актуальні ціни, editable outputs і cancellation підтримує кожен provider?",
-            "Що підтверджує фактичний ефект, прийняття provider, доставку чи тільки підготовку?"
+            "Which reads and mutations does the full journey need, and what are their inputs and outputs?",
+            "Which parameters, limits, current prices, editable outputs and cancellation does each provider support?",
+            "Which evidence establishes effect, provider acceptance, delivery or preparation alone?"
           ],
           "decisions": [
             "operation passports",
             "effective parameters",
             "evidence boundary"
           ],
-          "applies_when": "Для кожної required операції, включно з медіа, документами, пошуком, automation й оплатою.",
+          "applies_when": "For each required operation, including media, documents, search, automation and payments.",
           "downstream": [
             "build",
             "qa",
@@ -1220,19 +1220,19 @@
         },
         {
           "id": "chatbot.integrations.reliability",
-          "label": "Повтори, скасування й невизначеність",
-          "why": "Зовнішній timeout не доводить відсутність виконаної дії.",
+          "label": "Retries, cancellation and uncertainty",
+          "why": "After an external timeout, reconcile whether the action took effect.",
           "questions": [
-            "Що provider підтримує для idempotency, status/readback, cancel, reconciliation і compensation?",
-            "Як поводитися після дубля event, crash між send і commit, timeout після успіху або часткової відповіді?",
-            "Які bounds retry, deadlines й розмежування chat/job workers експерт пропонує за фактичними гарантіями?"
+            "What does the provider support for idempotency, status or readback, cancel, reconciliation and compensation?",
+            "How should the system handle a duplicate event, crash between send and commit, timeout after success, or partial response?",
+            "What retry bounds, deadlines and separation of chat and job workers fit the actual guarantees?"
           ],
           "decisions": [
             "reliable dispatch/delivery",
             "uncertain outcomes",
-            "resource й retry policy"
+            "Resource and retry policy"
           ],
-          "applies_when": "Коли операція може повторитися, тривати довго, коштувати гроші або мати зовнішній ефект.",
+          "applies_when": "When an operation can repeat, run long, incur cost or create an external effect.",
           "downstream": [
             "specification",
             "build",
@@ -1244,19 +1244,19 @@
         },
         {
           "id": "chatbot.integrations.scheduler",
-          "label": "Розклади та proactive дії",
-          "why": "Scheduler має зберігати локальний намір, версію дозволу й унікальність occurrence.",
+          "label": "Schedules and proactive actions",
+          "why": "Scheduling preserves civil-time intent, the authorization version and unique occurrences.",
           "questions": [
-            "Які конкретні нагадування або recurring дії доручено створити й кому доставляти?",
-            "Як обробляти reschedule, revoke, quiet hours, DST, restart, пропущені та прострочені occurrence?",
-            "Який доступний механізм scheduling справді виконає це і як довести створення правила?"
+            "Which reminders or recurring actions are explicitly requested, and who receives them?",
+            "How do reschedule, revoke, quiet hours, DST, restart, missed or expired occurrences work?",
+            "Which available scheduler will perform this, and which evidence verifies the rule was created?"
           ],
           "decisions": [
             "scheduler adapter",
             "occurrence/dedup contracts",
-            "authorization й delivery"
+            "Authorization and delivery"
           ],
-          "applies_when": "Лише для доручених майбутніх або повторних дій; обіцянка в тексті не замінює створену automation.",
+          "applies_when": "For authorized future or repeated actions. Verify actual automation creation before claiming the schedule exists.",
           "downstream": [
             "specification",
             "build",
@@ -1268,19 +1268,19 @@
         },
         {
           "id": "chatbot.integrations.payments",
-          "label": "Платежі та виконання оплаченого",
-          "why": "Грошова подія й право отримати результат мають бути узгоджені.",
+          "label": "Payments and fulfillment",
+          "why": "Keep the financial event and entitlement to the result consistent.",
           "questions": [
-            "Якщо платежі входять у задум, що саме купує людина, в якій валюті та через який підтверджений provider?",
-            "Які правила entitlement, повернення, спорів, taxes або обліку застосовні до цього продукту?",
-            "Як обробляти duplicate webhook, payment uncertainty, відміну й часткове fulfillment без подвійної видачі?"
+            "If payments are in scope, what is purchased, in which currency and through which verified provider?",
+            "Which entitlement, refund, dispute, tax or accounting rules apply to this product?",
+            "How do duplicate webhooks, payment uncertainty, cancellation and partial fulfillment avoid double fulfillment?"
           ],
           "decisions": [
             "payment/fulfillment lifecycle",
-            "entitlement і refunds",
+            "Entitlements and refunds",
             "financial reconciliation"
           ],
-          "applies_when": "Лише коли оплата або грошовий ефект явно активні; правові й фінансові варіанти перевіряє належний експерт.",
+          "applies_when": "When payments or monetary effects are explicitly in scope. Use qualified expertise for applicable legal and financial choices.",
           "downstream": [
             "specification",
             "build",
@@ -1298,19 +1298,19 @@
       "topics": [
         {
           "id": "chatbot.media.purpose",
-          "label": "Потреба й місце медіа",
-          "why": "Кожне медіа має підтримувати потрібний людині результат.",
+          "label": "Media purpose and placement",
+          "why": "Each media item should advance an intended user outcome.",
           "questions": [
-            "Для яких конкретних моментів потрібні зображення, стікери, анімація, голос, музика чи відео?",
-            "Що бот має створювати під час роботи, а що може бути підготовлено заздалегідь?",
-            "Які приклади якості й небажані стилі вже є; які доступні варіанти експерт рекомендує під обраний канал?"
+            "For which specific moments are images, stickers, animation, voice, music or video needed?",
+            "What does the bot create at runtime, and what can be prepared in advance?",
+            "Which accepted quality examples and unwanted styles exist, and which available approaches fit the selected channel?"
           ],
           "decisions": [
-            "каталог медіа за journeys",
+            "Media catalog by journey",
             "runtime vs prepared",
-            "творчі орієнтири"
+            "Creative references"
           ],
-          "applies_when": "Лише для потрібного медіакомпонента; один preview не визначає довільно весь каталог.",
+          "applies_when": "For each required media component. A single preview defines only the demonstrated scope.",
           "downstream": [
             "conversation",
             "specification",
@@ -1321,19 +1321,19 @@
         },
         {
           "id": "chatbot.media.identity-rights",
-          "label": "Образ, голос і права",
-          "why": "Стабільна ідентичність та право використання мають пройти від джерела до доставки.",
+          "label": "Identity, voice and rights",
+          "why": "Preserve identity continuity and use rights from source through delivery.",
           "questions": [
-            "Який образ, персонаж, бренд або голос потрібен і які референси можна використовувати?",
-            "Хто володіє вихідними матеріалами, ліцензіями й правами на переробку, генерацію та публікацію?",
-            "Які зміни ідентичності, вимови, емоції або стилю неприйнятні?"
+            "Which identity, character, brand or voice is needed, and which references may be used?",
+            "Who owns source material, licenses and rights to adapt, generate and publish?",
+            "Which changes to identity, pronunciation, emotion or style are unacceptable?"
           ],
           "decisions": [
             "identity references",
             "rights/provenance",
-            "контроль семантики персонажа"
+            "Character semantics control"
           ],
-          "applies_when": "Для branded, character, voice або сторонніх матеріалів.",
+          "applies_when": "For branded, character, voice or third-party materials.",
           "downstream": [
             "research",
             "conversation",
@@ -1346,19 +1346,19 @@
         },
         {
           "id": "chatbot.media.formats",
-          "label": "Формати й доставка в каналі",
-          "why": "Правильний локальний файл має ще бути придатним для фактичного клієнта.",
+          "label": "Formats and channel delivery",
+          "why": "A valid local file also needs to work in the actual client.",
           "questions": [
-            "У яких каналах, пристроях і типах повідомлень показуватиметься кожен матеріал?",
-            "Які поточні вимоги до dimensions, alpha, duration, codecs, file size, frame timing, loop, captions та audio streams?",
-            "Які editable originals, exports, manifests, порядок і readback потрібні отримувачу?"
+            "Which channels, devices and message types will display each item?",
+            "What are the current dimensions, alpha, duration, codecs, file size, frame timing, loop, captions and audio stream requirements?",
+            "Which editable originals, exports, manifests, order and readback does the recipient need?"
           ],
           "decisions": [
             "source/export/runtime contracts",
             "channel constraints",
             "delivery identity"
           ],
-          "applies_when": "Для кожного активного типу медіа й каналу; точні технічні параметри отримати з поточних джерел.",
+          "applies_when": "For each active media type and channel. Verify exact settings against current sources.",
           "downstream": [
             "integrations",
             "build",
@@ -1370,19 +1370,19 @@
         },
         {
           "id": "chatbot.media.voice-accessibility",
-          "label": "Голос і доступні альтернативи",
-          "why": "Звук має мати потрібний зміст, зрозумілу вимову та доступну текстову форму.",
+          "label": "Voice and accessible alternatives",
+          "why": "Audio needs meaningful content, intelligible pronunciation and accessible text.",
           "questions": [
-            "Які мови, голосові ролі, вимова, емоції, швидкість і взаємодія потрібні людям?",
-            "Чи потрібні speech input, TTS, realtime interruption, транскрипт, captions або текстовий дубль?",
-            "Які перевірені голосові варіанти слід прослухати й рекомендувати з урахуванням прав, затримки й ціни?"
+            "Which languages, voice roles, pronunciation, emotions, pace and interaction do people need?",
+            "Are speech input, TTS, realtime interruption, transcripts, captions or a text equivalent needed?",
+            "Which verified voice options should be auditioned and recommended given rights, latency and cost?"
           ],
           "decisions": [
             "voice interaction contract",
-            "pronunciation й timing",
+            "Pronunciation and timing",
             "accessibility equivalents"
           ],
-          "applies_when": "Коли активний голос, аудіо або потреба доступності.",
+          "applies_when": "When voice, audio or an accessibility requirement is active.",
           "downstream": [
             "conversation",
             "integrations",
@@ -1394,19 +1394,19 @@
         },
         {
           "id": "chatbot.media.production",
-          "label": "Генерація, jobs і ресурсні межі",
-          "why": "Виробництво медіа має працювати до інтеграції, а не лише до гарного окремого файлу.",
+          "label": "Generation, jobs and resource limits",
+          "why": "Media production needs an integrated route to the result in chat.",
           "questions": [
-            "Які операції й перетворення потрібні від input до готового медіа у чаті?",
-            "Який репрезентативний матеріал виміряє реальний час, вартість і якість перед масштабуванням каталогу?",
-            "Як людина бачить прогрес, скасовує довгу роботу та отримує ремонт при частковій або невизначеній доставці?"
+            "Which operations and transformations are needed from input to usable media in the actual client?",
+            "Which representative item will measure real time, cost and quality before the catalog expands?",
+            "How do people see progress, cancel long work and get recovery after partial or unknown delivery?"
           ],
           "decisions": [
             "production recipes",
-            "виміряний representative slice",
+            "Measured representative slice",
             "jobs/cost/cancel/delivery"
           ],
-          "applies_when": "Для генерації або великого каталогу медіа; вимір не зменшує узгоджений кінцевий scope.",
+          "applies_when": "For generation or a large media catalog. Keep the agreed final scope while measuring the slice.",
           "downstream": [
             "integrations",
             "build",
@@ -1418,19 +1418,19 @@
         },
         {
           "id": "chatbot.media.verification",
-          "label": "Перевірка всього заявленого медіа",
-          "why": "Підтвердження руху, звуку й membership потребує відповідного доказу.",
+          "label": "Validation of the claimed media scope",
+          "why": "Movement, sound and set membership each need corresponding evidence.",
           "questions": [
-            "Які матеріали, рухи, аудіодоріжки й стани входять у заявлений обсяг приймання?",
-            "Які перевірки потрібні для decode, loop, змісту, ідентичності, accessibility, runtime import і platform membership?",
-            "Хто оцінює художню доречність, а які властивості доводяться файлами, програванням або фактичним readback?"
+            "Which assets, motions, audio tracks and states are in acceptance scope?",
+            "What checks are needed for decode, loop, content, identity, accessibility, runtime import and platform membership?",
+            "Who evaluates creative fit, and which properties are established by files, playback or actual readback?"
           ],
           "decisions": [
             "media acceptance matrix",
             "frozen bytes/fingerprints",
-            "межі proof"
+            "Evidence scope"
           ],
-          "applies_when": "Для створеного, зміненого або опублікованого медіакаталогу.",
+          "applies_when": "For a created, changed or published media catalog.",
           "downstream": [
             "qa",
             "release"
@@ -1445,19 +1445,19 @@
       "topics": [
         {
           "id": "chatbot.build.baseline",
-          "label": "Код, середовище й контракт зміни",
-          "why": "Відтворюваний baseline відділяє потрібну зміну від втрати чинних можливостей.",
+          "label": "Code, environment and change contract",
+          "why": "A reproducible baseline helps distinguish the needed change from accidental regression.",
           "questions": [
-            "Які поточні repo, branch, source version, toolchains, конфігурація й середовище є авторитетними?",
-            "Які чинні функції, тести, дані й assets потрібно зберегти та який точний scope зміни?",
-            "Який вхід і критерій приймання отримує реалізація від кожного активного модуля?"
+            "Which repository, branch, source version, toolchains, configuration and environment are authoritative?",
+            "Which active capabilities, tests, data and assets must carry forward, and what exactly changes?",
+            "What input and acceptance criteria does implementation receive from each active module?"
           ],
           "decisions": [
             "source/env baseline",
-            "impact й owned resources",
-            "вхідні контракти"
+            "Impact and owned resources",
+            "Input contracts"
           ],
-          "applies_when": "Перед зміною коду або продовженням наявного продукту.",
+          "applies_when": "Before changing code or resuming an existing product.",
           "downstream": [
             "qa",
             "release",
@@ -1468,19 +1468,19 @@
         },
         {
           "id": "chatbot.build.architecture",
-          "label": "Здійсненна реалізація",
-          "why": "Технологія повинна відповідати прийнятій архітектурі й реальним можливостям.",
+          "label": "Feasible implementation",
+          "why": "Fit the technology to the accepted architecture and actual capabilities.",
           "questions": [
-            "Які прийняті вимоги до приватності, latency, масштабу, переносності й утримання визначають архітектуру?",
-            "Які доступні мова, framework, storage, SDK та hosting варіанти експерт рекомендує після перевірки?",
-            "Які матеріальні компроміси ще потребують рішення власника, а які технічні деталі делеговано?"
+            "Which accepted privacy, latency, scale, portability and maintenance needs determine the architecture?",
+            "Which available languages, frameworks, storage, SDKs and hosting options fit after verification?",
+            "Which material tradeoffs still need an owner decision, and which implementation details are delegated?"
           ],
           "decisions": [
-            "ADR і stack",
+            "Architecture decision record and stack",
             "service/data boundaries",
-            "делеговані технічні рішення"
+            "Delegated technical decisions"
           ],
-          "applies_when": "Коли нова реалізація або зміна архітектури впливає на результат; queue, Redis чи vector service не додавати автоматично.",
+          "applies_when": "When a new implementation or architectural change affects the outcome. Adopt queues, Redis or vector services only for a demonstrated need.",
           "downstream": [
             "specification",
             "qa",
@@ -1491,19 +1491,19 @@
         },
         {
           "id": "chatbot.build.vertical-slice",
-          "label": "Реальний journey й повний каталог",
-          "why": "Один наскрізний slice перевіряє межі перед реалізацією всього прийнятого обсягу.",
+          "label": "Real journey and complete scope",
+          "why": "An integrated slice proves boundaries early in production of the accepted scope.",
           "questions": [
-            "Який representative шлях проходить від platform event через права й стан до provider effect та scoped delivery?",
-            "Які решта journeys, каталоги й стани належать повному погодженому результату?",
-            "Де фактична інтеграція, де mock boundary і який доказ закриє кожну required зовнішню межу?"
+            "Which representative path runs from platform event through permissions and state to provider effect and scoped delivery?",
+            "Which remaining journeys, catalogs and states belong to the full accepted result?",
+            "Where does real integration end and simulation begin, and what evidence closes each required external boundary?"
           ],
           "decisions": [
             "integrated slice",
-            "план повного scope",
+            "Full scope plan",
             "actual/mocked evidence boundaries"
           ],
-          "applies_when": "Для нової можливості або інтеграції; slice не замінює прийнятий кінцевий продукт.",
+          "applies_when": "For a new capability or integration. Keep the accepted full product scope alongside the slice.",
           "downstream": [
             "qa",
             "release"
@@ -1513,19 +1513,19 @@
         },
         {
           "id": "chatbot.build.lifecycle-data",
-          "label": "Failure, дані й відновлення",
-          "why": "Надійність реалізується разом зі звичайним шляхом.",
+          "label": "Failure, data and recovery",
+          "why": "Implement lifecycle reliability with normal behavior.",
           "questions": [
-            "Які guards потрібні для duplicate, stale callback, wrong actor, cancel, expiry, revoke, forget і restart?",
-            "Як міграції, backup/restore, version fences й privacy tombstones збережуть чинний стан?",
-            "Як розділити довгі jobs та прості відповіді й обмежити ресурси без втрати потрібних capabilities?"
+            "Which guards are needed for duplicates, stale callbacks, wrong actors, cancellation, expiry, revocation, forget and restart?",
+            "How do migrations, backup and restore, version fences and privacy tombstones preserve current state?",
+            "How can long jobs and simple replies run separately while preserving required capabilities within resource limits?"
           ],
           "decisions": [
             "failure/recovery implementation",
             "schema/migrations",
-            "bounded jobs й data continuity"
+            "Bounded jobs and data continuity"
           ],
-          "applies_when": "Для active state, persistence або зовнішніх jobs; деталі розробляє експерт за прийнятими правилами.",
+          "applies_when": "For active state, persistence or external jobs. Specialists design the details within the accepted rules.",
           "downstream": [
             "qa",
             "release",
@@ -1536,19 +1536,19 @@
         },
         {
           "id": "chatbot.build.observability-tests",
-          "label": "Змістовні перевірки та спостереження",
-          "why": "Перевірка має доводити поведінку й давати причинний trace без витоку даних.",
+          "label": "Meaningful tests and observability",
+          "why": "Prove behavior and capture causal traces without leaking data.",
           "questions": [
-            "Які build, static, type, integration й негативні перевірки відповідають ризику цієї зміни?",
-            "Які identifiers, outcomes, timing і cost потрібні для діагностики, які дані треба redaction?",
-            "Який raw evidence пакет отримає незалежне QA, включно з actual commands і невирішеними межами?"
+            "Which build, static, type, integration and negative checks fit the risk?",
+            "Which identifiers, outcomes, timing and cost are needed for diagnosis, and which data must be redacted?",
+            "What raw evidence package should independent QA receive, including actual commands and open proof boundaries?"
           ],
           "decisions": [
             "meaningful tests",
             "privacy-safe instrumentation",
             "QA evidence package"
           ],
-          "applies_when": "Перед завершенням реалізації; не писати тести, що лише повторюють код, і не повторювати passing checks без нової причини.",
+          "applies_when": "Before implementation closes. Choose tests that exercise meaningful behavior and repeat passing checks when there is a new reason.",
           "downstream": [
             "qa",
             "operations"
@@ -1558,19 +1558,19 @@
         },
         {
           "id": "chatbot.build.delivery",
-          "label": "Відтворення й передача реалізації",
-          "why": "Отримувач має запустити й перевірити результат без історії чату.",
+          "label": "Reproducibility and implementation handoff",
+          "why": "The recipient should run and verify the result without chat history.",
           "questions": [
-            "Які source, assets, config examples, міграції, fixtures, CI та run commands потрібні отримувачу?",
-            "Які secrets або зовнішні залежності отримувач надає через належний канал?",
-            "Які readiness та blockers підтверджено фактично й що є наступною виконуваною дією?"
+            "Which sources, assets, config examples, migrations, fixtures, CI and run commands does the recipient need?",
+            "Which secrets or external dependencies must the recipient provide through an appropriate channel?",
+            "Which readiness and blockers have been verified, and what action can proceed next?"
           ],
           "decisions": [
             "runnable deliverable",
             "cold handoff",
-            "фактичний readiness"
+            "Actual readiness"
           ],
-          "applies_when": "На завершенні build або передачі іншому host чи оператору.",
+          "applies_when": "At implementation closeout or when handing off to another host or operator.",
           "downstream": [
             "qa",
             "release",
@@ -1586,19 +1586,19 @@
       "topics": [
         {
           "id": "chatbot.qa.frozen-scope",
-          "label": "Незалежний вхід і точний обсяг",
-          "why": "Рецензент перевіряє конкретний artifact та вимоги, а не переказ автора.",
+          "label": "Independent inputs and exact scope",
+          "why": "Review the concrete artifact and requirements independently from the author's account.",
           "questions": [
-            "Які frozen source, build, assets, конфігурація, моделі, середовище й requirement IDs оцінюються?",
-            "Які active та unchanged можливості зачеплені транзитивно і які докази можна коректно перенести?",
-            "Хто виконує незалежне QA та остаточне приймання без авторського конфлікту?"
+            "Which frozen source, build, assets, configuration, models, environment and requirement IDs are under review?",
+            "Which active or unchanged capabilities are transitively affected, and which evidence can legitimately carry forward?",
+            "Who performs independent QA and final acceptance without a conflict with authorship?"
           ],
           "decisions": [
             "frozen review scope",
             "impact/coverage matrix",
             "independence roles"
           ],
-          "applies_when": "Для будь-якого заявленого QA, особливо shared або критичного diff.",
+          "applies_when": "For any QA claim, especially on shared or critical changes.",
           "downstream": [
             "build",
             "release",
@@ -1609,19 +1609,19 @@
         },
         {
           "id": "chatbot.qa.hard-boundaries",
-          "label": "Права, приватність і правдивість",
-          "why": "Жорстка помилка не компенсується високою середньою оцінкою.",
+          "label": "Authority, privacy and accurate claims",
+          "why": "Keep a blocking failure separate from aggregate scores.",
           "questions": [
-            "Які перевірки доводять відсутність DM/group/tenant витоку, справжню згоду й точний адресат доставки?",
-            "Як відтворити revoke/forget під час running, stale source, old restore та похідні кеші чи exports?",
-            "Які межі доказу залишаються для фактичного provider effect, людської згоди й доставки?"
+            "Which checks verify DM, group and tenant isolation, actual consent and the exact destination of delivery?",
+            "How can we reproduce revoke or forget during execution, stale source, old restore and derived caches or exports?",
+            "Which evidence gaps remain for actual provider effect, human consent and delivery?"
           ],
           "decisions": [
             "hard negative probes",
             "privacy/authority evidence",
             "proof limits"
           ],
-          "applies_when": "Для активних даних, груп, інструментів, пам’яті або зовнішніх ефектів.",
+          "applies_when": "For active data, groups, tools, memory or external effects.",
           "downstream": [
             "build",
             "release"
@@ -1631,19 +1631,19 @@
         },
         {
           "id": "chatbot.qa.failure-matrix",
-          "label": "Надійність і міжсистемні збої",
-          "why": "Реальні збої проходять через кілька компонентів одночасно.",
+          "label": "Reliability and cross-system failure",
+          "why": "Real failures often pass through multiple components.",
           "questions": [
-            "Які duplicate, cancel-before/after-dispatch, timeout-after-success, partial failure, crash/restart і version races треба відтворити?",
-            "Як перевірити DST, reschedule, resource exhaustion, queue delay й delivery uncertainty за активними можливостями?",
-            "Які traces відрізнять правильний repair від прихованого подвійного ефекту або втрати задачі?"
+            "Which duplicates, cancellation before or after dispatch, timeout after success, partial failures, crash or restart and version races need reproduction?",
+            "How should DST, reschedule, resource exhaustion, queue delay and uncertain delivery be tested for active capabilities?",
+            "Which traces distinguish correct recovery from a hidden duplicate effect or lost task?"
           ],
           "decisions": [
             "failure injection matrix",
             "cross-system traces",
             "recovery verdicts"
           ],
-          "applies_when": "Для всіх активних залежностей із state, часом, jobs або provider.",
+          "applies_when": "For active dependencies involving state, time, jobs or providers.",
           "downstream": [
             "build",
             "release",
@@ -1654,19 +1654,19 @@
         },
         {
           "id": "chatbot.qa.conversation-knowledge",
-          "label": "Розмова та знання",
-          "why": "Доречність, retrieval і фактичність потребують різних наборів перевірки.",
+          "label": "Conversation and knowledge",
+          "why": "Relevance, retrieval and factual accuracy need distinct test sets.",
           "questions": [
-            "Які frozen контексти перевіряють direct, indirect, human-to-human, playful, pause, ambiguity, failure й return?",
-            "Як виміряти wrong speech/silence/referent, extra questions, task loss та локалізацію з denominator?",
-            "Які окремі knowledge ACL/citation/relevance/factuality/abstention та добровільні human naturalness перевірки потрібні?"
+            "Which frozen contexts exercise direct, indirect, human-to-human, playful, pause, ambiguous, failed and resumed dialogue?",
+            "How will we measure unwanted speech or silence, wrong referent, repeated questions, lost work and localization with denominators?",
+            "Which separate tests are needed for knowledge ACL, citation, relevance, factuality and abstention, and voluntary human review of naturalness?"
           ],
           "decisions": [
             "dialogue/knowledge evals",
-            "метрики помилок",
+            "Error metrics",
             "human/model evidence separation"
           ],
-          "applies_when": "За відповідних активних conversation і knowledge capabilities; непотрібні strata позначати з причиною.",
+          "applies_when": "For relevant active conversation and knowledge capabilities. Record why a stratum is inapplicable.",
           "downstream": [
             "conversation",
             "knowledge",
@@ -1678,19 +1678,19 @@
         },
         {
           "id": "chatbot.qa.platform-media",
-          "label": "Фактичний клієнт і медіа",
-          "why": "Локальна структура не доводить показ, звук або membership у каналі.",
+          "label": "Actual client and media",
+          "why": "Display, sound and channel membership require evidence on the target boundary.",
           "questions": [
-            "На яких реальних платформах, клієнтах і пристроях потрібні smoke та end-to-end перевірки?",
-            "Які frozen медіафайли, рухи, audio streams, loop, captions, manifests і fingerprints треба перевірити?",
-            "Які результати доводять actual readback, accepted, delivered або тільки prepared?"
+            "Which actual platforms, clients and devices need smoke and end-to-end checks?",
+            "Which frozen media files, motion, audio streams, loops, captions, manifests and fingerprints need verification?",
+            "Which results prove actual readback, acceptance, delivery or preparation alone?"
           ],
           "decisions": [
             "client/media verification",
             "runtime/platform evidence",
             "delivery claims"
           ],
-          "applies_when": "Для selected платформ і active media; недоступна live межа лишається явним blocker відповідного claim.",
+          "applies_when": "For selected platforms and active media. An unavailable live boundary blocks its corresponding claim.",
           "downstream": [
             "media",
             "integrations",
@@ -1702,19 +1702,19 @@
         },
         {
           "id": "chatbot.qa.closure",
-          "label": "Знахідки, ремонт і приймання",
-          "why": "Висновок має бути відтворюваним і придатним до адресного ремонту.",
+          "label": "Findings, repair and acceptance",
+          "why": "Findings need to be reproducible and usable for targeted repair.",
           "questions": [
-            "Які finding IDs, severity, expected/actual, reproduction, raw evidence й strongest objections потрібні отримувачу?",
-            "Що reported, reproduced, hypothesis чи preference і який targeted retest закриє зміну?",
-            "Який scoped GO/NO-GO/unknown випливає з доказів і які залежні рубежі ще блокуються?"
+            "Which finding IDs, severity, expected and actual results, reproduction, raw evidence and strongest objections does the recipient need?",
+            "Which items are reported, reproduced, hypotheses or preferences, and which targeted retest would close each change?",
+            "Which scoped GO, NO-GO or unknown follows from evidence, and which dependent milestones remain blocked?"
           ],
           "decisions": [
-            "findings і retest",
+            "Findings and retest",
             "scoped readiness",
             "reversal conditions"
           ],
-          "applies_when": "На завершенні review; critical unknown не отримує pass через ліміт часу чи бюджету.",
+          "applies_when": "At review closeout. A critical unknown remains open when time or budget runs out.",
           "downstream": [
             "build",
             "release",
@@ -1730,19 +1730,19 @@
       "topics": [
         {
           "id": "chatbot.release.target-authorization",
-          "label": "Точний випуск і повноваження",
-          "why": "Зовнішня дія має збігатися з перевіреним artifact, target і чинним scope дозволу.",
+          "label": "Exact release target and authority",
+          "why": "Match external action to the verified artifact, target and current grant.",
           "questions": [
-            "Які account, platform, service, environment, source/build/assets version і rollout scope є ціллю?",
-            "Які конкретні deploy, publication, paid resource або migration дії вже дозволені?",
-            "Яка оборотна підготовка й перевірка готовності має бути завершена до остаточного рішення щодо ще не дозволеної дії?"
+            "Which account, platform, service, environment, source or build and asset versions, and rollout scope are the target?",
+            "Which deploy, publication, paid resource or migration actions already have authority?",
+            "What reversible preparation and readiness checks are due before a decision on any remaining unauthorized action?"
           ],
           "decisions": [
             "release target",
             "authorization map",
             "prepared execution script"
           ],
-          "applies_when": "Для зовнішнього випуску; чинний конкретний дозвіл не запитувати повторно, а material unknown закрити до затвердження сценарію.",
+          "applies_when": "For external release. Reuse exact valid authority and resolve material unknowns before execution approval.",
           "downstream": [
             "build",
             "qa",
@@ -1753,19 +1753,19 @@
         },
         {
           "id": "chatbot.release.compatibility",
-          "label": "Сумісність чинних зобов’язань",
-          "why": "Оновлення не має ламати старі jobs, кнопки й privacy правила.",
+          "label": "Compatibility with current obligations",
+          "why": "Preserve pending jobs, older buttons and privacy rules through the update.",
           "questions": [
-            "Які pending jobs, callbacks, semantic versions, schema, models, credentials і media fingerprints мають пережити зміну?",
-            "Як перевірити зворотну сумісність, retention і tombstones для поточних користувачів?",
-            "Які міграції forward-only та які наслідки потребують окремого матеріального рішення?"
+            "Which pending jobs, callbacks, semantic versions, schemas, models, credentials and media fingerprints must survive?",
+            "How do we verify backwards compatibility, retention and tombstones for current users?",
+            "Which migrations are forward-only, and which consequences need a material decision?"
           ],
           "decisions": [
             "compatibility matrix",
             "migration acceptance",
-            "незворотні наслідки"
+            "Irreversible consequences"
           ],
-          "applies_when": "Для оновлення наявного бота або даних; новий продукт теж визначає підтриману версію контрактів.",
+          "applies_when": "For updates to an existing bot or data. Specify supported contracts for new products too.",
           "downstream": [
             "specification",
             "build",
@@ -1777,19 +1777,19 @@
         },
         {
           "id": "chatbot.release.rollback",
-          "label": "Відкат, відновлення й зупинка",
-          "why": "План випуску має визначати, коли й як відновити коректний стан.",
+          "label": "Rollback, recovery and stop",
+          "why": "The release plan identifies when and how to recover a verified state.",
           "questions": [
-            "Який safe rollout, stop condition, health check і власник рішення про зупинку?",
-            "Як перевірити backup/restore/rollback ізольовано, не воскресивши стерті дані?",
-            "Де потрібні compensation або forward repair замість недоказового відкату зовнішнього ефекту?"
+            "What is the safe rollout, stop condition, health check and owner of the stop decision?",
+            "How do we test backup, restore and rollback in isolation without reviving erased data?",
+            "Where are compensation or forward repair required because an external effect cannot be verifiably reversed?"
           ],
           "decisions": [
             "rollout/stop runbook",
             "tested restore/rollback",
             "compensation boundary"
           ],
-          "applies_when": "Для deployment, data migration або publication з наслідками для чинних людей і сервісів.",
+          "applies_when": "For deployment, data migration or publication that affects current people or services.",
           "downstream": [
             "qa",
             "operations"
@@ -1799,19 +1799,19 @@
         },
         {
           "id": "chatbot.release.receipts",
-          "label": "Фактичні receipts і live перевірка",
-          "why": "Deployment, прийняття provider та доставлений користувачу результат є різними фактами.",
+          "label": "Actual receipts and live verification",
+          "why": "Deployment, provider acceptance and user delivery are distinct events.",
           "questions": [
-            "Які deploy/publication IDs, pinned versions, hashes, час, environment й raw receipts фіксуються?",
-            "Який bounded platform smoke та readback доведуть випущену можливість і потрібні медіа?",
-            "Як reconcile невизначену відповідь, не подаючи повторно той самий job або publication?"
+            "Which deploy or publication IDs, pinned versions, hashes, times, environments and raw receipts are recorded?",
+            "Which bounded platform smoke and readback verify the released capability and required media?",
+            "How do we reconcile an uncertain response before resubmitting a job or publication?"
           ],
           "decisions": [
             "release receipts",
             "live smoke evidence",
             "reconciliation"
           ],
-          "applies_when": "Під час фактично дозволеного випуску; green CI не є live proof.",
+          "applies_when": "During an authorized actual release. Exercise the live path even when CI passed.",
           "downstream": [
             "qa",
             "operations"
@@ -1821,19 +1821,19 @@
         },
         {
           "id": "chatbot.release.operations-handoff",
-          "label": "Оператор і обіцянка після випуску",
-          "why": "Працездатний бот потребує власника підтримки й відновлення.",
+          "label": "Operator and post-release commitments",
+          "why": "Support and recovery need a named owner.",
           "questions": [
-            "Хто приймає alerts, звернення, невизначені jobs, cost events і privacy запити?",
-            "Які актуальні runbooks, contacts, evidence limits, service promises, exports і recovery має отримати оператор?",
-            "Який recurring monitoring справді доручено створити, а який лишається пропозицією?"
+            "Who receives alerts, support requests, unknown jobs, cost events and privacy requests?",
+            "Which current runbooks, contacts, evidence limits, service commitments, exports and recovery steps does the operator need?",
+            "Which recurring monitoring is authorized to create, and which remains a proposal?"
           ],
           "decisions": [
             "operations receiver",
-            "support й recovery package",
+            "Support and recovery package",
             "authorized recurring work"
           ],
-          "applies_when": "На завершенні випуску або передачі іншому оператору/host.",
+          "applies_when": "At release closeout or transfer to another host or operator.",
           "downstream": [
             "operations"
           ],
@@ -1847,19 +1847,19 @@
       "topics": [
         {
           "id": "chatbot.operations.incident-baseline",
-          "label": "Стан, симптом і причинний ремонт",
-          "why": "Поточний receipt і відтворення важливіші за застарілий опис системи.",
+          "label": "State, symptoms and causal repair",
+          "why": "Use current receipts and reproduction to establish the incident.",
           "questions": [
-            "Який фактичний симптом, кого він зачіпає, коли виник і які останні зміни чи незавершені обіцянки відомі?",
-            "Які source/provider/config/model версії та актуальні traces доступні?",
-            "Яка найменша перевірка розрізнить головні гіпотези й які чинні можливості має зберегти ремонт?"
+            "What is the observed symptom, who is affected, when did it begin, and what recent changes or unfinished obligations are known?",
+            "Which source, provider, configuration and model versions and current traces are available?",
+            "What is the smallest check that distinguishes leading hypotheses, and what current functionality must the repair preserve?"
           ],
           "decisions": [
             "incident baseline",
-            "гіпотези й falsifiers",
+            "Hypotheses and falsification checks",
             "repair impact"
           ],
-          "applies_when": "Для дефекту, інциденту або деградації чинного бота.",
+          "applies_when": "For a defect, incident or degradation in an existing bot.",
           "downstream": [
             "build",
             "qa",
@@ -1870,19 +1870,19 @@
         },
         {
           "id": "chatbot.operations.service-metrics",
-          "label": "Надійність і приватні спостереження",
-          "why": "Метрики мають показувати завершений результат, а не тільки кількість повідомлень.",
+          "label": "Reliability and privacy-safe observability",
+          "why": "Measure completed outcomes as well as message volume.",
           "questions": [
-            "Які фактичні completion/fail/uncertain/duplicate, queue age, latency, cost і resource показники потрібні оператору?",
-            "Які SLI/SLO або alerts відповідають реальній обіцянці й на яких denominator та baseline спираються?",
-            "Як збирати diagnostics без приватних transcripts, credentials або cross-audience витоку?"
+            "Which actual completions, failures, unknowns, duplicates, queue age, latency, cost and resource metrics does the operator need?",
+            "Which SLIs, SLOs or alerts match the actual service commitment, and which denominators and baselines support them?",
+            "How can diagnostics avoid private transcripts, credentials and cross-audience disclosure?"
           ],
           "decisions": [
             "privacy-safe metrics",
             "SLO/alert conditions",
-            "baseline й denominator"
+            "Baseline and denominator"
           ],
-          "applies_when": "Для обіцяної експлуатації або потреби діагностики; не вигадувати production data чи постійне спостереження.",
+          "applies_when": "For committed operating duties or diagnostic needs. State what data and monitoring actually exist.",
           "downstream": [
             "build",
             "qa",
@@ -1893,19 +1893,19 @@
         },
         {
           "id": "chatbot.operations.cost-capability",
-          "label": "Витрати, квоти й деградація",
-          "why": "Перевищення квот має зберігати зрозумілу обіцянку та керований стан.",
+          "label": "Cost, quotas and degradation",
+          "why": "When quotas are exceeded, communicate what the bot can do and keep its state recoverable.",
           "questions": [
-            "Які фактичні provider/model/media/hosting витрати й quota trends відомі?",
-            "Які degradation варіанти зберігають прийняті можливості та які компроміси слід рекомендувати власнику?",
-            "Які зміни бюджету, тарифу, якості чи provider потребують нового матеріального рішення?"
+            "What actual provider, model, media and hosting costs and quota trends are known?",
+            "Which degradation options preserve accepted capabilities, and what tradeoffs should be recommended to the owner?",
+            "Which budget, plan, quality or provider changes need a new material decision?"
           ],
           "decisions": [
             "cost/resource evidence",
             "quota/degradation policy",
-            "рекомендації з компромісами"
+            "Recommendations with tradeoffs"
           ],
-          "applies_when": "За фактичної вартості чи квот; не встановлювати самовільні upgrades, cap або вимикання capabilities.",
+          "applies_when": "When actual cost or quota applies. Check authority for upgrades, caps or disabling a capability.",
           "downstream": [
             "director",
             "research",
@@ -1917,19 +1917,19 @@
         },
         {
           "id": "chatbot.operations.changes",
-          "label": "Еволюція без втрати доказів",
-          "why": "Зміна моделі, prompt, provider або даних може змінити кілька journeys.",
+          "label": "Evolution with valid evidence",
+          "why": "A model, prompt, provider or data change can affect several journeys.",
           "questions": [
-            "Яку нову потребу або регресію має розв’язати зміна й які старі promises залишаються чинними?",
-            "Які залежні evals, reviews, schemas, media чи knowledge claims інвалідує точний diff?",
-            "Які незачеплені докази можна перенести та який scoped QA і rollout потрібні?"
+            "What need or regression should the change address, and which current commitments apply?",
+            "Which dependent evals, reviews, schemas, media or knowledge claims does the exact diff invalidate?",
+            "Which unaffected evidence can carry forward, and what scoped QA and rollout are needed?"
           ],
           "decisions": [
             "change/impact map",
             "evidence freshness",
             "regression scope"
           ],
-          "applies_when": "Для розвитку, оновлення залежностей або перенесення продукту.",
+          "applies_when": "For evolution, dependency changes or product transfer.",
           "downstream": [
             "director",
             "specification",
@@ -1942,19 +1942,19 @@
         },
         {
           "id": "chatbot.operations.support-adoption",
-          "label": "Підтримка й користувацька цінність",
-          "why": "Зворотний зв’язок має завершуватися відповідальним маршрутом, а adoption — реальною користю.",
+          "label": "Support and user value",
+          "why": "Feedback needs a responsible route, and adoption needs observable value.",
           "questions": [
-            "Як людина просить допомогу, повідомляє проблему й бачить статус звернення?",
-            "Хто має право отримати escalation і які контакти, SLA та зовнішні повідомлення реально доручені?",
-            "Які факти про використання й незадоволення підкажуть покращення onboarding або основної цінності?"
+            "How do people ask for help, report issues and see case status?",
+            "Who may receive escalations, and what contacts, SLAs and external messages are authorized?",
+            "What usage and dissatisfaction evidence would help improve onboarding or core value?"
           ],
           "decisions": [
             "support route/status",
             "authorized contacts",
             "value/adoption evidence"
           ],
-          "applies_when": "Для підтримки чинного продукту; зовнішні листи й розсилки потребують конкретного доручення.",
+          "applies_when": "For support of an existing product. Confirm exact authorization for email or broadcasts.",
           "downstream": [
             "director",
             "conversation",
@@ -1966,19 +1966,19 @@
         },
         {
           "id": "chatbot.operations.continuity-exit",
-          "label": "Безперервність, перенесення й завершення",
-          "why": "Власник має зберегти контроль над продуктом і даними при зміні оператора або завершенні сервісу.",
+          "label": "Continuity, portability and retirement",
+          "why": "Preserve the owner's control of product and data across operator changes or shutdown.",
           "questions": [
-            "Як перевірити backup/restore, export, portability та заміну оператора або hosting?",
-            "Що відбувається з jobs, нагадуваннями, доступами, оплатами й приватними даними під час паузи або закриття?",
-            "Які retention, deletion, deprecation notices й фінальний cold handoff відповідають чинній обіцянці?"
+            "How do we verify backup, restore, export, portability and replacement of the operator or host?",
+            "What happens to jobs, reminders, access, payments and private data when paused or shut down?",
+            "What retention, deletion, deprecation notices and final handoff fit the current commitment?"
           ],
           "decisions": [
             "continuity/exit runbook",
             "export/restore verification",
-            "handoff й shutdown semantics"
+            "Handoff and shutdown behavior"
           ],
-          "applies_when": "Для операційної готовності, міграції, зміни власника або закриття сервісу.",
+          "applies_when": "For operational readiness, migration, ownership change or service closure.",
           "downstream": [
             "specification",
             "build",

@@ -1,51 +1,51 @@
-# Виробничі операції та виконувані рецепти
+# Production operations and executable recipes
 
-## Паспорт операції
+## Operation record
 
-Один tool/model/framework не є однією можливістю. Фіксувати operationId, exact tool/version/model/endpoint, actual supported inputs/limits/parameters, доступ/права/вартість, output format/editability, environment/target, verified evidence/date/expiry, fallback і межі. Catalogued, callable, executed, artifact_checked, integrated і live_observed — різні статуси. Перед дорогою/залежною операцією звірити опис↔schema↔каталог↔фактичний usage. Параметр, який інструмент ігнорує, не виконує вимогу.
+Distinguish the operations exposed by a tool, model or framework. Record operationId, exact tool/version/model/endpoint, actually supported inputs and effective parameters, limits, access and cost, output format and editability, environment and target, evidence/date/expiry, fallback and limits. Keep catalogued, callable, executed, artifact_checked, integrated and live_observed separate. Check the description, schema, catalog and actual behavior before costly or dependent use. Verify that a parameter was consumed before crediting its effect.
 
-Рецепт: входи з hashes/rights, preconditions, конкретний виконавець/competence, bounded steps/params, expected intermediate/source/output, semantic invariants, check procedures, exact receiver, failure hypothesis/falsifier, budget/stop, resume token. Actual attempt: час, виконана команда/виклик, tool version, effective params, input/output hashes, job/process ID, витрати якщо відомі, logs/receipts, outcome/limitations. Не підставляти invented job ID; не повторювати remote generation через втрачений context.
+A recipe binds inputs with hashes and rights, prerequisites, actual executor and competence, bounded steps and parameters, expected intermediate and final artifacts, semantic invariants, checks, receiver, failure hypothesis and falsifier, budget/stop and resume token. An attempt records time, executed command or call, tool version, effective parameters, input/output hashes, job/process ID, known cost, logs/receipts, outcome and limitations. Use actual IDs. Recover a pending generation before dispatching another.
 
-## R-C01: brief→предметна специфікація
+## R-C01: brief to domain specification
 
-1. Вхід: current user statements, source files, product baseline, primary sources.
-2. Researcher виділяє атомарні R IDs і applicability; domain lead формує entity/state/rule/interface graph.
-3. Для правила визначити типи/одиниці/межі, order, authoritative owner, user-visible effect і exact receiver.
-4. Підготувати positive/negative/golden vectors, alternatives/assumptions; QA перевіряє повноту й cross-system contradictions.
-5. Вихід: versioned brief+model+source map+acceptance; handoff to architecture/experience, unknown явно pending.
+1. Read current user statements, source files, product baseline and primary sources.
+2. The researcher maps atomic R IDs and applicability. The domain lead models entities, state, rules and interfaces.
+3. For every rule record types, units, limits, order, authoritative owner, user-visible effect and exact receiver.
+4. Write positive, negative and golden cases and record alternatives and assumptions. QA checks completeness and contradictions across systems.
+5. Deliver a versioned brief, model, source map and acceptance criteria to architecture and experience. Keep unknowns pending.
 
-## R-C02: platform event→durable action→feedback
+## R-C02: platform event to durable action and feedback
 
-Inputs: synthetic event fixtures, platform credentials selector (без секрету в артефакті), API contract, domain action/version, target environment. Platform/backend specialists: verify source authenticity; normalize scope; persist dedup+work transaction; ACK by provider contract; worker authorizes current version; dispatch with idempotency; persist/reconcile receipt; deliver appropriate audience; finish typing/waiting. Inject duplicate, stale, wrong actor, crash before/after dispatch, timeout after provider success. Output: tested adapter, domain handler, receipt trace and UI states. Isolated mock success лишається E2, actual provider observation окремо.
+Bind synthetic events, a credential selector without the secret, API contract, domain action version and environment. Platform and backend owners verify ingress authenticity, normalize scope, persist deduplication and work atomically, acknowledge under the provider contract, authorize current state in the worker, dispatch idempotently, persist or reconcile receipts, deliver to the permitted audience, and clear typing or waiting state. Inject duplicate, stale and wrong-actor events, crashes before and after dispatch, and timeout after provider success. Deliver tested adapter, handler, receipt trace and UI states. An isolated mock is E2. Record provider observation separately.
 
-## R-C03: conversational policy→observed dialogue
+## R-C03: conversation policy to observed dialogue
 
-Inputs: agreed persona, mission, supported languages, frozen synthetic contexts, known capability contract. Conversation specialist створює normal/failure/repair wording і minimal pairs; deterministic router controls authority/action state. Evaluate 8 strata: direct, indirect, human-to-human, playful/emotional, pause, ambiguous, failure/repair, memory return. Track false response/false silence, wrong recipient, decisive clarification, completion, time/cost; denominator і context versions обов’язкові. Сліпа людська оцінка має ties/both bad, consent й rubric. LLM score є модельним судженням, не доказом human naturalness. Вихід: versioned prompt/policy, fixtures, independent code/eval report; не обіцяти живість за кілька красивих фраз.
+Use the agreed persona, mission and languages, frozen synthetic contexts and known operations. Create normal, failure and recovery wording and minimal pairs. A deterministic policy owns authority and action state. Evaluate eight strata: direct, indirect, human-to-human, playful or emotional, pause, ambiguous, failure/recovery and memory return. Count false speech and silence, wrong addressee, decisive clarification, completion, time and cost with denominator and context versions. Blind voluntary human review has a rubric, ties and both-bad outcomes. Record model evaluation and human naturalness separately. Deliver versioned prompt, policy, fixtures and independent code and evaluation evidence.
 
-## R-C04: source→memory/retrieval→forget/restore
+## R-C04: source, memory, retrieval and erasure
 
-Inputs: synthetic corpus з tenant/actor/audience/purpose, ground truth questions, tombstones, expected retrieval/citation. Build parse/chunk/index only if active; preserve provenance; ACL filter before exposure; answer grounded/abstain. Memory updates check corrections/TTL; deletion invalidates graph and increments privacy epoch. Run wrong-tenant query, deleted snippet cache hit, late embedding/tool result, restore old snapshot. Output: ingestion/index code, schemas/migrations, evaluation and deletion trace. Content hashing includes parser/chunker/embedding/model/ACL version; staleness invalidates relevant proof.
+Use a synthetic corpus with tenant, actor, audience and purpose, ground-truth questions, tombstones and expected retrieval and citation. Parse, chunk and index only when applicable. Retain lineage, filter ACL before exposure, and answer from allowed evidence or abstain. Updates respect corrections and TTL. Erasure invalidates derived data and advances the privacy epoch. Test another tenant, cached deleted content, late embeddings or tool results, and restore of an old snapshot. Deliver ingestion and index code, schemas and migration, evaluation and deletion trace. Content digests cover parser, chunker, embedding, model and ACL versions. Changes invalidate affected evidence.
 
-## R-C05: reminder→durable occurrence→delivery
+## R-C05: reminder to durable occurrence and delivery
 
-Inputs: explicit user time intent, IANA timezone, now, DST policy, recurrence/misfire/cancel semantics. Parse→resolve decisive ambiguity→persist occurrence identity/state→lease/fence→dispatch→delivery receipt→next occurrence. Check gap/fold, just-before-due reschedule/revoke, clock/restart/overdue, duplicate worker, provider uncertainty, independent mixed request. Output: exact time vectors, scheduler code, observability and repair. Frozen simulation proves time logic; real scheduler/provider run needed for delivery claim.
+Bind the user's time intent, IANA zone, reference time, DST, recurrence, misfire and cancellation policy. Parse and clarify decisive ambiguity, persist occurrence identity and state, acquire lease and fence, dispatch, verify delivery receipt and calculate the next occurrence. Test gap and fold, reschedule or revoke just before due, clock changes, restart and overdue work, duplicate workers, uncertain provider response and independent parts of a mixed task. Deliver time vectors, scheduler, observations and recovery. Simulation verifies time logic. A delivery claim requires the actual scheduler and provider result.
 
-## R-C06: image/animation/audio→runtime media
+## R-C06: source assets to runtime media
 
-Inputs: immutable approved character/source, semantic scene/emotion, rights, target limits, audio intent. For visual generation use available required image workflow; DCC/compositing/encode separate operations. Freeze prompt/effective params and editable sources; check geometry/identity/alpha, all changed frames/loops in motion, actual streams/audio by listening, duration/decode/captions. Package exact output and manifest only after processes finish; hashes computed on frozen copies. Upload/publish only authorized; verify provider item/file/order/fingerprint separately. Failure repair changes one causal hypothesis rather than regenerate unaffected assets. Human visual/audio gaps remain gaps.
+Bind immutable approved character/source, scene and emotion, rights, target limits and intended audio. Separate available generation from DCC, composition and encoding. Freeze prompts, effective parameters and editable inputs. Verify geometry and identity, alpha, every changed motion and loop, actual streams and audible audio, duration, decoding and captions. Package exact final outputs and manifest after processes complete. Hash frozen files. Publish only under actual authorization and verify provider item, file, order and fingerprint. Repair a specific causal defect and preserve unaffected assets. Keep unmet visual or listening acceptance visible.
 
-## R-C07: collaborative interaction→fair completion
+## R-C07: collaborative interaction to fair completion
 
-Inputs: participant policy, roster, permitted private/group channels, action semantic version. Invite→record self-authored consent/choice→freeze round roster→private instructions receipts→first meaningful move→turn/state transitions→exit/timeout/restart→results. Test pending member/no DM access, newcomer, same button twice, revoked participant, independent reminder while game active, details text too long and delivery failure. Output: interaction model, templates/components, state traces and independent participant/audience QA. Never treat host agreement as every member’s choice.
+Bind participant policy, roster, allowed private and group channels and action semantics version. Invite, record participants' own consent and choices, freeze the roster, verify receipt of private instructions, make the first meaningful move, then track turns, state, exit, timeout, restart and results. Test pending members or unavailable DM, newcomers, duplicate taps, revoked participation, an independent reminder during the round, long details and failed delivery. Deliver model, templates or components, state traces and independent participant and audience QA. Each member's choice is separate from the host's consent.
 
-## R-C08: source/build→controlled release→rollback
+## R-C08: source and build to rollout and rollback
 
-Inputs: exact source tree, env selectors, test reports on exact build, migration plan, authorization scope, provider target and previous version. Validate cold build, config/secrets separation, compatibility/DB backup and erasure retention; deployment action is replay-safe; observe actual source/build identity/health/logs; smoke real feature/delivery; retain rollback steps/stop. No test run implies an unrun live test. Failed provider response requires observation/reconcile before retry. Output: release receipts plus known limitations. Separate product, code, deployment and chat observation statuses.
+Bind exact source tree, environment selectors, checks on that build, migration, authority, provider target and previous version. Verify cold build, configuration and secret separation, compatibility, database backup and erasure retention. Make deployment replay-safe. Observe deployed source/build identity, health and logs, smoke-test the real feature and delivery, and retain rollback and stop conditions. On a failed or unclear provider response, check the existing operation before retry. Deliver release receipts with actual gaps. Track product, code, deployment and chat observations independently.
 
-## R-C09: incident→causal repair→continued operation
+## R-C09: incident to causal repair and continued operation
 
-Inputs: actual symptom/version/baseline/trace. Classify reported vs reproduced vs hypothesis; smallest discriminating test; repair owned cause; independent retest on affected closure; migrate/rerun only invalidated work; update checkpoint and user-readable recovery. Measure latency, resource use, job queue/age, cost and quality separately. Recurring monitoring starts only if requested/actually scheduled. End-of-service/export/retention policies conditional but defined before committing ongoing service.
+Use actual symptom, version, baseline and trace. Classify report, reproduction and hypothesis. Choose a discriminating test, repair the owned cause, get independent retest of affected dependencies, migrate or rerun only invalidated work, and update checkpoint and user recovery. Measure latency, resources, queue age, cost and quality separately. Start recurring monitoring only if requested and verified as scheduled. Define service exit, export and retention before committing to long-term operation.
 
-## Приймання інтегрованого сценарію
+## Integrated journey acceptance
 
-Зібрати input, conversation policy, memory state, tool effect, media, callback, scheduler, privacy і runtime в одному цільовому scenario/target. Check normal/negative/restart/revoke under realistic load/limits. Record target, exact code/assets/model versions, fixture/user context scope, commands, measured result, receiver and evidence. Passing parts do not imply their assembly passed. Перед великим каталогом виміряти повний pipeline одного репрезентативного елемента до integration/QA, а потім обґрунтувати темп і витрати.
+Exercise input, dialogue, memory, effect, media, callback, scheduler, privacy and runtime in the intended journey and host. Check normal, negative, restart and revocation paths under relevant load and limits. Record target, exact code, asset and model versions, fixture or user context scope, commands, measured result, receiving owner and evidence. Verify the assembled result in addition to its components. Measure one representative item through production, integration and QA before forecasting catalog throughput and cost.

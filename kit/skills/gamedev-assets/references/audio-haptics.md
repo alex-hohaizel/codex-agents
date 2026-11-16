@@ -1,6 +1,6 @@
-# Цілісний аудіодизайн і приємна тактильність
+# Cohesive game audio and tactile feedback
 
-## Аудіоідентичність до генерації
+## Define the sonic identity before generating audio
 
 Define sonic fantasy, instruments/timbres, harmonic/rhythmic language, motifs, energy curve, space/reverb, dynamic range, UI vs world hierarchy and relationship to material/character/color/movement style. Build an audition board with actual audible candidates and contextual mixes. Random licensed tracks or individually generated clips do not constitute a cohesive score.
 
@@ -34,10 +34,10 @@ Apple Core Haptics/Android haptic APIs and engine plugins require actual availab
 
 Technical format/FFT/loudness checks are useful but are not listening. A reviewer must actually hear exact files/context and report timecoded observations and limitations. If agent cannot access audio playback, provide auditions and human review procedure with status unperformed; never claim «прослухано» from code. Check at low volume, device speaker, headphones, dense gameplay and long repeated use; physical haptics require independent device observations. Record exact audio hashes, mixer/config, build/device and capture context.
 
-## Causal event і production consumption
+## Authoritative events and runtime consumption
 
-Для confirmed simulation contact передати event/root/parent identity, material/part, bounded force feature/outcome/position; один manifold або кілька hurtboxes не дублюють cue без правила. Continuous scrape має start/update/end/cleanup, bounded voices і fatigue policy. Cosmetic audio RNG ізольований від combat/loot/generation.
+For confirmed simulation contact, carry event, root and parent identity, material and part, bounded force features, outcome and position. Deduplicate cues across one manifold or multiple hurtboxes according to the event rule. Continuous scrape has start, update, end and cleanup, a voice cap, and fatigue policy. Keep cosmetic audio RNG separate from combat, loot and generation.
 
-Ordinary hit cue не чекає disk/cloud; critical purchase/reward success cue відповідає verification/durable boundary. У combined attention scene danger/resource/objective/reward мають priorities/mix/defer/aggregate і no-sound/no-haptic equivalents. Окремий повний track не доводить stems/MIDI: перевірити actual extraction/export operation, rights/format/quality. Деякі providers підтримують такі окремі операції; не заперечувати їх універсально.
+Keep ordinary hit feedback independent of disk or cloud. Bind critical purchase or reward success cues to the required verification and durability boundary. Where danger, resources, objectives and rewards occur together, define priorities, mixing, deferral and aggregation with sound-free and haptic-free equivalents. Verify separate stems or MIDI extraction or export, rights, format and quality. Check the actual provider operation where available.
 
-Semantic audio transfer задає actual sample rate/channels/format, loop/sample boundaries/tails, musical bar/timebase, normalization/mix/streaming choice і named runtime consumer. Перевірити full-phrase transition та lifecycle interruption у конкретній pinned engine version, не лише DAW.
+Record actual sample rate, channels and format, loop and sample boundaries and tails, bar and timebase, normalization, mixing and streaming, and the named runtime consumer. Observe full-phrase transitions and lifecycle interruption in the exact pinned engine version, in addition to the DAW check.

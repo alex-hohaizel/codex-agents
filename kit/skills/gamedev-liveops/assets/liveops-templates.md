@@ -1,4 +1,4 @@
-# Форми супроводу
+# Game operations templates
 
 ## Evidence card
 
@@ -18,7 +18,7 @@ ID / severity / user impact / affected versions+cohorts / first observed+detecte
 
 ## Review table
 
-| Напрям | Факти / evidence | Ризик / невідоме | Наступна дія / власник |
+| Area | Facts and evidence | Risks and unknowns | Next action and owner |
 |---|---|---|---|
 | Stability/performance | | | |
 | Progression/retention | | | |

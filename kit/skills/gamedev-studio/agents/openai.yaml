@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Студія · 6.0.0
-  short_description: Ідентичність, права й перевірені виробничі маршрути
-  default_prompt: $gamedev-studio Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Студія
+  short_description: "Studio identity, rights, and production readiness"
+  default_prompt: "Use $gamedev-studio to inspect my studio baseline and prepare the requested identity, derivative, or setup step with provenance."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

@@ -1,17 +1,19 @@
-# Історичні проєктні профілі та регресійні приклади Game Atelier
+# Historical project profiles and regression examples for Game Atelier
 
-Зміст: scope джерела → збережені приклади → правила продовження.
+Use these retained examples only when the current project ID and source evidence establish a link, or when testing context preservation. Establish identity and freshness from actual sources. Each project has its own defaults, decisions, and registry.
 
-Цей файл зберігає історичні приклади, які раніше були в загальних маршрутах. Він не встановлює defaults для нових проєктів, не є чинним project registry і не змінює вже прийняті рішення. Читати лише коли поточний project ID/джерела підтверджують відповідний зв’язок, або для регресійної перевірки збереження контексту. Назва сама не підтверджує тотожність чи актуальність.
+## Retained historical record
 
-## Збережений історичний запис
+An earlier route included this instruction:
 
-Попередній маршрут містив: «Для Game of 2027 збережи dynamic direct control, TatterJack, R6/R7, п’ять favorites та originals/hash. Favorites не є production choice. Обсяг нового раунду визначає конкретний запит; оновлення агента не запускає раунд. Нативні Android/iOS та60FPS залишаються прийнятими targets; доказ потрібен на відповідному gate. Скінченний scope не дорівнює невичерпності всіх можливих ігор.»
+> Для Game of 2027 збережи dynamic direct control, TatterJack, R6/R7, п’ять favorites та originals/hash. Favorites не є production choice. Обсяг нового раунду визначає конкретний запит; оновлення агента не запускає раунд. Нативні Android/iOS та60FPS залишаються прийнятими targets; доказ потрібен на відповідному gate. Скінченний scope не дорівнює невичерпності всіх можливих ігор.
 
-Це історичне посилання, не свідчення поточного стану окремого проєкту. Для його продовження звірити актуальні файли, accepted originals/hashes, ID, revisions, рішення й source authority. Зберігати підтверджені targets, dynamic control, студію/IP, favorites і stop у відповідному project-owned state. Favorite не надає production permission.
+For the historical Game of 2027 scope, retain the dynamic direct controls, TatterJack, R6/R7, five favorites, and exact originals and hashes. Choosing favorites leaves production selection open. The owner defines each new round. Updating the skill does not start it. Native Android and iOS at 60 FPS were accepted targets, with evidence due at the corresponding gate. A finite scope covers the accepted game.
 
-Детальні role-local `tatterjack-intake.md` і `r06-intake.md`, якщо вони входять до відповідної навички, залишаються адресними джерелами спадщини. Не підміняти актуальну прийняту revision старішим прикладом. Чужі назва, камера, стиль, жанр, кількість кандидатів, devices, budgets та rounds не переходять до нового продукту без його власних вимог.
+Before resuming, reconcile actual files, accepted original hashes, identity, revisions, decisions, and authority. Record confirmed targets, dynamic controls, studio and IP, favorites, and stop condition in the project-owned state. Confirm authorization for production separately.
 
-## Загальний регресійний критерій
+Use role-local `tatterjack-intake.md` and `r06-intake.md` where bundled as specific sources of legacy context. Use the latest accepted revision. Each new project establishes its own name, camera, style, genre, number of candidates, device coverage, budgets, and rounds.
 
-Після оновлення навичок і відновлення сесії агент зберігає точні чинні рішення наявного проєкту, а в іншому проєкті не вигадує таких рішень. Новий метод не переініціалізує game saves, canonical requirements/decisions або native state. Відсутні підтвердження позначаються unknown; історичні approvals не перетворюються на новий дозвіл.
+## Regression criterion
+
+After updating skills and resuming, the agent must retain exact current decisions for the existing project and derive decisions for other projects from their own authority. Preserve game saves, canonical requirements and decisions, and native state. Mark missing confirmation as unknown and bind each approval to its original scope.

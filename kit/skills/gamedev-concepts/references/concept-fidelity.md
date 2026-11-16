@@ -1,63 +1,63 @@
-# Concept 4.0 → та сама виробнича гра
+# Concept 4.0 fidelity through production
 
-Читати [creative](domains/creative.md), [experience](domains/experience.md) та [Game Model workflow](game-model-workflow.md). Цей reference визначає subject-level fidelity. Камера, керування, графіка й стани пов'язані stable IDs з моделлю; template чи згенерований кадр не є фактичною native сценою.
+Read [creative](domains/creative.md), [experience](domains/experience.md), and the [Game Model workflow](game-model-workflow.md). Bind camera, controls, graphics and states to stable model IDs. Verify native scenes separately from templates and generated frames.
 
-## Незалежні рішення camera contract
+## Independent camera decisions
 
-| Рішення | Що зафіксувати | Чому це потрібно |
+| Decision | Record | Why |
 |---|---|---|
-| Projection | Orthographic/perspective, side/top/isometric/інше, axis/world scale | Фіксована проєкція не означає нерухому камеру або одну арену |
-| Tracking | Target, follow/dead zones, look-ahead, smoothing, bounds, respawn/recenter | Показати потрібну ділянку й час для відповіді під час руху |
-| Framing | Hero/tool/target size, action focus, HUD/safe areas, offscreen cues | Масштаб вивести з точності контакту й швидкості, не з universal 12% |
-| Zoom/режими | Коли й навіщо змінюється, limits, transition, target readability | Близька робота з інструментом і навігація можуть потребувати різного focus |
-| Coverage | Authored geometry/layers/tiles, occlusion/cutaways, visible horizon | Не відкривати непобудовані боки/ділянки чи ховати критичну загрозу |
-| Input/comfort | Thumb overlap, targeting, camera control load, reduced motion | Рух камери не повинен робити керування незручним або двозначним |
+| Projection | Orthographic or perspective, side, top, isometric or other axis, world scale. | A fixed projection supports different camera movements and locations. |
+| Tracking | Target, follow, dead zones, lookahead, damping, bounds, respawn and recenter. | Show the area and reaction time needed for movement. |
+| Framing | Hero, tool and target size, focus, HUD, safe areas and offscreen cues. | Derive scale from contact precision and speed. A universal 12% target does not apply. |
+| Zoom and modes | Trigger, purpose, limits, transition and target readability. | Precision tool behavior and navigation can need different framing. |
+| Coverage | Authored geometry, layers and tiles, occlusion and cutaways, visible horizon. | Avoid exposing unfinished views or hiding relevant hazards. |
+| Input and comfort | Thumb overlap, targeting, camera workload and reduced motion. | Preserve comfortable and unambiguous controls during camera movement. |
 
-Дати candidate-specific normal/peak/critical-contact і transition scenarios. Для героя, що змінює масштаб/транспорт/стан, визначити відповідне правило framing. Static whole-scene view допустимий за fit, як і scrolling/follow/context zoom; жоден не є універсальним default. Не продавати cutscene/beauty angle як ordinary gameplay. Один viewport є фрагментом світу, не доказом його topology чи content capacity.
+Provide normal, peak, critical-contact and transition scenarios for each candidate. Define framing when character size, vehicle or state changes. Choose static framing, scroll, follow or context zoom based on the action. Label cutscenes and promotional angles. A single viewport shows a scoped portion of topology and content.
 
-Авторські aids: [camera-framing](../assets/domain-templates/camera-framing.template.json), [visual-state-coverage](../assets/domain-templates/visual-state-coverage.template.csv). Для нового Model schema/field names користуватися [model format](model-format.md), не копіювати template як schema.
+Use the [camera-framing](../assets/domain-templates/camera-framing.template.json) and [visual-state-coverage](../assets/domain-templates/visual-state-coverage.template.csv) aids. Use [model format](model-format.md) for authoritative schema and field names.
 
-## Художня система до generation
+## Define the art system before generation
 
-Визначити fantasy/emotional promise і конкретні правила: shape/silhouette/proportions, line/edge, palette roles, material/texture, світло/контраст, навколишня архітектура, персонажі/вороги/props, typography/icons/HUD/menus, motion/contact, VFX, audio/music і haptics. Для кожної сім'ї показати що незмінне, що варіюється й що неприпустиме. Одна інша палітра не доводить іншого art direction; один технічний pipeline не примушує до однакового стилю.
+Describe fantasy and emotional promise and define shapes, silhouettes, proportions, lines and edges, palette roles, materials and textures, light and contrast, architecture, characters, enemies and props, type, icons, HUD and menus, motion and contact, VFX, music and audio, and haptics. For each family record fixed, variable and prohibited properties. Compare actual art direction beyond color. Shared tooling can support different styles.
 
-Production profile містить actual/planned authoring/export/runtime tools, versions/evidence за наявності, license/cost/capacity, editable sources, sprite/model/rig/animation representation, camera/scene envelope, materials/light/VFX/UI, asset state families і blockers/due proofs. Допустимі 2D/2.5D/3D за реалістичного підтриманого маршруту; відсутність DCC тут не є глобальною забороною. Наявність PNG generator не доводить 3D model, rig, physics або production capacity.
+The production profile distinguishes intended and available authoring, export and runtime tools, versions and evidence, rights, cost and capacity, editable sources, sprite, model, rig and animation representations, camera and scene coverage, materials, light, VFX and UI, asset state families and due proof. Choose a feasible 2D, 2.5D or 3D route. A missing local DCC may require a handoff. Verify modeling, rigging, physics and capacity through their own operations.
 
-Не обіцяти без route cloth/fluid/hand contacts, free camera rotation, PBR/GI чи нескінченні unique assets. Водночас не знижувати запропоновану якість автоматично до примітивної геометрії або flat redraw. Якщо ризик істотний, створити bounded source/assembly/animation proof або показати конкретний unresolved prerequisite до вибору; не пояснювати недосяжність уже після acceptance.
+Before promising cloth and fluids, hand contacts, free camera rotation, PBR or GI, or large volumes of unique assets, identify the achievable route. Preserve the quality target and use bounded source, assembly or motion proof for material risks. Give unresolved prerequisites before selection.
 
-## Перевірка кожного кадру
+## Inspect each frame
 
-1. Прив'язати source requirement/model IDs, camera/element/state refs, profile й точний поточний causal scenario до generation intent.
-2. Генерувати ordinary gameplay viewport: реальні scale/density, функціональний HUD, visible core action і підтримуване source/animation representation. Форма touch-controls випливає з input grammar, а не з одного універсального UI preset.
-3. **Фактично оглянути кожний кадр до показу користувачу.** Звірити projection/tracking implications, hero/tool/target scale, readable causal state, контакти, hazards, visual hierarchy, HUD/input correspondence, thumb occlusion та profile limits. Frame без огляду лишається uninspected.
-4. Записати actual observer/image hash, scope, deviations, verdict й repair. Обмежену незалежну visual вибірку не називати перевіркою всього портфеля. Text/metadata/hash не замінює actual observation.
-5. За відхиленням ремонтувати image, authored intent або route до показу; якщо змінюється material choice, надати конкретні зіставні samples. Повторний generated image не доводить source reconstruction.
+1. Bind source requirements and model IDs, camera, element and state references, production profile, and current causal scenario to generation.
+2. Generate an ordinary gameplay viewport with realistic scale and density, functional HUD, core action and achievable source and motion representation. Derive touch controls from the input grammar.
+3. **Inspect each actual frame before showing it.** Check projection and tracking implications, hero, tool and target sizes, readable causal state, contacts, hazards, hierarchy, HUD and input mapping, thumb occlusion and profile limits. Mark any uninspected frame.
+4. Record observer and image digest, scope, deviations, verdict and repair. Keep a sampled independent review at its observed coverage. Text, metadata and hashes establish distinct properties.
+5. Repair the image, authored design, or route before showing a deviation. For material choices provide directly comparable samples. Reconstructing a source requires its own proof.
 
-Зберегти original bytes/hash/resolution/aspect/color, generation/source provenance/rights та відомі limitations. Для кожного visible element мати stable ID, bbox/layer/depth за потреби, роль/взаємодії, style/camera/light, source/assembly route, known/unknown/blocked і owner/closure. PNG не містить recoverable hidden geometry, backview, rig, exact font binaries, фізику чи audio stems.
+Keep original bytes and hash, resolution, aspect, color, generation and input provenance, rights and limitations. Each visible element has a stable ID, bounding box, layer and depth as needed, role and interactions, style, camera and light, source and assembly route, evidence status, owner and closure. Verify any hidden geometry, back view, rig, font binaries, physics and stems separately from a PNG.
 
-## Reference lock і розширення обраного напряму
+## Lock references and expand the chosen direction
 
-User acceptance стосується exact revision та scope: concept choice не є прийняттям кожного HUD елемента або production permission. Після прийняття lock містить originals/hash, прийняті camera/framing, character/world design, матеріали/light/UI, source lineage й допустимі відхилення. Не підміняти прийнятий master схожою картинкою. Незмінний asset використовувати byte-identical; derived export має явний recipe.
+Bind owner acceptance to exact revision and scope. A concept choice, HUD acceptance and production authority are distinct. Record accepted original and hash, camera and framing, character and world, materials, light and UI, source lineage and permitted changes. Reuse unchanged sources byte-for-byte and bind derivatives to a recipe.
 
-До масового виробництва розгорнути selected target pack:
+Before scaling, prepare:
 
-- whole-frame target й annotated element map;
-- tokens, silhouette/material/line/light/camera/UI/type rules, lawful font route або pending choice;
-- first-play/normal/peak, різні релевантні місця, меню/shop/inventory й recovery states;
-- locomotion/tool/enemy/interaction variants, contact phases, physics/collision constraints;
-- audio event families, music states/transitions, haptic feedback та actual auditions у дозволеному scope;
-- finite production inventory, source/export/import settings, budgets, rights, known gaps і next proof.
+- Whole-frame target and annotated elements.
+- Tokens and silhouette, materials, line, light, camera, UI and type rules, font rights or pending choice.
+- First play, normal and peak states, relevant locations, menus, store, inventory and recovery.
+- Locomotion, tools, enemies and interaction variants, contact phases, and physics and collision constraints.
+- Audio cue families, music states and transitions, haptics, and actual authorized auditions.
+- Finite inventory, source, export and import settings, budgets, rights, gaps and next proof.
 
-Нові rooms/assets розвивати з тих самих style/state laws і sources, не незалежними prompts. Audio/haptics proposals без actual audition/native evidence позначати unperformed. Source→import→native runtime representative slice має зберегти camera, core contacts, взаємодії й художню обіцянку; actual device перевіряє perf/thermal/memory/input/session. Ціль 60 FPS не є measured result.
+Extend rooms and assets through shared style and state rules and sources. Mark audio or haptics unperformed until auditioned or observed natively as required. A source, import and native slice must preserve camera, contacts, interaction and the art target. Measure performance, thermal behavior, memory, input and session behavior on appropriate devices. A target of 60 FPS needs actual measurement.
 
-Порівнювати target/actual за контрольованих aspect/camera/state/seed/time. Pixel-diff корисний для controlled capture, але не сертифікує художню тотожність чи feel. Source screenshot або native build самі не доводять ігрової якості; відповідна modality/player observation має власний gate.
+Compare target and actual under controlled aspect, camera, state, seed and time. Use pixel difference where conditions allow, and evaluate artistic fidelity and feel with their own methods. Track screenshots, native builds and player observations as different evidence.
 
-## Управління drift
+## Manage drift
 
-Зміна camera distance/tracking, rig, silhouette, animation contacts, material, shader, HUD/input чи audio cues відкриває impact на encounters, навчання, art/import/performance й QA. Перевіряти affected dependencies, а не повторювати всі unchanged jobs. Material downgrade → upstream repair/actual sample і рішення користувача перед тиражуванням. Не називати primitives «тим самим стилем», canned contact «тою самою фізикою» чи простий beep готовим sound design.
+Recheck affected encounters, learning, art, import, performance, and QA after camera distance or tracking, rig, silhouette, animation contact, material, shader, HUD, input or audio changes. Use upstream repair, actual sample and owner decision before scaling a material downgrade. A generic primitive cannot stand in for «тим самим стилем» or a canned contact for «тою самою фізикою». Verify production sound design through listening.
 
-## Operation-level production promise
+## Bind the production operation before the promise
 
-До показу зв’язати потрібну операцію з capability record і recipe: реальні input/output formats, schema/catalog/argument bindings, representation/rights/ціна/host, semantic invariants і due proof. Descriptor або catalog presence не дорівнюють перевіреній операції. Для руху/смерті/аварії/руйнування показати, які source/clip/collision/cue states ще потрібні; один кадр не закриває їх.
+Before showing the target, verify the capability and recipe with actual input and output formats, schema, catalog and argument bindings, representation, rights, cost, host, semantic invariants and due proof. Verify the operation separately from discovery. Identify source, clip, collision and cue states for motion, death, crash, and destruction.
 
-У кадрі звірити одночасно camera/input grammar, видимі предмети/навички, доступну прогресію, status/resources і outcome. Метрики з model-only прикладу не оформлювати як measured native result. Якщо потрібний матеріальний параметр ігнорується generator, виправити route до обіцянки exact результату.
+Check camera and input grammar, visible props and abilities, accessible progression, state and resources, and outcome together. Keep model metrics distinct from native measurements. When a generator ignores a required parameter, repair the route before promising the exact result.

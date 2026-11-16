@@ -1,24 +1,29 @@
-# Довготривала робота продукту
+# Operating an app over time
 
 ## Runbook
-Описати actual deployment/config/source/build, services/data/providers, account owners, health/cost/product signals, їхню свіжість, scheduler і cadence, contacts/канали без secrets, permitted containment, restore/rollback, release route, privacy/retention, open risks і exit. Числові SLA/limits визначаються продуктом; не вигадувати 24/7 coverage.
 
-## Signals і decisions
-Для сигналу зберегти source/time/subject, expected range, actual observation, confidence й limitations. Error rate, latency, cost, conversion/retention, support unresolved та прибуток не взаємозамінні. Показати когорти/період/вибірку там, де доступно; не робити causal висновок із кореляції. Невідомі account/data не вигадувати.
+Record actual deployment, config, source, build, services, data, providers, account ownership, health, cost and product signals with freshness, schedules and cadence, contacts and channels without secrets, permitted containment, recovery and rollback, release route, privacy and retention, open risks, and exit. Use the product's approved SLA and limits. Any claim of 24/7 coverage requires evidence.
 
-Рішення continue/pivot/stop мати до витрат/проходу: metric, threshold, horizon, cap, owner і дозволені дії. При недосягненні зберегти fail, проаналізувати джерела, запропонувати допустимий delta. Scope закриття й фінансові effects потребують достатньої чинної згоди.
+## Signals and decisions
+
+Record each signal's source, time, subject, expected range, actual observation, confidence, and limitations. Track error rate, latency, cost, conversion, retention, unresolved support, and profit as distinct signals. Show cohorts, period, and sample when available. A causal conclusion requires evidence beyond correlation. Mark unknown account and data facts explicitly.
+
+Before spending or proceeding, define the continue, pivot, or stop decision with metric, threshold, horizon, cap, owner, and permitted actions. If the threshold is missed, retain the failed result, analyze sources, and propose an allowed change. Confirm current authority for the extent of any shutdown and for financial effects.
 
 ## Recovery
-Backup strategy визначає дані, частоту, retention, encryption/access, restore environment, прийнятну втрату й час відновлення, перевірку та costs. Провести actual restore; файл backup не доводить відновлюваності. Сумісність code/data rollback оцінити окремо, зовнішні effects звірити з провайдером. Delete/revoke tombstones або еквівалентний механізм не дозволяють повернути відкликане.
 
-## Підтримка й нові знання
-Support case має ID/status/diagnostics у дозволених межах. Aggregate повтори у технічні jobs, public known-issue KB оновлювати лише з перевіреної інформації. Приватні діалоги не публікувати. Lesson має scope/source/confidence/applicability/impact; generic skill змінюється окремим дозволеним upgrade, не тіньовим навчанням.
+Define backup coverage, frequency, retention, encryption and access, restore environment, acceptable data loss and recovery time, verification, and cost. Observe an actual restore before claiming recoverability. Check code and data rollback compatibility independently and reconcile external effects with the provider. Use deletion and revocation tombstones or an equivalent control to suppress restoration of revoked data.
 
-## Оновлення
-Зміна provider price/license/policy, SDK, security issue чи продуктового intent відкриває залежні перевірки. Порівняти версії/джерела, зберегти прийняті originals, дані й unrelated files. Targeted tests після impact достатні, повний цикл не повторювати без причини. Фактичний deployment і operational observation різні.
+## Support and new knowledge
 
-## Видимий результат і достатність підходу
+Give each support case an ID, state, and diagnostics within permitted scope. Aggregate recurring issues into engineering work and update public known-issue knowledge from verified information only. Keep private conversations private. Record lesson scope, source, confidence, applicability, and impact. An upgrade to the generic skill requires separate authorization.
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: актуальна причинна карта сервісу, сигнали/свіжість, діагноз, достатній repair, recovery та залишковий ризик. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+## Updates
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: актуальність спостережень, причина інциденту, належний runtime/restore proof й вплив на ціле. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+Review dependent checks after a provider price, license, policy, SDK, security, or product-intent change. Compare versions and sources while preserving accepted originals, data, and unrelated files. Use targeted verification after assessing impact. Record actual deployment and operational observation separately.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show the current causal map of the service, signals and freshness, diagnosis, targeted repair, recovery, and remaining risk. Distinguish observed and produced work, inherited current decisions, and upcoming results with their due gates. Scale the investigation and specialist roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, choose the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review freshness, incident cause, runtime and actual restore proof, and impact on the product. Inspect raw sources for omitted requirements. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve project context, current approvals, and unaffected results.

@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Директор · 6.0.0
-  short_description: Повний цикл системної нативної мобільної гри
-  default_prompt: $gamedev-director Прийми актуальні матеріали, звір вимоги й виконай погоджений наступний крок із належними доказами.
+  display_name: GAME · Директор
+  short_description: "Direct the native mobile game lifecycle"
+  default_prompt: "Use $gamedev-director to review my current game and carry out the smallest approved next step with evidence."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

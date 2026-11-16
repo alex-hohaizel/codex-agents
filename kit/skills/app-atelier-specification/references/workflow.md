@@ -1,203 +1,122 @@
-# Специфікуй предметний продукт
+# App specification workflow
 
-## Зміст
+## Contents
 
-1. Зафіксуй baseline.
-2. Побудуй предметну модель й core.
-3. Визнач дані, identity та sync.
-4. Обери архітектуру й залежності.
-5. Опиши монетизацію, операції й залучення.
-6. Сплануй обсяг, зріз і здійсненний реліз.
-7. Достав пакет і керуй змінами.
+1. Pin the baseline.
+2. Model domain rules and the product core.
+3. Specify data, identity, and sync.
+4. Design architecture and dependencies.
+5. Specify commerce, operations, and acquisition.
+6. Plan scope, a representative slice, and release feasibility.
+7. Deliver the packet and manage changes.
 
-## 1. Зафіксуй baseline
+## 1. Pin the baseline
 
-Прочитай `.appatelier/profile.json` та `.appatelier/state.json` за common contracts.
-Використай typed registries requirements/decisions/knowledge/jobs/artifacts/evidence/executions/capabilities/grants/effects; не створюй паралельну пам'ять.
-Візьми accepted concept з ID, revision, рішенням власника, evidence і hashes входів.
-Витягни аудиторію, ринок/мови, recurring value, monetization hypotheses, операційну карту й acquisition route.
-Не перезапускай пошук напряму через звичайне технічне питання.
-Якщо потрібна зміна концепції, зафіксуй affected REQ-ID, наслідки й delta для рішення власника через директора.
+Read `.appatelier/profile.json` and `.appatelier/state.json` under the common contracts. Use the typed requirements, decisions, knowledge, jobs, artifacts, evidence, executions, capabilities, grants, and effects registries. Reuse the accepted concept ID, revision, owner decision, evidence and input hashes. Carry audience, market and languages, recurring value, commerce hypotheses, operations and acquisition into the baseline. Resolve routine technical questions within the accepted direction. Route a material concept change through the director with affected REQ-ID, effects and decision delta.
 
-Створи `spec-index.json`:
+Create `spec-index.json`:
 
-| Поле | Запиши |
+| Field | Record |
 |---|---|
-| `spec_id/revision/status` | Задай ідентичність і draft/spec-ready/blocked/superseded. |
-| `inputs` | Запиши exact path/ID, hash, revision і призначення входу. |
-| `profile_version/requirements_version/decision_ids` | Зафіксуй джерела обмежень і згод. |
-| `outputs` | Задай path, hash, evidence type, REQ-ID і owner кожного документа. |
-| `gaps/blockers/recheck` | Назви невідоме, blocked action, due gate, owner й наступну перевірку. |
-| `resource_cap/stop/checkpoint` | Задай межі проходу й відновлення. |
+| `spec_id/revision/status` | Identity and draft, spec-ready, blocked, or superseded status. |
+| `inputs` | Exact path or ID, hash, revision and purpose. |
+| `profile_version/requirements_version/decision_ids` | Sources of constraints and authority. |
+| `outputs` | Path, hash, evidence type, REQ-ID and owner for each output. |
+| `gaps/blockers/recheck` | Unknown, blocked action, due gate, owner and next check. |
+| `resource_cap/stop/checkpoint` | Work and resumption boundaries. |
 
-Розділяй факт, припущення й рішення. Мінливі API/ліцензії/ціни/platform rules перевіряй за чинною первинною документацією; зазнач URL, дату, версію, регіон і межу доступу.
-Не виконуй live підключень, купівель або реєстрацій задля spec.
-Без read-only доступу познач unknown і affected gate; не підставляй згаданий із пам'яті факт як verified.
+Distinguish facts, assumptions and decisions. Verify mutable API, license, price and platform requirements through current primary sources, recording URL, date, version, region and access limits. Keep live integrations, purchases and registration outside specification. Without read-only access, mark unknown and the affected gate.
 
-## 2. Побудуй предметну модель й core
+## 2. Model the domain and product core
 
-Створи `prd.md`: проблема, сегмент, контекст, корисний результат, recurring value, release scope й non-goals без вилучення must.
-Задай success outcomes і technical indicators окремо; synthetic UX не доводить demand/willingness to pay.
+Create `prd.md` with problem, audience, context, useful outcome, recurring value, release scope and non-goals while preserving mandatory requirements. Separate user success and technical indicators. Synthetic UX supports scoped observations, and demand or willingness to pay requires corresponding evidence.
 
-Створи `domain-model.md`. Для кожного об'єкта запиши:
+Create `domain-model.md`. For each entity define:
 
-- Визнач ID, значення для користувача, source of truth і owner.
-- Задай fields/types/units/constraints/default/nullability й validation.
-- Опиши states/transitions: actor, guard, command/event, effect, resulting state.
-- Задай invariants, relations/cardinality, терміни й delete semantics.
-- Визнач duplicates/concurrency, time/timezone/expiry, retries і recovery/compensation.
-- Додай valid/invalid synthetic records та boundary cases.
+- Stable ID, user meaning, source of truth and ownership.
+- Fields, types, units, constraints, validation, defaults and nullability.
+- States and transitions with actor, guard, command or event, effect and resulting state.
+- Invariants, relations and cardinality, terminology and deletion.
+- Duplicates and concurrency, time, timezone and expiry, retry, recovery and compensation.
+- Valid and invalid synthetic records and boundary cases.
 
-Опиши `RULE-ID`: передумова → рішення → observable result → відмова/відновлення.
-Не залишай реалізаторам довільний вибір дозволеного переходу.
-Для зовнішніх даних задай provenance/freshness/confidence і stale/partial поведінку.
+For each `RULE-ID`, link precondition → decision → observable outcome → failure or recovery. Define exact permitted transitions. For external data specify provenance, freshness, confidence, and stale or partial behavior.
 
-Створи `client-core-matrix.md`. Розклади core на кроки першого запуску, отримання цінності, повторного використання й recovery.
-Для кожного кроку визнач Android/iOS/web, shared rule, platform difference й acceptance ID.
-Забезпеч самостійний повний core у кожному клієнті; не підміняй web лендингом, а iOS Android-тестом.
-Не прирівнюй shared code до перевіреної поведінки всіх платформ.
-Для істотних екранів/операцій задай loading/empty/success/invalid/permission denied/error/offline/stale/retry.
-Передай experience терміни, hierarchy, content types, стани й обмеження; залиш design choice власнику.
-Обґрунтуй OS/browser/device support, font scaling, keyboard/screen reader, contrast, input і performance budgets.
-Оціни accessibility/старі пристрої/offline навіть без спеціального мінімуму в профілі.
+Create `client-core-matrix.md` with first use, first value, repeat use and recovery. For each step, record Android, iOS and web, common rule, valid platform difference and acceptance ID. Require a complete core in each client and separate observed proofs even when code is shared. Define material loading, empty, success, invalid input, denied permissions, error, offline, stale, and retry states. Give experience domain terms, content hierarchy, types, states and constraints. Route material design choices to the owner. Justify OS, browser and device support, text scaling, keyboard, screen reader, contrast, input, and performance budgets. Address accessibility, older devices, and offline behavior even without a profile minimum.
 
-## 3. Визнач дані, identity та sync
+## 3. Specify data, identity and sync
 
-Створи `data-auth-contract.md` і schemas для усунення двозначностей.
-Порівняй local без акаунта, optional sync/account і necessary cloud за функцією, витратами, правами й відновленням.
-Рекомендуй достатній мінімум даних; не відкидай cloud автоматично й не обирай його мовчки.
+Create `data-auth-contract.md` and schemas. Compare local-only without accounts, optional account and sync, and required cloud on value, cost, rights and recovery. Choose the minimum sufficient data and surface material architecture choices.
 
-| Аспект | Визнач для кожного поля/потоку |
+| Aspect | For each field or flow |
 |---|---|
-| Значення | Тип, чутливість, owner/source, purpose й necessity. |
-| Copies | Device/backend/vendor/backup/log/cache/index, включно з похідними. |
-| Права | Actor/role, resource/action і server guard; окремо guest/account. |
-| Передача | Recipient, transport, region за потреби, AI scope й redaction. |
-| Lifecycle | Retention/expiry/export/delete/revoke, backup retention і restore semantics. |
-| Gate | Source/decision, consent/config, test ID і specified/verified status. |
+| Meaning | Type, sensitivity, owner, source, purpose and necessity. |
+| Copies | Device, backend, vendor, backup, logs, cache and derived indexes. |
+| Rights | Actor and role, resource and action, server guard, and distinct guest and account access. |
+| Transfer | Recipient, transport, region as applicable, AI scope and redaction. |
+| Lifecycle | Retention, expiry, export, deletion, revocation, backup retention and restore behavior. |
+| Gate | Source and decision, consent and config, test ID, specified or verified status. |
 
-Для identity визнач necessity акаунта, guest lifecycle, sign-in/out, recovery, delete й device change за застосовності.
-Для guest-to-account merge задай ownership proof, duplicate resolution, partial failure й safe retry.
-Якщо акаунтів немає, обґрунтуй незастосовні branches; не додавай identity лише заради маркетингових даних.
-Для backend визнач authz кожного resource/action, tenant boundary, replay/idempotency; не довіряй client-supplied user ID.
+Specify account necessity, guest lifecycle, sign-in and sign-out, recovery, deletion and device changes as applicable. For guest-to-account merge, define ownership proof, duplicates, partial failure and safe retry. Explain intentionally absent accounts and avoid collecting identity solely for marketing. Define backend resource and action authorization, tenant boundaries, replay and idempotency. Obtain identity from trusted server context.
 
-Для sync задай source of truth, revision/version, conflict detection/resolution, tombstones, retry queue і visibility pending changes.
-Опиши offline create/edit/delete, concurrent edits, clock skew, stale cache й sync після тривалого розриву.
-Не дозволяй старому backup/offline device відродити delete/revoked дані всупереч контракту.
-Визнач schema migration, compatibility, rollback code/data, backup/restore acceptance і limits.
+Define sync authority, revision, conflict detection and resolution, tombstones, retry queue and pending UI. Cover offline create, edit and delete, concurrent changes, skew, stale cache, and recovery after long disconnection. Preserve deletion and revocation across old backups and devices. Specify migration, version compatibility, code and data rollback, backup and restore acceptance and limits.
 
-Специфікуй support окремо: public KB, власну guest session, дозволений account context і app/web і вибраний channel linking за його platform contract.
-Вимагай server proof для identity/link, scope/expiry/revoke; не зв'язуй людей лише за username або user ID у тексті.
-Задай dialogs/attachments/logs/indexes/caches/AI inputs/outputs окремими потоками.
-Не перетворюй приватні звернення на public KB, training або unrestricted diagnostics.
-Залиш initial support read-only; mutating scope вимагай окремо з auth/confirm/idempotency/receipt.
-Залиш telemetry disabled/pending до event/property/purpose/consent/retention/cost gate.
-Розрізняй operational signals, product analytics й intentional experiment; дозвіл одного не розширює інше.
+Specify public knowledge, owned guest session, allowed account context on app and web, and separately selected channel linking. Require server proof of identity, link, scope, expiry and revocation. Usernames or identifiers claimed in chat convey no authorization. Model dialogues, attachments, logs, indexes, caches, and AI inputs and outputs as distinct flows. Keep private requests out of public knowledge, training and unrestricted diagnostics.
 
-## 4. Обери архітектуру й залежності
+Keep initial support read-only. Specify separate auth, confirmation, idempotency, and receipt for mutations. Keep telemetry disabled or pending until events, properties, purpose, consent, retention and cost are authorized. Track operational signals, product analytics and intentional experiments with their own permissions.
 
-Створи `tdd.md`, `api-contracts/` і `dependency-options.md`.
-Виведи architecture drivers із domain/privacy/offline/platform/cost/resource constraints до вибору framework/vendor.
-Порівняй здійсненний baseline і сильного кандидата; не вигадуй штучні альтернативи заради кількості.
-Розглянь native/shared/web технології за core; покажи components, ownership, interfaces, deploy units, trust boundaries і failure propagation.
+## 4. Design architecture and dependencies
 
-Для API задай protocol/path/method, schema/validation, auth/authz, errors, pagination, rate/cost caps, timeout/retry/idempotency і compatibility.
-Для event визнач producer, ID/schema/version, consumer, ordering/dedupe, out-of-order/poison handling і retention.
-Не залишай retry зовнішнього ефекту без відмінності unknown outcome від safe repeat.
-Для secrets визнач storage/injection/rotation без реальних значень у документах чи клієнті.
+Create `tdd.md`, `api-contracts/` and `dependency-options.md`. Derive drivers from domain, privacy, offline, platform, cost and resources before selecting frameworks or vendors. Compare a feasible baseline with strong alternatives. Evaluate native, shared and web technology against the full core. Show components, ownership, interfaces, deploy units, trust boundaries and failure propagation.
 
-| Залежність | Порівняй |
+For API define protocol, path and method, schema and validation, auth and authorization, errors, pagination, rate and cost caps, timeout, retry, idempotency, and compatibility. Specify event producer, ID, schema and version, consumer, order, deduplication, late and poison-event handling, and retention. Distinguish unknown external outcomes from repeatable operations before retrying. Define secret storage, injection and rotation without embedding values.
+
+| Dependency | Compare |
 |---|---|
-| Потреба | Вкажи concrete value/quality boundary й варіант без постачальника. |
-| Ціна | Задай setup/recurring/per-unit/overage, free limits, currency/date/tax assumptions і cap. |
-| Права | Перевір commercial use/attribution/redistribution/derived data/cache/export/termination/platform restrictions. |
-| Дані | Вкажи transmitted fields, retention, documented training policy, region/delete boundary. |
-| Якість | Задай freshness/accuracy/latency/availability, uncertainty й unacceptable failure. |
-| Відмова | Визнач quota/outage/stale/offline handling, fallback і visible limitation. |
-| Заміна | Опиши portable schema/adapter, exit/export, migration effort і lock-in. |
+| Need | Concrete benefit, quality boundary, and route without the provider. |
+| Price | Setup, recurring and usage cost, overage, free limits, currency, date, taxes and cap. |
+| Rights | Commercial use, attribution, redistribution, derived data, caching, export, termination and platform limits. |
+| Data | Transmitted fields, retention, documented training policy, region and deletion. |
+| Quality | Freshness, accuracy, latency, availability, uncertainty and unacceptable failures. |
+| Failure | Quota, outage, stale and offline behavior, fallback and visible limitations. |
+| Replacement | Portable schema and adapter, export and exit, migration effort and lock-in. |
 
-Познач unknown price/license exact blocker або bounded assumption за наслідками, не verified факт.
-Включи expected/low/stress usage, abuse/retry storms і runaway cost у cost envelope.
-Для AI задай allowed task/data/effect, output validation, model failure/fallback і user/system caps.
-Не гарантуй коректність зовнішнього результату лише через використання моделі/API.
+Treat unknown pricing or licensing as a blocker or bounded assumption according to impact. Include low, expected and stress usage, abuse, retry storms and runaway cost. For AI, define allowed task, data and effect, validation, failure and fallback, and user and system caps. Verify actual outputs rather than inferring correctness from a model or API.
 
-## 5. Опиши монетизацію, операції й залучення
+## 5. Specify commerce, operations and acquisition
 
-Створи `economics-operations-growth.md`; перевикористай accepted model і явно познач delta assumptions.
-Залиш обрані й умовні free/paid/ads/module/subscription/usage/team/affiliate branches, не нав'язуй одну модель.
-Визнач value, offer moment, price hypothesis, free/paid paths, costs/refunds і recurring sustainability.
-Покажи operating profit як revenue мінус fees/refunds/infra/AI/API/data/acquisition/support/content/other operating costs.
-Відокрем особисті податки й час власника; уникай double counting.
-Покажи sensitivity conversion/retention/usage/refund/margin/vendor price; не видавай ціль за прогноз або гарантію.
-Не фінансуй unbounded recurring costs one-time оплатою без caps/reserves/обґрунтування.
+Create `economics-operations-growth.md`, retaining the accepted model and explicit assumption deltas. Include selected or conditional free, paid, ads, module, subscription, usage, team and affiliate branches. Define value, offer timing, price hypothesis, free and paid paths, costs, refunds and sustainability. Calculate operating profit from revenue less fees, refunds, infrastructure, AI, API, data, acquisition, support, content and other operations. Track owner time and personal taxes separately and avoid double counting. Show sensitivity to conversion, retention, usage, refunds, margins and vendor price. Keep targets, forecasts and outcomes distinct. Control recurring liabilities funded by one-time payments with caps, reserves and justification.
 
-Створи `billing-entitlements.md` під обрану модель.
-Задай paid product/provider identity, entitlement, scope/duration/units, source of truth, platform/region і portability limits.
-Розділи purchase intent, transaction, verification, entitlement state й user-visible access.
-Визнач застосовні pending/active/grace/expired/revoked/refunded/cancelled states; cancel не прирівнюй автоматично до expiry.
-Задай provider validation/signature, dedupe key, replay, delayed/out-of-order resolution і authoritative reconciliation.
-Опиши restore/new device, sign-out/in, guest linking, account recovery, offline allowance/expiry й crash після provider success до local record.
-Покажи Android/iOS/web access matrix за чинними store rules; не обіцяй безпідставний cross-store transfer.
-Визнач refund/chargeback/partial consumption/expiry/cancel за застосовності.
-Для no-purchase запиши `not_applicable` для точних branches із причиною; збережи застосовні ads/affiliate/usage правила.
-Визнач provider/sandbox tests для build/QA; не вимагай live purchase для приймання spec.
+Create `billing-entitlements.md` for the selected model. Specify product and provider IDs, entitlement, scope, duration and units, authority, platform and region, and portability limits. Keep intent, transaction, verification, entitlement and displayed access separate. Define applicable pending, active, grace, expired, revoked, refunded and cancelled states. Determine expiry from the applicable policy. Specify validation and signatures, dedupe keys, replay, delayed and reordered events, and reconciliation.
 
-Побудуй operations map: trigger → job/tool → input/output → permission → cap → failure/retry → unresolved case.
-Включи content/data refresh, moderation за потреби, support, incident triage, billing reconcile, backup, updates і vendor changes.
-Для unresolved case задай ID, дозволені diagnostics/status і автоматичну технічну задачу; не вигадуй оператора/SLA.
-За recurring manual flow поверни модель на перегляд; не приховуй щоденну працю власника як виняток.
-Пов'яжи acquisition від zero audience з каналом, automated production/distribution, rights/cadence/cap/metric/stop.
-Передай growth plan до full build; activation залиш після actual product й окремого gate.
-Не запускай повідомлення, outreach, ads, публікації або schedules у цій фазі.
+Cover restore, new device, sign-out and sign-in, guest linking, recovery, offline allowance and expiry, and process death between successful payment and local record. Verify Android, iOS and web access under current rules, including cross-store portability. Define refunds, chargebacks, partial consumption, expiry and cancellation when relevant. Mark precise no-purchase branches `not_applicable` with reasons and preserve applicable ad, affiliate and usage rules. Define build and QA sandbox tests. Keep live purchases outside specification acceptance.
 
-## 6. Сплануй обсяг, зріз і здійсненний реліз
+Map trigger → job and tool → input and output → permission → cap → failure and retry → unresolved case. Include content and data, applicable moderation, support, incident diagnosis, billing reconciliation, backup, updates and vendor changes. Give unresolved cases IDs, permitted diagnostics and state, and a route to engineering. Ground staffing and SLA in the real model. Flag recurring manual work for a model decision. Link zero-audience acquisition to channel, automated production and distribution, rights, cadence, cap, metric and stop. Deliver growth planning before full build and activate after actual release and a separate gate. Keep messages, outreach, ads, publication and scheduled effects outside specification.
 
-Створи `scope-estimate-roadmap.md`; порівняй завершений core і ширший scope за тими самими ресурсами й часовими припущеннями.
-Розбий варіанти на work packages Android/iOS/web/backend/data/design/support/QA/release/operations.
-Задай effort ranges, critical path, integration effort, unknowns, buffer й host/resource caps.
-Доведи reuse конкретними components/licenses/readiness; generated code не прирівнюй до integration-ready.
-Якщо wider scope подовжує строк або знижує якість, назви це й поверни вибір власнику.
-Не вигадуй deadline: використовуй profile або range із dependencies.
+## 6. Plan scope, slice and release feasibility
 
-Створи `representative-slice-plan.md` за найбільшим архітектурним ризиком.
-Включи реальний core path через потрібні layers: client/domain/persistence/sync/API/permission/recovery; paid path додай, якщо він критичний ризик.
-Задай fixtures, цільові environments/clients, inputs, observable output/oracle, threshold, failure injection, cap і stop.
-Включи найдорожчу/найневідомішу dependency і безпечний спосіб перевірки без live ефекту за можливості.
-Передай виконання build як bounded slice job до full build; не реалізовуй продукт у spec-завданні.
-Залиш `slice_planned`, доки не отримано actual artifacts/logs/tests; план не є working slice.
+Create `scope-estimate-roadmap.md`. Compare complete core and wider scope under the same assumptions. Break down Android, iOS, web, backend, data, design, support, QA, release and operations. State ranges, critical path, integration effort, unknowns, buffer, and resource and host caps. Verify actual reuse, license and readiness. Route material tradeoffs for time, scope and quality to the owner. Use approved dates or dependency-based estimates.
 
-Створи `release-feasibility.md` із release-навичкою до production scope/значного build.
-Перевір dated primary rules/fees, routes Android/iOS/web, developer account type/status/access, ownership, signing/build host, testing/submission/privacy/commercial prerequisites.
-Без read-only account evidence познач `unverified`; не називай його готовим.
-Покажи mandatory fees, обладнання й recurring costs навіть за zero-new-spend profile.
-Зістав required humans/testing з no-human invariant; не рекрутуй людей і не симулюй їх.
-Для MFA/payment/signature/legal decision назви exact external prerequisite й blocked effect.
-Дай allowed route, scope/time/budget delta для власника або stop; не обходь conflict.
-Задай `recheck_due: before-release` для rules/prices/accounts/signing/testing і event-trigger при зміні platform/account/model.
+Create `representative-slice-plan.md` for the greatest architectural risk. Include a real core path through client, domain, persistence, sync, API, permissions and recovery as applicable, and payment if a critical risk. Define fixtures, target environments and clients, inputs, observed output and oracle, threshold, controlled failure, cap, and stop. Include the most expensive or uncertain dependency and use bounded checks where sufficient. Give build a scoped job before mass work. Keep `slice_planned` until actual artifacts, logs and tests arrive.
 
-| Gate | Вимагай |
+Create `release-feasibility.md` with the release skill before significant build. Verify current, dated official rules and fees, client routes, account type and status, ownership, signing and build host, testing, submission, privacy and commercial prerequisites. Mark accounts `unverified` without appropriate read-only proof. Expose mandatory equipment, fees and recurring costs even under a spending freeze. Check required human participation against current limits. Keep recruitment or simulation outside the spec action. List exact MFA, payment, signature or legal prerequisites and blocked effects. Provide an allowed route, scope, time or budget decision, or stop. Set `recheck_due: before-release` for rules, prices, accounts, signing and testing and recheck on platform, account or model changes.
+
+| Gate | Require |
 |---|---|
-| `spec-ready` | Вимагай concrete contracts, estimates, due checks і відсутність spec blockers. |
-| `before-full-build` | Вимагай accepted scope/design, economics/operations/acquisition, cap, early feasibility й actual slice. |
-| `before-release` | Вимагай actual client/support/billing tests, current prerequisites, data/brand/model decisions і owner readiness/effect. |
+| `spec-ready` | Concrete contracts, estimates, due checks, and resolved specification blockers. |
+| `before-full-build` | Accepted scope and design, economics, operations and acquisition, cap, early feasibility, and observed slice. |
+| `before-release` | Actual client, support and billing tests, current prerequisites, data, brand and model decisions, owner readiness and authority for the effect. |
 
-Не вимагай готового продукту для spec-ready; зовнішню unresolved feasibility залиш blocker залежної production дії.
-Не надавай spec-ready за невизначених предметних правил, due spec must або критичного рішення spec.
+Resolve due specification rules and decisions before spec-ready. Leave external feasibility blockers on their dependent production actions. Require working product evidence at the build and release gates where due.
 
-## 7. Достав пакет і керуй змінами
+## 7. Deliver and manage changes
 
-Збережи результати у `project/specification/`; за малим scope об'єднуй files зі збереженням named sections і trace IDs.
-Створи `acceptance-matrix.md`: REQ-ID → concrete artifact/rule → platform/model applicability → test/fixture → due gate → evidence/status → blocker/owner.
-Для REQ-11/REQ-16/REQ-19 запиши предметні перевірки, додай ранній REQ-38 й наскрізні must.
-Залиш future build/QA/release acceptance `specified_not_implemented` або відповідним common статусом; не став passed за описом.
-Для `not_applicable` зафіксуй причину/scope/decision; не використовуй для обходу must.
-Передай experience стани/терміни, build rules/schemas/API/slice, support data/auth/KB, QA fixtures/oracles, release recheck, growth/operations costs/jobs/caps.
-Додай exact inputs/outputs/hashes, decisions, evidence limits, blocked gates, stop й точну наступну дію за handoff-contract.
-Для зміни object/data/API/paid rights/platform задай change ID, affected REQ-ID, consumers, invalidated evidence і recheck.
-Не повторюй неушкоджені перевірки без причини й не приховуй вплив на строк/ціну/згоду/release.
+Save results under `project/specification/`. For narrow work, combine documents while preserving named sections and IDs. Create `acceptance-matrix.md` tracing REQ-ID → artifact or rule → platform and model applicability → test or fixture → due gate → evidence and state → blocker and owner. Include domain checks for REQ-11/REQ-16/REQ-19, early REQ-38 and cross-cutting mandatory requirements. Keep future build, QA and release `specified_not_implemented` or the appropriate common status until observed. For `not_applicable`, record reason, scope and owning decision.
 
-## Видимий результат і достатність підходу
+Give experience states and terminology, build rules, schemas, API and slice, support data, auth and knowledge, QA fixtures and oracles, release recheck, and growth and operations costs, jobs and caps. Bind exact inputs, outputs, hashes, decisions, evidence limits, blockers, stop and next action using the handoff contract. For entity, data, API, paid-access or platform changes, record change ID, affected REQ-ID, consumers, invalidated evidence and recheck. Reuse unaffected proof with valid dependency pins and show impacts on time, cost, authority and release.
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: предметна модель цілого й компонентів, мови/стек та ADR за потреби, точні правила/контракти, fixtures і due acceptance. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+## Visible result and proportionality
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: семантична повнота, архітектурні компроміси, реальна здійсненність і відсутні залежності. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+Apply the [adaptive workflow](adaptive-work.md). Show the whole-product and component model, languages and stack and ADRs as needed, exact rules and contracts, fixtures, and due acceptance. Distinguish completed work, inherited decisions, and future results with due gates. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review semantic completeness, architecture tradeoffs, feasibility and missing dependencies. Inspect raw inputs for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual proof level. Preserve context, approvals and unaffected results.

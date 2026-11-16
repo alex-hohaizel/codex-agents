@@ -1,3 +1,3 @@
-# Предметна організація команди
+# Domain team organization
 
-Чинний порядок визначено в [team-policy.md](team-policy.md) і [team-profile.json](../assets/team-profile.json). Прочитати їх для планування й приймання. Всі предметні критерії й потрібні артефакти збережені. Історичні фіксовані role IDs використовуються лише для читання їхніх історичних пакетів.
+Use the current [team policy](team-policy.md) and [team profile](../assets/team-profile.json) for planning and acceptance. Preserve all applicable domain criteria and required artifacts. Historical fixed role IDs apply only when reading the historical packages that used them.

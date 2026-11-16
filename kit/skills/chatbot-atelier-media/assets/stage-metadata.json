@@ -2,7 +2,7 @@
   "schema_version": "chatbot.atelier-stage/2",
   "toolkit_version": "5.0.0",
   "id": "chatbot-atelier-media",
-  "purpose": "Медіа, образ, анімація, звук і delivery",
+  "purpose": "Media, identity, animation, audio and delivery",
   "primary_requirement_ids": [
     "character_semantics",
     "temporal_quality",

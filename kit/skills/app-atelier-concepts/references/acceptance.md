@@ -1,30 +1,27 @@
-# Приймання концепції
+# Concept acceptance
 
-Зв’язати outputs з current requirement IDs, inputs/sources і hashes; відокремити authored/self-check від незалежного висновку й owner acceptance.
+Bind outputs to current requirement IDs, inputs, sources and hashes. Record author self-checks separately from independent review and owner acceptance.
 
-| Контракт | Потрібний доказ у концепції | Негативний сценарій |
-|---|---|---|
-| REQ-02 / TEST-02 | Відтворювана модель потрібного масштабу для цілі профілю; сценарії, витрати, uncertainty й горизонт. | Назвати бажаний чи модельний прибуток гарантією; підмінити profit виручкою. |
-| REQ-04 / TEST-04 | Операційна карта здійсненних автоматизованих залучення, сервісу й оновлень. | Покласти щоденні продажі, контент або ручну модерацію на власника. |
-| REQ-09 / TEST-09 | Показати tool/cost/error/fallback для різних допустимих типів продукту. | Оголосити автомодерацію повною без негативних сценаріїв і маршруту невизначеності. |
-| REQ-12 / TEST-12 | Для платної моделі визначити користь, момент, ціну-гіпотезу, собівартість, free/paid path і чутливість. | Приписати «subscription/ads» без причинного механізму. |
-| REQ-13 / TEST-13 | Порівняти доречні free/trial/лімітовані/комбіновані варіанти з відкритими межами. | Нав’язати вічно безкоштовний весь core або прихований trial trap. |
-| REQ-15 / TEST-15 | Для subscription назвати повторювану цінність кожного періоду та cost її виробництва. | Продавати разову функцію як регулярну послугу без обґрунтування. |
-| REQ-42 / TEST-42 | Відсіяти must failures до score; дозволити reject/pending усіх кандидатів. | Обрати переможця попри порушення ресурсів/прав/ручної роботи. |
+| Contract | Required concept evidence | Negative case |
+| --- | --- | --- |
+| REQ-02 / TEST-02 | Reproducible scale for the profile target, scenarios, costs, uncertainty and time horizon. | Guarantee modeled profit or treat revenue as profit. |
+| REQ-04 / TEST-04 | Operational map of feasible automated acquisition, service and updates. | Assign daily sales, content or moderation to the owner. |
+| REQ-09 / TEST-09 | Tools, costs, failure and fallback for viable product types. | Claim complete automated moderation without negative cases or a route for uncertainty. |
+| REQ-12 / TEST-12 | Paid model has benefit, timing, hypothesized price, costs, free/paid path and sensitivity. | Add «subscription/ads» without its causal mechanism. |
+| REQ-13 / TEST-13 | Compare relevant free, trial, limited and combined options with clear boundaries. | Require a permanently free entire core or hide a trial trap. |
+| REQ-15 / TEST-15 | Subscription has recurring value each period and a cost to produce it. | Sell a one-time feature as a recurring service without justification. |
+| REQ-42 / TEST-42 | Screen must failures before scoring and allow all candidates to be rejected or pending. | Choose a winner violating resources, rights or owner workload. |
 
-## Економічні негативні cases
+## Economic negative cases
 
-- Не приймати модель із подвійним урахуванням покупок або комісій, повторним fill multiplier, безстроковим API cost за неврахованого одноразового доходу.
-- Не ділити на нульову/від’ємну маржу, не змішувати monthly й annual periods, active users й installed base, cash надходження й сталий profit.
-- Не приховувати free cohort cost, churn, mandatory store cost, payout delay або дефіцит коштів до виручки.
-- Не приймати псевдоточні conversion/eCPM/retention без source або явного assumption; не вважати success іншого продукту власним доказом.
-- Не видавати synthetic review за willingness-to-pay або довільний великий TAM за reachable customers.
+- Reject double-counted purchases or fees, repeated fill multipliers, and indefinite API costs omitted from a one-time revenue model.
+- Avoid division by zero or negative contribution. Distinguish monthly and annual periods, active and installed users, cash receipts and sustainable profit.
+- Include free cohort costs, churn, required store costs, payout delay and cash shortfall before revenue.
+- Reject spurious precision in conversion, eCPM or retention without a source or explicit assumption. Another product's success is not the candidate's evidence.
+- Synthetic review cannot establish willingness to pay. A large TAM alone cannot establish reachable buyers.
 
-## Наскрізні gates й вихід
+## Cross-cutting gates and handoff
 
-Перевірити REQ-03 бюджет, REQ-08 competitive exception, REQ-17 all-phase human ban, REQ-24 owner choices, REQ-32 experiment thresholds, REQ-36 lineage і REQ-37 незалежний review.
-Показати REQ-19 завершений core/чесний строк, REQ-20/34 реалістичний prototype/design brief, REQ-38 early release feasibility dependency.
-Для REQ-43 передати billing/entitlement lifecycle requirements у specification/build; не назвати майбутні sandbox/client перевірки пройденими.
-Прийняти комплект лише за наявності concept cards, inputs/sources/formulas, cost sensitivity, operations/acquisition briefs, reject log, prototype briefs і конкретного decision packet.
-За зміни ціни, API, scope або конкурентного факту інвалідовувати залежні моделі/рекомендації й повторити лише зачеплені checks.
-За cap залишити checkpoint, фактичні outputs, pending/unknowns і точний next step; не компенсувати брак доказів красивою презентацією.
+Check REQ-03 budget, REQ-08 competitive exception, REQ-17 restrictions on human experiments throughout, REQ-24 owner choices, REQ-32 experiment thresholds, REQ-36 lineage and REQ-37 independent review. Show REQ-19 complete core and honest timing, REQ-20/34 realistic prototype/design brief and REQ-38 early release feasibility. Carry REQ-43 billing and entitlement lifecycle into specification and build. Future sandbox or client checks stay open.
+
+Accept the package with concept cards, inputs, sources and formulas, cost sensitivity, operations and acquisition briefs, rejection log, prototype briefs and an actionable decision packet. Changes to price, API, scope or competitive evidence invalidate dependent models and recommendations. Recheck those affected. At the cap, save checkpoint, actual outputs, pending and unknown items and precise next action.

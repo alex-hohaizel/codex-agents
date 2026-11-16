@@ -1,6 +1,6 @@
 # Local launcher and operator contract
 
-Use macOS, Node.js in the supported range `>=24.22.2 <27`, a supported Codex CLI, and the owner's existing Codex sign-in. Use the current release record to select the source revision and migration for the installed version. WORK remains deferred. [Current release record](../../../releases/current.json) · [0.5.0 update and rollback](../../../releases/migrations/repository-1.4.0-rc.5.md)
+Use macOS, Node.js in the supported range `>=24.22.2 <27`, a supported Codex CLI, and the owner's existing Codex sign-in. Use the current release record to select the source revision and migration for the installed version. WORK remains deferred. [Current release record](../../../releases/current.json) · [Current update and rollback](../../../releases/migrations/repository-1.5.0.md)
 
 From `apps/agent-atelier` inside the canonical checkout:
 

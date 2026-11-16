@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Розмова · 6.0.0
-  short_description: Жива доречна взаємодія й природна мова
-  default_prompt: Використай $chatbot-atelier-conversation для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Розмова
+  short_description: Natural language and interaction design
+  default_prompt: Use $chatbot-atelier-conversation. Improve the requested conversation while preserving persona, audience boundaries, and truthful state.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

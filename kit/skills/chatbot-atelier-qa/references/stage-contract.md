@@ -1,37 +1,31 @@
-# Контракт етапу chatbot-atelier-qa
+# Stage contract for chatbot-atelier-qa
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати незалежну звірку сирого наміру, придатність критеріїв/оракулів і реальні результати перевірок. Окремо оцінити пропуск вимоги, недостатню компетенцію, зайву церемонію й неправдивий статус; невиконані cases позначити planned/not_tested.
+Independently compare the original intent, acceptance criteria and expected results with actual evidence. Assess missed requirements, missing competence, unnecessary process and false status separately. Keep unexecuted cases planned or not tested.
 
-## Обов’язковий предметний маршрут
+## Freeze evidence for independent review
 
-## Незалежний intake
+Record requirement/source IDs, exact artifact/diff/hash/env/model/config/target, scope, baseline, and positive and negative expectations. Obtain independent results from raw output. Record implementation repair as a separate artifact before retesting. Names and self-reported passes are not independence.
 
-Отримати frozen requirement/source IDs, exact artifacts/diff/hash/env/model/config/target, assigned scope, baseline, expected positive/negative results. Не приймати author «усе pass» за доказ. Незалежний reviewer не змінює implementation мовчки; repair окремий artifact, потім addressed retest. Назви ролей не доводять виконані reviews.
+For all applicable 24 companion and 26H/12J criteria, record verdict, evidence, strongest objection, uncertainty and reversal condition. Unverified cases stay open. Privacy, consent, false effects, resource and version violations block their scope regardless of natural wording. Document the limits of structural validation.
 
-Матриця24 companion requirements і26H/12J за applicability; кожен active має verdict/evidence/strongest objection/uncertainty/reversal condition. Невідоме не unchanged/pass. Hard privacy/consent/false outcome/resource/version failure не компенсується high naturalness score. Structural validator/schema pass не доводить фактичну людську згоду чи provider receipt.
+## Verify boundaries and actual observations
 
-## Негативні сценарії й перетини
+Exercise actual ingress or callback or tool → state → effect → delivery → recovery. Test duplicate/stale/wrong actor, cancel around dispatch, source/spec/privacy version race, partial failure, timeout after accepted effect, crash/restart, forget/revoke/restore, DST gap/fold, and resource exhaustion. Use an exact trace for DM/group/topic/cache/error/progress/export boundaries. Access checks use two synthetic actors in two supported channels where applicable. A cross-topic detail in a derived summary is a blocking finding. Cite a redacted trace without repeating restricted data. Separate ACL, citation, retrieval, factuality and abstention, including injected text that must not change authority.
 
-Відтворити ingress/callback/tool→state→effect→delivery/recovery. Inject duplicate/stale/wrong actor, cancel before/after dispatch, source/spec/privacy version race, partial failure, timeout after provider success, crash/restart, forget/revoke/restore, DST fold/gap, resource exhaustion. DM/group/cache/error/progress/export leakage перевірити на same trace. Knowledge evals: ACL/citation/retrieval/factuality/abstention окремо; external prompt injection не змінює права.
+For dialogue check eight frozen strata, minimal pairs, speech/silence/referent/questions, supported locales and action result. Evaluate voluntary blind human naturalness independently. For media verify frozen final bytes, decode, changed motion/audio/identity/loop/order and manifest. Keep live platform or mobile proof and actual deployment separate from local results.
 
-Conversation:8 frozen strata, minimal pairs, wrong speech/silence/referent/extra questions, supported locales, complete action+dialogue. Human blind naturalness evaluation окремо. Media: frozen final bytes, decode, all changed motion/audio/identity/loop/order/manifest; samples не доводять entire pack. Platform/mobile smoke/live readback і actual deployment identity окремо.
+A finding contains ID, severity, requirement, source file/line, reproduction, expected/observed result, evidence/limits, cause hypothesis/falsifier, repair, retest and residual unknown. Distinguish report, reproduction, hypothesis, preference and duplicate. Keep optional fixes separate from critical gates. Carry old evidence only with unchanged transitive inputs, valid freshness, original receipt and independent impact check. The same QA can retest; final adjudication is separate from author and prior QA. After two attempts without new information, change method. Deliver scoped GO/NO-GO/unknown with actual commands, results and release boundaries.
 
-## Висновки та closure
+## Handoff
 
-Finding: ID/severity/requirement/source file:line/reproduction/expected-vs-actual/actual evidence/proof limits/causal hypothesis/falsifier/proposed fix/retest/residual unknown. Класифікувати reported/reproduced/hypothesis/preference/duplicate; необов’язкове покращення не блокує scoped repair. Жодного fabricated test/human/source/receipt.
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-Carry-forward лише за unchanged transitive source/code/schema/tool/model/generator/env dependencies і valid freshness, immutable prior review receipt, independent impact check. Same QA може retest fix; final adjudicator не автор/попередній QA. Після двох повторів без new information змінити diagnostic approach; не оголошувати pass за лімітом. Deliver scoped GO/NO-GO/unknown, actual commands/results, evidence and release boundaries.
+## Criteria and completion
 
-## Контракт передачі
+Check applicability for these criterion IDs first: human_value, execution_truth, audience_privacy, consent_authority, forgetting_integrity, temporal_quality, media_delivery, version_continuity. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
-
-## Критерії та завершення
-
-Першочергові criterion IDs для перевірки застосовності: human_value, execution_truth, audience_privacy, consent_authority, forgetting_integrity, temporal_quality, media_delivery, version_continuity. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.

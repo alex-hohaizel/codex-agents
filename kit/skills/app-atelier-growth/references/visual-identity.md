@@ -1,30 +1,24 @@
-# Стабільна візуальна ідентичність
+# Preserve visual identity
 
-Зміст: класи → оновлення → новий агент → перевірка.
+Use the `visual-identity/1` contract. A class describes purpose and origin, not release version or file count.
 
-Версія правила `visual-identity/1`, спільний реліз6.0.0.
+- `system` covers core constructors and families. The existing installed presentation and icons are accepted identity.
+- `project` covers an agent or skill for a particular project. For a new icon where none exists, use `project-card-v1`: a light card with a clipped corner, teal accent, dark domain glyph and PROJECT strip. Pick a readable color and glyph for the purpose. Keep the style visually distinct from system skills.
 
-## Класи
+Label new project-agent UI names with the established project designation, for example `Проєкт · …` when appropriate to the user. Preserve stable selectors. Change existing labels only within the authorized cosmetic scope.
 
-- `system`: базові конструктори й сімейства. Поточний встановлений стиль і кожна іконка є прийнятою візуальною ідентичністю.
-- `project`: створений під окремий проєкт агент або навичка. Для НОВОЇ іконки використовувати виразно інший стиль `project-card-v1`: світла картка зі зрізаним кутом, бірюзовою лінією, темним предметним знаком і смугою PROJECT. Знак і колір підбирати до призначення; на малому розмірі він має читатися. Не відтворювати системний стиль.
+## Update or repair
 
-Клас задається походженням/призначенням, не номером версії чи кількістю файлів. Назва нового проєктного агента у UI має містити позначення «Проєкт · …». Наявні назви змінювати лише в погодженому косметичному scope. Stable selector не змінювати.
+Preserve exact `interface.icon_small`, `icon_large`, `brand_color`, bindings and referenced bytes on a version change, move, repair or repackage. Preserve the actual local Codex appearance if it differs from Work. Snapshot paths and hashes before a change and compare after. Changes to `policy`, `dependencies`, `name`, executable files or unknown local files are separate impacts.
 
-## Оновлення
+Report a conflicting path, symlink or missing asset. Recover the accepted original when possible. A version update does not authorize a redesign. An existing project agent keeps its inherited appearance even if it predates the current project class style.
 
-Не генерувати, перемальовувати, recolor чи замінювати наявну іконку під час оновлення версії, перенесення, repair або повторного пакування. Зберігати точні `interface.icon_small`, `icon_large`, `brand_color` та bytes усіх файлів, на які вони посилаються. Фактичне локальне оформлення Codex може відрізнятися від Work і має пріоритет під час локального оновлення.
+## Create identity only where needed
 
-Перед заміною зробити snapshot прив’язок і hashes, після — звірити. Зміни `policy`, `dependencies`, `name`, виконуваного коду чи невідомих файлів не є косметичними й не приховуються під icon preservation. Unsafe path/symlink/відсутній referenced asset — конкретний conflict; не виправляти його новою випадковою іконкою. Відсутність іконки на її відомому старому шляху потребує відновлення/звірки, а не нового дизайну.
+Inspect the stable name, class, existing metadata and assets. Reuse and record existing icons. For a new project icon, `python3 -B scripts/visual_identity.py create-project --root SKILL_ROOT --glyph XX` creates a new SVG without editing UI metadata. Choose the domain-specific glyph, add both references in `agents/openai.yaml`, inspect legibility, and freeze approved assets. A two-letter glyph is a portable fallback.
 
-Вже створений проєктний агент зі старим стилем зберігає поточні іконки. Правило відмінного стилю діє для нових агентів, де іконки ще немає. Зміна існуючої ідентичності можлива лише як окреме явне доручення власника; звичайний version bump його не дає.
+For a new system skill, use an available real system example and a distinct domain mark. If no reference is available, state the gap and avoid claiming a match.
 
-## Нова навичка
+## Verify
 
-Спочатку перевірити фактичну наявність UI metadata та іконок, stable name і клас. Якщо іконка вже існує — перевикористати й зафіксувати. Для нового `project` можна викликати `python3 -B scripts/visual_identity.py create-project --root SKILL_ROOT --glyph XX`: helper створює лише новий SVG, не змінює UI автоматично. Після цього встановити обидві прив’язки в `agents/openai.yaml`, перевірити читабельність і зробити freeze. Семантично потрібний glyph обирає агент; дволітерний знак є допустимим portable fallback.
-
-Для нової системної навички застосувати чинний системний стиль за реально доступним зразком, відмінний предметний знак і після приймання той самий freeze. Відсутній зразок позначити, не вигадувати, що іконка збігається з невідомим локальним стилем.
-
-## Перевірка
-
-`freeze --root SKILL_ROOT --class system|project` повертає snapshot із hashes, а `check --root SKILL_ROOT --lock SNAPSHOT.json` звіряє його без записів. Snapshot зберігати як артефакт чинного release/project registry поза skill-discovery tree. Helper підтримує JSON або простий block YAML UI; складний невідомий формат повертає conflict, а не guessed bindings. Він не доводить якість дизайну й не встановлює навичку.
+Use `freeze --root SKILL_ROOT --class system|project` to record identity and byte hashes. Use `check --root SKILL_ROOT --lock SNAPSHOT.json` to compare without writing. Keep the snapshot in the current release or project registry outside skill discovery directories. The helper supports JSON and simple block YAML. Unknown complex metadata is a conflict rather than a guessed binding. Use an actual rendering for craft and legibility acceptance.

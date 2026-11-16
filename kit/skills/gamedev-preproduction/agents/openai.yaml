@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · Дизайн · 6.0.0
-  short_description: Виконуваний TDD, каталоги, правила й точні передачі
-  default_prompt: $gamedev-preproduction Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · Дизайн
+  short_description: "Specify production rules for a chosen game"
+  default_prompt: "Use $gamedev-preproduction to turn the accepted game model into linked rules, production contracts, and test oracles."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

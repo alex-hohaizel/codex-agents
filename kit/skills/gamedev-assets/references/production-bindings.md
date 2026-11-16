@@ -1,43 +1,43 @@
-# Від моделі гри до виробничого матеріалу
+# From the game model to production assets
 
-Читати до inventory, першого source або зміни системного стану. Canonical intent/rules знаходяться у моделі гри за [model workflow](game-model-workflow.md). Цей контракт зберігає виробничі рішення й докази, а не другу предметну істину.
+Read this contract before creating an inventory, editable source, or state-dependent change. Use the canonical rules in the [model workflow](game-model-workflow.md) and keep production decisions and observations bound to them.
 
 ## Binding record
 
-Використати `assets/domain-templates/production-bindings.template.json`. Вказати exact model path/hash/revision; domain/object/state/event IDs; required representation; accepted target/property locks; sources/exports/recipes/importers; runtime consumers; scenario/evidence IDs; owner/status. Для кожного exported параметра, що відтворює правило гри, задати derivation або copied-from binding і перевірку drift. Empty draft fields лишають record incomplete; назва шаблону не дає acceptance.
+Use `assets/domain-templates/production-bindings.template.json`. Record exact model path, digest and revision, domain, object, state and event IDs, required representation, accepted target and locked properties, sources, exports, recipes and importers, runtime consumers, scenario and evidence IDs, owner, and status. For each exported game-rule parameter, document derivation or a copied-from binding and detect drift. Leave incomplete drafts open.
 
-| Предметний вхід | Що матеріально виробити | Boundary/context review |
+| Design input | Required production material | Boundary and context review |
 |---|---|---|
-| Camera/input | Real scene camera config, framing/viewport rules, UI controls/feedback | Follow/zoom/transition, narrow aspect, thumb occlusion, precision/peak, reduced motion |
-| Systems/resources | Distinct readable state transitions and cues | Exhaust/recover/overlap/cancel; sensory fallback не губить інформацію |
-| Actor/equipment | Silhouette, rig/clip/contact/collision representation, attachments, mode/status cues | Telegraph/commit/recovery, damaged/charged/overheated states, extreme poses, swaps |
-| World | Kit/modules/connectors, interactive transformations, navigation/occlusion data, compositions | Route/readability/revisit, persistent change, rare legal composition |
-| Progression/rewards | Actual unlock/equip/collection/reward screens, context cues, використання нового | Earned/unclaimed/duplicate/capped/pending; presentation після durable grant |
-| Learning | Affordance/highlight/help/control variants без заміни правила | First attempt/failure/retry/independent use/re-entry, optional hints |
-| Commerce/lifecycle | Store/offer/price/status/restore/refund/loading/error/offline flows | Decline/no-offer, interrupted purchase/reward, stale price, missing network |
+| Camera and input | Actual scene camera configuration, framing and viewport rules, UI controls and feedback | Follow, zoom, transition, narrow aspect, thumb occlusion, precision, peak, reduced motion |
+| Systems and resources | Readable state transitions and cues | Exhaustion, recovery, overlap, cancellation, equivalent sensory feedback |
+| Actors and equipment | Silhouettes, rig, clips, contact and collision representations, attachments, mode and status cues | Telegraph, commit, recovery, damage, charge, heat, extreme poses and swaps |
+| World | Kit, modules and connectors, interactive changes, navigation and occlusion data, compositions | Readable routes and revisits, persistent changes, rare legal combinations |
+| Progression and rewards | Actual unlock, equip, collection and reward screens, contextual cues, use of new abilities | Earned, unclaimed, duplicate, capped and pending. Confirm after durable grant. |
+| Learning | Affordance, highlight, help and control variants that preserve the rule | First try, failure, retry, independent use, return, optional hints |
+| Commerce and lifecycle | Store, offer, price, status, restore, refund, loading, error and offline flows | Decline, no offer, interrupted payment or reward, stale price and offline |
 
-Не додавати весь каталог станів кожному жанру: брати enabled features і actual model objects. `absent_by_design` має предметну причину й decision/source ref; unavailable tool не є такою причиною.
+Derive state coverage from the actual enabled features and model objects. `absent_by_design` requires a domain reason and reference to a decision or source. Missing tools keep affected operations blocked.
 
-## Здійсненність і стиль
+## Feasibility and identity
 
-Production profile охоплює фактичні source operations, editable representation, exporter/importer, підтримані runtime effects, ліцензії, витрати, device budgets і перевірені обмеження. Візуальний target показувати в рамках цього маршруту. PNG не визначає backview, rig, topology, procedural behavior або audio; потрібні actual secondary samples/sources, коли вони входять у scope.
+The production profile records actual source operations, editable representations, exporters and importers, supported runtime effects, licenses, costs, device budgets, and observed limits. Develop a visual target achievable through that route. Supply additional sources or samples for back views, rigs, topology, procedural behavior, or audio when required alongside a PNG.
 
-Style lock має точний original і конструктивне відображення camera/scale/form/surface/light/UI/motion/audio. Для camera вказати projection/follow/zoom/composition ranges та per-context cues з моделі; не використовувати один загальний ракурс лише заради картки. Показувати реалізовну temporal sequence, коли movement/interaction є суттю обіцянки.
+Bind the exact style original and implementable mapping for camera, scale, form, surface, light, UI, motion and audio. For camera specify projection, follow, zoom and composition ranges and context-specific cues from the model. Show an implementable sequence when motion or interaction is central.
 
-## Representative proof до тиражування
+## Representative proof before scaling
 
-Обрати невеликий набір, який покриває **спільні ризики**, а не лише красивий easy case: ключова механіка + changed world/resource state + representative actor/prop + actual camera/HUD + layered sensory feedback. Після actual source→export→import перевірити phone scale, normal/peak, boundary contact/transition і platform budget. Точний scope доказу записати; один actor не доводить усі rigs, а Android frame не доводить iOS haptics.
+Choose a small set covering shared risk: key mechanic, changed world or resource state, representative actor or prop, actual camera and HUD, and layered sensory feedback. After actual source, export and import, verify phone scale, normal and peak conditions, boundary contact and transitions, and platform budgets. Record the exact tested scope, including which rigs and platforms were observed.
 
-Зберегти capture build/state/seed/time/camera/resolution/quality, source/export hashes, observer/independence і deviations. Довідка про expected result не є observation. Actual assets evidence додавати до canonical evidence registry за форматом моделі; не заповнювати receipts вигаданими observers/builds.
+Capture build, state, seed, time, camera, resolution and quality, source and export hashes, observer and independence, and deviations. Record observations separately from expectations. Register proof in the canonical evidence system using actual observer and build data.
 
-## Зміни й повернення
+## Changes and handback
 
-Зміна camera/silhouette/material/motion semantics чи sensory hierarchy відкриває потрібні залежності design/build/learning/QA; не переробляти все без impact. Routine export/repair у прийнятих tolerances виконується автономно. Якщо репрезентативний proof не зберігає обіцянку, зупинити лише залежне тиражування та повернути конкретний route/target tradeoff з actual sample.
+A material change to camera, silhouette, materials, motion semantics, or sensory hierarchy reopens affected design, build, learning and QA. Repair routine exports within accepted tolerances. If the representative proof misses the intended result, pause dependent scaling and return a concrete change in route or target with an actual sample.
 
-## П’ять operational records
+## Five operational records
 
-Кожний item прив’язати до ToolCapabilityRecord, ProductionRecipe і SemanticTransformation; після фактичної спроби додати ProductionAttempt, після збирання — AssemblyEvidence. Використовувати чинні model/requirement/artifact/evidence IDs, не нову authority.
+For each item, use ToolCapabilityRecord, ProductionRecipe, and SemanticTransformation. Add ProductionAttempt after an observed invocation and AssemblyEvidence after integration. Use current model, requirement, artifact and evidence IDs.
 
-Recipe містить accepted inputs/hashes, exact supported command/API/GUI preset/argument mapping, DAG/preconditions/outputs/consumer, budgets/allowed effects, technical+semantic+perceptual checks, repair/stop. Transformation фіксує units/axes/pivot/scale/timebase/contact/color/alpha/audio conventions, preserved invariants і intentional losses. Attempt містить actual job/request/status/outputs/hashes/cost; timeout спочатку reconcile.
+Record accepted inputs and hashes, supported command, API or GUI preset and arguments, DAG, prerequisites, outputs and consumer, budget and allowed effects, technical, semantic and perceptual checks, repair and stop. Record transformation units, axes, pivot, scale, timebase, contact, color, alpha and audio conventions, preserved properties and intentional losses. Record actual job or request, status, outputs, hashes and cost. Reconcile unknown outcomes before retrying.
 
-Перевірити, що кожний material parameter був реально прийнятий/спожитий tool і importer. Descriptor label/catalog row не закривають operation witness. Cache key включає input/model/recipe/exporter/importer semantics; змінені derivatives rebuild, immutable accepted original зберігається.
+Verify that the tool and importer consume every material parameter. Confirm actual operation separately from descriptors and catalogs. Cache identity includes input, model, recipe, exporter and importer semantics. Rebuild affected derivatives and preserve approved originals.

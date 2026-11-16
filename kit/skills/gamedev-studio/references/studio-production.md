@@ -1,40 +1,40 @@
-# Виробництво ідентичності та налаштування студії
+# Produce and operate a studio identity
 
-У 3.0 використовувати [creative](domains/creative.md), [lifecycle](domains/lifecycle.md) та [Game Model workflow](game-model-workflow.md) за предметом роботи. Прийнятий brand envelope обмежує studio assets/usage; game-specific style, camera, engine, сюжет і монетизацію визначати окремо. Не перетворювати runtime/DCC constraints поточного host на глобальну заборону художніх напрямів.
+Use [creative](domains/creative.md), [lifecycle](domains/lifecycle.md), and the [Game Model workflow](game-model-workflow.md) as applicable. The accepted brand defines studio assets and usage. Derive game-specific style, camera, engine, story, and monetization separately. Treat runtime and DCC tooling constraints as constraints of the current environment.
 
-## Канонічна ідентичність
+## Canonical identity
 
-Статуси розрізняються: chosen name, chosen visual direction, approved master, production derivative, configured account/service. Один не виводиться з іншого. Файл record містить `asset_id, family, source_id, source_sha256, operations, export_path, export_sha256, dimensions, format, color_space, alpha, usage, limitations, rights_ref, inspection_ref, approval_ref`.
+Track chosen name, chosen visual direction, approved master, production derivative, and configured account or service as separate states. Record `asset_id, family, source_id, source_sha256, operations, export_path, export_sha256, dimensions, format, color_space, alpha, usage, limitations, rights_ref, inspection_ref, approval_ref`.
 
-Original master зберігається незмінно. Похідні не повинні незалежно перемальовуватися щоразу новим prompt. Для точного reuse робити extraction/crop/compositing/export із тих самих sources. Якщо text/mark існує лише у raster concept, editable recreation потребує explicit design target і actual comparison; файл із розширенням SVG може містити raster або нову геометрію, і ці випадки треба підписати правдиво.
+Retain the original master unchanged. Derive reusable exports by extraction, crop, compositing, or conversion from the same source. When a wordmark or symbol exists only in a raster concept, an editable reconstruction needs an explicit target and an actual comparison. Verify whether an SVG contains raster data or vector geometry and label its contents.
 
-## Що перевіряє visual QA
+## Visual QA
 
-| Ознака | Перевірка | Провал |
+| Property | Verification | Failure example |
 |---|---|---|
-| Знак/персонаж | silhouette, proportions, expression, details, edge/texture language | Ті самі кольори, але інше обличчя або форма |
-| Wordmark | exact lettering, spacing, baseline, irregularities, proportions | Підставлений «схожий» шрифт або нові літери |
-| Матеріал/світло | intentional texture, depth, shadow, contrast і color role | Плоский polygon замінює об'ємний папір/дерево без вибору |
-| Composition | relative placement/scale, clear space, crop envelope | Compact export довільно міняє взаємне розташування |
-| Повнота | full board/profile/header/store families; readable small sizes | Один гарний board, неперевірені похідні |
-| Source chain | actual source→operation→output; fonts/images rights | «Векторний» заявлений лише за extension |
+| Symbol or character | Silhouette, proportions, expression, details, edges, and textures | An altered face or shape using the same palette |
+| Wordmark | Exact lettering, spacing, baseline, irregularities, and proportions | Substitute font or invented lettering |
+| Material and lighting | Texture, depth, shadow, contrast, and role of color | Flat polygon substituted for intentional dimensional paper or wood without an accepted choice |
+| Composition | Relative positions and scale, clear space, and allowable crop | Compact export silently changing the relative positions |
+| Coverage | Complete board, profile, header, and store families with legibility at small sizes | One approved board and unverified derivatives |
+| Source lineage | Actual source, operation, output, and font and image rights | A vector claim based on the file extension |
 
-Technical hash перевіряє bytes, а не візуальну еквівалентність. QA використовує actual image view з exact subject refs; не вигадує перегляд недоступного зображення. За збільшенням не можна обіцяти відновлення втрачених detail без нового рішення.
+Verify bytes with hashes and visual equivalence with actual inspection. Tie image review to the exact asset. Label unavailable review evidence. Enlarging a raster requires an explicit choice about any detail to reconstruct.
 
-## Переносний production scope
+## Portable production scope
 
-За потребою студії: primary/wordmark/icon, light/dark/mono/compact, RGB/alpha exports, developer profiles/header, website/social, splash/about/credits usage, font files/license, palette/tokens, clear space/min size. Немає потреби створювати довільні social accounts або 50 розмірів без реального target. Неактуальні store pixel constraints перевіряти перед export; template не замінює чинні вимоги.
+As required, prepare primary marks, wordmark and icons, light/dark/monochrome and compact variants, RGB and alpha exports, developer profiles and headers, website and social assets, splash/about/credits use, font files and licenses, palette and tokens, clear space, and minimum size. Produce accounts or sizes only for actual targets. Check current store pixel constraints before export.
 
-## Реєстр studio operations
+## Studio operations register
 
-Для кожного `task_id`: purpose, required_or_optional, target_environment, required_access, owner, upstream_tasks, exact verified official URL/date, action_steps, expected_cost, ongoing_cost, output_identifier, done_check, observed_state, blocker, rollback_or_recovery, next_skill_use.
+For each `task_id` record purpose, required or optional, target environment, required access, owner, upstream tasks, exact officially verified URL and date, action steps, expected and recurring costs, output identifier, completion check, observed state, blocker, rollback or recovery, and next skill use.
 
-Групи: identity/контакти; account/entity/verification; domain/site/support/privacy; repo/CI/signing/secrets; platform accounts/agreements/payouts; analytics/crashes/consent; commerce/ads/backend/storage лише за потребою. Прізвище/бренд/юридична назва не взаємозамінні. Невідомий legal entity/account ID лишається pending, не вигаданим рядком. Студія як бренд не створює legal incorporation.
+Group work by identity and contacts, accounts and entities and verification, domain and site and support and privacy, repository and CI and signing and secrets, platform accounts and agreements and payouts, analytics and crash reporting and consent, and applicable commerce, ads, backend, and storage. Distinguish personal, brand, and legal names. Keep unknown legal entity or account IDs pending. Record brand identity and legal registration separately.
 
-Виконуй підтримувані account/setup actions достатнім доступним plugin/API/CLI або дозволеним browser у чинному scope згоди. Власнику передавай точний blocked step для MFA, особистого legal/signature confirmation чи відсутнього доступу; не роби весь setup ручним автоматично. Інструкція має вести click/command→expected result→verification для конкретного середовища, без заяви про виконаний крок до спостереження. Зміни тарифів, store policy й fees перевіряються на момент дії офіційно. Платний account може бути неминучим для публікації; це показують окремо від нульової додаткової вартості локальних tools.
+Execute authorized and supported account or setup operations through a sufficient plugin, API, CLI, or permitted browser. If MFA, a personal signature, legal confirmation, or missing access requires the owner, give the exact blocked step. Document the click or command, expected result, and verification for the specific environment. Claim completion after observing the result. Verify official prices, store rules, and fees when acting. Distinguish provider account costs required for publishing from local tooling costs.
 
-## Operation admission замість списку software
+## Verify each real operation
 
-Для actual target вибрати input→tool/API/CLI/GUI operation→editable output→export/import→consumer→validation. Must-фільтри формату/quality/платформи/прав/privacy/доступу/бюджету перед score. Перевірити schema/catalog/required fields/parameter consumption; generic prompt не породжує автоматично layers/rig/geometry/stems.
+For each target, map input to the actual tool, API, CLI, or GUI operation, to its editable output, export or import, consumer, and verification. Filter first for required format, quality, platform, rights, privacy, access, and budget. Verify schema, catalogue, required parameters, and actual use of material parameters. Inspect outputs for each claimed layer, rig, geometry, or stem.
 
-Witness фіксує exact input/output hashes/version/host/target/method/limitations і freshness. Unknown remote job outcome спочатку reconcile;нові витрати лише у чинному scope. Для native SDK операцій operation witness не замінює signed release conformance.
+The operation witness records exact input and output hashes, version, host, target, method, limitations, and freshness. Reconcile unknown remote effects before retrying. Spend only within the current authorization. For native SDK operations, verify conformance separately with the signed release.

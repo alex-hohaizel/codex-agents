@@ -33,10 +33,10 @@ class OperatingMaterializationTests(unittest.TestCase):
                                 text=True, capture_output=True, timeout=8)
         return result.returncode, json.loads(result.stdout)
 
-    def test_all_seven_resources_are_local_in_core_and_optional_orchestrator(self):
+    def test_operating_resources_are_local_in_core_and_optional_orchestrator(self):
         code, result = self.run_materializer()
         self.assertEqual(code, 0, result)
-        self.assertEqual(len(result['resources']), 7)
+        self.assertIn('standards/tool-compatibility.md', {row['source'] for row in result['resources']})
         for source, target in M.RESOURCES.items():
             for bundle in ('kit/skills/one', 'kit/skills/two', 'optional-skills/atelier-orchestrator'):
                 self.assertEqual((self.root / bundle / target).read_bytes(), self.expected[source])

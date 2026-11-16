@@ -1,52 +1,44 @@
-# Перевірка конструктора та створених агентів
+# Evaluate Foundry and generated agents
 
-Зміст: рівні → план → незалежність → cases → closure → випуск.
+## Choose levels and plan evidence
 
-## Рівні перевірки
+Keep domain adequacy, machine structure, implementation, host delivery and discovery, actual target execution and operational outcome distinct. A schema checks declared fields and relations. Installation does not test implicit activation. A unit fixture does not establish a user, provider or production effect.
 
-Розрізняти semantic domain adequacy, machine structure, implementation behavior, host delivery/discovery, actual target execution і operational outcome. Blueprint schema доводить поля/references/покриття, не повноту предметного аналізу. Skill installation доводить розміщення файлів, не правильне implicit routing. Unit fixture не є реальним користувацьким, інструментальним чи production доказом.
+Define a positive case, a strong nearby negative or objection, proof type, scope, due stage and limits for each key obligation. Choose actual interaction, executable result, inspected artifact, measurement, provider read-back, source-based analysis or a combination to match the claim. A failed must cannot be offset by other positive scores.
 
-Кожна ключова вимога має позитивний сценарій, strongest objection/negative case, потрібний тип фактичного доказу, scope, строк перевірки й обмеження. Метод виводити з властивості: спостереження взаємодії, виконуваний результат, перевірений матеріал, вимір, provider read-back, source-based analysis або їх поєднання. Не вводити універсальний score, що дозволяє компенсувати провал must іншими перевагами.
+In the passport connect capability, requirement, stage, test, evidence, owner and independence. Sampled audits supplement the due requirements. Do cheap deterministic checks first. Use costly checks when they resolve a concrete risk. Prove the riskiest end-to-end slice before batch work.
 
-## План до створення
+Check metadata and schemas, links and path containment, exact skill roots, protocol and version and hashes, runnable CLI/API, malformed input and recovery, import and resource limits, archive membership, permissions and secrets, project installation, hashes after ordinary use, and repeat application as applicable. A test plan does not authorize real payments, accounts, batch generation or live mutations.
 
-У погоджуваний паспорт включити test matrix capability→requirements→phase→test→evidence→owner/independence. Вибіркові audits доповнюють, не замінюють coverage всіх due must. Дорогі перевірки робити після дешевих deterministic checks, коли вони знімають реальний ризик. Перед масштабуванням перевірити найризиковіший наскрізний шлях за предметною потребою.
+## Get actual independent review
 
-Технічний план: parse metadata/schema; local links/contained paths; exact skill/entry set; protocol/version/hash consistency; API/CLI actually runnable; safe input/state recovery; import/resource limits; package ZIP inventory; permissions/secrets boundaries; установка в існуючий проект; hash verification після звичайного використання; ідемпотентне повторення. Не виконувати live mutations, платежі, масові генерації або створення акаунтів лише заради validation.
+For material work assign a real reviewer who did not author the artifact. In an initial forward case supply original request, required inputs and actual output without the expected answer, suspicion or interpretation. A diagnostic reproduction after a finding can use a known case and is a separate test.
 
-## Справжня незалежність
+Record actual actor IDs, write scope, resource cap, expected output and stop. A simulated role in the author's answer is a self-check. If a subagent is unavailable, retain the pending independent test and exact capable route. Set QA scope by impact. Privacy, money, permissions, migration and external release need independent evidence appropriate to their risk.
 
-На складний результат призначити реального reviewer, який не є автором. Передати raw request, потрібні inputs і produced artifacts; для первинного forward test не передавати очікувану відповідь, підозрювану помилку або готову інтерпретацію. Diagnostic retest після finding може мати точний repro, але це інший вид перевірки.
+## Required negative classes
 
-Ролі мають actual actor IDs, owned paths, resource cap, expected output і stop. Не представляти кілька голосів одного повідомлення незалежною командою. За недоступності subagents — чесний self-check та pending independent review або точний людський bridge. Final reviewer не переіменовується з автора. Обсяг QA пропорційний впливу; privacy/money/authority/data migration/external release потребують незалежності за своїм ризиком.
+1. Incomplete intent leads to explained subject questions rather than a guessed domain or preset.
+2. Dependent construction stays blocked with absent, negative or mismatched blueprint approval, scope, revision or hash.
+3. One skill can have multiple phases. Families can have different stage counts. Role, phase and skill counts are independent.
+4. Unknown or cyclic dependencies, a missing capability to artifact to test link, or failed due requirement stay visible.
+5. Preserve explicit user priorities across steering. New evidence reopens affected results and proof.
+6. Changed output or source bytes, stale proof and revoked authority invalidate dependent closure or jobs.
+7. Self-observation does not satisfy independent review. A named reviewer requires actual contribution.
+8. Current pause survives a future stop, rewritten prompt or new task. Resumption preserves completed effects.
+9. Blueprint approval does not grant product execution or external operation. Denial blocks the effect. Unknown effects require read-only reconciliation.
+10. A planned SDK, integration, host or document does not establish availability. Missing capability stays a gap.
+11. Install and update preserve unrelated files, AGENTS, modes and state. Dirty or unmanaged collisions, links, special files and unsafe paths are rejected.
+12. Normal use preserves immutable installed source. Stale bytecode cannot replace trusted current code.
+13. Untrusted data does not grant authority. Context stays within project scope. Revoke, delete and restore cannot recover prohibited material.
+14. Prove delivery, installed source, discovery, exercised task, running state and actual observation separately.
 
-## Обов’язкові класи негативних випадків
+## Repair and close
 
-1. Неповний намір: з’являються пояснені предметні питання, не мовчазно вибраний напрям або preset.
-2. Немає target blueprint approval, відповідь негативна або hash/revision/scope змінились: залежне створення заблоковане.
-3. Одна skill із кількома фазами та сімейство з іншою кількістю фаз обидва коректні; role/phase/skill counts не зчеплені.
-4. Невідома/cyclic dependency, пропущена capability→artifact→test ланка або failing due must не маскуються score чи N/A.
-5. Явний user emphasis не зникає при новому запиті; нове знання відкриває відповідні результати й докази.
-6. Змінений output/proof/source/hash або відкликана authority роблять залежне closure/job нечинним.
-7. Self-observation не закриває independent-review gate; fabricated role не створює фактичного reviewer.
-8. Pause now не скидається future-stop, переформульованим prompt або новим task; resume не повторює завершену дію.
-9. Blueprint approval не є execution grant чи effect authorization; decline не дозволяє effect, unknown outcome вимагає read-only reconciliation.
-10. Інтеграція, SDK, хост, документ чи tool із плану не називаються фактично доступними без перевірки; missing capability не стає N/A.
-11. Нове встановлення/оновлення зберігає unrelated files/AGENTS/modes/state; dirty/unmanaged collisions, links/special files та unsafe paths відхиляються.
-12. Звичайне використання не створює непередбачених змін у встановлених immutable skill files; trusted code bytes не підміняє stale bytecode cache.
-13. Вхідний текст не розширює повноваження; project knowledge не переноситься до чужого проекту; revoke/delete/restore не оживляють заборонений зміст.
-14. Повнота доставки перевіряється окремо від виробництва; archive prepared, installed, discovered, exercised, running та observed мають фактичні підтвердження.
+Keep finding, reproduction, severity, input/output hashes and impact. Fix the cause and retest the affected requirements and transitive effects. Preserve previous failure and current retest as separate records. After two unchanged failures, change diagnosis or report an exact blocker. Do not repeat a whole unaffected stage for a small diff. Investigate uncertain impact before narrowing.
 
-## Ремонт і closure
+Forward cases assess restored goals, necessary questions, domain model, actual competencies, suitable stages and an executable next step. Surface-level phrasing and keyword matches do not establish those properties. Use calibrated human or tool checks for critical qualities beyond an AI critique.
 
-Зберегти finding, repro, severity, input/output hashes і impact. Автор усуває причину; reviewer повторює зачеплений scope, включно з transitive dependencies. Не переписувати старий fail як pass: додати current retest/version. Два однакові безрезультатні цикли означають зміну діагностики або конкретний blocker. Не повторювати весь етап через незначущий diff, але не звужувати невідомий impact без доказу.
+Before delivery verify actual package membership, approved scope, artifact hashes, tests and boundaries. Return produced outputs, test scope, remaining owners and gaps, use instructions, launch and return path, and support guidance. A generated agent does not fulfill the original task until the intended consumer runs it. Longer-term outcomes need their own observation window.
 
-Поведінковий forward case оцінює зміст: правильність відновленої мети, потрібних уточнень, структури області, повноти компетенцій, етапів/команди й реального next action. Гладка відповідь або збіг keywords не є оцінкою такої якості. Для критичних якостей потрібна предметна людська/інструментальна калібровка, коли AI critique недостатня.
-
-## Перед доставкою
-
-Повторно звірити затверджений склад, current hashes, approvals, tests і межі. Надати фактичні outputs, статус перевірок, gaps/owners, user guide, launch/return і support instructions. Створений агент не звітує готовий кінцевий результат до його окремого виконання; запущений результат не звітує довготривалу якість без потрібного періоду спостереження.
-
-## Чинний контракт: виміряна глибина
-
-Застосувати [depth-evaluation-2](depth-evaluation-2.md). Перевірити нові негативні cases: відсутній recipe/consumer/inherited domain contract; source proof замість operation/integration; stale subject hash; непідтриманий material parameter; помилка units/time/rounding; unresolved remote attempt; old-state restore після delete/revoke; неправильний host return. Cold receiver має відтворити дозволений сценарій без вигадування правила й без історії чату. Спільний `verify_depth.py` та `check_foundry_depth.py` мають різні scoped reports; жоден не сертифікує предметну якість.
+Use [depth evaluation](depth-evaluation-2.md) for applicable tests. Include missing recipes, consumer or inherited contract, source proof offered as integration, stale subject, unsupported material parameter, units or rounding, uncertain remote call, unsafe recovery after deletion or revocation, and wrong-host handoff. A fresh recipient can reproduce the authorized scenario without improvised rules or prior chat. `verify_depth.py` and `check_foundry_depth.py` report distinct scopes and do not certify domain quality.
