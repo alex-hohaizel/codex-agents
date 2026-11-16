@@ -1,6 +1,6 @@
 # Change log
 
-## Repository edition 1.5.0 candidate
+## Repository edition 1.5.0 — 2026-11-16
 
 English canonical skill instructions, scoped route and handoff checks, portable native canaries, trusted bundle admission, and a professional capability map. See [component versions and admission state](releases/current.json) and [update and rollback](releases/migrations/6.2.0.md). Earlier releases keep their original evidence.
 

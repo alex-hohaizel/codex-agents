@@ -3,7 +3,7 @@
   "repository_branch": "main",
   "repository_version": "1.5.0",
   "suite_version": "6.2.0",
-  "release_date": null,
+  "release_date": "2026-11-16",
   "release_notes": "releases/6.2.0.md",
   "migration": "releases/migrations/6.2.0.md",
   "requirements": "governance/requirements.csv",
@@ -81,7 +81,7 @@
     "final_adoption_performed": false,
     "implementation_status": "docs/evolution/2026-11-10/IMPLEMENTATION.en.md"
   },
-  "release_status": "Prepared component versions. Required candidate evaluation, GitHub provenance, publication and local adoption are tracked separately.",
+  "release_status": "Stable source release for the listed components. Install only the exact attested Codex archive. GitHub publication, local adoption, and product adoption each have separate evidence.",
   "role_profiles": {
     "version": "6.2.0",
     "manifest": "agent-profiles/manifest.json"
@@ -95,5 +95,6 @@
     "source_commit": "8d8ecdf85fbb0924f686c4891383591c1513dcd7",
     "release_notes": "releases/repository-1.4.0-rc.5.md"
   },
-  "release_stage": "candidate"
+  "release_stage": "stable",
+  "release_tag": "v1.5.0"
 }

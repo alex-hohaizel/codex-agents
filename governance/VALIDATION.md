@@ -6,9 +6,15 @@ The 0.5.0 release passed 234 service tests and 65 browser checks. The verified s
 
 Earlier evidence remains bound to the original source and observed scope. [Historical core and service verification](RELEASE_6_VERIFICATION.json) · [1.3.0 universal-entry verification](UNIVERSAL_ENTRY_1_3_VERIFICATION.json) · [1.3.2 passport revision](../releases/repository-1.3.2.md) · [Historical campaign closeout](history/TASK_CLOSEOUT-1.1.0.json)
 
+## Repository 1.5.0 scoped evidence
+
+The native matrix covers positive and nearby negative cases for 35 skills and 12 roles. In the scoped follow-up on [the tested skill sources](https://github.com/alex-hohaizel/codex-agents/commit/b5ebe6e35e7fd1f972f3694859ad04e277bb3b94), actual Codex confirmed the complete entrypoint of every skill across the matrix and explicit companion checks. When an unprompted route correctly worked directly or with a different specialist, that behavior stayed distinct from the companion proof for the named skill. Child traces established the tested role instructions and completed returns. Deterministic output checks and independent review kept formatting differences apart from substantive defects.
+
+The promoted host profile makes pending or uncertain effects explicit. The native incident replay kept the incident open and required authoritative state and receipt reconciliation before any authorized retry that could not duplicate the effect. A direct local edit and a separate unknown integration result passed their scoped controls. The workbench was checked in an isolated WebKit view with actual Codex discovery: it selected the exact Orchestrator source and prepared one task without dispatch. These observations do not establish unrelated product adoption, provider access, release-store acceptance, or coverage on every physical device. See the published release for the exact archive digests and main-branch provenance. Managed installation and its native read-back are separate events.
+
 ## Source and identity
 
-The exact 6.1.0 predecessor verified 33 stable skills, 3,187 declared skill files and 3,194 curated source and support files. The current candidate has its own manifest and integrity report. The release record binds the exact manifest. Verified predecessor descriptors and Git trees remain available for updater admission. Existing icon bytes, references and colors are checked against the identity baseline. [Current release record](../releases/current.json) · [Icon baseline](ICON_BASELINE.json)
+The exact 6.1.0 predecessor verified 33 stable skills, 3,187 declared skill files and 3,194 curated source and support files. The current release has its own manifest and integrity report. The release record binds the exact manifest. Verified predecessor descriptors and Git trees remain available for updater admission. Existing icon bytes, references and colors are checked against the identity baseline. [Current release record](../releases/current.json) · [Icon baseline](ICON_BASELINE.json)
 
 No product state is reset or adopted merely by installation. Native format versions, generated-agent toolkit locks, service state and repository edition remain separate.
 
