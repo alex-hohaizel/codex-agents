@@ -6,7 +6,7 @@ Reusable Codex skills, specialist roles, and a local Mac workbench. Start with a
 
 [English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md) · [Another language](START_HERE.md#use-another-language)
 
-[Install and try it](START_HERE.md) · [Capability map](docs/CAPABILITIES.md) · [Engineering guide](docs/OPERATING_MODEL.md) · [Agent Atelier](apps/agent-atelier/README.md) · [Stable download](https://github.com/alex-hohaizel/codex-agents/releases/latest)
+[Install and try it](START_HERE.md) · [Capability map](docs/CAPABILITIES.md) · [Engineering guide](docs/OPERATING_MODEL.md) · [Agent Atelier](apps/agent-atelier/README.md) · [Versions](releases/README.md) · [Stable download](https://github.com/alex-hohaizel/codex-agents/releases/latest)
 
 ## Your first task
 
@@ -47,4 +47,4 @@ The showcase follows example workflows across applications, games, assistants, o
 
 [Explore the visual showcase](marketing/README.md) · [Повний україномовний огляд](marketing/uk/README.md)
 
-[Release and component versions](releases/current.json) · [Verification and evidence](governance/VALIDATION.md) · [Rights](RIGHTS.md)
+[Verification and evidence](governance/VALIDATION.md) · [Rights](RIGHTS.md)
