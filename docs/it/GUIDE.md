@@ -2,10 +2,10 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**Versione di riferimento della guida:** Agent System 6.1.0, 11 novembre 2026. **Suite riutilizzabile:** 33 competenze. Questa guida tratta una nuova installazione, il lavoro quotidiano, la condivisione di un progetto tra Work e Codex e l'aggiornamento di un progetto esistente. Le revisioni della documentazione e dei pacchetti del repository possono cambiare senza modificare la versione delle competenze sottostanti; consulta il registro della versione prima di aggiornare.
+**Suite riutilizzabile** — 33 competenze. Questa guida spiega la prima installazione, il lavoro quotidiano, la collaborazione tra Work e Codex e l’aggiornamento dei progetti esistenti. Documentazione, edizioni del repository e versioni dei componenti possono cambiare in modo indipendente.
 
 
-**Candidato corrente su GitHub.** Repository **1.4.0-rc.5**, core **6.1.0**, Atelier Orchestrator facoltativo **1.2.0**, manutenzione facoltativa **1.1.0**, Agent Atelier locale **0.5.0**. L’installazione di Agent Atelier 0.5.0 sul Mac del proprietario è stata verificata conservando l’archivio e le impostazioni esistenti. Il rilascio stabile 1.4.0 e l’accettazione completa del programma restano aperti. [Versioni su main](../../releases/current.json) · [Registro dei requisiti](../../governance/requirements.csv) · [Release rc.5](../../releases/repository-1.4.0-rc.5.md) · [Aggiornamento da 0.4.0 a 0.5.0 e rollback](../../releases/migrations/repository-1.4.0-rc.5.md) · [PR n. 4 integrata](https://github.com/alex-hohaizel/codex-agents/pull/4)
+Il registro riporta l’edizione del repository, la suite principale, le competenze facoltative, i profili dei ruoli e dell’ambiente, l’applicazione locale, lo stato della versione e le relative migrazioni. Consultalo per scegliere la versione di destinazione. Il registro storico di rc.5 conserva le verifiche per il nucleo 6.1.0, Atelier Orchestrator 1.2.0, la competenza di manutenzione 1.1.0 e Agent Atelier 0.5.0. [Registro delle versioni attuale](../../releases/current.json) · [Verifiche storiche di rc.5](../../releases/repository-1.4.0-rc.5.md) · [Aggiornamento storico alla 6.1](../../releases/migrations/6.1.0.md)
 
 La precedente campagna 1.1.0 resta invariata: [pubblicità inglese](../../marketing/campaign/README.md) e [pubblicità ucraina](../../marketing/campaign/README.uk.md), dieci materiali per lingua. La pubblicità è EN/UK; guide e interfaccia del servizio coprono tutte e sette le lingue dichiarate. Audit, aggiornamento, installazione e controllo reali di Work restano un’attività separata nell’ambiente pertinente; un archivio delle fonti o il collegamento al repository non è una ricevuta di installazione.
 
@@ -19,29 +19,31 @@ In Agent Atelier, aggiorna il portafoglio per trovare i progetti Codex locali re
 
 Apri la prossima azione mostrata per riportarne il testo completo nel modulo. Modifica l’obiettivo e i criteri di accettazione, poi controlla il percorso prima di preparare l’attività. In Connessioni, OpenAI Docs MCP restituisce link alla documentazione ufficiale. Codex Image mostra l’anteprima e consente di scaricare il PNG quando l’accesso ChatGPT esistente e l’host Codex supportano l’operazione. La generazione usa i limiti inclusi di Codex. Per i plugin gestiti i cui strumenti non sono stati verificati, prosegui tramite il percorso previsto in Codex. [Aggiornamento da 0.4.0 a 0.5.0 e rollback](../../releases/migrations/repository-1.4.0-rc.5.md)
 
-## 0. Aggiornare alla 6.1 e aprire lo spazio operativo locale
+## 0. Aggiorna le competenze gestite in Codex e apri lo spazio di lavoro locale
 
-I comandi seguenti descrivono procedure supportate. Applicare solo il candidato esatto ammesso per l’ambito previsto dopo le verifiche di conservazione; le fonti preparate non invitano a sostituire un’installazione o un servizio attivi.
+Per un’installazione gestita, usa la versione stabile selezionata con le fonti e l’archivio esatti approvati. Puoi provare una versione candidata in un ambiente di test isolato. [Aggiornamento Codex con verifica della firma e ripristino](../../releases/migrations/6.2.0.md)
 
-1. Seleziona un commit esatto e verificato della release. Conserva le fonti attuali delle 33 competenze, file/collegamenti/colori/classi delle icone, modifiche locali e prove di proprietà. Salva requisiti del progetto, identità/persona accettate, decisioni, permessi, attività pendenti ed effetti incerti. L’installazione non migra un prodotto.
-2. Da `kit/`, leggi la guida dello strumento di aggiornamento portabile, quindi verifica il candidato esatto. Prima di apply esamina tutte le 33 voci, i conflitti e la conservazione dell’identità visiva. Tieni piani e backup fuori dalle cartelle di rilevamento delle competenze.
+1. Scegli il commit esatto della versione e il corrispondente archivio. Conserva le fonti delle 33 competenze installate, i file e i riferimenti delle icone, i colori, le modifiche locali e i dati di proprietà. Salva requisiti del progetto, identità e personalità approvate, decisioni, autorizzazioni, attività in sospeso ed effetti esterni dall’esito incerto. L’adozione nel progetto segue una migrazione separata.
+2. Segui la migrazione con verifica della firma da una copia di lavoro separata e fidata. Verifica l’attestazione di GitHub Actions e gli hash esatti dell’archivio e del manifesto. Usa il percorso indicato nella ricevuta di verifica e confronta prima di apply l’hash del manifesto nel piano con quello approvato. Controlla tutte le 33 voci, i conflitti e la conservazione dell’identità visiva. I comandi sotto provano audit, apply e verify da `kit/` con percorsi di test isolati. Conserva piani e copie di sicurezza fuori dalle directory di rilevamento delle competenze.
 
 ```bash
 python3 portable/update_skill_suite.py --help
-python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
-python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
-python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+fixture_root=/absolute/path/to/isolated-test
+mkdir -p "$fixture_root"
+python3 portable/update_skill_suite.py audit --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
+python3 portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
+python3 portable/update_skill_suite.py verify --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /actual/apply/journal.json
 ```
 
 3. Sostituisci il segnaposto del registro solo con il percorso effettivamente restituito da apply. Le differenze sconosciute vanno chiarite; non forzare la sovrascrittura. Verifica separatamente il rilevamento/caricamento reale della fonte e una singola attività circoscritta. Le icone esistenti e le competenze estranee all’aggiornamento restano conservate.
 4. Verifica separatamente il profilo dell’ambiente Codex dalla radice del repository: `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Applica con `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json`, poi verifica con `verify --journal /absolute/host-journal.json`. Il blocco gestito conserva le istruzioni globali esistenti; i dodici ruoli circoscritti mantengono modelli e restrizioni sugli effetti esterni. Il caricamento nell’ambiente reale richiede una verifica separata.
-5. Installa il componente facoltativo `atelier-orchestrator` tramite il gestore di competenze supportato, da `optional-skills/atelier-orchestrator` nel commit scelto. È separato dall’aggiornamento delle 33 competenze di base; la presenza delle fonti non dimostra installazione o corretta esecuzione. Anche la competenza di manutenzione esistente resta facoltativa e separata.
+5. Aggiorna un `atelier-orchestrator` esistente con il gestore di competenze supportato da `optional-skills/atelier-orchestrator` nella versione scelta. Lo strumento di aggiornamento del nucleo gestisce le 33 competenze di base. Anche la manutenzione è un componente facoltativo. Installa una competenza facoltativa assente solo su richiesta. Verifica il rilevamento e l’esecuzione effettivi.
 
-Atelier Orchestrator 1.2.0 è il punto di accesso unico facoltativo: descrivi il risultato una volta e sceglierà l’esecuzione diretta, uno specialista esistente, un agente di progetto, un direttore, il coordinamento dei componenti o Foundry. Le richieste semplici restano semplici. Un unico brief e le autorizzazioni esistenti accompagnano il lavoro. Dopo la creazione, verifica e rilevazione di un agente di progetto da parte dell’ambiente, consiglia di proseguire tramite quell’agente e mantiene il collegamento quando torni all’orchestratore. La creazione dell’agente e l’attività di prodotto originale hanno accettazioni distinte; un pacchetto agente non completa il prodotto richiesto.
+Atelier Orchestrator è il punto di accesso unico facoltativo: descrivi il risultato una volta e sceglierà l’esecuzione diretta, uno specialista esistente, un agente di progetto, un direttore, il coordinamento dei componenti o Foundry. Le richieste semplici restano semplici. Un unico brief e le autorizzazioni esistenti accompagnano il lavoro. Dopo la creazione, verifica e rilevazione di un agente di progetto da parte dell’ambiente, consiglia di proseguire tramite quell’agente e mantiene il collegamento quando torni all’orchestratore. La creazione dell’agente e l’attività di prodotto originale hanno accettazioni distinte; un pacchetto agente non completa il prodotto richiesto.
 
 Le richieste di migliorare o riscrivere l’orchestratore stesso, una competenza, un costruttore, una famiglia o un agente esistente seguono il percorso di manutenzione: leggere fonti e impostazioni effettive, esaminare impatto e differenze, conservare identità e modifiche locali, mantenere una copia precedente e verificare il risultato salvato. Un’anteprima del percorso e il verificatore di routing facoltativo non certificano idoneità specialistica, consenso umano, esecuzione o qualità. Le invocazioni dirette delle competenze esistenti restano disponibili.
 
-Apri l’applicazione locale separata Agent Atelier 0.5.0 con il suo launcher. La competenza non è un processo in background e l’applicazione non è una voce dell’elenco delle competenze. Le versioni sono indipendenti. SVG originale, collegamenti PNG e colore del marchio restano preservati. Il core 6.1.0 aggiunge metodi compatibili; non azzera il prodotto né vi adotta automaticamente nuove regole. Leggere [aggiornamento e ripristino 6.1](../../releases/migrations/6.1.0.md). Verificare la versione realmente attiva con status/doctor; un’istanza esistente può restare alla versione precedente fino a una sostituzione verificata. [Aggiornamento da 0.4.0 a 0.5.0 e rollback](../../releases/migrations/repository-1.4.0-rc.5.md)
+Apri Agent Atelier con il suo launcher locale. Lo spazio di lavoro e le competenze hanno versioni indipendenti. Controlla la build in esecuzione con `status` e `doctor`. In caso di aggiornamento, verifica SVG originale, riferimenti PNG e colore del marchio. Un’istanza precedente può restare attiva fino alla sostituzione verificata. Consulta la [guida di Agent Atelier](../../apps/agent-atelier/README.md) e, per quel passaggio, la [migrazione storica da 0.4.0 a 0.5.0](../../releases/migrations/repository-1.4.0-rc.5.md).
 
 6. Per compilare il servizio locale dalle fonti, usa il lockfile fissato con Node.js 24.22.2 o una versione successiva supportata. Da `apps/agent-atelier/`, esegui i comandi seguenti. La prima installazione delle dipendenze richiede accesso di rete, senza implicare un nuovo servizio a pagamento.
 
@@ -64,9 +66,9 @@ Le chat native Codex esistenti possono essere esaminate nel portafoglio tramite 
 
 8. Prepara un’attività con ambito, input, accettazione e limiti esatti, poi avviala tramite l’adattatore Codex supportato. Fonte, qualità del lavoro, integrazione, dispositivo, revisione indipendente e accettazione del proprietario sono stati distinti. L’annullamento è confermato solo dopo l’esito effettivo dell’ambiente. Le chat esistenti richiedono identità/cwd precisi e un passaggio in stato inattivo; il controllo del servizio non blocca un altro processo desktop che scrive. Riconcilia un effetto incerto prima di riprovare. Durante la preparazione dell’attività, il servizio registra le esatte fonti AGENTS che la governano, il loro ordine di priorità o la loro assenza verificata, e le impostazioni con cui Codex stesso carica le istruzioni. Verifica che questi dati corrispondano alle fonti delle istruzioni effettivamente caricate e li ricontrolla prima di una chiamata al modello. Se questi input cambiano o un’attività precedente non dispone di tali dati, occorre prepararla di nuovo; la sua cronologia e i file nativi del prodotto vengono conservati.
 9. Le sessioni Foundry esistenti usano `suite-update-plan` e un record verificato `refresh --accept-suite-update` con impronte esatte dello stato sorgente e della destinazione. App state/1 non necessita di migrazione del formato per il toolkit. Le prove di integrazione Chat richiedono riferimenti correnti all’oggetto del contratto e una vera nuova osservazione; non si aggiungono riferimenti retroattivamente alle vecchie prove. Game usa l’aggiornamento del flusso 5→6 supportato mantenendo runtime2/model4/handoff1. Gli agenti generati richiedono confronto origine-destinazione e ripresa senza cronologia nascosta; nessun progetto viene azzerato.
-10. Backup e ripristino del servizio riguardano solo il suo stato: esamina e valida il backup esatto, riconcilia i lavori e conserva le revoche dei permessi; non ripristinano database dei prodotti o effetti esterni. Il rollback delle competenze usa il registro effettivo dell’aggiornamento; quello del profilo ambiente usa il proprio registro e rifiuta variazioni successive. Installazione e controllo reali in WORK restano rinviati. Leggi la [migrazione dettagliata](../../releases/migrations/6.1.0.md) e la [guida del servizio](../../apps/agent-atelier/README.md) per recupero e limiti supportati.
+10. Backup e ripristino del servizio riguardano solo il suo stato: esamina e valida il backup esatto, riconcilia i lavori e conserva le revoche dei permessi; non ripristinano database dei prodotti o effetti esterni. Il rollback delle competenze usa il registro effettivo dell’aggiornamento; quello del profilo ambiente usa il proprio registro e rifiuta variazioni successive. Installazione e controllo reali in WORK restano rinviati. Leggi la [migrazione dettagliata](../../releases/migrations/6.2.0.md) e la [guida del servizio](../../apps/agent-atelier/README.md) per recupero e limiti supportati.
 
-## 0.1. Cosa aggiunge il candidato e quando usarlo
+## 0.1. Metodi di lavoro e verifiche precedenti
 
 Il contesto proviene da requisiti, decisioni, identità e checkpoint nativi del progetto. Le competenze dirette possono compilare una proiezione esplicita con l’helper portabile; il pannello compila separatamente il pacchetto JavaScript della propria attività. Le dichiarazioni facoltative `atelier.context-bindings/1` verificano hash delle fonti, identità del progetto, ID attesi, requisiti obbligatori ed estratti letterali. Fonti necessarie mancanti o modificate bloccano la preparazione dipendente. I progetti senza dichiarazione mantengono il percorso precedente con copertura non verificata. Nessuno dei percorsi salva automaticamente ogni parola o fornisce un indice globale di embedding. RAG è ricerca condizionale per un’esigenza di conoscenza dimostrata, non l’autorità dello stato corrente dell’attività.
 
@@ -77,7 +79,7 @@ python3 -B standards/context_capsule.py --help
 python3 -B standards/ai_production.py --help
 ```
 
-I nuovi pacchetti agente generati per 6.1 contengono 15 risorse operative comuni e sette collegamenti locali alle istruzioni. I pacchetti 6.0 esistenti mantengono il contratto esatto di dodici risorse, quelli 5.x di otto; non sono certificati retroattivamente come 6.1. Aggiornare un agente tramite confronto fonte→destinazione, conservarne regole di dominio, identità, impostazioni e modifiche sconosciute, quindi verificare la ripresa senza cronologia e un’attività originale circoscritta. La sola installazione del toolkit non è adozione da parte del progetto.
+La versione 6.1 ha introdotto pacchetti agente generati con 15 risorse operative comuni e sette collegamenti locali alle istruzioni. I pacchetti 6.0 esistenti mantengono il contratto esatto di dodici risorse, quelli 5.x di otto; non sono certificati retroattivamente come 6.1. Aggiornare un agente tramite confronto fonte→destinazione, conservarne regole di dominio, identità, impostazioni e modifiche sconosciute, quindi verificare la ripresa senza cronologia e un’attività originale circoscritta. La sola installazione del toolkit non è adozione da parte del progetto.
 
 Il pannello mostra requisiti leggibili, decisioni attuali, lavoro rinviato e verifiche delle fonti. «Stato nella fonte» conserva il testo del record e non sostituisce una decisione attuale successiva. Le conversazioni grandi usano pagine separate e limitate di turn/item con continuazione e copertura incompleta visibili. Caricamento e letture fallite hanno stati e ripristino espliciti. Installato, rilevato dall’host, collegato, eseguito e accettato dal proprietario sono fatti distinti. Il [manuale dei componenti](../evolution/2026-11-10/IMPLEMENTED-COMPONENTS.en.md) e il [caso reale dei feedback](../evolution/2026-11-10/REVIEW-STUDY.en.md) spiegano fonti, attivazione, destinatari e limiti.
 
@@ -90,7 +92,7 @@ La vista facoltativa `current_checkpoint` deriva da una sola fonte esplicitament
 Il reale errore di design modifica anche la regola comune di produzione UI. Creando o verificando un’interfaccia, dimostrare che l’utente previsto riconosce obiettivo, lavoro/risultato reale, attenzione richiesta e prossima azione utile; poi seleziona un record → legge prove/risultati comprensibili → esegue l’azione nell’ambito corretto. Tradurre il meccanismo operativo del riferimento nella propria attività: copiare il pannello di codice, la mappa o l’involucro non basta. Regola e profilo UI sono materializzati nei 33 pacchetti core esistenti e nell’orchestratore facoltativo. Le istruzioni caricate non sono un certificato né una garanzia automatica; verificare l’interfaccia reale e un percorso rappresentativo.
 
 
-L’anteprima di un aggiornamento compatibile non è un’installazione. Se un predecessore noto e invariato risulta sconosciuto, confrontare byte esatti della release e modalità dei file con il registro canonico; non forzare la sovrascrittura né cambiare hash per nascondere differenze. Il percorso verificato dell’orchestratore facoltativo 1.1.0 → 1.2.0 usa il predecessore esatto di 40 file. Se la competenza di manutenzione è assente, mantenerla assente salvo richiesta d’installazione. Un aggiornamento prioritario limitato si ammette dopo la verifica degli invarianti interessati, separatamente dall’accettazione di ogni capacità o progetto.
+L’anteprima di un aggiornamento compatibile non è un’installazione. Se un predecessore noto e invariato risulta sconosciuto, confrontare byte esatti della release e modalità dei file con il registro canonico; non forzare la sovrascrittura né cambiare hash per nascondere differenze. Il percorso dell’orchestratore facoltativo verificato all’epoca, 1.1.0 → 1.2.0, usa il predecessore esatto di 40 file. Se la competenza di manutenzione è assente, mantenerla assente salvo richiesta d’installazione. Un aggiornamento prioritario limitato si ammette dopo la verifica degli invarianti interessati, separatamente dall’accettazione di ogni capacità o progetto.
 
 ## 1. Che cosa ti offre
 
@@ -197,7 +199,7 @@ La lingua della documentazione, quella della conversazione e quella del prodotto
 3. In Work, collega o seleziona GitHub tramite l'interfaccia Plugins/connessioni disponibile. Se l'accesso è limitato a repository selezionati, includi `alex-hohaizel/codex-agents`. Chiedi a Work di leggere `README.md` e indicare branch e revisione ai quali può realmente accedere.
 4. In Codex locale, autorizza l'accesso Git locale se intendi clonare un repository privato. Una connessione GitHub in Work non dimostra che Terminale sul tuo computer possa autenticarsi.
 5. Usa una release identificata o un commit esatto per l'installazione. Salva tale identificatore. Leggere un branch `main` non fissato mentre cambia può mescolare versioni.
-6. Scarica la revisione scelta del repository tramite **Code → Download ZIP** di GitHub oppure clonala con Git. Estrai un archivio scaricato prima dell'installazione. Dovresti vedere `kit/manifest.json`, `kit/portable/` e `kit/skills/`.
+6. Per le competenze gestite in Codex, scarica l’archivio Codex della versione stabile scelta e segui la [migrazione con verifica della firma](../../releases/migrations/6.2.0.md). **Code → Download ZIP** su GitHub e i cloni Git forniscono le fonti da esaminare, da usare in Work o da provare in un ambiente isolato. Le fonti contengono `kit/manifest.json`, `kit/portable/` e `kit/skills/`.
 7. Non collocare download, piani o backup in una directory di rilevamento delle competenze. Va bene una cartella normale come Download o uno spazio dedicato alla gestione delle competenze.
 
 Per Git locale, usa un branch confermato e una nuova destinazione che non contenga altro lavoro:
@@ -253,17 +255,19 @@ La procedura di gestione supportata da Work può salvare una competenza alla vol
 
 ### Il percorso più semplice: chiedi a Codex di eseguire l'installazione controllata
 
-1. Scarica o clona la revisione scelta come descritto sopra.
+1. Scegli la versione stabile e procurati la revisione e gli hash approvati secondo la [migrazione con verifica della firma](../../releases/migrations/6.2.0.md).
 2. Apri Codex nello spazio di gestione delle competenze esistente. Se è la prima installazione, apri il checkout o un'altra cartella normale di gestione; non occorre un nuovo repository di prodotto.
-3. Fornisci a Codex il percorso esatto del checkout. Su Mac, seleziona la cartella nel Finder e premi **Option + Command + C** per copiarne il percorso completo.
+3. Fornisci a Codex il percorso della copia fidata, l’archivio Codex scaricato e gli identificativi e gli hash approvati separatamente. Su Mac, seleziona la cartella nel Finder e premi **Option + Command + C** per copiarne il percorso.
 4. Incolla il blocco sotto dopo aver impostato la lingua preferita.
 5. Esamina il rapporto finale di installazione e conserva il journal e la posizione del backup.
 6. Apri una nuova chat nel progetto reale del prodotto per i controlli di caricamento e quelli pratici.
 
 ```text
-Installa le 33 competenze personali di base dalla directory kit/ verificata in
-questo checkout di alex-hohaizel/codex-agents. Usa la revisione della release scelta.
-La mia lingua di lavoro è l'italiano (it).
+Installa le 33 competenze personali di base della versione stabile scelta
+di alex-hohaizel/codex-agents. Segui la migrazione Codex con verifica della firma nella sezione 0.
+Usa il kit indicato nella ricevuta di verifica. Prima di applicare il piano, verifica che
+l’hash del manifesto nel piano corrisponda a quello approvato.
+La mia lingua di lavoro è l’italiano (it).
 
 Questo autorizza audit → apply → verify locali, piani esatti e backup per questa
 suite. Leggi kit/manifest.json e --help dell'updater. Verifica l'integrità del
@@ -285,18 +289,20 @@ come prova dell'uso reale in un compito.
 
 ### Percorso da Terminale per chi vuole i comandi esatti
 
-L'updater portatile richiede Python 3.9 o successivo e usa la libreria standard. Esegui questi comandi dalla radice del repository. L'audit legge il pacchetto e le posizioni di installazione e scrive un piano proposto. Apply apporta le modifiche di installazione pianificate e registra un journal.
+Per un’installazione attiva di Codex, segui la [migrazione con verifica della firma](../../releases/migrations/6.2.0.md) e usa il kit esatto indicato nella ricevuta. I comandi qui sotto, eseguiti dalla radice del repository, provano il programma di aggiornamento portatile in un ambiente isolato. Richiede Python 3.9 o successivo e usa la libreria standard. Audit legge il kit e i percorsi di prova e registra il piano. Apply modifica solo l’ambiente di test selezionato e crea un registro.
 
 ```bash
 python3 kit/portable/update_skill_suite.py --help
-python3 kit/portable/update_skill_suite.py audit --kit kit --plan ../agent-system-plan.json
-python3 kit/portable/update_skill_suite.py apply --plan ../agent-system-plan.json
+fixture_root=/absolute/path/to/isolated-test
+mkdir -p "$fixture_root"
+python3 kit/portable/update_skill_suite.py audit --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
+python3 kit/portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
 ```
 
 Leggi il risultato di `apply`. Copia il suo percorso `journal` esatto nel comando di verifica:
 
 ```bash
-python3 kit/portable/update_skill_suite.py verify --kit kit --journal /absolute/path/from-apply/journal.json
+python3 kit/portable/update_skill_suite.py verify --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /absolute/path/from-apply/journal.json
 ```
 
 Il percorso finale sopra è un segnaposto. Sostituiscilo; non eseguirlo letteralmente. Per impostazione predefinita l'updater usa `~/.agents/skills` come destinazione e controlla la radice storica `~/.codex/skills`. Se il tuo ambiente usa un'altra radice personale supportata, usa esplicitamente e in modo coerente gli argomenti `--destination` e `--legacy-root`. Consulta prima `audit --help`. Aggiungi `--project-root /absolute/path/to/product` per controllare le copie locali al prodotto pertinenti. L'updater non rimuove automaticamente una copia di progetto che nasconde una competenza personale.

@@ -24,11 +24,23 @@ This repository is the distribution and operating record for the reusable Agent 
 
 ## Version numbers
 
-The current release record separates the repository edition, core suite, optional components and local service. It also identifies the active branch and the feature release's published revision and evidence. Read the applicable migration before adopting an update. Keep the verified baseline active where an affected gate is open. Final 1.4.0 requires its own acceptance and release decision. [Current release](../releases/current.json) · [Core migration](../releases/migrations/6.1.0.md) · [Implementation scope](../docs/evolution/2026-11-10/README.md)
+The current release record separates the repository edition, core suite, optional components and local service. It also identifies the active branch and the feature release's published revision and evidence. Read the applicable migration before adopting an update. Keep the verified baseline active where an affected gate is open. A candidate does not inherit stable acceptance from its predecessor. [Current release and migration links](../releases/current.json) · [Implementation scope](../docs/evolution/2026-11-10/README.md)
 
 Historical editions remain historical:1.0.0 established distribution;1.1.0 finalized the campaign;1.2.x introduced production/context distribution and targeted service/presentation repairs;1.3.0 added universal entry and native portfolio while preserving core6.0.0;1.3.1/1.3.2 published the audit and revised passport without runtime changes in those editions. The later owner approval authorizes candidate implementation; it does not rewrite those records. Core6.1 retains33 names,35 total reusable sources and12 role configurations, adds compatible context and conditional production resources, and leaves native schema/project identities independent. Do not increment every skill merely to change the guide.
 
-Use semantic versioning for future editions: patch for compatible corrections, minor for compatible additions, major for incompatible behaviour or migration requirements. The release record must state the actual impact; a number alone is insufficient.
+Use semantic versioning for future editions. A patch corrects compatible behavior. A minor version adds compatible capability. A major version changes a supported contract or requires incompatible migration. State the actual impact and support scope.
+
+### Choose and verify component versions
+
+| Change | Version to select | What must agree at release |
+| --- | --- | --- |
+| A repository snapshot changes | Repository edition | Current release record, Git tag and GitHub Release, package descriptors, migration and exact publication evidence. |
+| The canonical set of 33 skills changes | Core suite | Current record, curated kit manifest, source integrity report and exact predecessor. The core entries share this suite version. |
+| An optional skill changes | That optional component | Current record, portable skill `metadata.version` for newly authored sources, verified upgrade path and discovery. Older installed sources may report their version from their legacy heading. |
+| Role definitions or host instructions change | Role/profile version where recorded | Stable names, effective model settings, the profile/role source inventory, compatible predecessor and actual native configuration proof. |
+| Agent Atelier changes | Workbench version | Current record, package and lockfile, runtime health, service migration and verified local build. Existing database and API schema versions retain their own compatibility rules. |
+
+Use a prerelease designation while required evidence is still open. A verified documentation correction must not bump unaffected package versions. Release notes should point readers to the current component record and put historical tuples behind dated links. Do not repeat component version strings in UI display names. Follow the maintainer's actual authorization and promote only the exact build and evidence being reviewed.
 
 The optional advanced task field `memory_mode` defaults to `inherit`, including legacy capsules. Explicit disabled is a task-only host-memory restriction for fresh service-owned chats, with first-start configuration, required native acknowledgement and exact memory-file denies; it does not reset global preferences or migrate state. Adopted native user chats reject disabled before any setting mutation. The host exposes no independent memory-mode getter or direct measurement of injected context. The initial, R2 and R3 records retain their NOT_ADMITTED verdicts. Three bounded R4 continuations passed G01–G10 with independent review of the responses and native traces. See [the detailed field contract](../docs/evolution/2026-11-10/REAL-WORLD.en.md).
 

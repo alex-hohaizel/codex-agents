@@ -1,127 +1,47 @@
 ---
 name: app-atelier-experience
-description: "App Atelier: спроєктувати й довести до перевірного вигляду окремий бренд, UX/UI, інтерактивний прототип і виробничі матеріали застосунку Android/iOS/web. Застосовувати для прийнятої концепції, вибору дизайну, карт екранів і станів, onboarding, оплати, реклами, доступності, локалізації, передачі assets або виправлення розбіжності між прийнятим макетом і реалізацією."
+description: "Design or repair an app brand, UX, visual system, and interactive prototype. Use for Android, iOS, and web experience and tested design handoff."
+metadata:
+  version: "6.2.0"
 ---
 
-# App Atelier 6.1.0 · Досвід і бренд
+# App Atelier Experience
 
-## Виробнича якість і контекст6.0
+## Bind the accepted experience
 
-Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+Identify whether the work is new direction, design refinement, a prototype, build handoff or implementation QA. Pin the accepted concept, source masters, paths, assets and rights, version, product contracts, budget and stop. Identify the interaction whose failure would invalidate the design. Keep the accepted composition, scale, visual meaning and interaction mechanism. Run reversible work independently and return a concrete decision only for a material design, premise, cost or fidelity change. Delay significant asset production until the selected direction and architecture can support it.
 
-Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+## Design the full interaction and brand
 
-## Умовні AI/data та виробничі профілі6.1
+Trace intention, action, product rule, feedback, useful result and next step. Cover return to saved state, errors, cancellation, recovery and help. Map navigation, screens and states across Android, iOS and web. Each accepted client needs a complete core. A landing page, unverified wrapper or unsupported sync button cannot stand in for the accepted behavior. Resolve product language, timing, access, limits and offline/degraded behavior alongside the specification.
 
-Коли задача справді потребує збору чи аналізу даних, LLM/RAG, прогнозування, адаптації моделі, серійного виробництва матеріалів або їх оцінювання, прочитати лише застосовні частини [AI/data виробничого маршруту](references/ai-production.md). Обрати потрібні DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA чи EVALUATION всередині чинної предметної команди. Спочатку достатній наявний виконавець і метод; нові агент, framework чи глобальний індекс не є типовою передумовою.
+Define a distinctive brand, hierarchy, typography, iconography, voice and interactions from the real user job. Verify asset rights and avoid reusing unrelated admitted identities. When the owner still needs to choose, compare materially different directions and their usability, production and support implications. Bind the decision to the actual artifacts. Version tokens, UI components, adaptive layout, copy, assets and allowed derived work with master and derivative digests.
 
-Зберегти первинний результат, усі застосовні вимоги, прийняті оригінали, налаштування, дозволи й відкладене в тому самому рідному стані. Типізовані матеріали та `scripts/ai_production.py` використовувати лише для доречних оголошених перевірок. Їхній PASS не доводить фактичного збору, навчання, якості, споживання, незалежності чи прийняття власником. Виявлена втрата прийнятої працюючої властивості відхиляє кандидата; неперевірений потрібний доказ лишається відкритим.
+Design the selected free, trial, limited or paid model. Expose benefit, price, period, limits, renewal, cancel and restore before a purchase. Evaluate combined payments and advertising through the entire journey. Label ads, respect consent and caps, and prevent obstruction or accidental clicks. Show voluntary rewards or ad removal only where the product supports them. Design clear pending, failed, unavailable, expired, refunded and restored states where applicable. A paywall is not evidence of willingness to pay.
 
-## Спільний спосіб роботи6.0
+## Prove the representative interaction
 
-На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
+Build a runnable prototype of the critical journey with labeled test data and exact start steps. Verify its main transition, error/recovery and accepted mechanism in the actual consumer. Where relevant, record a narrow touch route, keyboard traversal, visible focus at the required text/zoom scale, readable labels, contrast, long strings, reduced motion and offline or degraded behavior. Specify representative OS/browser/viewport/input settings and use primary platform guidance for constraints. Compare behavior, not just appearance. A render, returned DOM or screenshot does not establish interaction, and a tablet or headless environment does not establish physical-device behavior.
 
-Для незнайомого домену виконати предметний source/probe за матеріальними невідомостями й назвати межі доказу. План створення агента включає весь шлях: аналіз → погоджена архітектура → реалізація переносного пакета → незалежна перевірка representative tasks → installation/discovery → супровід; виконувати лише поточний дозволений scope. Після зміни host до заяви готовності провести доступний bounded предметний smoke або явно позначити його blocked/not_tested.
+Bound any optional browser or device probe. If the operation is unavailable or times out, preserve supported observations and mark the particular interactive proof open with a concrete check on the right host. Do not restart broad capability discovery or report a synthetic capture as observed usage. Preserve any applicable restrictions on human tests, outreach and telemetry. Before scaling, compare the accepted prototype with a working client slice and arrange an independent review where required.
 
-## Узгоджена взаємодія
+## Hand off for build
 
-Тримати одного відповідального за продукт і чинний project state. На матеріальному виборі показати рекомендацію/альтернативи/наслідок; routine work і локальні виправлення виконувати в прийнятому scope. Чинні погодження успадковувати. Прогрес: результат/належні докази → зараз → gaps → потрібне рішення → next; стан specification/code/integration/device/human розділяти. Питання не скасовує роботу. Дрібний scope не запускає повний продуктовий цикл; повний задум не спрощувати. Для нового/відновлюваного scope або стану читати [протокол взаємодії](references/interaction-protocol.md); `python3 -B scripts/interaction.py status --source PROJECT --format markdown` формує read-only огляд підтриманого domain state, без нових grants, відтворення effects чи фонового виконання. Для конкретного зовнішнього tool route звірити застосовний пункт [сумісності](references/tool-compatibility.md).
+Provide the exact accepted masters, state and platform map, allowed adaptations, interaction and motion expectations, tokens, components, copy, asset rights and provenance, actual launch/return steps, acceptance criteria and unresolved input. Version only the affected derivative work when a master changes. Record due proof, review actors and owner decision separately. Save the checkpoint at stop. A design review validates its actual scope and method, not a production release or human adoption.
 
-Коли вибираєш середовище, виявляєш перешкоду виконанню, передаєш етап чи відновлюєш роботу, застосуй [спільний маршрут Work ↔ Codex](references/joint-work-codex.md) разом із предметними правилами. Перевір фактичні входи, права та можливості. Виконай єдиний придатний дозволений маршрут. Якщо потрібна дія власника, дай точний наступний крок.
+## Use the contracts required by this task
 
-## БРИФ, ВІДНОВИ й передача наступного етапу
+Use the requested output language, then the applicable project preference, then the language of the request. Preserve native identifiers, accepted terminology, example inputs and original user wording. For material work in an existing product, apply the relevant [core contract](references/core-contract.md) and [requirements](references/requirements-contract.md) to `.appatelier/profile.json`, `.appatelier/state.json` and the actual artifacts. Reconstruct only an authorized missing record. For small standalone work, read the supplied contract and the few sources needed to complete it. Use the applicable part of the [stage workflow](references/workflow.md) and check [stage acceptance](references/acceptance.md) and [evidence](references/evidence-contract.md) before claiming a material result.
 
-Визначити поточний scope й чинні рішення. Для нового обсягу, БРИФ або ВІДНОВИ прочитати [спільний протокол](references/briefing-protocol.md); для bounded локальної роботи завантажити лише застосовні частини й потрібні предметні джерела. Прямий виклик **БРИФ**: аналіз повного застосовного обсягу й наслідків → адаптивне предметне опитування → читабельний версійний сценарій → явне погодження → точне виконання. **ВІДНОВИ**: спочатку фактичні source/accepted intent/evidence/runtime/continuation чинного продукту, потім цей цикл. Це діє й у прямому вході спеціаліста та делегованому job; чинну точну згоду успадковувати без повтору. Саме відновлення не знімає pause й не дозволяє залежне виконання.
+| Task condition | Relevant local resources |
+| --- | --- |
+| Scope, resume, or delegated work | [Context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) for current authority, input hashes, due and deferred requirements, allowed paths, outputs, consumer, resource caps and stop. |
+| Material choice or explicit `БРИФ` / `ВІДНОВИ` | [Briefing protocol](references/briefing-protocol.md), [domain guide](references/briefing-domain-guide.md), [stage topics](assets/briefing-topics.json) and [interaction protocol](references/interaction-protocol.md). Reuse exact existing decisions. Resume does not lift a pause or enable an external effect. |
+| New or changed cross-client scope, deep domain work or project modeling | [Cross-domain contract](references/cross-domain-core.md), [app system model](references/app-system-contract.md), [stage depth](references/app-depth.md), [system template](assets/app-system.template.json) and [stage templates](assets/app-depth.templates.json). Use linked project artifacts and one authoritative state. |
+| Visual masters, editable assets, production fidelity or identity | [Production quality](references/production-quality.md), its [medium profiles](assets/production-profiles.json) and [visual identity](references/visual-identity.md). Keep approved originals, scope, icons, colors and downstream fidelity. |
+| Private data, support, external tool or significant cost | Relevant [data and support](references/data-support-contract.md), [budget](references/budget-contract.md) and [tool compatibility](references/tool-compatibility.md) clauses. Verify the actual capability, rights, destination, plan and stop. |
+| Domain uncertainty, data or AI evaluation, or batch work | Relevant [research and synthesis](references/research-and-synthesis.md) or [AI and data production](references/ai-production.md) profile. Prefer the sufficient method before adding new tools or infrastructure. Establish a real representative result before expansion; track every batch item's outcome. |
+| Work across hosts or another agent family | [Work and Codex](references/joint-work-codex.md), [cross-family routing](references/cross-family-routing.md) and [handoff](references/handoff-contract.md). Preserve product ownership, stable component and requirement IDs, exact launch/return steps and actual receipts. |
+| Read or record native work | [Runtime contract](references/runtime-contract.md) and local `scripts/state.py --help`. Use verified paths from this skill's loaded directory. [Read-only interaction status](references/interaction-protocol.md) comes from `python3 -B scripts/interaction.py status --source PROJECT --format markdown`. |
 
-Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
-
-Редакція інструментарію **6.0.0**. Перед залежною роботою прочитати [наскрізне ядро](references/cross-domain-core.md), [предметний контракт застосунку](references/app-system-contract.md) і [методику цього етапу](references/app-depth.md). Застосувати їх до чинного profile/state та REQ-ID; `assets/app-system.template.json` і `assets/app-depth.templates.json` інстанціювати як linked project artifacts, а не докази виконання. `python3 scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` (gate: `draft`, `design` або `production`) перевіряє лише структурний depth-контракт; `state.py` та economics читають лише власні чинні формати.
-
-
-Перетворити прийняту продуктову цінність у зрозумілий, відмінний і здійсненний досвід погодженого набору клієнтів; зберегти вже прийнятий Android/iOS/web scope, коли він застосовний.
-Володіти картою взаємодій, дизайн-системою, прототипом та exact accepted masters; залишити головному агенту загальну інтеграцію.
-Не перетворювати доручення виправити екран на новий пошук продукту чи незапитаний ребрендинг.
-
-## Відновити поточний контракт
-
-1. Прочитати [спільний контракт](references/core-contract.md) та [вимоги](references/requirements-contract.md).
-2. Відновити project-local `.appatelier/profile.json` і актуальні typed registries у `.appatelier/state.json`.
-   Звірити accepted concept, scope, вимоги, рішення, знання, hashes матеріалів, бюджет і stop.
-   Не переносити приватний профіль, бренд або поточний стан до встановленої загальної навички.
-3. Прочитати [предметний workflow](references/workflow.md) для нового дизайну або зачеплені розділи для repair.
-   До приймання прочитати [критерії та негативні сценарії](references/acceptance.md) та [правила доказів](references/evidence-contract.md).
-4. Для даних, ідентифікації, підтримки чи рекламних SDK прочитати [data/support](references/data-support-contract.md).
-   Для платних генерацій, шрифтів, стоків чи викликів прочитати [budget](references/budget-contract.md).
-5. Перед записом стану виконати локальний `python3 -B <ACTIVE_SKILL>/scripts/state.py --help` і використовувати лише фактичний CLI.
-   Цей runtime зберігає записи; він не малює, не запускає прототип і не здійснює зовнішніх дій замість агента.
-
-## Визначити завдання й докази
-
-Записати потрібний користувачу результат, призначені requirement IDs, exact inputs, owned paths, outputs, cap і stop.
-Розрізнити новий art direction, деталізацію прийнятого напряму, прототип, матеріали для build і контроль реалізації.
-Дозволені оборотні кроки виконувати самостійно; суттєву зміну концепції, дизайну, бюджету чи fidelity винести власнику.
-Чинну згоду в незмінному scope не перепитувати.
-
-Не починати дороге виробництво всіх екранів до вибору відповідної концепції та достатніх архітектурних передумов.
-Широкий список можливостей не є дозволом створити кожній повний бренд чи опублікувати матеріали.
-Сформувати репрезентативний зріз, який перевірить найризиковішу взаємодію й виробничу здійсненність.
-
-## Побудувати досвід разом із продуктом
-
-1. Вивести з потреби головний сценарій: намір → дія → правило → видимий результат → наступне рішення.
-   Описати першу користь, повернення до збереженого, помилку, скасування, відновлення та звернення по допомогу.
-2. Побудувати navigation/screen/state map і матрицю Android/iOS/web.
-   Кожний клієнт має самостійно завершувати core; веб не підміняти landing, а мобільний клієнт — неперевіреною обгорткою.
-3. Погодити зі специфікацією предметні терміни, стани, доступи, затримки, ліміти й поведінку offline/degraded.
-   Не проєктувати кнопку чи синхронізацію, для якої не визначено реального контракту й наслідків.
-4. Створити власний бренд, візуальну ієрархію, типографіку, іконографіку, тексти та характер взаємодії.
-   Вивести їх із користі, аудиторії й теми; перевірити відмінність від конкурентів і правомірність джерел.
-5. Порівняти обмежену кількість змістовно різних напрямів, якщо вибір ще відкритий.
-   Показати наслідки для зрозумілості, виробництва та супроводу; отримати рішення власника на exact artifacts.
-6. Зафіксувати design tokens, компоненти, адаптивні правила, стани, контент і assets у виробничо придатних форматах.
-   Зберегти прийняті оригінали, версії, hashes, походження й дозволені межі похідних матеріалів.
-
-## Зберегти цінність і чесний комерційний досвід
-
-Проєктувати доречні free, trial, лімітовані та платні шляхи згідно з обраною моделлю; не нав’язувати вічно безкоштовний core.
-Дати людині зрозуміти користь та межі до оплати; узгодити ціну, період, обсяг, renewal/cancel/restore і наслідки вичерпання ліміту.
-Перевірити сумарний досвід усіх одночасних оплат, пропозицій і рекламних місць, а не кожне окремо.
-Рекламу явно позначити; не перекривати критичну дію, не маскувати під функцію й не створювати хибних натискань.
-Добровільний перегляд і відключення реклами пояснити в тих станах, де вони фактично доступні.
-Для unavailable billing, pending payment, відхилення, refund/expiry за застосовності та відновлення доступу визначити зрозумілий feedback.
-Не вважати наявність paywall доказом готовності платити або якості монетизації.
-
-## Довести здійсненність і якість
-
-Використати актуальні первинні джерела платформних правил, доступності й форматів перед залежним рішенням.
-Зберегти дату, застосовність і конкретний критерій; не називати стиль «сучасним» лише за враженням автора.
-Обрати цільові пристрої, viewport, спосіб введення й базову доступність за аудиторією та прийнятим scope.
-Перевірити читаність, focus/labels, масштаб тексту, touch/keyboard, безбарвні/беззвукові альтернативи за застосовності.
-Обґрунтувати підтримку старих пристроїв, offline, локалізацію, довгі рядки й reduced motion; не вигадувати жорсткі мінімальні версії.
-Вигляд і motion показувати в межах доступних інструментів, runtime й ресурсів; дорогий або недоступний маршрут позначити pending/blocked.
-Не обіцяти asset, animation чи продуктивність з одного концепт-кадру.
-
-Створити клікабельний прототип репрезентативного core та ризикових переходів доступним дозволеним інструментом.
-Позначити synthetic/demo data; не підключати приватні дані, live billing, tracking або публікацію без відповідних передумов.
-Фактично пройти прототип і зберегти спосіб запуску та спостереження; нерухомий рендер не називати інтерактивним.
-До масштабування зіставити прийнятий вигляд із працюючим наскрізним зрізом цільового клієнта.
-
-## Прийняти й передати
-
-Застосувати [acceptance](references/acceptance.md) до кожного due must, окремо від загального враження.
-Залучити реального іншого reviewer, де потрібна незалежна перевірка; не перейменовувати авторський self-check у QA.
-За чинного профільного обмеження не проводити навмисних перевірок на реальних людях, рекрутингу чи A/B на жодній фазі без чинної зміни обмеження. Права на конкретну взаємодію перевіряти окремо; version update не змінює погоджену політику.
-Перегляд власником і синтетичні/евристичні проходи оцінюють свої властивості; не видавати їх за user validation чи попит.
-
-Передати за [handoff](references/handoff-contract.md) exact accepted masters, карту станів, токени/компоненти, тексти, assets,
-ліцензії/provenance, матрицю клієнтів, спосіб запуску прототипу, приймання й нерозв’язані залежності.
-Описати для build очікувану поведінку кожного стану та допустимі адаптації; відхилення повернути на адресний design decision.
-Зміна оригіналу відкриває лише зачеплені похідні матеріали й перевірки.
-Звітувати короткий стан і рішення, окремі докладні матеріали та змістовний розбір результату в чаті.
-Після stop зберегти checkpoint і не починати наступну фазу.
-
-## Компоненти іншого агента або чатбота
-
-Перед прийомом компонента Agent Foundry, делегуванням у ChatBot Atelier або створенням нової спеціалізованої методики прочитати [стабільні виклики й межі компонентів](references/cross-family-routing.md). Використовувати поточні джерела за незмінним `name`, shared product/requirement/contract IDs та точний launch/return пакет; не починати окремий продуктовий цикл для локальної підтримки.
-
-Для великої повторюваної операції фіксувати повний знаменник елементів, виконані/пропущені/помилкові записи, checkpoint і контроль повноти batch; representative sample не підміняє виконання всього дорученого набору. Для self-update порівнювати baseline/candidate на однакових входах із незалежною рубрикою та перевіряти replay/adoption старого state/schema і rollback; не вигадувати історичне приймання.
+A declared structural check has its own scope. For example, `python3 scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` checks the `draft`, `design` or `production` structure with the appropriate gate. `scripts/context_capsule.py`, `scripts/adaptive_work.py`, `scripts/briefing.py` and `scripts/ai_production.py` validate their own formats. They do not confer authority or certify task execution, model quality, or owner acceptance. For a skill or toolkit update, compare baseline and candidate on identical inputs with an independent rubric, and check current-state compatibility and rollback. Keep historical evidence tied to its original inputs.

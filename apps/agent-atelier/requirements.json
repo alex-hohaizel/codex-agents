@@ -1,7 +1,7 @@
 {
   "schema_version": "atelier.product-requirements/1",
   "product_id": "agent-atelier",
-  "release_candidate": "0.5.0",
+  "release_candidate": "0.6.0",
   "baseline_reference": "Current selected operational-platform marketing reference; translated into usable actual controls, not decorative fake capability",
   "requirements": [
     {

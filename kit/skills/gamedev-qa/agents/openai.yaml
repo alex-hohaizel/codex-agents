@@ -1,7 +1,7 @@
 interface:
-  display_name: GAME · QA · 6.0.0
-  short_description: Незалежні контрприклади й належні докази якості
-  default_prompt: $gamedev-qa Прийми актуальний checkpoint і матеріали, звір maturity C0/C1/T, вимоги та залежності й виконай доручений крок за поточними контрактами з належними доказами.
+  display_name: GAME · QA
+  short_description: "Independently verify gameplay and device evidence"
+  default_prompt: "Use $gamedev-qa to audit the exact game build, run the applicable scenarios, and report findings with their evidence level."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

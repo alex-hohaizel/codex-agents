@@ -1,8 +1,8 @@
-# Форми випуску — заповнювати фактичними даними
+# Release templates for verified records
 
 ## Release summary
 
-| Поле | Значення / доказ |
+| Field | Value and evidence |
 |---|---|
 | Project / release / stage | |
 | Source commit / accepted package hash | |
@@ -22,7 +22,7 @@
 
 ## Readiness states
 
-`not-configured`, `prepared`, `locally-tested`, `sandbox-verified`, `uploaded`, `in-review`, `approved`, `available-to-testers`, `live`, `blocked` — обирати фактичний стан окремо для кожного platform/channel.
+`not-configured`, `prepared`, `locally-tested`, `sandbox-verified`, `uploaded`, `in-review`, `approved`, `available-to-testers`, `live`, `blocked` — record the observed status separately for each platform and channel.
 
 ## Adapter setup card
 
@@ -30,7 +30,7 @@ Provider / purpose / version / official docs + checked date / license / free or 
 
 ## Submission checklist record
 
-Requirement ID / official URL / checked date / applies because / artifact hash / test/result / reviewer / remaining action. Немає результату — `not-run`, не `pass`.
+Requirement ID / official URL / checked date / applies because / artifact hash / test/result / reviewer / remaining action. Use `not-run` until an actual result supports `pass`.
 
 ## Release scope matrix 3.0
 

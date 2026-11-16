@@ -25,6 +25,7 @@ import {
   text,
   ServiceError,
 } from "./utils.mjs";
+import { skillVersion } from "./skill_version.mjs";
 const run = promisify(execFile);
 const transportSchema = "atelier.execution-input-transport/1";
 const taskIdentifier = (value) =>
@@ -390,8 +391,6 @@ export class SkillsManager {
       if (!entry.isDirectory()) continue;
       try {
         const source = await readSource(root, `${entry.name}/SKILL.md`);
-        const version =
-          /^#.*?(\d+\.\d+\.\d+)/m.exec(source.text)?.[1] ?? "unknown";
         const description =
           /^description:\s*(.+)$/m
             .exec(source.text)?.[1]
@@ -410,7 +409,7 @@ export class SkillsManager {
         names.push({
           name: entry.name,
           description,
-          version,
+          version: skillVersion(source.text),
           source_sha256: source.sha256,
           installed_sha256: installedBytes ? sha(installedBytes) : null,
           source_status: "canonical_source_read",
@@ -447,7 +446,7 @@ export class SkillsManager {
           name,
           source_id: name,
           description: /^description:\s*(.+)$/m.exec(source.text)?.[1] ?? "",
-          version: /^#.*?(\d+\.\d+\.\d+)/m.exec(source.text)?.[1] ?? "unknown",
+          version: skillVersion(source.text),
           source_sha256: source.sha256,
           source_status: "canonical_source_read",
           installation_status: "unverified",
@@ -585,9 +584,7 @@ export class SkillsManager {
         name: row.name,
         source_id,
         description: row.description ?? "",
-        version: source
-          ? (/^#.*?(\d+\.\d+\.\d+)/m.exec(source.text)?.[1] ?? "host-source")
-          : "unknown",
+        version: source ? skillVersion(source.text, "host-source") : "unknown",
         source_sha256: source?.sha256 ?? null,
         source_status: source
           ? "host_discovered_source_read"

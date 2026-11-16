@@ -2,10 +2,10 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**Guide baseline:** Agent System 6.1.0, 11 November 2026. **Reusable suite:** 33 skills. This guide covers a new installation, everyday work, sharing a project between Work and Codex, and updating an existing project. Repository documentation and package revisions can change without changing the underlying skill version; consult the release record before updating.
+**Reusable suite** — 33 skills. This guide covers first installation, daily work, Work and Codex collaboration, and updating an existing project. Documentation, repository editions and component versions can change independently.
 
 
-**Current candidate on GitHub.** Repository **1.4.0-rc.5**, core **6.1.0**, optional Atelier Orchestrator **1.2.0**, optional maintenance **1.1.0**, local Agent Atelier **0.5.0**. The Agent Atelier 0.5.0 rollout on the owner's Mac was verified with its original store and settings. Stable 1.4.0 and full programme acceptance remain open. [Versions on main](../../releases/current.json) · [Requirements register](../../governance/requirements.csv) · [rc.5 release](../../releases/repository-1.4.0-rc.5.md) · [0.4.0 to 0.5.0 update and rollback](../../releases/migrations/repository-1.4.0-rc.5.md) · [Merged PR #4](https://github.com/alex-hohaizel/codex-agents/pull/4)
+The release record lists the repository edition, core suite, optional skills, role and host profiles, local workbench, release stage and applicable migrations. Use the current record to choose a target. The preceding rc.5 record preserves the verification for core 6.1.0, Atelier Orchestrator 1.2.0, maintenance 1.1.0 and Agent Atelier 0.5.0. [Current release record](../../releases/current.json) · [Historical rc.5 evidence](../../releases/repository-1.4.0-rc.5.md) · [Historical 6.1 update](../../releases/migrations/6.1.0.md)
 
 The previous1.1.0 campaign remains unchanged: [English advertising](../../marketing/campaign/README.md) and [Ukrainian advertising](../../marketing/campaign/README.uk.md), ten materials per language. Advertising is EN/UK; guides and the service UI cover all seven advertised locales. Work live audit, update, installation and control remain a separate host task; a source archive or repository connection is not an installation receipt.
 
@@ -19,29 +19,31 @@ In Agent Atelier, refresh the portfolio to discover registered local Codex proje
 
 Open the displayed next action to carry its full text into the form. Edit the objective and acceptance criteria, then review the route before preparing the task. Under Connections, OpenAI Docs MCP returns official documentation links. Codex Image previews and downloads the PNG when the existing ChatGPT login and Codex host support the operation. Image generation uses the included Codex usage limits. Managed plugin calls with unverified tool scope continue through their native Codex route. [0.4.0 to 0.5.0 update and rollback](../../releases/migrations/repository-1.4.0-rc.5.md)
 
-## 0. Update to 6.1 and open the local workbench
+## 0. Update managed Codex skills and open the local workbench
 
-The following commands describe supported procedures. Apply only an exact candidate admitted for the intended scope after its preservation checks; a prepared source candidate is not an instruction to replace an active installation or service.
+Use the selected stable release and its exact approved source and archive for a managed installation. Review builds can be rehearsed in an isolated fixture. [Signed Codex update and rollback](../../releases/migrations/6.2.0.md)
 
-1. Select an exact verified release commit. Preserve the current33-skill sources, icon files/bindings/colors/classes, local changes and ownership. Save native project requirements, accepted identity/persona, decisions, permissions, pending tasks and unknown effects. Installation does not migrate a product.
-2. From `kit/`, read the portable updater help, then audit the exact candidate. Inspect all33 entries, conflicts and visual preservation before apply. Keep plans/backups outside skill-discovery roots.
+1. Choose the exact release commit and matching archive. Preserve the 33 installed sources, icon files and bindings, colors, local changes and ownership. Save native requirements, accepted identity and persona, decisions, permissions, pending work and unresolved external effects. Project adoption has its own migration.
+2. Follow the signed migration from a separately trusted checkout. Verify the GitHub Actions attestation and exact archive and manifest digests. Use the kit path returned by admission and compare the plan's manifest digest with the approved digest before apply. Inspect all 33 entries, conflicts and visual preservation. The following commands, from `kit/`, rehearse audit, apply and verify using isolated fixture paths. Keep plans and backups outside skill discovery.
 
 ```bash
 python3 portable/update_skill_suite.py --help
-python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
-python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
-python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+fixture_root=/absolute/path/to/isolated-test
+mkdir -p "$fixture_root"
+python3 portable/update_skill_suite.py audit --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
+python3 portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
+python3 portable/update_skill_suite.py verify --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /actual/apply/journal.json
 ```
 
 3. Replace the journal placeholder only with the actual path returned by apply. Unknown drift must be reconciled; do not force an overwrite. Check actual discovery/source loading and one bounded task separately. Existing icons and unrelated skills remain preserved.
 4. Audit the Codex host profile separately from the repository root: `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Apply with `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json`, then `verify --journal /absolute/host-journal.json`. The managed block preserves existing global instructions; the twelve bounded roles retain their models and external-effect restrictions. Loading in an actual host is a separate check.
-5. Install optional `atelier-orchestrator` through the supported skill manager from `optional-skills/atelier-orchestrator` at the selected commit. It is separate from the33-core updater; source presence does not establish installation or successful execution. The existing maintenance skill remains separately optional.
+5. Update an existing `atelier-orchestrator` with the supported skill manager from `optional-skills/atelier-orchestrator` in the selected release. The core updater handles the 33 baseline skills. Maintenance is another optional component. Install a missing optional skill only when requested. Verify actual discovery and operation.
 
-Atelier Orchestrator 1.2.0 is the optional universal entry: describe the result once, and it chooses direct execution, an existing specialist, a project agent, a director, component coordination or Foundry. Simple requests stay simple. A single brief and the existing permissions follow the work. After a project agent is created, checked and discovered, it recommends continuing through that agent and retains that binding when you return to the orchestrator. Agent creation and the original product task have separate acceptance; an agent package does not complete a requested product.
+Atelier Orchestrator is the optional universal entry: describe the result once, and it chooses direct execution, an existing specialist, a project agent, a director, component coordination or Foundry. Simple requests stay simple. A single brief and the existing permissions follow the work. After a project agent is created, checked and discovered, it recommends continuing through that agent and retains that binding when you return to the orchestrator. Agent creation and the original product task have separate acceptance; an agent package does not complete a requested product.
 
 Requests to improve or rewrite the orchestrator itself, a skill, constructor, family or existing agent follow a maintenance route: read the actual sources and settings, review the impact/diff, preserve identity and local changes, retain the before-copy and verify the saved result. A route preview and the optional routing checker do not certify semantic fit, human consent, execution or quality. Existing direct skill calls remain available.
 
-Open the separate Agent Atelier 0.5.0 application with its launcher. The skill is not a background daemon, and the application is not a skill-list entry. Their versions are independent. The original SVG, PNG bindings and brand color remain preserved. Core 6.1.0 adds compatible methods; it does not reset a product or adopt new rules into it automatically. Read [the 6.1 update and rollback](../../releases/migrations/6.1.0.md). Check the actual running version with status/doctor; an existing instance may remain on its earlier version until a verified replacement. [0.4.0 to 0.5.0 update and rollback](../../releases/migrations/repository-1.4.0-rc.5.md)
+Open Agent Atelier with its local launcher. The workbench and skills have independent versions. Check the running build with `status` and `doctor`, and verify the original SVG, PNG bindings and brand color when updating. An older instance remains active until a verified replacement. See the [workbench guide](../../apps/agent-atelier/README.md) and retain the [historical 0.4.0 to 0.5.0 migration](../../releases/migrations/repository-1.4.0-rc.5.md) for that transition.
 
 6. To build the local service from source, use the pinned lockfile with Node.js24.22.2 or a supported later runtime. From `apps/agent-atelier/`, run the following. Network access is needed for first dependency installation, with no new paid service implied.
 
@@ -64,9 +66,9 @@ Existing native Codex chats can be inspected in the portfolio through a dedicate
 
 8. Prepare a task with exact scope, inputs, acceptance and bounds, then dispatch through the supported Codex adapter. Source, craft, integration, device, independent review and owner acceptance are different states. Cancellation is confirmed only after the actual host outcome. Existing chats require exact identity/cwd and an idle handoff; another desktop writer is not fenced by a service lease. Reconcile an unknown effect before retrying. During task preparation, the service records the exact governing AGENTS sources, their precedence or confirmed absence, and Codex’s own instruction-loading settings. It verifies that these records match the instruction sources actually loaded and rechecks them before a model turn. If these inputs change, or an older task lacks these records, the task must be prepared again; its history and native product files are preserved.
 9. Existing Foundry sessions use `suite-update-plan` and a reviewed `refresh --accept-suite-update` record with exact source-state/target hashes. App state/1 needs no toolkit-format migration. Chat integrated evidence needs current contract subject pins and a real new observation; old proof is not retrofitted. Game uses its supported5-to6 workflow upgrade while retaining runtime2/model4/handoff1. Generated agents require source-to-target comparison and cold continuation; no project is reset.
-10. Service backup/restore is service-owned only: preview and validate the exact backup, reconcile jobs and preserve revoked authority; it does not restore product databases or external effects. Skill rollback uses the actual updater journal; host-profile rollback uses its own journal and rejects later drift. Work live installation/control remains deferred. Read [the detailed migration](../../releases/migrations/6.1.0.md) and [service guide](../../apps/agent-atelier/README.md) for recovery and supported limits.
+10. Service backup/restore is service-owned only: preview and validate the exact backup, reconcile jobs and preserve revoked authority; it does not restore product databases or external effects. Skill rollback uses the actual updater journal; host-profile rollback uses its own journal and rejects later drift. Work live installation/control remains deferred. Read [the detailed migration](../../releases/migrations/6.2.0.md) and [service guide](../../apps/agent-atelier/README.md) for recovery and supported limits.
 
-## 0.1. What the candidate adds and when to use it
+## 0.1. Operating methods and earlier verification
 
 Context comes from the project’s native requirements, decisions, identity and checkpoints. Direct skills can compile an explicit projection with the portable helper; the panel separately compiles its JavaScript task packet. Optional `atelier.context-bindings/1` declarations check source hashes, project identity, expected IDs, must requirements and literal excerpts. Missing or changed required sources block dependent preparation. Projects without a declaration retain the old route with unverified coverage. Neither route automatically saves every word or provides a global embedding index. RAG is conditional retrieval for a demonstrated knowledge need, not the authority for current task state.
 
@@ -77,7 +79,7 @@ python3 -B standards/context_capsule.py --help
 python3 -B standards/ai_production.py --help
 ```
 
-New 6.1 generated-agent bundles carry 15 common operating resources and seven local reference links. Existing 6.0 bundles retain their exact 12-resource contract, and 5.x bundles retain eight; they are not retrospectively certified as 6.1. Update an existing agent through a source-to-target comparison, preserve its domain/identity/settings/unknown edits, then verify cold continuation and a bounded original task. A toolkit installation alone is not project adoption.
+The 6.1 release introduced generated-agent bundles with 15 common operating resources and seven local reference links. Existing 6.0 bundles retain their exact 12-resource contract, and 5.x bundles retain eight; they are not retrospectively certified as 6.1. Update an existing agent through a source-to-target comparison, preserve its domain/identity/settings/unknown edits, then verify cold continuation and a bounded original task. A toolkit installation alone is not project adoption.
 
 The panel exposes readable requirements, current decisions, deferred work and source checks. “Status in source” preserves the record’s wording; it does not override a later current decision. Large conversations use separate bounded turn/item pages with visible continuation and incomplete coverage. Loading and failed reads have explicit states and recovery. Installed, host-discovered, connected, executed and owner-accepted remain different facts. The detailed [component handbook](../evolution/2026-11-10/IMPLEMENTED-COMPONENTS.en.md) and [real review case](../evolution/2026-11-10/REVIEW-STUDY.en.md) explain sources, activation, consumers and remaining limits.
 
@@ -90,7 +92,7 @@ The optional `current_checkpoint` view comes from exactly one explicitly bound, 
 The real design failure also changes the shared UI production rule. When creating or reviewing a human interface, demonstrate that the intended user can identify the outcome, real work/result, needed attention and useful next action, then select a record → read understandable evidence/result → take the correctly scoped action. Translate a reference's working mechanism to the task; copying its code pane, map or visual shell is insufficient. The rule and UI profile are materialized into the existing 33 core bundles and optional orchestrator. Loaded instructions are not a quality certificate or an automatic guarantee; inspect the actual interface and its representative journey.
 
 
-A compatible-update preview is not installation. If an unchanged known predecessor is reported as unknown, compare its exact release bytes and file modes with the canonical predecessor register; never force an overwrite or alter hashes to hide a difference. The optional orchestrator's reviewed 1.1.0 → 1.2.0 route uses its exact 40-file predecessor baseline. Preserve a maintenance skill's absence unless its installation is requested. Admit a bounded priority update only after its affected invariants close; this is distinct from accepting every capability or project.
+A compatible-update preview is not installation. If an unchanged known predecessor is reported as unknown, compare its exact release bytes and file modes with the canonical predecessor register; never force an overwrite or alter hashes to hide a difference. Historically, the optional orchestrator's reviewed 1.1.0 → 1.2.0 route uses its exact 40-file predecessor baseline. Preserve a maintenance skill's absence unless its installation is requested. Admit a bounded priority update only after its affected invariants close; this is distinct from accepting every capability or project.
 
 ## 1. What this gives you
 
@@ -196,7 +198,7 @@ A documentation language, conversation language and product language are separat
 3. In Work, connect or select GitHub through the available Plugins/connection interface. If access is restricted to selected repositories, include `alex-hohaizel/codex-agents`. Ask Work to read `README.md` and report the branch and revision it can actually access.
 4. In local Codex, authorize local Git access if you intend to clone a private repository. A Work GitHub connection does not prove that Terminal on your computer can authenticate.
 5. Use a named release or an exact commit for installation. Save that identifier. Reading an unpinned `main` branch while it is changing can mix versions.
-6. Download the chosen repository revision through GitHub's **Code → Download ZIP**, or clone it with Git. Extract a downloaded archive before installation. You should see `kit/manifest.json`, `kit/portable/` and `kit/skills/`.
+6. For managed Codex, get the named Codex asset for the selected stable release and follow the [signed migration](../../releases/migrations/6.2.0.md). GitHub's **Code → Download ZIP** and Git clones provide source for inspection, the Work route or an isolated trial. A source tree contains `kit/manifest.json`, `kit/portable/` and `kit/skills/`.
 7. Do not place the download, plans or backups inside a skill-discovery directory. A normal folder such as Downloads or a dedicated skills-management workspace is suitable.
 
 For local Git, use a confirmed branch and a new destination that does not contain other work:
@@ -250,16 +252,18 @@ Work's supported management procedure may save skills one at a time. A partial r
 
 ### The easiest route: ask Codex to do the controlled installation
 
-1. Download or clone the chosen revision as described above.
+1. Select the stable release and obtain the approved source and digest pins described in [the signed migration](../../releases/migrations/6.2.0.md).
 2. Open Codex in your existing skills-management workspace. If this is your first installation, open the checkout or another normal management folder; a new product repository is unnecessary.
-3. Give Codex the exact checkout path. On a Mac, select the folder in Finder and press **Option + Command + C** to copy its full path.
+3. Give Codex the trusted checkout path, downloaded Codex archive and the independently approved pins. On a Mac, select the folder in Finder and press **Option + Command + C** to copy its path.
 4. Paste the block below after setting your preferred language.
 5. Review the final installation report and keep its journal and backup location.
 6. Open a new chat in the actual product project for the loading and practical checks.
 
 ```text
-Install the 33 baseline personal skills from the verified kit/ directory in
-this checkout of alex-hohaizel/codex-agents. Use the selected release revision.
+Install the 33 baseline personal skills from the selected stable release of
+alex-hohaizel/codex-agents. Follow the signed Codex migration in section 0.
+Use the kit named in the admission receipt and require the updater plan to
+match the approved manifest digest before applying it.
 My working language is English (en).
 
 This authorizes local audit → apply → verify, exact plans and backups for this
@@ -280,18 +284,20 @@ and Game directors. Do not treat installed files as proof of actual task use.
 
 ### Terminal route for someone who wants the exact commands
 
-The portable updater requires Python 3.9 or later and uses the standard library. Run these commands from the repository root. The audit reads the package and installation locations and writes a proposed plan. Apply makes the planned installation changes and records a journal.
+For an active Codex installation, follow the [signed migration](../../releases/migrations/6.2.0.md) and use the exact kit returned by admission. The commands below rehearse the portable installer in an isolated fixture from the repository root. It requires Python 3.9 or later and uses the standard library. Audit reads the kit and fixture locations and writes a plan. Apply changes only the selected fixture and records a journal.
 
 ```bash
 python3 kit/portable/update_skill_suite.py --help
-python3 kit/portable/update_skill_suite.py audit --kit kit --plan ../agent-system-plan.json
-python3 kit/portable/update_skill_suite.py apply --plan ../agent-system-plan.json
+fixture_root=/absolute/path/to/isolated-test
+mkdir -p "$fixture_root"
+python3 kit/portable/update_skill_suite.py audit --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
+python3 kit/portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
 ```
 
 Read the result of `apply`. Copy its exact `journal` path into the verification command:
 
 ```bash
-python3 kit/portable/update_skill_suite.py verify --kit kit --journal /absolute/path/from-apply/journal.json
+python3 kit/portable/update_skill_suite.py verify --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /absolute/path/from-apply/journal.json
 ```
 
 The final path above is a placeholder. Replace it; do not run it literally. By default the updater targets `~/.agents/skills` and checks the legacy `~/.codex/skills` root. If your environment uses another supported personal root, use explicit `--destination` and `--legacy-root` arguments consistently. Inspect `audit --help` first. Add `--project-root /absolute/path/to/product` to audit relevant product-local copies. The updater does not automatically remove a project copy that shadows a personal skill.

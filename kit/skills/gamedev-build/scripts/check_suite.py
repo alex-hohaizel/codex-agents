@@ -38,6 +38,23 @@ def skill_name(path):
     return m[1] if m else None
 
 
+def repository_toolkit_version(skill):
+    """Use the release record when checking the canonical checkout."""
+    source = skill.resolve()
+    if source.parent.name != 'skills' or source.parent.parent.name != 'kit':
+        return None
+    release_record = source.parent.parent.parent/'releases/current.json'
+    if not release_record.is_file():
+        return None
+    release = strict_json_loads(release_record.read_text(encoding='utf-8'))
+    if release.get('schema_version') != 'codex-agents.release/1':
+        raise ValueError('unsupported release metadata schema')
+    version = release.get('suite_version')
+    if not isinstance(version, str) or re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version) is None:
+        raise ValueError('invalid toolkit version in release metadata')
+    return version
+
+
 def check_one(path):
     errors = []
     if path.is_symlink():
@@ -45,8 +62,6 @@ def check_one(path):
     skill = (path/'SKILL.md').read_text(encoding='utf-8')
     if skill_name(path) not in NAMES:
         errors.append('unexpected skill name')
-    if not re.search(r'6\.0\.0', skill):
-        errors.append('missing current6.0.0 toolkit declaration')
     if len(skill.splitlines()) >= 500:
         errors.append('SKILL exceeds progressive disclosure limit')
     for p in path.rglob('*'):
@@ -82,8 +97,15 @@ def check_one(path):
     if {x['id'] for x in sources['sources']} != {'P1','D1','D2'}:
         errors.append('approved source baseline incomplete')
     catalog = strict_json_loads((path/'assets/stage-catalog.json').read_text())
-    if catalog.get('toolkit_version') != '6.0.0' or catalog.get('unique_skill_count') != 9:
-        errors.append('stale stage catalogue')
+    toolkit = catalog.get('toolkit_version')
+    if not isinstance(toolkit, str) or re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', toolkit) is None:
+        errors.append('invalid toolkit version in stage catalogue')
+    elif (expected := repository_toolkit_version(path)) is not None and toolkit != expected:
+        errors.append('stage catalogue toolkit version differs from release metadata')
+    if (catalog.get('schema_version') != '1.0.0'
+            or catalog.get('unique_skill_count') != len(NAMES)
+            or catalog.get('entry_skill') != 'gamedev-director'):
+        errors.append('invalid stage catalogue schema or scope')
     shared = strict_json_loads((path/'assets/suite-shared-paths.json').read_text())['paths']
     for rel in shared:
         if not (path/rel).is_file():

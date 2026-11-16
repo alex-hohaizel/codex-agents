@@ -20,6 +20,7 @@ import {
   sha,
   text,
 } from "./utils.mjs";
+import { skillVersion } from "./skill_version.mjs";
 
 const SOURCES = {
   "atelier-orchestrator": "optional-skills/atelier-orchestrator",
@@ -92,7 +93,6 @@ async function tree(root) {
     Object.entries(files).sort(([a], [b]) => a.localeCompare(b)),
   );
 }
-const version = (raw) => /^#.*?(\d+\.\d+\.\d+)/m.exec(raw)?.[1] ?? "unknown";
 function interfaceFields(raw) {
   return Object.fromEntries(
     ["icon_small", "icon_large", "brand_color"].map((key) => {
@@ -262,8 +262,8 @@ export class OptionalUpdates {
       target_root: target,
       installed_version: fresh
         ? null
-        : version(await readFile(join(target, "SKILL.md"), "utf8")),
-      candidate_version: version(content),
+        : skillVersion(await readFile(join(target, "SKILL.md"), "utf8")),
+      candidate_version: skillVersion(content),
       before_sha256: digest(before),
       source_sha256: digest(after),
       changes,

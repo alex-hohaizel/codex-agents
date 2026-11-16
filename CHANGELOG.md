@@ -1,5 +1,9 @@
 # Change log
 
+## Repository edition 1.5.0 — 2026-11-16
+
+English canonical skill instructions, scoped route and handoff checks, portable native canaries, trusted bundle admission, and a professional capability map. See [component versions and admission state](releases/current.json) and [update and rollback](releases/migrations/6.2.0.md). Earlier releases keep their original evidence.
+
 ## Candidate repository 1.4.0-rc.5 and Agent Atelier 0.5.0
 
 Carry the complete displayed next action into preparation. Connections can search the official OpenAI Docs MCP server and generate a PNG through the built-in Codex image tool with an existing ChatGPT login. [Release](releases/repository-1.4.0-rc.5.md) · [Update and rollback](releases/migrations/repository-1.4.0-rc.5.md)

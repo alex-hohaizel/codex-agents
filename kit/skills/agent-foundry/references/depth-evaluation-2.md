@@ -1,58 +1,58 @@
-# Приймання глибини Agent Foundry
+# Agent Foundry depth acceptance
 
-Зміст: інстанціювання → gates → claim matrix → негативні сценарії → cold receiver. Читати до приймання паспорта, generated family, production output та зміни залежного інструмента.
+Contents: model creation → gates → claim matrix → negative cases → fresh recipient. Read before accepting a passport, generated family, production output or change to a dependent tool.
 
-## Інстанціювати модель із чинних джерел
+## Create a model from current sources
 
-Створити новий `foundry-depth/2` із шаблону, встановити `is_template=false` лише після фактичного наповнення; зв’язати subject із current blueprint ID/revision/hash та source згоди. `blueprint_sha256` — canonical semantic digest поточного `foundry.py` blueprint, не hash довільного JSON formatting. M0 може лишати subject pending; M1/M2 потребують заповнених чотирьох полів. JSON поле не створює згоди. Поточний `foundry.py` веде authority/tasks/effects у своєму єдиному форматі; depth model не є паралельним ledger дозволів.
+Build a new `foundry-depth/2` from the template. Set `is_template=false` only after filling it with actual content. Bind the subject to current blueprint ID, revision, digest and approval source. `blueprint_sha256` is the canonical semantic digest used by `foundry.py`, not the digest of arbitrary JSON formatting. M0 can leave the subject pending. M1 and M2 require all four fields. A JSON field does not grant consent. Current `foundry.py` owns authority, tasks and effects in its own ledger; the depth model is not another authority store.
 
 Records:
 
-- `requirements`: id/source/owner/acceptance/negative_case/due_gate/applicability та rationale для pending/N/A.
+- `requirements`: id/source/owner/acceptance/negative_case/due_gate/applicability, with reasons for pending or N/A.
 - `systems`: id/purpose/owner/input_contract/output_contract/invariants/depends_on.
-- `rules`: id/requirement_ids/input_contract/steps/output_contract/oracle/failure_policy/state_ids; точний предметний зміст за domain-model.
-- `state_fields`: id/type/authority/persistence/consistency_group/migration/recovery_oracle; default/range/retention за застосовністю.
-- `capabilities`: id/tool/operation/environment/status/evidence_ids; full schema/catalog/rights/cost/freshness як linked supporting record.
-- `operations`: id/requirement_ids/capability_id/recipe_id/consumer_id/output_ids/parameter_bindings. Binding: requirement_id/field/status/consumption_check. Material parameter може бути supported_not_tested/consumed/unsupported/unknown; ready потребує consumed.
-- `recipes`: id/operation_ids/input_ids/output_ids/consumer_id/steps/validators/repair_policy; додати budgets/authority/current input hashes за чинним production recipe.
-- `artifacts`: id/path/sha256/owner/kind; відносний contained шлях, без links/escape. До actual creation hash pending; не вигадувати digest.
-- `evidence`: id/artifact_ids/subject_sha256/level/result/observer/independent/environment/method/scope. Subject map pin-ить кожний artifact ID до фактичного hash. Levels: source/structural/semantic/operation/integration/human/operational. Result: pass/fail/not_run/inconclusive.
-- `modules`: id/name/path/requirement_ids/inherited_contracts. Path містить SKILL.md; кожний успадкований contract має kind core/domain/production/evaluation, contained path і hash. Один файл може містити кілька контрактів; машинний kind не доводить змісту, його читає reviewer.
-- `assemblies`: id/artifact_ids/required_evidence_ids/consumer_id/scenario/expected_result; actual observations зберігати як artifact/evidence.
+- `rules`: id/requirement_ids/input_contract/steps/output_contract/oracle/failure_policy/state_ids, with exact domain semantics.
+- `state_fields`: id/type/authority/persistence/consistency_group/migration/recovery_oracle, and default, range and retention as applicable.
+- `capabilities`: id/tool/operation/environment/status/evidence_ids, with linked support for schema or catalog, rights, cost and freshness.
+- `operations`: id/requirement_ids/capability_id/recipe_id/consumer_id/output_ids/parameter_bindings. Bindings have requirement_id/field/status/consumption_check. Material status is supported_not_tested/consumed/unsupported/unknown; ready requires consumed.
+- `recipes`: id/operation_ids/input_ids/output_ids/consumer_id/steps/validators/repair_policy. Add budgets, authority and current input hashes from the actual production recipe.
+- `artifacts`: id/path/sha256/owner/kind. Use a relative contained path without links or escapes. Leave the hash pending until bytes exist.
+- `evidence`: id/artifact_ids/subject_sha256/level/result/observer/independent/environment/method/scope. Map every subject ID to its actual hash. Levels: source/structural/semantic/operation/integration/human/operational. Results: pass/fail/not_run/inconclusive.
+- `modules`: id/name/path/requirement_ids/inherited_contracts. Path contains SKILL.md. Each inherited contract has kind core/domain/production/evaluation, contained path and hash. One file can hold several contracts. The reviewer inspects substance; kind is a machine label.
+- `assemblies`: id/artifact_ids/required_evidence_ids/consumer_id/scenario/expected_result. Keep actual observations as artifact or evidence.
 
-Модель сама по собі не є логом фактичних provider дій. Attempt/receipt залишаються в чинному project ledger; exact refs й digest вписати у linked recipe/evidence. Не копіювати secrets, приватні conversations або project state в універсальний skill.
+The model is not a provider activity log. Keep attempts and receipts in the current project ledger and link exact references and digests in the recipe or evidence. Do not copy secrets, private conversations or project state into a reusable skill.
 
-## Два машинні gates і предметний gate
+## Two machine gates and domain acceptance
 
-`check_foundry_depth.py MODEL --root PACKAGE` перевіряє shape, IDs/refs, необхідні поля, inherited contracts та declared evidence boundaries. Pending production outputs дозволені як план, але pass-claims із неповним subject pin заборонені. M0/M1 не стають M2.
+`check_foundry_depth.py MODEL --root PACKAGE` checks structure, IDs and references, required fields, inherited contracts and evidence bounds. Pending production artifacts are valid plans. A pass claim needs complete subject pins. M0 or M1 is not M2.
 
-`check_foundry_depth.py MODEL --root PACKAGE --ready --session SESSION` додатково вимагає поточну прийняту Foundry session, точний subject ID/revision/canonical hash/approval source, M2, current output bytes/hash, застосовність усіх requirements, production operation на кожну applicable вимогу, спожиті material parameters, capability з належним passing witness та consumer assembly із passing integration/human/operational evidence exact artifact set. Якщо `PACKAGE` уже є initialized session із `.agent-foundry/state.json`, `--session` визначається автоматично. Для іншого package root потрібен точний session path; це технічна прив'язка до чинного дозволу, не повторне людське погодження.
+`check_foundry_depth.py MODEL --root PACKAGE --ready --session SESSION` also requires current accepted Foundry state; exact subject ID, revision, semantic digest and approval source; M2; current output bytes and hashes; applicability of every requirement; an operation per applicable requirement; consumed material parameters; a capability with a suitable passing witness; and a consumer assembly with passing integration, human or operational evidence for its exact artifact set. If `PACKAGE` is an initialized session with `.agent-foundry/state.json`, the checker infers `--session`. Other roots need the exact session path to bind current authorization.
 
-Checker читає session під її чинним lock, перевіряє journal/snapshot, актуальні джерела, suite, pause і canonical authority через bundled runtime лише в пам'яті; він не виконує `save`, dispatch або provider action. Скопійований build-gate JSON не приймається замість session. Звіт pin-ить actual model bytes/hash та прочитаний session state hash/revision і scope. Плановий gate не вимагає ще не отриманого approval й не оголошує current authority підтвердженою без `--session`. Це **не** сертифікат професійної якості, прав чи автентичності спостереження.
+The checker reads under the session's lock. It verifies journal and snapshot, current sources, suite, pause, and canonical authority through the bundled runtime in memory. It does not `save`, dispatch or call providers. A copied gate report does not stand in for the session. The report pins actual model bytes and digest, and the read session's state digest, revision and scope. The planning check does not need future approval or claim current authority without `--session`. It does not certify professional quality, rights or authenticity of observations.
 
-Далі — предметний reviewer і cold receiver; для потрібних claims фактичні human/device/provider/production спостереження. Разом із `foundry.py build-gate`, `bundle-check`, current Skill Creator validation та shared `verify_depth.py` це різні перевірки. Не підміняти один gate іншим. Для нового generated package depth model/report включити у delivery і виконати gates перед `package_agent.py`. Поточний package interface перевіряє лише свій підтримуваний формат; жоден зовнішній пакет не одержує domain closure за одним номером інструментарію.
+Next use a domain reviewer and a fresh recipient. For applicable claims gather real human, device, provider or production observations. `foundry.py build-gate`, `bundle-check`, current Skill Creator validation and shared `verify_depth.py` have separate purposes. Include the depth model and report in any new generated package and run the gates before `package_agent.py`. A supported format or toolkit number does not confer domain acceptance on an external package.
 
-## Матриця тверджень
+## Claim matrix
 
-| Claim | Належний доказ | Що не є доказом |
+| Claim | Appropriate proof | Insufficient on its own |
 |---|---|---|
-| Повний предметний паспорт | Coverage застосовних jobs/rules/state/failures/dependencies + accountable domain review | Число ролей або довжина тексту |
-| Tool підтримує критичний параметр | Actual operation/schema, bound value й consumption observation | Generic descriptor або prompt |
-| Generated skill компетентна | Raw task→actual output→discriminating acceptance іншим actor | Наявний SKILL.md/metadata |
-| Інтеграція дає потрібний результат | Exact assembled components/scenario/observations | Окремі unit passes |
-| Незалежне приймання | Реальний інший reviewer, raw artifacts, scope й output | Self-check перейменований у QA |
-| Надійний зовнішній ефект | Provider receipt/read-back/reconciliation за предметом | Local dispatch flag або timeout |
-| Work/Codex готові | Окремі placement/discovery/source/version/safe invocation | ZIP або схожа назва у двох hosts |
-| Тривалий service outcome | Реально запущене дозволене спостереження й часовий scope | Runbook або обіцянка агента |
+| Complete domain passport | Applicable jobs, rules, states, failures, dependencies, and accountable domain review | Role count or text length |
+| Tool supports critical parameter | Actual operation and schema, bound value, and consumption observation | Description or prompt |
+| Generated skill is competent | Raw task, real artifact, and a differentiating check by another actor | SKILL.md or metadata exists |
+| Integration produces the result | Exact assembly, scenario and observations | Separate unit tests |
+| Independent acceptance | Different actual reviewer, raw artifacts, specific scope and output | Renamed self-check |
+| Reliable external effect | Provider receipt, read-back or domain reconciliation | Dispatch flag or timeout |
+| Work or Codex ready | Separate placement, discovery, source/version and safe invocation | ZIP or matching names |
+| Sustained service outcome | Authorized observation that actually ran for the claimed interval | Runbook or promise |
 
-## Негативні сценарії
+## Negative cases
 
-Обов’язково перевірити відсутню recipe/consumer/domain rule; unsupported material parameter; stale source/importer/schema/hash; dangling evidence; source-level witness замість integration; absent/malformed inherited contract; authored reviewer; перекритий writer; replay unknown remote effect; rounding/time/ID conversion loss; changed authority; partial output/crash/disk failure за предметом; old-state restore після delete/revoke; невідповідний host return; pending application масковану N/A; template, поданий як completed.
+Exercise missing recipe, consumer or rule; unsupported material parameter; stale source, importer, schema or hash; dangling proof; source-only evidence used as integration; missing or malformed inherited contract; author as reviewer; competing writers; replay of unknown remote effects; rounding, time or ID conversion loss; changed authorization; partial output, crashes or disk failure where applicable; restore after deletion or revocation; invalid host return; a pending requirement marked N/A; and a template presented as completed.
 
-Тест має впасти від контрольованого дефекту, який він заявляє. Не створювати тести лише як копію реалізації; незалежний oracle/fixture і перевірка strongest objection корисніші за кількість asserts. Не виконувати live payments/deploy/messages або дорогі generations заради validation.
+Inject an actual defect that the test would reject. Use an independent oracle or fixture and examine the strongest objection. Do not make live payments, deployments, messages or expensive generations just to validate a route.
 
-## Cold receiver і завершення
+## Fresh recipient and closure
 
-Незалежний отримувач із raw request та пакетом, без історії чату, знаходить current intent/approval, потрібну skill, inputs, exact steps, output/consumer, oracle, gaps та дозволений next action. Якщо він мусить вигадати правило або запитати вже відоме — передача неповна.
+An independent recipient starts from raw request and package without chat history. They should find current intent and approval, skill, inputs, exact steps, output and consumer, oracle, gaps, and next permitted action without inventing rules or asking for known facts.
 
-Closure pin-ить exact artifacts/proofs/dependencies й verdict per must. Ремонт відкриває зачеплені branches, accepted originals зберігаються; toolkit/model change не робить історичний proof новим. Фінал чітко відділяє створення агента, його встановлення/виклик, виконаний кінцевий результат та фактичну експлуатацію.
+Pin exact artifacts, proofs, dependencies and verdict per requirement at closure. Repair only affected branches and preserve accepted originals. A toolkit or model change does not update a historical proof. Report agent construction, installation and invocation, end result and actual operation separately.

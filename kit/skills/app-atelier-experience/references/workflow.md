@@ -1,114 +1,68 @@
-# Виробничий workflow досвіду й бренду
+# Experience and brand production workflow
 
-Зміст: intake → сценарії → бренд → система → монетизація → здійсненність → прототип → передача → repair.
+Contents include intake, journeys, brand, design system, monetization, feasibility, prototype, handoff, and repair.
 
-## 1. Прийняти предметний вхід
+## 1. Receive the product brief
 
-Взяти current concept і підтверджені scope/вимоги, аудиторію, ринок, economic model, data/auth та план підтримки.
-Визначити, що вже прийнято власником: назву, характер, точні матеріали, правила, якість і межі допустимої зміни.
-Якщо оригінал лише згаданий, знайти й прочитати фактичні bytes; summary не є accepted master.
-Прив’язати джерела та рішення до requirement IDs. Зберегти конфлікти між бажаним виглядом і фактичною можливістю.
+Read current concept, scope and requirements, audience, market, economics, data and auth, and support. Identify owner-accepted name, character, exact assets, rules, quality, and permitted adjustments. Locate the actual bytes of referenced originals. Link sources and decisions to requirements and surface conflicts between desired design and verified capability.
 
-Сформувати task contract: мета, exact inputs/hashes, owner і owned paths, outputs, інтерфейси зі specification/build,
-час/генерації/гроші, критерії приймання й stop. Не просити власника обирати назви інструментів замість продуктових наслідків.
-Для нової вартості підготувати конкретну потребу, альтернативу та очікуваний результат до адресного рішення.
+Bind task goal, exact inputs and hashes, owner and paths, outputs and interfaces with specification and build, time, generation and spending caps, acceptance, and stop. Ask for material product decisions and choose routine tools within scope. For new cost, document the need, alternative, and expected result before the decision.
 
-## 2. Побудувати карту користі та взаємодій
+## 2. Map useful interactions
 
-Для кожного core job описати початок, дані/права, дію, системне правило, результат, feedback і наступне рішення.
-Окремо визначити:
+For each core job specify entry, data and permissions, action, domain rule, result, feedback, and next choice.
 
-| Сценарій | Що показати й передати у специфікацію |
+| Scenario | Required design and specification |
 |---|---|
-| Перша сесія | Як людина розуміє призначення, отримує перший результат і бачить потрібні дозволи |
-| Повторна сесія | Що збереглося, як продовжити й що змінилося з останнього входу |
-| Немає даних | Причину порожнього стану, корисну наступну дію й доступні приклади без підміни реального результату |
-| Тривала операція | Очікування, progress, можливість скасування та безпечний маршрут повернення |
-| Помилка | Зрозумілу причину, збереження введеного, retry без дублювання й доступ до допомоги |
-| Offline/degraded | Яка функція доступна локально, що очікує мережі й як узгодити зміни після відновлення |
-| Вихід/зміна акаунта | Який контекст очищується, що залишається локально й чи безпечний наступний користувач |
-| Підтримка | Guest/account scopes, релевантний стан продукту й дозволена діагностика без витоку |
+| First use | Understand the purpose, obtain first value, and see necessary permissions. |
+| Return | See what persisted and changed, and resume. |
+| Empty | Explain the reason and next action, distinguishing examples from actual results. |
+| Long operation | Show progress, cancellation, and safe return. |
+| Failure | Explain the cause, preserve inputs, prevent duplicate retry effects, and reach support. |
+| Offline or degraded | Distinguish local capability, queued work, and reconciliation after recovery. |
+| Logout or account change | State which context clears, what stays local, and how the next user is protected. |
+| Support | Define guest and account scope, relevant product state, and private diagnostic boundaries. |
 
-Створити screen/state inventory з ID, entry/exit, ролями, джерелами даних, loading/empty/error/success та recovery.
-Не зводити складний стан до кількох красивих екранів. Відсутню продуктову відповідь повернути specification як exact gap.
+Maintain screen and state IDs, entry and exit, roles, data sources, loading, empty, error and success, and recovery. Return missing product behavior to specification as an exact gap.
 
-## 3. Створити окрему ідентичність
+## 3. Establish a distinct identity
 
-Вивести brand promise з конкретної користі й аудиторії; визначити характер, tone, відчуття надійності та межі гумору/емоційності.
-Розрізнити назву агента й бренд продукту. Не успадковувати ідентичність попереднього проєкту без чинного рішення.
-Для кандидатів назви показати читання/написання/пошук, зрозумілість на ринках, небажані асоціації та перевірені збіги.
-Перевірити потрібні домени, назви в магазинах і права за актуальними джерелами; не заявляти юридичну чистоту з одного пошуку.
+Ground brand promise in actual usefulness and audience and define character, tone, trust, and emotional boundaries. Keep agent and product identities distinct. Carry forward prior identity only with a current decision. Assess candidate names for reading, spelling, search, clarity across markets, undesirable associations, and confirmed collisions. Check relevant domains, store names and rights against current sources and record the limits of clearance.
 
-Якщо art direction не обраний, сформувати bounded альтернативи, що різняться способом пояснити продукт, а не лише кольорами.
-Для кожної показати композицію, ієрархію, typography, icon/illustration rules, матеріали, light/dark за потреби, motion і тексти.
-Не додавати звук, персонажа, 3D або складну анімацію автоматично: обґрунтувати їхню користь і виробничий маршрут.
-Показати власнику реалізовні приклади core та складного стану в кожному потрібному клієнті; зафіксувати exact acceptance.
+If art direction is open, create bounded alternatives that explain the product in different ways. Show composition, hierarchy, typography, icon and illustration rules, materials, motion and language, and light and dark where needed. Add sound, character, 3D, or complex animation when their value and production route justify them. Show feasible core and difficult-state examples for all required clients and record acceptance of the exact version.
 
-## 4. Виробити дизайн-систему й контент
+## 4. Produce a design system and content
 
-Визначити семантичні tokens кольору, шрифтових рівнів, spacing, розмірів, радіусів, elevation та motion за необхідності.
-Задати responsive rules і platform adaptations; не примушувати web, Android та iOS до однакового незручного interaction.
-Для кожного компонента описати purpose, props/variants, states, focus/semantics, keyboard/touch та error/disabled behavior.
-Відділити disabled від unavailable, pending від success, локальне збереження від серверної синхронізації.
+Define semantic color, typography, spacing, size, radius, elevation, and motion tokens as needed. Specify responsive and platform adaptations. Define component purpose, props and variants, states, focus and semantics, keyboard and touch, and error and disabled behavior. Distinguish disabled and unavailable, pending and successful, local save and sync.
 
-Вести словник предметних термінів, voice/microcopy, інструкції, validation, порожні стани та support wording.
-Вживати мову аудиторії: пояснити результат і наступну дію, уникати внутрішніх технічних деталей у користувацькому потоці.
-Для локалізації перевірити довгі рядки, дати/час, числа/валюти, plural forms, напрям тексту за застосовності й fallback мов.
-Ліцензії шрифтів, іконок, фото та інших матеріалів зберігати з provenance, дозволеним використанням і модифікаціями.
+Maintain domain terminology, voice and microcopy, instructions, validation, empty states, and support wording. Use audience language focused on outcomes and actions. Check long strings, dates and times, numbers and currencies, plurals, reading direction and locale fallback. Preserve provenance, permitted rights, and changes for fonts, icons, photos and other assets.
 
-## 5. Проєктувати оплату й рекламу як частину сценарію
+## 5. Design billing and ads in context
 
-З economic model взяти точний free/trial/paid scope і моменти, коли цінність стає зрозумілою.
-Показати ліміти до точки, де їхнє виявлення знищить очікуваний результат; не вводити прихованих перешкод.
-Для пропозиції оплати визначити предмет користі, повну суму/період/обсяг, renewal за наявності, відмову, cancel та restore.
-Не закладати функції, яких backend або обрана модель не можуть надати; перевірити billing contract зі specification/build.
+Use accepted free, trial and paid terms, and introduce offers when value is clear. Show limits early enough to preserve the expected outcome. For an offer define value, full amount, period, scope, renewal, decline and cancel, and restore. Verify actual backend capability and billing contract with specification and build.
 
-Спроєктувати pending, failure, refund/revoke/expiry, відновлення покупки, невідомий стан і повторне натискання за застосовності.
-Не показувати success до належного підтвердження; дати безпечний шлях після timeout.
-Для кожного рекламного місця зафіксувати формат, контекст показу, маркування, добровільність/закриття, частоту й no-ad стан.
-Оцінити сумарне навантаження реклами, paywall, upsell і повідомлень в одному сценарії.
-Вимкнення реклами узгодити з фактичним entitlement; ненав’язливість доводити потоком, а не формулюванням у документі.
+Design pending, failure, refund, revocation, expiry, restore, unknown outcome, and repeated taps. Show success only after authoritative confirmation and provide safe recovery after timeout. For ad placement, define format, context, disclosure, voluntary steps and dismiss, frequency, and unavailable state. Review total load across ads, paywalls, upsells and messages. Connect ad removal to verified entitlement and observe the journey for interruption.
 
-## 6. Перевірити здійсненність і сучасні вимоги
+## 6. Verify feasibility and current requirements
 
-Визначити цільові середовища й constraints: пристрої, viewport, input modes, системний font scale, ресурси, мережа й capabilities.
-Для конкретних рішень відкрити чинні первинні платформні/доступнісні джерела; записати URL, дату, версію та applicability.
-Не вважати модний стиль чи один framework універсальним доказом сучасності.
-Перевірити читаність і контраст, зрозумілу ієрархію, ціль дії, feedback, focus, screen-reader labels та керування без точного жесту.
-Передбачити доступну альтернативу інформації, переданій лише кольором, звуком, motion або вібрацією за застосовності.
+Set target device, viewport, input, font scale, resources, network and capabilities. For dependent choices consult current primary platform and accessibility sources and record URL, date, version and applicability. Test legibility, contrast, hierarchy, intent, feedback, focus, screen-reader labels, and use without precise gestures. Provide alternatives to meaning conveyed only by color, sound, motion or vibration.
 
-Старі пристрої й offline оцінити предметно, не вигадувати автоматичний hard minimum чи вимогу повністю offline для всіх ніш.
-Обґрунтувати performance/asset budget разом із build; перевірити найдорожчу частину на репрезентативному зрізі до тиражування.
-Недоступний генератор, font license, format export або motion runtime лишити gap із owner і due gate.
-Не домислювати editable source, variants, rigs чи animation з одного зображення; спершу довести потрібний виробничий маршрут.
+Choose supported older devices and offline conditions according to the product. Agree performance and asset budgets with build and test the most expensive path on a representative slice. Give unavailable generator, license, export or runtime capability an owner and due gate. Verify the production route for editable source, variants, rigs, or motion independently of a flat image.
 
-## 7. Створити й пройти інтерактивний прототип
+## 7. Run an interactive prototype
 
-Обрати доступний інструмент, який реально підтримує потрібні переходи й передачу наступній фазі.
-Створити bounded прототип обраного candidate; використати явно позначені synthetic fixtures та потрібні стани.
-Зберегти actual file/source, перевірений спосіб запуску, environment і проходження happy/error/recovery routes.
-Якщо частина mock, пояснити, яке правило не виконується; не називати демонстраційне billing або auth справжньою інтеграцією.
+Choose a tool that supports actual transitions and downstream handoff. Build a bounded prototype for the selected option with labeled synthetic fixtures and needed states. Preserve actual source, launch path and environment, and observations of normal, failure and recovery. Identify any mocked logic, including billing and auth, and give integration proof its own gate.
 
-Провести авторський heuristic/self-check і доречний незалежний review іншим актором.
-Рекрутинг людей, інтерв’ю, пілот або A/B потребують застосовного accepted profile та конкретного дозволу; за відсутності дозволу їх не запускати. Відсутність human proof не видавати за actual user validation.
-Висновок обмежити сценарною, візуальною, технічною або евристичною властивістю; usability реальної аудиторії лишити непідтвердженою.
-Власник приймає напрям/дизайн на конкретній версії. Approval прототипу не є доказом performance фінального продукту чи дозволом release.
+Perform author heuristic checks and independent review where appropriate. Recruitment, interviews, pilots, or A/B require an applicable profile and specific authority. Track scenario, visual, technical, and heuristic findings separately from real audience usability. Bind owner design acceptance to the exact prototype. Verify final performance and release authority independently.
 
-## 8. Передати матеріали у виробництво
+## 8. Hand off and repair
 
-Передати inventory екранів/станів, navigation graph, tokens/components, тексти/локалізацію, source й exports assets,
-правила адаптації, exact accepted originals/hashes, provenance/licenses, prototype launch, review findings і відкриті рішення.
-Для кожного asset записати source → recipe → export/version → consuming component → acceptance proof.
-Не вимагати розробника вгадувати пропорції, стани, тексти, transitions або поведінку при втраті мережі з одного скриншота.
-Фактично порівняти representative build зі своїм master; відмітити дозволені adaptation і незатверджені відступи.
+Pass screen and state inventory, navigation graph, tokens, components, copy and locale, editable sources and exports, adaptations, originals and hashes, provenance and rights, verified launch steps, findings, and open decisions. Trace each asset from source through recipe and export version to consuming component and proof. Specify proportions, states, copy, transitions and network-loss behavior. Compare the representative build with the master and distinguish accepted adaptations from deviations.
 
-Для repair почати з actual version і repro; виділити affected states/requirements і зміни тільки потрібних masters/exports.
-Зміна upstream матеріалу відкриває залежні перевірки; незачеплене не перегенеровувати.
-Якщо вимога недосяжна в погодженому ресурсі, підготувати конкретні альтернативи й рішення власника до мовчазного спрощення.
-Зберегти короткий checkpoint, actual artifacts/evidence, gaps і next allowed action; зупинитися на заданій межі.
+For a repair, start with current version and reproduction and update affected states, requirements, masters, or exports. Reopen dependent tests after upstream change and preserve unaffected files. Present feasible choices if required fidelity exceeds accepted resources. Record evidence, gaps, and next authorized action in the checkpoint and stop at scope.
 
-## Видимий результат і достатність підходу
+## Visible result and proportionality
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: сценарії взаємодії й станів, справді різні дизайн-напрями, прийняті masters, прототип і критерії відповідності реалізації. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Apply the [adaptive workflow](adaptive-work.md). Show interaction and state paths, distinct design choices, accepted masters, prototype, and criteria for fidelity. Distinguish completed work, inherited decisions, and due future results. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: мовна, візуальна й інтеракційна якість, доступність і узгодженість досвіду. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review language, visuals, interaction, accessibility, and coherence. Inspect raw inputs for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve context, approvals, and unaffected work.

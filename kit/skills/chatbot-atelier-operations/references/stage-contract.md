@@ -1,39 +1,33 @@
-# Контракт етапу chatbot-atelier-operations
+# Stage contract for chatbot-atelier-operations
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати актуальний симптом/метрики й вік спостереження, відтворення, розрізнювальну гіпотезу, мінімальний достатній ремонт, фактичний результат і межі. Повторювана робота має реальний job lifecycle, scheduler/executor, restart/missed-run policy та спосіб підтвердити стан.
+Show the current symptom and metrics, age of observations, reproduction, a discriminating hypothesis, sufficient repair, actual result and limits. For repeated work verify the job lifecycle, scheduler and executor, restart and missed-run rules and a real way to confirm state.
 
-## Обов’язковий предметний маршрут
+## Restore current incident state
 
-## Відновити поточний стан
+Bind source/provider version and observation time, user symptom/reproduction, checkpoints, pending promises and jobs, and recent model/tool/config/platform changes. Distinguish current health from old reports. Record severity, impact, scope, privacy/data correctness, permissions and independently recoverable work. Preserve the 24 companion requirements, persona, utilities/lists/scheduling, collaboration/games, memory/deletion, media/audio and reliable runtime/jobs/delivery. Add functionality for a real user need.
 
-Source/provider version і observation age, latest checkpoint, actual user symptom/defect reproduction, incomplete promises/jobs, recent changes/config/model/tool/platform versions. Docs/status можуть відставати; old receipt не current health. Визначити incident impact/severity, scope, privacy/data correctness, authorization і незалежні роботи, які можна завершити.
+## Diagnose and verify the underlying cause
 
-Зберегти всі фактично погоджені та чинні abilities:24 criterion IDs як карту впливу, agreed persona й застосовні utility/lists/scheduling, collaboration/games, memory/forget, media/audio, reliable jobs/delivery/runtime. Перелік є картою можливостей, не вимогою додати відсутні функції кожному сервісному боту. Не знімати складну можливість для гарної розмовної оболонки. Розширення виходить із user need й expected value, а не випадкової feature list.
+Classify reported, reproduced, hypothesis and improvement. Observe the failure at its actual stage and use the smallest discriminating test, with an alternative and falsifier. One owner changes the affected resource. Independent QA checks the diff, affected integration and baseline compatibility. Batch related defects. Change diagnosis after two repeated attempts without new evidence. Reopen a closed finding on relevant evidence, regression, dependency or requirement change, or a prior acceptance error.
 
-## Причинний ремонт і розвиток
+Check authoritative scheduler state, receipts and trace even if dialogue says a job succeeded. Keep an incident open when state disagrees or a provider outcome remains uncertain. Reconcile pending, cancel, retry and restart with the current schema and versions. Model/provider/prompt/schema/generator changes invalidate dependent evidence only. Preserve old proof and freeze the new change. Protect migrations, retention/tombstones, approved media and readback, and release rollback.
 
-Reported vs reproduced vs hypothesis vs improvement; actual baseline/trace, smallest discriminating test, alternative cause/falsifier. One owner ремонтує touched files/resources; independent QA перевіряє diff і cross-system closure. Пакетувати пов’язані дефекти; після двох однакових failed attempts змінити diagnostic strategy. Reopen closed issue тільки за новим доказом/regression/dependency/requirement change чи error of acceptance.
+## Operate within real limits
 
-Model/provider/prompt/schema/generator update інвалідує залежні evals й evidence freshness; не повторювати unaffected whole audit. Preserve old artifacts/reviews immutable і create exact new change receipt. State migration/retention/privacy tombstones, cancel/retry/restart/uncertain provider effects, media originals/readback і release rollback зберігаються.
+Measure completion/failure/uncertainty/duplicates/retry/queue age, latency/cost/resources/limits, false speech/silence/references/citations, support feedback and privacy-safe logs. Record denominator, input and environment. Separate subscription usage, local CPU, CI and provider spend.
 
-## Monitoring/support/adoption
+Support the actual audience with natural help, issue capture, an owner and allowed escalation, delivery status, and an honest SLA. Keep onboarding useful without unsolicited sending. Monitor recurring conditions only with an authorized configured capability. Exercise backup/restore, export, operator replacement, quota degradation, graceful shutdown and deletion/retention. Deliver the scoped repair, exact proof and deploy limits, updated checkpoint, unresolved effects and next action.
 
-За фактичними можливостями вимірювати completion/fail/uncertain/duplicate/retry/queue-age, latency/cost/resource/limits, false response/silence/reference/citation, user feedback і privacy-safe logs. Denominator/input/env mandatory; не робити savings percentages без baseline. ChatGPT/Codex usage, local CPU, CI minutes, hosting/media provider cost окремі.
+## Handoff
 
-Support: natural help, issue capture, actor/audience/purpose, owned escalation, actual delivery/status, allowed human contact і honest SLA. Onboarding/adoption зміцнює core value, не spam; emails/social sending тільки за явним дорученням. Recurring monitoring/reminders тільки реально створеною authorized automation, не обіцянкою«стежитиму».
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-Service continuity: backup/restore drill, export/portability, owner/operator replacement, cost/quota degradation, graceful shutdown й retention/deletion за promise. Вихід: scoped actual fix/evidence/deploy limits, current checkpoint, unresolved and next action; продукт чекає подальших вказівок без уявної фонової роботи.
+## Criteria and completion
 
-## Контракт передачі
+Check applicability for these criterion IDs first: human_value, recovery_empathy, practical_completion, bounded_resources, lifecycle_reliability, version_continuity. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
-
-## Критерії та завершення
-
-Першочергові criterion IDs для перевірки застосовності: human_value, recovery_empathy, practical_completion, bounded_resources, lifecycle_reliability, version_continuity. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.

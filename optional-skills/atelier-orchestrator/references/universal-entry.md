@@ -1,56 +1,46 @@
-# Єдиний вхід і вибір способу роботи
+# One entry point and sufficient routing
 
-Читати на початку довільного запиту або відновлення. Це спосіб прийняти рішення, а не новий engine чи окремий реєстр продукту.
+Use this guide for a new task or continuation when routing needs explicit attention. It describes a decision, not another workflow engine or project registry.
 
-## Один запит — достатній шлях до результату
+Identify the desired result, actual project state and stage, sources, acceptance and authority. Separate the intended outcome from a proposed means. If the user explicitly orders a new agent, preserve that deliverable instead of doing only one instance of its eventual job.
 
-Встановити бажаний кінцевий результат, контекст чинного проєкту, стадію, доступні джерела, критерій приймання й фактичний дозволений обсяг. Розділяти потребу користувача та припущення про спосіб реалізації. Зберегти пряме доручення створити агента, коли саме він є замовленим результатом; не підміняти його одноразовим виконанням задачі агента.
+Handle an explicit Orchestrator invocation for any suitable request. Complete ordinary questions and small repairs directly without requiring a JSON file, passport, new skill or team. Apply relevant quality and context contracts to complex work. A word such as “app” does not require a complete family lifecycle.
 
-На явний виклик оркестратора приймати будь-який запит. Звичайне питання чи коротку правку завершувати прямо без обов’язкового JSON, паспорта, нової навички або команди. Для предметно складної роботи прочитати потрібні поточні джерела й застосовні quality/context contracts. Не вибирати обов’язковий App/ChatBot/Game цикл лише через згадку цих слів.
+| `routing.route` | Actual basis |
+| --- | --- |
+| `direct` | One actor can deliver and verify the current task. |
+| `specialist` | An available specialist skill or actor fits a bounded responsibility. |
+| `project_agent` | A verified agent exists for this project, with actual source and native state. |
+| `director` | A subject lifecycle needs an available responsible director for the agreed scope. |
+| `compose` | Several components need one integration owner, precise interfaces and named contract owners. |
+| `create_agent` | An explicit request or investigated recurring gap justifies construction. Foundry receives the approved scope. |
+| `maintain_system` | The target is a current skill, constructor, family, role, project agent or service. |
+| `bridge` | A required capability is absent, so a precise transfer to a capable host is needed. |
 
-| `routing.route` | Рішення та потрібний факт |
-|---|---|
-| `direct` | Достатньо виконати задачу без окремого спеціаліста; назвати результат і належну перевірку |
-| `specialist` | Знайдено придатну чинну навичку або потрібну одноразову компетенцію; передати точний обсяг |
-| `project_agent` | Фактично є відповідний агент цього проєкту; прочитано його source і чинний нативний стан |
-| `director` | Потрібний предметний життєвий цикл; фактично доступний належний директор отримує його scope |
-| `compose` | Кілька компонентів мають одного інтегратора, точні інтерфейси й спільні contract owners |
-| `create_agent` | Користувач замовив агента або досліджена прогалина потребує створення; Foundry отримує контекст і точний scope |
-| `maintain_system` | Запит стосується джерел або налаштувань оркестратора, навички, конструктора, сімейства чи чинного агента |
-| `bridge` | Для обраного результату немає потрібної фактичної capability; підготовлено точну передачу у здатне середовище |
+Select actors using current metadata and [actual specialist discovery](specialist-discovery.md), including competencies outside the catalog. Reuse an available owner rather than duplicating it. Change routes when facts or the task change, retaining valid work. Record why the route fits, the owner, exact source pins, scope, unknowns and next step. Use the [route policy](route-policy.md) for material decisions. A keyword score or new skill does not provide a missing tool or its permission.
 
-Це маршрути, не фіксований штат і не перелік усіх предметних компетенцій. Добирати спеціалістів із поточних metadata та actual source за [discovery](specialist-discovery.md); відсутність імені у статичному прикладі не виправдовує дублювання. Вибір змінюється через новий факт або зміну задачі, з причиною та збереженням уже виконаного.
+## Continue an existing project
 
-Запис маршруту містить причину, відповідального, фактичні source pins, межі компетенції, невідомості та наступну дію. Helper не може встановити предметну придатність за keywords або score. За відсутності інструмента нова інструкція чи агент самі не створюють доступ.
+Verify actual project identity and checkpoint, current requirements and corrections, accepted persona and identity, toolkit binding, outstanding work and unknown effects. A folder name or display name is insufficient. Do not scan an unscoped home directory or restart a product because the chat changed.
 
-## Контекст проєкту та чинний агент
+Record separately whether an agent is planned, packaged, installed, discovered, and exercised on the task. After acceptance and native discovery, recommend using the same verified selector and continuation point. Moving or messaging another chat needs its own explicit applicable authority and supported capability. Reuse that binding on later requests. If the owner is unavailable, name the gap and continue only on an authorized route.
 
-Спочатку встановити проектну ідентичність і actual native checkpoint. Прочитати чинні вимоги, рішення, прийняту identity/persona, toolkit binding та незавершені/unknown дії. Назва папки або однаковий display name не доводять збіг. Не сканувати довільний Home й не створювати заново продукт через новий чат.
+Use one writer for a native boundary. The current project agent owns its product and the Orchestrator coordinates where useful. A director in a composition is a bounded component lead without a competing product registry. All 33 core entrypoints remain available directly.
 
-Окремо фіксувати: агент передбачений паспортом; package створено; source встановлено; host його виявив; агент фактично виконав відповідну роботу. Кожний наступний факт потребує свого доказу. Наявний паспорт без пакета не є готовим виконавцем.
+## Construct an agent inside the original task
 
-Після належного створення, приймання та discovery проєктного агента прямо сказати користувачу, що подальшу предметну роботу доцільно вести через нього, і дати стабільний selector та точку продовження. Це рекомендація з перевіреним статусом, а не перенесення чату або повідомлення іншому чату без дозволу. Якщо користувач знову звертається до оркестратора, використати ту саму прив’язку та спрямувати роботу цьому агенту. Поки агент недоступний, чесно назвати статус і виконувати лише доступний погоджений шлях.
+Pass the existing brief, source references, unknowns, decisions and current scope to `agent-foundry`. Prepare a concrete material passport when the stage needs one. Carry valid approval forward without repeating questions. A checker, declaration or recommendation is not a new approval.
 
-Один власник керує кожною mutable native boundary. Коли проєктний агент уже веде продукт, оркестратор узгоджує зовнішню координацію з ним. Предметний директор, викликаний у композиції, має чітку роль component lead, а не конкурентного власника всього проекту. Прямі входи до33навичок залишаються чинними.
+Separate agent construction from product execution. If only the agent is requested, verify delivery and discovery as applicable. If original execution is also requested, retain both authority references and continue that task through the verified agent. A SKILL.md, package, install receipt or scheduled invocation does not prove the requested product result.
 
-## Foundry всередині первинного доручення
+A temporary specialist usually suffices for a one-time need. Create a permanent agent when expressly ordered or when source-backed recurring knowledge, contracts or support require it. If Foundry is unavailable, use a sufficient real route or a precise bridge.
 
-Передати вже отриманий бриф, source refs, відкриті питання, accepted scope, рішення й дозволи в `agent-foundry`; не повторювати анкету. Для матеріального нового паспорта показати одну точну пропозицію, список компонентів та наслідки. Чинну згоду на той самий scope успадковувати; не видавати декларацію, рекомендацію чи чекер за людське погодження.
+## Distinguish result and evidence
 
-Створення виконавця та продуктова робота мають різні scope. Якщо замовлено лише агента, належний агент і його delivery/discovery є кінцевим результатом. Якщо доручено також конкретне подальше виконання, зберегти обидві точні authority refs; після створення/перевірки/виявлення продовжити первинну задачу через нього. Не закривати продуктовий результат самим `SKILL.md`, пакетом, installation receipt або запланованим викликом.
+Use the existing `assets/task-contract.json` projection for material tasks. It supports `entry`, `routing`, `creation_scope`, `execution_scope`, `original_result_acceptance`, `continuation`, `maintenance` and `execution`. Historical task records retain their original shape and claims. Prepare new projections from actual native state and authority without migrating the project registry.
 
-Для одноразової додаткової компетенції зазвичай достатньо обмеженого спеціаліста. Постійного агента створювати за користувацьким дорученням або source-backed потребою у повторюваному предметному знанні, контрактах чи супроводі. Якщо Foundry недоступний, застосувати лише достатній фактичний метод або точний bridge; не називати неіснуючий виклик виконаним.
+Prepared, target checked, delivered, received, started, result, reviewed and accepted have distinct receipts in `execution.receipt_refs`. A delivery receipt does not start a task. A generated agent package does not execute the product step. Name self-check or an actual independent reviewer. Acceptance records the exact output and owner's decision.
 
-## Доказ, повернення та завершення
+Reconcile an unfinished or unknown operation by its native identity. When the same failure repeats, change diagnosis or route and record a checkpoint and specific gap. A status question leaves the original task active. Acceptance checks the original outcome, required items, exact references and integrated result. Keep function, craft, source and runtime, physical device, independent review and owner evidence distinct.
 
-Похідний `assets/task-contract.json` може містити `entry`, `routing`, `creation_scope`, `execution_scope`, `original_result_acceptance`, `continuation`, `maintenance` та `execution`. Старі записи без цих полів лишаються історичними; їх не переписують у новий факт виконання. Для поточного матеріального доручення підготувати актуальну проєкцію з native source й authority, не мігруючи нативний state.
-
-Підготовлено, ціль перевірено, надіслано, отримано, виконавець почав, результат отримано, перевірено та прийнято — різні стани. `execution.receipt_refs` посилається на actual source records відповідного виду. Delivery receipt не є execution-start; пакет нового агента не є product-execution result. Review називає self-check або фактичну незалежну сторону. Owner acceptance має точне джерело згоди та предмет приймання.
-
-Незавершений/unknown результат спочатку звірити за фактичною identity. Після повторного однакового збою змінити діагностику або маршрут, зберегти checkpoint і конкретну прогалину; не накопичувати однакові consuming sends. Нове питання користувача уточнює активний scope, а не стирає початкове доручення.
-
-Фінальне приймання звіряє саме початковий результат, усі застосовні must, прийняті референси й інтеграцію. Пропозиція маршруту та сукупність звітів не замінюють готовий output. Виробнича, функціональна, source/runtime, device, незалежна й owner оцінки лишаються розділеними.
-
-## Умовні AI/data компетенції
-
-Для збору, аналізу, LLM, прогнозу, адаптації моделі чи мультимодальних матеріалів застосувати потрібну частину [AI/data маршруту](ai-production.md), залишаючи чинного інтегратора та первинний результат. Звичайний запит не потребує додаткової команди, framework, embeddings або всіх13 типів матеріалів. Профіль описує роботу; фактичного виконавця, інструмент, доступ і корисність перевіряти окремо. Новий постійний компонент виправдовується повторно придатним результатом і виміряною користю на реальній задачі; зміна встановлюваного складу потребує точного погодженого складу.
+For data, language models, prediction, adaptation or media use the applicable [AI production profile](ai-production.md). Keep the integrator and original result. Verify the actor, tool, access and measured usefulness. An ordinary task does not require a new team, framework, embedding store or all artifact types. A permanent component needs repeated benefit and an authorized installed scope.

@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Atelier native canary inputs and receipt rows",
+  "oneOf": [
+    { "$ref": "#/$defs/suite" },
+    { "$ref": "#/$defs/receiptHeader" },
+    { "$ref": "#/$defs/receiptCase" }
+  ],
+  "$defs": {
+    "name": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "check": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path": { "$ref": "#/$defs/path" },
+        "text": { "type": "string" },
+        "contains": { "type": "string" },
+        "json": {}
+      },
+      "oneOf": [
+        { "required": ["text"] },
+        { "required": ["contains"] },
+        { "required": ["json"] }
+      ],
+      "additionalProperties": false
+    },
+    "case": {
+      "type": "object",
+      "required": ["skills", "sandbox", "persist", "prompt", "files", "allowed_changes", "checks"],
+      "properties": {
+        "skills": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/name" }
+        },
+        "sandbox": { "enum": ["read-only", "workspace-write"] },
+        "persist": { "type": "boolean" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "files": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/path" },
+          "additionalProperties": { "type": "string" }
+        },
+        "allowed_changes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/path" }
+        },
+        "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+        "role": {
+          "type": "object",
+          "required": ["name", "profile"],
+          "properties": {
+            "name": { "$ref": "#/$defs/name" },
+            "profile": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "requires_passport_review": { "type": "boolean" },
+        "approved_kit_consumer": { "$ref": "#/$defs/name" },
+        "check_native_stdout_json": { "type": "object" }
+      },
+      "dependentRequired": { "approved_kit_consumer": ["check_native_stdout_json"] },
+      "allOf": [
+        { "if": { "required": ["role"] }, "then": { "properties": { "persist": { "const": true } } } },
+        { "if": { "required": ["approved_kit_consumer"] }, "then": { "properties": { "sandbox": { "const": "read-only" } } } }
+      ],
+      "additionalProperties": false
+    },
+    "suite": {
+      "type": "object",
+      "required": ["schema", "cases"],
+      "properties": {
+        "schema": { "const": "atelier.native-canary-suite/1" },
+        "cases": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": { "$ref": "#/$defs/case" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "receiptHeader": {
+      "type": "object",
+      "required": ["schema", "stage", "native", "git_base_commit", "checkout_modified", "suite_sha256", "runner_sha256"],
+      "properties": {
+        "schema": { "const": "atelier.native-canary-receipts/1" },
+        "stage": { "enum": ["baseline", "candidate"] },
+        "native": { "type": "boolean" },
+        "git_base_commit": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
+        "checkout_modified": { "type": "boolean" },
+        "cli_version": { "type": ["string", "null"] },
+        "requested_model": { "type": ["string", "null"] },
+        "suite_sha256": { "$ref": "#/$defs/digest" },
+        "runner_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false
+    },
+    "receiptCase": {
+      "type": "object",
+      "required": ["case", "status"],
+      "properties": {
+        "case": { "$ref": "#/$defs/name" },
+        "status": {
+          "enum": [
+            "prepared",
+            "passed-controlled",
+            "awaiting-exact-passport-review",
+            "blocked-preflight",
+            "blocked-runtime",
+            "failed-controlled",
+            "unverified-source-selection",
+            "unverified-role-provenance"
+          ]
+        },
+        "exit_code": { "type": ["integer", "null"] },
+        "turn_count": { "type": "integer", "minimum": 0 },
+        "persisted": { "type": "boolean" },
+        "thread_reference_sha256": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] },
+        "observed_spawns": { "type": "integer", "minimum": 0 },
+        "observed_waits": { "type": "integer", "minimum": 0 },
+        "disabled_duplicate_paths": { "type": "integer", "minimum": 0 },
+        "referenced_installed_duplicate": { "type": "boolean" },
+        "role_provenance": { "type": ["object", "null"] },
+        "fixture_kit_verification": { "type": ["object", "null"] },
+        "checks": { "type": "array", "items": { "type": "boolean" } },
+        "unexpected_changes": { "type": "array", "items": { "$ref": "#/$defs/path" } },
+        "sources": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/name" },
+          "additionalProperties": {
+            "type": "object",
+            "required": ["sha256", "intact", "project_skill_read"],
+            "properties": {
+              "sha256": { "$ref": "#/$defs/digest" },
+              "intact": { "type": "boolean" },
+              "project_skill_read": { "enum": ["exact-output", "observed-project-path", "unverified"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "prompt_sha256": { "$ref": "#/$defs/digest" },
+        "inputs_sha256": { "$ref": "#/$defs/digest" },
+        "input_sha256": { "$ref": "#/$defs/digest" },
+        "events_sha256": { "$ref": "#/$defs/digest" },
+        "usage": { "type": ["object", "null"] },
+        "error": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

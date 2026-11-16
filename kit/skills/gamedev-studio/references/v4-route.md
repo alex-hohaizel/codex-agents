@@ -1,37 +1,37 @@
-# Studio: контракт виходу 4.0
+# Studio deliverables for Game Model 4.0
 
-## Вхід і межа
+## Inputs and scope
 
-Прийняти exact studio masters/approvals, scope гри та потрібні operation IDs. Розділити identity ownership, права повторного поширення, доступність інструмента й право зовнішньої дії. Не підміняти невідомий legal/account ID вигаданим значенням.
+Recover exact studio masters and approvals, game scope, and needed operation IDs. Record identity ownership, redistribution rights, tool availability, and authorization for external action separately. Keep unknown legal or account identifiers pending.
 
-## Послідовність
+## Work sequence
 
-1. Інвентаризувати accepted originals і чинні source/export/use bindings; для відсутнього історичного файла зафіксувати gap та законний restore route.
-2. Вивести operation requirements із конкретної гри: не «є Blender», а «потрібні editable mesh, UV, rig, stress poses й GLB importer». Для logo/export не запускати всю модель смерті/AI.
-3. За must-фільтрами перевірити формати, права, доступ, host/target, privacy, бюджет і consumer. Лише після цього зіставляти альтернативи.
-4. Заповнити ToolCapabilityRecord з observed evidence та freshness. Позначити окремо candidate, descriptor/schema, catalog verified, installed/configured, operation tested, integrated, native verified.
-5. Для ризикового operation дати bounded witness: input hash, exact supported invocation/preset, output, технічна й предметна перевірки, repair/stop. Розділяти production witness і native SDK conformance probe.
-6. Передати input-pinned bridge там, де потрібен інший host: exact inputs/versions, allowed effects, owner, commands/procedure, expected return artifacts/hashes, return validation. Назва Codex не доводить Mac/Xcode/device.
+1. Inventory accepted originals and current sources, exports, and consumers. When a historical file is missing, record the gap and lawful restoration route.
+2. Derive actual operations from the game. A mesh route may need editable geometry, UV, rig and stress poses, and GLB import. Logo export needs only its own affected checks.
+3. Filter by required format, rights, access, host and target, privacy, budget, and exact consumer before comparing alternatives.
+4. Record observed evidence and freshness in `ToolCapabilityRecord`. Distinguish candidate, descriptor and schema, catalogue, installed or configured, tested operation, integration, and native verification.
+5. For each risky operation, use a bounded probe with input hash, exact supported invocation and preset, output, technical and domain checks, repair or stop. Track production witness and native SDK conformance separately.
+6. If another host is required, provide exact inputs and versions, allowed effects, owner and host, commands or procedure, return artifacts and hashes, and verification. Confirm that the actual host has Mac, Xcode, or device access as required.
 
-## Обов’язкові outputs
+## Required outputs
 
-| Частина | Поля та приймання |
+| Output | Fields and acceptance |
 |---|---|
-| Identity catalogue | Master/source/revision/hash, accepted scope, rights, font/license, use і derivative recipe; actual visual comparison |
-| Capability map | Operation IDs, supported/unsupported outputs, formats/schema/catalog version, access/cost/limits, witness/status/freshness |
-| Platform readiness | Feature→native capability→adapter/version→prerequisites→probe; не загальна оцінка бренду |
-| Setup/bridge | Necessity, actual owner/host/target, due proof, rollback/recovery, exact unresolved step |
+| Identity catalogue | Master and source and revision and hash, accepted scope, rights and fonts and licenses, use and derivative recipe, actual visual comparison |
+| Capability map | Operation IDs, supported and unsupported outputs, format and schema and catalogue version, access and costs and limits, witness and status and freshness |
+| Platform readiness | Feature, native capability, adapter and version, prerequisites, and actual probe |
+| Setup or transfer | Need, actual owner and host and target, due proof, rollback or recovery, and exact unresolved step |
 
-Поточні Android/Apple SDK, store rules, provider tariffs і права перевіряти офіційними джерелами під actual operation. Не робити хмару, backend, paid generator або recurring monitoring обов’язковими для кожної гри.
+Check current Android and Apple SDK, store rules, provider price, and rights from official sources for the actual operation. Add cloud, backend, paid generation, or recurring monitoring only when the game requires them.
 
-## Контрприклади
+## Counterexamples
 
-- PNG названо редагованим source або новий SVG названо exact master.
-- Provider має model label, але API ігнорує потрібний prompt/parameter; вимога не виконана.
-- Debug bridge існує, release signing/minification губить callback; readiness не підтверджена.
-- Old host receipt використано для нового input, SDK чи target.
-- Asset rights не дозволяють вкладати source у handoff: потрібний lawful restore route, не мовчазне копіювання.
+- A PNG is labelled editable source, or a new SVG is called the existing master.
+- The provider accepts a parameter but ignores it in the generated result.
+- A debug adapter works, but signing or minification loses the release callback.
+- A prior host receipt is used for a new input, SDK, or target.
+- Bundle redistribution rights are absent. Give a lawful restoration route and preserve the gap.
 
-## Передача
+## Handoff
 
-Надати lawful payload, capability/recipe refs, actual results і блокери з owner/due/closure. Studio acceptance не приймає gameplay, камеру чи нову концепцію. Зміна інструментального маршруту відкриває тільки залежні feasibility/production claims; immutable accepted originals лишаються джерелом.
+Deliver lawful assets, capability and recipe references, actual results, and blockers with owner, due stage, and closure. Record gameplay, camera, and concept approval separately from studio acceptance. A changed production route reopens dependent feasibility and production claims. Preserve the exact approved masters.

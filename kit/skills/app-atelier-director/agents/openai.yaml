@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Директор · 6.0.0
-  short_description: Повний цикл створення одного корисного застосунку
-  default_prompt: Застосуй $app-atelier-director до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Директор
+  short_description: "Choose and coordinate the next app product stage"
+  default_prompt: "Use $app-atelier-director to restore this project and move its next authorized stage forward."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

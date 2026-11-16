@@ -2,7 +2,7 @@
   "schema_version": "chatbot.atelier-stage/2",
   "toolkit_version": "5.0.0",
   "id": "chatbot-atelier-specification",
-  "purpose": "Предметна модель й точні контракти",
+  "purpose": "Domain model and exact contracts",
   "primary_requirement_ids": [
     "execution_truth",
     "consent_authority",

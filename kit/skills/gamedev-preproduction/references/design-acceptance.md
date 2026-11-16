@@ -1,41 +1,41 @@
-# Приймання дизайн-пакета
+# Design package acceptance
 
-## DoD для погодженого scope
+## Completion criteria for the agreed scope
 
-- Studio payload and active concept/choices are preserved with provenance; stale upstream instructions are identified without rewriting history.
-- All required gameplay, progression, economy, UX, creative, technical, data and verification sections are concrete and internally consistent.
-- Reachable screens/transitions, finite content vocabulary, authoring items and test scenarios have denominator-based coverage; unknowns are named.
-- Data models execute where needed; logs include seeds, config/version, inputs, outputs and limitations. Numeric placeholders are not silently accepted.
-- Primary visual target has construction baseline and feasible source/export/import route; runtime slice evidence is scoped honestly.
-- Audio/motion/haptics are specified with real target/audition needs and production route; no tone file is called finished music.
-- Free/paid path and every chosen commerce state are explicit; fairness/integrity tests and support/revoke paths exist.
-- Per-platform build/testing/signing constraints, actual tool availability, budget and human-only steps are known.
-- Requirement traceability, independent review, closed/open issues, consumer intake and next action are present.
+- Keep studio payload, active concept and choices bound to provenance. Identify stale instructions and retain history.
+- Make gameplay, progression, economy, UX, craft, technical, data, and verification specifications concrete and consistent.
+- Show denominator-based coverage for reachable screens and transitions, finite content, authoring items, and test scenarios. Identify unknowns.
+- Run applicable data models and record seed, configuration and version, inputs, outputs, and limits. Resolve numeric placeholders due now.
+- Establish the visual construction baseline and feasible source, export, and import path. State the actual runtime slice scope.
+- Specify audio, motion, and haptics with target, observation, and production route. Listen to actual music before accepting it.
+- Define free and paid paths and selected commerce states, fairness and integrity cases, support, and revocation.
+- Record actual platform build, test, and signing requirements, tools, budget, and owner-only steps.
+- Include requirements, independent review, closed and open issues, consumer intake, and next action.
 
-## Незалежність і пропорційність
+## Independence and proportionality
 
-Reviewer obtains raw current package plus task-local criteria. Do not give the intended answer or a favorite alternative before independent evaluation. Author may self-check, but does not label it independent QA. One reviewer can cover related areas only with competence and actual artifact access. Record actual agent/person IDs and outputs; titles do not create evidence.
+Give a reviewer the raw current package and task criteria. Keep the intended conclusion and favored options separate. Name author reviews explicitly. An independent actor needs appropriate expertise and real artifact access. Record actual actors and outputs.
 
-For local repairs verify impacted dependency closure; reuse current unaffected evidence with hashes and rationale. Batch related minor fixes. After two failed repeats change diagnosis/tool/approach, not just regenerate. Full-stage board is reserved for material baseline, critical unresolved conflict or final whole-system decision; it is not a toll for each typo.
+For local changes, verify affected dependencies and carry forward unchanged evidence by hash and rationale. Group related repairs. After two identical failed attempts, change diagnosis, tool, or approach. Convene a whole-stage review for a material baseline, critical conflict, or full-system decision.
 
 ## Failure examples
 
-«40 levels, infinite replay» without grammar/content/novelty evidence; retention targets shown as measured; every enemy with identical pattern; shop with only a generic rewarded continue; five currencies without sources/sinks; screens only in menu mockup; no pending/refund/offline path; golden frame forgotten during asset generation; waveform accepted as listening; engine chosen without native import/build feasibility; missing iOS toolchain hidden by zipped source; all reviews by author.
+A claim of “40 levels, infinite replay” without grammar and meaningful novelty, simulated retention reported as observation, identical enemy patterns, a generic ad-reward shop that lacks value, currencies without sources and sinks, menu-only mockups, missing pending or refunds or offline behavior, a lost reference frame during generation, a waveform used as listening proof, engine choice without native import and build feasibility, iOS source without native toolchain, and author-only review.
 
 ## Consumer handoff
 
-Deliver an immutable package and readable entrypoint. Include exact accepted upstream/studio items, GDD/TDD, all domain data, target files and construction specs, finite asset scope, source rights, capability/budget report, executed PoC raw evidence, requirement map, decisions, open issues/owners, implementation plan, test plans and next command/skill/environment. Use the shared handoff protocol and current script help; do not invent CLI flags.
+Deliver an immutable package with a readable entry point. Include exact accepted upstream and studio artifacts, GDD and TDD, domain data, targets and construction specs, finite asset scope, rights, capability and budget report, actual proof-of-concept evidence, requirements, decisions, open issues and owners, implementation and test plans, and the next command, skill, and environment. Use the common handoff format and actual script help.
 
-`gamedev-assets` consumes production scope/targets; `gamedev-build` consumes approved rules/data/interfaces and actual produced assets. Early build slice may run while nondependent authoring continues. Missing critical input is a named blocker for its dependent work, not permission to invent a different result. Structural package pass certifies container integrity only; specification completeness and player experience require semantic review.
+`gamedev-assets` consumes production scope and targets. `gamedev-build` consumes accepted rules, data and interfaces, and actual assets. A bounded slice may proceed in parallel with unrelated authoring. Name missing dependencies as blockers for the affected work and review semantics separately from package structure.
 
-## Закриття 4.0
+## Game Model 4.0 closure
 
-Перевірити model IDs/version/hash, semantic cross-dependencies та design→runtime bindings. Кожний застосовний source requirement має конкретний артефакт, контрприклад, owner і due proof. До freeze потрібні camera/input behavior, актори/предмети/світ, progression/reward/learning та весь commerce/return journey у релевантному scope. Не закривати їх одним словом «системність».
+Verify model IDs, version, hash, actual cross-system dependencies, and design-to-runtime mapping. Each applicable source requirement has a specific artifact, counterexample, owner, and due proof. Before freezing, resolve applicable camera and controls, actors and items and world, progression and rewards and learning, and commerce and return.
 
-Після змін common rule/camera/currency/unlock інвалідовувати залежні сценарії, екран/матеріал/контент і downstream evidence; незмінне переносити по hashes. Не переносити AI pass на user acceptance або native/device proof. Перед mass production закрити критичний source→runtime slice; пізніший доступ до пристрою не вважати вже отриманим доказом.
+When shared rules, camera, currency, or unlocks change, invalidate dependent scenarios, interfaces and content, and downstream evidence. Carry unchanged evidence by hash. Track automated validation, owner acceptance, and native device proof separately. Verify the critical source-to-runtime slice before scaling. Keep later device proof pending until observed.
 
 ## T receiver acceptance
 
-Новий assets/build consumer без історії чату відкриває exact пакет, знаходить усі обов’язкові source/data/rule/state/operation inputs і відтворює named examples/expected traces. Зафіксувати actual receiver task/output, missing IDs/owner і scoped verdict. Звірити launch catalogue або executable grammar, multichannel numeric/state oracles, persistence failure cases, production semantic edges й due native/sensory/human obligations.
+Give a fresh Assets or Build actor the exact package without chat history. They find required sources, data, rules, states and operations, then run named examples against expected traces. Record the actual task and output, missing IDs and owner, and scoped verdict. Verify the launch catalogue or executable grammar, multichannel numeric and state oracles, persistence faults, production transformations, and due native, sensory, and human tests.
 
-Spec-complete T не означає produced assets або native-ready. Missing current output не закривається майбутнім recipe; відсутній behavior не переноситься downstream як «розробник вирішить». Ранній spike може перевірити вузьке питання до T з explicit experiment contract; його результат повертається у модель.
+Track spec completion, actual production assets, and native readiness separately. Keep missing outputs and undefined behavior open before dependent work. An early spike may test an explicit bounded question and feed actual findings into T.

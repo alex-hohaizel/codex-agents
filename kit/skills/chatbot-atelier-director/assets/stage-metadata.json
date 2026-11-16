@@ -2,7 +2,7 @@
   "schema_version": "chatbot.atelier-stage/2",
   "toolkit_version": "5.0.0",
   "id": "chatbot-atelier-director",
-  "purpose": "Повний цикл створення та розвитку чатботів",
+  "purpose": "Full lifecycle of chatbot creation and evolution",
   "primary_requirement_ids": [
     "human_value",
     "practical_completion",

@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Підтримка · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-support до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Підтримка
+  short_description: "Build product support with safe identity and actions"
+  default_prompt: "Use $app-atelier-support to verify the support case, authority, response and next approved action."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

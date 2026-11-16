@@ -4,17 +4,17 @@
   "common_topics": [
     {
       "id": "COMMON-INTENT",
-      "label": "Поточний намір і рівень результату",
-      "why": "Розрізняє бриф, відновлення, локальну зміну, виготовлення інструмента й виконання продукту.",
+      "label": "Current intent and outcome scope",
+      "why": "Identifies whether the task is intake, resumption, local repair, tool construction, or product execution.",
       "questions": [
-        "Що потрібно зараз: новий задум, продовження, уточнення, ремонт, оцінка чи зміна самого агента?",
-        "Який результат поточного етапу має бути готовий і де зупинитися?"
+        "What do you need now: a new idea, continuation, clarification, repair, evaluation, or a change to the agent itself?",
+        "What should this stage deliver and where should it stop?"
       ],
       "decisions": [
-        "Режим роботи",
-        "Поточний етап і межа зупинки"
+        "Work mode",
+        "Current stage and stopping condition"
       ],
-      "applies_when": "Завжди; відновити відповідь із фактичного запиту та чинного стану.",
+      "applies_when": "Always. Recover the answer from the actual request and current state.",
       "downstream": [
         "intake",
         "research",
@@ -32,17 +32,17 @@
     },
     {
       "id": "COMMON-SOURCES",
-      "label": "Чинні джерела, рішення й успадкований контекст",
-      "why": "Захищає прийнятий задум і запобігає повторному опитуванню.",
+      "label": "Current sources, decisions, and inherited context",
+      "why": "Preserves accepted intent and avoids repeating questions.",
       "questions": [
-        "Який із наданих матеріалів є актуальним, якщо вони суперечать один одному?",
-        "Що вже прийнято і має зберегтися під час цього продовження?"
+        "Which supplied material is current if sources conflict?",
+        "What has already been accepted and must carry into this continuation?"
       ],
       "decisions": [
-        "Джерело істини і provenance",
-        "Чинні рішення, поправки та вплив змін"
+        "Source of truth and provenance",
+        "Current decisions, corrections, and effects of change"
       ],
-      "applies_when": "Завжди; спочатку прочитати доступні оригінали, стан, хеші й попередні відповіді.",
+      "applies_when": "Always. Read available originals, current state, hashes, and previous answers first.",
       "downstream": [
         "intake",
         "research",
@@ -60,18 +60,18 @@
     },
     {
       "id": "COMMON-AUDIENCE",
-      "label": "Отримувач, реальна ситуація й користь",
-      "why": "Прив’язує результат до людини, задачі та спостережуваної зміни.",
+      "label": "Audience, actual situation, and value",
+      "why": "Connects the outcome to a person, task, and observable change.",
       "questions": [
-        "Для кого і в якій реальній ситуації потрібен результат?",
-        "Як це робиться зараз і що саме має покращитися?",
-        "Хто користується, хто платить, хто керує й хто приймає результат?"
+        "Who needs the outcome and in which real situation?",
+        "How do they handle it today, and what should improve?",
+        "Who uses, pays for, operates, and accepts the result?"
       ],
       "decisions": [
-        "Цільові учасники й контекст",
-        "Спостережувана користь і baseline"
+        "Participants and context",
+        "Observable value and baseline"
       ],
-      "applies_when": "Завжди; різні ролі уточнювати лише коли вони існують у задумі.",
+      "applies_when": "Always. Clarify distinct roles where the idea actually has them.",
       "downstream": [
         "intake",
         "research",
@@ -89,19 +89,19 @@
     },
     {
       "id": "COMMON-AMBITION",
-      "label": "Повний задум, запуск і перевірочний експеримент",
-      "why": "Зберігає амбіцію та відокремлює послідовність виробництва від скорочення мети.",
+      "label": "Full product, launch, and verification probe",
+      "why": "Keeps the whole objective visible while staging production.",
       "questions": [
-        "Яким має бути повний прийнятий результат, коли він реалізований?",
-        "Що має входити до першого запуску, а що лише до окремого експерименту?",
-        "Які спрощення, заміни або втрати властивостей неприйнятні?"
+        "What does the complete accepted result look like?",
+        "What belongs in the first launch and what belongs in a separate probe?",
+        "Which simplifications, substitutions, or losses are unacceptable?"
       ],
       "decisions": [
-        "Повна ціль",
-        "Окремі launch/probe scope",
-        "Відхилені спрощення"
+        "Complete objective",
+        "Launch and probe scope",
+        "Rejected simplifications"
       ],
-      "applies_when": "Завжди; не перетворювати обмежений тест на мовчазну заміну повної цілі.",
+      "applies_when": "Always. Preserve the full objective when defining a bounded test.",
       "downstream": [
         "intake",
         "research",
@@ -119,19 +119,19 @@
     },
     {
       "id": "COMMON-PRIORITY",
-      "label": "Акценти, приклади й негативні приклади",
-      "why": "Перетворює слова про якість на предметні вимоги та ранні залежності.",
+      "label": "Priorities, examples, and counterexamples",
+      "why": "Turns quality expectations into requirements and early dependencies.",
       "questions": [
-        "Що в цьому задумі найважливіше і чому?",
-        "Який конкретний приклад близький до бажаного результату та що саме в ньому підходить?",
-        "Який результат формально виконає завдання, але вас не влаштує?"
+        "What matters most and why?",
+        "Which example comes close, and which specific traits fit?",
+        "What would technically satisfy the request while still being unacceptable?"
       ],
       "decisions": [
-        "Must і акценти",
-        "Критерії якості",
-        "Негативні приклади"
+        "Mandatory requirements and priorities",
+        "Quality criteria",
+        "Counterexamples"
       ],
-      "applies_when": "Завжди; відомі приклади й акценти перенести дослівно з посиланням на джерело.",
+      "applies_when": "Always. Carry known examples and priorities forward verbatim with source references.",
       "downstream": [
         "intake",
         "research",
@@ -149,19 +149,19 @@
     },
     {
       "id": "COMMON-CONSTRAINTS",
-      "label": "Межі, етапні результати й залежності",
-      "why": "Дає основу для плану без довільних часових або функціональних лімітів.",
+      "label": "Boundaries, milestones, and dependencies",
+      "why": "Grounds the plan in actual time and functional limits.",
       "questions": [
-        "Які строки, залежні події та обов’язкові проміжні результати вже існують?",
-        "Які жорсткі умови, сумісність або зовнішні залежності не можна змінювати?",
-        "Які рішення ви делегуєте експертам, а які хочете обрати особисто?"
+        "What deadlines, dependencies, or required intermediate results already exist?",
+        "Which constraints, compatibility requirements, or external dependencies must stay fixed?",
+        "Which decisions can specialists make and which do you want to make yourself?"
       ],
       "decisions": [
-        "Milestones і due gates",
-        "Жорсткі constraints",
-        "Межі делегування"
+        "Milestones and due gates",
+        "Hard constraints",
+        "Delegated decisions"
       ],
-      "applies_when": "Завжди; не встановлювати ліміти годин, платформ чи функцій за користувача.",
+      "applies_when": "Always. Derive hour, platform, and feature limits from authorized scope.",
       "downstream": [
         "intake",
         "research",
@@ -179,19 +179,19 @@
     },
     {
       "id": "COMMON-RESOURCES",
-      "label": "Бюджет, час, наявні ресурси й компроміси",
-      "why": "Погоджує здійсненний маршрут і реальну ціну якості.",
+      "label": "Budget, time, resources, and tradeoffs",
+      "why": "Connects feasible routes with the actual cost of quality.",
       "questions": [
-        "Які гроші, час, пристрої, підписки, матеріали й допомога вже доступні?",
-        "Які одноразові й регулярні витрати прийнятні та які потребують окремого рішення?",
-        "Як обираємо між обґрунтованими альтернативами, якщо бажана якість не вкладається у чинні ресурси?"
+        "Which funds, time, devices, subscriptions, materials, and help are available?",
+        "Which one-time or ongoing costs fit and which need a decision?",
+        "How should we choose among feasible alternatives if target quality exceeds current resources?"
       ],
       "decisions": [
-        "Ресурсні межі й spend scope",
-        "Одноразові та регулярні витрати",
-        "Погоджені компроміси або новий ресурс"
+        "Resource and spending scope",
+        "Upfront and recurring costs",
+        "Accepted tradeoff or new resource"
       ],
-      "applies_when": "Завжди; невідомі ціни перевіряти на момент прив’язки операції.",
+      "applies_when": "Always. Verify unknown prices when binding an operation.",
       "downstream": [
         "intake",
         "research",
@@ -209,19 +209,19 @@
     },
     {
       "id": "COMMON-RIGHTS",
-      "label": "Матеріали, права й незмінні оригінали",
-      "why": "Дозволяє законно використовувати, змінювати та передавати конкретні матеріали.",
+      "label": "Materials, rights, and protected originals",
+      "why": "Establishes authority to use, change, and transfer specific materials.",
       "questions": [
-        "Які наявні тексти, дизайн, код, бренди, голоси чи інші матеріали потрібно використати?",
-        "Що дозволено змінювати, генерувати, публікувати й передавати, кому належать права?",
-        "Які оригінали або атрибуцію необхідно зберегти?"
+        "Which existing text, designs, code, brands, voices, or other materials should be used?",
+        "What may be edited, generated, published, or transferred, and who owns the rights?",
+        "Which originals or attribution must stay traceable?"
       ],
       "decisions": [
-        "Права, ліцензії й attribution",
-        "Accepted originals і editable sources",
-        "Обмеження похідних матеріалів"
+        "Rights, licenses and attribution",
+        "Accepted originals and editable sources",
+        "Derivative limits"
       ],
-      "applies_when": "Коли є вхідні чи створювані матеріали; відсутній доказ права лишається окремою прогалиною.",
+      "applies_when": "When using or creating assets. Record missing evidence of rights separately.",
       "downstream": [
         "intake",
         "research",
@@ -239,19 +239,19 @@
     },
     {
       "id": "COMMON-DATA",
-      "label": "Дані, доступи, приватність і життєвий цикл",
-      "why": "Рано виявляє зміни архітектури через чутливість або збереження даних.",
+      "label": "Data, access, privacy, and lifecycle",
+      "why": "Surfaces architecture changes due to sensitive or durable data.",
       "questions": [
-        "Які дані потрібні, хто їх контролює і кому можна їх показувати?",
-        "Що потрібно пам’ятати, синхронізувати, експортувати або видаляти?",
-        "Які наслідки втрати, помилки чи відкликання доступу неприйнятні?"
+        "What data is needed, who controls it, and who can see it?",
+        "What needs to be remembered, synced, exported or deleted?",
+        "Which outcomes from loss, error, or revocation are unacceptable?"
       ],
       "decisions": [
-        "Дані й межі довіри",
-        "Retention/export/delete/recovery",
-        "Потрібні права доступу"
+        "Data and trust boundaries",
+        "Retention, export, deletion and recovery",
+        "Access rights"
       ],
-      "applies_when": "Коли результат читає, створює чи зберігає дані; мінімальний контекст також оцінити на приватність.",
+      "applies_when": "Whenever the product reads, produces or stores data. Review even minimal context for privacy.",
       "downstream": [
         "intake",
         "research",
@@ -269,19 +269,19 @@
     },
     {
       "id": "COMMON-EFFECTS",
-      "label": "Зовнішні дії, ризик і участь власника",
-      "why": "Відокремлює підготовку від точного дозволеного зовнішнього наслідку.",
+      "label": "External effects, risk, and owner involvement",
+      "why": "Separates preparation from each authorized external effect.",
       "questions": [
-        "Які зовнішні дії входять до цього доручення: зміни акаунтів, повідомлення, публікація, платежі або запуск сервісу?",
-        "Які конкретні дії потребують вашої особистої участі чи окремого рішення?",
-        "Як зупинитися, відкотитися й перевірити результат після переривання?"
+        "Which account changes, messages, releases, payments or service launches are in scope?",
+        "Which specific actions need your personal involvement or separate decision?",
+        "How should we stop, roll back, and reconcile after interruption?"
       ],
       "decisions": [
-        "Точний scope повноважень",
-        "Людські кроки",
-        "Stop, rollback і reconcile"
+        "Exact authority",
+        "Personal steps",
+        "Stop, rollback and reconciliation"
       ],
-      "applies_when": "Коли можливі зовнішні дії; чинну точну згоду зберегти без повторного запиту.",
+      "applies_when": "When external actions are possible. Carry valid exact authority forward.",
       "downstream": [
         "intake",
         "research",
@@ -299,19 +299,19 @@
     },
     {
       "id": "COMMON-HOST",
-      "label": "Середовище, доступні можливості й передача",
-      "why": "Робить виконання та повернення результату фактично можливими.",
+      "label": "Environment, capability, and handoff",
+      "why": "Establishes an executable route and verifiable return.",
       "questions": [
-        "Де результат має працювати, де ви ним керуєте й куди має повернутися пакет?",
-        "Які host, інструменти, акаунти та цільові пристрої вже перевірені?",
-        "Як передати роботу до іншого середовища і що має перевірити одержувач?"
+        "Where must the result run, where is it managed, and where should the packet return?",
+        "Which hosts, tools, accounts, and devices have been verified?",
+        "How does work move to the other environment and what must the receiver check?"
       ],
       "decisions": [
-        "Фактичний capability map",
-        "Host/target/bridge",
-        "Launch і return acceptance"
+        "Observed capability map",
+        "Host, target and handoff",
+        "Launch and return acceptance"
       ],
-      "applies_when": "Коли потрібні інструменти, установка, виконання або передача; назва сервісу не доводить операційну доступність.",
+      "applies_when": "When tooling, installation, execution or handoff is needed. Verify actual operations.",
       "downstream": [
         "intake",
         "research",
@@ -329,19 +329,19 @@
     },
     {
       "id": "COMMON-ACCEPTANCE",
-      "label": "Приймання, докази й незалежна перевірка",
-      "why": "Пояснює, що саме доводить завершення поточного етапу.",
+      "label": "Acceptance, evidence, and independent review",
+      "why": "Defines proof for completing the current stage.",
       "questions": [
-        "Яку поведінку або артефакт ви перевірите, щоб прийняти результат?",
-        "Які помилки, граничні умови й ситуації відновлення потрібно показати?",
-        "Де потрібні незалежний експерт, реальний користувач, пристрій чи спостереження після запуску?"
+        "Which behavior or artifact will you examine before accepting it?",
+        "Which failures, boundaries, and recovery cases must it show?",
+        "Where is an independent specialist, real user, device, or post-release observation needed?"
       ],
       "decisions": [
-        "Observable acceptance по must",
-        "Потрібна модальність доказів",
-        "Reviewer і неперевірені межі"
+        "Observable criteria per required item",
+        "Applicable evidence modality",
+        "Reviewer and limits"
       ],
-      "applies_when": "Завжди; схема чи чекліст не замінюють предметну якість і фактичне використання.",
+      "applies_when": "Always. Match proof to actual quality and observed use.",
       "downstream": [
         "intake",
         "research",
@@ -359,19 +359,19 @@
     },
     {
       "id": "COMMON-UNKNOWNS",
-      "label": "Невідомі, дослідження й майбутні рішення",
-      "why": "Закриває суттєві прогалини без примусу користувача вигадувати відповіді.",
+      "label": "Unknowns, research, and later decisions",
+      "why": "Resolves material gaps through evidence and decision-making.",
       "questions": [
-        "Щодо яких рішень ви ще не знаєте відповіді і хочете дослідження та рекомендацію?",
-        "Які з досліджених варіантів найкраще відповідають вашим критеріям і чи приймаєте рекомендований варіант?",
-        "Які майбутні параметри можна уточнювати пізніше у визначених межах і до якого milestone?"
+        "Which decisions need research and a recommendation?",
+        "Which researched alternatives fit your criteria and do you accept the recommendation?",
+        "Which parameters can be decided later, within what limits and by which milestone?"
       ],
       "decisions": [
-        "Research tasks і рекомендовані альтернативи",
-        "Закриття material unknowns",
-        "Owner, baseline/range, due gate і reopen для deferred"
+        "Research tasks and recommended alternatives",
+        "Material unknowns resolved",
+        "Owner, baseline or range, due gate and reopening criteria for deferred work"
       ],
-      "applies_when": "Завжди; перед погодженням сценарію виконання закрити всі застосовні матеріальні невідомі.",
+      "applies_when": "Always. Resolve applicable material unknowns before approving an execution script.",
       "downstream": [
         "intake",
         "research",
@@ -394,17 +394,17 @@
       "topics": [
         {
           "id": "AF-IN-OBJECT",
-          "label": "Конструктор, агент і кінцевий результат",
-          "why": "Різні об’єкти мають різні scope та повноваження.",
+          "label": "Constructor, agent, and final outcome",
+          "why": "Each object has its own scope and authority.",
           "questions": [
-            "Ви хочете створити чи змінити агента, використати вже прийнятого агента або виконати його кінцевий проєкт?",
-            "Який точний агент і який поточний результат цього доручення потрібно отримати?"
+            "Do you want to create or change an agent, use an accepted agent, or execute its end product?",
+            "Which exact agent and current outcome does the task require?"
           ],
           "decisions": [
-            "Об’єкт роботи й current scope",
-            "Factory/project authority boundary"
+            "Work object and current scope",
+            "Factory and project authority"
           ],
-          "applies_when": "Завжди; чинне явне доручення врахувати без повторної згоди.",
+          "applies_when": "Always. Carry forward exact current instructions.",
           "downstream": [
             "research",
             "architecture",
@@ -416,19 +416,19 @@
         },
         {
           "id": "AF-IN-REUSE",
-          "label": "Існуючі спеціалізовані агенти й повторне використання",
-          "why": "Запобігає створенню дубля, коли потрібний метод або агент уже існує.",
+          "label": "Existing specialists and reuse",
+          "why": "Finds existing agents and methods that could cover the task.",
           "questions": [
-            "Які вже встановлені або раніше створені спеціалізовані агенти, навички й сімейства виконують цей scope?",
-            "Що є в поточному host, в інших доступних host, сховищах чи переданих пакетах і що можна перевірити?",
-            "Чи достатньо використати, налаштувати або розширити існуюче замість створення нового?"
+            "Which installed or previously built agents, skills and families cover this scope?",
+            "What can we verify on this host, other accessible hosts, repositories or transferred packages?",
+            "Would reuse, configuration or extension cover the need?"
           ],
           "decisions": [
-            "Inventory з stable name/source/version",
-            "Reuse/adapt/create recommendation",
-            "Missing-host lookup/bridge"
+            "Inventory by stable name, source and version",
+            "Reuse, adapt or create recommendation",
+            "Missing-host resolution or handoff"
           ],
-          "applies_when": "Обов’язково перед рішенням створювати новий агент; недоступність одного host не доводить відсутності агента.",
+          "applies_when": "Before choosing to create a new agent. Check reachable hosts before concluding a specialist is unavailable.",
           "downstream": [
             "research",
             "architecture",
@@ -440,18 +440,18 @@
         },
         {
           "id": "AF-IN-WORK",
-          "label": "Поточний процес і вхідні приклади",
-          "why": "Предметна місія має спиратися на роботу реального отримувача.",
+          "label": "Current process and source examples",
+          "why": "A domain mission begins with the receiver's actual work.",
           "questions": [
-            "Який повторюваний процес і складний реальний приклад агент має вести від входу до корисного результату?",
-            "Які частини зараз виконують люди, deterministic automation, інший агент або застосунок?"
+            "Which recurring workflow and representative difficult example should the agent take from input to useful output?",
+            "Which parts are currently handled by people, deterministic automation, another agent, or an app?"
           ],
           "decisions": [
             "Process baseline",
             "Representative raw task",
-            "Alternative solution routes"
+            "Alternative routes"
           ],
-          "applies_when": "Для нового або матеріально змінюваного агента.",
+          "applies_when": "For a new agent or material change.",
           "downstream": [
             "research",
             "architecture",
@@ -462,18 +462,18 @@
         },
         {
           "id": "AF-IN-EXISTING",
-          "label": "Чинні джерела агента й межа зміни",
-          "why": "Локальний repair потребує конкретної бази та залежностей.",
+          "label": "Current agent sources and change boundaries",
+          "why": "Scoped repair needs a factual baseline and dependencies.",
           "questions": [
-            "Які source, installed version, паспорт, accepted outputs і checkpoint є чинними?",
-            "Які компетенції або проблемні сценарії потрібно змінити, зберігши інші властивості?"
+            "Which source, installed version, passport, accepted outputs and checkpoint are current?",
+            "Which capabilities or failed scenarios should change, and which properties must be preserved?"
           ],
           "decisions": [
             "Exact baseline",
             "Change impact",
-            "Carry-forward candidates"
+            "Evidence eligible for carry-forward"
           ],
-          "applies_when": "Для відновлення, адаптації та розширення.",
+          "applies_when": "For resumption, adaptation and extension.",
           "downstream": [
             "refine",
             "resume",
@@ -489,18 +489,18 @@
       "topics": [
         {
           "id": "AF-RES-DOMAIN",
-          "label": "Предметна область і прийнята практика",
-          "why": "Повний агент потребує реальних методик, а не випадкового переліку функцій.",
+          "label": "Domain and accepted practice",
+          "why": "Use real methods to define the agent's work.",
           "questions": [
-            "Які сутності, учасники, стани, правила, одиниці й процеси формують цю область?",
-            "Які актуальні першоджерела, методики, стандарти й експертизи потрібні для відповідальних висновків?"
+            "Which entities, participants, states, rules, units and processes define the domain?",
+            "Which current primary sources, methods, standards and expertise support consequential decisions?"
           ],
           "decisions": [
-            "Domain vocabulary/model",
+            "Domain vocabulary and model",
             "Source methods and applicability",
             "Missing expertise"
           ],
-          "applies_when": "Коли предметна модель відсутня, неповна або змінилася.",
+          "applies_when": "When the domain model is missing, incomplete or changed.",
           "downstream": [
             "architecture",
             "blueprint",
@@ -511,18 +511,18 @@
         },
         {
           "id": "AF-RES-SCENARIOS",
-          "label": "Класи задач, винятки й ціна помилки",
-          "why": "Різні сценарії змінюють компетенції, recovery та перевірку.",
+          "label": "Task families, exceptions, and error impact",
+          "why": "Scenarios determine capabilities, recovery and proof.",
           "questions": [
-            "Які normal, boundary, peak, incomplete, failure, cancel, retry та cold-return задачі справді існують?",
-            "Які хибні висновки чи зовнішні наслідки найбільш неприйнятні?"
+            "Which normal, boundary, peak, incomplete, failure, cancellation, retry and cold-return tasks actually occur?",
+            "Which false conclusions or external effects would be unacceptable?"
           ],
           "decisions": [
-            "Scenario grammar and variants",
-            "Risk/abstention/escalation rules",
+            "Scenario rules and variants",
+            "Risk, abstention and escalation",
             "Negative cases"
           ],
-          "applies_when": "Для кожної майбутньої обов’язкової компетенції.",
+          "applies_when": "For every required capability.",
           "downstream": [
             "architecture",
             "blueprint",
@@ -533,18 +533,18 @@
         },
         {
           "id": "AF-RES-OPTIONS",
-          "label": "Альтернативи агента й актуальні операції",
-          "why": "Обирає форму за ціллю та фактичними capabilities.",
+          "label": "Alternatives and current operations",
+          "why": "Selects the form from goal and proven capability.",
           "questions": [
-            "Які реальні варіанти агента, навички, workflow, code-only automation або app проходять ваші must?",
-            "Які операції, формати, hosts, ціни й права кожного маршруту фактично підтверджені?"
+            "Which actual agent, skill, workflow, code-only automation or app routes satisfy your hard requirements?",
+            "Which operations, formats, hosts, costs and rights are verified for each?"
           ],
           "decisions": [
             "Comparable alternatives",
             "Capability and cost evidence",
             "Recommendation with counterarguments"
           ],
-          "applies_when": "До вибору архітектури; моделі, API, правила й тарифи перевіряти актуально.",
+          "applies_when": "Before architecture. Verify mutable models, APIs, rules and fees.",
           "downstream": [
             "architecture",
             "blueprint",
@@ -556,18 +556,18 @@
         },
         {
           "id": "AF-RES-VALUE",
-          "label": "Цінність, представлення й комерційний контур",
-          "why": "Додає економіку або ідентичність лише за ціллю.",
+          "label": "Value, public identity, and commerce",
+          "why": "Introduces economics and identity when they support the objective.",
           "questions": [
-            "Чи потрібні агенту публічна ідентичність, аудиторія, канал дистрибуції, оплата або довготривала експлуатація?",
-            "Як реальна людина отримує й оцінює користь та які докази попиту доступні?"
+            "Does the agent need public identity, audience, distribution, payment or ongoing operations?",
+            "How do people experience and assess value, and what evidence of demand exists?"
           ],
           "decisions": [
-            "Applicability of identity/value/commerce",
+            "Identity, value and commerce applicability",
             "Causal value route",
-            "Evidence limits"
+            "Limits of the evidence"
           ],
-          "applies_when": "Коли ці властивості входять до мети; не копіювати сторонній комерційний preset.",
+          "applies_when": "When these properties are in scope. Derive them from this product.",
           "downstream": [
             "architecture",
             "blueprint",
@@ -583,18 +583,18 @@
       "topics": [
         {
           "id": "AF-ARC-CAPS",
-          "label": "Повний паспорт компетенцій",
-          "why": "До створення потрібно визначити всі відомі застосовні можливості.",
+          "label": "Complete capability passport",
+          "why": "Establishes all known applicable capabilities before construction.",
           "questions": [
-            "Які рішення, входи, дії й виходи агент має покривати в повному погодженому задумі?",
-            "Які обов’язкові акценти повинні проходити через кожну залежну компетенцію?"
+            "Which decisions, inputs, actions and outputs are required for the full accepted intent?",
+            "Which priorities must survive in every dependent capability?"
           ],
           "decisions": [
             "Capability inventory",
-            "Requirement ownership/dependencies",
-            "Full target vs launch/probe"
+            "Requirements ownership and dependencies",
+            "Full target, launch and probe scopes"
           ],
-          "applies_when": "До M1 та build target agent; доповнювати за виявленням нового матеріального scope.",
+          "applies_when": "Before M1 and target build. Add newly discovered material scope through its decision.",
           "downstream": [
             "blueprint",
             "build",
@@ -605,18 +605,18 @@
         },
         {
           "id": "AF-ARC-FORM",
-          "label": "Один агент, модулі або сімейство",
-          "why": "Структура випливає з компетенцій, outputs і прав.",
+          "label": "One agent, modules, or family",
+          "why": "Structure follows capabilities, outputs and rights.",
           "questions": [
-            "Які реальні межі артефактів, доступів, етапів приймання або повторного використання виправдовують модулі?",
-            "Який із обґрунтованих варіантів однієї навички чи сімейства дає простіший надійний маршрут?"
+            "Which artifact, permission, acceptance or reuse boundaries justify modules?",
+            "Which feasible single skill or family gives the most reliable route with the least complexity?"
           ],
           "decisions": [
             "Architecture recommendation",
             "Public entry and module boundaries",
             "Stable component ownership"
           ],
-          "applies_when": "Після reuse inventory; кількість фаз, ролей і файлів не фіксувати за шаблоном.",
+          "applies_when": "After checking reuse. Derive phases, roles and files from the task.",
           "downstream": [
             "blueprint",
             "build",
@@ -627,18 +627,18 @@
         },
         {
           "id": "AF-ARC-MODEL",
-          "label": "Причинна предметна модель",
-          "why": "Downstream не повинен вигадувати основну поведінку.",
+          "label": "Causal domain model",
+          "why": "Defines core behavior for the downstream receiver.",
           "questions": [
-            "Які commands/events, guards, transitions, calculations, mutable fields та authority визначають поведінку агента?",
-            "Як output однієї можливості змінює input або стан іншої й що має лишатися узгодженим?"
+            "Which commands and events, guards, transitions, calculations, mutable fields and authority define behavior?",
+            "How does one capability affect another's input or state, and which invariants span them?"
           ],
           "decisions": [
-            "Typed contracts/state/units",
-            "Inter-system edges",
-            "Invariant and oracle catalog"
+            "Typed contracts, state and units",
+            "Inter-system dependencies",
+            "Invariants and oracles"
           ],
-          "applies_when": "Для застосовної предметної логіки та довготривалого стану; DB або RAG лише за потребою.",
+          "applies_when": "Where domain logic or durable state applies. Add database or RAG where justified.",
           "downstream": [
             "blueprint",
             "build",
@@ -649,18 +649,18 @@
         },
         {
           "id": "AF-ARC-TEAM",
-          "label": "Працююча команда й незалежність",
-          "why": "Техліди та reviewer мають виконувати реальні різні роботи.",
+          "label": "Execution team and independent review",
+          "why": "Leads and reviewers perform actual distinct work.",
           "questions": [
-            "Які компетенції й незалежні outputs потрібні та хто їх інтегрує?",
-            "Які paths/resources/interfaces належать кожному actual actor і де потрібен незалежний review?"
+            "Which competencies and independent outputs are needed and who integrates them?",
+            "Which paths, resources and interfaces does each actor own, and where is independent review due?"
           ],
           "decisions": [
-            "Task/competence DAG",
-            "Single-writer ownership",
-            "Actual independence and fallback"
+            "Task and competence DAG",
+            "Single writer per scope",
+            "Reviewer independence and fallback"
           ],
-          "applies_when": "Коли робота потребує кількох компетенцій або незалежного приймання.",
+          "applies_when": "When multiple skills or independent acceptance are required.",
           "downstream": [
             "blueprint",
             "build",
@@ -671,18 +671,18 @@
         },
         {
           "id": "AF-ARC-COMP",
-          "label": "App, бот і reusable skills як компоненти",
-          "why": "Використовує спеціалізовані маршрути без дублювання parent intent.",
+          "label": "App, chatbot, and reusable skill components",
+          "why": "Uses specialist paths while preserving one parent intent.",
           "questions": [
-            "Чи справді потрібні окремий app, chatbot, runtime або reusable skills для прийнятої мети?",
-            "Які bounded inputs, authority, inherited IDs, outputs і return acceptance матиме кожний компонент?"
+            "Does the accepted goal require a separate app, chatbot, runtime, or reusable skills?",
+            "What bounded inputs, authority, inherited IDs, outputs and acceptance govern each?"
           ],
           "decisions": [
-            "Applicability/component boundaries",
-            "Stable current specialist route",
+            "Applicable component boundaries",
+            "Current stable specialist route",
             "Exact handoff"
           ],
-          "applies_when": "Коли компонент випливає з мети; спочатку знайти поточні встановлені спеціалізації.",
+          "applies_when": "When a component is needed. Resolve existing specialists first.",
           "downstream": [
             "blueprint",
             "build",
@@ -699,18 +699,18 @@
       "topics": [
         {
           "id": "AF-BP-PASSPORT",
-          "label": "Читабельний versioned паспорт",
-          "why": "Користувач має обирати конкретний склад і поведінку.",
+          "label": "Readable versioned passport",
+          "why": "Gives the owner a specific configuration and behavior to choose.",
           "questions": [
-            "Чи паспорт містить усі відомі застосовні компетенції, сценарії, матеріали, обмеження й негативні приклади?",
-            "Які з рекомендованих альтернатив ви приймаєте і які властивості треба змінити?"
+            "Does the passport include all known applicable capabilities, scenarios, materials, limits and negative examples?",
+            "Which recommended alternative do you accept and which properties need changing?"
           ],
           "decisions": [
-            "M1 mission/capability/phase/component scope",
+            "M1 mission, capability, phase and component scope",
             "Alternatives and accepted choices",
-            "Current revision/hash"
+            "Current revision and digest"
           ],
-          "applies_when": "До створення або матеріальної зміни target skills.",
+          "applies_when": "Before building or materially changing target skills.",
           "downstream": [
             "build",
             "verify"
@@ -720,18 +720,18 @@
         },
         {
           "id": "AF-BP-PRODUCTION",
-          "label": "Виробничі маршрути, ресурси й докази",
-          "why": "Архітектура має здійсненний шлях до фактичного output.",
+          "label": "Production routes, resources, and evidence",
+          "why": "Connects the architecture to an actual output path.",
           "questions": [
-            "Які actual operation/recipe/transform/assembly потрібні кожній компетенції?",
-            "Які verified capabilities, витрати, права, bridges і representative proofs підтверджують маршрут?"
+            "Which actual operation, recipe, transformation and assembly does each capability require?",
+            "Which verified tools, costs, rights, handoffs and representative proofs support the route?"
           ],
           "decisions": [
             "Production DAG",
-            "Capability→recipe→output→evidence",
+            "Capability to recipe, output and evidence",
             "Blockers and feasible fallback"
           ],
-          "applies_when": "До залежної target build та M2 handoff.",
+          "applies_when": "Before dependent build and M2 handoff.",
           "downstream": [
             "build",
             "verify",
@@ -742,18 +742,18 @@
         },
         {
           "id": "AF-BP-BOUNDARY",
-          "label": "Архітектурні рішення зараз і майбутні параметри",
-          "why": "Дозволяє deliberate tuning без прихованого незавершеного дизайну.",
+          "label": "Architecture decisions and tunable parameters",
+          "why": "Separates planned tuning from unresolved core design.",
           "questions": [
-            "Які невідомі змінюють склад, компетенції, архітектуру, якість, cost або rights і мають бути закриті зараз?",
-            "Які майбутні продуктові числа або конкретні дані можна відкласти з baseline/range, owner, experiment, due phase й reopen умовою?"
+            "Which unknowns affect competencies, architecture, quality, cost or permissions and need a decision now?",
+            "Which future values or data can wait within baseline or range, with owner, experiment, due phase and reopen criteria?"
           ],
           "decisions": [
-            "Closed material unknowns",
+            "Material unknowns resolved",
             "Explicit deferred decisions",
-            "M0/M1/M2 maturity boundary"
+            "M0/M1/M2 maturity boundaries"
           ],
-          "applies_when": "Перед затвердженням паспорта; майбутнє не має змушувати build вигадувати поведінку.",
+          "applies_when": "Before passport approval. Define behavior required by build.",
           "downstream": [
             "build",
             "verify",
@@ -764,18 +764,18 @@
         },
         {
           "id": "AF-BP-CONSENT",
-          "label": "Предмет погодження й окремі повноваження",
-          "why": "Не дозволяє підмінити паспорт згодою на весь майбутній бізнес.",
+          "label": "Approval subject and separate authority",
+          "why": "Defines purpose and scope of each decision.",
           "questions": [
-            "Чи приймаєте саме цю версію паспорта, склад навичок, межі та невизначеності?",
-            "Який exact scope охоплює доручення: виготовлення, установка, конкретний продукт чи зовнішній effect?"
+            "Do you accept this version, skill composition, boundaries and unknowns?",
+            "Does authority cover construction, installation, product execution or a specific external effect?"
           ],
           "decisions": [
-            "Actual approval scope",
-            "Build gate subject",
-            "Separate execution/effect authority"
+            "Actual approved scope",
+            "Bound build gate",
+            "Independent execution and effect authority"
           ],
-          "applies_when": "Лише після закриття матеріальних питань і конкретного reviewable packet; чинну точну згоду не повторювати.",
+          "applies_when": "After closing material questions and preparing a reviewable packet. Reuse exact approval.",
           "downstream": [
             "build",
             "install",
@@ -791,18 +791,18 @@
       "topics": [
         {
           "id": "AF-BLD-INHERIT",
-          "label": "Предметний зміст і успадкування",
-          "why": "Дитячі компоненти мають реалізувати прийняті must.",
+          "label": "Domain implementation and inheritance",
+          "why": "Child components implement accepted requirements.",
           "questions": [
-            "Як кожна прийнята компетенція перетворюється на виконуваний метод, rules, data, code або tool adapter?",
-            "Які inherited IDs, exact contracts, examples/negative cases й acceptance має отримати кожний child?"
+            "How does each capability become an executable method, rule, data shape, code path or adapter?",
+            "Which inherited IDs, exact contracts, examples, negatives and acceptance belong to each child?"
           ],
           "decisions": [
             "Self-contained child contract",
-            "Requirement coverage",
-            "Actual specialized resources"
+            "Requirements coverage",
+            "Actual domain resources"
           ],
-          "applies_when": "Після чинного build gate; загальний шаблон не є завершеною спеціалізацією.",
+          "applies_when": "After a valid build gate. Require actual domain specialization.",
           "downstream": [
             "verify",
             "install"
@@ -812,18 +812,18 @@
         },
         {
           "id": "AF-BLD-MEMORY",
-          "label": "Знання, пам’ять і контрольований досвід",
-          "why": "Зберігає scope та свіжість похідних знань.",
+          "label": "Knowledge, memory, and lessons",
+          "why": "Preserves provenance, scope and freshness.",
           "questions": [
-            "Які facts, sources, lessons, decisions і project state зберігати та з якими confidence/provenance?",
-            "Як працюють retrieval, scope/audience isolation, expiration, correction, revoke/delete й invalidation?"
+            "Which facts, sources, lessons, decisions and states should persist and with which confidence and provenance?",
+            "How do retrieval, audience isolation, expiry, correction, revocation, deletion and invalidation work?"
           ],
           "decisions": [
-            "Memory/evidence contract",
-            "Project vs reusable source separation",
+            "Memory and evidence contract",
+            "Project and reusable-source separation",
             "Retention and recovery"
           ],
-          "applies_when": "Коли агент використовує пам’ять або повторно застосовує знання.",
+          "applies_when": "When an agent keeps memory or reuses knowledge.",
           "downstream": [
             "verify",
             "operations"
@@ -833,18 +833,18 @@
         },
         {
           "id": "AF-BLD-RUNTIME",
-          "label": "Tool adapters, jobs і надійне виконання",
-          "why": "Фактична дія потребує операційного контракту.",
+          "label": "Tool adapters, jobs, and reliable execution",
+          "why": "Uses an operational contract for real effects.",
           "questions": [
-            "Які exact IO, permission, timeout/retry, idempotency й unknown-effect reconcile потрібні операціям?",
-            "Як job починається, спостерігається, зупиняється й повертає validated outputs?"
+            "What inputs, outputs, permissions, timeout, retry, idempotency and reconciliation does each operation need?",
+            "How does a job start, report status, stop and return validated output?"
           ],
           "decisions": [
-            "Runtime/adapter contracts",
-            "Recipe bindings and attempts",
-            "Pause/resume/return behavior"
+            "Runtime and adapter contracts",
+            "Recipes and attempts",
+            "Pause, resume and handback"
           ],
-          "applies_when": "Коли агент має інструменти, код, external effects або тривалі jobs.",
+          "applies_when": "For tools, code, external effects or ongoing jobs.",
           "downstream": [
             "verify",
             "install",
@@ -855,18 +855,18 @@
         },
         {
           "id": "AF-BLD-UX",
-          "label": "Взаємодія, пояснення й керування",
-          "why": "Агент має допомагати користувачу керувати реальною роботою.",
+          "label": "User interaction, explanation, and control",
+          "why": "Lets people direct and observe real work.",
           "questions": [
-            "Як людина починає завдання, бачить progress, приймає матеріальне рішення й отримує output?",
-            "Як агент пояснює gaps, uncertainty, error, pause, changes й next action без зайвого внутрішнього шуму?"
+            "How does someone start, observe progress, make a material decision and obtain the result?",
+            "How does the agent communicate gaps, uncertainty, errors, pauses, changes and next steps clearly?"
           ],
           "decisions": [
             "Human interaction contract",
-            "Output/status formats",
+            "Output and status forms",
             "Material decision flow"
           ],
-          "applies_when": "Для людського користувача агента.",
+          "applies_when": "For human-facing agents.",
           "downstream": [
             "verify",
             "install",
@@ -882,18 +882,18 @@
       "topics": [
         {
           "id": "AF-QA-RAW",
-          "label": "Незалежні forward cases",
-          "why": "Сирий сценарій виявляє втрату предметного змісту.",
+          "label": "Independent forward cases",
+          "why": "Raw cases can expose omitted domain behavior.",
           "questions": [
-            "Які реальні raw tasks перевіряють головні й підсилені користувачем компетенції без підказаного висновку?",
-            "Які negative, missing-data, conflicting-source, failure, change й cold-return cases потрібні?"
+            "Which realistic raw tasks exercise core and high-priority capabilities without disclosing expected answers?",
+            "Which negative, missing-data, conflicting-source, failure, change or cold-return cases are required?"
           ],
           "decisions": [
             "Bounded independent case set",
-            "Expected outcome/oracles",
+            "Expected results and oracles",
             "Actual reviewer and evidence"
           ],
-          "applies_when": "До claims про прийнятий агент; live mutation лише в окремо дозволеному scope.",
+          "applies_when": "Before claiming an accepted agent. Confine live mutations to separately authorized scope.",
           "downstream": [
             "build",
             "install"
@@ -903,18 +903,18 @@
         },
         {
           "id": "AF-QA-LEVEL",
-          "label": "Рівні доказів і coverage",
-          "why": "Машинний PASS не доводить професійної якості.",
+          "label": "Evidence levels and coverage",
+          "why": "Professional quality needs appropriate evidence.",
           "questions": [
-            "Які must покриті source/schema checks, domain review, integration, людиною або actual external observation?",
-            "Що залишилося pending/blocked та які claims дозволені на цьому evidence level?"
+            "Which requirements have source or schema checks, domain review, integration, human or actual external proof?",
+            "What stays pending or blocked and which claims does each proof support?"
           ],
           "decisions": [
             "Evidence modality map",
             "Capability coverage verdict",
-            "Honest completion level"
+            "Actual level of completion"
           ],
-          "applies_when": "Для приймання M1/M2, source, installation та operational output окремо.",
+          "applies_when": "Assess M1/M2, source, install and operation separately.",
           "downstream": [
             "blueprint",
             "build",
@@ -925,18 +925,18 @@
         },
         {
           "id": "AF-QA-REPAIR",
-          "label": "Адресний ремонт і регресія",
-          "why": "Зберігає прийняте й інвалідує лише залежне.",
+          "label": "Scoped repair and regression",
+          "why": "Preserves accepted work and reopens affected proof.",
           "questions": [
-            "Які exact findings і спільні залежності треба виправити?",
-            "Які evidence stale, що можна carry forward і яка нова діагностика потрібна після повторної невдачі?"
+            "Which findings and shared dependencies need correction?",
+            "Which proof is stale, what may carry forward and what new diagnosis is needed after recurring failure?"
           ],
           "decisions": [
             "Repair batch",
             "Dependency invalidation",
             "Independent retest and stop"
           ],
-          "applies_when": "Після finding, зміни tools/sources/permissions або двох однакових невдалих repair.",
+          "applies_when": "After a finding, tool, source or permission change, or two equivalent failed repairs.",
           "downstream": [
             "refine",
             "build",
@@ -952,18 +952,18 @@
       "topics": [
         {
           "id": "AF-DEL-TARGET",
-          "label": "Ціль установки й фактична доступність",
-          "why": "Архів і встановлений callable агент мають різне приймання.",
+          "label": "Installation target and actual availability",
+          "why": "Package delivery and an installed callable skill have separate acceptance.",
           "questions": [
-            "У яких поточних та інших погоджених host агент має бути доступний?",
-            "Який штатний supported install/discovery route, credentials або owner steps потрібні?"
+            "On which current and approved hosts must the agent be available?",
+            "Which supported install and discovery route or personal owner actions are necessary?"
           ],
           "decisions": [
-            "Host-specific delivery plan",
-            "Current install capability",
-            "Prepared vs installed states"
+            "Host-specific delivery",
+            "Actual install capability",
+            "Prepared and installed states"
           ],
-          "applies_when": "Перед доставкою; не вважати scratch/package установленим агентом.",
+          "applies_when": "Before delivery. Verify actual installation.",
           "downstream": [
             "verify",
             "operations"
@@ -973,18 +973,18 @@
         },
         {
           "id": "AF-DEL-BUNDLE",
-          "label": "Самодостатній пакет і перший запуск",
-          "why": "Одержувач має почати без прихованої історії чату.",
+          "label": "Self-contained delivery and first launch",
+          "why": "A new receiver can start without chat history.",
           "questions": [
-            "Які exact sources/versions/hashes, dependencies, launch inputs і інструкції містить пакет?",
-            "Який перший корисний сценарій, expected output та return check підтвердять установку й придатність?"
+            "What exact sources, versions and hashes, dependencies, inputs and launch steps does the packet carry?",
+            "Which first useful case, expected output and return check prove install and use?"
           ],
           "decisions": [
             "Delivery manifest",
-            "Cold receiver launch/return",
-            "Install/use receipts"
+            "Fresh receiver launch and return",
+            "Installation and usage receipts"
           ],
-          "applies_when": "Для кожного target host або bridge.",
+          "applies_when": "For every target host or handoff.",
           "downstream": [
             "verify",
             "operations"
@@ -994,18 +994,18 @@
         },
         {
           "id": "AF-DEL-COST",
-          "label": "Зовнішні передумови й межа запуску",
-          "why": "Установка не надає автоматичного права на виконання кінцевого продукту.",
+          "label": "Prerequisites and execution boundary",
+          "why": "Establishes product authority separately from installation.",
           "questions": [
-            "Які підписки, доступи, recurring jobs або витрати потрібні після установки?",
-            "Який конкретний перший execution доручено й що має чекати власника?"
+            "Which subscriptions, rights, jobs and costs apply after installation?",
+            "Which first execution is actually requested and which steps depend on the owner?"
           ],
           "decisions": [
             "Prerequisites and recurring scope",
             "Exact execution boundary",
             "Owner handoff"
           ],
-          "applies_when": "Коли встановлений агент запускає product jobs чи платні операції.",
+          "applies_when": "When installation leads to product jobs or paid operations.",
           "downstream": [
             "operations"
           ],
@@ -1019,18 +1019,18 @@
       "topics": [
         {
           "id": "AF-REF-DELTA",
-          "label": "Зміна агента й збереження компетенцій",
-          "why": "Не дозволяє локальному покращенню втратити чинні must.",
+          "label": "Change while preserving existing capabilities",
+          "why": "Local improvement preserves unaffected requirements.",
           "questions": [
-            "Яка проблема або нова компетенція потребує зміни і які реальні cases це показують?",
-            "Які approved originals, interfaces, outcomes та rights мають лишитися чинними?"
+            "Which actual cases demonstrate the problem or missing capability?",
+            "Which approved originals, interfaces, outcomes and rights must persist?"
           ],
           "decisions": [
-            "Material/technical delta",
+            "Material and technical changes",
             "Preservation map",
             "Versioned target scope"
           ],
-          "applies_when": "Для refinement, adaptation та розширення чинного агента.",
+          "applies_when": "For refining, adapting or extending an existing agent.",
           "downstream": [
             "research",
             "architecture",
@@ -1043,18 +1043,18 @@
         },
         {
           "id": "AF-REF-REUSE",
-          "label": "Reuse, upgrade або новий модуль",
-          "why": "Повторне використання перевіряється перед розширенням пакета.",
+          "label": "Reuse, upgrade, or a new module",
+          "why": "Check existing capability before expanding a package.",
           "questions": [
-            "Чи є в поточному або іншому доступному host готовий спеціаліст для нового scope?",
-            "Чи варто змінити існуючий модуль, делегувати йому роботу або створити новий і чому?"
+            "Which suitable specialists are available on this or another reachable host?",
+            "Should we adapt, delegate to or create a module, and why?"
           ],
           "decisions": [
             "Current specialist inventory",
-            "Upgrade/delegate/create recommendation",
+            "Upgrade, delegate or create recommendation",
             "Component handoff"
           ],
-          "applies_when": "Перед створенням нового компонента в існуючому агенті.",
+          "applies_when": "Before adding a component to an existing agent.",
           "downstream": [
             "architecture",
             "blueprint",
@@ -1065,18 +1065,18 @@
         },
         {
           "id": "AF-REF-ACCEPT",
-          "label": "Залежності, міграція й повторне приймання",
-          "why": "Нова версія потребує scoped доказів і фактичного збереження.",
+          "label": "Dependencies, migration, and reacceptance",
+          "why": "Current changes require scoped proof of preservation.",
           "questions": [
-            "Які instructions, data/memory schemas, recipes, outputs, installs і downstream consumers зачіпає зміна?",
-            "Які regression/cold-return cases, migration/rollback і material approval delta потрібні?"
+            "Which instructions, data and memory schemas, recipes, outputs, installs and consumers change?",
+            "Which regressions, cold-return cases, migration, rollback and material approval changes apply?"
           ],
           "decisions": [
-            "Impact closure",
+            "Affected scope",
             "Migration and rollback",
-            "Targeted acceptance/install read-back"
+            "Scoped acceptance and installed read-back"
           ],
-          "applies_when": "До заміни встановленого агента або claims про сумісність.",
+          "applies_when": "Before replacing an installed agent or claiming compatibility.",
           "downstream": [
             "build",
             "verify",
@@ -1093,18 +1093,18 @@
       "topics": [
         {
           "id": "AF-OPS-RUN",
-          "label": "Точний execution scope й поточні jobs",
-          "why": "Готовий агент працює лише в дорученому контурі.",
+          "label": "Exact execution scope and current jobs",
+          "why": "Operates within the current assignment.",
           "questions": [
-            "Який project scope, phases, jobs, effects і stop зараз фактично активні?",
-            "Які поточні receipts, costs, permissions і external outcomes треба звірити до next action?"
+            "Which project, stages, jobs, effects and stop conditions are actually active?",
+            "Which receipts, costs, permissions and external outcomes must be reconciled before acting?"
           ],
           "decisions": [
             "Current execution state",
-            "Authority/stop boundary",
-            "Unknown outcome reconciliation"
+            "Authority and stop boundaries",
+            "Unknown-outcome reconciliation"
           ],
-          "applies_when": "Для використання й супроводу створеного агента.",
+          "applies_when": "For using or supporting the generated agent.",
           "downstream": [
             "resume",
             "refine"
@@ -1114,18 +1114,18 @@
         },
         {
           "id": "AF-OPS-LEARN",
-          "label": "Спостереження, уроки й еволюція",
-          "why": "Нові знання потребують provenance та перевіреної застосовності.",
+          "label": "Observations, lessons, and evolution",
+          "why": "Checks source and scope of accumulated learning.",
           "questions": [
-            "Які actual failures, user feedback і quality/cost signals обґрунтовують нове знання чи зміну?",
-            "Де lesson застосовується, коли спливає й які dependent outputs може змінити?"
+            "Which failures, feedback and quality or cost signals justify new knowledge or a change?",
+            "Where does a lesson apply, when does it expire and which outputs could it change?"
           ],
           "decisions": [
-            "Observed lessons with scope/confidence",
-            "Impact/invalidation",
-            "Targeted evolution request"
+            "Observed lessons with scope and confidence",
+            "Impact and invalidation",
+            "Targeted change"
           ],
-          "applies_when": "Коли агент має повторне використання або тривалу експлуатацію.",
+          "applies_when": "For repeated use or long-running operation.",
           "downstream": [
             "research",
             "refine",
@@ -1136,18 +1136,18 @@
         },
         {
           "id": "AF-OPS-RECOVER",
-          "label": "Інциденти, оновлення й завершення",
-          "why": "Супровід має реального власника та ресурс.",
+          "label": "Incidents, updates, and retirement",
+          "why": "Operating work needs actual owners and resources.",
           "questions": [
-            "Хто відповідає за monitoring, інциденти, permissions, витрати й tool/policy upgrades?",
-            "Як зупинити jobs, відновити стан, експортувати/видалити дані й завершити сервіс?"
+            "Who owns monitoring, incidents, permissions, spending and tool or policy changes?",
+            "How can we stop jobs, recover state, export or delete data and retire the service?"
           ],
           "decisions": [
             "Support and ownership contract",
-            "Upgrade/restore/exit route",
+            "Update, restore and exit",
             "Actual recurring mechanism"
           ],
-          "applies_when": "Коли тривала робота або зовнішні залежності входять до scope.",
+          "applies_when": "When ongoing operation or external dependencies are in scope.",
           "downstream": [
             "refine",
             "resume",
@@ -1163,18 +1163,18 @@
       "topics": [
         {
           "id": "AF-RESUME-STATE",
-          "label": "Холодне відновлення фактичного стану",
-          "why": "Продовження має починатися з current sources та unresolved outcomes.",
+          "label": "Cold recovery of actual state",
+          "why": "Starts from current sources and unresolved outcomes.",
           "questions": [
-            "Які actual files, installed versions, accepted passport і checkpoint є чинними?",
-            "Які jobs, leases, budgets, external effects, decisions і active stop лишилися незавершеними?"
+            "Which files, installed versions, accepted passport and checkpoint are current?",
+            "Which jobs, leases, funds, external effects, decisions and stop conditions remain active?"
           ],
           "decisions": [
             "Verified recovery baseline",
-            "Stale/carry-forward map",
+            "Stale and reusable proof",
             "Exact next action"
           ],
-          "applies_when": "Після паузи, переходу host або тривалої перерви; доступні відповіді не перепитувати.",
+          "applies_when": "After pause, host handoff or interruption. Recover known answers from current sources.",
           "downstream": [
             "intake",
             "refine",
@@ -1185,18 +1185,18 @@
         },
         {
           "id": "AF-RESUME-ROUTE",
-          "label": "Що відкрити повторно",
-          "why": "Нова інформація не повинна перезапускати незалежний прийнятий цикл.",
+          "label": "Dependencies to reopen",
+          "why": "New facts should reopen only their affected work.",
           "questions": [
-            "Чи змінилися мета, sources, tools, permissions або матеріальна архітектура після checkpoint?",
-            "Які конкретні залежні рішення й докази треба відкрити, а що лишається чинним?"
+            "Did intent, sources, tools, rights or architecture change since checkpoint?",
+            "Which dependent decisions and proofs need reopening, and what remains valid?"
           ],
           "decisions": [
-            "Targeted resume route",
-            "Material delta vs routine continuation",
-            "Pending questions and due gates"
+            "Targeted resumption route",
+            "Material change or routine continuation",
+            "Pending decisions and due gates"
           ],
-          "applies_when": "Перед залежним next action.",
+          "applies_when": "Before the next dependent action.",
           "downstream": [
             "research",
             "architecture",

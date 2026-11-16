@@ -1,89 +1,88 @@
-# Наскрізна модель виконання 2.3.0
+# Cross-domain execution model 2.3.0
 
-Зміст: застосовність → аналіз → формалізація → виробництво → докази → команда → передача.
+This guide covers applicability, analysis, formal modeling, production, evidence, team responsibilities and handoff.
 
-## Межі та джерело правди
+## Scope and authority
 
-Кожний проєкт використовує власні предметні правила, критерії, склад команди й виробничі маршрути. Чинний намір і дозволи користувача → вимоги/рішення проєкту → предметна модель → специфікації/джерела → інтегрований результат → фактичні докази. Одна project-owned registry є authority; цей формат можна використовувати як її проєкцію, але не створювати другу незалежну правду. Посилання на джерело, рішення, версію й hash зберігати.
+Each project has its own domain rules, criteria, team and production paths. Connect current user intent and permission to requirements and decisions, the domain model, specifications and source, the integrated result, and actual evidence. Use one authoritative project-owned register. The model may project that register into a review artifact. Preserve source, decision, version and hash references.
 
-Обсяг вибирати local/feature/critical/stage за впливом. Деталізація має закривати реальні залежності; кількість таблиць не є метою. Простий документ не потребує серверів, RAG, фонових jobs чи програмного валідатора. Режими тут — внутрішня організація роботи, а не меню для кінцевого користувача продукту.
+Choose local, feature, critical or stage scope by impact. Detail should resolve dependencies. A simple document needs no server, retrieval infrastructure, recurring jobs or programmatic validator. These work modes describe internal organization, not product UI.
 
-## Первинний аналіз і застосовність
+## Initial analysis and applicability
 
-1. Відновити користувача, проблему, нинішній спосіб її вирішення, результат, першу й повторну користь; перевірити, чи потрібні взагалі новий продукт або агент.
-2. Встановити предметну область, терміни, одиниці, межі системи, користувачів, ролі, ресурси, дані, країни/платформи лише з фактичних джерел. Знайти первинну документацію, стандарти та сильні альтернативи. Не обіцяти «абсолютно всі» практики без визначеної межі покриття.
-3. Розкласти must, should, припущення, невідомості, відхилені спрощення та власницькі рішення. Для кожної вимоги: ID, джерело, пріоритет, власник, отримувач, артефакт, due gate, позитивний і негативний oracle, потрібний тип доказу.
-4. Скласти предметну матрицю систем: required/conditional/not_applicable/pending. N/A має предметну причину й умову повторного відкриття. Немає інструмента або доступу означає blocked, а не N/A.
-5. Вивести компетенції, інструменти, ресурси, витрати й операції з активних вимог. Новий платний сервіс або доступ не вважати автоматично погодженим. Уже чинне доручення не запитувати повторно.
-6. Уточнювати лише невідоме, що матеріально змінює рішення/безпеку/якість/витрати. Продовжувати незалежну роботу; для оборотного другорядного рішення зафіксувати припущення. Дослідницька гіпотеза не стає вимогою без джерела або рішення.
+1. Recover the user, need, current alternative, useful outcome, first and repeat value. Establish whether a new product or agent is needed.
+2. Establish domain concepts, units, boundaries, users, roles, resources, data and countries/platforms from actual sources. Read primary docs and standards and compare strong alternatives. Define the coverage boundary before claiming «абсолютно всі» practices.
+3. Separate musts, shoulds, assumptions, unknowns, rejected simplifications and owner decisions. Each requirement has ID, source, priority, owner, consumer, artifact, due gate, positive and negative oracle, and required evidence type.
+4. Classify systems as required, conditional, not_applicable or pending. Record the reason and reopen condition for N/A. A missing tool or access blocks dependent work.
+5. Derive competencies, tools, resources, expense and operations from active requirements. New spending or access requires authorization. Reuse current authorization for unchanged work.
+6. Clarify an unknown only when it changes an important decision, safety, quality or cost. Continue independent work. Record an assumption for a secondary reversible decision. A research hypothesis becomes a requirement only with a source or decision.
 
-## Формальна предметна модель
+## Formal domain model
 
-Для активних систем визначити сутності, ідентичності, поля, типи, одиниці, діапазони, джерело authority, строки життя, читачів/писачів і інваріанти. Для поведінки: передумови, момент зобов'язання, входи, виходи, порядок, snapshot/поточне читання, пріоритети, округлення, точність, часові межі та ефект. Випадковість і недетермінізм мають область, відтворюваність/seed за потребою, розподіл, межі й метод оцінки; LLM temperature не є гарантією повторюваності.
+For active systems define entities, identities, fields, types, units, allowed ranges, authority, lifetime, readers and writers, and invariants. For behavior define preconditions, commit point, input/output, ordering, snapshot or current read, priorities, rounding, precision, time bounds and effect. For non-determinism specify scope, reproducibility or seed where needed, distribution, bounds and evaluation. LLM temperature does not guarantee repeatability.
 
-Стан оформлювати переходами, а не лише списком назв: ініціатор, guard, дозволені дії, зміна даних, побічні effects, скасування, timeout, повтор, компенсація, термінальний стан і відновлення. Окремо розрізняти прийнятий намір, виконану локальну дію, durable commit, зовнішнє підтвердження й доставлений користувачу результат. Дубль callback/webhook не повинен повторно видати право, списати ресурс або відправити повідомлення. Визначити domain-specific identity/idempotency, retention та reconciliation невідомого результату.
+Model transitions with initiator, guard, permitted action, data change, side effect, cancel, timeout, retry, compensation, terminal state and recovery. Distinguish accepted intent, locally executed action, durable commit, external confirmation and delivery to the user. A duplicate callback or webhook must not issue a second entitlement, spend or message. Specify domain identity, idempotency, retention and reconciliation of unknown outcomes.
 
-Зв'язок систем пояснює конкретне читання, зміну, подію або відмову. Не будувати all-to-all граф заради повноти. Перевірити перехресні межі: auth/permissions, валідація, дані/кеш/пошук, асинхронність, зовнішні сервіси, UI/діалог, доступність, billing за застосовністю, support, telemetry, recovery. Каталог можливостей має сумісність, залежності, виключення, версії, обсяг запуску та спосіб розширення. Комбінаційне покриття обґрунтувати ризиком; не називати pairwise вичерпною перевіркою.
+Specify which read, write, event or failure connects systems. Check cross-system authorization, validation, data/cache/retrieval, concurrency, external services, UI or conversation, accessibility, billing as applicable, support, telemetry and recovery. The capability catalog includes compatibility, dependencies, exclusions, versions, rollout scope and extension paths. Select combination coverage by risk. Pairwise is not exhaustive.
 
-Числові правила отримують приклади з проміжними результатами, граничними значеннями, precision/rounding/tolerance та незалежним перерахунком. Продуктові й фінансові прогнози містять припущення, чутливість і джерела; середні значення не підміняють розподіли та хвости. Для приватних даних визначити доступ, provenance, retention, export/delete, recovery й заборону воскресіння видаленого з backup.
+For numerical rules, provide worked examples, intermediate values, boundaries, precision, rounding and tolerances, and an independent calculation. Give assumptions, sensitivities and sources for product and financial forecasts. Account for distributions and tails when averages miss them. For private data define access, provenance, retention, export/delete, recovery and barriers to restoring deleted data from backups.
 
-## Зрілість і глибина результату
+## Maturity and depth
 
-**Draft:** межі, цінність, альтернативи, системи, ризики, ескіз реалізації; чесно відкриті gaps. **Design:** цілісний узгоджений задум із усіма активними сценаріями, винятками, каталогами, даними, UX, операційною та комерційною моделлю за застосовністю; поведінка не залишається прихованим TBD. **Production handoff:** точні правила, schemas/contracts, source/export/import, fixtures, бюджети, tasks/DAG, отримувачі й acceptance. Налаштовуваний параметр має baseline/range/owner/критерій; implementer не повинен винаходити обіцяну поведінку.
+**Draft** describes scope, value, alternatives, systems, risks, a possible implementation and open gaps. **Design** is a coherent concept with every active journey, exception, catalog, dataset, UX, and applicable operations and commercial logic. Do not hide unresolved core behavior as TBD. **Production handoff** supplies exact rules, schemas and contracts, source/export/import, fixtures, budgets, dependency graph, consumers and acceptance. A tunable parameter includes a baseline, range, owner and criterion, so an implementer has the promised behavior.
 
-Прототип для зняття ризику дозволений раніше повної специфікації, але не закриває handoff. Перед великим каталогом або масштабуванням перевірити представницький наскрізний зріз на цільовому середовищі. Концепт-ілюстрація чи mock не доводять здійсненність; зафіксувати видимі вимоги, доступний маршрут створення й оцінені відхилення. Точні прийняті originals не генерувати повторно без підстав.
+An early risk-reduction prototype does not close the specification. Verify a representative end-to-end slice in the target environment before creating a large catalog or scaling. A concept image or mock does not prove feasibility. Record requirements, the available production path and assessed deviations. Preserve exact accepted originals during repair.
 
-## Виробнича одиниця
+## Production unit
 
-Кожна потрібна операція має п'ять пов'язаних записів:
+Each necessary operation has five related records.
 
-| Запис | Обов'язковий зміст |
-|---|---|
-| Capability | Конкретна операція, провайдер/версія, середовище, входи, параметри, ліміти, права, вартість, доступність, proof scope/freshness |
-| Recipe | Входи/хеші, owner/consumer, метод, етапи, параметри, вихідні редаговані матеріали, експорт/імпорт, acceptance, fallback, бюджет |
-| Transformation | Який зміст/ідентичності/одиниці/масштаб/час/колір/звук/права зберегти або явно змінити; перевірка семантики, не лише формату |
-| Attempt | Фактичний виконавець, версія, inputs/parameters, час, job/idempotency IDs, спожиті ресурси, outputs, outcome та діагностика |
-| Assembly | Точні компоненти, версія/build/config/середовище, інтегрований сценарій, expected/actual, failure/recovery та відповідні докази |
+| Record | Required content |
+| --- | --- |
+| Capability | Exact operation, provider and version, environment, input, parameters, limits, rights, cost, availability, scope and freshness of proof |
+| Recipe | Inputs and hashes, owner and consumer, method, steps and parameters, editable outputs, export/import, acceptance, fallback and budget |
+| Transformation | Semantics, identities, units, scale, timing, color, sound or rights preserved or deliberately changed, with verification beyond the file format |
+| Attempt | Actual actor, version, inputs and parameters, time, job and idempotency IDs, resource use, outputs, outcome and diagnostics |
+| Assembly | Exact components, version/build/config/environment, integrated scenario, expected and actual result, failure/recovery and evidence |
 
-Каталог, доступний API, фактичний виклик, отримані bytes, перевірена інтеграція й спостереження на пристрої/у чаті — різні твердження. Перевіряти, що критичний параметр справді спожито: descriptor/schema може відрізнятися від реалізації. Невідомий outcome зовнішнього job спочатку reconcile за provider ID; не повторювати навмання.
+Separately observe catalog entry, available API, actual invocation, received bytes, integrated result and target device or chat experience. Verify that the consumer uses each critical parameter. Descriptors and schemas can differ from behavior. Reconcile an unknown external job by provider ID before a repeat.
 
-Вибирати tools/skills за потрібною операцією, актуальною офіційною документацією, реальною доступністю, сумісністю й правами. Не називати список популярних бібліотек доказом якості. Для коду: обґрунтовані boundaries, версії/залежності, style/static checks, тести інваріантів, профілювання за вимірюванням, CI й release provenance. Для даних: міграції, consistency/backup/restore. Для медіа: джерело, редагування, ліцензія, runtime integration й предметне слухання/перегляд. Відсутню операцію перенести з точним handoff у придатне середовище й перевірити повернений результат.
+Choose tools and skills for the exact operation using current official docs, actual availability, compatibility and rights. Popular libraries alone are not quality evidence. For code document boundaries, versions and dependencies, style/static checks, invariant tests, measured profiling, CI and release provenance. For data verify migration, consistency and backup/restore. For media verify source, editability, license, runtime integration and actual listening or viewing. Hand missing operations to a capable environment with precise steps and verify the return.
 
-## Докази, приймання, зміни
+## Evidence, acceptance and changes
 
-Кожний claim має ID, точний scope, версії/hashes залежностей, спосіб/середовище, observed expected/actual, файл або receipt, дату й відповідального. Відрізняти джерельний факт, розрахунок, припущення, локальний тест, інтеграцію, independent review, human/device/external observation. Один зелений build не доводить UX, природність діалогу, безпеку всіх шляхів або попит. Кожен due must приймати окремо; середній score не перекриває провал.
+Each claim has ID, exact scope and dependency versions or hashes, method, environment, expected and observed result, file or receipt, date and owner. Distinguish source fact, calculation, assumption, local test, integration, independent review, and human, device or external observation. A passing build does not prove UX, natural conversation, all security paths or demand. Accept each due must independently. An average score cannot compensate for a failure.
 
-Зміна входу, моделі, правила, exporter, dependency, даних або build інвалідовує транзитивно залежні докази. Semantic cache key містить фактичні залежності; незмінні незалежні докази переносити з перевіреним scope. Невідома залежність потребує аналізу integrator, а не автоматичного unchanged. Скасування/видалення даних поважати в кеші й recovery.
+Changes in inputs, models, rules, exporters, dependencies, data or builds invalidate transitive evidence. Use actual dependencies in the semantic cache key and carry unchanged independent evidence within its verified scope. The integrator analyzes unknown dependencies. Honor cancellation and data deletion in caching and recovery.
 
-`scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` перевіряє тільки визначені поля, посилання, покриття, stage scope і byte freshness. Шаблон — `assets/depth/project.template.json`, схема — `assets/depth/project.schema.json`. На production gate operation задає `accepted_attempt_id`; assembly містить `component_files` із прийнятих outputs і точні `artifacts`, а інтеграційний evidence — відповідні inputs/files, build та environment. Це зв'язує заявлений склад із перевіреними bytes, але не перевіряє правдивість опису спостереження. Структурний PASS не означає предметного завершення; `quality_certified=false` є явним. Дані можна вести у чинному runtime, а проєкцію генерувати для перевірки. Не вимагати цей додатковий файл для простої розмови.
+`scripts/verify_depth.py PROJECT.json --gate design --root PROJECT_DIR` checks declared fields, links, coverage, stage scope and freshness of bytes. Use `assets/depth/project.template.json` and `assets/depth/project.schema.json`. At the production gate, the operation has `accepted_attempt_id`. The assembly lists `component_files` from accepted outputs and exact `artifacts`. Integration evidence binds those inputs and files, build and environment. This validates the declared assembly against bytes without authenticating the reported observation. A structural pass does not prove domain completion, and `quality_certified=false` remains explicit. Keep records in the current runtime and generate a review projection when useful. Simple conversations need no separate projection.
 
-## Команда і ремонт
+## Team and repair
 
-Один інтегратор, працюючі предметні ліди/виконавці, незалежне QA й рада лише за потреби. Виводити склад з компетенцій/артефактів/ризику, не з фіксованого числа ролей. Зберігати actual actor IDs і outputs; role-play однією моделлю не є незалежним review. Виконавець отримує owned paths, inputs, consumer, DoD, cap і залежності. Один writer на спільний файл/БД/пристрій/акаунт/віддалений effect; незалежне паралелити.
+Use one integrator, actual domain leads and implementers, independent QA, and a review group only where needed. Derive the team from expertise, artifacts and risk. Record actual actor IDs and outputs. Role-playing the same author does not supply independence. Give each implementer owned paths, inputs, consumer, definition of done, caps and dependencies. Assign one writer to a shared file, database, device, account or external effect and parallelize independent work.
 
-Локальний ремонт завершується належною перевіркою без перезапуску всього сімейства. Пакетувати споріднені дефекти; після двох однакових невдалих спроб змінити гіпотезу/діагностику, а не ще раз перегенерувати. Не знижувати must, не фабрикувати evidence і не відкривати прийняте без нової підстави.
+Complete a local repair with the applicable check. Group related issues and change the hypothesis after two equivalent failed repairs. Keep musts and accepted work intact and use only actual evidence.
 
-## Передача, встановлення, експлуатація
+## Handoff, installation and operations
 
-Cold receiver отримує intent/decisions/requirements/model, точні outputs/hashes, recipes, acceptance, permissions, budget, jobs/unknown outcomes, stop й next action без потреби перечитувати чат. Work і Codex застосовують однакові предметні правила; capabilities перевіряються окремо. Доступ до локального Mac, production, платформ спілкування й контексту інших чатів визначають фактичні підключення та дозволи. Перехід середовища не підвищує доказ.
+Give a cold receiver intent, decisions, requirements, model, exact outputs and hashes, recipes, acceptance, permissions, budget, jobs and unknown outcomes, stop and next action without reliance on chat history. Work and Codex share domain rules and have separate capability checks. Actual connections and permissions determine access to Mac, production, communication platforms and other chat context. Moving environments does not strengthen proof.
 
-Результати навичок створювати й перевіряти тільки в одному задекларованому поточному форматі. Інші версії відхиляти без автоматичних читачів, конвертерів або запасного режиму. Наявні людські документи можуть бути джерелами нового аналізу, але їхній попередній статус приймання не переноситься. Версіонування даних самого продукту, його backup/restore та потрібні міграції проєктувати окремо за реальною задачею. Оновлення навичок не змінює код, дані чи production продукту. Випуск прив'язаний до exact artifact/config/schema/receipt, rollback, symbols/diagnostics і recovery. Завершений сеанс залишає checkpoint; постійний моніторинг існує лише за фактично запущеного дозволеного scheduler/service. Надалі звіряти поточний стан і зачеплені залежності.
+Create and check skill outputs in one declared current format. Reject other versions without automatic readers, converters or hidden fallback. An existing document may inform new work while its prior acceptance stays tied to its original scope. Design product data versions, backup/restore and migrations for that product. Installing skills does not modify product source, data or deployment. Release binds exact artifact, config, schema and receipt, rollback, symbols, diagnostics and recovery. Save a checkpoint after a session. Recurring monitoring requires an authorized running scheduler or service. On continuation, verify current state and affected dependencies.
 
-## Первинні методичні опори
+## Primary method references
 
-Зв'язки entity/activity/agent та derivation використовувати як модель походження, за W3C PROV-DM: https://www.w3.org/TR/prov-dm/. Build/source provenance розрізняти за SLSA1.2: https://slsa.dev/spec/v1.2/provenance. Це методичні опори, а не заява сертифікації власного пакета. Для генеративних систем NIST AI600-1 https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence допомагає визначити контекст і предметну оцінку ризиків; не перетворювати його на автоматичне схвалення. Для web accessibility обирати перевірні критерії WCAG2.2 https://www.w3.org/TR/WCAG22/ та відповідні сценарії; сама наявність посилання не доводить conformance. Дата звірки цих джерел:2026-11-03. Перед конкретним виконанням перевіряти version-specific документацію й межі поточного інструмента.
+Use W3C PROV-DM for entity/activity/agent and derivation relationships: https://www.w3.org/TR/prov-dm/. For build and source provenance see SLSA 1.2: https://slsa.dev/spec/v1.2/provenance. These references do not certify the package. NIST AI 600-1 helps scope generative-AI risks and evaluation: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence. It does not approve a system automatically. Select testable web accessibility criteria and journeys from WCAG 2.2: https://www.w3.org/TR/WCAG22/. A citation does not establish conformance. Source review date: 2026-11-03. Check the exact documentation version and current tool limits before use.
 
-## Стабільні виклики й видимі версії
+## Stable invocation and displayed versions
 
-`name` у frontmatter є незмінним машинним ідентифікатором. Видима назва Work/Codex містить актуальний номер інструментарію; поточні формати даних мають окремі ідентифікатори, які не зобов'язані повторювати цей номер. У звичайному тексті називати агент або навичку без числового суфікса; між навичками використовувати стабільний `@skill-name` для Work і `$skill-name` для Codex. Work-користувач обирає відповідну навичку в переліку @; сам текст згадки не є доказом запуску.
+The frontmatter `name` is the immutable machine identifier. Where a UI surfaces a toolkit release, use a current release record and preserve separate data format IDs. Use names without numeric suffixes in prose. Invoke with stable `@skill-name` in Work and `$skill-name` in Codex. Select the actual skill in Work's @ picker. Text mentioning it does not establish invocation.
 
-Перед передачею знайти фактично доступну актуальну навичку за frontmatter/каталогом, прочитати її вхід, вихід, правила й поточний контракт. У записі виконання зафіксувати resolved version, source hash, прийняту схему та фактичного отримувача. Стале ім'я не гарантує сумісності довільних протоколів: несумісний вхід повернути автору як точний gap. Відсутній інструмент не називати викликаним; використати включений рівноцінний рецепт або позначити залежне виконання blocked.
+Before handoff, resolve an available current skill by frontmatter or catalog and read its input, output, rules and contract. Record resolved version, source hash, accepted schema and actual consumer in the execution record. A stable name does not guarantee protocol compatibility. Return an exact gap for an incompatible input. Use an included equivalent procedure or keep dependent work blocked when the required tool is unavailable.
 
-Для нових спеціалізованих навичок `@design-specialist-skills` / `$design-specialist-skills` перетворює вже погоджений задум на виконувану методику, коли це потрібно. `@agent-foundry` / `$agent-foundry` відповідає за агентний продукт; `@app-atelier-director` / `$app-atelier-director` — за застосунок; `@chatbot-atelier-director` / `$chatbot-atelier-director` — за чатбота. Активувати лише потрібні компоненти й компетенції. Повторний аналіз, зайве погодження або повний новий проєкт замість вузького етапу не додаються самим посиланням.
+When a new specialized skill is required, `@design-specialist-skills` / `$design-specialist-skills` converts the accepted plan into an executable method. `@agent-foundry` / `$agent-foundry` owns agent products, `@app-atelier-director` / `$app-atelier-director` owns apps, and `@chatbot-atelier-director` / `$chatbot-atelier-director` owns chatbots. Activate only the needed components and roles. A reference alone does not open another review cycle or product scope.
 
-Спільний продукт може мати кілька компонентів. Один інтегратор володіє product intent і загальними REQ IDs; кожний компонент має component ID, власника, прийняті межі auth/data/API/events, свої outputs і due evidence. Передавати поточний component-handoff із source hashes, правами, budget/stop, незавершеними jobs і consumer acceptance. Одержувач звіряє пакет, виконує свій scope й повертає точні результати/докази; несумісність вирішується на спільному контракті, без мовчазної зміни сусіднього компонента.
+Several components can share a product. One integrator owns intent and common REQ IDs. Each component has an ID, owner, accepted auth/data/API/event boundaries, outputs and due proof. Pass the current component handoff, source hashes, permissions, budget, stop, open jobs and consumer acceptance. The receiver verifies it, executes its assignment and returns exact evidence. Resolve incompatibilities in the shared contract.
 
+## General applicability in 5.0
 
-## Загальна застосовність5.0
-
-Використовувати [адаптивний контракт](adaptive-work.md) і [адресні дослідницькі компетенції](research-and-synthesis.md) також поза назвами поточних сімейств. Достатність компетенцій і доказу визначати з наміру й ризику. Універсальну методику, family defaults і чинні project policies тримати окремо; отриманий приклад не є глобальною вимогою. Новий окремий registry не створювати.
+Use the [adaptive contract](adaptive-work.md) and [scoped research capabilities](research-and-synthesis.md) beyond current family names. Choose sufficient skills and evidence from the actual intent and risk. Keep the general method, family defaults and current product policy separate. An example does not establish a global rule. Use the existing project registry.

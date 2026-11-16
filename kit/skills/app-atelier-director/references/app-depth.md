@@ -1,32 +1,37 @@
-# App Atelier: наскрізне керування продуктом
+# End-to-end app product leadership
 
-Зміст: intake → повнота → команда → виробнича карта → gates → відновлення.
+Contents include intake, requirements coverage, team design, production feasibility, gates, and resumption.
 
-## Intake без втрати наміру
-Прочитати `cross-domain-core.md` і `app-system-contract.md`; відновити current profile/state, accepted originals, REQ-ID, scope/stop і фактичний доступ. Перекласти вільну мову на: хто/яку подію/який корисний результат; повторне використання; поточні альтернативи; якість/відхилені спрощення; launch scope; платформи/пристрої; дані/права/наслідки помилки; економіка/експлуатація; ресурси/строки; що власник повинен вирішити; критерій завершення. Спочатку знайти відповіді в наданих джерелах. Питати лише невідоме, яке змінює обіцянку, структуру, права, cost або acceptance; дозволені незалежні дії продовжувати. Припущення мають owner, impact і спосіб перевірки.
+## Capture intent at intake
 
-Відразу визначити режим: новий задум, повна концепція, уточнення, design/build, repair або agent update. Режим не породжує автоматично новий ринковий раунд чи зовнішню дію. Якщо користувач уже прийняв суттєві рішення, не реконструювати анкету і не повторювати підтвердження.
+Read `cross-domain-core.md` and `app-system-contract.md`. Recover the current profile and state, accepted originals, REQ-ID, scope and stopping conditions, and actual access. Translate a free-form request into actor, trigger, useful outcome, repeat use, existing alternatives, quality criteria and rejected simplifications, launch scope, platforms and devices, data, rights and failure impact, economics and operations, resources and timing, owner decisions, and completion criteria. Look for answers in the supplied sources first. Ask only about unknowns affecting the promise, architecture, rights, cost, or acceptance. Continue independent work within scope. Give each assumption an owner, impact, and verification method.
 
-## Єдина карта повноти
-Інстанціювати app-system template під проєкт як linked artifact. У кожного напряму є applicability/reason/owner/артефакт/acceptance/due proof. Зберегти один canonical profile/state. Замкнути вимогу через domain rule/state, UX/content, code/adapter, operation/recipe, test/oracle, exact assembly та release/ops. Ребро пояснює читання/зміну/наслідок, а не декларацію «все пов’язано». Відсутність edge інвалідовує висновок про повне покриття.
+Identify the mode early: new idea, full concept, clarification, design or build, repair, or agent update. Choose further market research and external actions based on the specific task and authority. Reuse the user's current decisions and prior confirmations.
 
-Для кожного вибору показати справжні альтернативи, must-фільтр, доказ, контраргумент і наслідки. Рейтинг не компенсує відсутній must. Кожна завершена концепція має повний причинний продукт, operational/acquisition/economic route та всі застосовні системи; ескіз назвати ескізом. Для вибраного продукту довести production handoff з точними fixtures/правилами, а потім actual representative slice. Не вимагати всіх production proofs до завершення concept gate.
+## Integrated coverage map
 
-## Працююча команда
-Вивести компетенції з конкретного output: product/domain lead; requirements/math; UX/accessibility; client/native; API/data/security; commerce/support/growth; QA/perf; release/ops. Один specialist може закрити близькі артефакти; жодних штучних дев’ятнадцяти підкоманд за числом tracks. Лід виробляє рішення й інтегрує, а не переповідає звіти. Critical/material acceptance робить інший actual reviewer; фінальний verdict не приписувати тому, хто його не виконав. У делегуванні exact inputs/hashes, REQ-ID, paths/device/account ownership, consumer, acceptance, budget і stop. Shared state/effects пишуться послідовно. Якщо незалежного актора немає, self-check лишається self-check і потрібний незалежний gate pending.
+Instantiate the app-system template as a linked project artifact. For each track, record applicability, reason, owner, artifact, acceptance, and due proof. Keep one canonical profile and state. Trace requirements through domain rules and state, UX and content, code and adapters, operations and recipes, testing and oracles, exact assembly, release, and operations. Each edge identifies a read, change, or consequence. A declaration such as «все пов’язано» does not establish a dependency. A missing edge invalidates a claim of complete coverage.
 
-## Виробнича досяжність
-Перелічити потрібні класи операцій від первинного дослідження/концепт-картинки до редагованих UI/assets, code/data/native integration, QA, signing/release, підтримки й завершення сервісу. Для кожної — реальна capability/schema/consumption proof, recipe, transformation, attempt і assembly. Не обирати інструмент лише за брендом або словом AI. Відсутня операція має здійсненний fallback чи exact Work↔Codex bridge з inputs, expected outputs, hashes і read-back. Повернений пакет перевірити; remote claim не стає local evidence автоматично.
+Show genuine alternatives, mandatory filters, evidence, counterarguments, and consequences for each choice. A missed mandatory requirement disqualifies a candidate regardless of its score. A complete concept describes the causal product, operations, acquisition, economics, and all applicable systems. Label sketches as sketches. For the chosen concept, prove handoff with exact fixtures and rules, followed by an actual representative slice. Require production proofs at the gates where they are due.
 
-Почати з найризиковішого корисного сценарію на всіх declared clients, включно зі збереженням/recovery і умовними покупкою/sync/support. До масового виробництва зіставити прийнятий reference, source, реальний UI/поведінку й performance. Доказ спроможності — виконаний повний шлях одного representative елемента, а не кількість згенерованих файлів. Estimate враховує інтеграцію/repair/QA/rights та фактичну пропускну здатність.
+## Team and review
 
-## Gate і зміни
-Gate-пакет: due must + exact output hash + proper evidence + reviewer + gaps + чинне рішення. `verify_depth.py` перевіряє структуру linked depth artifact; state.py зберігає ledger. Жоден не оцінює якість/попит і не запускає продукт. За зміни input/schema/tool/permission інвалідувати транзитивно залежні докази, зберігаючи історію та незмінні originals. Scope repair не запускає повторно весь pipeline.
+Derive expertise from the deliverable: product and domain leadership, requirements and economics, UX and accessibility, native clients, API, data and security, commerce, support and growth, QA and performance, release and operations. Combine adjacent responsibilities when one specialist can cover them. Set team size by work and risk. The lead makes and integrates decisions. Critical or material acceptance requires a competent reviewer who did not author the work. Attribute each verdict to the actor who actually made it. Bind delegation to exact inputs and digests, REQ-ID, ownership of paths, devices and accounts, consumer, acceptance, budget, and stopping conditions. Serialize shared state and effects. Keep independent review pending when only self-check is available.
 
-Resume звіряє current profile/files/hashes і unresolved remote outcomes до retry. Checkpoint містить завершене/поточне/blocked, jobs/effects/cost reservation, lease/resources, exact next action і stop. Продукт після релізу чекає наступного доручення; постійний monitoring має actual runtime/schedule та окремий чинний scope.
+## Production feasibility
 
-## Видимий результат і достатність підходу
+List the needed operation classes from primary research and concept imagery to editable UI and assets, code, data and native integration, QA, signing and release, support, and service retirement. Verify each operation's actual capability, schema, consumer proof, recipe, transformation, attempt, and assembly. Choose tools by those requirements. For an unavailable operation, identify a feasible fallback or exact Work↔Codex handoff with inputs, expected outputs, hashes, and read-back. Validate any returned packet before using it as local evidence.
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: інтегрована карта вимог і залежностей, аргумент достатності команди, власні рішення інтегратора, приймання цілого й наступний валідний крок. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Start with the highest-risk useful scenario on each declared client. Include persistence and recovery, plus applicable purchase, sync, and support. Compare accepted references, source, actual UI and behavior, and performance before scaling. Use a completed end-to-end representative item to prove capability. Include integration, repair, QA, rights, and observed throughput in estimates.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: повнота первинного наміру, достатність композиції, спільні контракти та якість кінцевого цілого. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+## Gates and changes
+
+For each gate, bind due requirements, exact output digest, appropriate proof, reviewer, gaps, and the current decision. `verify_depth.py` checks structural links in the depth artifact and state.py maintains the ledger. Demand, product quality, and product execution require separate proof. Invalidate transitively affected evidence after an input, schema, tool, or permission change. Preserve history and unaffected originals. Test the affected scope after a repair.
+
+On resume, reconcile profile, files and hashes, and unknown remote outcomes before retrying. A checkpoint records completed, current and blocked work, jobs and effects, reserved cost, leases and resources, exact next action, and stopping condition. After release, wait for the next instruction unless monitoring has actual runtime, a schedule, and its own current authority.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show the integrated requirements and dependencies, team sufficiency, integration decisions, whole-product acceptance, and next valid action. Distinguish observed and produced work, inherited decisions, and future results with due gates. Scale depth and specialist roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review completeness against original intent, composition, shared contracts, and the quality of the whole deliverable. Review raw sources for requirements omitted during synthesis. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve project context, current approvals, and unaffected results.

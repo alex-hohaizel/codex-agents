@@ -2,10 +2,10 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
 
-**指南基线：** Agent System 6.1.0，2026 年 11 月 11 日。**可复用套件：** 33 项技能。本指南涵盖首次安装、日常使用、Work 与 Codex 之间的项目协作，以及现有项目的升级。仓库文档和分发包的修订可以独立于底层技能版本发生变化；升级前请查阅版本记录。
+**可复用套件**包含 33 项技能。本指南涵盖首次安装、日常使用、在 Work 与 Codex 之间协作，以及更新现有项目。文档、仓库发行版和各组件版本可以独立更新。
 
 
-**GitHub 上的当前候选版本。** 仓库 **1.4.0-rc.5**、核心 **6.1.0**、可选 Atelier Orchestrator **1.2.0**、可选维护技能 **1.1.0**、本地 Agent Atelier **0.5.0**。已在所有者的 Mac 上验证 Agent Atelier 0.5.0 安装，并保留原有数据存储及设置。稳定版 1.4.0 和整个项目的完整验收仍待完成。 [main 上的版本](../../releases/current.json) · [需求登记表](../../governance/requirements.csv) · [rc.5 版本记录](../../releases/repository-1.4.0-rc.5.md) · [从 0.4.0 更新到 0.5.0 及回退](../../releases/migrations/repository-1.4.0-rc.5.md) · [已合并的 PR #4](https://github.com/alex-hohaizel/codex-agents/pull/4)
+发行记录列出了仓库、核心技能套件、可选技能、角色与主机配置、本地工作台的版本，以及发布状态和适用的迁移说明。请根据记录选择目标版本。历史 rc.5 记录保留了核心 6.1.0、Atelier Orchestrator 1.2.0、维护技能 1.1.0 和 Agent Atelier 0.5.0 的验证结果。 [当前发行记录](../../releases/current.json) · [rc.5 的历史验证结果](../../releases/repository-1.4.0-rc.5.md) · [历史 6.1 更新说明](../../releases/migrations/6.1.0.md)
 
 之前的1.1.0宣传活动保持不变：[英文宣传材料](../../marketing/campaign/README.md)和[乌克兰文宣传材料](../../marketing/campaign/README.uk.md)，每种语言各十份。宣传材料提供 EN/UK；指南和服务界面覆盖全部七种已声明语言。Work 的实际审计、更新、安装和控制仍属于相应环境中的单独任务；来源归档或仓库连接不是安装回执。
 
@@ -19,29 +19,31 @@
 
 打开显示的下一步操作，将完整文本填入表单。编辑目标和验收标准，并在准备任务前检查执行路径。在“连接”中，OpenAI Docs MCP 会返回官方文档链接。如果当前 ChatGPT 登录和 Codex 主机支持该操作，Codex Image 可以预览并下载 PNG。生成图像使用 Codex 随附的额度。工具权限范围尚未核实的托管插件通过 Codex 中的既有路径调用。 [从 0.4.0 更新到 0.5.0 及回退](../../releases/migrations/repository-1.4.0-rc.5.md)
 
-## 0. 升级到6.1并打开本地工作台
+## 0. 更新 Codex 托管技能并打开本地工作台
 
-以下命令说明支持的流程。只有在保留性检查后，才可应用针对目标范围获准的准确候选版本；准备好的来源并不表示应替换正在使用的安装或服务。
+安装托管技能时，请使用选定的稳定版及其获准的准确源代码和归档文件。候选版本可在隔离的测试环境中试用。 [验证签名后更新和回退 Codex 技能](../../releases/migrations/6.2.0.md)
 
-1. 选择准确且经过验证的发行 commit。保留当前33项技能的来源、图标文件/绑定/颜色/类别、本地修改及归属证明。保存项目原有需求、已接受的标识/角色、决策、权限、待办任务和结果不明的外部操作。安装不会迁移产品。
-2. 在 `kit/` 中阅读便携更新工具的帮助，再审计准确的候选版本。应用前检查全部33条记录、冲突和视觉标识保留情况。计划和备份应保存在技能发现目录之外。
+1. 选择准确的发布提交及其归档文件。保留已安装的 33 项技能的源文件、图标文件和绑定、颜色、本地修改及归属记录。保存项目实际需求、已确认的标识和角色设定、决策、权限、待办事项以及结果未明的外部操作。项目采用新版本时，须按项目自身的迁移流程操作。
+2. 从另一份可信的工作副本按签名验证流程迁移。核验 GitHub Actions 证明以及归档和清单的准确哈希。使用核验回执给出的工具包路径，执行 apply 前确认计划中的清单哈希与已批准的值相符。检查全部 33 项、冲突和视觉标识的保留情况。以下命令从 `kit/` 对隔离的测试目录演练 audit、apply 和 verify。计划和备份应存放在技能发现目录之外。
 
 ```bash
 python3 portable/update_skill_suite.py --help
-python3 portable/update_skill_suite.py audit --kit . --plan /absolute/agent-system-plan.json
-python3 portable/update_skill_suite.py apply --plan /absolute/agent-system-plan.json
-python3 portable/update_skill_suite.py verify --kit . --journal /actual/apply/journal.json
+fixture_root=/absolute/path/to/isolated-test
+mkdir -p "$fixture_root"
+python3 portable/update_skill_suite.py audit --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
+python3 portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
+python3 portable/update_skill_suite.py verify --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /actual/apply/journal.json
 ```
 
 3. 只能用 apply 实际返回的路径替换日志占位路径。未知差异必须核对，不要强制覆盖。分别验证实际发现/来源加载和一项范围明确的任务。现有图标及不相关技能保持不变。
 4. 在仓库根目录单独审计 Codex 环境配置：`python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`。使用 `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json` 应用，再用 `verify --journal /absolute/host-journal.json` 验证。受管理的区块会保留现有全局指令；十二种受限角色保留其模型和外部影响限制。实际环境是否加载该配置需要单独检查。
-5. 通过支持的技能管理器，从选定 commit 的 `optional-skills/atelier-orchestrator` 安装可选的 `atelier-orchestrator`。它独立于33项核心技能更新工具；存在来源不代表已安装或执行成功。现有维护技能也仍为单独的可选组件。
+5. 通过受支持的技能管理器，从选定版本的 `optional-skills/atelier-orchestrator` 更新已安装的 `atelier-orchestrator`。核心更新器负责 33 项基础技能。维护技能也是独立的可选组件。只有在明确要求时才安装缺少的可选技能。核实环境是否真正发现该技能并能执行。
 
-Atelier Orchestrator 1.2.0 是可选的统一入口：描述一次所需结果，它会选择直接执行、现有专家、项目智能体、领域负责人、组件协调或 Foundry。简单请求保持简单。工作沿用同一份需求说明和现有授权。项目智能体创建、验证并被运行环境发现后，协调器会建议通过该智能体继续工作；再次向协调器提问时，也会保留这一关联。创建智能体与原始产品任务分别验收；智能体安装包不能代表所需产品已经完成。
+Atelier Orchestrator 是可选的统一入口：描述一次所需结果，它会选择直接执行、现有专家、项目智能体、领域负责人、组件协调或 Foundry。简单请求保持简单。工作沿用同一份需求说明和现有授权。项目智能体创建、验证并被运行环境发现后，协调器会建议通过该智能体继续工作；再次向协调器提问时，也会保留这一关联。创建智能体与原始产品任务分别验收；智能体安装包不能代表所需产品已经完成。
 
 改进或重写协调器本身、技能、构建器、技能家族或现有智能体的请求，会进入维护流程：读取实际来源和设置，检查影响与差异，保留身份和本地修改，保存更改前副本，并验证实际保存的结果。路径预览和可选的路由检查器不能证明专业适用性、真实用户授权、执行成功或质量。现有技能仍可直接调用。
 
-使用启动器打开独立的本地应用 Agent Atelier 0.5.0。技能不是后台进程，应用程序也不是技能列表中的条目。版本独立管理。原始SVG、PNG绑定和品牌颜色保持不变。核心6.1.0增加兼容方法，不会重置产品或自动在项目中采用新规则。请阅读[6.1更新与回退说明](../../releases/migrations/6.1.0.md)。通过status/doctor核对实际运行版本；现有实例可保持旧版本，直到经过验证的替换完成。 [从 0.4.0 更新到 0.5.0 及回退](../../releases/migrations/repository-1.4.0-rc.5.md)
+通过本地启动器打开 Agent Atelier。工作台和技能各自管理版本。使用 `status` 和 `doctor` 检查实际运行的版本，更新时核对原始 SVG、PNG 绑定和品牌颜色。旧实例可能继续运行，直到经过验证的替换完成。请查看 [Agent Atelier 指南](../../apps/agent-atelier/README.md)，如涉及此前的升级，请参考 [0.4.0 升至 0.5.0 的历史迁移说明](../../releases/migrations/repository-1.4.0-rc.5.md)。
 
 6. 从来源构建本地服务时，使用已固定的 lockfile，以及 Node.js 24.22.2 或受支持的更新运行时。在 `apps/agent-atelier/` 中执行以下命令。首次安装依赖需要网络访问，但不意味着启用新的付费服务。
 
@@ -64,9 +66,9 @@ node launcher/atelier.mjs stop
 
 8. 准备包含准确范围、输入、验收和限制的任务，再通过支持的 Codex 适配器启动。来源、制作质量、集成、设备、独立审查和所有者验收是不同状态。只有得到环境的实际结果后，才能确认取消。现有聊天需要准确的标识/cwd，以及空闲状态下的移交；服务的持有锁无法限制另一个独立桌面客户端写入。重试前先核对结果不明的外部操作。 任务准备时，服务会记录管辖该任务的确切 AGENTS 来源、它们的优先顺序或已确认的缺失情况，以及 Codex 自身的指令加载设置。服务会核对这些记录是否与实际加载的指令来源一致，并在调用模型前再次检查。如果这些输入发生变化，或旧任务缺少此类记录，必须重新准备任务；任务历史和产品原生文件会予以保留。
 9. 现有 Foundry 会话使用 `suite-update-plan`，以及已审查的 `refresh --accept-suite-update` 记录，其中包含准确的来源状态和目标摘要。App state/1 无需因 toolkit 更新而迁移格式。Chat 集成证据需要当前契约对象的固定引用，以及真实的新观察；不能事后为旧证据补填引用。Game 使用受支持的5→6工作流程升级，同时保留 runtime2/model4/handoff1。生成的智能体需要来源到目标的比较及无隐藏历史的继续执行；任何项目都不会被重置。
-10. 服务备份/恢复只涉及服务自己的状态：预览并校验准确备份、核对工作、保留已撤销的权限；它不恢复产品数据库或外部影响。技能回滚使用更新工具实际生成的日志；环境配置回滚使用自己的日志，并拒绝后续差异。WORK 的实际安装/控制仍推迟处理。恢复方式和受支持的限制请参阅[详细迁移说明](../../releases/migrations/6.1.0.md)及[服务指南](../../apps/agent-atelier/README.md)。
+10. 服务备份/恢复只涉及服务自己的状态：预览并校验准确备份、核对工作、保留已撤销的权限；它不恢复产品数据库或外部影响。技能回滚使用更新工具实际生成的日志；环境配置回滚使用自己的日志，并拒绝后续差异。WORK 的实际安装/控制仍推迟处理。恢复方式和受支持的限制请参阅[详细迁移说明](../../releases/migrations/6.2.0.md)及[服务指南](../../apps/agent-atelier/README.md)。
 
-## 0.1. 候选版本增加了什么及何时使用
+## 0.1. 工作方式和以往验证
 
 上下文来自项目原生的需求、决策、标识和checkpoint。直接技能可使用便携助手编译明确投影；面板单独编译自己的JavaScript任务包。可选的`atelier.context-bindings/1`声明核对来源hash、项目标识、预期ID、必须需求和字面摘录。缺失或变更的必要来源会阻止依赖它的准备工作。没有声明的项目仍保留原有流程，并显示覆盖尚未验证。两条流程都不会自动保存每个字，也不提供全局embedding索引。RAG是为已证明的知识需求按需使用的检索，不是当前任务状态的权威。
 
@@ -77,7 +79,7 @@ python3 -B standards/context_capsule.py --help
 python3 -B standards/ai_production.py --help
 ```
 
-新生成的6.1智能体包包含15项公共运行资源及七个本地参考链接。现有6.0包保留其准确的12项资源合同，5.x包保留八项；它们不会被追溯认证为6.1。更新现有智能体时应比较来源与目标，保留领域规则、标识、设置及未知修改，再验证无聊天历史的恢复和一项限定范围的原始任务。仅安装工具包不代表项目已采用。
+6.1 版本引入的智能体包包含15项公共运行资源及七个本地参考链接。现有6.0包保留其准确的12项资源合同，5.x包保留八项；它们不会被追溯认证为6.1。更新现有智能体时应比较来源与目标，保留领域规则、标识、设置及未知修改，再验证无聊天历史的恢复和一项限定范围的原始任务。仅安装工具包不代表项目已采用。
 
 面板显示可读需求、当前决策、延期工作及来源检查。“来源中的状态”保留记录原文，不会覆盖较新的当前决策。大型对话按独立且有界的turn/item页面读取，明确显示继续读取和未完整覆盖。加载与读取失败具有明确状态和恢复流程。已安装、被运行环境发现、已连接、已执行及所有者已验收是不同事实。详细[组件手册](../evolution/2026-11-10/IMPLEMENTED-COMPONENTS.en.md)与[真实反馈案例](../evolution/2026-11-10/REVIEW-STUDY.en.md)说明来源、触发方式、使用者与限制。
 
@@ -90,7 +92,7 @@ python3 -B standards/ai_production.py --help
 这次真实设计失败也改变了共享UI生产规则。创建或评审人机界面时，要证明目标用户能识别目标、真实工作/结果、需要关注的问题及有用的下一步；随后选择记录 → 阅读易懂的证据/结果 → 在正确范围内执行操作。应将参考图的工作机制转化为当前任务，复制代码面板、地图或外壳并不充分。规则与UI配置已复制到现有33个核心包和可选编排器。已加载指令不是质量证书或自动保证；仍须检查真实界面及代表性流程。
 
 
-兼容更新预览不等于安装。若未变更的已知前版本被报为未知，应对照规范前版本记录核验准确发布字节与文件模式；不要强制覆盖，也不要改hash来掩盖差异。可选编排器经审查的1.1.0 → 1.2.0路线使用准确的40文件前版本基线。未安装的维护技能保持未安装，除非明确要求安装。限定的优先更新仅在相关不变量验证完毕后准入；这不等于验收全部能力或项目。
+兼容更新预览不等于安装。若未变更的已知前版本被报为未知，应对照规范前版本记录核验准确发布字节与文件模式；不要强制覆盖，也不要改hash来掩盖差异。此前，可选编排器经审查的1.1.0 → 1.2.0路线使用准确的40文件前版本基线。未安装的维护技能保持未安装，除非明确要求安装。限定的优先更新仅在相关不变量验证完毕后准入；这不等于验收全部能力或项目。
 
 ## 1. 这套系统能为你提供什么
 
@@ -195,7 +197,7 @@ python3 -B standards/ai_production.py --help
 3. 在 Work 中，通过可用的 Plugins/连接界面连接或选择 GitHub。如果仅允许访问所选仓库，请加入 `alex-hohaizel/codex-agents`。让 Work 读取 `README.md`，并报告它实际能访问的分支与修订。
 4. 在本地 Codex 中，如果计划克隆私有仓库，请授权本地 Git 访问。Work 的 GitHub 连接并不能证明你电脑上的 Terminal 可以认证。
 5. 安装时使用命名发布版本或确切 commit，并保存该标识。读取持续变化且未固定的 `main` 分支，可能混合不同版本。
-6. 通过 GitHub 的 **Code → Download ZIP** 下载选定仓库修订，或使用 Git 克隆。安装前先解压下载的压缩包。应能看到 `kit/manifest.json`、`kit/portable/` 和 `kit/skills/`。
+6. 对于 Codex 托管技能，请从选定的稳定发行版下载指定的 Codex 归档，并按[签名验证迁移说明](../../releases/migrations/6.2.0.md)操作。GitHub 的 **Code → Download ZIP** 和 Git 克隆可用于检查源文件、在 Work 中使用或进行隔离测试。源代码目录包含 `kit/manifest.json`、`kit/portable/` 和 `kit/skills/`。
 7. 不要把下载内容、计划或备份放入技能发现目录。普通文件夹，例如 Downloads，或专门的技能管理工作区都适合。
 
 使用本地 Git 时，请选择已确认的分支，并使用一个不包含其他工作的全新目标位置：
@@ -248,16 +250,17 @@ Work 支持的管理流程可能逐项保存技能。部分完成时，应列明
 
 ### 最简单的路线：让 Codex 执行受控安装
 
-1. 按前文所述下载或克隆选定修订。
+1. 选定稳定发行版，并按[签名验证迁移说明](../../releases/migrations/6.2.0.md)获取批准的源代码修订和哈希。
 2. 在已有技能管理工作区打开 Codex。首次安装可打开仓库副本或其他普通管理文件夹，无需创建新的产品仓库。
-3. 向 Codex 提供仓库副本的确切路径。Mac 上，在 Finder 选中文件夹，按 **Option + Command + C** 复制完整路径。
+3. 向 Codex 提供可信工作副本的路径、下载的 Codex 归档，以及独立审批确认的标识和哈希。在 Mac 的访达中选中文件夹，按 **Option + Command + C** 可复制该文件夹的路径。
 4. 设置首选语言后，粘贴下方文本。
 5. 检查最终安装报告，并保留其日志和备份位置。
 6. 在真实产品项目中新开聊天，检查加载和实际使用情况。
 
 ```text
-从这份 alex-hohaizel/codex-agents 工作副本中已验证的 kit/ 目录，
-安装 33 项基础个人技能。使用所选发布修订。
+从 alex-hohaizel/codex-agents 选定的稳定发行版安装 33 项基础个人技能。
+请按第 0 节的 Codex 签名验证迁移流程操作。
+使用核验回执指定的工具包。应用计划前，确认其中的清单哈希与批准的值一致。
 我的工作语言是简体中文（zh-CN）。
 
 这授权对本套件执行本地 audit → apply → verify、生成确切计划和备份。
@@ -278,18 +281,20 @@ updated/noop 数量、阻塞、失败及重复项。
 
 ### 想了解确切命令的用户可使用 Terminal
 
-便携式更新器需要 Python 3.9 或更高版本，仅使用标准库。请从仓库根目录执行以下命令。audit 读取分发包和安装位置，并写入建议计划。apply 执行计划中的安装修改并记录日志。
+更新实际使用的 Codex 环境时，请按[签名验证迁移说明](../../releases/migrations/6.2.0.md)操作，并使用核验回执返回的工具包。以下命令从仓库根目录演练便携式更新器，操作范围仅限隔离测试环境。更新器需要 Python 3.9 或更高版本，只使用标准库。audit 读取工具包和测试目录并写入计划。apply 只修改选定的测试环境，并记录日志。
 
 ```bash
 python3 kit/portable/update_skill_suite.py --help
-python3 kit/portable/update_skill_suite.py audit --kit kit --plan ../agent-system-plan.json
-python3 kit/portable/update_skill_suite.py apply --plan ../agent-system-plan.json
+fixture_root=/absolute/path/to/isolated-test
+mkdir -p "$fixture_root"
+python3 kit/portable/update_skill_suite.py audit --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
+python3 kit/portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
 ```
 
 读取 `apply` 的结果。将其确切 `journal` 路径复制到验证命令中：
 
 ```bash
-python3 kit/portable/update_skill_suite.py verify --kit kit --journal /absolute/path/from-apply/journal.json
+python3 kit/portable/update_skill_suite.py verify --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /absolute/path/from-apply/journal.json
 ```
 
 上方最后的路径是占位符。请替换它，不要原样执行。更新器默认目标为 `~/.agents/skills`，并检查旧根目录 `~/.codex/skills`。如果环境使用其他受支持的个人根目录，请始终显式提供 `--destination` 和 `--legacy-root` 参数。先查看 `audit --help`。添加 `--project-root /absolute/path/to/product` 可审计相关产品本地副本。更新器不会自动删除遮蔽个人技能的项目副本。

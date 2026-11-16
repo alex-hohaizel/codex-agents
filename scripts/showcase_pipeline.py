@@ -91,7 +91,8 @@ def within(root: Path, relative: str) -> Path:
     return candidate
 
 
-def inventory(root: Path, roots: tuple[str, ...], excluded: tuple[str, ...] = ()) -> dict:
+def inventory(root: Path, roots: tuple[str, ...], excluded: tuple[str, ...] = (), *,
+              ignore_transient_files: bool = True) -> dict:
     """Fingerprint paths, contents and executable bits, including missing inputs."""
     files = {}
     for relative in roots:
@@ -100,8 +101,9 @@ def inventory(root: Path, roots: tuple[str, ...], excluded: tuple[str, ...] = ()
         if not start.exists():
             files[relative] = {"missing": True}
         for path in candidates:
-            rel = path.relative_to(root).as_posix()
-            if IGNORED.intersection(path.relative_to(root).parts) or path.suffix == ".pyc":
+            relative_path = path.relative_to(root)
+            rel = relative_path.as_posix()
+            if ignore_transient_files and (IGNORED.intersection(relative_path.parts) or path.suffix == ".pyc"):
                 continue
             if any(rel == item or rel.startswith(item.rstrip("/") + "/") for item in excluded):
                 continue
@@ -135,7 +137,7 @@ def input_digest(root: Path, stage: Stage) -> str:
 
 
 def output_inventory(root: Path, stage: Stage) -> dict:
-    result = inventory(root, stage.outputs + stage.private_outputs)
+    result = inventory(root, stage.outputs + stage.private_outputs, ignore_transient_files=False)
     missing = [path for path, record in result.items() if record.get("missing")]
     if missing:
         raise ValueError("missing stage outputs: " + ", ".join(missing))

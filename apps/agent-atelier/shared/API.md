@@ -1,6 +1,6 @@
 # Local API 1
 
-This reference covers Agent Atelier 0.5.0. The running service reports its version at `GET /health` and `GET /api/v1/bootstrap`. [Current release record](../../../releases/current.json) · [0.5.0 verification](../../../releases/repository-1.4.0-rc.5.md)
+This reference describes the Agent Atelier local API. The running service reports its version at `GET /health` and `GET /api/v1/bootstrap`. [Current release record](../../../releases/current.json) · [0.5.0 verification](../../../releases/repository-1.4.0-rc.5.md)
 
 Production serves `dist/client` and `/api/v1` on `127.0.0.1:4317`. Vite proxies `/api` and `/health` to loopback in development. No external CORS.
 

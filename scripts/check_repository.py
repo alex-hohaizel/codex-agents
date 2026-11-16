@@ -30,6 +30,14 @@ def safe_path(root: Path, value: str) -> Path:
     return result
 
 
+def version_from_skill(path: Path) -> str | None:
+    boundary = re.match(r"^---\n([\s\S]*?)\n---(?:\n|$)", path.read_text(encoding="utf-8"))
+    header = boundary.group(1) + "\n" if boundary else ""
+    metadata = re.findall(r'^metadata:[ \t]*\n((?:[ \t][^\n]+\n)*)', header, re.M)
+    markers = re.findall(r'^  version: "([^"]+)"[ \t]*$', metadata[0], re.M) if len(metadata) == 1 else []
+    return markers[0] if len(markers) == 1 else None
+
+
 def check(root: Path, *, links: bool = True) -> dict:
     errors, warnings = [], []
 
@@ -153,6 +161,41 @@ def check(root: Path, *, links: bool = True) -> dict:
     ):
         errors.append("release repository_branch must name the active GitHub branch")
 
+    release_stage = current.get("release_stage")
+    if release_stage is not None:
+        if release_stage not in ("candidate", "stable"):
+            errors.append("release_stage must be candidate or stable")
+        versions = [(f"kit/skills/{name}/SKILL.md", suite_version) for name in expected]
+        versions.extend((f"{item.get('source')}/SKILL.md", item.get("version"))
+                        for item in current.get("optional_skills", []))
+        for target, version in versions:
+            try:
+                if not version or version_from_skill(safe_path(root, target)) != version:
+                    errors.append(f"{target}: metadata.version differs from the current component record")
+            except (OSError, ValueError) as exc:
+                errors.append(f"{target}: {exc}")
+        role_record = current.get("role_profiles", {})
+        roles = load(role_record.get("manifest", "agent-profiles/manifest.json"))
+        if roles.get("release") != role_record.get("version") or len(roles.get("roles", [])) != 12:
+            errors.append("role profile inventory or version differs from the current component record")
+        else:
+            for role in roles["roles"]:
+                relative = f"agent-profiles/{role.get('file')}"
+                try:
+                    if digest(safe_path(root, relative)) != role.get("sha256"):
+                        errors.append(f"{relative}: role hash differs from its manifest")
+                except (OSError, ValueError) as exc:
+                    errors.append(f"{relative}: {exc}")
+        profile = current.get("host_profile", {})
+        try:
+            relative = profile.get("source", "host-profiles/codex/AGENTS.md")
+            raw = safe_path(root, relative).read_text(encoding="utf-8")
+            marker = re.search(r"^# Agent System production profile (\S+)$", raw, re.M)
+            if not marker or marker.group(1) != profile.get("version"):
+                errors.append("host profile version differs from the current component record")
+        except (OSError, ValueError) as exc:
+            errors.append(f"host profile release record: {exc}")
+
     service = current.get("local_service")
     if service:
         try:
@@ -251,7 +294,8 @@ def check(root: Path, *, links: bool = True) -> dict:
                     errors.append(f"{rel}: broken local link: {target}")
     return {"ok": not errors, "suite_version": suite_version,
             "repository_version": current.get("repository_version"),
-            "repository_branch": branch, "requirements": current.get("requirements"),
+            "repository_branch": branch, "release_stage": release_stage,
+            "requirements": current.get("requirements"),
             "skills": len(skills), "verified_skill_files": verified_files,
             "translations": len(translated_locales), "errors": errors, "warnings": warnings}
 

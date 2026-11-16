@@ -50,6 +50,11 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(result["grants_created"], [])
         self.assertFalse(result["execution_performed"])
 
+    def test_reads_current_metadata_before_legacy_title_and_ignores_body_examples(self):
+        path = self.skill(body='metadata:\n  version: "8.0.0"')
+        path.write_text(path.read_text().replace('spectroscopy data\n---', 'spectroscopy data\nmetadata:\n  version: "7.5.0-rc.1+local"\n---', 1))
+        self.assertEqual(self.scan()["candidates"][0]["source"]["version"], "7.5.0-rc.1+local")
+
     def test_missing_counterpart_does_not_probe_or_claim_other_host_availability(self):
         self.skill()
         report = self.scan([{"entries": [{"name": "future-spectrum-lab", "host": "work",

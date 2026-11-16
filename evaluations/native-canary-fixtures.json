@@ -1,0 +1,108 @@
+{
+  "schema": "atelier.native-canary-suite/1",
+  "cases": {
+    "p01-direct": {
+      "skills": [
+        "atelier-orchestrator"
+      ],
+      "sandbox": "workspace-write",
+      "persist": false,
+      "prompt": "$atelier-orchestrator\nВиправ друкарську помилку «cheklist» у README.md у цьому каталозі. Інші файли не змінюй.\nДля цієї перевірки використай проєктний skill із .agents/skills/atelier-orchestrator/SKILL.md.\n",
+      "files": {
+        "README.md": "The sprint cheklist is open.\n",
+        "notes.md": "Reference notes. Keep cheklist here as a tested spelling example.\n"
+      },
+      "allowed_changes": [
+        "README.md"
+      ],
+      "checks": [
+        {
+          "path": "README.md",
+          "text": "The sprint checklist is open.\n"
+        }
+      ]
+    },
+    "p02-handoff": {
+      "skills": [
+        "atelier-orchestrator"
+      ],
+      "sandbox": "workspace-write",
+      "persist": true,
+      "role": {
+        "name": "canary-architecture",
+        "profile": "name = \"canary-architecture\"\ndescription = \"Reviews current and superseded independent fixture decisions.\"\ndeveloper_instructions = \"\"\"\nRead only the synthetic fixtures assigned by the parent. Identify the current decision,\none continuing requirement, and any deferred work. Return evidence without editing files.\n\"\"\"\n"
+      },
+      "prompt": "$atelier-orchestrator\nВіднови agreed export for the Spruce fixture. Before writing the result,\nread .agents/skills/atelier-orchestrator/SKILL.md. Delegate one read-only\ndecision review to the project role canary-architecture, wait for its reply,\nand incorporate the result. Give the reviewer only spruce/current.json,\nspruce/previous.json, and spruce/requirements.json. The sibling project has\nits own owner. Write spruce/result.json as an object with current_mode,\nrequired_limit, and deferred; use the preferred language for those values\nwhere they are natural language rather than identifiers.\n",
+      "files": {
+        "spruce/current.json": "{\n  \"decision\": \"DEC-103\",\n  \"supersedes\": \"DEC-101\",\n  \"mode\": \"batch-local\",\n  \"preferred_language\": \"uk\"\n}\n",
+        "spruce/previous.json": "{\n  \"decision\": \"DEC-101\",\n  \"mode\": \"webhook-external\",\n  \"status\": \"superseded\"\n}\n",
+        "spruce/requirements.json": "{\n  \"required_limit\": 17,\n  \"deferred\": [\n    \"R-41\"\n  ]\n}\n",
+        "oak/current.json": "{\n  \"decision\": \"DEC-205\",\n  \"owner\": \"oak-maintainer\",\n  \"mode\": \"bulk-external\",\n  \"required_limit\": 91\n}\n"
+      },
+      "allowed_changes": [
+        "spruce/result.json"
+      ],
+      "checks": [
+        {
+          "path": "spruce/result.json",
+          "json": {
+            "current_mode": "batch-local",
+            "required_limit": 17,
+            "deferred": [
+              "R-41"
+            ]
+          }
+        }
+      ]
+    },
+    "p03-passport": {
+      "skills": [
+        "agent-foundry"
+      ],
+      "sandbox": "workspace-write",
+      "persist": true,
+      "requires_passport_review": true,
+      "prompt": "$agent-foundry\nRead the project-local .agents/skills/agent-foundry/SKILL.md. Prepare\nthe narrow canary-invoice-checker project skill described in BRIEF.md.\nInspect the real inputs and establish an exact proposed passport revision\nthrough the current supported Foundry procedure. Record the passport\nreview request in out/passport-review.md and the current proposed revision in\nout/passport-blueprint.json. Only the synthetic fixture may\nchange. Obtain approval of the exact current revision before building the\nskill or installing it. Do not create any external effects.\n",
+      "files": {
+        "BRIEF.md": "The canary-invoice-checker skill processes a supplied invoices.csv with standard-library Python.\nIt accepts columns id, amount, cleared. A cleared row has cleared=yes; cleared=no is pending.\nRead the caller-selected local fixture only. Reject invalid rows and repeated IDs explicitly.\nReport exactly verified_count (integer), pending_count (integer), verified_total (two-decimal string).\nThe eventual prepared kit must contain one entry skill canary-invoice-checker. Place the candidate kit\nat stage/ in the synthetic project. Its SKILL.md should direct use of scripts/reconcile.py with the\ncaller-supplied CSV path. A separate operator reviews the exact proposed passport, consents to any\nlater build, stages the deliverable, and controls project-only installation. No product, message,\ncredentials, global skill settings or background work are part of this task.\n",
+        "invoices.csv": "id,amount,cleared\nA-901,1.50,yes\nB-902,3.10,no\nC-903,2.13,yes\n"
+      },
+      "allowed_changes": [
+        "out/passport-review.md",
+        ".foundry/",
+        ".agent-foundry/",
+        ".atelier/",
+        "foundry/",
+        "work/",
+        "out/passport-blueprint.json"
+      ],
+      "checks": [
+        {
+          "path": "out/passport-review.md",
+          "contains": "canary-invoice-checker"
+        },
+        {
+          "path": "out/passport-blueprint.json",
+          "contains": "canary-invoice-checker"
+        }
+      ]
+    },
+    "p03-consumer": {
+      "skills": [],
+      "sandbox": "read-only",
+      "persist": false,
+      "approved_kit_consumer": "canary-invoice-checker",
+      "prompt": "$canary-invoice-checker\nRun the installed project skill against heldout.csv. Read\n.agents/skills/canary-invoice-checker/SKILL.md first. Invoke the actual\nlocal skill script on the supplied CSV and return its JSON without editing\nany files. This is a synthetic test and has no external actions.\n",
+      "files": {
+        "heldout.csv": "id,amount,cleared\nC-10,1.55,yes\nC-20,7.00,no\nC-30,3.15,yes\nC-40,6.61,yes\n"
+      },
+      "allowed_changes": [],
+      "checks": [],
+      "check_native_stdout_json": {
+        "verified_count": 3,
+        "pending_count": 1,
+        "verified_total": "11.31"
+      }
+    }
+  }
+}

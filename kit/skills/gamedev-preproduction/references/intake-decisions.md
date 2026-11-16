@@ -1,29 +1,29 @@
-# Вхід і рішення
+# Intake and decisions
 
-## Прийняти повний контекст
+## Recover the full context
 
-Перевірити джерело студії: назва, permitted developer/legal display names, stable studio ID, package/application ID namespace, approved logo variants і bytes, brand tokens, ліцензії, support/privacy URLs, ownership та actual setup state. Не вигадувати юридичну особу, D-U-N-S, країну, платіжний аккаунт чи готовність store. Бренд ігор може мати власну палітру; studio sign-off використовується лише в дозволених місцях: splash/about/credits/store/developer identification. Не фарбувати весь світ у корпоративні кольори без творчого рішення.
+Verify studio name, permitted developer and legal display names, stable studio ID and application ID namespace, exact accepted logo variants and bytes, brand tokens, licenses, support and privacy URLs, ownership, and observed setup. Keep unknown legal entity, D-U-N-S, country, payment account, and storefront status pending. Game palettes can differ from the studio brand. Use studio sign-off only in agreed splash, about, credits, store, or developer identity placements.
 
-Прочитати актуальний manifest/entrypoint upstream; архівувати exact input. Знайти active concept, прийнятий golden frame, playable rules, всі відмови/слабкості, реальні тестові дані й відсутні докази. Старий partial пакет приймати як матеріал для ремонту, не як implicit approval.
+Read the current upstream manifest and entry point. Archive exact inputs. Identify the active concept, approved reference frame, playable rules, known failures or weaknesses, actual test evidence, and gaps. An older partial package can supply repair inputs. Verify its acceptance independently.
 
-## Матеріальні розвилки
+## Material decisions
 
-| Питання | Чому змінює результат | Що показати до вибору |
+| Decision | Consequence | Show before selection |
 |---|---|---|
-| Android / iOS / обидві; min devices | API/SDK, QA, UI, touch, payments, бюджет | Matrix supported/tested/blocked, requirements та фактичні toolchains |
-| Portrait/landscape, one/two hands | Камера, UI safe zones, input vocabulary | Однаковий action sample в обох релевантних layouts |
-| 2D/2.5D/3D; camera type | Asset sources, rig, physics, performance | Однакова сцена з production/import feasibility |
-| Offline-first / online-required / co-op/PvP | Save authority, backend, cheating, latency, accounts | Sequence diagrams і disconnect/recovery user experience |
-| Runs/campaign/endless/seasonal | Content cadence, progression, ending, monetization | First 3 runs і late-game loop на конкретних даних |
-| Free/premium/hybrid, ads/IAP, minors | Economy, store compliance, reach, support | Цілісні альтернативні player journeys з ціною/правами/обмеженнями |
-| Content scope and cadence | Реальна вартість варіативності | Authored vocabulary, generation rules, cost model, scope floor |
-| Engine/toolchain/backend | Native feasibility, license, lock-in | Official docs, actual small PoC, total recurring cost |
-| Canonical target fidelity and quality floor | Scope, art/audio effort, device budget | Exact visual/audio/motion samples + measurement plan |
+| Android, iOS or both, and minimum devices | API, SDK, QA, UI, touch, payments, and budget | Supported, tested, and blocked matrix with requirements and actual toolchains |
+| Portrait or landscape, one or two hands | Camera, safe areas, and controls | Same action in applicable layouts |
+| 2D, 2.5D or 3D and camera | Source assets, rigs, physics, performance | Same scene with feasible authoring and import |
+| Offline-first, online-required, co-op or PvP | Save authority, backend, abuse prevention, latency, accounts | Sequence and disconnect or recovery experience |
+| Runs, campaign, endless or seasonal | Content cadence, progression, ending, monetization | First three runs and late play with concrete data |
+| Free, premium or hybrid, ads, purchases, and minors | Economy, store compliance, reach, support | Coherent player journeys with price, rights, and restrictions |
+| Content scope and cadence | Cost of variation | Authored vocabulary, rules for generation, cost, and scope floor |
+| Engine, toolchain, and backend | Native feasibility, license, vendor dependency | Official docs, actual small proof, recurring cost |
+| Reference fidelity and quality floor | Work in art and audio, device budget, scope | Exact visual, audio and motion samples and measurement plan |
 
-Не ставити універсальну анкету з усіх можливих питань. Якщо вхід уже вирішує питання — послатися на нього. Технічні деталі всередині прийнятого envelope вибирати автономно. «Обидві платформи» не означає «вже перевірені обидві». Не змінювати матеріальну опцію через недоступність інструмента мовчки.
+Ask only unresolved questions relevant to the scope. Reuse accepted decisions and select technical details within accepted bounds. Record exact coverage and tested status by platform. Bring any material change forced by tool availability to a concrete decision.
 
-## Запис рішення
+## Decision record
 
-Для матеріальної розвилки зберегти decision ID, scope, question, feasible options, sample refs/hashes, recommendation with trade-offs, cost/rights/device implications, user's exact response/source, timestamp, fixed properties, permitted derivatives, reopen conditions. AI evaluation не замінює user choice. Уточнення правила не є дозволом платити або публікувати.
+Keep ID, scope, question, feasible options, sample references and hashes, recommendation and trade-offs, cost and rights and device consequences, exact owner's response and source, time, fixed properties, permitted derivatives, and reopening conditions. Obtain actual owner choices and confirm separate authority to spend or publish.
 
-Коли scope неприйнятий, працювати над незалежними contracts, аудитом, tool discovery, безкоштовним малим PoC. У status report позначити конкретну залежну частину як pending. Не блокувати всі можливі роботи одним невідомим.
+While a choice is pending, continue unaffected contracts, audits, tool discovery, and a free bounded probe where useful. Identify the exact blocked dependency.

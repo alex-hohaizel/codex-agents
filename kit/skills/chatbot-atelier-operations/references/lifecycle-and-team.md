@@ -1,43 +1,43 @@
-# Маршрути й предметна команда
+# Lifecycle routes and working team
 
-## Застосовність і спосіб роботи
+## Applicability and depth
 
-Використовувати [адаптивну роботу](adaptive-work.md) для звірки первинного наміру, масштабу, невизначеності, впливу й достатніх компетенцій. [Дослідження та системний синтез](research-and-synthesis.md) викликати за потрібним питанням на будь-якому етапі. Це методи роботи; канали, companion/сервісний характер, медіа, знання, монетизація й інші можливості належать явному профілю конкретного продукту. Каталог сімейства допомагає виявити пропуск, але не створює всі його функції в кожному новому боті.
+Use [adaptive work](adaptive-work.md) to recover original intent, scope, uncertainty, impact and sufficient competence. Call [research and synthesis](research-and-synthesis.md) for a relevant question in any phase. A product profile determines channels, companion or service tone, media, knowledge, revenue and other features. The family catalog helps find omissions.
 
-На чинному продукті зберігати погоджений профіль, persona, усі активні IDs, прийняті результати й незавершені promises. Новий стандарт не скасовує їх і не породжує відсутні історичні reviews. Для нового продукту показати застосовні defaults та матеріальні альтернативи до залежного рішення. Незнайома потреба поза каталогом потребує адресного дослідження або спеціаліста, а не мовчазного звуження задачі.
+For an existing product preserve its agreed profile, persona, active IDs, accepted results and open commitments. Keep historical review status. For a new product show applicable defaults and significant alternatives before a dependent decision. Investigate a new domain or consult a specialist when a need falls outside the catalog.
 
-Користувачу коротко показати: повний потрібний результат, чому обраного способу/компетенцій достатньо, видимі outputs, матеріальні рішення та належний доказ. Для локальної правки достатні адресні факти й перевірка; новий повний життєвий цикл не запускається. Відкладені вимоги залишаються в чинному реєстрі з owner, залежностями, due stage і критерієм приймання. Новий технічний slice не підміняє повний погоджений обсяг.
+Explain the needed result, team and method, observable outputs, material decisions and evidence. Local repair uses targeted facts and verification. Deferred requirements keep an owner, dependencies, due stage and acceptance. Keep an initial technical slice and full accepted scope distinct.
 
-## Intake та розвідка
+## Intake and discovery
 
-Відновити точну проблему й чинний продукт; сервісна, групова або інша задача не отримує companion-концепцію без відповідного наміру. Зібрати actor/audience, desired outcome, поточний спосіб вирішення, частоту, незручність, ціну збою, канал, ownership даних, доступи/інтеграції, мови/часові зони, бюджет/hosting і критерії завершення. Конкретні обмеження відокремити від прикладів та здогадів. Не питати відоме повторно. Критичне unknown блокує тільки залежний маршрут; незалежний аналіз продовжувати.
+Restore the problem and current product. Determine whether a companion or neutral service fits. Capture actor and audience, target outcome, current method, frequency, friction, cost of failure, channel, data ownership, access and integration, languages and zones, hosting and budget, and completion. Distinguish constraints from examples and guesses. Reuse known facts. Continue independent work past a dependency with a critical unknown.
 
-Для кожного user journey фіксувати trigger → хто діє → контекст → вхід → видимий перший корисний крок → фактичний ефект → підтвердження → вихід/скасування → пізнє відновлення. Розглянути непрямі репліки, суперечливі побажання, звертання між людьми, згадку бота, репліку після паузи, недоступну функцію й неправильного адресата.
+For each journey record trigger → actor → context → input → first useful step → observed effect → confirmation → exit or cancel → later recovery. Include indirect phrases, conflicting wishes, human-to-human requests, mentions, messages after pauses, unavailable capabilities and wrong addressees.
 
-Перевірити, чи бот є кращим носієм потрібної дії: порівняти стандартний канал/форму/таблицю з ботом; зафіксувати adoption barrier. Монетизація/вірусність/чатові ігри активуються лише за відповідним наміром. Для робочого сервісу характер може бути нейтральним; для companion він не заміняє детерміновані права та стан.
+Compare existing channel, form or spreadsheet with a bot and record adoption barriers. Activate monetization, viral behavior and chat games only if requested. Maintain deterministic authority and state for any persona.
 
-## Повнота етапів
+## Phase results
 
-| Етап | Обов’язковий результат | Приймання й повернення |
+| Phase | Required result | Acceptance and return |
 |---|---|---|
-| Research | Джерела з датою, проблеми/альтернативи, факти проти гіпотез, карта домену | Кожна promise має перевірювану підставу; нерозв’язаний constraint повернути власнику brief |
-| Concepts | Порівнювані цілісні рішення, full journey, feature interaction, costs, ризики | Не видавати 2–3 розрізнені дії за весь продукт; кожна сильна сторона має реальний маршрут |
-| Specification | Усі активні системи, typed rules, state/data/events/API, failure, migration, acceptance | Матриця контрактів і перетинів не містить неузгодженого критичного unknown |
-| Experience | Розмовні/візуальні/аудіо стани, entry/exit/help/error, persona й доступність | Frozen контрасти + human evaluation за заяви природності; missing state повернути в spec |
-| Build | Реальний input→outcome→delivery, runtime/code/media, tests, instrumentation | Стабільні права/receipt/ownership; mock boundary явний; нездійсненний tool повернути в design |
-| QA | Реальні evidence records, reproductions, regression/negative cases | Hard requirement не компенсується середнім score; автор не незалежний QA |
-| Release | Exact source/build/env identity, CI, compatibility, rollback, live receipts | Перед зовнішньою дією звірити наявний scope authorization; не питати повторно чинне |
-| Support/adoption | Help/підтримка/escalation, контакти й статус запиту, коректна операційна обіцянка | Звернення доходить потрібному власнику; зовнішня розсилка тільки за дорученням |
-| Operations | SLI/SLO за потреби, витрати/затримки, incident/restore, change/retention | Міграція не губить діючі promises; recurrent робота окремо доручена |
+| Research | Dated sources, problem and alternatives, facts and hypotheses, domain map. | Each promise has a testable basis. Return unresolved constraints to the brief owner. |
+| Concepts | Comparable complete proposals, entire journey, feature interactions, costs and risks. | Each strength has a feasible route across the required product. |
+| Specification | Every active system, typed rules, state/data/event/API, failure, migration and acceptance. | Resolve critical contract and interaction gaps before readiness. |
+| Experience | Conversation, visual and audio states, entry/exit/help/error, persona and accessibility. | Use frozen contrasts and actual human evaluation for naturalness. Return missing states to specification. |
+| Build | Real input, outcome and delivery, runtime, code and assets, tests and instrumentation. | Verify permissions, receipt and ownership. Mark mock boundaries. Return infeasible capabilities to design. |
+| QA | Actual evidence records, reproductions, regression and negative tests. | Mandatory checks stand independently. Keep author and reviewer separate. |
+| Release | Exact source/build/env, CI, compatibility, rollback and live receipts. | Verify existing authorized scope for the effect. |
+| Support and adoption | Help, support and escalation, contacts and status, realistic operations. | Observe delivery to the right owner. External sending requires its own authority. |
+| Operations | Applicable SLI/SLO, cost and latency, incident and restore, change and retention. | Migration preserves active commitments. Recurring tasks use the agreed scope. |
 
-Кожен артефакт має exact receiver і procedure повторного читання в новому контексті. Передавати inputs/outputs, versions/hashes, sources, requirements, decisions, pending jobs, невідоме, acceptance й commands. Оригінальні reviews не перепідписувати під новий пакет.
+Every artifact has an exact receiver and access procedure in a fresh context. Transfer inputs and outputs, versions and hashes, sources, requirements, decisions, pending jobs, unknowns, acceptance and commands. Keep immutable reviews bound to their package.
 
-## Команда як виконувана структура
+## Working team
 
-Один root відповідає за інтегрований результат; product/tech/quality leads працюють над реальними артефактами. Спеціальності: domain research, product economics за потреби, conversational UX/linguistics, platform adapters, backend/data/concurrency, knowledge/retrieval, tool integrations, privacy/security, media/voice/animation, accessibility, reliability/release, observability/cost, support.
+Root integrates. Product, technical and quality leads work on real artifacts. Use domain research, applicable product economics, conversation and language, platform, backend and concurrent data, knowledge and retrieval, tool integration, privacy and security, media and voice, accessibility, reliability and release, observability and cost, and support as needed.
 
-На кожне завдання: objective, scope IDs, входи й exact versions, owned files/resources, залежності, output/receiver, acceptance/negative probes, budget, stop condition. Напрям об’єднувати за компетенцією, не запускати агента на кожен рядок вимог. Не редагувати спільні файли/БД кількома виконавцями паралельно. За обмежених слотів працювати хвилями.
+Each assignment specifies objective, requirement IDs, exact inputs, owned files and resources, dependencies, output and receiver, acceptance and negative cases, budget and stop condition. Group related work by competence. Use one writer per shared file or database. Work in waves within actual slot limits.
 
-local: owner+адресна перевірка; feature: зачеплені фахівці+незалежне інтеграційне QA; critical: окремі domain/security/evidence checks; stage: повне потрібне покриття й незалежне приймання. Privacy, money, irreversible effects, consent або data migration не стають local за розміром diff. Для складного вибору одержати незалежні первинні альтернативи без підказаної улюбленої відповіді. Усі ролі AI позначати як AI; професійний титул не є ліцензією або людською перевіркою.
+Local needs an owner and targeted verification, feature needs affected specialists and independent integration QA, critical needs distinct domain/security/evidence checks, and stage needs the complete result and independent acceptance. Assess privacy, financial, irreversible, consent and migration risk independently of diff size. Compare material alternatives independently before priming the reviewers. Identify AI roles as AI and verify human responsibilities separately.
 
-Фінальний рецензент не є автором чи попереднім QA оцінюваного рішення. Рада потрібна за суттєвого конфлікту/матеріальної зміни, не для переповідання. Зберегти найсильніше заперечення й умови перегляду рішення. Після двох повторів без нових даних змінити діагностику; відкритий must не отримує pass через вичерпаний бюджет.
+Final reviewer is separate from the author and previous QA. Use a council for a substantive conflict or material change. Preserve strongest objection and reversal condition. Change diagnostic strategy after two attempts without new evidence. Leave unresolved musts open at the budget limit.

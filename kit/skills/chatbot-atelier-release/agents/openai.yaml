@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Випуск · 6.0.0
-  short_description: Перевірений випуск і відновлення чатбота
-  default_prompt: Використай $chatbot-atelier-release для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Випуск
+  short_description: Authorized rollout, migration, and rollback
+  default_prompt: Use $chatbot-atelier-release. Prepare or run the authorized release against exact source, state, scope, and rollback evidence.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

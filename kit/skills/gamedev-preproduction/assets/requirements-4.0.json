@@ -9,14 +9,14 @@
     "assets/systemic-user-sources.json"
   ],
   "rules": [
-    "Копіювати застосовні IDs у чинний project requirement registry, не створювати другу authority.",
-    "Кожний ID має scope/owner/artifact/actual evidence/review/closure; відсутній proof є pending/blocked.",
-    "Перевірка наявності IDs не доводить предметної якості; conditional features не стають обов’язковими."
+    "Carry applicable IDs into the current project requirements registry. Keep one authority.",
+    "Each ID needs scope, owner, artifact, actual evidence, review and closure. Missing evidence remains pending or blocked.",
+    "ID coverage does not prove domain quality. Conditional capabilities do not become mandatory."
   ],
   "items": [
     {
       "id": "GA4-U01",
-      "title": "Повна передача задуму й технічного дизайну",
+      "title": "Complete concept and technical handoff",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 1,
@@ -26,8 +26,8 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
-      "acceptance": "C1/T пакет має усі активні системи, винятки, каталоги, алгоритми, ресурси та cold-receiver reconstruction без винайдення задуму",
-      "negative_case": "Опис із прихованим TBD поведінки не проходить handoff",
+      "acceptance": "The C1/T package covers all active systems, exceptions, catalogs, algorithms, resources, and reconstruction by a fresh receiver without inventing the design.",
+      "negative_case": "A handoff with hidden behavioral TBDs fails.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -35,7 +35,7 @@
     },
     {
       "id": "GA4-U02",
-      "title": "Глибокі системи можливостей",
+      "title": "Deep capability systems",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 2,
@@ -45,8 +45,8 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
-      "acceptance": "Сімейства, сумісність, спеціалізації, функціональні відмінності, сценарії та точні правила T",
-      "negative_case": "Три +% покращення не підміняють простір розвитку",
+      "acceptance": "Cover families, compatibility, specializations, functional differences, scenarios and exact T rules.",
+      "negative_case": "Three percentage upgrades do not replace a meaningful progression space.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -54,7 +54,7 @@
     },
     {
       "id": "GA4-U03",
-      "title": "Метасистемна монетизація",
+      "title": "Monetization across the metagame",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 3,
@@ -64,8 +64,8 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
-      "acceptance": "Fit альтернатив, free/no-offer baseline, paid portfolio, partial ownership та повний purchase lifecycle",
-      "negative_case": "Один скін або прямий продаж earned item не є автоматично відповідною моделлю",
+      "acceptance": "Compare alternatives, the free/no-offer baseline, paid portfolio, partial ownership and the full purchase lifecycle.",
+      "negative_case": "One skin or a direct sale of an earned item does not establish a viable model.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -73,7 +73,7 @@
     },
     {
       "id": "GA4-U04",
-      "title": "Першокласні виробничі системи",
+      "title": "First-class production systems",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 4,
@@ -83,8 +83,8 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
-      "acceptance": "20 застосовностей/власників, взаємодії з названими читаннями/змінами й due proof",
-      "negative_case": "Механічне all-to-all графа або списку заголовків недостатньо",
+      "acceptance": "Cover 20 system applicability and ownership records, interactions with named reads or changes, and evidence due.",
+      "negative_case": "An all-to-all graph or headings alone cannot satisfy coverage.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -92,7 +92,7 @@
     },
     {
       "id": "GA4-U05",
-      "title": "Світ і складання ситуацій",
+      "title": "World and situation composition",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 5,
@@ -103,7 +103,7 @@
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
       "acceptance": "Authored vocabulary, constraints, progression envelope, novelty signatures, bounded repair/fallback",
-      "negative_case": "Рахунок seeds або 30 переставлених трас не доводить новизни",
+      "negative_case": "Seed counts or 30 shuffled routes do not prove novelty.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -111,7 +111,7 @@
     },
     {
       "id": "GA4-U06",
-      "title": "Повнота агентів і викликів",
+      "title": "Complete agents and challenges",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 6,
@@ -121,8 +121,8 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
-      "acceptance": "Сприйняття/знання/дії/координація/слабкості/боси/відновлення за застосовністю",
-      "negative_case": "Магічне знання або варіанти лише +HP не проходять",
+      "acceptance": "Cover perception, knowledge, actions, coordination, weaknesses, bosses, and recovery as applicable.",
+      "negative_case": "Magical knowledge and variants distinguished only by HP fail.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -130,7 +130,7 @@
     },
     {
       "id": "GA4-U07",
-      "title": "Причинна живість світу",
+      "title": "Causal world responsiveness",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 7,
@@ -140,8 +140,8 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
-      "acceptance": "Видима зміна світу має джерело, межі симуляції, стійкість і можливі наслідки",
-      "negative_case": "Декоративний випадковий рух не доводить реактивності",
+      "acceptance": "Visible changes need a cause, simulation boundary, persistence and possible consequences.",
+      "negative_case": "Random decoration does not establish a reactive world.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -149,7 +149,7 @@
     },
     {
       "id": "GA4-U08",
-      "title": "Зручна індивідуальна взаємодія",
+      "title": "Comfortable, distinctive interaction",
       "source": {
         "request_id": "d12a11cc-090d-469a-bf5f-ddf705b8afd0",
         "point": 8,
@@ -160,7 +160,7 @@
       "exact_behavior_due": "T",
       "proof_due": "appropriate runtime/device/human gate",
       "acceptance": "Intent/action/gesture/presentation, peak two-thumb/cancel/accessibility traces",
-      "negative_case": "Кнопка на кожну дію або прихований двозначний жест не є рішенням",
+      "negative_case": "A button for every action or a hidden ambiguous gesture does not solve interaction.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -176,8 +176,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "C0/C1/T не підміняють одне одного; C1 для завершених кандидатів",
-      "negative_case": "C0 не отримує accepted-concept",
+      "acceptance": "Distinguish C0, C1 and T. Complete candidates require C1.",
+      "negative_case": "C0 cannot be accepted-concept.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -193,8 +193,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Застосовність20систем із причиною, owner/consumer, дані/правила/бюджет/доказ",
-      "negative_case": "N/A через відсутній інструмент заборонено",
+      "acceptance": "Record applicability for the 20 systems, rationale, owner and consumer, data, rules, budget and proof.",
+      "negative_case": "An unavailable tool does not make a system N/A.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -210,8 +210,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Типи/одиниці/діапазони/порядок/capture/time/RNG/fixtures",
-      "negative_case": "Текст формули без round/zero/overflow boundary недостатній",
+      "acceptance": "Define types, units, ranges, order, capture, time, RNG and fixtures.",
+      "negative_case": "A formula alone omits rounding, zero and overflow boundaries.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -227,8 +227,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Повний простір сімейств C1, всі launch-data/generator constraints T",
-      "negative_case": "Item count не є decision diversity",
+      "acceptance": "Cover the C1 family space and all T launch data and generator constraints.",
+      "negative_case": "Item count does not establish decision diversity.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -244,8 +244,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Макроструктура/шлях/простір/зустрічі/наслідки та novelty",
-      "negative_case": "Різні seeds з однаковою стратегією не є різноманіттям",
+      "acceptance": "Cover macrostructure, route, spaces, encounters, consequences and novelty.",
+      "negative_case": "Distinct seeds with the same strategy do not establish variety.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -261,8 +261,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Канон/знання/квест/діалог/причинні реакції зі state authority",
-      "negative_case": "NPC не може знати ще не розкритий факт",
+      "acceptance": "Cover canon, knowledge, quests, dialogue and causal reactions with state authority.",
+      "negative_case": "An NPC cannot know a fact it has not learned.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -278,8 +278,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Intent/action/gesture/presentation окремо, actual traces",
-      "negative_case": "Cancel/suspend не залишає active attack або touch у purchase",
+      "acceptance": "Separate intent, action, gesture and presentation, and inspect actual traces.",
+      "negative_case": "Cancel or suspend must not leave an attack active or carry touch into a purchase.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -295,8 +295,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Всі product states/навчання/return/completion/error",
-      "negative_case": "Повна колекція не ламає reward flow",
+      "acceptance": "Cover product states, learning, return, completion and errors.",
+      "negative_case": "A complete collection does not break rewards.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -312,8 +312,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Source/export/import/scene lineage, усі asset/audio/haptic states",
-      "negative_case": "PNG не доводить rig/stems/native runtime",
+      "acceptance": "Track source, export, import and scene lineage for every asset, audio and haptic state.",
+      "negative_case": "PNG does not establish a rig, stems or native runtime behavior.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -329,8 +329,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Готові комплекти й метагра, free/paid/time/variance/dominance",
-      "negative_case": "Partial ownership/retry/refund не дублює grant",
+      "acceptance": "Cover complete offers and metagame, free and paid options, time, variance and dominance.",
+      "negative_case": "Partial ownership, retry or refund must not duplicate a grant.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -346,8 +346,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Cold receiver відновлює сценарії з pinned docs/data",
-      "negative_case": "History chat не є обов’язковою прихованою залежністю",
+      "acceptance": "A fresh recipient reproduces scenarios from pinned documents and data.",
+      "negative_case": "Chat history cannot be a hidden prerequisite.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -363,8 +363,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Due scope і незалежний actor, semantic/runtime/native/device/human окремо",
-      "negative_case": "Quality score або extension не доводить функцію",
+      "acceptance": "Give due scope and independent actor; distinguish semantic, runtime, native, device and human evidence.",
+      "negative_case": "A quality score or extension does not establish functionality.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -380,8 +380,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Selective transitive invalidation з повними semantic edges",
-      "negative_case": "Зміна grip відкриває маршрут/input/tire economy, не studio master",
+      "acceptance": "Apply targeted transitive invalidation across real semantic links.",
+      "negative_case": "Grip changes reopen route, input and tire economy checks, not the studio master.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -397,8 +397,8 @@
       "owner": "director + subject lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "3.0 originals/IDs/рішення/докази збережені історично, нові gaps явні",
-      "negative_case": "Acceptance попереднього результату не закриває поточний gate",
+      "acceptance": "Preserve 3.0 originals, IDs, decisions and proof in history and identify new gaps.",
+      "negative_case": "Earlier acceptance cannot close the current gate.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/index.md"
@@ -406,17 +406,17 @@
     },
     {
       "id": "GA4-D1-Q01",
-      "title": "Причинний розбір поразки й ціна відновлення",
+      "title": "Cause of failure and recovery cost",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q01"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "Доповнює P1 §§7.1,11: інформація до події → доступні відповіді → дія → наслідок → втрачене/збережене → наступний осмислений крок. Розрізняються незнання, помилка виконання й технічний дефект. Артефакт: failure/recovery matrix; concepts/preproduction/build/QA. Приймання: після поразки є релевантна причина й доступний інший крок, retry не створює ненавмисний softlock. Вартість мала–середня; не обов’язковий екран пояснення кожної смерті.",
+      "acceptance_and_negative_case": "Builds on P1 §§7.1,11: pre-event information → available responses → action → consequence → lost/retained state → next useful step. Distinguish missing knowledge, execution error and technical defects. Deliver a failure/recovery matrix for concepts, preproduction, build and QA. Check that the player sees a relevant failure cause and another available step, and retry cannot softlock. Low to moderate cost. No required explanation screen for each death.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/math.md",
@@ -425,17 +425,17 @@
     },
     {
       "id": "GA4-D1-Q02",
-      "title": "Межі зобов’язання й незворотності",
+      "title": "Commitment and irreversible boundaries",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q02"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§5,10–12: preview, commit, фактичне застосування, irreversible boundary та recovery визначаються для crafting, демонтажу, маршруту, respec, story choice й виходу. Артефакт: commitment table у state atlas; preproduction/UX/build/QA. Перевірка: back, double tap і cancel по різні боки межі не дають подвійної витрати чи хибного підтвердження. Мала–середня; без modal на кожен клік або обов’язкового undo.",
+      "acceptance_and_negative_case": "P1 §§5,10–12: define preview, commit, actual application, irreversible boundary and recovery for crafting, dismantling, routes, respec, story choices and exits. Deliver a commitment table in the state atlas for preproduction, UX, build and QA. Back, double-tap and cancel on either side of the boundary cannot double-charge or falsely confirm. Low to moderate cost; no mandatory modal or undo on every click.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md"
@@ -443,17 +443,17 @@
     },
     {
       "id": "GA4-D1-Q03",
-      "title": "Арбітраж одночасних сигналів і бюджет уваги",
+      "title": "Concurrent cues and attention budget",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q03"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §11.4 уже має cues; новий механізм визначає, які показуються разом, відкладаються, агрегуються чи приглушуються. Артефакт: attention matrix + peak scene, experience/creative/assets/build/QA. Перевірка: небезпека читається одночасно з reward/objective/critical resource на слабшому профілі й без звуку; відкладений cue не виглядає поточним. Середня. Багатоканальність підтримується XAG, конкретний scheduler — наша адаптація [S11].",
+      "acceptance_and_negative_case": "P1 §11.4: define which cues appear together, wait, aggregate or mute. Deliver an attention matrix and peak scene for experience, creative, assets, build and QA. Danger must stay readable alongside reward, objective and critical-resource cues on the weaker profile and with audio disabled. A delayed cue must not look current. Moderate cost. XAG supports multiple channels; the scheduler is our adaptation [S11].",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md",
@@ -462,17 +462,17 @@
     },
     {
       "id": "GA4-D1-Q04",
-      "title": "Узгодження конкурентних запитів камери",
+      "title": "Resolve competing camera requests",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q04"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §10: пріоритети aim/traversal/interaction/boss/transition, володіння, release, повернення й захист від коливань. Артефакт: camera request policy/traces; experience/preproduction/build/QA. Перевірка: одночасні aim, зона камери й boss intro не спричиняють стрибка або неочікуваного перевороту напрямку touch. Мала–середня; застосовується до ігор із відповідними режимами.",
+      "acceptance_and_negative_case": "P1 §10: define priority for aim, traversal, interaction, boss and transition; ownership, release, return, and protection against oscillation. Deliver camera policy and traces to experience, preproduction, build and QA. Simultaneous aim, camera zone and boss intro must not jump or unexpectedly reverse touch direction. Low to moderate cost for games with those modes.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md"
@@ -480,17 +480,17 @@
     },
     {
       "id": "GA4-D1-Q05",
-      "title": "Багатовимірний профіль виклику",
+      "title": "Multidimensional challenge profile",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q05"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§7–8: точність, час реакції, одночасність, інформаційний/ресурсний тиск і ціна помилки описуються окремо. Артефакт: challenge profiles і progression envelope; systems/world/experience/QA. Перевірка: генератор ускладнює заплановане рішення й не підвищує всі осі разом випадково. Мала–середня; прихований DDA не вводиться. XAG108 підтверджує потребу розрізняти види виклику, а не наші конкретні параметри [S11].",
+      "acceptance_and_negative_case": "P1 §§7–8: separate accuracy, reaction time, concurrency, information and resource pressure, and error cost. Deliver challenge profiles and progression envelope for systems, world, experience and QA. The generator should stress the intended decision instead of randomly increasing every dimension. Low to moderate cost. No hidden DDA. XAG108 supports distinguishing challenge types; it does not set the parameters [S11].",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/world-ai.md"
@@ -498,17 +498,17 @@
     },
     {
       "id": "GA4-D1-Q06",
-      "title": "Семантика assists і порівнюваність результатів",
+      "title": "Assist semantics and comparable outcomes",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q06"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §10.5: кожна допомога визначає втручання, збережені рішення, зміну правил/часу, переключення, save і scoring за обсягом. Артефакт: assist compatibility matrix; preproduction/build/QA/release. Перевірка: auto-aim/автогаз/повільний режим не дають reset витрати або подвійний grant; змагальні умови видно до участі. Середня; фізична доступність не карається універсальним позбавленням винагород.",
+      "acceptance_and_negative_case": "P1 §10.5: for each assist define intervention, decisions retained, rule or timing changes, toggling, save and scoring scope. Deliver an assist matrix for preproduction, build, QA and release. Auto-aim, auto-throttle and slow mode must not reset spending or duplicate grants; show competition rules before participation. Moderate cost; do not universally remove rewards for accessibility.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md"
@@ -516,17 +516,17 @@
     },
     {
       "id": "GA4-D1-Q07",
-      "title": "Діагностика навчальної помилки",
+      "title": "Diagnose learning mistakes",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q07"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §11.2: відрізняти непомічену можливість, незрозуміле правило, невідомий input, misrecognition, невчасне виконання й свідомий експеримент. Артефакт: evidence→remediation table; learning/preproduction/build/human QA. Перевірка: неправильний swipe не запускає повторну лекцію про тактику, а правильна альтернативна стратегія не вважається помилкою. Мала–середня; без психологічної класифікації гравця.",
+      "acceptance_and_negative_case": "P1 §11.2: distinguish missed affordance, unclear rule, unknown input, recognition failure, timing mistake and intentional exploration. Deliver an evidence-to-remediation table for learning, preproduction, build and human QA. A wrong swipe does not restart a tactical lecture, and a valid alternative strategy does not count as an error. Low to moderate cost; do not classify player psychology.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md"
@@ -534,17 +534,17 @@
     },
     {
       "id": "GA4-D1-Q08",
-      "title": "Повернення ментального контексту",
+      "title": "Restore the player's working context",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q08"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§7,11: зберегти й доступно нагадати поточну мету, незавершений намір, комплект і суттєві зміни. Артефакт: reorientation contract; UX/progression/narrative/build/liveops. Перевірка: учасник після фактичної перерви знаходить осмислену дію без повтору всього tutorial; для дослідницької гри підказка не розкриває відповідь силоміць. Мала–середня. Технічний save і пам’ять людини мають різні критерії.",
+      "acceptance_and_negative_case": "P1 §§7,11: retain accessible reminders of the current aim, unfinished intent, loadout and material changes. Deliver a reorientation contract for UX, progression, narrative, build and live operations. After a real break, a participant finds a useful step without replaying the tutorial; exploration hints need not expose the answer. Low to moderate cost. Technical saves and human memory have distinct checks.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/lore-narrative.md",
@@ -554,17 +554,17 @@
     },
     {
       "id": "GA4-D1-Q09",
-      "title": "Можливість × реальна нагода застосувати",
+      "title": "Capability and opportunity to use it",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q09"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§7–8: сімейства каталогу пов’язуються з фактичним розподілом нагод у кампанії/генерації. Артефакт: capability×opportunity matrix і звіт сесій; systems/world/progression/QA. Перевірка: спеціалізація має корисні контексти після відкриття; генератор не відсіює їх; нагорода не видається після останнього придатного місця. Середня. Низький pick rate не трактують автоматично як слабкість предмета.",
+      "acceptance_and_negative_case": "P1 §§7–8: map catalog families to actual opportunities in campaign and generated play. Deliver a capability×opportunity matrix and session report for systems, world, progression and QA. Specializations have useful opportunities after unlock; generation does not filter them all out and rewards arrive before the last viable use. Moderate cost. A low pick rate does not alone prove an item is weak.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/catalog-progression.md",
@@ -573,17 +573,17 @@
     },
     {
       "id": "GA4-D1-Q10",
-      "title": "Експозиція й повернення механік у послідовності",
+      "title": "Sequence mechanic exposure and return",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q10"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§8,11: відкрити → безпечно освоїти → перенести → комбінувати → переосмислити, з історією доступних нагод. Артефакт: mechanic exposure graph; learning/world/preproduction/QA. Перевірка: різні маршрути готують до ключового комбінованого виклику; давно невикористана дія не вперше повертається в найдорожчій ситуації без альтернативи. Середня; не робить усім однакову лінійну школу.",
+      "acceptance_and_negative_case": "P1 §§8,11: introduce, practice safely, transfer, combine and reinterpret mechanics while tracking opportunities. Deliver the exposure graph to learning, world, preproduction and QA. Different routes prepare for a critical combined challenge; a long-unused action does not first reappear in the costliest moment without alternatives. Moderate cost; no forced linear school for all players.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/catalog-progression.md",
@@ -593,17 +593,17 @@
     },
     {
       "id": "GA4-D1-Q11",
-      "title": "Семантичний словник взаємодій",
+      "title": "Semantic interaction vocabulary",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q11"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §11: значення «можна чіплятися», «небезпечно», «підготовлена дія», «бракує ресурсу» підтримуються кількома ознаками через біоми/appearance. Артефакт: semantic style dictionary з invariant/variant examples; creative/experience/assets/QA. Перевірка: новий арт не змінює випадково вивчену роль поверхні/силуету; потрібні сигнали працюють без єдиного кольору. Мала–середня; кожна гра зберігає власну художню мову.",
+      "acceptance_and_negative_case": "P1 §11: multiple cues preserve meanings such as grabbable, dangerous, action prepared and resource missing across biomes and appearances. Deliver invariant and variant examples to creative, experience, assets and QA. New art must not change learned surface or silhouette meaning; cues remain readable without one exclusive color. Low to moderate cost; keep each game's artistic language.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md",
@@ -612,17 +612,17 @@
     },
     {
       "id": "GA4-D1-Q12",
-      "title": "Повний контракт локалізації",
+      "title": "Complete localization contract",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q12"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "Об’єднує дубль GQ12/E10; P1 §§5,11. String IDs, контекст, plural/select/placeholders, терміни, числа/одиниці/ціни, glyphs/font fallback/ліцензії, shaping, text scale, RTL і subtitles за мовним обсягом. Артефакт: localization state matrix; assets/UX/build/QA/release. Перевірка: довга назва не ховає ціну/cancel, зміна мови не змінює IDs/save/формулу; псевдомова не замінює перевірку підтриманого письма. Мала–значна залежно від мов [S12].",
+      "acceptance_and_negative_case": "Unifies GQ12/E10; P1 §§5,11. Cover string IDs and context, plural/select/placeholders, terminology, units, prices, glyphs, fonts and licenses, shaping, text scale, RTL and subtitles as applicable. Deliver localization state matrix to assets, UX, build, QA and release. Long text cannot hide price or cancel; language change preserves IDs, save and formulas. Pseudolocalization does not replace actual script checks. Cost depends on language scope [S12].",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md",
@@ -631,17 +631,17 @@
     },
     {
       "id": "GA4-D1-Q13",
-      "title": "Часова істина контакту",
+      "title": "Canonical contact timing",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q13"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§6,11: єдина шкала intent/startup/active/recovery/buffer/cancel з визначеними simulation/render/audio domains. Артефакт: contact timing traces; systems/assets/build/QA. Перевірка: hit stop, slow effect або пропущений render frame не повторюють damage, не змінюють collision чи оплачену дію без правила. Середня; різні refresh rates і навантаження перевіряються фактично.",
+      "acceptance_and_negative_case": "P1 §§6,11: specify intent, startup, active, recovery, buffer and cancel on one timeline with simulation, rendering and audio domains. Deliver traces to systems, assets, build and QA. Hit stop, a slow effect or dropped render frame cannot repeat damage or change collisions or paid actions unless required by the rules. Moderate cost; verify differing refresh and load profiles.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/math.md",
@@ -650,17 +650,17 @@
     },
     {
       "id": "GA4-D1-Q14",
-      "title": "Стан після вичерпання контенту",
+      "title": "States after content exhaustion",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q14"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§7,12: усі unlocks/максимальні покращення/повні колекції/фінал/надлишок ресурсів мають визначений результат. Артефакт: completion/exhaustion profile; progression/economy/world/build/QA/liveops. Перевірка: повна колекція не ламає reward/store/UI, зайві дублікати мають долю, кінцівка не обіцяє відсутній контент. Мала–середня; авторській грі дозволений чесний фінал.",
+      "acceptance_and_negative_case": "P1 §§7,12: define outcomes for every unlock, max upgrade, completed collection, ending and excess resource. Deliver completion profile to progression, economy, world, build, QA and live operations. Full collections preserve reward, store and UI behavior; decide the fate of duplicates; do not imply absent endgame content. Low to moderate cost; an authored game may end.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/catalog-progression.md",
@@ -669,17 +669,17 @@
     },
     {
       "id": "GA4-D1-Q15",
-      "title": "Тривалість сесії й добровільний вихід",
+      "title": "Session duration and voluntary exit",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q15"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§5,11: коротка/звичайна/довга сесія, мінімальна корисна участь, pause/exit, незавершена мета й відновлення. Артефакт: session boundary map; concepts/experience/progression/build/QA. Перевірка: телефонне переривання не прирівнюється до abandon без правил; короткий візит має осмислену дію. Мала–середня; тривалість не уніфікується для всіх жанрів.",
+      "acceptance_and_negative_case": "P1 §§5,11: cover short, usual and long sessions, minimum useful activity, pause and exit, unfinished goals and recovery. Deliver boundary map to concepts, experience, progression, build and QA. A phone interruption is not abandonment unless the rules say so. A short visit has a useful action. Low to moderate cost; durations depend on genre.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/experience-commerce.md",
@@ -688,17 +688,17 @@
     },
     {
       "id": "GA4-D1-Q16",
-      "title": "Виробнича лабораторія станів",
+      "title": "Production scenario lab",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q16"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §14: у dev/test збірці відтворити fixture/seed/комплект/locale/input profile, відключити канал, порівняти конфігурації й stress scene. Артефакт: bounded scenario lab; build/tools/domain authors/QA. Перевірка: складний дефект відтворюється без ручного багатогодинного проходження, а тестове menu/injection не потрапляє випадково в production. Середня; починати з найбільш ризикових сцен, не універсального редактора.",
+      "acceptance_and_negative_case": "P1 §14: in dev or test reproduce fixture, seed, loadout, locale and input profiles; disable a channel; compare config and stress scenes. Deliver scoped lab to build, tools, authors and QA. Reproduce a difficult defect without hours of replay; keep test menus and injection out of production. Moderate cost. Start with highest risk scenes.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md",
@@ -707,17 +707,17 @@
     },
     {
       "id": "GA4-D1-Q17",
-      "title": "Осмислена участь у спільній грі — умовно",
+      "title": "Meaningful cooperative play where applicable",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q17"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §4/F: ролі, інформація, внесок, різний skill, AFK/drop/rejoin, незворотні переходи й право виходу визначаються як UX/механіки. Артефакт: co-op contribution/recovery contract; concepts/preproduction/network/UX/QA. Перевірка: досвідчений учасник не забирає всі суттєві дії, від’єднання не дублює нагороду, заявлений режим придатний без обов’язкового voice. Значна; не додає multiplayer або backend автоматично.",
+      "acceptance_and_negative_case": "P1 §4/F: define roles, information, contribution, skill variance, AFK, disconnect/rejoin, irreversible actions and exit rights. Deliver contribution and recovery contract to concepts, preproduction, networking, UX and QA. Experts cannot take every meaningful action, reconnects cannot duplicate rewards, and the advertised mode works without required voice. High cost; no automatic multiplayer or backend.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/world-ai.md",
@@ -727,17 +727,17 @@
     },
     {
       "id": "GA4-D1-Q18",
-      "title": "Моменти авторства й добровільного поширення — умовно",
+      "title": "Voluntary sharing and authorship where applicable",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q18"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1, система №20 (§4.3): власна збірка/творчий результат/розв’язання/майстерний епізод мають зрозумілу поза грою цінність. Артефакт: shareable moment hypothesis + prototype; concepts/creative/build/QA/liveops. Перевірка: гравець сам обирає показати результат, глядач розуміє суть, export не підробляє gameplay і не розкриває зайві дані. Мала для дослідження, середня–значна для функції. Факт вірусності не обіцяється.",
+      "acceptance_and_negative_case": "P1 system 20 (§4.3): a build, creative result, solution or skilled moment should make sense outside the game. Deliver a sharing hypothesis and prototype to concepts, creative, build, QA and live operations. Players choose to share, spectators understand, and exports do not falsify play or expose excess data. Low research cost, moderate or high feature cost. No promise of virality.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md",
@@ -746,17 +746,17 @@
     },
     {
       "id": "GA4-D1-Q19",
-      "title": "Conformance probe нативного адаптера",
+      "title": "Native adapter conformance probe",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q19"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§4–5,13: операції/версії/prerequisites/threading/cancel/error/account/fallback перевіряються маленькою нативною сценою до виробничого зобов’язання. Артефакт: adapter contract/evidence; studio/preproduction/build/QA. Перевірка: release minification/signing не гублять callback cloud/IAP/haptic, хоча debug працював. Середня на потрібний адаптер; без середовища доказ лишається pending.",
+      "acceptance_and_negative_case": "P1 §§4–5,13: test actual operations, versions, prerequisites, threading, cancellation, errors, accounts and fallback in a small native scene before committing production. Deliver adapter contract and evidence to studio, preproduction, build and QA. Release minification and signing must preserve required cloud, IAP or haptic callbacks after debug success. Moderate per adapter; missing environment leaves proof pending.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md",
@@ -765,17 +765,17 @@
     },
     {
       "id": "GA4-D1-Q20",
-      "title": "Матриця функцій і реальних можливостей пристрою",
+      "title": "Device feature capability matrix",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q20"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§3,5: feature→hardware/API/renderer/plugin→detection→дозволений fallback→тест. Артефакт: feature-support matrix; concepts/build/QA/release. Перевірка: підтримана версія ОС з непідтриманим GPU path не створює зламаний екран; легальний fallback зберігає інформацію й правила. Мала–середня. Широке покриття не доводиться тільки номером Android/iOS.",
+      "acceptance_and_negative_case": "P1 §§3,5: bind features to hardware, API, renderer and plugin; detection, fallback and check. Deliver support matrix to concepts, build, QA and release. A supported OS with unsupported GPU path does not break the screen. A compliant fallback preserves information and rules. Low to moderate cost. OS version alone does not prove coverage.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -783,17 +783,17 @@
     },
     {
       "id": "GA4-D1-Q21",
-      "title": "Узгоджена активація контенту/конфігурацій/каталогу",
+      "title": "Coherent activation of content, config and catalog",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q21"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§5,13–14: epoch, hashes, dependency closure, client/schema compatibility, staging і atomic activation набору. Артефакт: activation manifest/state machine; build/QA/release/liveops. Перевірка: новий рецепт не активується без потрібного item/content; незавершене завантаження лишає старий узгоджений набір. Середня; runtime delivery умовний, packaged гра перевіряє цілісність export.",
+      "acceptance_and_negative_case": "P1 §§5,13–14: pin epoch, hashes, dependency closure, client and schema compatibility, staging and atomic activation. Deliver activation manifest and state machine to build, QA, release and live operations. A new recipe stays inactive without its item/content; a partial download preserves the prior coherent set. Moderate cost. Runtime delivery is conditional; packaged games verify export integrity.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/persistence.md",
@@ -802,17 +802,17 @@
     },
     {
       "id": "GA4-D1-Q22",
-      "title": "Точна база інкрементального патча — умовно",
+      "title": "Exact base for incremental patches where applicable",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q22"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§11,17: зберігати випущені байти base pack/index/hash/patch chain, а не припускати однаковий повторний export. Артефакт: patch-base registry; build/release/QA. Перевірка: інший base hash відхиляє patch до активації; є дозволений повний fallback і відновлення після обриву. Невелика storage та перевірочна вартість; не вимагає launcher кожній грі.",
+      "acceptance_and_negative_case": "P1 §§11,17: preserve shipped base pack bytes, index, hash and patch chain instead of assuming a repeat export is identical. Deliver patch-base registry to build, release and QA. Reject a mismatched base before activation. Verify an authorized full fallback and recovery after interruption. Low storage and check cost; a launcher is not mandatory.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/persistence.md",
@@ -821,17 +821,17 @@
     },
     {
       "id": "GA4-D1-Q23",
-      "title": "Холодне перше використання",
+      "title": "Cold first use",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q23"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§5.4,13: cold install/cache/driver path, warm run, перший shader/effect/animation/audio/load вимірюються окремо. Артефакт: first-use map/traces; assets/build/QA. Перевірка: перша атака боса або відкриття магазину не створюють непогоджений hitch, прихований теплим тестом. Середня; blanket preload не є автоматичним рішенням. Засоби precompile залежать від pinned renderer/platform [S13].",
+      "acceptance_and_negative_case": "P1 §§5.4,13: measure cold install/cache/driver path, warm run and first shader, effect, animation, audio or load separately. Deliver first-use map and traces to assets, build and QA. First boss attack or shop opening must not reveal unacceptable hitching hidden by warm runs. Moderate cost; selective precompile depends on the pinned renderer and platform [S13].",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -839,17 +839,17 @@
     },
     {
       "id": "GA4-D1-Q24",
-      "title": "Стабільний контролер якості — за обраної адаптації",
+      "title": "Stable adaptive quality when selected",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q24"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§3,13: порядок дозволених змін, пороги, гістерезис, cooldown і відновлення; декоративне відділяється від gameplay-critical. Артефакт: quality action matrix/traces; technical art/build/QA. Перевірка: на межі нагріву профіль не коливається, hazard cue не зникає; не змінюються hitboxes, фізика й цінність предметів. Середня. Відхилення від 60 FPS/visual target потребує погодженої support policy.",
+      "acceptance_and_negative_case": "P1 §§3,13: define allowed action order, thresholds, hysteresis, cooldown and recovery; separate decoration from gameplay. Deliver quality matrix and traces to technical art, build and QA. Quality should not oscillate near heat limits or remove hazard cues; keep hitboxes, physics and item value. Moderate cost; changes to the 60 FPS or visual target require an agreed support policy.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -857,17 +857,17 @@
     },
     {
       "id": "GA4-D1-Q25",
-      "title": "Пікова пам’ять переходу й власність ресурсів",
+      "title": "Transition peak memory and resource ownership",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q25"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §5: карта residency/owner/lifetime/unload, overlap старої/нової сцени, decode/UI buffers і bounded concurrency. Артефакт: transition memory trace; assets/build/QA. Перевірка: повторні переходи не нарощують пам’ять, найважчий перехід не тримає необмежено всі сцени; розмір файлу не видається за runtime RAM/VRAM. Середня; вимір під цільові профілі.",
+      "acceptance_and_negative_case": "P1 §5: map residency, owner, lifetime and unload; overlap between outgoing and incoming scenes, decoding and UI buffers, and bounded concurrency. Deliver memory traces to assets, build and QA. Repeated transitions do not leak memory or hold every scene at the peak. File size is not runtime RAM or VRAM. Moderate cost; measure target profiles.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -875,17 +875,17 @@
     },
     {
       "id": "GA4-D1-Q26",
-      "title": "Автоматична перевірка після імпорту асетів",
+      "title": "Automatic check after asset import",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q26"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §11.3: витягнути й звірити dimensions/color/alpha/scale/pivot/compression/loop/clip/contact markers/collision/audio parameters за типом ресурсу. Артефакт: import lint із resource ID; assets/build/QA. Перевірка: правильна назва файла з wrong axis або відсутнім contact marker не проходить scene acceptance непоміченою. Середня; технічний lint не оцінює художню якість.",
+      "acceptance_and_negative_case": "P1 §11.3: check dimensions, color, alpha, scale, pivot, compression, loops, clips, contact markers, collision and audio fields as applicable. Deliver import lint with resource IDs to assets, build and QA. A correct filename cannot hide a wrong axis or missing contact marker. Moderate cost; technical lint does not judge craft.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -893,17 +893,17 @@
     },
     {
       "id": "GA4-D1-Q27",
-      "title": "Перевірний цикл авторства й semantic diff",
+      "title": "Verifiable authoring round-trip and semantic diff",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q27"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1, система №18 (§4.3): змінити канонічні дані → semantic validation → preview → порівняти/повернути. Артефакт: authoring workflow; preproduction/build/content authors/QA. Перевірка: інший виконавець додає легальний модуль/урок/варіант без переписування формул у кількох місцях; нелегальна залежність пояснює причину. Середня; достатній наявний editor/table workflow, якщо він придатний.",
+      "acceptance_and_negative_case": "P1 system 18 (§4.3): canonical edit → semantic validation → preview → compare or revert. Deliver authoring workflow to preproduction, build, content and QA. Another author can add a valid module, lesson or variant without rewriting scattered formulas, and receives a reason for invalid dependencies. Moderate cost; reuse a sufficient editor or table workflow.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/systems.md",
@@ -912,17 +912,17 @@
     },
     {
       "id": "GA4-D1-Q28",
-      "title": "Обмежена відтворювана діагностична капсула",
+      "title": "Bounded reproducible diagnostics",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q28"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §14: build/config/catalog/seed/input/дозволений мінімальний стан/очікування/факт/лог причин із retention і privacy policy. Артефакт: repro capsule; build/QA/support. Перевірка: дефект повторюється у зафіксованому сумісному середовищі; secrets, tokens і весь приватний save не потрапляють у public issue. Середня; недетерміновану частину фіксують чесно, без обіцянки універсального replay.",
+      "acceptance_and_negative_case": "P1 §14: bind build, config, catalog, seed, input, minimal permitted state, expected, actual and causal log with privacy and retention. Deliver a repro capsule to build, QA and support. Reproduce in a pinned compatible environment without leaking secrets, tokens or private saves to a public issue. Moderate cost; report nondeterminism without promising universal replay.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -930,17 +930,17 @@
     },
     {
       "id": "GA4-D1-Q29",
-      "title": "Runtime інспектор причин і reason codes",
+      "title": "Runtime causal inspector and reason codes",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q29"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§6,14: показати, чому дія/предмет/маршрут/offer/AI рішення дозволені, відхилені або змінені. Артефакт: bounded causal inspector; systems/build/QA. Перевірка: `invalid loadout` розкриває конкретну вимогу/конфлікт і версію; designer знаходить причину без читання всього runtime. Мала–середня. Причини гравцю формулюються зрозуміло; внутрішні логи не розкривають приховане знання.",
+      "acceptance_and_negative_case": "P1 §§6,14: explain why an action, item, route, offer or AI decision was allowed, rejected or changed. Deliver a bounded inspector to systems, build and QA. `invalid loadout` gives the exact requirement or conflict and revision. Designers identify the reason without reading all runtime code. Low to moderate cost. Player explanations stay clear; logs protect hidden knowledge.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/world-ai.md",
@@ -949,17 +949,17 @@
     },
     {
       "id": "GA4-D1-Q30",
-      "title": "Відповідність збірки й символів crash",
+      "title": "Match crash symbols to the exact build",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q30"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §13: exact binary/build IDs, dSYM/native symbols, stripping/obfuscation mappings та доступні crash artifacts прив’язані до релізу. Артефакт: symbol manifest + staging crash proof; build/QA/release/liveops. Перевірка: контрольний crash перетворюється на правильні функції/рядки саме цієї збірки; mismatched UUID відхиляється. Мала–середня. Не вимагає нового платного crash-сервісу [S14].",
+      "acceptance_and_negative_case": "P1 §13: bind binary and build IDs, dSYM and native symbols, stripping and obfuscation maps, and available crash artifacts. Deliver symbol manifest and staging crash proof to build, QA, release and live operations. A control crash resolves to correct functions and lines of this build, and mismatched UUIDs are rejected. Low to moderate cost; no required paid crash service [S14].",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -967,17 +967,17 @@
     },
     {
       "id": "GA4-D1-Q31",
-      "title": "Транзитивне походження SDK і залежностей",
+      "title": "Transitive SDK and dependency provenance",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q31"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§3,17: versions/locks, джерело, ліцензія, platform/privacy/cost, binaries й залежності включно з плагінами. Артефакт: dependency provenance diff; studio/build/QA/release. Перевірка: SDK update з новим трекером/permission/мінімумом ОС виявляється до export, не успадковує старий proof автоматично. Мала–середня; не створює зайвих сервісів.",
+      "acceptance_and_negative_case": "P1 §§3,17: pin versions, locks, sources, license, platform, privacy, cost, binaries and transitive dependencies including plugins. Deliver provenance diff to studio, build, QA and release. Detect added trackers, permissions or OS minimums before export; do not transfer old proof. Low to moderate cost without unnecessary services.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -985,17 +985,17 @@
     },
     {
       "id": "GA4-D1-Q32",
-      "title": "Фактичні потоки даних і стани згоди",
+      "title": "Observed data flows and consent states",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q32"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1, системи №17–20 (§4.3): які дані залишають пристрій за guest/offline/opt-out/cloud/consent states, retention/deletion і мінімальність diagnostic events. Артефакт: data-flow/egress matrix та runtime test; build/QA/release/liveops. Перевірка: вимкнена аналітика не лишає небажаний SDK upload, лог не містить payment token або повного save. Середня, обсяг залежить від реальних SDK і ринків; не декларативний checkbox.",
+      "acceptance_and_negative_case": "P1 systems 17–20 (§4.3): identify data leaving the device for guest, offline, opt-out, cloud and consent states; cover retention, deletion and minimal diagnostics. Deliver egress matrix and runtime test to build, QA, release and live operations. Turning analytics off prevents unwanted SDK upload; no token or complete save in logs. Moderate cost depends on actual SDKs and markets. Verify observed traffic.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/persistence.md",
@@ -1004,17 +1004,17 @@
     },
     {
       "id": "GA4-D1-Q33",
-      "title": "Межі довіри завантажуваних даних — за наявності",
+      "title": "Trust boundary for downloaded data when used",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q33"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§5,17: authenticated origin де потрібний, length/schema/type limits, hashes, compatibility, безпечний parser, відділення data від code й staged activation. Артефакт: trust boundary/import contract; preproduction/build/QA/release. Перевірка: malformed manifest, надвеликий payload або serialized object не виконує код і не знищує добру копію. Середня; mods/downloads не додаються автоматично. Для cloud save цей принцип обов’язково застосовується в persistence шарі.",
+      "acceptance_and_negative_case": "P1 §§5,17: define authenticated origin as needed, size, schema and types, hashes, compatibility, safe parsing, data/code separation and staged activation. Deliver import contract to preproduction, build, QA and release. Invalid manifest, oversized input and serialized objects cannot execute code or replace a valid copy. Moderate cost. No default downloads; apply the rule to cloud saves.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/persistence.md",
@@ -1023,17 +1023,17 @@
     },
     {
       "id": "GA4-D1-Q34",
-      "title": "Бюджет відмови зовнішньої можливості",
+      "title": "External dependency failure budget",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q34"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §13, система №20 (§4.3), рішення F: deadline, bounded retries/backoff, cancellation, operation identity, невідомий outcome, reconciliation і локальний fallback. Артефакт: dependency failure budget; preproduction/build/QA/liveops. Перевірка: no-fill/store/cloud timeout не заморожують локальну гру й не повторюють grant; late callback не діє на інший профіль. Середня; застосовується тільки до наявних зовнішніх залежностей.",
+      "acceptance_and_negative_case": "P1 §13, system 20 (§4.3), decision F: define deadline, bounded retries and backoff, cancellation, identity, unknown outcome, reconciliation and fallback. Deliver dependency failure budget to preproduction, build, QA and live operations. No-fill, store or cloud timeout cannot freeze local play or double-grant. Late callbacks cannot target another profile. Moderate cost only when external dependencies exist.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/persistence.md",
@@ -1042,17 +1042,17 @@
     },
     {
       "id": "GA4-D1-Q35",
-      "title": "Завершення або заміна сервісу — умовно",
+      "title": "Service replacement or retirement where applicable",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q35"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1, система №20 (§4.3): що буде з прогресом, доступом, сталими правами, мережевими режимами, export/migration, підтримкою й витратами при недоступності provider або запланованому завершенні. Артефакт: rehearsed offboarding/service-loss path; director/preproduction/release/liveops/QA. Перевірка: старий клієнт має визначену поведінку без нескінченного login; права не змінюються вигаданим promise «працює вічно». Середня–значна за архітектурою; не створює довічних серверних зобов’язань автоматично.",
+      "acceptance_and_negative_case": "P1 system 20 (§4.3): define progress, access, durable rights, network modes, export, migration, support and account costs during outage or retirement. Deliver rehearsed service-loss path to director, preproduction, release, live operations and QA. Old clients avoid infinite login and preserve rights as declared. Moderate to high cost; no automatic perpetual server commitment.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/persistence.md",
@@ -1061,17 +1061,17 @@
     },
     {
       "id": "GA4-D1-Q36",
-      "title": "Виміряна виробнича спроможність контенту",
+      "title": "Observed content production throughput",
       "source": {
         "document": "D1",
         "section": "4",
         "original_id": "Q36"
       },
       "owner": "subject lead + independent QA",
-      "applies_when": "Предметна застосовність D1; co-op/sharing/patches/adaptive-quality/service retirement умовні",
+      "applies_when": "Domain applicability under D1; cooperative play, sharing, patches, adaptive quality and service retirement are conditional.",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance_and_negative_case": "P1 §§5,16: провести представницький варіант/ворога/модуль/аудіоподію через задум → джерело → експорт → імпорт → інтеграцію → QA і виміряти фактичні витрати/repair. Артефакт: production throughput sample; studio/director/assets/build/QA. Перевірка: обіцяний каталог і cadence мають здійсненний маршрут; виявлений bottleneck веде до аргументованої зміни pipeline/обсягу, а не прихованого зниження якості. Середня на пробу, економить тиражування помилкового процесу.",
+      "acceptance_and_negative_case": "P1 §§5,16: take one representative variant, enemy, module or audio event from intent to source, export, import, integration and QA. Measure time, cost and repair for studio, director, assets, build and QA. Show a feasible catalog and cadence. A bottleneck leads to a reviewed change in workflow or scope instead of silent quality loss. Moderate probe cost.",
       "resource": "references/v4/index.md",
       "resources": [
         "references/v4/production.md"
@@ -1079,7 +1079,7 @@
     },
     {
       "id": "GA4-D1-AI",
-      "title": "Противники/NPC/боси",
+      "title": "Opponents, NPCs and bosses",
       "source": {
         "document": "D1",
         "section": "2"
@@ -1087,8 +1087,8 @@
       "owner": "AI/world or data/platform lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Тіло/властивості/сприйняття/знання/decisions/actions/counterplay/encounter fairness/boss phases/reset/save/performance; distinct player decisions",
-      "negative_case": "Наявність plugin/schema не доводить потрібних операцій, restore та native callbacks",
+      "acceptance": "Cover body, properties, perception, knowledge, decisions, actions, counterplay and fairness, boss phases, reset, save, performance and distinct player decisions.",
+      "negative_case": "A plugin or schema does not prove required operations, restore or native callbacks.",
       "resource": "references/v4/world-ai.md",
       "resources": [
         "references/v4/world-ai.md"
@@ -1096,7 +1096,7 @@
     },
     {
       "id": "GA4-D1-SAVE",
-      "title": "Повнота пам’яті й продовження",
+      "title": "Complete persistence and continuation",
       "source": {
         "document": "D1",
         "section": "3"
@@ -1104,8 +1104,8 @@
       "owner": "AI/world or data/platform lead",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "StateCatalogue всіх mutablefields; durable/reconstructible/ephemeral/cache/secret; local atomic recovery/cloud auth-conflicts migration grant deletion clocks RNG identity",
-      "negative_case": "Наявність plugin/schema не доводить потрібних операцій, restore та native callbacks",
+      "acceptance": "Catalog all mutable fields by durable, reconstructible, ephemeral, cache or secret. Cover atomic local recovery, cloud auth and conflicts, migration, grants, deletion, clocks, RNG and identity.",
+      "negative_case": "A plugin or schema does not prove required operations, restore or native callbacks.",
       "resource": "references/v4/persistence.md",
       "resources": [
         "references/v4/persistence.md"
@@ -1113,7 +1113,7 @@
     },
     {
       "id": "GA4-D2-DAMAGE",
-      "title": "Resolver пошкоджень",
+      "title": "Damage resolution",
       "source": {
         "document": "D2",
         "sections": "3–6"
@@ -1122,7 +1122,7 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "acceptance": "Intent/contact/eligibility/channels/modifiers/resources/status/lifecycle; units/order/round/capture/RNG/dedup/bounded cascade/golden trace",
-      "negative_case": "Повтор contact або кілька hurtboxes не подвоюють damage",
+      "negative_case": "Replay or multiple hurtboxes do not duplicate damage.",
       "resource": "references/v4/math.md",
       "resources": [
         "references/v4/math.md"
@@ -1130,7 +1130,7 @@
     },
     {
       "id": "GA4-D2-PHYSICS",
-      "title": "Фізика і аварії",
+      "title": "Physics and crashes",
       "source": {
         "document": "D2",
         "sections": "3–6"
@@ -1139,7 +1139,7 @@
       "design_due": "C1",
       "exact_behavior_due": "T",
       "acceptance": "Solver-bound timestep/units/contact facts; angular relative motion; impulse/energy interpretation separate from damage; CCD/ownership/topology/debris",
-      "negative_case": "Raw impulse не прирівнюють автоматично HP або реальній травмі",
+      "negative_case": "Raw impulse is not automatically HP or real injury.",
       "resource": "references/v4/math.md",
       "resources": [
         "references/v4/math.md"
@@ -1147,7 +1147,7 @@
     },
     {
       "id": "GA4-D2-LIFECYCLE",
-      "title": "Смерть/відмова/відновлення",
+      "title": "Death, failure and recovery",
       "source": {
         "document": "D2",
         "sections": "3–6"
@@ -1155,8 +1155,8 @@
       "owner": "systems/physics/runtime + independent QA",
       "design_due": "C1",
       "exact_behavior_due": "T",
-      "acceptance": "Alive/downed/disabled/dead/despawn/respawn за застосовністю; simultaneous victory/death/resource/grant/commit/resume",
-      "negative_case": "Cloud/disk ack не блокує звичайний immediate combat cue",
+      "acceptance": "Use applicable alive, downed, disabled, dead, despawn and respawn states. Cover simultaneous victory, death, resources, grants, commit and resume.",
+      "negative_case": "Cloud or disk acknowledgement must not block immediate normal combat feedback.",
       "resource": "references/v4/math.md",
       "resources": [
         "references/v4/math.md"
@@ -1164,7 +1164,7 @@
     },
     {
       "id": "GA4-D2-X01",
-      "title": "Production capability witness на операцію, поверх native SDK probe D1Q19",
+      "title": "Production capability proof per operation beyond native SDK probe D1Q19",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1173,7 +1173,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Flattened PNG не закриває required editable layers/rig",
+      "acceptance": "A flattened PNG cannot satisfy a required editable layer stack or rig.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1182,7 +1182,7 @@
     },
     {
       "id": "GA4-D2-X02",
-      "title": "Виконуваний recipe з consumer, поверх authoring round-trip Q27",
+      "title": "Executable recipe with a consumer beyond authoring round-trip Q27",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1191,7 +1191,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Новий виконавець знає preset, source/exports і перевіряє результат без чату",
+      "acceptance": "A new worker finds preset, source, exports and checks the result without chat history.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1200,7 +1200,7 @@
     },
     {
       "id": "GA4-D2-X03",
-      "title": "Семантичні зобов’язання на ребрі, поверх post-import lint Q26",
+      "title": "Semantic obligations across transformations beyond import lint Q26",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1209,7 +1209,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Валідний mesh/clip зі зміненими scale/contact time не проходить integration",
+      "acceptance": "A valid mesh or clip with different scale or contact time fails integration.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1218,7 +1218,7 @@
     },
     {
       "id": "GA4-D2-X04",
-      "title": "Замкненість production coverage, поверх sample throughput Q36",
+      "title": "Production coverage beyond sample throughput Q36",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1227,7 +1227,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "У всіх потрібних death/cancel/locale/contact states є здійсненний маршрут",
+      "acceptance": "Every required death, cancel, locale and contact state has a feasible production route.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1236,7 +1236,7 @@
     },
     {
       "id": "GA4-D2-X05",
-      "title": "Історія actual production attempts, окремо від gameplay repro Q28",
+      "title": "Actual production attempts separate from gameplay reproduction Q28",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1245,7 +1245,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Timeout не запускає повторно вже завершену платну генерацію/remote build",
+      "acceptance": "A timeout does not repeat a completed paid generation or remote build.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1254,7 +1254,7 @@
     },
     {
       "id": "GA4-D2-X06",
-      "title": "Admission за accepted inputs/interfaces/ресурсами/компетенціями",
+      "title": "Admit work against accepted inputs, interfaces, resources and competency",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1263,7 +1263,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Конкурентні writers/shared export/device не пошкоджують той самий результат",
+      "acceptance": "Concurrent writers for a shared export, device or other resource cannot corrupt the result.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1272,7 +1272,7 @@
     },
     {
       "id": "GA4-D2-X07",
-      "title": "Семантичний cache key і freshness witnesses",
+      "title": "Semantic cache key and freshness proofs",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1281,7 +1281,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Зміна exporter/model invalidates залежні outputs; accepted original лишається",
+      "acceptance": "An exporter or model change invalidates dependent outputs while preserving the accepted original.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1290,7 +1290,7 @@
     },
     {
       "id": "GA4-D2-X08",
-      "title": "Assembly obligations у representative slice",
+      "title": "Assembly obligations in a representative slice",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1299,7 +1299,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Окремо reviewed animation/audio не приховують хибний контакт у спільній сцені",
+      "acceptance": "Separate approved animation and audio cannot hide incorrect in-scene contact.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1308,7 +1308,7 @@
     },
     {
       "id": "GA4-D2-X09",
-      "title": "Причинна класифікація repair й бюджет",
+      "title": "Causal diagnosis and repair budget",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1317,7 +1317,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Відсутню rig capability не «лікують» п’ятьма однаковими prompts",
+      "acceptance": "Changing no variable and repeating a prompt cannot create missing rig capability.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1326,7 +1326,7 @@
     },
     {
       "id": "GA4-D2-X10",
-      "title": "Input-pinned host bridge та return validation",
+      "title": "Host bridge with pinned inputs and return validation",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1335,7 +1335,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Receipt старої Android збірки не підтверджує новий iOS claim",
+      "acceptance": "A receipt for an old Android build does not prove a current iOS claim.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",
@@ -1344,7 +1344,7 @@
     },
     {
       "id": "GA4-D2-X11",
-      "title": "Descriptor/schema/catalog/argument binding і parameter consumption",
+      "title": "Descriptor, schema, catalog, argument binding and parameter consumption",
       "source": {
         "document": "D2",
         "section": "11",
@@ -1353,7 +1353,7 @@
       "owner": "production lead + consumer + independent QA",
       "design_due": "C1 feasibility",
       "exact_behavior_due": "T recipe",
-      "acceptance": "Unsupported або silently ignored material parameter не стає виконаною вимогою",
+      "acceptance": "An unsupported or silently ignored material parameter does not satisfy a requirement.",
       "resource": "references/v4/production.md",
       "resources": [
         "references/v4/production.md",

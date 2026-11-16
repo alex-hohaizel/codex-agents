@@ -1,46 +1,44 @@
-# Приймання та виробничий план
+# Implementation intake and production plan
 
-## Вхідна карта
+## Input map
 
-| Вхід | Що звірити | Куди повернути gap |
+| Input | Verify | Return gaps to |
 |---|---|---|
-| Studio bundle | studio_id, canonical mark, legal display name refs, rights, contact URLs, splash/credits policy | gamedev-studio |
-| Product decisions | platform/orientation/audience/regions, 2D/3D, offline/online, scope and spend, pricing model | gamedev-director |
-| Canonical game model | schema/revision/hash, enabled domains, object IDs, dependencies/scenarios, source requirements, due gates | gamedev-preproduction/director |
-| Frozen GDD/TDD | exact mechanics, controls, goals/failures, physics, animation, stage grammar, progression, economy, save/network schema | gamedev-preproduction |
-| Craft baseline | accepted reference hashes, editable sources, runtime exports, import settings, motion/audio samples, rights | gamedev-assets |
-| Test oracle | expected outcomes derived from design, reproducible seeds, input replays, screenshots and device budgets | gamedev-preproduction/qa |
-| Runtime constraints | host, engine/render path, platform adapters, signing refs, CI/toolchain, target devices | current build owner |
+| Studio bundle | `studio_id`, canonical mark, legal display references, rights, contact URLs, splash and credits | `gamedev-studio` |
+| Product decisions | Platform, orientation, audience and markets, 2D/3D, offline or online, scope, spend, and pricing model | `gamedev-director` |
+| Canonical game model | Schema, revision and hash, enabled domains, object IDs, dependencies and scenarios, source requirements and gates | `gamedev-preproduction` or Director |
+| Frozen GDD and TDD | Exact mechanics, controls, goals and failures, physics and animation, content grammar, progression, economy, save and network schemas | `gamedev-preproduction` |
+| Craft baseline | Accepted reference hashes, editable sources, exports, import settings, motion and audio samples, rights | `gamedev-assets` |
+| Test oracle | Design-derived expectations, reproducible seeds and input replay, screenshots and device budgets | `gamedev-preproduction` or QA |
+| Runtime constraints | Host, engine and renderer, adapters, signing, CI and toolchain, and target devices | Build owner |
 
-Кожен gap має ID, owner, залежні tasks, stop boundary, closure evidence. Не блокувати data cleanup через недоступний iPhone; не називати всю гру готовою, якщо iPhone є обраною платформою й не перевірений.
+For each gap record ID, owner, dependent work, stop, and closure evidence. Continue independent data cleanup if a device is unavailable. Keep required device evidence open.
 
-## Зміни baseline
+## Baseline changes
 
-Використовувати immutable approved revision; не перезаписувати її файли. Зміна потребує delta manifest: requirement IDs, affected assets/screens/formulas, new samples, expected player effect, device/performance/cost impact, user choice source коли матеріально. Створити наступну revision й перенести чинні докази за exact dependency closure. SHA доводить тотожність байтів, а не схвалення або автора.
+Use the immutable accepted revision. Each change needs a manifest of requirement IDs, affected assets and interfaces and formulas, new samples, expected player effect, device and performance and cost impact, and the applicable owner decision. Create a subsequent revision and carry forward evidence only over unaffected dependencies. Establish approval and authorship separately from byte hashes.
 
-Приклад матеріальної зміни: із 3D rig перейти на 2D sprites; вимкнути dynamic shadows, що формують читабельність перешкоди; змінити physics на auto-run; прибрати платну mechanically distinct character family. Приклад routine repair: повернути font/offset до затвердженого token, полагодити duplicate reward, зменшити texture atlas без видимої зміни у прийнятих tolerances.
+Material changes include replacing a 3D rig with 2D sprites, losing dynamic shadows used to read obstacles, changing physics to automatic running, or removing a distinct purchasable character family. Routine repairs include restoring a font or offset token, fixing a duplicate reward, and reducing an atlas within the accepted tolerance.
 
-## План slices
+## Plan slices
 
-Frozen GDD/TDD та runtime tables є проєкціями current model. До кожного slice додати model object IDs, expected changed decision, without-rule counterfactual за релевантністю та runtime binding/import plan. Дані самостійно не доводять actual behavior. Не переходити до масового content виробництва, доки ризиковий representative route/fidelity не закрито.
+Frozen GDD and TDD and runtime data are projections of the current model. For each slice record model object IDs, expected changed decision, counterfactual without the rule when applicable, and runtime binding and import. Verify actual behavior and the risky representative route before large-scale authoring. Include interaction, actual craft, data, failures, and device and performance evidence in each relevant slice.
 
-Не будувати спершу «всю логіку», потім «увесь polish». Кожен slice включає interaction, actual craft, data, errors та device/performance evidence.
+1. Repository setup, export feasibility, and empty native launch as a technical smoke test.
+2. Representative production slice with the riskiest mechanic and reference frame.
+3. Complete run lifecycle and at least one end-to-end content and progression loop.
+4. Metagame, economy, and commerce with authoritative reward and save behavior in sandbox.
+5. Applicable content families, screens and states, accessibility and localization, and maintenance workflows.
+6. Hardening, physical device matrix, packaging, and independent QA.
 
-1. Repository/bootstrap/export feasibility, порожня native launch (технічний smoke).
-2. Representative production slice із найризиковішою механікою й кадром.
-3. Повний run lifecycle та мінімум одна завершена content/progression loop.
-4. Meta/economy/commerce із authoritative reward/save semantics у sandbox.
-5. Усі content families, screens/states, accessibility/localization, maintenance flows.
-6. Hardening, real-device matrix, packaging та independent QA.
+For each slice record scope, owned files, prerequisite hashes, fixture, expected result, build and device cost, stopping criterion, and evidence. Parallelize independent work and integrate at small checkpoints.
 
-До кожного: explicit scope, file ownership, prerequisite hashes, input fixture, expected outcome, build/device cost, stopping criterion, evidence output. Додавати паралельні tasks лише коли вони справді незалежні. Root інтегрує після частих small checkpoints, не наприкінці одного великого divergent branch.
+## Implementation completion
 
-## Definition of done реалізації
+All accepted features and asset IDs exist and are linked in the final experience. Record dependent native builds or exact blockers for missing export or signature. Verify frozen rules in actual runtime and compare screens, motion, and sound to accepted targets. Complete scoped author checks and independent QA separately. Keep unmeasured retention and revenue as hypotheses.
 
-Всі погоджені features і asset IDs наявні та linked; немає placeholder substitutions у final-facing surface. Залежні native builds виконані, відсутні exports/signing названі блокерами. Runtime data відтворює frozen rules; actual screens/motion/audio порівняні з accepted targets. Самоперевірки завершені у названому scope; незалежне QA не підміняється авторським sign-off. Невиміряні retention/revenue лишаються hypotheses навіть після повної технічної реалізації.
+## T intake and exact host transfer
 
-## T admission й точний host bridge
+The T package contains the complete launch catalogue or grammar, numeric, state, physics, lifecycle, AI, save, UX, and creative rules, independent traces, finite material inventory, and executable production recipes. Missing behavior blocks its consumer. A narrow early probe needs a question, inputs, oracle, and stopping point.
 
-Вхід T має повний launch catalogue/grammar, numeric/state/physics/lifecycle/AI/save/UX/creative contracts, independent expected traces, finite material inventory й executable production recipes. Behavior TBD блокує лише залежного consumer; narrow early spike допускається із питанням/inputs/oracle/stop і не називається production-complete.
-
-Task admission перевіряє competency/host/input hash/interface/resource availability; isolated directories не ізолюють shared device/account/exportjob. Bridge фіксує exact inputs/toolchain/allowed effects/outputs/evidence і returnvalidation. Відсутній Mac/SDK/слухання не створює готовий артефакт.
+Check competence, host, input hash, interface, and resource. Independent directories can still share a device, account, or export job. A host transfer pins exact inputs, toolchain, allowed effects, outputs and evidence, and return verification. Name actual gaps for Mac, SDK, or audition.

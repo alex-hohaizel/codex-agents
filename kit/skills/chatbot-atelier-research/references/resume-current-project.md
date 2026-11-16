@@ -1,60 +1,58 @@
-# Продовження наявного бота
+# Resume an existing bot
 
-Маршрут: **ВІДНОВИ → фактичний стан → предметне анкетування → версійний сценарій → чинне погодження → виконання й докази**. Це розвиток чинного продукту через `chatbot-atelier-director`, без нового bootstrap і другого інтегратора.
+Use **RESUME (ВІДНОВИ) → observed state → focused questions → versioned plan → current approval → execution and evidence**. `chatbot-atelier-director` integrates changes to the existing product.
 
-## Достатній старт і команда ВІДНОВИ
+## Inputs and supported entry
 
-Достатньо доступного репозиторію або актуальної копії source, бажаної наступної зміни й відомих обмежень. Прийняті рішення, checkpoint, media masters або незавершену задачу, яких немає в source, надати адресно; весь архів чатів не потрібний. Секрети й реальні приватні переписки не запитувати. Якщо доступний наявний продуктовий чат, використати його релевантні рішення, не приписуючи доступу до інших чатів.
+An accessible repository or current source copy, the next intended change and known constraints are enough to start. Supply specific accepted decisions, checkpoint, media masters or pending tasks that are missing from source. Use relevant decisions from an available product chat. Verify access before relying on any other history. Keep credentials and private conversations outside the handoff.
 
-Work: `@chatbot-atelier-director ВІДНОВИ`; Codex: `$chatbot-atelier-director ВІДНОВИ`. У Codex працювати з фактичним checkout; у Work — з доступним підключенням або current source/checkpoint. Locator сам по собі не доводить доступу. Якщо source недоступний, виконати незалежний доступний аналіз, позначити межу й підготувати exact передачу в придатне середовище, не вигадуючи code/live стан.
+Work: `@chatbot-atelier-director ВІДНОВИ`. Codex: `$chatbot-atelier-director ВІДНОВИ`. Use the actual checkout in Codex and the connected source or checkpoint in Work. A locator needs an access check. If the source is unavailable, do independent analysis and prepare an exact handoff with explicit unknown code and live state.
 
-`ВІДНОВИ` відновлює точку продовження й готує перевірний сценарій. Саме це слово не дає нового права змінювати продукт, читати secrets, мігрувати дані, публікувати чи робити deployment. Уже чинне явне доручення на конкретні дії зберігає силу; не вимагати його повторного підтвердження.
+`ВІДНОВИ` restores an entry point and prepares a reviewable plan. Follow existing explicit permission for the exact action. Treat new product mutations, credential access, migration, publication and deployment according to their own scope.
 
-## Відновити факти з актуальних джерел
+## Reconstruct current facts
 
-1. Прочитати user intent/constraints/stop, чинні `AGENTS.md`, profile і прийняті проєктні рішення. Встановити repo identity, branch/HEAD SHA/tree, dirty/staged/unstaged changes, version та власників. Не робити reset/перезапис source і не починати нового бота поверх існуючого.
-2. Знайти актуальні README/architecture/release notes, commands/dependencies, tests/CI, data/API/events, schema/migrations, jobs/queues, configured models/providers/tools, accepted assets/manifest. Назви файлів і виконувані команди брати з current source; історична назва відсутнього скрипту не є інструментом.
-3. Відновити канали й adapter contracts, entrypoints, identity/persona/мови, audience, capabilities/promises, memory/privacy/forget, consent/authority, actions/groups/games, callbacks, scheduling/recovery та ресурси. Це перевірка inventory, а не наказ додати відсутні функції. Не підставляти платформу, стек, хост, модель, кількість активів чи тестів за замовчуванням.
-4. Зіставити checkpoint/issue/останній результат з actual tree. Відокремити completed, unverified, reported defect, reproduced defect, hypothesis і нове побажання. Фактичний baseline checks/CI прив'язати до source і середовища; pre-existing failure не називати новою регресією. Виконувати лише доступні дозволені перевірки, не тестувати на production DB.
-5. Deployed build/SHA/config/health і provider receipts перевіряти лише через реально доступні дозволені interfaces, із часом спостереження. Source, успішний build, deployment, delivery й людське приймання — окремі факти. Unknown deployment не блокує незалежний аналіз source і не дає release claim.
-6. Зберегти pending jobs/locks/remote IDs, pinned owner/version, uncertain effects, cancel/expiry/retry/reconcile і вже виконані незалежні частини. Перед повторним submit з'ясувати actual status; не відновлювати ефект сліпо за старою нотаткою.
+1. Read intent, constraints and stop conditions, current `AGENTS.md`, profile and approved decisions. Bind repository identity, branch, HEAD SHA/tree, staged and unstaged or untracked changes, version and owners. Preserve existing work and state.
+2. Inspect actual architecture and release notes, commands and dependencies, tests and CI, data/API/events, schema/migrations, jobs/queues, configured models/providers/tools, and approved assets/manifest. Use commands and paths available in the current source.
+3. Recover channels and adapters, entry points, identity/persona/language, audiences, capabilities and promises, memory/privacy/deletion, consent and authority, actions/groups/games, callbacks, scheduling, recovery and resources. Inventory existing scope. Establish intended platform, stack, host, model and acceptance quantities from actual decisions.
+4. Reconcile the checkpoint, issue and last result with the current tree. Distinguish complete, unverified, reported, reproduced, hypothesis and newly requested change. Bind baseline checks and CI to source and environment. Report pre-existing failures distinctly, and use a safe test environment.
+5. Observe deployed build/SHA/config/health and provider receipts through current allowed interfaces and attach observation time. Record source, build, deployment, delivery and human acceptance independently. Continue source analysis when live deployment is unknown.
+6. Preserve pending jobs, locks and remote IDs, owner and version pins, unknown effects, cancel/expire/retry/reconcile, and completed independent pieces. Read back the actual status before resubmitting an uncertain effect.
 
-## Project-owned контекст і один інтегратор
+## Preserve project ownership
 
-`chatbot-atelier-director` інтегрує розвиток; потрібні conversation/knowledge/integrations/media/build/qa/release/operations виконують свої предметні етапи. Project authority походить із чинного доручення, проєктних `AGENTS.md`, рішень і контрактів, а не з окремої проєктної навички. Продовження не потребує встановлення чи виклику попереднього інтегратора.
+`chatbot-atelier-director` integrates. Assign conversation, knowledge, integrations, media, build, QA, release and operations as needed. Authority comes from current user requests, project `AGENTS.md`, decisions and contracts. An earlier agent or installer is optional.
 
-Унікальні правила конкретного бота, незмінні requirement IDs, прийняті критерії якості/безпеки, capabilities, persona, asset approvals, rights/budget, source/runtime facts і next action зберігати в його поточних project documents/checkpoint. Використовувати наявні авторитетні записи замість другої істини. Загальний метод ChatBot Atelier не переписує прийняту ідентичність і не вбудовує правила конкретного продукту у свої defaults.
+Keep domain rules, immutable requirement IDs, quality and safety criteria, capabilities, persona, approved assets, rights and budget, source and runtime facts and next action in project-owned documents or checkpoint. Use the current source of truth. Keep family defaults separate from product-specific identity and rules.
 
-Зберегти всі чинні предметні вимоги, прийняті originals/masters, media lineage, дані, незалежні результати й незавершену роботу. Для 24 companion requirement IDs і project-specific criteria вести applicability/impact та `source → criterion/contract → owner → destination → evidence`. Unknown не є unchanged або pass. Виявлений конфлікт із новішим авторським рішенням оформити адресним рішенням про supersession, не мовчазним вилученням.
+Preserve approved originals and lineage, data, results, and unfinished work. Record applicability and impact for the 24 companion IDs and project criteria using `source → criterion/contract → owner → destination → evidence`. Unknown remains open. Record exact supersession when a newer accepted decision conflicts with older scope.
 
-Не створювати двох координаторів або writers одного source/БД/runtime. Делегувати owned artifacts і незалежні reviews за реальними capabilities/slot/cost limits; reviewer не оцінює власну реалізацію як незалежну. Локальний ремонт не починати з повторного повного research.
+Maintain one coordinator and one writer per source, database or runtime boundary. Delegate owned artifacts and independent reviews by actual capability, available slots and cost. A reviewer of their own implementation may provide a self-check. Limit local repairs to the relevant work.
 
-## Предметне анкетування
+## Ask only questions that affect the plan
 
-Спочатку прочитати доступні джерела й назвати вже встановлені факти. Потім скласти коротку анкету лише про вирішальні прогалини: user value/бажаний результат, scope, незбережені рішення або прийняті активи, acceptance, справжні зовнішні targets/rights, budget/stop. Не питати відоме, не вимагати вибору внутрішніх registry/modes і не перетворювати простий запит на церемонію.
+Read available facts first. Ask about unresolved value or outcome, scope, unrecorded decision or approved assets, acceptance, actual target and rights, budget and stop. Tie each question to a choice it affects. Make safe reversible assumptions explicit. Keep missing authority and material acceptance choices open. Continue independent work while waiting. Treat temporary wishes as scoped context.
 
-Кожне питання пов'язати з рішенням, на яке впливає відповідь. Безпечні оборотні припущення позначити явно; відсутню авторизацію чи матеріальний критерій приймання не вигадувати. Поки відповідь не надана, продовжувати незалежну доступну роботу. Відповіді доповнюють project-owned context; не перетворювати тимчасове побажання на постійний профіль.
+## Bind the scenario to approval and current source
 
-## Версійний сценарій і чинне погодження
+Prepare a reviewable scenario with revision/ID, exact source and context hashes, goal, before/after, scope/owned paths, affected requirements and contracts, ordered actions, capabilities/targets/permissions, cost/stop, expected outputs, positive and negative acceptance, checks and evidence limits, rollback, receiver and next action. Verify names and commands in the target environment. The scenario records a work plan and exact source binding.
 
-До залежного продуктового виконання підготувати конкретний reviewable сценарій із revision/ID, exact source/context hashes, user goal, before/after, scope/owned paths, affected requirements/contracts, ordered actions, потрібними capabilities/targets/permissions, cost/stop, expected outputs, positive/negative acceptance, checks/evidence limits, rollback і receiver/next action. Назви й команди мають існувати в поточному середовищі. Версія сценарію — запис виконання, не новий runtime або legacy format.
+Check current explicit approval against actor, action, target, effect and limits. Execute already authorized work. When scope only covers reconstruction or planning, or a new consequential target, effect or permission is needed, complete the reviewable preparatory output and ask only for the missing decision. Keep draft and accepted records distinct.
 
-Зіставити сценарій із чинним явним approval: хто дозволив, яку дію/target/effect і за яких меж. За достатньої авторизації виконувати без повторного gate. Якщо доручено лише відновити/підготувати сценарій, або з'явився новий істотний target/effect/permission, спочатку завершити конкретний перевірний результат для owner review; запитати лише відсутнє рішення. Не називати draft затвердженим.
+Confirm freshness before acting. Changed hashes or material scope require updated changes and an approval check. Preserve accepted independent results with unchanged dependencies. Perform release or operations only through the actual allowed host/provider. Resume or tool update alone does not redeploy a product.
 
-Перед виконанням звірити актуальність source/context/permissions. Зміна hashes або суттєвого scope потребує оновленого diff/сценарію та звірки approval; не продовжувати старий сценарій навмання. Уже прийняті незалежні результати з незмінними залежностями зберігати. Належний release/operations виконувати лише в дозволеному scope через фактичний host/provider; відновлення контексту й оновлення навичок не запускають auto-redeploy.
+## Checkpoint and Work/Codex handoff
 
-## Поточний checkpoint і Work/Codex
+Use the current protocol to bind source snapshot and dirty patch/hashes, intent/constraints, decisions and IDs, contracts and adapters, approved masters and manifest, completed checks and failed baseline, attempts/jobs/unknown effects, owned paths/locks, rights and cost/stop, scenario and approval, receiver/next action/acceptance. Verify project facts in their own authoritative records.
 
-Сформувати поточний handoff за чинними protocols цього сімейства: exact source snapshot/dirty patch/hashes, intent/constraints, рішення й IDs, domain/adapter contracts, accepted masters/manifest, current checks/failed baseline, attempts/jobs/unknown outcomes, owned paths/locks, rights/cost cap/stop, сценарій і approval scope, receiver/next action/acceptance. Project context є джерелом конкретних фактів; встановлена навичка сама не доводить їх.
+Reconstruct necessary historic intent into the current format using authoritative sources and preserve historical files. Legacy agent-output readers are outside the current format contract. A needed runtime or database migration remains a distinct domain change with its own evidence and authorization.
 
-Не будувати reader або adapter для старих agent-output schemas. Потрібний людський намір із історичного документа відновити з авторитетних джерел у поточний запис; original не переписувати. Runtime/DB migration, якщо вона справді потрібна за current data contract, є окремою предметною зміною з власними доказами й дозволами.
+Work can handle analysis, conversation and UX, plan, provided material, permitted connectors and review of returned results. Use observed executor/provider access for specific permitted actions. Codex can run the assigned full cycle in its checkout. Verify access across private chats, local filesystem, channels and production separately. Verify returned scope and evidence against input hashes and receiving acceptance.
 
-Work може вести аналіз, UX/діалог, підготовку сценарію, роботу з наданими матеріалами/дозволеними connectors і приймання повернених результатів; за доступних executor/provider interfaces — виконувати відповідні дозволені дії. Codex самостійно проводить весь доручений цикл у checkout; Work не є передумовою. Автоматичного доступу між приватними чатами, локальним комп'ютером, каналом і production немає. Повернений пакет звірити з input hashes, owned scope і receiving acceptance.
+## Example of a sufficient request
 
-## Приклад достатнього доручення
-
-Work: `@chatbot-atelier-director ВІДНОВИ`; Codex: `$chatbot-atelier-director ВІДНОВИ`.
+Work: `@chatbot-atelier-director ВІДНОВИ`. Codex: `$chatbot-atelier-director ВІДНОВИ`.
 
 «Продовжуємо чинного бота з [точний locator/відкритий checkout/current source]. Наступна мета: [конкретна зміна]. Збережи всі чинні можливості, правила, дані, прийняті медіа й незавершені jobs. Віднови фактичний стан і baseline, постав лише вирішальні питання та підготуй версійний сценарій із exact inputs/outputs/acceptance. Чинні дозволи й обмеження: [scope]. Виконай уже дозволені конкретні дії; для відсутнього істотного рішення поверни готовий сценарій на перегляд. Зафіксуй current checkpoint, докази й unresolved».
 
-Фінал відділяє prepared / locally_verified / independently_reviewed / deployed / observed_in_chat; людське приймання показує окремою віссю completion.assessments.human зі scope та належними actual evidence. Історичну мітку human_validated і первинні людські докази зберегти у project context, перевіривши актуальність; вона не створює автоматичного passed або нового completion.stage. Незалежний cold receiver має продовжити з current source, project-owned context і мети без історії приватного чату чи попереднього інтегратора. Структурна валідація handoff не доводить живість, actual effect або delivery.
+Distinguish prepared, locally_verified, independently_reviewed, deployed and observed_in_chat. Record actual human evidence and scope on completion.assessments.human. Keep historical human_validated and original evidence in project context and verify their current applicability without auto-promotion. A cold receiver can use current source, project-owned facts and goal without private history or the previous integrator. Validate runtime, effects and delivery independently of handoff shape.

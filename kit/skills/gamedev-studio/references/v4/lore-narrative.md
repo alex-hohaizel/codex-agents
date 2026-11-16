@@ -1,89 +1,89 @@
-# Лор, знання й реактивна оповідь 4.0
+# Lore, knowledge and reactive narrative 4.0
 
-## Навігація
+## Navigation
 
-1. Scope і канон
-2. Знання та причинність
-3. Квести/діалоги/сцени
-4. Інтеграція й save
-5. Cold receiver і контрприклади
+1. Scope and canon
+2. Knowledge and causality
+3. Quests, dialogue and scenes
+4. Integration and save
+5. Handoff acceptance and counterexamples
 
-Вести цей напрям як окрему компетенцію, навіть якщо наратив подається через короткі environmental signals. Глибина лору визначається впливом на досвід, не кількістю сторінок. Novel/dialogue/branching campaign не додаються кожній грі автоматично.
+Treat narrative as its own competency even when it appears through brief environmental signals. Measure lore depth by effect on experience. Choose novels, dialogue and branching campaigns only where they serve the game.
 
-## 1. Зафіксувати narrative scope
+## 1. Establish narrative scope
 
-На C1 визначити fantasy/theme/tone, обіцянку світу, player role/motivation, основний конфлікт, temporal/spatial structure, character/faction identities, важливі world rules, stakes/failure/recovery, progression arc, optional discovery й ending/replay. Пояснити, як це змінює gameplay decisions, середовище/AI/art/audio, а не лише фоновий текст.
+At C1 define fantasy, theme, tone, the world promise, player role and motivation, main conflict, temporal and spatial structure, character and faction identity, important world rules, stakes, failure and recovery, progression arc, optional discovery, ending and replay. Explain how these change gameplay decisions, environment, AI, art and audio.
 
-На T передати canon/knowledge/state tables, quest/dialogue/scene graphs за обсягом, conditions/priorities/effects, localization resources, interruption/resume, save/migration і fixtures. Для authored сцени exact staging/sequence/camera/input restrictions повинні співіснувати з dynamic-control brief, а не мовчки підміняти його.
+At T deliver canon, knowledge and state tables, scoped quest, dialogue and scene graphs, conditions, priorities and effects, localization resources, interruption and resume, save and migration, and fixtures. For authored scenes specify exact staging, sequence, camera and input restrictions and reconcile them with dynamic controls.
 
-Canon fact record: stable ID/version, proposition, truth conditions, relevant time/region, initial state, allowed mutations/owner, cause/effect refs, conflicts, knowledge holders, gameplay dependencies, presentation refs і tests. Відділити незмінний канон від mutable world state, rumor і editor-only note.
+A canon fact records stable ID and version, proposition, truth conditions, relevant time and region, initial state, permitted changes and owner, causal references, conflicts, holders of knowledge, gameplay dependencies, presentation references and tests. Distinguish immutable canon, mutable world state, rumor and editor-only notes.
 
-Підтримати glossary/voice/style і content restrictions за проєктом. Назви/терміни мають stable localization IDs; переклад не створює новий quest/item identity.
+Keep a project glossary, voice, style and content restrictions. Use stable localization IDs for names and terms. Translations retain the same quest or item identity.
 
-## 2. Відокремити truth і знання
+## 2. Separate world truth from knowledge
 
-World truth може бути невідомою player/NPC. Knowledge fact: subject, predicate/value, source/channel, observed time, uncertainty/confidence, lifetime, refresh/forget/share rules і disclosure conditions. Непідтверджене припущення персонажа не змінює фактичний стан.
+World truth can be unknown to a player or NPC. Record a knowledge fact's subject, predicate and value, source and channel, observed time, uncertainty and confidence, lifetime, refresh, forget and share rules, and disclosure conditions. Unconfirmed guesses leave the actual state unchanged.
 
-AI perception й narrative knowledge використовують узгоджені факти, але не обов’язково один storage runtime. Розмова не повідомляє NPC таємницю до фактичного dialogue choice. Гравець не отримує spoiler через reason inspector або локалізовану назву locked quest.
+AI perception and narrative knowledge use compatible facts and can use separate stores. A conversation shares a secret only after the actual choice. Guard spoilers in reason views and in localized names of locked quests.
 
-Causal edge: condition→player/world action→commit→world change→observation/knowledge→new action/opportunity. Перевірити time travel/flashback/процедурне замовлення лише якщо вони є задумом; unguarded reorder не має створювати суперечність.
+Trace the causal edge through condition, player or world action, commit, world change, observation or knowledge, and newly available action or opportunity. Test time travel, flashback and procedural ordering when part of the design. Guard reordering so it cannot create contradictions.
 
-Death/revival, repair, scarcity, faction memory, world destruction і repeated attempts повинні мати наративно узгоджену семантику. Quest «останній ресурс» не співіснує з необмеженим сусіднім продажем без пояснення. Boss return не воскресає випадково через restore.
+Define narrative semantics for death and revival, repair, scarcity, faction memory, world destruction and repeated attempts. Reconcile a quest about the «останній ресурс» (“last resource”) with any nearby unlimited supply. Save restoration must not accidentally revive a boss.
 
-## 3. Описати кожну quest/dialogue/scene
+## 3. Define each quest, dialogue and scene
 
-Для node/edge задати:
+For each node and edge record:
 
-- ID/version/purpose, source requirements і owner/consumer.
-- Prerequisites: world, progression, knowledge, actor availability, content ownership.
-- Eligibility/priority/tie-break, mutually exclusive alternatives, repeat/once scope.
-- Entry/exit, speaker/participants, location/time, staging/camera/input policy.
-- Player choices: preview, commit, irreversible boundary, cancel/timeout/default.
-- Exact effects: flags/resources/rewards/relationships/route/unlocks/knowledge.
-- Interruption, actor death/missing, scene exit, pause/resume, abandon/retry.
-- Localization/voice/subtitles/animation/UI bindings і non-audio alternative.
-- Save consistency group, migration/remap і golden cases.
+- ID, version and purpose, source requirements, owner and consumer.
+- World, progression, knowledge, actor availability and content ownership prerequisites.
+- Eligibility, priority and tie-breaking, mutually exclusive options and once or repeat scope.
+- Entry and exit, speaker and participants, place and time, staging, camera and input policy.
+- Choice preview and commitment, irreversible boundaries, cancel, timeout and default.
+- Exact effects on flags, resources, rewards, relationships, routes, unlocks and knowledge.
+- Interruptions, dead or missing actors, exit, pause and resume, abandon and retry.
+- Localization, voice, subtitles, animation and UI bindings, with a non-audio alternative.
+- Save consistency group, migration or remap, and golden cases.
 
-Choice labels мають правдиво сигналізувати commitment/stakes; не вимагати усвідомлення прихованого irreversible effect без задумного й читабельного правила. Не кожний вибір мусить створювати гілку, але його роль і наслідок мають бути визначені.
+Choice labels accurately convey commitment and stakes. An irreversible effect needs an intentional, understandable rule. Define the purpose and effect of each choice, including ones that do not branch.
 
-Scene arbitration має впорядкувати одночасні prompts, quest completion, combat danger, boss intro й tutorial. Визначити, що переривається/відкладається/скасовується, як повертаються камера й input ownership. Late queued line не вимовляє вже неправдивий факт після world change.
+Arbitrate concurrent prompts, quest completion, combat danger, boss intros and tutorials. Specify interruption, deferral, cancellation and return of camera and input ownership. A line queued before a world change must remain truthful when played or be withdrawn.
 
-Для процедурного наративу задати grammar/templates/variable domains, knowledge guards, canon constraints, localization agreement, novelty/history, bounded generation/repair/fallback. Не дозволяти unconstrained generated text змінювати authoritative world rules або видавати reward. LLM не є обов’язковим NPC runtime.
+For procedural narrative define grammar, templates and variable domains, knowledge guards, canon constraints, localization agreement, novelty and history, bounded generation, repair and fallback. Generated prose cannot independently alter authoritative world rules or grant rewards. Select NPC runtime techniques for actual needs.
 
-## 4. Інтегрувати з усіма релевантними системами
+## 4. Integrate relevant systems
 
-Світ: geography/landmarks/routes/return і persistent aftermath. AI: goals/faction knowledge/perception/allowed actions. Каталог: культурна/функціональна причина інструмента й acquisition. Progression: відкриття через досвід, не лише текст. Economy: scarcity/sources/sinks/rewards. Commerce: paid access не породжує канонічну суперечність або неможливий сюжетний state.
+World covers geography, landmarks, routes, return and lasting aftermath. AI covers goals, faction knowledge, perception and allowed actions. Catalog explains cultural and functional reasons for tools and acquisition. Progression can reveal meaning through play. Economy covers scarcity, sources, sinks and rewards. Paid access must preserve canon and reachable story state.
 
-Art/audio: silhouettes/material language/architectural rules/leitmotifs/ambient reactions/voice; для кожного canonical meaning є realized resource або визначений виробничий маршрут. UI/learning: спойлерні межі, objective clarity, remind-on-return. Save: flags/relationships/knowledge/consumed choices/rewards причинно узгоджені.
+Art and audio express silhouettes, materials, architecture, leitmotifs, ambient reactions and voice. Each canonical meaning has an implemented resource or a defined production route. UI and learning enforce spoiler bounds, objective clarity and return reminders. Save keeps flags, relationships, knowledge, consumed choices and rewards causally consistent.
 
-Для content availability/DLC/locale/actor absence зафіксувати fallback, blocking prerequisites і migration. Не змінювати сюжет мовчки при оновленні каталогу. Старий save з removed quest ID проходить явний remap/compensation або зрозумілу несумісність без очищення профілю.
+For content availability, DLC, locale and absent actors, specify fallback, blocking prerequisites and migration. Keep narrative changes explicit in catalog updates. An old save with a removed quest ID uses an explicit remap, compensation or understandable incompatibility while preserving the player profile.
 
-Whole-branch/семантичний merge не має одночасно створювати mutually exclusive endings. Quest reward, resource spend і resulting flag належать одній consistency group. Replayed cutscene не видає reward повторно; narrative animation callback не є authority.
+A whole-branch or semantic merge must preserve mutual exclusivity of endings. A quest reward, resource spend and resulting flag share a consistency group. Replaying a cutscene must not grant a reward again. An animation callback is not the grant authority.
 
-## 5. Холодне приймання й negative cases
+## 5. Independent handoff and negative cases
 
-Передати новому отримувачу canon, exact state, accepted versions і scene/quest graph без історії чату. Попросити реконструювати: player motivation; що відомо кожному actor; доступні choice; exact outcome; interruption/resume; return reminder; completion і restore. Отримувач називає необґрунтовані знання/додумані правила й власний контрприклад.
+Give a new recipient canon, exact state, accepted versions and the scene and quest graph without chat history. Ask them to reconstruct motivation, what each actor knows, available choices, exact outcomes, interruption and resume, return reminders, completion and restore. Record unsupported knowledge, inferred rules and a new counterexample.
 
-Негативні fixtures:
+Negative fixtures:
 
-- NPC знає secret до observation/share event.
-- Розмова відкладена до смерті адресата; queued line не відтворюється як актуальна.
-- Mutually exclusive quest flags з двох offline saves.
-- Reward/flag/cost розділилися після kill у commit boundary.
-- Boss dead, але faction/route state залишив старе незавершене завдання.
-- Paid content відсутній, save має його предмет/quest; fallback зберігає причинність.
-- Translation змінила identity/умову або placeholder приховав важливий choice.
-- Cutscene interruption залишила locked input/camera або повторно видала grant.
-- Player повернувся після перерви: objective ясна без spoiler чи повного tutorial.
-- Procedural template створив canon contradiction або invalid knowledge.
+- An NPC knows a secret before observation or sharing.
+- Dialogue is delayed until the recipient dies. The queued line cannot play as current.
+- Two offline saves carry mutually exclusive quest flags.
+- Reward, flag and cost separate after termination at a commit boundary.
+- A boss is dead but faction or route state keeps a stale unfinished objective.
+- A save references paid content unavailable in the client. Fallback preserves causality.
+- Translation changes identity or eligibility, or a placeholder hides an important choice.
+- A cutscene interruption leaves input or camera locked or duplicates a grant.
+- On return after a break, the objective is clear without spoilers or a full tutorial.
+- A procedural template creates canon conflict or invalid knowledge.
 
-Review приймає причинну узгодженість scoped пакета, а не доводить драматичну силу/залучення. Narrative pacing, зрозумілість stakes й emotional experience потребують real human sessions із записаними limits.
+Review establishes causal consistency in the scoped package. Evaluate dramatic pacing, comprehensible stakes and emotional experience in real human sessions with recorded limits.
 
-## Джерела
+## Sources
 
-Методика є адаптацією P1/D1/D2; опорні матеріали досліджено2026-11-02. Actual runtime/plugin обирається окремо під проєкт.
+This approach adapts P1/D1/D2. The listed materials were reviewed on 2026-11-02. Select runtime and plugins for each project.
 
-- MDA, mechanics→dynamics→experience: https://www.cs.northwestern.edu/~hunicke/MDA.pdf
-- W3C SCXML, state/event/transition semantics: https://www.w3.org/TR/scxml/
-- Dormans, mission/spatial grammar: https://www.pcgworkshop.com/archive/dormans2010adventures.pdf
+- MDA, mechanics to dynamics to experience: https://www.cs.northwestern.edu/~hunicke/MDA.pdf
+- W3C SCXML, state, event and transition semantics: https://www.w3.org/TR/scxml/
+- Dormans, mission and spatial grammar: https://www.pcgworkshop.com/archive/dormans2010adventures.pdf
 - Epic AI Perception, knowledge acquisition boundary: https://dev.epicgames.com/documentation/unreal-engine/ai-perception-in-unreal-engine

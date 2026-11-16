@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Специфікація · 6.0.0
-  short_description: Точні доменні контракти й модель чатбота
-  default_prompt: Використай $chatbot-atelier-specification для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Специфікація
+  short_description: Chatbot domain and behavior contracts
+  default_prompt: Use $chatbot-atelier-specification. Turn the agreed intent into explicit rules, interfaces, and testable acceptance conditions.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

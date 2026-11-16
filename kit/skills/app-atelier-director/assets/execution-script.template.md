@@ -1,55 +1,55 @@
-# Сценарій виконання — [продукт / поточний етап]
+# Execution script — [product / current stage]
 
-Редакція: [точна revision]. Статус: **на погодження**.
-Джерела наміру/вимог/рішень: [фактичні refs і revisions].
-Поточний host і вхід: [фактична доступність].
+Revision [exact revision]. State **pending approval**.
+Intent, requirement and decision sources [actual references and revisions].
+Current host and entry point [verified availability].
 
-Шаблон заповнює агент із реальних відповідей і джерел. Дужки й приклади не є погодженими рішеннями. Скоротити непридатні розділи з предметною причиною; додати застосовні поза шаблоном. Не вимагати від користувача редагувати JSON. Для машинного binding використати `briefing.py render-script`: показати створений читабельний сценарій користувачу й прив'язати фактичну згоду саме до нього. Додатковий пояснювальний текст не змінює bound scope; матеріальна нова умова потребує нової редакції.
+The agent fills this template from actual sources and answers. Placeholders and examples are drafts. Omit inapplicable sections with a domain reason and add relevant gaps. Keep JSON editing with the agent. For machine binding, use `briefing.py render-script`. Show the generated script to the user and bind the actual approval to those exact bytes. Surrounding explanations are separate. Revise the script before requesting authority for any material change.
 
-## Результат і точна межа
+## Outcome and exact scope
 
-[Навіщо робота потрібна; результат поточного етапу; що має бути можливо після нього. Зберегти початкову амбіцію.]
+[Why the work matters, current stage output, and what it enables. Preserve the initial ambition.]
 
-| Рівень | Зміст і критерій готовності |
+| Level | Scope and readiness criteria |
 |---|---|
-| Повний цільовий продукт | [усі прийняті системи й взаємодії; довгостроковий досвід] |
-| Перший випуск | [окремо погоджений launch scope; що доводить його достатність] |
-| Найближчий зріз / проба | [що саме перевіряє; як його результат впливає на повний продукт] |
-| Поточне доручення | [який саме обсяг відкриває це погодження] |
-| Виключене / залежне майбутнє | [не виконувати зараз; власник і due gate збережених вимог] |
+| Full target product | [All accepted systems, interactions and enduring user experience.] |
+| First release | [Separately accepted launch scope and sufficient evidence.] |
+| Nearest slice or probe | [What it verifies and how the result informs the whole product.] |
+| Current task | [Work covered by this approval.] |
+| Excluded or deferred | [Leave outside current work. Give retained requirements an owner and due gate.] |
 
-## Вихідна точка й рішення
+## Baseline and decisions
 
-[Для ВІДНОВИ: окремо source, accepted intent, evidence, runtime, continuation; fact/inference/unknown/conflict із source. Для нового продукту — фактичні вхідні дані.]
+[For resumption (`ВІДНОВИ`), distinguish source, accepted intent, evidence, runtime and continuation. Mark facts, inferences, unknowns and conflicts with sources. For a new product, use actual inputs.]
 
-| Тема / requirement IDs | Відповідь чи дозволені межі | Джерело / власник | Статус / залежності |
+| Topic and requirement IDs | Answer or delegated boundaries | Source and owner | State and dependencies |
 |---|---|---|---|
-| [заповнити всі виявлені застосовні теми] | [confirmed / delegated з bounds та acceptance / deferred з owner і due / обґрунтоване N/A] | [source] | [що блокує і що дозволено незалежно] |
+| [All applicable topics.] | [Confirmed, delegated with limits and acceptance, deferred with owner and due, or reasoned N/A.] | [Source.] | [Blocked work and independent authorized work.] |
 
-[Невирішені матеріальні питання не підміняти припущенням. Відкладені T-подробиці не замінюють архітектурні C1-рішення.]
+[Keep unresolved material decisions explicit. Track deferred T details independently from C1 architecture decisions.]
 
-## План і приймання
+## Plan and verification
 
-| Крок | Залежності / owner | Конкретний output і consumer | Acceptance і доказ | Показ / корекція |
+| Step | Dependencies and owner | Actual output and consumer | Acceptance and evidence | Review and correction |
 |---|---|---|---|---|
-| [stable ID] | [actual] | [owned paths / format / інтеграція] | [перевірний результат і negative case] | [milestone / stop / нове рішення] |
+| [Stable ID.] | [Actual dependencies.] | [Owned paths, format and integration.] | [Observable outcome and negative case.] | [Milestone, stop or decision.] |
 
-[Включити взаємодії між системами та ранні downstream наслідки. Творчі targets і предметний зміст описати достатньо, щоб наступний виконавець не вигадував основну поведінку.]
+[Include system interactions and downstream consequences. Describe creative targets and domain behavior with enough precision for the receiving actor to execute.]
 
-## Ресурси, host і повноваження
+## Resources, host, and permissions
 
-[Реально доступні tools/skills/SDK/source/assets; перевірені версії/права; бюджет/витрати; дані/приватність; зовнішні дії; допустима автономія й делегування; blockers і bridges. Відомий counterpart ≠ фактичний доступ.]
+[Actual tools, skills, SDKs, sources and assets, verified versions and rights, budget and cost, data and privacy, external actions, delegated autonomy, blockers and handoffs. Verify access separately from knowing the counterpart.]
 
-## Передача й точка зупинки
+## Handoff and stopping condition
 
-[Який scope завершує етап; де показати результат; пакет/manifest/checkpoint; наступний Work або Codex вхід; точний launch prompt і потрібне повернення; невідоме з owner/due.]
+[End of stage and result location, packet, manifest and checkpoint, Work or Codex entry, exact launch prompt and return proof, and each unknown's owner and due gate.]
 
-## Межа погодження
+## Scope of approval
 
-[Назвати revision і stable step IDs. Користувач може явно прийняти весь scope або незалежну частину, змінити чи відхилити. Агент записує фактичне повідомлення, scope hash і hash показаного сценарію; цей шаблон згоди не створює. Незалежні прийняті кроки дозволені; залежність на виключений крок заблокована. Чинну точну згоду не запитувати повторно.]
+[Name the revision and stable step IDs. The user may accept all scope, accept a separable part, change it, or decline. Record the actual message, scope hash and shown script hash. The template describes authority. Record lack of authority for excluded dependencies. Continue accepted independent steps and carry current approval forward.]
 
-## Домовленість про керування
+## Operating agreement
 
-[Чинне джерело погодження; власник приймає мету, матеріальні продуктові рішення/зміни й результат етапу. Поточна робота/локальні виправлення автономні в погоджених межах. Фактичні caps витрат/часу, зовнішні дії, privacy і stop зазначати за застосовністю. Нових grants шаблон не створює.]
+[Current approval source. The owner chooses goals, material product choices and changes, and stage outcome. Routine work and local repairs proceed within accepted bounds. Specify applicable budget, time, external effects, privacy and stop. Derive authority from the source.]
 
-[Огляд у чаті: погоджено → перевірено → зараз → матеріальні gaps → потрібне рішення → наступний крок. Питання не скасовує роботу. Незалежні гілки продовжуються; зміна відкриває лише причинно зачеплені рішення/докази.]
+[Chat summary: approved scope, proof, current state, material gaps, decision needed and next action. Continue authorized independent work while a decision is pending. Open only causally affected decisions and proof after a change.]

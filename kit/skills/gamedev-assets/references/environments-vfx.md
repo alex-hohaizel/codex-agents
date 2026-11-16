@@ -1,16 +1,16 @@
-# Світ, предмети та ефекти
+# Game environments, props, and effects
 
 ## Environment kit
 
-Виробити весь approved authored vocabulary: terrain/floors/walls/architecture/vegetation/props/background/sky, surfaces/material variants, colliders/navigation/occluders, lights/camera profiles, procedural sockets and scene assemblies. Include all explicit authored locations; a procedural generator does not excuse missing finite kit parts. Keep units/pivots/grid/texel density/material channel conventions consistent.
+Produce the complete approved authored vocabulary: terrain/floors/walls/architecture/vegetation/props/background/sky, surfaces/material variants, colliders/navigation/occluders, lights/camera profiles, procedural sockets and scene assemblies. Include all explicit authored locations; a procedural generator does not excuse missing finite kit parts. Keep units/pivots/grid/texel density/material channel conventions consistent.
 
 For each kit part define source/export, placement dimensions, snap sockets, reachability/clearance, collision/material response, destruction/moving behavior, LOD/culling, lightmap/probe requirements, allowed adjacency, biome/style tags and budgets. Preview tiles/joins/edges and unusual rotations. No floating pieces, visible seams, z-fighting, sudden scale changes or empty gray areas hidden outside hero shot.
 
-## Світ як інтерактивний продукт
+## Environments as interactive systems
 
-Виробничі scene/module IDs походять з model world/topology/route/interactable records. Покрити entry/exit/connector states, traversal/camera clearance, landmarks, risk/reward branches, hazard/actor placement cues, bonus/goal visibility, persistence і revisit variants. Інтерактивний kit містить readable before/during/after transforms, collision/navigation changes і restore/reset behavior, коли вони входять у правила.
+Derive scene and module IDs from the model’s world, topology, route and interactable records. Cover entry, exit and connector states, traversal and camera clearance, landmarks, risk and reward branches, hazard and actor placement cues, reward and objective visibility, persistence, and revisit variants. Where applicable, the kit shows readable before, during and after states, collision and navigation changes, and restore and reset.
 
-Мала просторова сцена може мати довгу еволюцію матеріалів/цілей/акторів і комбінацій; сценна гра потребує осмислених переходів та відкриттів; велика — зрозумілої топології, access і consequences. Finite launch inventory має підтримувати саме погоджену арку. Не видавати додаткові textures або permutations тієї самої арени за нові змістовні ситуації. Authored levels допустимі; процедурність не є універсальною вимогою.
+A small space can evolve through materials, objectives, actors and combinations. A scene-based game needs meaningful transitions and discoveries. A large world needs navigable topology, access rules and consequences. The finite release inventory supports the accepted arc. Count texture variants and arena permutations as new situations only when they change play meaningfully. Use authored or procedural levels according to fit.
 
 ## Procedural world fidelity
 
@@ -32,8 +32,8 @@ Supply actual shaders/material graphs/textures/channel packing, color-space sett
 
 Measure representative and peak scenes for triangle/vertex/skinning/draw/texture/particle/overdraw/light/shader costs on target profiles. Optimize with declared LOD/atlas/pooling/culling/compression while preserving silhouette, hierarchy and event meaning. Record exact before/after captures, affected IDs and build. Editor estimates remain provisional until native measurement.
 
-## Руйнування та revision світу
+## Destruction and world revision
 
-Authoritative break відокремити від cosmetic debris. Прийнятий contract визначає зміни collider/support/mass/inertia/function, topology revision, nav/visibility/cover/cache invalidation, AI fallback й відновлення зі save. Зламаний міст не лишає required goal недосяжною поза навмисним правилом.
+Separate authoritative destruction from cosmetic debris. The accepted contract defines collider, support, mass, inertia and function changes, topology revision, navigation, visibility, cover and cache invalidation, AI fallback, and recovery from saved state. Keep required objectives reachable after a bridge breaks unless a deliberate rule says otherwise.
 
-Матеріал має окремі physics coefficients, gameplay reactions і shader/audio representation. Вигляд «мокре» не дає автоматично traction/conductivity. VFX/drop/LOD/tier не змінюють hitboxes, damage або critical cues без design decision.
+Keep physics coefficients, gameplay reactions, and shader and audio representations distinct. A surface that looks «мокре» gains traction or conductivity behavior only through a rule. Changes to hitboxes, damage or critical cues from VFX, drop policies, LOD or quality tiers need a design decision.

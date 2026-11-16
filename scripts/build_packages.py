@@ -56,9 +56,11 @@ def write_zip(root: Path, output: Path, files: list[Path], mode: str, release: d
                   "manifest": "kit/manifest.json", "baseline_skill_count": baseline_count,
                   "optional_maintenance_skill": "maintenance-skill",
                   "installation_workflow": ("supported Work personal-skill manager; one save per skill; verify registry and actual invocation"
-                                            if mode == "WORK" else "portable updater audit -> apply -> verify with actual journal; verify host discovery separately")}
+                                            if mode == "WORK" else "for managed releases: verify stable provenance and staged kit, then portable audit -> apply -> verify; verify host discovery separately")}
     if release["repository_branch"]:
         descriptor["repository_branch"] = release["repository_branch"]
+    if release.get("release_stage") is not None:
+        descriptor["release_stage"] = release["release_stage"]
     package_readme = (f"# Agent System {version} — {mode} source bundle\n\n"
                       "Choose your language in [START_HERE.md](START_HERE.md), then read that complete guide.\n\n"
                       f"[Release and component versions](releases/current.json) · [Requirements]({release['requirements']})\n\n"
@@ -70,9 +72,10 @@ def write_zip(root: Path, output: Path, files: list[Path], mode: str, release: d
                            "management workflow and verify the registered sources. A repository connection, a read SKILL.md or a copied archive alone "
                            "is not installation. Work's host avatar may differ from portable Codex icons.\n\n")
     else:
-        package_readme += ("In Codex, inspect kit/manifest.json and kit/BUILD_VERIFICATION.json, then use kit/portable/update_skill_suite.py "
-                           "with audit, apply and verify according to the guide. Keep plans/backups outside skill discovery roots and pass the actual "
-                           "apply journal to verify. Preserve existing icons and local modifications; check runtime discovery separately.\n\n")
+        package_readme += ("For managed Codex adoption, verify the approved stable archive and its GitHub attestation. Audit the exact staged kit "
+                           "from the admission receipt using the trusted portable updater and the migration in releases/current.json. Keep plans and backups "
+                           "outside skill discovery roots, preserve existing icons and local modifications, pass the actual journal to verify, and check fresh "
+                           "host discovery separately. A local source build can be used for inspection and isolated fixture rehearsal.\n\n")
     package_readme += (f"maintenance-skill/ is an optional repository-maintenance instruction skill, separate from the {baseline_count} baseline skills. "
                        "Install it through the supported manager only when requested; including its sources in this archive does not activate it. "
                        f"Existing projects still need compatibility intake and preserved-context adoption. See releases/migrations/{version}.md.\n")

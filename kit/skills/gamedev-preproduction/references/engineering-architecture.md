@@ -1,40 +1,40 @@
-# Архітектура й перевірена здійсненність
+# Architecture and verified feasibility
 
-## Engine/tool selection
+## Engine and tool selection
 
-Compare only feasible options against the actual game: 2D/3D rendering, visual target, mobile physics/input, asset import, animation/audio/haptics, native plugins, IAP/ads/analytics integration, build/signing, team skill, licenses, long-term support and total cost. Godot/Unity/another engine is a candidate, not a universal answer. Verify current official docs and pin exact version/plugins; execute representative import/build PoC before committing. A tutorial or desktop preview does not prove native store readiness.
+Compare feasible options for the actual game across rendering, visual target, mobile physics and input, asset import, animation and audio and haptics, native plugins, commerce, ads and analytics, build and signing, skills, licenses, support and total cost. Evaluate Godot, Unity, or another engine where appropriate. Inspect current official docs, pin versions and plugins, and run a representative import and build probe. Verify store readiness in the correct native environment.
 
-Default to existing lawful free/local tooling when it can meet the quality floor. Subscription access does not include arbitrary APIs, Suno commercial rights, asset packs, Apple enrollment or CI minutes. Record operation-level capability: installed, executable, authenticated, permitted/license, sample output, import result, cost. If missing, provide exact setup/alternative/owner instead of inventing a tool.
+Prefer available lawful local or free tooling when it meets quality. Verify separate subscriptions, API access, Suno commercial rights, assets, Apple enrollment, and CI capacity. At operation level record installed, executable, authenticated, permitted and licensed, output, import, and cost. If unavailable, identify setup, alternative, and owner.
 
 ## TDD sections
 
-1. Modules/scenes/services and dependency direction, domain state authority, public interfaces and lifecycle ownership.
-2. Input sampling, deterministic/fixed-step simulation, variable frame rendering, collision/event ordering, pause/time scale and replay.
-3. Camera/motion/VFX/audio/UI integration with typed semantic event IDs and data bindings.
-4. Save data schemas, version migrations, atomic commit/checksum/backup, crash recovery, corrupt-save UX, offline progress, cloud conflict/account merge.
-5. Backend only when needed: auth/guest upgrade, inventory/commerce authority, leaderboards, anti-abuse, event schedule, rate/retry/idempotency and region/data policy.
-6. Content update/delivery, catalogs/config versioning, compatibility, rollback, feature flags, validation; no remote executable policy bypass.
-7. Analytics/observability with event schemas, consent/minimization, cohort definitions, crash/frame/memory measurements and support traces.
-8. Security: trust boundaries, secrets outside repo, receipt verification, secure transport, tampering/replay, clock authority, privacy/delete/export if applicable.
-9. Platform adapters: purchases/restore, permissions/notifications, haptics/audio focus, links, device lifecycle, safe areas, graphics capabilities and store SDKs.
-10. Builds: pinned dependencies/tool versions, clean restore, debug/test/release variants, signing ownership, artifact inventory and per-platform verification.
+1. Modules, scenes and services, dependency direction, state authority, public interfaces, and lifecycle ownership.
+2. Input sampling, fixed-step simulation, rendering at variable frame rate, collision and event order, pause and time scale, and replay.
+3. Camera, movement, VFX, audio, and UI with typed semantic event IDs and data bindings.
+4. Save schemas, migration, atomic commit, checksum and backup, crash recovery, corrupt-save user experience, offline progress, and cloud conflicts and account merge.
+5. Conditional backend for authentication and guest upgrade, inventory and commerce authority, leaderboards, abuse prevention, schedule, limits and retries and idempotency, and regional data policy.
+6. Content delivery, catalogue and configuration versioning, compatibility, verification, rollback, and flags. Restrict content to supported data and declarative rules.
+7. Analytics and observability with event schema, consent and minimization, cohorts, crash and frame and memory evidence, and support traces.
+8. Security covering trust boundaries, separation of secrets, receipt verification, secure transport, tampering and replay safeguards, clock authority, and applicable privacy, deletion, and export.
+9. Platform adapters for purchase and restore, permissions and notifications, audio focus and haptics, links, lifecycle, safe areas, graphics, and store SDKs.
+10. Build and release covering dependencies, version locks, clean restore, debug/test/release, signing ownership, output inventory, and explicit platform verification.
 
-## Numeric contracts
+## Numerical contracts
 
-Physics/input specs use meters/world units, seconds, radians/degrees, normalized inputs and pixel/logical coordinates explicitly. Define fixed tick, gravity, acceleration/deceleration, jump/apex/air control, friction/restitution, collision layers/shapes, mass/constraints, penetration resolution, moving-platform transfer and high-speed tunneling strategy. Design values must enter actual runtime config; no manual second copy.
+Use explicit meters or world units, seconds, radians or degrees, normalized input, and pixel or logical coordinates. Define fixed ticks, gravity, acceleration and deceleration, jump and apex and air control, friction and restitution, collision layers and geometry, mass and constraints, penetration, moving surfaces, and fast-object tunneling. Apply the canonical design values from actual runtime configuration.
 
-Animation distinguishes visual root motion and simulation authority. Specify clips/blend tree/state priorities, root locks, foot/hand IK if needed, hit/footstep/event tracks, cancel windows, ragdoll enter/exit and recovery. Sprite-based/2D rigs use equivalent pivot/order/deformation/clip contracts; don't force unnecessary 3D.
+Separate visible root motion and simulation authority. Define clips and blends and state priorities, root locks, applicable foot and hand IK, hit and footstep and event markers, cancel windows, ragdoll entry and exit, and recovery. For 2D and sprites, specify pivots, ordering, deformation, and clips appropriate to the medium.
 
-## Budgets and real devices
+## Budgets and actual devices
 
-Choose representative low/mid/high target devices and quality tiers. Define target FPS with frame-time budget, peak memory, draw calls/overdraw, textures/mesh/animation/VFX/audio voices, install/download size, first load, scene transition, network, battery/thermal. Numbers require measured PoC or explicit provisional assumption. Validate worst-case encounter/HUD/effects and after extended play. Editor FPS and emulator are limited evidence, not physical-device performance.
+Select representative low, mid, and high tiers and quality profiles. Specify frame rate and frame-time budget, peak memory, draw calls and overdraw, textures, meshes, animation, VFX, audio voices, install and download size, cold load, scene transitions, network, and battery and thermal behavior. Record measured probe results or explicit assumptions. Test representative worst-case scenes and sustained play. Keep editor, emulator, and physical results separate.
 
-Android output types, target APIs, native library constraints and Play setup must be checked at release. iOS Simulator app is not signed physical-device IPA; Xcode/macOS/signing/provisioning are separate capabilities. Do not promise both native binaries in an environment that cannot produce them.
+Check actual Android output formats and API requirements, native libraries, and Play setup at release. Record iOS Simulator, signed device package, Mac and Xcode and signing and provisioning separately. Claim builds only for observed supported routes.
 
-## Production та continuity interfaces
+## Production and continuity
 
-Кожну потрібну tool/SDK операцію специфікувати через operation contract, actual schemas/argument consumption, versioned recipe і consumer; tool name не є capability. Для native adapters ранній conformance probe охоплює threading/lifecycle/cancel/error/profile/release-signing; desired support та observed witness окремі.
+Specify each actual tool and SDK operation with input and output contract, schema and actual parameter consumption, versioned recipe, and consumer. Probe native thread and lifecycle behavior, cancellation, errors, profile, and release signing. Keep desired support separate from observed operation.
 
-State Catalogue охоплює всі mutable fields та class durable/reconstructible/ephemeral/cache/secret. Задати exact type/encoding/authority/scope/commit/consistency/restore/migration/merge/delete. 64-bit IDs/RNG не втрачати через float JSON; untrusted objects не завантажувати автоматично. Cloud identity/sync, OS backup й purchase restore — різні контракти з actual host/SDK test.
+The State Catalogue records every mutable field's class (durable, reconstructible, ephemeral, cache, or secret), exact type and encoding, authority and scope, commit and consistency, restoration and migration and merge and deletion. Preserve 64-bit IDs and seeds exactly. Accept only supported data from untrusted inputs. Define cloud identity and sync, OS backup, and purchase restoration independently and test the actual host and SDK.
 
-Scenario lab, reason inspector і repro capsule мають bounded dev-only interfaces. Cold first-use, transition residency/overlap/unload, atomic content epoch, matching crash symbols і data egress observation отримують methods/targets; не залишати це загальним словом performance.
+Design scoped development-only interfaces for the scenario lab, reason inspector, and repro capsule. Define methods and thresholds for first cold use, scene residency and overlap and unloading, atomic content epoch, matching symbols, and observed data egress.

@@ -3,219 +3,219 @@
   "requirements": [
     {
       "id": "human_value",
-      "title": "Пряма користь й місія",
-      "invariant": "Зміна допомагає конкретній людині в розмові; технічна новизна не є користю.",
+      "title": "User value and purpose",
+      "invariant": "The change helps a specific participant achieve something in conversation. Identify that benefit independently of technical novelty.",
       "proof": "scenario_and_review",
-      "expertise": "Product discovery, Jobs-to-be-Done",
-      "acceptance_probe": "Пояснити користь зміни мовою учасника; пройти реальне прохання від потреби до доступного результату.",
-      "rejection_condition": "Описує лише модуль/формат або додає ритуал без користі."
+      "expertise": "product discovery and Jobs-to-be-Done",
+      "acceptance_probe": "Explain value in the participant's terms and exercise the real journey from need to accessible outcome.",
+      "rejection_condition": "The proposal reports only a module or format, or adds process without value."
     },
     {
       "id": "natural_voice",
-      "title": "Жива мова й емпатія",
-      "invariant": "Мова природна, доречна емоції; жодного службового step/code замість відповіді.",
+      "title": "Natural language and empathy",
+      "invariant": "Respond naturally and fit the participant's emotional state. Keep internal step and diagnostic codes out of replies.",
       "proof": "scenario_and_review",
-      "expertise": "Conversational UX, українська прагматика й емпатія",
-      "acceptance_probe": "Оцінити повний діалог українською та підтриманою іншою мовою, включно з роздратуванням, жартом, успіхом і збоєм.",
-      "rejection_condition": "Технічний step/code/JSON, кліше, удавана емпатія чи гумор невчасно."
+      "expertise": "conversation UX, Ukrainian pragmatics and empathy",
+      "acceptance_probe": "Review complete Ukrainian and other supported language dialogues, including frustration, jokes, success and failure.",
+      "rejection_condition": "Technical step labels or JSON, clichés, false empathy or poorly timed humor."
     },
     {
       "id": "context_relevance",
-      "title": "Контекст і доречність",
-      "invariant": "Розуміти адресата, reply, тему, явний намір і моменти мовчання.",
+      "title": "Context and relevance",
+      "invariant": "Identify the addressee, reply target, topic, explicit intent and moments when silence is appropriate.",
       "proof": "scenario_and_review",
-      "expertise": "Turn-taking, discourse reference й маршрутизація обраного каналу",
-      "acceptance_probe": "Інший адресат, reply, попередня пропозиція, тема, доречне мовчання; не просити вже надане.",
-      "rejection_condition": "Перебиває, відповідає іншому чи губить референс."
+      "expertise": "turn-taking, reference and channel routing",
+      "acceptance_probe": "Check wrong addressee, reply, prior offer, topic and appropriate silence. Reuse known input.",
+      "rejection_condition": "Interrupts another speaker, replies to the wrong person or loses the referent."
     },
     {
       "id": "proportional_depth",
-      "title": "Відповідна глибина",
-      "invariant": "Проста репліка не потребує церемонії; складна зберігає повний зміст і потрібні уточнення.",
+      "title": "Proportionate depth",
+      "invariant": "Handle simple turns directly. Preserve complete meaning and useful clarification in complex requests.",
       "proof": "scenario_and_review",
-      "expertise": "Cognitive load, information architecture",
-      "acceptance_probe": "Порівняти просте питання та складний запит; виміряти зайві питання/натискання й втрату потрібного змісту.",
-      "rejection_condition": "Проста відповідь потребує workflow; складна обрізана заради короткості."
+      "expertise": "cognitive load and information architecture",
+      "acceptance_probe": "Compare simple and complex requests. Count unnecessary questions or taps and lost detail.",
+      "rejection_condition": "A simple answer requires a workflow or a complex task loses required content."
     },
     {
       "id": "simple_first",
-      "title": "Від простого до складного",
-      "invariant": "Виконати найменший достатній запит, потім максимум одне доречне розширення.",
+      "title": "Smallest complete request first",
+      "invariant": "Complete the simplest sufficient request and then offer at most one relevant extension.",
       "proof": "execution_and_review",
-      "expertise": "Progressive disclosure, task-oriented design",
-      "acceptance_probe": "Слова без кількості/режиму/формату дають простий результат; розширення лише доречне.",
-      "rejection_condition": "Нав’язує склад, чек, PDF або режим до базового результату."
+      "expertise": "progressive disclosure and task design",
+      "acceptance_probe": "An ordinary request produces the basic result without a mode, quantity or format. Optional expansion is relevant.",
+      "rejection_condition": "The bot forces inventory, receipt, PDF or technical mode before the requested result."
     },
     {
       "id": "practical_completion",
-      "title": "Побутова завершеність",
-      "invariant": "Справи, покупки, нотатки й нагадування реально збережені та доступні.",
+      "title": "Completion of everyday tasks",
+      "invariant": "Persist and provide access to actual tasks, shopping items, notes and reminders.",
       "proof": "execution_and_review",
-      "expertise": "Task/list domain modeling, transactional CRUD",
-      "acceptance_probe": "Змішаний список+нагадування: storage, повтор, перегляд, частковий збій, підсумок кожної незалежної частини.",
-      "rejection_condition": "Запис перетворився на фізичну покупку чи незалежна частина загубилась."
+      "expertise": "list and task models and transactional CRUD",
+      "acceptance_probe": "Exercise list plus reminder, storage, replay, view, partial failure and outcome of each independent part.",
+      "rejection_condition": "A list entry becomes a purchase or an independent part is lost."
     },
     {
       "id": "multiuser_fairness",
-      "title": "Спільна участь",
-      "invariant": "Зберігати згоду потрібних учасників, авторство, ролі, вибори та черговість.",
+      "title": "Fair participation",
+      "invariant": "Preserve each necessary participant's consent, authorship, role, choices and turn order.",
       "proof": "execution_and_review",
-      "expertise": "Collaborative workflows, multiplayer interaction design",
-      "acceptance_probe": "Кожен потрібний учасник погоджується/обирає за себе; попередня згода не губиться.",
-      "rejection_condition": "Приписано згоду/вибір або один учасник перезаписує чужий."
+      "expertise": "collaboration and multiplayer interaction",
+      "acceptance_probe": "Each required participant chooses for themselves. Preserve applicable existing consent.",
+      "rejection_condition": "The system invents consent or lets a participant overwrite someone else's choice."
     },
     {
       "id": "scheduling_fidelity",
-      "title": "Правильний час",
-      "invariant": "Місцевий час, DST, дата, повтор, пропуск, перенесення й overdue поводяться узгоджено.",
+      "title": "Correct scheduling",
+      "invariant": "Keep local time, DST, calendar date, recurrence, skipping, rescheduling and overdue handling consistent.",
       "proof": "execution_and_review",
-      "expertise": "Civil-time semantics, DST й durable scheduling",
-      "acceptance_probe": "Завтра/9 ранку, перехід DST, повтор/skip/reschedule, overdue, stored job і фактична delivery.",
-      "rejection_condition": "Підмінено timezone хостом, виконано двічі або зник нагадувач."
+      "expertise": "civil time, DST and durable jobs",
+      "acceptance_probe": "Check tomorrow at nine, DST, repeat, skip, reschedule and overdue work, persisted job and actual delivery.",
+      "rejection_condition": "Host zone overrides the intended zone, duplicate dispatch or missing reminder."
     },
     {
       "id": "capability_truth",
-      "title": "Правдиві можливості",
-      "invariant": "Обіцяти лише реально доступний шлях; розрізняти montage/generation/voice.",
+      "title": "Accurate capability claims",
+      "invariant": "Promise only an available end-to-end path. Distinguish montage, generation and voice.",
       "proof": "execution_and_review",
-      "expertise": "LLM tool affordances, capability contracts",
-      "acceptance_probe": "Зіставити кожну обіцянку з ingress/tool/schema/runtime; montage≠generation, voice≠music.",
-      "rejection_condition": "Декларація є, але немає доступного наскрізного шляху."
+      "expertise": "tool affordances and capability contracts",
+      "acceptance_probe": "Match each promise to ingress, tool, schema and runtime. Exercise montage, generation, voice and music separately.",
+      "rejection_condition": "The declaration has no available end-to-end path."
     },
     {
       "id": "execution_truth",
-      "title": "Правдивий успіх дії",
-      "invariant": "Intent/queued/running/verified/delivered не змішувати; жодного вигаданого готово.",
+      "title": "Verified action outcomes",
+      "invariant": "Keep intent, queued, running, verified and delivered distinct. Report completion from evidence.",
       "proof": "execution_and_review",
-      "expertise": "State machines, effect verification, distributed idempotency",
-      "acceptance_probe": "Failure→recovery, queued→ready→delivered, частковий успіх і залежний крок.",
-      "rejection_condition": "Вигаданий успіх або blanket failure стирає реально відновлену незалежну допомогу."
+      "expertise": "state machines, effects and distributed idempotency",
+      "acceptance_probe": "Trace failure/recovery, queued/ready/delivered, partial success and the dependent step.",
+      "rejection_condition": "Invented success or an overall failure hides a completed independent result."
     },
     {
       "id": "recovery_empathy",
-      "title": "Відновлення й емпатична помилка",
-      "invariant": "Встановлена причина, природне пояснення й виконуваний наступний крок без raw errors.",
+      "title": "Clear failure and recovery",
+      "invariant": "State the established cause, explain it naturally and provide a feasible next action. Keep raw errors in internal records.",
       "proof": "execution_and_review",
-      "expertise": "Human factors, fault recovery й diagnostic uncertainty",
-      "acceptance_probe": "Terminal failure/timeout/missing input: правдиве пояснення, наступний виконуваний крок, завершення очікування.",
-      "rejection_condition": "Невідома причина вигадана, raw error, мовчазний repair або обіцяний retry не відбудеться."
+      "expertise": "human factors and failure recovery",
+      "acceptance_probe": "Exercise terminal failure, timeout or missing input. Give true status, feasible next step and end the wait.",
+      "rejection_condition": "Invented cause, raw error, hidden repair or a retry promise without capability."
     },
     {
       "id": "interaction_continuity",
-      "title": "Надійна взаємодія",
-      "invariant": "Кнопки/details/скасування/повтор/reply не гублять стан і не дублюють ефекти.",
+      "title": "Continuity of interaction",
+      "invariant": "Buttons, details, cancellation, replay and replies preserve state and avoid duplicated effects.",
       "proof": "execution_and_review",
-      "expertise": "Контракти інтерактивних подій обраного каналу, optimistic concurrency",
-      "acceptance_probe": "Стара/повторна/прострочена кнопка, details, cancel, replay й reply після job.",
-      "rejection_condition": "Мертва кнопка, дубль ефекту або загублений стан/намір."
+      "expertise": "channel event contract and optimistic concurrency",
+      "acceptance_probe": "Test stale, repeated and expired buttons, details, cancel, replay and post-job reply.",
+      "rejection_condition": "Dead button, duplicated effect, or lost state or intent."
     },
     {
       "id": "character_semantics",
-      "title": "Персонаж і відповідність сцени",
-      "invariant": "Цілісний персонаж, унікальна сцена/емоція й зрозуміле preview.",
+      "title": "Character identity and scene fit",
+      "invariant": "Preserve character continuity, distinct scenes and emotions, and a readable preview.",
       "proof": "execution_and_review",
-      "expertise": "Character animation direction, silhouette й emotion readability",
-      "acceptance_probe": "Порівняти preview/рух/сцену з прийнятим персонажем; інвентар унікальних емоцій.",
-      "rejection_condition": "Зміна ідентичності, зайва лапа, сцена не відповідає emoji або дубль заготовки."
+      "expertise": "animation direction, silhouette and legible emotion",
+      "acceptance_probe": "Compare preview, motion and scene against accepted identity and unique emotions.",
+      "rejection_condition": "Identity changes, extra limb, scene mismatches emoji, or a reused pose obscures distinct intent."
     },
     {
       "id": "temporal_quality",
-      "title": "Якість руху",
-      "invariant": "Без аномалій, ghosting, рваних переходів; повний цикл/loop перевірений у русі.",
+      "title": "Motion quality",
+      "invariant": "Verify each full loop in playback for anomalies, ghosting and rough transitions.",
       "proof": "execution_and_review",
-      "expertise": "Technical animation, optical flow, temporal compositing",
-      "acceptance_probe": "Перевірити кожну змінену повну послідовність, keypose correspondence, matte та loop seam; контроль старої версії.",
-      "rejection_condition": "Ghosting/деформація/ривок; contact sheet/FPS підміняє рух чи whole-image wiggle підміняє сцену."
+      "expertise": "animation, optical flow and compositing",
+      "acceptance_probe": "Watch every changed sequence. Review key-pose correspondence, matte and loop against an old control.",
+      "rejection_condition": "Ghosting, deformation, jumps, contact sheet instead of playback or whole-image wobble instead of the intended action."
     },
     {
       "id": "audiovisual_fidelity",
-      "title": "Виконання медіазадуму",
-      "invariant": "Фактичні звук/музика/кадри/підписи відповідають запиту; файли декодуються.",
+      "title": "Audiovisual fidelity",
+      "invariant": "Actual sound, music, frames and captions match the request, and the files decode.",
       "proof": "execution_and_review",
-      "expertise": "Video/audio editing, FFmpeg filters/muxing",
-      "acceptance_probe": "Надана музика+відео: actual streams, signal, timeline, duration, clipping, source semantics, decode.",
-      "rejection_condition": "Беззвучний файл названо музичним, зникли кадри/субтитри або аудіо не відповідає джерелу."
+      "expertise": "editing and FFmpeg filters and muxing",
+      "acceptance_probe": "Inspect actual streams, signal, timing, duration, clipping, source meaning and decode for provided music plus video.",
+      "rejection_condition": "Silent media presented as musical, missing frames or captions, or audio diverges from source."
     },
     {
       "id": "media_delivery",
-      "title": "Доступний медіарезультат",
-      "invariant": "Правильний файл/набір/позиція та доставка відповідній аудиторії; catalog не дорівнює receipt.",
+      "title": "Accessible media delivery",
+      "invariant": "Deliver the correct file, pack and position to the authorized audience and verify its receipt independently of its catalog entry.",
       "proof": "execution_and_review",
-      "expertise": "Доставка медіа/стікерів за можливостями обраного каналу, artifact integrity",
-      "acceptance_probe": "Підсумковий файл доступний адресату; pack item/hash/file_id/order збігаються; receipt підтверджує delivery.",
-      "rejection_condition": "Каталог або кількість замість потрібного файла/набору; private результат видимий групі."
+      "expertise": "platform media delivery and integrity",
+      "acceptance_probe": "Recipient can access the actual file. Match pack item, hash, file_id and order and observe delivery receipt.",
+      "rejection_condition": "Catalog or count substitutes for the file, or private media becomes group-visible."
     },
     {
       "id": "audience_privacy",
-      "title": "Ізоляція аудиторії",
-      "invariant": "Група/тема/private DM не змішуються; output і notice не розширюють доступ.",
+      "title": "Audience isolation",
+      "invariant": "Keep group, topic and private DM scopes distinct. Output and notifications preserve the same authorized audience.",
       "proof": "execution_and_review",
-      "expertise": "Authorization, least privilege, information-flow control",
-      "acceptance_probe": "Actor/topic/group/private у read, job, output, progress/error і cached paths.",
-      "rejection_condition": "Розширення доступу або витік навіть через повідомлення про результат."
+      "expertise": "authorization and information flow",
+      "acceptance_probe": "Check actor, topic, group and private scope across reads, jobs, output, progress, errors and cache.",
+      "rejection_condition": "Scope expansion or disclosure even through a status message."
     },
     {
       "id": "consent_authority",
-      "title": "Згода й повноваження",
-      "invariant": "Дотримуватись чинної згоди/авторизації; не вимагати повторну й не вигадувати її.",
+      "title": "Consent and authority",
+      "invariant": "Use actual current authorization and avoid fabricated or redundant consent.",
       "proof": "execution_and_review",
-      "expertise": "Consent lifecycle, authority boundaries",
-      "acceptance_probe": "Явне доручення виконується без повторного дозволу; справжній зовнішній/приватний boundary зберігає потрібну згоду.",
-      "rejection_condition": "Вигаданий consent, непотрібний повторний gate або дія поза повноваженнями."
+      "expertise": "consent lifecycle and authority",
+      "acceptance_probe": "Execute exact authorized work and preserve consent on external and private boundaries.",
+      "rejection_condition": "Fabricated consent, needless repeated approval or an out-of-scope action."
     },
     {
       "id": "source_grounding",
-      "title": "Джерела і точність",
-      "invariant": "Не вигадувати факти/трек/URL/результат; зберігати provenance й межі знань.",
+      "title": "Source grounding and accuracy",
+      "invariant": "Ground facts, track, URL and result in real evidence. Preserve provenance and the limits of knowledge.",
       "proof": "execution_and_review",
-      "expertise": "Data lineage, factuality, provenance propagation",
-      "acceptance_probe": "Доказ/джерело для результату, цитати/дат/оригіналів; audio/input provenance переходить у output.",
-      "rejection_condition": "Вигадані URL/трек/факт або відсутня lineage залежного результату."
+      "expertise": "lineage, factuality and provenance",
+      "acceptance_probe": "Bind result to source, quotes, dates and originals. Track audio/input lineage into output.",
+      "rejection_condition": "Invented URL, track or fact, or missing derived lineage."
     },
     {
       "id": "forgetting_integrity",
-      "title": "Пауза й видалення",
-      "invariant": "Pause/forget/revocation зупиняють залежні jobs/outputs і не відновлюють стерте.",
+      "title": "Pause and erasure integrity",
+      "invariant": "Pause, forget and revocation stop dependent jobs and outputs and prevent deleted information from being restored.",
       "proof": "execution_and_review",
-      "expertise": "Data erasure, revocation й derived-artifact invalidation",
-      "acceptance_probe": "Forget/pause/revoke під час queued/running/retry; перевірити derived output і notice.",
-      "rejection_condition": "Знову використано стерте або видано результат після revocation."
+      "expertise": "erasure and invalidation",
+      "acceptance_probe": "Forget, pause or revoke while queued, running or retrying. Observe outputs and notices.",
+      "rejection_condition": "Deleted information reused or result delivered after effective revocation."
     },
     {
       "id": "bounded_resources",
-      "title": "Ресурси й затримки",
-      "invariant": "Вписуватись у реальні CPU/RAM/disk/queue limits без блокування чату.",
+      "title": "Resource and latency limits",
+      "invariant": "Stay within actual CPU, RAM, disk and queue limits while keeping chat responsive.",
       "proof": "execution_and_review",
-      "expertise": "Performance engineering, admission control",
-      "acceptance_probe": "CPU/RAM/disk/queue limits на реальному шляху; concurrent chat+media, input size/duration.",
-      "rejection_condition": "Необмежена робота або блокування чату; чужий benchmark замість власного."
+      "expertise": "performance and admission control",
+      "acceptance_probe": "Measure CPU, RAM, disk and queue on the actual path, concurrent chat and media, input size and duration.",
+      "rejection_condition": "Unbounded work, blocked chat or an unrelated benchmark used as local evidence."
     },
     {
       "id": "lifecycle_reliability",
-      "title": "Надійний життєвий цикл",
-      "invariant": "Restart/cancel/timeout/retry/cleanup/receipts мають узгоджені стани й idempotency.",
+      "title": "Reliable lifecycle",
+      "invariant": "Restart, cancel, timeout, retry, cleanup and receipts have consistent states and preserve idempotency.",
       "proof": "execution_and_review",
-      "expertise": "Workers, leases, restart/cancel/retry semantics",
-      "acceptance_probe": "Worker crash, timeout/cancel, stale revision/source, duplicate delivery й cleanup.",
-      "rejection_condition": "Вічний running/typing, дубль, silent failure або cached success після cancel."
+      "expertise": "jobs, leases and recovery",
+      "acceptance_probe": "Test crash, timeout or cancel, stale revision or source, duplicate delivery and cleanup.",
+      "rejection_condition": "Indefinite running or typing, duplicate, silent failure or cached success after cancellation."
     },
     {
       "id": "provider_constraints",
-      "title": "Моделі й витрати",
-      "invariant": "Зберегти дозволені моделі/доступи; не вмикати нові платні провайдери або відкладені функції.",
+      "title": "Model and spending limits",
+      "invariant": "Use the authorized models and access. Require scope for a new paid provider or deferred feature.",
       "proof": "execution_and_review",
-      "expertise": "Model/provider compatibility, cost controls",
-      "acceptance_probe": "Конфігурація й фактичні виклики лишаються в дозволених моделях; voice/paid extension не активований.",
-      "rejection_condition": "Новий paid provider, заборонена модель або недозволена витрата."
+      "expertise": "model compatibility and cost",
+      "acceptance_probe": "Verify configured and actual models and that deferred voice or paid extensions stay outside execution.",
+      "rejection_condition": "Unapproved paid provider, prohibited model or unauthorized spending."
     },
     {
       "id": "version_continuity",
-      "title": "Безперервність релізів",
-      "invariant": "Зберегти функції/дані/старі кнопки, зміни по версіях, перевірку live і rollback.",
+      "title": "Release continuity",
+      "invariant": "Preserve features, data and existing buttons, keep versioned change history, and verify the live version and rollback.",
       "proof": "execution_and_review",
-      "expertise": "Release engineering, compatibility й rollback",
-      "acceptance_probe": "Diff/версії/старі дані/кнопки/assets, changelog і live commit; rollback має конкретний шлях.",
-      "rejection_condition": "Збережено не весь продукт, заявлено незадеплоєне або втрачено історію."
+      "expertise": "release, compatibility and rollback",
+      "acceptance_probe": "Compare diff, versions, old data/buttons/assets, changelog and live commit. Exercise the rollback route.",
+      "rejection_condition": "Feature or history lost, or an undeployed version claimed live."
     }
   ]
 }

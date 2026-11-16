@@ -1,80 +1,55 @@
-# Workflow незалежної перевірки
+# Independent review workflow
 
-Зміст: план → тип доказу → агент → продукт → критичні області → finding/повтор.
+Contents include plan, evidence type, agent cases, product acceptance, critical areas, and finding and retest.
 
-## План і актуальність
+## Plan and freshness
 
-Зафіксувати subject, scope, author, requested observer, source/artifact hashes та залежності.
-Звірити current requirements/decisions/knowledge із фактичними файлами; summary лише допомагає знайти їх.
-Визначити due must, майбутні докази й неперевірені припущення.
-Перевірити available tools/hosts/accounts/device budget; не планувати недоступну дію як виконану.
-Обрати найменшу достатню перевірку, що може спростувати суттєву обіцянку.
-Скласти coverage matrix: ID, acceptance, negative case, method, artifact, actor, stage, outcome, limits.
-Перед витратами/зовнішніми змінами звірити право; sandbox/local fixture обрати всюди, де цього досить.
-Зберегти stop boundary; не продовжувати після досягнення погодженого результату.
+Pin subject, scope, author, requested observer, sources and artifact hashes, and dependencies. Verify current requirements, decisions, and facts against owning files. Use summaries as pointers. Identify due musts, future proofs, and unverified assumptions. Check actual tools, hosts, accounts, devices, and budget. Choose the smallest check that can disprove a material claim.
 
-## Типи доказу
+Record ID, acceptance, negative case, method, artifact, actor, stage, outcome, and limits. Verify authority before spending or external changes and use sandbox or local fixtures when sufficient. Stop at the agreed boundary.
 
-| Метод | Що може засвідчити | Чого не засвідчує сам по собі |
+## Evidence types
+
+| Method | Directly supports | Requires separate evidence |
 |---|---|---|
-| Schema/link/syntax | Структуру, формат, доступність локальних refs | Предметну якість і роботу продукту |
-| Document review | Узгодженість вимог, плану, аргументів, scope | Фактичне виконання плану |
-| Raw forward case | Поведінку агента на конкретних сирих входах | Довільну майбутню надійність |
-| Code/unit/contract | Перевірені invariants у заданому контурі | Фізичний пристрій або live provider |
-| Sandbox integration | Доступну перевірену інтеграцію в sandbox | Production entitlement або прибуток |
-| Device/E2E | Спостережуваний сценарій у точному environment | Всі платформи/пристрої та зручність для людей |
-| Provider/deploy read-back | Фактичний зовнішній стан у своєму scope | Безстрокову доступність чи ринковий успіх |
+| Schema, links, syntax | Structure, format, local references | Domain quality and product operation |
+| Document review | Requirement and plan consistency, arguments, scope | Execution of the plan |
+| Raw forward case | Agent behavior on the given inputs | General reliability across future inputs |
+| Code, unit or contract tests | Covered invariants in the test scope | Physical device or live provider behavior |
+| Sandbox integration | Observed sandbox integration | Production entitlement or profit |
+| Device or end-to-end (E2E) | Observed scenario in the exact environment | All platforms, devices, or human usability |
+| Provider or deploy read-back | Scoped external state | Indefinite availability or market success |
 
-Позначати self-check/independent окремо від методу; метод не робить автора незалежним.
-Hashes доводять тотожність bytes, а не волю користувача, користь, дохід чи факт невиконаної дії.
+Track whether proof comes from self-check or independent review separately from method. Digests bind bytes. Owner intent, value, revenue, and actual actions require their own evidence.
 
-## Forward cases агента
+## Agent forward cases
 
-Використати 44 contracted cases як стартове покриття, звіривши поточний suite/версію.
-Призначити реального іншого виконавця, коли оцінюється авторський результат.
-Дати виконавцю звичайний запит, потрібні raw artifacts і навичку без oracle, hints або попереднього діагнозу.
-Не включати фразу «правильна відповідь повинна...» у task-local prompt.
-Для різних cases ізолювати outputs, щоб наступний actor не успадкував підказку від попереднього.
-Evaluator застосовує criteria до фактичного результату й tool effects; не оцінює лише формулювання.
-При відсутньому independent actor чесно зберегти self-check і відкритий gate.
-Не робити live витрат, customer data access або production mutations для доказу здібності.
+Start with the 44 contracted cases and check the current suite and version. Use a different actual actor to evaluate author work. Give the actor an ordinary request, raw artifacts, and the skill. Keep oracle, hints, and diagnosis outside the task prompt. Preserve examples such as «правильна відповідь повинна...» only in evaluator material. Isolate case outputs so one case cannot disclose hints to another. Judge actual results and effects. If independent review is unavailable, retain self-check and keep the gate open. Use scoped fixtures without live spending, customer access, or production mutation to test capability.
 
 ## Product acceptance
 
-Для кожного core journey сформувати begin/success/invalid/empty/cancel/interrupted/retry/recovery path.
-Перевірити межі модулів: клієнт↔API, identity↔data, provider↔entitlement, KB↔support, code↔schema.
-Додати realistic fixtures попередніх версій/пошкоджених/великих даних за ризиком.
-Не обмежуватися happy path і не копіювати implementation branches як єдину специфікацію.
-Для Android/iOS/web записати окремі build/platform/browser/device versions і доступні докази.
-Пройти accepted design states, потрібні motion/feedback, keyboard/text/accessibility, offline/degraded behavior.
-Задати relevant performance budgets до замірів, зберегти процедуру, samples і environment.
-Недоступний representative physical proof має blocker/bridge, не підміну симулятором.
-Не називати synthetic UI pass підтвердженням зрозумілості реальним людям.
+For each core journey, define entry, success, invalid and empty inputs, cancel, interruption, retry, and recovery. Check interfaces between client and API, identity and data, provider and entitlement, knowledge and support, code and schema. Use previous-version, corrupt, and large data fixtures where risk warrants them. Derive oracles from requirements and exercise negative paths.
 
-## Критичні області
+Record distinct build, platform, browser, and device versions and evidence for Android, iOS and web. Test accepted design states, motion and feedback, keyboard, text, accessibility, offline and degraded behavior. Set budgets before measurement and retain environment, samples and procedure. Keep missing physical device proof blocked with a handoff. Treat synthetic UI results as synthetic observations.
 
-Auth/privacy: guest/A/B/tenant, IDOR-like identifiers, cache/history/attachments, logs/AI egress, revoke/delete/restore.
-Billing: provider verification, restore, duplicate/out-of-order/delayed events, lifecycle, offline/reconciliation.
-Support: public+personal matrix, challenge/revoke, webhook authenticity, group rejection, stale KB, injections, cap/outage.
-Reliability: cancel/timeout/unknown, retry dedupe, kill/network loss, backup/restore, migration/rollback compatibility.
-Automation: повторювані manual exceptions, підтримка/контент/модерація, реальні cost/monitoring dependencies.
-Release: current store/account/testing/signing/cost prerequisites до full build і повторно перед submission.
-Acquisition/economics: перевірні джерела, припущення, recurring costs та stop criteria без гарантії доходів.
-Офіційні актуальні правила й SDK перевіряти за primary docs; не виводити їх із пам’яті або чужого кейсу.
+## Critical areas
 
-## Finding і повторне приймання
+- Auth and privacy: guest and A/B tenant cases, object ownership, cache, history and attachments, logs and AI egress, revocation, deletion and restore.
+- Billing: provider verification, restore, duplicate, reordered and delayed events, lifecycle, offline and reconciliation.
+- Support: public and personal scope, challenge and revocation, webhook authenticity, group rejection, stale knowledge, prompt injection defenses, caps and outage.
+- Reliability: cancel, timeout and unknown outcome, retry deduplication, process death and network loss, backup and restore, migration and rollback compatibility.
+- Automation: repeated manual exceptions, support, content and moderation, cost and monitoring dependencies.
+- Release: current store, account, testing, signing, and cost before full build and again before submission.
+- Acquisition and economics: traceable sources, assumptions, recurring costs and stopping criteria. Treat revenue as unproven until observed.
 
-Зберегти raw reproduction, observed property, violated requirement, subject hash, environment і impact.
-Відрізняти reproduced defect, document inconsistency та untested concern.
-Показати мінімальний достатній repair scope; автор сам реалізує, незалежний reviewer повторно перевіряє.
-Після fix звірити bytes/dependencies й виконати failed case та affected regressions.
-Не переносити green verdict на нові bytes без перевірки відповідного scope.
-Для unknown external outcome спершу status reconciliation, не повторювати effect.
-Закрити тільки доведені IDs; майбутній stage proof лишити pending з власником і due gate.
-Завершити коротким scoped verdict, evidence refs, residual limits і exact next action.
+Verify mutable rules and SDKs from current primary sources.
 
-## Видимий результат і достатність підходу
+## Finding and retest
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: звірка сирих вимог, незалежні сценарії/оракули, прив’язані до ревізії findings і висновок для кожного due must. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Record raw reproduction, observed property, violated requirement, subject hash, environment, and impact. Distinguish reproduced defects, document inconsistency, and untested concerns. Provide the narrow sufficient repair scope. The author repairs and the independent reviewer retests. After repair, check current bytes and dependencies and rerun the failed case and relevant regressions. Bind any carried verdict to its valid dependencies. Reconcile unknown external effects before repeating them. Close only evidenced IDs and assign pending proofs owners and due gates. Return a scoped verdict, evidence references, limitations, and exact next action.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: адекватність оракула й компетенції перевіряльника, відсутні вимоги та реальні межі доказу. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show raw requirements reconciliation, independent scenarios and oracles, revision-bound findings, and a verdict for every due requirement. Distinguish completed work, inherited decisions, and future results with due gates. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review oracle validity, reviewer competence, missing requirements, and evidence limits. Review raw sources for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve context, approvals, and unaffected results.

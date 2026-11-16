@@ -1,39 +1,45 @@
-# Створення погоджених спеціалізацій
+# Build approved specializations
 
-До створення звірити версію blueprint і hash його substantive content з реальною згодою користувача. Зміна назви файла чи форматування не має створювати нову анкету; матеріальна зміна задачі, stage boundaries, якості, зовнішніх дій або витрат має нову версію й адресне погодження.
+Before creation, match the blueprint version and substantive content hash to the actual user consent. Filename or formatting changes preserve a still-applicable approval. A material change to the task, stages, quality, external actions or costs needs a new revision and a specific decision.
 
-У кожній навичці зберегти: вузький trigger; місію й точний результат; required inputs; canonical критерії/джерела; предметні ролі й conditional activation; правила доказів; workflow та readiness; handoff; локальний repair; retries/closure/checkpoint; інструменти й права; фінальне приймання. Завантажувати references за операцією, не всі на кожний запит.
+Every skill carries its narrow trigger, mission and exact outcome, required inputs, canonical criteria and sources, actual domain roles and conditions for activating them, evidence rules, workflow and readiness, handoff, local repair, retry and closure, checkpoint, tools and permissions, and final acceptance. Open the references appropriate to the operation.
 
-Специфіку генерувати з предмета. Для дизайну потрібні конкретні зразки та матеріали; для коду — працююча реалізація й потрібні перевірки; для deployment — actual provider receipts і read-back; для аналізу — первинні джерела, метод і межі висновку. Не переносити випадково ігрові критерії, vendor choices або account IDs.
+Derive the specialist content from the domain. Design needs concrete samples and materials. Software needs working implementation and the relevant checks. Deployment needs actual provider receipts and read-back. Analysis needs primary sources, a method and limits on the conclusion. Preserve only the applicable criteria, provider choices and account context.
 
-Сімейство має один lineage вимог та choices. Погоджене рішення передається downstream; routine derivatives й repair до baseline приймає QA. Нова суттєва альтернатива показується користувачу перед залежним тиражуванням. Дозвіл творчого вибору й зовнішньої mutation мають власний scope; наявний точний дозвіл не перепитувати.
+For a family keep one lineage for requirements and decisions. Carry approved decisions to the next stages. QA reviews routine derivatives and repairs against the accepted baseline. Present materially new choices before dependent production. Creative choice and external mutation have their respective authority. Apply exact current consent.
 
-Тести мають бути пропорційними. Для складного конструктора перевірити: просту одноетапну задачу; продукт зі справжніми межами research/build/deploy; неповний бриф; зміну погодженого blueprint; перенесення існуючої навички без втрати must. Forward-тест отримує сирий запит і потрібні файли без діагнозу й готових відповідей. Не виконувати live deploy або масові генерації заради тесту навички.
+Use proportional tests. For a complex constructor test a simple single-stage task, a product with real research/build/deploy boundaries, an incomplete brief, a changed approved blueprint, and transfer of an existing skill with all applicable musts. Forward tests start from the raw request and its files without a suggested diagnosis or answer. Use the cheapest faithful environment before a live or large operation.
 
-Після перевірки зберегти personal skills за Skill Creator по одній операції. Не називати їх установленими до фактичного підтвердження. Документувати точні зовнішні blockers і продовжувати незалежну дозволену роботу.
+Save approved personal skills one at a time through Skill Creator. Confirm the real target before reporting installation. Record any capability or authority gap and continue independent authorized work.
 
-## Додаткове приймання контракту 2
+<a id="додаткове-приймання-контракту-2"></a>
 
-Для проєктування підтримується лише поточний `skill.blueprint/2`; checker відхиляє інші формати без автоматичного перетворення. Зіставити критерії з застосовностями, domain contracts, operations, acceptance cases і child inheritance contracts. Машинна наявність поля не доводить предметної повноти або фактичного evidence. Перед mass production прийняти representative output і cold receiver; до цього великі обіцянки масштабу є непідтвердженими.
+## Additional checks for contract 2
 
-Для нового scope підготувати поточний blueprint з фактичних джерел; не переносити готовність із попереднього результату. Якщо зміна вже явно доручена в поточній розмові, це належне джерело чинної авторизації; не змушувати користувача повторювати її лише заради запису.
+Use current `skill.blueprint/2` for design. The checker rejects other formats. Match criteria to applicability, domain contracts, operations, acceptance cases, and each child's inheritance. Validate completeness and evidence with the real consumer. Accept a representative output and verify use by a fresh receiver before mass production.
 
-## Forward приймання загального способу роботи
+Create the current blueprint from actual sources for new scope. Establish current readiness with evidence bound to that scope. A current explicit instruction is a source of authority for the change it actually requests. Record it without repeating the decision.
 
-Нові outputs конструктора проходять локальний `scripts/check_generated_inheritance.py` та зберігають exact resources/hashes в чинному manifest. Перед видачею перевірити representative raw tasks: локальна достатня правка; коротка зміна з великим впливом; незнайомий або змішаний домен; пізня must-вимога; приклад, який не повинен звузити місію; неповний reuse; відсутня capability; cold resume/unknown effect; збереження чинної іконки. Добирати застосовні cases пропорційно та розширювати їх новими помилками.
+<a id="forward-приймання-загального-способу-роботи"></a>
 
-Порівняти baseline/candidate за повнотою, правильністю, користю, предметною якістю, зайвими питаннями й ручними переходами, ресурсами та recovery. Матеріальні/нестійкі cases повторити, verdict дати за незалежною рубрикою; один synthetic PASS не доводить усі хости або домени. Фактичний structural checker не називати семантичною сертифікацією.
+## Forward tests of shared working behavior
 
-Для одночасної перевірки поточного blueprint та authored child використати фактичний `scripts/blueprint.py check BLUEPRINT --approved --child CHILD_ROOT` (повторити `--child` для кожного пакета). Без `--child` checker перевіряє лише blueprint record і не заявляє, що child уже матеріалізовано.
+Use local `scripts/check_generated_inheritance.py` for new constructor outputs, with exact resources and digests in the current manifest. Select proportionate raw cases before delivery. Consider a sufficient small repair, a small change with large consequences, an unfamiliar or mixed domain, a late must, an example that must retain the broader mission, incomplete reuse, an unavailable capability, cold resume or an unknown effect, and preservation of an existing icon. Add cases for new failures.
 
-## Незмінний portable candidate та кероване представлення Work
+Compare baseline and candidate for coverage, correctness, utility, professional quality, unnecessary questions or manual handoffs, resource use and recovery. Repeat consequential or unstable cases and use an independent rubric. Limit conclusions to the actual hosts and domains tested. Keep structural, semantic and user acceptance observations separate.
 
-Перед Work save зберегти перевірений frozen portable/Codex candidate у довговічному export: повні початкові icon assets, UI, visual lock/origin, hashes і відповідний manifest. Тимчасової робочої папки недостатньо. Цей незмінний пакет залишається джерелом переносного експорту; поточна матеріалізована Work-копія має окремий профіль `work_host_view` і не передається як portable export root.
+To check the current blueprint and authored child together, use the actual `scripts/blueprint.py check BLUEPRINT --approved --child CHILD_ROOT` command. Repeat `--child` for each package. Without `--child`, it checks the blueprint record alone.
 
-Після save прочитати фактичний Work source назад із revision/hash. Host може змінити керовані avatar bytes при кожному збереженні, включно зі зміною лише сусіднього JSON. Самопідписування такого avatar активним lock усередині тієї самої Work-копії не має стабільної точки: не запускати повторні checksum-maintenance saves заради нього. Зберігати фактичні спостереження та попередні snapshots як неактивну історію; не вигадувати redesign, відповідь власника або предметне приймання.
+<a id="незмінний-portable-candidate-та-кероване-представлення-work"></a>
 
-Для такого Work host view зберігати явний presentation descriptor: class за призначенням, mutable/unpinned host avatar, посилання/hash незмінного зовнішнього portable candidate й неактивні history records. Портативні active lock/origin залишаються у frozen candidate; історичні копії в Work не є поточними gates. Work read-back перевіряє справжнє джерело, незмінні предметні правила/код/права, потрібний scope label і цей профіль, а не постійність керованого avatar hash. `name`, invocation policy, dependencies та acceptance не є візуальними винятками. Недокументований semantic/code drift блокує залежний крок із точними джерелом, revision, diff і дією звірки.
+## Frozen portable candidate and managed Work presentation
 
-Для перенесення виконати незмінений strict checker над frozen portable candidate, звірити його manifest/hashes і тільки тоді готувати Codex export. Не послаблювати checker і не проголошувати mutable Work view валідним переносним пакетом. Наявні Mac icon paths/bytes/brand color зберігає фактичний local visual overlay; Work avatar не стає redesign Codex іконки. Для нової проєктної іконки project-card-v1 підтверджує portable/Codex artifact; host-normalized Work avatar не одержує такої заяви без окремого фактичного visual proof. Проєктно-специфічний Work label лишається явно проєктним; reusable system scope зберігає власну класифікацію. Наявні іконки не генерувати заново.
+Before saving to Work, preserve a verified frozen portable/Codex candidate in durable export storage. Keep all original icons, UI, visual lock and origin, hashes and the corresponding manifest. The immutable candidate supplies future portable exports. The materialized Work copy uses its own `work_host_view` presentation profile.
 
-Коли потрібний frozen export недоступний або його bytes не збігаються, зупинити лише залежний export і назвати точний artifact/manifest/hash та дію для відновлення перевіреної копії. Читання й дозволена предметна робота у Work можуть продовжуватися за своїми gates; сам mutable avatar не є помилкою продукту чи приводом нескінченно оновлювати навичку.
+After saving, read back the actual Work source, revision and hash. The host may change its managed avatar bytes on any save, including when only adjacent JSON changes. Such an avatar has no stable active checksum lock inside the same mutable copy. Preserve observed snapshots as inactive history and record only the actual design, owner responses and acceptance.
+
+Keep an explicit Work presentation descriptor with the applicable class, mutable unpinned host avatar, external immutable portable candidate reference and hash, and inactive history. The portable active lock and origin live in the frozen candidate. Read back actual Work source, intact rules, code and authority, scope label, and presentation profile. Treat `name`, invocation policy, dependencies and acceptance as operational fields. Attribute any undocumented semantic or code drift to its exact source, revision and diff. Block affected work until reconciled.
+
+Before Codex export, run the unchanged strict checker against the frozen portable candidate and verify its manifest and hashes. Keep full portable validation in place. Preserve existing Mac icon paths, bytes and brand color through the actual local visual overlay. A managed Work avatar has its own presentation evidence. For a new project icon, project-card-v1 evidence applies to the portable/Codex artifact. Claim parity in Work only with an actual visual comparison. Keep the project-specific label scoped to its Work project and the reusable system's classification intact. Retain existing icons.
+
+If that frozen export is missing or mismatched, stop the dependent export and name the exact artifact, manifest, hash and restoration step. Continue allowed Work reading and domain work at their respective gates. Use the managed avatar status to guide its own presentation work.

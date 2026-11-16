@@ -1,30 +1,30 @@
-# Профіль розмовного помічника
+# Conversational assistant profile
 
-Оновлювати на початку великого раунду й після зміни релізу. Зберігати в проекті, а не в навичці, швидкозмінні commit/service IDs; секретів не записувати. Не обмежувати модель бота цим списком.
+Refresh the profile for a major round and after release changes. Keep changing commit and service IDs in project records and omit secrets. Extend this inventory to the actual domain.
 
-Для кожної можливості: людська мета; природний запит; tool/route; source path; storage; ownership/audience; результат; failure/retry/cancel; test; status (`declared`, `implemented`, `locally_verified`, `deployed`, `observed`). Знайти весь інвентар за registry, schemas, callbacks, workers, UI, комітами й release notes:
+For each capability record the user's goal, natural request, tool/route, source path, storage, ownership and audience, result, failure/retry/cancel, test and status (`declared`, `implemented`, `locally_verified`, `deployed`, `observed`). Review registries, schemas, callbacks, workers, UI, commits and release notes to find the full current scope:
 
-- Ім’я/@/reply/продовження, адресат, мовчання, доречна самостійна участь, тон/гумор, короткі й докладні відповіді.
-- Ізольована пам’ять групи/тем, авторство/джерела, згода/pause/forget, summary/recall, private DM і контроль перенесення в групу.
-- Нотатки, справи, покупки, запаси/витрати/чеки; різниця списку й фактичної покупки.
-- Одноразові/повторювані нагадування, місцевий час, skip/reschedule/overdue, календарі/доступи, події й узгодження компанією.
-- Ігри/сценарії/ролі, згода всіх потрібних учасників, чергові/паралельні дії, результати, polls, кнопки, offers/details.
-- Актуальний веб/пошук, browser actions, приватні конектори, повноваження зовнішніх дій.
-- Фото/стікери/аватари, OCR, сторінки/фрагменти відео, каталог/версії/оригінали, колажі/картки/image generation.
-- PDF/DOCX/XLSX читання/створення/редагування; альбоми, ролики, підписи, музика/звук. Відкладене/недоступне не оголошувати активним.
-- Навчання/вправи/прогрес, групові проекти, приватні чернетки/inbox.
-- Inbound/outbound та обмеження обраної платформи, idempotency, retries, workers/queues/cancel, receipts, restart/leases.
-- Модель/авторизація, дозволені моделі/провайдери, CPU/RAM/disk, TTL/cleanup, health/telemetry, versions/releases/rollback.
+- Name, mention, reply and continuation, addressee, silence, useful initiative, tone and humor, and brief or detailed replies.
+- Group and topic memory isolation, authorship and sources, consent, pause and forget, summaries and recall, private DM and permitted group visibility.
+- Notes, tasks, shopping, inventory, expenses and receipts. Distinguish a list from an actual purchase.
+- Single and recurring reminders, local time, skip, reschedule and overdue behavior, calendar access, events and group coordination.
+- Games, scenarios and roles, all required participant choices, serial and parallel activity, results, polls, buttons, offers and details.
+- Current web/search and browser interfaces, private connectors and authority for external actions.
+- Photo, sticker and avatar work, OCR, pages and video segments, catalog, versions, originals, collage/cards and image generation.
+- PDF/DOCX/XLSX reading, creation and edits, albums, video, captions, music and sound. Record deferred or unavailable features separately.
+- Learning, exercises and progress, group projects, private drafts and inbox.
+- Selected platform ingress and egress limits, idempotency, retries, workers, queues, cancel, receipts, restart and leases.
+- Models and authorization, allowed providers, CPU/RAM/disk, TTL and cleanup, health and telemetry, versions, release and rollback.
 
-## Доменні відмінності
+## Domain distinctions
 
-1. «Додай молоко» — список, не чек, закупівля, залишок чи PDF. «Завтра нагадай купити» — нагадування; не вимагати вибору внутрішньої сутності.
-2. Ім’я/адмінство не дає права читати приватні матеріали. Output і повідомлення про нього мають ту саму аудиторію.
-3. Файл у storage ще не є результатом у чаті: потрібен доступний output або конкретна зрозуміла точка доступу; невідома доставка не означає успіх.
-4. «Зробити відео» — монтаж або нова генерація. Розуміти контекст; питати лише вирішальну прогалину. Монтаж не доводить доступу до платної генерації.
-5. Намір, згода, виконання, перевірений результат і доставка — різні стани. Теплий тон не дозволяє вигадувати «готово».
-6. Безплатні інструменти споживають CPU/диск. Не вмикати платного провайдера мовчки; озвучувати лише важливий для рішення людини ліміт.
+1. «Додай молоко» refers to a list entry. «Завтра нагадай купити» refers to a reminder. Infer the natural intent without asking users to select an internal entity.
+2. Verify permissions independently from name or administrative title. The output and notification follow the same allowed audience.
+3. An artifact in storage still needs an accessible output or explicit access point in chat. Verify delivery or report its unknown status.
+4. «Зробити відео» can mean montage or new generation. If context leaves a material choice, ask one deciding question. Check authority for paid generation separately.
+5. Intent, consent, execution, verified result and delivery are separate. Reflect actual state in the response.
+6. Free tools also use CPU and disk. Confirm paid provider scope and explain the limits that matter to the user's decision.
 
-## Експертні джерела
+## Specialist sources
 
-Перевіряти офіційні API обраної платформи, FFmpeg manuals, документацію застосованих Node/DB/queue libraries, модельні API й runtime contracts. Для UX дослідження progressive disclosure/error recovery/turn-taking — метод, не доказ якості власного бота. Коректність runtime доводити виконанням, не цитатою.
+Verify the selected platform's primary APIs, FFmpeg manuals, applicable Node, database and queue documentation, model APIs and runtime contracts. Progressive disclosure, error recovery and turn-taking research inform design. Verify the bot's experience and runtime through target-specific observation.

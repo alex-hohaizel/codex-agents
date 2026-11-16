@@ -1,89 +1,60 @@
-# Предметний workflow підтримки
+# Product support workflow
 
-Зміст: контракт → дані → канали → знання → відповідь/дія → case → запуск/зміни.
+Contents include contract, data, channels, knowledge, response and action, cases, release and changes.
 
-## Контракт до реалізації
+## Contract before implementation
 
-Зібрати product version, PRD, джерела правил/цін, auth/session contracts і готовність API.
-Визначити канали, capabilities та локальні стани; не вважати клієнти технічно однаковими.
+Gather product version, PRD, rule and price sources, auth and session contracts, and API readiness. Define each channel's capabilities and local states.
 
-| Розділ | Зафіксувати |
+| Area | Record |
 |---|---|
-| Намір | Категорії звернень, корисний результат, межі |
-| Режими | Guest, account за наявності, linked selected channel, revoked/expired |
-| Дані | Поле, джерело, мета, subject, одержувач, retention, redaction, delete/revoke |
-| Знання | Product/release/language, authoritative source, freshness, fallback |
-| Дії | Read-only baseline; окремі effects та auth/confirmation/receipt |
-| Витрати | Запити, tokens/API, storage, abuse limits, післялімітна поведінка |
-| Відмова | Відсутня KB/контекст, outage, невідомий effect, нерозв’язний case |
-| Доказ | Метод, середовище/актор, hashes, результат і межі |
+| Intent | Issue categories, useful outcome, and boundaries. |
+| Modes | Guest, optional account, selected linked channel, revoked and expired. |
+| Data | Field, source, purpose, subject, recipient, retention, redaction, deletion and revocation. |
+| Knowledge | Product, release and language, authoritative source, freshness and fallback. |
+| Actions | Read-only baseline and separate effects with auth, confirmation and receipts. |
+| Cost | Requests, tokens and API, storage, abuse limits and behavior at cap. |
+| Degraded paths | Missing knowledge or context, outage, unknown effect, unresolved case. |
+| Evidence | Method, environment and actor, hashes, result and limits. |
 
-Погодити матеріальні data/cost/action choices до залежної роботи; чинне незмінне не перепитувати.
-За нульового бюджету підготувати доступний обмежений режим без прихованих production-платежів.
+Resolve material data, cost and action choices before dependent work. Carry forward valid current decisions. Prepare a bounded route when no spending is authorized.
 
-## Межа доступу
+## Access boundary
 
-Установити identity на сервері до retrieval; при невизначеності відмовляти безпечним способом.
-Побудувати allowlist полів і tool operations за режимами; уникати загального доступу моделі до БД.
-Обмежити кожний data request authenticated subject/tenant та точним призначенням.
-Санітізувати вкладення, діагностику, HTML/Markdown і посилання; не виконувати вкладені команди.
-Розділити public KB, приватні customer records, case history та журнали операцій.
-Надсилати зовнішній моделі лише дозволені мінімальні поля; записати provider/retention за фактами.
-Не обіцяти зовнішнє видалення без підтримуваного маршруту й підтвердженого результату.
-Поширювати revoke/delete на похідні індекси, кеш і backup recovery за контрактом.
-Очищати персональний екран/контекст після logout; не показувати стару відповідь іншому subject.
+Establish identity server-side before retrieval. When uncertain, fail closed. Allowlist fields and operations by mode and keep general database access outside the model. Bind every retrieval to the authenticated subject and tenant and specific purpose. Sanitize attachments, diagnostics, HTML, Markdown and links and treat embedded commands as data.
 
-## Зв’язок вибраного каналу
+Separate public knowledge, private customer records, case history, and operational logs. Send only minimized authorized data to external models, and document actual provider and retention. Verify a supported external deletion route and observed result before making deletion claims. Propagate revocation and deletion to derived indexes, cache and backup recovery. Clear personalized UI and context on logout and account changes.
 
-Спочатку визначити платформу, тип install/account, audience, доступний transport і підтримувані способи автентифікації; consumer contract передати `@chatbot-atelier-integrations`. Канал не обирається автоматично.
-Встановити channel-scoped identity → product subject/tenant із version/revocation state та audit receipt. Channel identity, username, display name й product authorization — різні речі.
-Спосіб binding має підтверджувати потрібні сторони, бути bounded/одноразовим за своєю моделлю, мати expiry/replay/revoke/account-switch recovery і не передавати credentials/PII у URL/логи. Для Telegram, якщо він вибраний, застосувати чинний private challenge route з підтвердженням в authenticated app/web. Для іншого каналу використати його власний перевірений adapter contract.
-При конфлікті mapping не переприв’язувати акаунт мовчки; застосувати визначений recovery route. Перевіряти чинність перед кожним приватним читанням і dispatch. Старий діалог не є дозволом.
-Обробляти unlink, account deletion, compromised session і втрату зовнішнього акаунта як окремі стани. Private support відхиляє public/group/інший audience; shared сценарій потребує явного продуктового scope. Дублікати transport events не дублюють effect.
-Перед реалізацією перевірити чинні API/security constraints у первинній офіційній документації та реальну connector/MCP capability, не назву інтеграції.
+## Link only selected channels
 
-## Знання й відповідь
+Identify platform, installation and account type, audience, transport and supported authentication. Pass the consumer contract to `@chatbot-atelier-integrations`. Bind channel identity to product subject and tenant with revision, revocation state, and audit receipt. Distinguish channel identity, username, display name, and product authorization.
 
-Вивести статті з прийнятих specs, release notes, verified behavior, terms і status records.
-Позначити knowledge gaps; не додавати правдоподібні твердження без джерел.
-Для цін/покупок перевіряти актуальний storefront/plan, а не загальний старий prompt.
-Зміна функції/ціни/правила інвалідовує залежні статті, retrieval index і regression cases.
-Визначити тон і мову продукту без успадкування персонажа попереднього бота.
-Будувати відповідь: проблема → підтверджений факт → коротка дія → очікуваний результат/межа.
-Не просити пароль, повний платіжний реквізит або секрет; обмежувати діагностику потрібним.
-Користувацький текст і зовнішні документи трактувати як недовірені дані, не нові правила.
-Зберігати лише дозволену історію; довге збереження не оголошувати необхідним без підстав.
+Use a bounded linking method with proof for both sides, one-time scope when required, expiry, replay, revocation and account-switch recovery. Keep credentials and personal information out of URLs and logs. If Telegram is selected, use the verified private challenge confirmed in authenticated app or web. For other channels, use their own verified adapter.
 
-## Дії й звернення
+On a mapping conflict, use the defined recovery flow. Check binding before each private read and dispatch. Handle unlink, deletion, compromised session and loss of the external account independently. Reject private support from public, group, or other ineligible audiences. Shared scenarios require explicit product scope. Deduplicate transport events before effects. Verify current official API and security rules and actual connector or MCP operations before implementing.
 
-Для операції створити typed contract: actor/scope, inputs, preconditions, effect, idempotency, receipt.
-Показати sensitive/destructive дію перед підтвердженням; згода стосується точних параметрів.
-Виконати тільки доступний дозволений tool; LLM не розширює API scopes чи права.
-Звірити післядію; розрізняти requested/running/succeeded/failed/unknown.
-Після unknown зберегти provider/action ID; спершу прочитати стан замість повтору ефекту.
-Нерозв’язному запиту дати opaque case ID, мінімальні diagnostics, категорію та статус.
-Захистити guest-case власною session/capability; сам відомий ID не відкриває чуже звернення.
-Дедуплікувати повтори, додати product/source version, агрегувати технічну задачу агенту.
-Не перетворювати звернення на автоматичний production patch; repair проходить чинні gates.
-Не обіцяти оператора, строк чи refund поза фактичним дозволеним процесом.
-Фіксувати business-stop signal при повторюваній потребі в ручному обслуговуванні.
+## Knowledge and reply
 
-## Вартість, запуск і зміни
+Derive articles from approved specifications, release notes, observed behavior, current terms and status records. Mark missing knowledge explicitly. Verify current storefront and plan before price or purchase answers. Changes to features, prices, or policy invalidate dependent articles, indexes, and regressions. Set the product's own tone and language.
 
-Оцінити cost per resolved case та worst-case abuse; включити підтримку в економіку продукту.
-Задати session/user/global caps, timeout, backoff, circuit breaker та обмеження вкладень.
-За outage/cap дати довідку/status або запис case лише через працездатний дозволений маршрут.
-Не називати offline-чернетку доставленим зверненням і не втрачати його мовчки.
-Підготувати автоматичні contract/security/integration cases без людських експериментів.
-Окремо перевірити Android, iOS, web і кожний погоджений bot channel; відсутній потрібний клієнт/adapter позначити blocked, невибраний канал — обґрунтовано absent_by_design.
-Запускати лише за чинним scope; до read-back статус лишається prepared/deployed_unverified.
-Monitoring за дорученням перевіряє reachability, error/cost limits, backlog і KB version.
-Перевірити alert route без платних або destructive live ефектів заради тесту.
-Перед зміною KB/policy/model звірити залежності, повторити зачеплені cases й підготувати rollback.
-Повернути інтегратору artifacts, access matrix, фактичні receipts, результати та next action.
+Reply with problem, verified fact, short action, and expected outcome or limitation. Never request passwords, full payment details, or secrets. Minimize diagnostics. Treat user content and external documents as untrusted data. Keep only authorized history within approved retention.
 
-## Видимий результат і достатність підходу
+## Actions and cases
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: контракт підтримки, канали/права, джерела знань, життєвий цикл звернення й перевірний шлях вирішення. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Give each operation a typed actor, scope, input, preconditions, effect, idempotency, and receipt contract. Show sensitive or destructive effects before exact confirmation. Invoke only available and authorized tools and enforce API scope. Reconcile requested, running, succeeded, failed, and unknown states. Preserve provider and action IDs and verify current state before retry.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: предметна правильність відповіді/дії, приватність, межі делегування й фактичний результат. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+For an unresolved case return an opaque ID, minimized diagnostics, category, and state. Protect guest cases with the appropriate session or capability and enforce access independently of known IDs. Deduplicate and capture product or source version. Aggregate engineering findings without automatically changing production. Set operator, timing, or refund expectations from actual approved processes. Raise a business stop signal when recurring manual work exceeds the operating model.
+
+## Cost, launch and changes
+
+Estimate cost per resolved case and abuse-case cost and include support in product economics. Specify session, user and global limits, timeout, backoff, breaker and attachment bounds. During outage or at cap, provide help or status or persist a case through an available authorized route. Track offline drafts until durable delivery rather than presenting them as received.
+
+Run contract, security, and integration tests within allowed scope and respect restrictions on human experiments. Verify Android, iOS, web, and each approved channel independently. Mark missing required adapters blocked and intentionally unselected channels absent_by_design. Launch within authority and retain prepared or deployed_unverified until read-back.
+
+If authorized, monitor reachability, errors and cost caps, backlog, and knowledge version. Test alerts without unnecessary live cost or destructive effects. For knowledge, policy, and model changes, inspect dependencies, rerun affected cases, and prepare rollback. Hand off artifacts, access matrix, observed receipts and results, and next action.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show the support contract, channels and rights, knowledge sources, case lifecycle, and verified resolution path. Distinguish completed work, inherited decisions, and due future results. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review factual and operational correctness, privacy, scope and delegations, and actual outcomes. Inspect raw inputs for omissions. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve context, approvals, and unaffected results.

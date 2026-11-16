@@ -1,38 +1,37 @@
-# Спільна робота Work ↔ Codex
+# Work and Codex continuity
 
-Редакція6.0.0 (попередня joint-use-r2). БРИФ уточнює результат і вимоги, коли їх бракує. Цей маршрут визначає, де виконати конкретний етап, як передати його стан і як відновити роботу. Чинні предметні правила, прийняті рішення, дозволи та перевірки сімейства діють у кожному середовищі.
+Use the active domain rules, accepted decisions and current authority in both hosts. Choose where a stage can produce and verify the result.
 
-## Вибір маршруту
+## Choose the host
 
-1. Віднови чинний проєкт, ID задачі, останню підтверджену контрольну точку, критерії приймання, рішення і дозволений обсяг. Розділи роботу на етапи, якщо їм потрібні різні середовища. Спочатку встанови, де доступні точна ревізія, необхідні файли, інструмент або інтеграція, повноваження і перевірка результату. Підтверджуй ці можливості фактичним читанням або доречною перевіркою. Назва режиму, згадка про підключення чи наявність посилання самі собою можливості не підтверджують.
-2. Якщо поточне середовище дає потрібний результат і перевірку, продовжуй у ньому. Для передачі до іншого середовища самостійно виконай доступні кроки, коли є єдиний придатний перевірений дозволений маршрут або користувач уже обрав цей варіант. За кількох невирішених маршрутів покажи рекомендацію й наслідки та запитай лише потрібний вибір. Сам вибір виконавця не розширює повноваження; чинні погодження незміненого scope повторно не запитувати.
-3. Якщо бракує входу, доступу, інструмента, перевірки чи дозволу, назви конкретну прогалину, чим її виявлено та яку дію вона блокує. Продовжуй безпечні незалежні кроки. Якщо усунення доступне в межах дозволу, виконай і звір результат. Якщо потрібен власник, дай лише потрібні кроки в правильному порядку, точне місце, команду або текст для копіювання і ознаку успіху. Якщо бракує рішення, запитай лише його. Єдиний маршрут не заміняє потрібного предметного погодження.
+Recover the actual project and task ID, checkpoint, acceptance, decisions and authorized scope. Confirm the available exact revision, files, tool or integration, authority and verification in each relevant host by reading or probing its supported operation. Continue in the current host if it is sufficient. Use a single verified authorized route or the user's chosen route for a transfer. When viable choices differ materially, explain the consequences and ask only for the choice that matters.
 
-## Ідентичність і передача
+Name any missing input, access, tool, verification or authorization, the evidence of that gap, and the step it blocks. Continue independent permitted work. If the user must act, give the exact location, operation or prompt, and success signal. Host selection does not grant authority.
 
-- Для чинного продукту використай його наявні проєкти Work і Codex. Звір ідентичність за відомими ID і прив'язками, репозиторієм, гілкою, підкаталогом та джерелами контрольної точки. Однакова назва не доводить збіг. Новий чат усередині чинного проєкту зберігає цю прив'язку. Новий проєкт створюється лише для підтверджено нового продукту або коли в нього ще немає відповідної прив'язки.
-- Підготуй короткий запис передачі. Укажи проєкт, ID задачі й пов'язаний ID за наявності, етап, очікуваний результат, останню підтверджену контрольну точку, repo та повний SHA або іншу перевірену ревізію, точні джерела й докази, дозволений обсяг і права, відкриті рішення, необхідні перевірки та наступну дію. Передавай тільки потрібні дозволені матеріали. Токени, секрети й повна історія чату до запису не входять.
-- Самостійно запиши або надішли передачу, якщо ціль точно встановлена, канал доступний, права й обсяг покривають конкретний запис і це єдиний придатний маршрут або вже прийнятий варіант. Зчитай результат з цілі за ID та ревізією і звір вміст. Розрізняй підготовлену передачу, підтверджене збереження або доставку, підтверджене отримання і підтверджений запуск. Повідом, що саме сталося, де це видно і де продовжувати. Збереження запису саме по собі не підтверджує запуск іншої сесії.
-- Якщо спільний канал підтримує лише збереження матеріалів, виконай цей дозволений крок, звір читання й дай власнику тільки решту дій. Для локального Codex відкриття папки залишається ручним. За відсутності дозволеного каналу дай готовий блок для вставлення й познач, які матеріали ще треба під'єднати.
+## Keep native identity during handoff
 
-## Якщо наступний етап у локальному Codex
+Use existing Work and Codex projects for an established product. Match actual project IDs or bindings, repository, branch, subdirectory and checkpoint sources. A matching display name alone does not establish identity. Create a project only for a confirmed new product or when an actual binding is missing.
 
-1. Підготуй дії для фактичного випадку. Для наявної копії дай точний шлях і команди `git remote get-url origin`, `git branch --show-current`, `git rev-parse HEAD`, `git status --short`. Потрібне оновлення чистої копії на погодженій гілці роби через `git pull --ff-only origin <гілка>`, після чого звір очікуваний SHA. Для першої копії дай готовий `git clone --branch` з підтвердженими гілкою, URL і шляхом у лапках. За розбіжності або локальних змін зупини залежний крок і дай спосіб продовжити зі збереженням роботи.
-2. Якщо потрібен новий GitHub-репозиторій, спочатку перевір, чи є чинний. Для нового продукту без Git-історії дай потрібні дії **GitHub → New repository → Owner → погоджена назва → Private** і спосіб створити першу гілку. Для наявної локальної історії запропонуй погоджений порожній remote й окрему дозволену першу публікацію. Назви конкретний репозиторій для підключення і перевір його читання. Для приватного clone на Mac потрібна локальна Git-авторизація.
-3. Дай окремі блоки **«Виконай у Terminal на Mac»** і **«Встав у Codex»**. Для вже відкритої правильної папки залиш тільки необхідні кроки. У Codex Desktop власник відкриває чинний проєкт або вибирає точний checkout через **Add new project**. Для додавання папки до чинного проєкту використовує **Edit project → Add folder**, а для основної папки за потреби **Make primary**. Якщо Desktop недоступний, дай `codex -C "<шлях>"` тільки за підтвердженої доступності CLI.
-4. У блоці для Codex заповни запис передачі. Перший крок у ньому — звірити робочу папку, origin, гілку, HEAD, локальні зміни та контрольну точку, далі виконати точну дію в межах дозволу. Для дозволеної публікації явно назви гілку та обсяг. Підпис застосунку, архітектура машини й версія ОС не входять до ідентичності проєкту чи перевірки Git.
+Prepare a bounded record with project, task and related IDs, stage, expected result, last confirmed checkpoint, repository and exact SHA or revision, relevant sources and evidence, current scope and rights, unresolved decisions, checks and next action. Transfer only authorized material. Exclude tokens, secrets and entire private chat histories.
 
-## Якщо наступний етап у Work
+When a real authorized channel supports the specific write, use the exact destination and read it back by ID and revision. Record preparation, saving or delivery, receiving and starting separately. If the channel supports only saving materials, verify that write and give the user the remaining steps. Local Codex can open the folder manually. Without a supported channel, provide a ready-to-copy prompt and specify the needed attachments or access.
 
-- Підтвердь наявний Work-проєкт і доступ до конкретної ревізії, гілки та файлів. Локальна папка або неопубліковані зміни на Mac потребують окремого підтвердженого каналу доступу. Якщо дозволено, опублікуй тільки погоджений обсяг і звір віддалений запис. Якщо потрібна дія власника, назви точний доступ або артефакт, де його взяти і куди додати. Для нового Work-проєкту дай **New project → назва → Sources** з конкретними файлами.
-- Якщо підтвердженого прямого запуску Work немає, дай заповнений блок **«Встав у Work»** для наявного проєкту. Використай той самий запис передачі для нової задачі, ініційованої Codex, і для повернення результату. За наявності передай звіт, результати перевірок, фактичний SHA або доступний артефакт, обмеження доказів та рішення, які ще очікуються.
+## Continue in local Codex
 
-## Відновлення і приймання
+For an existing checkout, provide the exact location and check `git remote get-url origin`, `git branch --show-current`, `git rev-parse HEAD` and `git status --short`. For an agreed clean update use `git pull --ff-only origin <branch>` and verify the expected SHA. For a fresh copy give the actual remote, branch and quoted destination for `git clone --branch`. Preserve divergent or local work and stop the dependent operation until resolved.
 
-- За перерваного чату віднови роботу в тому самому проєкті з останньої підтвердженої контрольної точки. Звір журнал і фактичні джерела, ревізію, доступ, рішення та власника наступної дії. При застарілій ревізії чи невідомому ефекті зупини залежні кроки, зчитай джерело за ID, гілкою, SHA або квитанцією і встанови, що відбулося, перед будь-яким повтором.
-- При отриманні звір вхідну ревізію, обсяг, джерела та необхідні предметні перевірки. Фіксуй окремо факти виконання, результат-кандидат, приймання й рішення власника. У підсумку назви підтверджений стан, джерело доказу, залишкову перешкоду за наявності та один конкретний наступний крок із місцем продовження.
+Check for an existing GitHub repository before creating a new one. For a new product, use the authorized owner, name and visibility and a first branch. With existing local history, choose an agreed empty remote where appropriate and authorize the first publication separately. Private clone needs access on the Mac.
 
+Give separate steps for Terminal and the Codex prompt if both are needed. Verify current Desktop controls. Existing projects can open their exact checkout and add a folder when required. Use `codex -C "<path>"` when the CLI is available and suitable. The handoff starts by checking current folder, origin, branch, HEAD, edits and checkpoint. An authorized publication names its branch and scope. Hardware, OS and app signature do not define project identity.
 
-## Спільний стандарт5.0
+## Continue in Work
 
-[Адаптивний контракт](adaptive-work.md) задає масштаб і повноту доручення; native registry зберігає повноваження. Для невідомого домену [залучати доречні компетенції](research-and-synthesis.md), не створювати новий продукт через handoff. Звіряти data/audience scopes між проєктами. Назви [WORK]/[CODEX] є навігацією; CPU/OS не визначають project identity. Поточні UI-кнопки й CLI звіряти за доступним фактичним інтерфейсом; ручне відкриття папки є погодженим базовим маршрутом. [Іконки](visual-identity.md) при оновленні зберігати; доставлення пакета не дорівнює застосуванню на Mac.
+Confirm the actual Work project and available branch, revision and files. Local unpublished changes require a separately verified transfer. Publish only authorized scope and verify remote read-back. Give exact owner steps if access or artifacts are missing. For a new Work project, check the current project creation and source controls.
+
+If direct dispatch is unavailable, provide a filled prompt for the existing Work project. Use a compatible record when returning work to Codex, with actual output, validation, SHA or accessible artifact, scope of proof and outstanding decisions.
+
+## Resume and confirm
+
+Recover the same project from its last confirmed checkpoint. Reconcile actual sources, revision, authority, owner, and next action. A stale revision or uncertain external effect blocks dependent retries until exact state is reconciled by ID, branch, SHA or receipt. Check handoff input and its domain-specific acceptance. Keep attempted work, candidate result, acceptance and owner decisions separate. Record the confirmed state and exact next step.
+
+Use [adaptive work](adaptive-work.md) for scope and preservation, [research and synthesis](research-and-synthesis.md) for unfamiliar domains and [visual identity](visual-identity.md) for presentation continuity. Labels such as WORK and CODEX guide navigation. A package download does not prove adoption on the Mac.

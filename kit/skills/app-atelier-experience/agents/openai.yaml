@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Досвід і бренд · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-experience до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Досвід і бренд
+  short_description: "Design and verify app experiences and visual identity"
+  default_prompt: "Use $app-atelier-experience to design or verify the accepted interaction and prepare a build handoff."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

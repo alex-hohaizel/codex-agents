@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Експлуатація · 6.0.0
-  short_description: Надійність, підтримка та розвиток чатбота
-  default_prompt: Використай $chatbot-atelier-operations для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Експлуатація
+  short_description: Chatbot incidents, support, and maintenance
+  default_prompt: Use $chatbot-atelier-operations. Restore the current service state and verify a focused repair or support outcome.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

@@ -1,52 +1,50 @@
-# Concept 4.0: дослідження й доказова різноманітність
+# Concept 4.0 research and evidence for differentiated designs
 
-Читати [research domain](domains/research.md) та [Game Model workflow](game-model-workflow.md). Дослідження має змінювати рішення, а не лише додавати список джерел до вже згенерованої ідеї.
+Read the [research domain](domains/research.md) and [Game Model workflow](game-model-workflow.md). Use research to change or validate decisions.
 
-## Доказ для конкретної задачі
+## Match evidence to the question
 
-Для кожної суттєвої тези записати питання, primary source/дата/версія/регіон, спостережений факт, дизайнерський висновок, невідоме, applicability до кандидата, strongest alternative explanation і наступний discriminating test. Позначати direct observation, developer claim, estimate, own hypothesis і measured own result окремо. Чужий revenue/retention не стає показником кандидата; installation count не доводить причину успіху.
+For each substantive claim record question, primary source, date, version and region, observed fact, design inference, unknowns, applicability, strongest alternative explanation, and next discriminating test. Distinguish direct observation, developer claim, estimate, own hypothesis and measured result. Keep another game's revenue and retention separate from the candidate. Installs alone do not determine cause.
 
-Порівнювати релевантні успішні та контрприклади за audience, core action, session loop, knowledge/progression/reward structure, world/content grammar, camera/input, art production, monetization/store journey, content cadence/operating cost і distribution/IP/marketing. Публічна інформація може не розкривати odds, prices, cohorts чи всю економіку; пропуск залишати explicit, а не заповнювати здогадом. Не обіцяти буквально exhaustive survey усіх існуючих ігор.
+Compare relevant successful and counterexamples by audience, core action, session loop, learning, progression and rewards, world and content rules, camera and input, art production, commerce and store experience, content cadence and operating cost, distribution, IP and marketing. Note gaps when public evidence omits odds, prices, cohorts, or economics. Define actual search coverage.
 
-Вивчати механізми commerce докладно: що/коли відкриває бажання, earned/paid/capped path, currency sources/sinks, recurrence/expiry, presentation/confirmation/grant/use, restore/refund/decline/offline/no-fill. Потім порівнювати моделі за fit до гри та production capacity. Жодна одна sidegrade/skin/booster модель не є універсальною. Store/payment/ads/privacy/age/market rules перевіряти актуальними офіційними джерелами перед залежним design/release.
+Examine what motivates purchase and when, earned, paid and capped routes, currency sources and sinks, recurrence and expiry, display, confirmation, grant and use, restore, refund, decline, offline and no-fill. Compare commercial designs against fit and actual capacity. Use primary sources for current store, payment, advertising, privacy, age and market rules when making dependent decisions.
 
-## Портфель концептів
+## Review the concept portfolio
 
-Використовувати [portfolio authoring aid](../assets/domain-templates/portfolio-review.template.json). Спочатку визначити незалежні осі й потенційні прогалини; потім створювати coherent candidates, які мають причину існування. Genre × camera × art × commerce не перемножувати як randomizer. Числа квот можуть бути constraint користувача, але не доказом різноманітності.
+Use the [portfolio authoring aid](../assets/domain-templates/portfolio-review.template.json). Identify independent axes and gaps before creating coherent candidates. Use genre, camera, art and commerce constraints to support alternative mechanisms. A quota governs scope when requested, with diversity verified independently.
 
-Розрізняти:
+- **Identity.** Check whether a candidate repeats another's causal mechanics, fantasy or goals behind a different title or decoration.
+- **Variety.** Compare decisions, rhythm, camera, framing and input, progression and world, art direction and commercial fit across the set.
+- **Feasibility.** Check achievable production routes against resources.
+- **Appeal.** Measure desire through authorized human evidence. Keep AI review at its own level.
 
-- **Ідентичність:** чи повторює кандидат core causal kernel/фантазію/цілі іншого під новою назвою/декором.
-- **Різноманітність:** чи різняться дії/рішення/ритм, camera/framing/input, розвиток/світ, художня мова й комерційний fit у всьому наборі.
-- **Здійсненність:** чи підтримується обіцянка конкретним маршрутом у реальних ресурсах.
-- **Привабливість:** чи хочуть реальні люди цей досвід; AI review не є людським доказом.
+Describe meaningful differences and shared motifs for the nearest neighbors. Review actual content beyond names, keywords or matching JSON. Combine established patterns when coherent and use original art, characters and IP. Review portfolio coverage independently of individual mandatory readiness. Verify variety across camera, art and controls.
 
-Для кожного найближчого сусіда пояснити meaningful differences і спільні мотиви. Semantic novelty review порівнює actual content, не тільки names/keywords чи точні JSON duplicates. Не вимагати штучної абсолютної новизни: доведені патерни можна комбінувати, якщо складена гра цілісна й не копіює чужу IP/арт/персонажів. Shared motif визнавати чесно. Review портфеля окремий від individual must-readiness; pass відсутності копії не закриває одноманітності camera/art/controls.
+Historical R6 supplies useful negative controls: different genre names with similar composition, reused finite scope counts, repetitive offer families and a default camera scale. Preserve original source and past approvals. Evaluate history at the scope of its actual proof.
 
-Фактичний R6 демонструє корисні negative controls: різні genre labels із подібною композицією, повторене finite scope число, один repeated offer family й camera-size default. Використовувати історичні originals як джерела тестів із lineage; не переписувати старі approvals і не оголошувати всіх старих кандидатів неякісними одним score.
+## Primary examples for recovering context
 
-## Первинні приклади для відновлення контексту
+These historical teaching references came from kit 2.1, checked on 01.11.2026. Verify current pages and product versions before drawing dependent conclusions.
 
-Нижче історичні методичні посилання з комплекту 2.1, перевіреного 01.11.2026. Перед новим предметним висновком перевірити актуальну сторінку/версію; це не live каталог і не підтвердження нинішньої комерційної ефективності.
+- Dead Cells: https://deadcells.com/ — changing castle, pattern combat, weapons and spells, and nonlinear exploration illustrate how mastery, tools and world can interact.
+- Vampire Survivors: https://poncle.games/vampire-survivors and https://poncle.itch.io/vampire-survivors — distinguish choices during a run, escalating effects and persistent upgrades.
+- Acecraft developer listing: https://play.google.com/store/apps/details?hl=en_US&id=com.vizta.weflyam — developer-described random skills, absorption, levels and co-op.
+- Moonton seasons: https://en.moonton.com/news/275.html and https://en.moonton.com/news/284.html — historical pilots, worlds, co-pilots, seasonal playstyles, resources and banner guarantees. Verify prices, odds and availability for each region and revision.
+- Official storefront: https://apps.apple.com/us/app/acecraft-sky-hero/id6746043251 — offer families and release notes. The listing alone cannot support a whole-game economic conclusion such as «не P2W».
 
-- Dead Cells: https://deadcells.com/ — зміни замку, pattern-based combat, різні weapons/spells, nonlinear routes/exploration як приклад сплетення mastery/інструментів/світу, без копіювання їхньої структури кожній грі.
-- Vampire Survivors: https://poncle.games/vampire-survivors і https://poncle.itch.io/vampire-survivors — розрізнення run choices/snowball і persistent upgrades, без нав'язування жанру.
-- Acecraft developer listing: https://play.google.com/store/apps/details?hl=en_US&id=com.vizta.weflyam — заявлені random skills, absorption, stages/co-op; developer claim не є нашим playtest.
-- Moonton seasonal descriptions: https://en.moonton.com/news/275.html і https://en.moonton.com/news/284.html — історичні pilots/world/co-pilots, сезонні playstyles/resources/banner guarantees. Не переносити поточні odds/доступність на іншу версію/регіон.
-- Official storefront: https://apps.apple.com/us/app/acecraft-sky-hero/id6746043251 — offer families/version notes, без гарантії повної економіки або «не P2W».
+Verify production rights independently of official publicity. Record actual viewing or play before claiming it. Verify technical routes against vendor or engine documentation and observed capabilities.
 
-Офіційний media asset не дає права копіювати його в production. Web search/metadata не називати переглядом відео або грою. Технічні способи реалізації перевіряти за документацією виробника/рушія й actual capability, не статтею про зовні схожу гру.
+## Review and authorized human tests
 
-## Review і human tests
+For each due requirement give the mechanism, strongest objection, evidence and limits, open gap and next test. Independent review requires a different actual actor. For forward skill tests give ordinary prompts, raw inputs and the current skill. Keep expected outcomes with evaluators. Cover varied genres, scopes, cameras and commercial constraints.
 
-Для кожного due must надати mechanism, strongest objection, actual evidence/limitations, unresolved gap і next test. Independent review виконує інший actual actor; roles у тексті не створюють доказ. У skill forward tests давати task-local prompt/raw inputs і оновлену навичку без бажаного висновку; перевіряти переносимість на різні жанри/масштаби/камери/commerce, не один підготовлений приклад.
+For human work define objective, recruitment and consent, sample and refusals, horizon, help and reminders, raw outputs, failure criterion and limits before drawing conclusions. A convenience sample cannot establish mass-market appeal. Separate immediate retry, independent new attempt and return after a pause. Synthetic visits1/5/20/50 are modeled rather than observed cohorts.
 
-Human protocol визначає objective, recruitment/consent, n/відмови, horizon, help/reminders, raw outputs, критерій спростування й limits до висновку. Friendly sample не доводить mass market. Immediate retry, самостійна нова спроба й return after pause — різні events. Синтетичні visits1/5/20/50 — модель, не observed cohorts.
+For authorized commerce and retention experiments define causal question and control, feasible randomization, cohort maturity, guardrails, stop and uncertainty. Derive D1 and ARPU thresholds from the decision and evidence. Publication, paid acquisition and outreach each require applicable authority.
 
-Для commerce/retention experiments формулювати causal question/control, randomization за можливості, зрілі cohorts, guardrails/stop/uncertainty. Не встановлювати універсальний D1/ARPU threshold як факт без контексту. Публікація, платний acquisition або external player outreach потребує відповідного scope; план дослідження сам не виконує ці дії.
+## Compare systems rather than labels
 
-## Порівняння систем, а не лише genre labels
+Track observed gameplay, AI, failure, progression and commerce separately from documented implementation, commercial results, and own inference. Keep unavailable facts open. Generate a testable hypothesis and counterexample for the current game.
 
-Для кожного дослідженого прикладу розділити спостережувані gameplay/AI/failure/progression/commerce mechanics, документовану реалізацію, комерційний результат і власний inference. Відсутня інформація — gap, не нульове значення. Вивести testable design hypothesis і counterexample для нашої гри.
-
-Перед дорогим generation порівняти C1 кандидатів за decision space, session/topology/camera/input/art, системами розвитку/ризику/нагород і operating cost. Бібліотека monetization охоплює метасистеми, functional bundles/partial ownership та cumulative portfolio; не змушувати всі ігри продавати одну sidegrade чи мати магазин.
+Before costly generation compare C1 candidates by decision space, sessions, topology, camera and input, art, progression, risk, reward and operating cost. Consider meta systems, functional bundles, partial ownership and combinations of offers as applicable. Include a store or sidegrades only when they fit.

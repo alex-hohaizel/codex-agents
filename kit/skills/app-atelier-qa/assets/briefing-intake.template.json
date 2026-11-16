@@ -3,7 +3,7 @@
   "mode": "brief",
   "family": "choose_actual_family",
   "stage": "choose_current_stage",
-  "goal": "Заповнити точною метою з фактичного доручення",
+  "goal": "Use the exact goal of the actual request",
   "authority_refs": [],
   "baseline": {
     "source": {

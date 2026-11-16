@@ -1,147 +1,147 @@
-# Системи, каталоги, розвиток і передача 4.0
+# Systems, catalogs, progression and handoff 4.0
 
-## Навігація
+## Navigation
 
-1. Межі та виходи C0/C1/T
-2. Реєстр двадцяти систем
-3. Залежності й зміна
-4. Каталоги та розвиток
-5. Лор і причинність
-6. Приймання і джерела
+1. C0, C1 and T boundaries and outputs
+2. Register of twenty systems
+3. Dependencies and change
+4. Catalogs and progression
+5. Lore and causality
+6. Acceptance and sources
 
-Застосовувати до задуму, технічного дизайну, зміни реалізації й повернення з QA. Реєстр нижче використовує canonical track IDs `TR01..TR20`. Канонічна модель проєкту є єдиною authority для IDs, правил і чинних рішень; цей довідник визначає спосіб її наповнення. Не створювати другу незалежну модель у GDD, таблиці, симуляторі чи prompt.
+Use for ideation, technical design, implementation changes and returns from QA. The register uses canonical track IDs `TR01..TR20`. The project's canonical model owns IDs, rules and current decisions. This reference describes how to populate it. Keep GDD, spreadsheets, simulations and prompts bound to that source rather than independently editable models.
 
-Шість погоджених компетенцій P1 мають явні ресурси: `math.md` — поведінка/математика; `catalog-progression.md` — каталоги/розвиток; `world-ai.md` — світ/AI; `lore-narrative.md` — лор; `experience-commerce.md` §§1–3 — досвід; той самий файл §4 — метагра/комерція. `systems.md` координує реєстр і передачу; `persistence.md` й операційний production довідник є наскрізними ресурсами D1/D2. Кількість файлів не визначає кількість агентів або обов’язкових фіч гри.
+The six agreed P1 competencies have explicit resources. `math.md` covers behavior and math, `catalog-progression.md` covers catalogs and progression, `world-ai.md` covers world and AI, and `lore-narrative.md` covers lore. `experience-commerce.md` sections 1–3 cover experience and section 4 covers metagame and commerce. `systems.md` coordinates the register and handoff. `persistence.md` and the production reference span D1/D2. Choose staffing and features by actual requirements.
 
-## 1. Зафіксувати межі виходу
+## 1. Set the output boundary
 
-| Вихід | Що передати | Що може залишитися відкритим |
+| Output | Deliverable | Decisions that can remain open |
 |---|---|---|
-| C0: ескіз | Фантазія, головне рішення, відмінність, ризик, груба здійсненність | Неопрацьовані системи явно позначені; це не завершена концепція |
-| C1: завершена концепція | Усі активні системи, сімейства, цикли, розвиток, світ, повний шлях гравця, стиль, керування, економіка, виробничий маршрут, сценарії | Числове налаштування з діапазоном, метою і способом вибору; жодного прихованого продуктового рішення |
-| T: виробнича передача | Повний запусковий каталог/генератор, типізовані правила, exact базові числа, стани/переходи, ресурси, алгоритми, adapters, fixtures, бюджети й план | Лише явно параметризоване подальше tuning із початковим значенням і процедурою; поведінкове TBD блокує споживача |
+| C0 concept sketch | Fantasy, main decision, distinction, risk and preliminary feasibility | Explicitly marked undeveloped systems. |
+| C1 complete concept | Active systems, families, loops, progression, world, complete player journey, style, controls, economy, production route and scenarios | Numeric tuning with range, objective and selection method. Close material product choices. |
+| T production handoff | Complete launch catalog or generator, typed rules, exact baseline numbers, states and transitions, resources, algorithms, adapters, fixtures, budgets and plan | Explicit future tuning with an initial value and method. Behavioral TBD blocks the recipient. |
 
-Доводити кожного представленого як готовий кандидата до C1. Картинки, три екрани або презентація є видами цього пакета, не його заміною. T розробляти для концепцій, прийнятих у реалізацію. Ранні ризикові spikes дозволені з обмеженим питанням/метрикою/критерієм відхилення; дослідний код не успадковує production статус.
+A candidate presented as complete needs C1. Illustrations, screen examples and presentations can carry parts of the package. Develop T for concepts approved for implementation. An early risk spike needs a bounded question, measurement and rejection criterion. Establish production status separately from research code.
 
-Сформувати scope ledger: включено зараз / пізніше / предметно N/A / невідомо. N/A пояснювати задумом, а не браком SDK чи часу. Невідома доступність потрібного пристрою означає неперевірений доказ. Зберегти пряме динамічне керування, native targets, FPS і прийняті матеріали там, де вони підтверджені чинним project profile; новий раунд не перетворює прийняті рішення на припущення. Новому проєкту не приписувати targets з [історичного прикладу](../historical-project-profiles.md).
+Record current, later, domain-inapplicable and unknown scope. Justify inapplicability from design. Missing SDK, time or unverifiable device availability leaves the applicable proof open. Preserve direct dynamic control, native targets, FPS and accepted artifacts when confirmed in the project profile. Keep previous decisions through new rounds. Apply [historical example](../historical-project-profiles.md) targets only to their recorded scope.
 
-## 2. Вести реєстр двадцяти систем
+## 2. Maintain the twenty-system register
 
-| ID | Система | Мінімальний предметний контракт |
+| ID | System | Minimum domain contract |
 |---|---|---|
-| TR01 | Задум і досвід | Аудиторія, фантазія, основні рішення, стовпи, межі й критерії відхилення |
-| TR02 | Лор і наратив | Канон, причинність, знання, персонажі, фракції, квести/діалоги за обсягом |
-| TR03 | Стан сутностей | Життя, ресурси, ownership, стани, відновлення, смерть/відмова |
-| TR04 | Дії й фізика | Намір, commitment, час, контакт, solver mapping, взаємодія |
-| TR05 | Предмети й можливості | Сімейства, характеристики, слоти, сумісність, комплект, отримання |
-| TR06 | AI та інші учасники | Сприйняття, знання, рішення, дії, координація, навігація |
-| TR07 | Структура світу | Топологія, місця, маршрути, переходи, стійкі наслідки |
-| TR08 | Складання ситуацій | Авторські опори/генерація, legality, новизна, ритм, repair/fallback |
-| TR09 | Проходження | Сесія, етапи/кампанія, виклики, повернення, завершення |
-| TR10 | Розвиток гравця | Майстерність, unlocks, спеціалізації, колекції, постійне/тимчасове |
-| TR11 | Винагороди й економіка | Джерела/витрати, цінність, гарантоване/випадкове, ліміти, repair |
-| TR12 | Монетизація | Товари, метасистеми, вплив, магазин, оплата, права й відновлення |
-| TR13 | Керування й камера | Намір→жест→дія, хват, pointer ownership, режим/ракурс, cancel |
-| TR14 | Повний UX | Запуск/навчання/сесія/помилка/вихід/повернення/налаштування/підтримка |
-| TR15 | Зображення | Стиль по елементах/станах, читабельність, анімація, VFX, budgets |
-| TR16 | Звук і haptics | Події/стани, SFX/музика/голос, sync, mix, пріоритети, альтернативи |
-| TR17 | Технічна платформа | Runtime/data/save/offline, умовна мережа, продуктивність, безпека |
-| TR18 | Виробництво контенту | Редаговані джерела, recipes, авторинг, імпорт/експорт, локалізація |
-| TR19 | Перевірка й вимірювання | Oracles, контрприклади, simulation/engine/native/device/human evidence |
-| TR20 | Випуск і розвиток | Версії, міграції, exact release, фактичні спостереження, підтримка |
+| TR01 | Concept and experience | Audience, fantasy, core decisions, pillars, limits and rejection criteria |
+| TR02 | Lore and narrative | Canon, causality, knowledge, characters, factions and applicable quests or dialogue |
+| TR03 | Entity state | Life, resources, ownership, states, recovery, death and failure |
+| TR04 | Actions and physics | Intent, commitment, time, contact, solver mapping and interaction |
+| TR05 | Items and capabilities | Families, characteristics, slots, compatibility, loadout and acquisition |
+| TR06 | AI and other participants | Perception, knowledge, decisions, action, coordination and navigation |
+| TR07 | World structure | Topology, locations, routes, transitions and persistent consequences |
+| TR08 | Situation composition | Authored anchors and generation, legality, novelty, pacing, repair and fallback |
+| TR09 | Playthrough | Session, stages or campaign, challenges, return and completion |
+| TR10 | Player progression | Mastery, unlocks, specializations, collections, persistent and temporary aspects |
+| TR11 | Rewards and economy | Sources and sinks, value, guaranteed and random results, limits and repair |
+| TR12 | Monetization | Offers, metagame, effects, store, payment, entitlement and restore |
+| TR13 | Controls and camera | Intent, gesture and action, grip, pointer ownership, mode and angle, cancellation |
+| TR14 | Full UX | Launch, learning, session, error, exit, return, settings and support |
+| TR15 | Visuals | Element and state style, readability, animation, VFX and budgets |
+| TR16 | Audio and haptics | Events and states, SFX, music, voice, sync, mixing, priorities and alternatives |
+| TR17 | Technical platform | Runtime, data, save, offline, conditional networking, performance and security |
+| TR18 | Content production | Editable sources, recipes, authoring, import and export, localization |
+| TR19 | Verification and measurement | Oracles, counterexamples and simulation, engine, native, device and human evidence |
+| TR20 | Release and evolution | Versions, migrations, exact release, actual observations and support |
 
-В authoring view для кожного запису визначити застосовність і причину, власника й отримувача, призначення, джерельні вимоги, reads/writes, правила, контент, розвиток, feedback, persistence, budget, інваріанти й due acceptance. Застосувати `assets/v4-domain-templates/system-register.template.json` як каркас роботи, не як completed proof або перелік literal canonical fields.
+In the authoring view record applicability and reason, owner and recipient, purpose, source requirements, reads and writes, rules, content, progression, feedback, persistence, budget, invariants and due acceptance. Use `assets/v4-domain-templates/system-register.template.json` as an authoring worksheet. Verify the canonical field list and required evidence separately.
 
-При записі в `game-model.json` використовувати точні поля чинної схеми: `production.tracks[]` має `id/name/enabled/rationale/owner/receiver/requirement_ids/summary/reads/writes/contract_ids/invariants/scenario_ids/progression/content/feedback/persistence/budget/concept_refs/spec_refs`. `concept_refs/spec_refs` містять `path/sha256`. Українські пояснення й authoring worksheets не підміняють canonical field names.
+For `game-model.json` use the current schema. `production.tracks[]` has `id/name/enabled/rationale/owner/receiver/requirement_ids/summary/reads/writes/contract_ids/invariants/scenario_ids/progression/content/feedback/persistence/budget/concept_refs/spec_refs`. `concept_refs/spec_refs` contains `path/sha256`. Canonical keys stay fixed across languages and authoring views.
 
-Реальні правила записувати в `production.contracts[]` через `id/kind/version/track_id/owner/requirement_ids/purpose/status/inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry/body`. Status: `unresolved/defined/tuning`; typed input/output: `name/type/units/encoding/capture`, числові precision/rounding за T. Kind-specific `body` перевіряється `scripts/v4_contract.py`; templates є authoring worksheets з явним `materialization`, а не напряму валідними моделями. State fields належать `production.state_fields`, не довільному другому save registry.
+Record rules in `production.contracts[]` as `id/kind/version/track_id/owner/requirement_ids/purpose/status/inputs/outputs/read_refs/write_refs/depends_on/algorithm/invariants/cases/feedback/persistence/telemetry/body`. Status is `unresolved/defined/tuning`. Type I/O as `name/type/units/encoding/capture` and specify numeric precision and rounding at T. `scripts/v4_contract.py` verifies kind-specific `body`. Templates describe `materialization` into validated models. State fields belong in `production.state_fields`.
 
-### Перенести дванадцять authoring views у канонічну модель
+### Transfer the twelve authoring views into the canonical model
 
-У шаблонах `template_only=true/status=draft`, null і пусті масиви навмисно позначають незавершений ввід. Не передавати їх як defined contracts. Прийняті деталізовані документи/таблиці зберігати як companion artifacts з path/sha256 у `concept_refs/spec_refs` чи `algorithm_ref`; canonical contract зберігає їхні IDs, типізований інтерфейс, поведінку й `cases`. Не дублювати незалежно редагований параметр у companion й runtime.
+In templates, `template_only=true/status=draft`, null and empty lists mark unfinished input. Complete these before delivery as defined contracts. Store accepted detailed documents and tables as companion artifacts with path and SHA in `concept_refs/spec_refs` or `algorithm_ref`. Canonical contracts preserve IDs, typed interfaces, behavior and `cases`. Assign one authoritative location for every editable parameter.
 
-| Worksheet | Canonical target і перетворення |
+| Worksheet | Canonical target and transformation |
 |---|---|
-| system-register | `systems[].id/name`→`production.tracks[].id/name`; applicability→enabled, consumer→receiver, purpose→summary, rules→contract_ids; references→concept_refs/spec_refs; due acceptance→scenarios/cases/evidence obligations |
-| behavior-rule | `production.contracts[] kind behavior/numeric/state_machine/rng`; type/unit/capture→inputs/outputs `type/units/capture`; concrete algorithm/function→algorithm/algorithm_ref; exact details→kind-specific body |
-| damage-resolution | kind damage,TR03/04; pipeline_order→body.pipeline with canonical nine step names; dedup→repeat_gate; capture_inputs→capture; channels require numeric_contract_ref; outcome_priority→lifecycle_priority; simulation/durable remain distinct |
-| physics-contact | kind physics,TR04; engine→engine_version; step→fixed_timestep/substeps/solver_config; collision matrix→collision_layers/queries; measurement/curve→contact_adapter; destruction→destruction_topology; motion/crash→crash_policy |
-| lifecycle-failure | kind state_machine/behavior,TR03/09; states/transitions/initial→body.state semantics; profiles/priority/retry→algorithm/body; negative cases→cases with concrete scenario IDs |
-| catalog-progression | kind family,TR05/10; dimensions/compatibility/progression/opportunities/dominance_counterexample/launch_catalog_ref→body; reward values→kind economy,TR11; instances→state_fields |
-| world-generation | kind generator,TR07/08; generation inputs/constraints/repair/attempt/fallback/RNG→matching body fields; semantic_novelty→novelty_signature; progression→progression_envelope; exact authored transitions→state_machine |
-| actor-boss | kind ai,TR06; families/knowledge/actions/decision/navigation→body actor_families/knowledge/actions/decision_model/navigation; boss→boss_policy and concrete state_machine; state/save→state_fields |
-| persistence-continuity | state_fields→`production.state_fields` using classification/units/consistency_group/commit/restore/merge/migration/retention; kind persistence body contains consistency_groups/transaction/recovery/restore_pipeline/identity/cloud_policy; envelope remains pinned companion |
-| input-camera | kind input,TR13; intent_action_map→intents/bindings; input_profiles→recognizer/pointer_ownership/cancel/simultaneity/accessibility; camera→camera_arbitration; first/peak/late→cases/peak_case |
-| experience-commerce | kind journey/presentation/economy/commerce acrossTR11/12/14/15/16; atlas/attention→states/failure/recovery/acceptance; commerce earned/paid/portfolio/partial/grant/refund/reconcile→matching body; event matrices remain pinned companions |
-| lore-narrative | kind behavior/state_machine,TR02; canon/knowledge/quest/scene conditions and changes→typed inputs/outputs/reads/writes, states/transitions/algorithm; exact authored text/graphs→pinned companion; restore choices→state_fields |
+| system-register | `systems[].id/name` → `production.tracks[].id/name`. applicability → enabled, consumer → receiver, purpose → summary, rules → contract_ids, references → concept_refs/spec_refs, due acceptance → scenarios, cases and evidence obligations. |
+| behavior-rule | `production.contracts[] kind behavior/numeric/state_machine/rng`. Map type, unit and capture to inputs and outputs `type/units/capture`. Map concrete function to algorithm or algorithm_ref and exact details to the kind-specific body. |
+| damage-resolution | kind damage,TR03/04. Map pipeline_order to body.pipeline with the nine canonical step names, dedup to repeat_gate and capture_inputs to capture. Channels require numeric_contract_ref, outcome_priority maps to lifecycle_priority, and simulation and durable commit stay distinct. |
+| physics-contact | kind physics,TR04. Map engine to engine_version, step to fixed_timestep/substeps/solver_config, collision matrix to collision_layers/queries, measurement and curve to contact_adapter, destruction to destruction_topology, and motion and crash to crash_policy. |
+| lifecycle-failure | kind state_machine/behavior,TR03/09. Map states, transitions and initial state to body semantics, profiles, priority and retry to algorithm and body, negatives to cases with concrete scenario IDs. |
+| catalog-progression | kind family,TR05/10. Map dimensions, compatibility, progression, opportunities, dominance_counterexample and launch_catalog_ref to body, reward values to kind economy,TR11, and instances to state_fields. |
+| world-generation | kind generator,TR07/08. Map inputs, constraints, repair, attempts, fallback and RNG to matching body fields, semantic_novelty to novelty_signature, progression to progression_envelope and exact authored transitions to state_machine. |
+| actor-boss | kind ai,TR06. Map families, knowledge, actions, decisions and navigation to body actor_families, knowledge, actions, decision_model and navigation. Boss maps to boss_policy plus a concrete state_machine. State and save map to state_fields. |
+| persistence-continuity | state_fields → `production.state_fields` using classification, units, consistency_group, commit, restore, merge, migration and retention. The kind persistence body contains consistency_groups, transaction, recovery, restore_pipeline, identity and cloud_policy. Keep the envelope in a pinned companion. |
+| input-camera | kind input,TR13. Map intent_action_map to intents and bindings, input_profiles to recognizer, pointer_ownership, cancel, simultaneity and accessibility, camera to camera_arbitration, and first, peak and late cases to cases and peak_case. |
+| experience-commerce | kind journey/presentation/economy/commerce across TR11/12/14/15/16. Map atlas and attention to states, failure, recovery and acceptance. Map earned, paid, portfolio, partial, grant, refund and reconcile to matching commerce body keys. Keep event matrices as pinned companions. |
+| lore-narrative | kind behavior/state_machine,TR02. Map canon, knowledge, quest and scene conditions and changes to typed inputs, outputs, reads and writes, states, transitions and algorithm. Preserve exact text and graphs in a pinned companion and map restore choices to state_fields. |
 
-Виконати поточний schema/semantic checker після перенесення. Ця таблиця не замінює kind-specific required keys у `scripts/v4_contract.py`; вона запобігає плутанині between richer worksheets і strict model envelope.
+Run the current structural and semantic checker after transfer. Verify kind-specific required keys in `scripts/v4_contract.py`. This table maps richer worksheets to the strict model envelope.
 
-Не вимагати зв’язку кожної пари систем. Для реального ребра записати source/output, target/input, тип/одиницю/timebase, допустимі стани, версію, втрату при перетворенні, помилку, owner і consumer check. Наприклад, пробиття колеса змінює grip, steering, доступні траси, camera cue, repair cost і save; логотип студії може бути незалежним.
+Record actual system edges. For each name source and output, target and input, type, unit and time base, legal states, version, conversion loss, error, owner and consumer check. For example, a punctured wheel can change grip, steering, available tracks, camera cue, repair cost and save. The studio logo may be independent.
 
-## 3. Здійснювати зміни через причинний вплив
+## 3. Change through causal impact
 
-1. Прочитати exact поточні inputs/версії та рішення; відновити незакінчені задачі, не повторювати завершені jobs.
-2. Визначити змінювані IDs і контракт: які reads/writes/поведінка/формати/асети змінюються.
-3. Пройти прямі й транзитивні залежності; перевірити пропущені ребра предметним читанням.
-4. Скласти bounded repair пакет із одним writer на файл/scene і точним consumer.
-5. Зберегти незалежні outputs/evidence; залежні позначити stale до нового приймання.
-6. Виконати потрібні contract/integration/native/human перевірки за твердженням.
-7. Оновити model revision, рішення, migration, виконані факти й наступну дію.
+1. Read current inputs, versions and decisions. Resume incomplete tasks and reuse valid completed results.
+2. Identify changed IDs and contracts, including reads, writes, behavior, formats and assets.
+3. Trace direct and transitive dependencies and inspect for missing edges.
+4. Prepare a bounded repair package with one writer per file or scene and a named consumer.
+5. Preserve independent outputs and evidence. Mark affected evidence stale pending new verification.
+6. Run contract, integration, native and human checks required by each claim.
+7. Update model revision, decisions, migration, observed facts and next action.
 
-Hash підтверджує відповідність байтів, не повноту змісту. Перевірений перенос доказу потребує незмінних семантичних inputs, версій адаптера/інструмента, середовища й scope. Стара review receipt не підтверджує нову фізику. Не скидати незалежну студійну ідентичність через зміну damage curve.
+Hashes establish byte binding. Reuse evidence only with unchanged meaningful inputs, adapter and tool versions, environment and scope. A physics change needs affected review. Preserve independent studio identity when changing a damage curve.
 
-## 4. Будувати каталог через простір рішень
+## 4. Build catalogs around actual choices
 
-У C1 визначити повну таксономію запускових сімейств, механічні осі, лінії розвитку, джерела отримання, сумісність і контексти. Не замінювати систему трьома прикладами. У T дати повні дані або точну grammar/generator зі всіма constraints, ranges, weights, versions і перевіреним fallback.
+At C1 specify the full taxonomy of launch families, mechanical dimensions, progression lines, acquisition, compatibility and contexts. T needs full data or exact grammar or generator, constraints, ranges, weights, versions and verified fallback.
 
-Для кожного сімейства описати:
+For each family describe:
 
-1. Роль і рішення, яке воно додає гравцю.
-2. Delivery/дію/цикл/ресурс і вимоги, а не лише `+stat`.
-3. Параметри з типами/одиницями/діапазонами, формулами або rule refs.
-4. Slot/tag/dependency/exclusion правила, legal/illegal приклади комплектів.
-5. Користь у контекстах, ціну, слабкість, синергії й контрстратегії.
-6. Acquisition/unlock/craft/repair/consume/respec із економічними й save refs.
-7. Візуальні/звукові/анімаційні відмінності та потрібні resource states.
-8. Реальні нагоди використання після відкриття, до й після completion.
+1. Role and the choice it adds.
+2. Delivery, action, cycle and resource, with functional requirements beyond `+stat`.
+3. Parameter types, units, ranges, formulas or rule references.
+4. Slot, tag, dependency and exclusion rules, with legal and illegal loadouts.
+5. Contextual use, cost, weakness, combinations and counters.
+6. Acquisition, unlock, craft, repair, consume and respec with economy and save references.
+7. Visual, audible and animated distinctions and required resource states.
+8. Actual use opportunities after unlock and before and after completion.
 
-Розрізняти definition ID, instance ID й варіант; статичний опис не містить runtime ownership. Комбіновані показники для гравця виводити з точних параметрів і однакових тестових сценаріїв. «Прохідність» має названі conditions/weights; UI не приховує, що саме перевірено.
+Distinguish definition ID, instance ID and variant. Store runtime ownership at its proper boundary. Derive player-facing aggregates from exact parameters and comparable scenarios. For an aggregate such as «Прохідність» (“traversal capability”), name conditions and weights and make their meaning visible in the UI.
 
-Перевіряти домінування по контекстах і paid portfolio, а не лише попарний середній DPS. Визначити мінімальне meaningful coverage сімейств/сценаріїв; не встановлювати універсальну квоту 50 предметів. Для великого простору застосувати boundary/constraint/property/combinatorial checks, зазначивши неперебрані поєднання.
+Check dominance across contexts and the paid portfolio as well as pairwise DPS. Set meaningful family and scenario coverage for this game. For a large design space use boundary, constraint, property and combinatorial checks and name untested combinations.
 
-### Прогресія та винагороди
+### Progression and rewards
 
-Для кожної progression edge задати source capability, prerequisites, витрату/досягнення, exact delta, нове рішення, наступну ціль, opportunity, reset/loss/transfer, UI/навчання, save й перевірку. Окремо вести run power, permanent unlock, навичку людини, колекцію та проходження світу.
+For every progression edge define source capability, prerequisites, spend or achievement, exact change, new decision, next goal, opportunity, reset, loss or transfer, UI and learning, save and check. Keep separate run power, permanent unlocks, player mastery, collection and world completion.
 
-Перевірити граф на недосяжні prerequisites, непотрібні цикли, пастки вибору, softlocks, обов’язкові порожні повтори й нагороду після останньої нагоди. Відкрити→освоїти→перенести→комбінувати→переосмислити є функціональними зв’язками, не примусовою однаковою послідовністю всім жанрам (D1Q09–10).
+Test unreachable prerequisites, cycles without purpose, trap choices, soft locks, mandatory repetition without purpose and rewards after their last opportunity. Discover, practice, transfer, combine and reinterpret describe functional relationships adaptable to the genre (D1Q09–10).
 
-Кожна reward rule визначає trigger, eligibility, amount/distribution, generation/claim ID, once/repeat scope, duplicates, cap/overflow, inventory destination, durable boundary, повторний callback, наступне використання. Відмова/retry/repair не створюють вигідний нескінченний цикл. На max level/повній колекції/фіналі визначити excess rewards, duplicate conversion, закриті offers і чесне завершення (Q14).
+Each reward rule defines trigger, eligibility, amount or distribution, generation and claim ID, once or repeat scope, duplicates, cap and overflow, inventory, durable boundary, callback replay and downstream use. Check failure, retry or repair for indefinitely profitable cycles. At maximum level, complete collection and finale, define excess rewards, duplicate conversion, closed offers and honest completion (Q14).
 
-## 5. Оформити лор як ігрову причинність
+## 5. Make lore causally meaningful
 
-Розділити world truth, character knowledge, belief/rumor і presentation. Canon record містить `fact_id`, truth conditions, time/region, actors knowing it, allowed changes, conflicts, dependent missions/assets/audio. Не зараховувати довгу енциклопедію без ігрового впливу як завершений narrative design.
+Distinguish world truth, character knowledge, belief or rumor, and presentation. A canon record contains `fact_id`, truth conditions, time and region, actors who know it, allowed changes, conflicts and dependent missions, assets and audio. Show the gameplay effects of narrative detail.
 
-Для scene/quest/dialogue задати prerequisites, knowledge guards, priority/tie-break, speaker/target, choices, commitment/irreversibility, effects, interruption/resume/repeat, localization IDs, save й fallback. Не допустити одночасно взаємовиключні фінали через save merge. Лор дефіциту має узгоджуватися з джерелами/витратами економіки, а смерть/відродження — з правилами failure.
+For scenes, quests and dialogue specify prerequisites, knowledge guards, priority and tie-break, speaker and addressee, choices and commitment, irreversible effects, interruption, resume and repetition, localization IDs, save and fallback. Guard mutually exclusive endings during merges. Align scarcity with economy and death and revival with failure rules.
 
-Визначити функціональне пояснення переходів: навіщо гравець іде далі, що втрачає/зберігає, як змінилися знання/завдання, як може повернутися. Перед поверненням показувати зрозумілу бажану нагороду/умову/шанс за задумом; не створювати примусовий backtracking заради заповнення карти.
+Explain transitions in terms of motivation, losses and retained state, changed knowledge or goals, and possible return. Show understandable desired reward, conditions and odds where relevant. Give reused routes a functional purpose.
 
-## 6. Прийняти пакет споживачем
+## 6. Accept the package with a recipient
 
-Отримувач без історії чату має відтворити: першу дію; late/peak ситуацію; failure/recovery; нове відкриття й нагороду; pause/cold return; conditional purchase/sync. Він називає прочитані IDs/версії, отримані outcomes, пропуски й власний контрприклад. Авторський self-check не називати незалежним review.
+Without chat history the recipient can reconstruct first action, late and peak situations, failure and recovery, new unlock and reward, pause and cold return, and conditional purchase or sync. They name IDs and versions read, outcomes, gaps and a new counterexample. Record author and independent checks separately.
 
-Негативні перевірки: сімейство лише перефарбоване; unlock не має opportunity; reward без застосування; max collection ламає магазин; lore flag змінюється двома writers; приймач вигадує правило; зміна grip не скинула залежний route proof; доступний SDK помилково позначено integrated.
+Negative checks include a palette-only family, unlock with no opportunity, unusable reward, full collection that breaks store behavior, two writers for a lore flag, the recipient having to invent a rule, prior route proof surviving a grip change, and SDK availability mislabeled as integration.
 
-Для dev/test визначити лабораторію станів: exact fixture/seed/loadout/locale/input profile, legitimate state transition, reset і очікуваний outcome (D1Q16). Лабораторія відрізняється від bounded gameplay repro capsule (Q28) й runtime reason inspector (Q29); жодна не є ще одним джерелом правил. Режим debug/cheat не потрапляє до release без окремої product причини.
+For development and test specify a state lab with exact fixture, seed, loadout, locale and input profile, a legitimate transition, reset and expected result (D1Q16). Distinguish it from a bounded gameplay reproduction capsule (Q28) and runtime reason inspector (Q29). All use the same rule authority. Include a debug or cheat mode in release only for an explicit product reason.
 
-Пакет готовий лише за scoped критеріїв відповідного виходу. Structural pass не доводить fun, баланс, native performance чи revenue. Зберегти статуси досліджено/специфіковано/обчислено/симульовано/інтегровано/перевірено на пристрої/перевірено людиною окремо.
+Accept each scoped output against its due criteria. Record researched, specified, calculated, simulated, integrated, device-tested and human-reviewed status separately. Observe fun, balance, native performance and revenue at their actual boundaries.
 
-## Джерельна основа
+## Source basis
 
-Методика 4.0 є адаптацією затверджених P1/D1/D2, не універсальним стандартом GDD. Первинні матеріали перевірено під час дослідження 2026-11-02; version-specific факти повторно перевіряти при binding реального проєкту.
+Version 4.0 adapts approved P1/D1/D2 work. These sources were reviewed on 2026-11-02. Recheck version-specific claims when binding the actual project.
 
-- MDA, зв’язок mechanics/dynamics/experience: https://www.cs.northwestern.edu/~hunicke/MDA.pdf
-- Epic Data Driven Gameplay, таблиці й криві; не наказ використовувати Unreal: https://dev.epicgames.com/documentation/unreal-engine/data-driven-gameplay-elements-in-unreal-engine
-- W3C SCXML, події/стани/переходи; без обов’язкового XML runtime: https://www.w3.org/TR/scxml/
-- W3C PROV-DM, entities/activities/agents/derivation; provenance не доводить якість: https://www.w3.org/TR/prov-dm/
-- Dormans, місійна й просторова структури: https://www.pcgworkshop.com/archive/dormans2010adventures.pdf
+- MDA, links between mechanics, dynamics and experience: https://www.cs.northwestern.edu/~hunicke/MDA.pdf
+- Epic Data Driven Gameplay, tables and curves: https://dev.epicgames.com/documentation/unreal-engine/data-driven-gameplay-elements-in-unreal-engine
+- W3C SCXML, event, state and transition concepts: https://www.w3.org/TR/scxml/
+- W3C PROV-DM, entities, activities, agents and derivation: https://www.w3.org/TR/prov-dm/
+- Dormans, mission and spatial structure: https://www.pcgworkshop.com/archive/dormans2010adventures.pdf

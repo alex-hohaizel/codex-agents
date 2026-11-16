@@ -76,6 +76,26 @@ class PipelineRecoveryTests(unittest.TestCase):
         self.assertEqual(len(calls), 4)
         self.assertEqual((self.root / "result.txt").read_text(), "new accepted source")
 
+    def test_replaced_release_archive_invalidates_the_package_cache(self):
+        filename = "Agent_System_6.2.0_CODEX.zip"
+        relative_path = f"dist/{filename}"
+        stages = [Stage("package", (("{output}",),), ("source.txt",),
+                        (relative_path,), staged_output_dir="dist")]
+        archive = self.root / relative_path
+        original = b"accepted archive"
+
+        def runner(command, root, timeout, log):
+            (Path(command[0]) / filename).write_bytes(original)
+
+        self.run_pipeline(stages, runner)
+        accepted = json.loads(self.state.read_text())["stages"]["package"]["outputs"]
+        self.assertEqual(accepted[relative_path]["sha256"], sha(archive))
+        self.assertEqual(self.run_pipeline(stages, runner)["stages"][0]["status"], "verified-cache")
+
+        archive.write_bytes(b"modified archive")
+        self.assertEqual(self.run_pipeline(stages, runner)["stages"][0]["status"], "complete")
+        self.assertEqual(archive.read_bytes(), original)
+
     def test_missing_private_artifact_invalidates_completed_export(self):
         stages = [Stage("export", (("generate",),), ("source.txt",), ("result.txt",),
                         private_outputs=("reports/local-artifacts/full.pdf",))]

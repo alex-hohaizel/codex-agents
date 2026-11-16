@@ -1,55 +1,55 @@
-# Предметна модель Agent Foundry
+# Agent Foundry domain model
 
-Зміст: зрілість → дослідження → правила → стан → взаємодії → приймання → спадкування. Читати до паспорта, при матеріальній зміні предмета та перед виробничою передачею. Це адаптація наскрізних методів, а не перенесення ігрових сутностей чи готовий каталог функцій.
+Contents: maturity → discovery → rules → state → interactions → acceptance → inheritance. Read before the passport, after a material domain change, and before production handoff. Adapt shared methods to the actual domain; do not import game entities or a fixed feature catalog.
 
-## 1. Три рівні, один lineage
+## 1. Three levels, one lineage
 
-**M0 — дослідницький начерк:** потреба, учасники, можливий результат, цінність, ключові системи й ризики. Відрізняти неперевірений приклад від прийнятої концепції. Для ключової відмінності вже потрібен здійсненний маршрут і due probe. M0 не дозволяє назвати агента спроєктованим.
+**M0, exploratory sketch:** need, participants, possible result, value, core systems and risks. Separate untested examples from accepted concepts. For a distinguishing promise, identify a feasible route and the probe that is due. M0 does not establish that the agent is designed.
 
-**M1 — повний паспорт для вибору/погодження:** усі застосовні компетенції, робочі та периферійні сценарії, каталоги можливостей/варіантів, залежності, дані, права, інструменти, якість, виробнича спроможність, правила відмови й відновлення, подальший супровід. Основна поведінка й користь визначені. Майбутній числовий tuning має метод, owner та due gate. Для кожного варіанта, названого завершеним, M1 однаково повний; не порівнювати повний фаворит із навмисно слабкими ескізами.
+**M1, complete passport for choice and approval:** all applicable competencies, primary and peripheral scenarios, capabilities and variants, dependencies, data, rights, tools, quality, production capacity, failure and recovery rules, and support. Define the core behavior and benefit. Future numeric tuning has a method, owner and due gate. Give every proposed complete option the same M1 depth; avoid comparing one fully designed favorite to deliberately weak sketches.
 
-**M2 — точна виробнича передача:** прийнятий M1, повні правила/таблиці/формати, каталог результатів або скінченна grammar, вихідні дані, baseline, інтерфейси/помилки, операції/рецепти, fixtures й критерії приймання. Отримувач не повинен вигадувати відсутню предметну поведінку. До масового виробництва прийняти репрезентативний наскрізний результат у цільовому середовищі.
+**M2, exact production handoff:** accepted M1, complete rules, tables and formats, output catalog or finite grammar, inputs, baseline, interfaces and errors, operations and recipes, fixtures and acceptance. The recipient should not have to invent missing domain behavior. Accept a representative end-to-end result in the target environment before wider production.
 
-Підтримуються лише поточні factory blueprint/state `1.0.0` та пов’язана предметна модель `foundry-depth/2`. Це різні актуальні протоколи, а не reader для попередніх результатів. Непідтриманий формат відхиляється; новий поточний запис готується з актуальних джерел, без перенесення готовності старого результату.
+Supported factory blueprint and state remain `1.0.0`, with a related `foundry-depth/2` domain model. These are separate current protocols, not generic readers for prior outputs. Reject unsupported formats. If a current record is needed, build it from current sources and preserve the earlier result's separate readiness status.
 
-## 2. Вивести повну область із задачі
+## 2. Derive scope from the assignment
 
-Для кожної компетенції відновити: actors/roles; сутності й відмінність definition/instance/revision; життєвий цикл; вхідні/вихідні дані; події; джерело істини; права; ресурси; часові межі; обмеження; конфлікти; помилки; спосіб перевірки. Окремо перелічити створення, зміну, читання, пошук, видалення, скасування, перезапуск, передачу, завершення, відновлення та втрату зовнішнього сервісу — лише застосовні класи.
+For each competency establish actors and roles; entities and definition, instance and revision distinctions; lifecycle; data inputs and outputs; events; source of truth; permissions; resources; time boundaries; constraints; conflicts; errors; and verification. Include applicable creation, change, read, search, removal, cancellation, restart, handoff, completion, recovery, and external service loss scenarios.
 
-Карта систем — предметна, без фіксованого числа. Кожна має `id, purpose, applicability, rationale, owner, input, output, reads, writes, produces_events, consumes_events, invariants, dependencies, acceptance`. Не підміняти повноту довжиною списку. Взаємодію додавати лише коли названо причинне читання/зміну/наслідок; all-to-all матриця без змісту не потрібна. Відсутня згадка — питання аналізу, відсутній інструмент — blocked, свідома незастосовність — scoped N/A із причиною.
+Make a domain-specific system map. Each system has `id, purpose, applicability, rationale, owner, input, output, reads, writes, produces_events, consumes_events, invariants, dependencies, acceptance`. Analyze completeness directly. Add an interaction when it names a causal read, change or consequence. Missing mention requires analysis; unavailable tools are blockers; intentional inapplicability needs a scoped reason.
 
-Дослідження найкращих практик: визначити властивість і метод, знайти первинне джерело/версію, відділити документований факт від адаптації, порівняти альтернативи за однаковими must. Назви DDD/CQRS/RAG/мікросервісів/FSM не є quality gates. Вибрати достатній метод за ризиком, даними, масштабом і спроможністю команди; додаткові бібліотеки, сервіси та платні моделі не активувати за замовчуванням.
+For industry practices, define the property and method, find the current primary source and version, separate documentation from adaptation, and compare options against the same requirements. DDD, CQRS, RAG, microservices, and FSM are options. Choose the sufficient method for risk, data, scale and team ability. Do not enable extra libraries, services or paid models by default.
 
-## 3. Формалізувати поведінку
+## 3. Formalize behavior
 
-Кожне правило: stable ID та source; actor/target; preconditions; точні inputs/types/units/ranges/nullability; момент читання; впорядковані steps; модифікатори/пріоритети; вихід/побічний ефект; тривалість; cancellation; повтор; конфлікт; негативний сценарій; oracle; due proof. Не залишати слова «коректно», «якісно», «оптимально», «розумно» єдиним критерієм.
+Give each rule a stable ID and source, actor and target, preconditions, exact inputs, types, units, ranges and nullability, read timing, ordered steps, modifiers and priorities, output and effect, duration, cancellation, replay, conflicts, negative case, oracle and proof due. Make terms such as "correct," "high quality," "optimal," and "reasonable" observable.
 
-Числові правила: порядок операцій, точність, округлення, clamp, overflow, валюта/одиниці, часова зона/календар/monotonic clock, inclusive/exclusive межі, tie-break. Для оцінки з ймовірністю або генерацією — support distribution, scope випадковості, кореляції, спосіб перевірки, дозволена варіативність і граничні приклади. Середнє не доводить percentile або індивідуальний результат. Не вигадувати seed, коли provider його не підтримує.
+For numeric rules specify order, precision, rounding, clamping, overflow, currency and units, time zone, calendar and monotonic clock, inclusive and exclusive boundaries, and tie breaks. For probability or generation define distribution support, randomness scope, correlations, method of evaluation, permitted variance, and boundary examples. A mean does not prove a percentile or an individual result. Do not assume seed support.
 
-Для конфліктних подій визначити порядок: одержання→валідація→авторизація→нормалізація→обчислення→логічне застосування→публічний відгук→надійний запис/receipt за визначеною межею. Це не універсальна транзакція: конкретний предмет може мати інший причинний порядок. Негайний UI-відгук не має називати непідтверджену зовнішню дію завершеною. Визначити, що саме є прийняттям, здійсненням, durable commit і підтвердженням користувачу.
+For conflicting events define the sequence across receipt, validation, authorization, normalization, calculation, logical apply, user feedback, and durable record or receipt at the appropriate boundary. The actual domain determines its transaction and causal order. Immediate UI feedback must not claim an unconfirmed effect completed. Define acceptance, execution, durable commit, and user confirmation separately.
 
-Дедуплікація: предметна action identity, actor/target/scope, validity window, restart policy, джерело перевірки. Кілька callbacks або retries одного наміру не створюють кілька ефектів. Обмежити рекурсію/каскади events, fan-out, token/time/cost loops; визначити порядок завершення й escalation.
+Deduplication needs a domain action identity, actor, target, scope, validity window, restart policy, and verification source. Repeated callbacks or retries for the same intent must not create additional effects. Bound recursion, event cascades, fan-out, token, time and cost loops, and specify completion and escalation.
 
-## 4. Стан і відмова як власна модель
+## 4. Model state and failure
 
-Кожне поле стану має тип, default, valid range, authority, persistence scope, consistency group, version/migration, retention/delete policy та recovery oracle. Відділити transient presentation, session/derived cache, durable domain state, external provider state та приватні дані. Derived state відтворюється лише з чинних дозволених джерел.
+For every state field define type, default, valid range, authority, persistence scope, consistency group, version and migration, retention and deletion, and recovery oracle. Distinguish transient presentation, session and derived cache, durable domain state, external provider state, and private data. Rebuild derived state only from current permitted sources.
 
-Життєвий цикл: normal/partial/blocked/degraded/cancel_pending/cancelled/failed/recovering/completed там, де це має предметний зміст. Для кожного переходу: trigger, guard, дозволені дії, ресурси, cleanup, залишкові jobs, компенсація, збережені й втрачені дані, повтор/відкат, user signal. Unknown outcome окремий від failed; cancel requested окремий від cancelled.
+Use lifecycle states as applicable: normal/partial/blocked/degraded/cancel_pending/cancelled/failed/recovering/completed. For each transition define trigger, guard, allowed actions, resources, cleanup, outstanding jobs, compensation, retained and lost data, replay or rollback, and user signal. Unknown outcome differs from failed. Cancellation requested differs from cancelled.
 
-Для відновлення задати consistency boundary, що переживає crash, які дії можна повторювати, як reconciliate pending operation, як виявити stale writer, як перевірити partial output і відсутність дубля. Read-only status спочатку; receipt не вигадувати. Backup restore враховує tombstones/revoked authority і сумісність schema. Видалення місцевого файла не доводить видалення remote, cache та копій.
+Define what survives a crash, which actions can replay, how to reconcile pending operations, how to detect a stale writer, and how to check partial output and duplicates. Inspect read-only status first and require real receipts. Recovery from backup respects tombstones, revoked authority, and schema compatibility. Removing a local file does not establish deletion from remote storage, caches or copies.
 
-## 5. Наскрізні межі й матеріалізація
+## 5. Trace requirements to results
 
-`requirement → contract/rule → operation → recipe → transformation → attempt → output → consumer assembly → evidence → closure`. Кожне ребро має зміст: що читає/перетворює/підтверджує і чим змінюється. Один artifact може задовольняти кілька requirements, але кожна зберігає власний verdict. Власник підтримує dependency closure, а не покладається на магічне виявлення незареєстрованої залежності.
+`requirement → contract/rule → operation → recipe → transformation → attempt → output → consumer assembly → evidence → closure`. Label each edge with what is read, transformed, or confirmed and what changes. An artifact may satisfy several requirements; keep a verdict for each. The owner maintains dependency closure using explicit links.
 
-Перетворення називає source/target формат, IDs, encoding/locale, одиниці, scale, часову базу, точність, schema semantics, права/аудиторію, preserved invariants, intentional losses і validator. Приклад текст→структуровані дані→API може втратити одиницю, адресата чи порядок; JSON parse не виявляє семантичної втрати. Якщо є медіа — окремо джерело, редагований master, похідний export та runtime consumption; згенерована ілюстрація не доводить робочий UI чи редаговану модель.
+For each transformation name source and target formats, IDs, encoding and locale, units, scale, time base, precision, schema semantics, rights and audience, preserved invariants, intentional losses, and validator. Text to structured data to API can lose units, recipients or ordering; JSON parsing does not detect semantic loss. For media distinguish source, editable master, derived export, and runtime consumption. A generated picture does not prove working UI or editable 3D assets.
 
-Матеріальна вимога до tool параметра: requirement→actual schema field→supported operation→bound value→consumption check. Prompt із проханням зберегти властивість не є доказом підтримки. Unsupported must блокує залежну операцію або веде до обґрунтованого іншого маршруту; його не компенсує weighted score.
+For a material tool parameter bind requirement → actual schema field → supported operation → bound value → evidence that it was consumed. Asking for a property in a prompt does not prove support. An unsupported requirement blocks the dependent operation or calls for a justified alternative. A weighted score cannot offset it.
 
-## 6. Команда і спадкування
+## 6. Team and inheritance
 
-Склад вивести з конкретних контрактів, артефактів і ризиків. Техлід сам виконує/інтегрує роботу. Спеціаліст має competence, exact inputs, owned paths/resources, output/consumer, DoD, budget і stop. Reviewer отримує raw artifacts; автор не видається незалежним reviewer. Спільний provider/account/database/device/export має одного writer чи явну узгоджену дисципліну; ізольовані файли не ізолюють зовнішній ресурс.
+Derive the team from actual contracts, artifacts, and risks. The technical lead produces or integrates work. A specialist needs competency, exact inputs, owned paths and resources, output and consumer, completion criteria, budget and stop. Give reviewers original artifacts. The author cannot independently review their own work. Give a shared provider, account, database, device or export one writer or an explicit compatible write protocol; separate files do not isolate an external resource.
 
-У кожний створений модуль включити потрібний versioned shared core, цей предметний контракт у спеціалізованій формі, production/evaluation obligations та фактичні recipes/fixtures. Зберегти спільні stable IDs і неприховані локальні paths. Не переносити всі довідники без застосовності: profile називає, що успадковано, як адаптовано, де знаходиться та як перевірено. Відсутній обов’язковий компонент не закривається словом «inherited».
+Bundle the necessary versioned core, specialized domain contract, production and evaluation obligations, and actual recipes and fixtures in each generated module. Preserve shared stable IDs and explicit local paths. The profile names what applies, what was adapted, where it lives, and how it was checked. Inheritance alone does not close a missing required component.
 
-Перевірити `check_foundry_depth.py` для exact model/modules/evidence refs, а також спільний `verify_depth.py` за фактичною довідкою. Це машинні структурні gates. Предметна повнота, автентичність згоди, якість generated agents і реальний outcome мають власне незалежне приймання. Передача без історії чату — cold receiver читає паспорт, правила, recipes і запускає дозволений приклад; усе потрібне має бути в пакеті.
+Use `check_foundry_depth.py` to check the exact model, modules and evidence references, and run the shared `verify_depth.py` according to its current help. These are structural checks. Domain completeness, authentic consent, generated agent quality and real outcomes each need their own independent evidence. For a handoff independent of chat history, give a fresh recipient the passport, rules, recipes and everything needed to execute an authorized example.

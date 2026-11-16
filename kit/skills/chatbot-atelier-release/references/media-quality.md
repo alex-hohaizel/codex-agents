@@ -1,39 +1,39 @@
-# Якість стікерів і медіадій
+# Sticker and media quality
 
-## Реєстр стікерів
+## Sticker records
 
-Знайти найкращу прийняту версію, поточний manifest, генератор/keyposes/settings, channel asset membership/file IDs і actual bytes. Для кожного файлу вести accepted_unchanged / suspect / reproduced_defect / repaired / visually_reviewed / device_observed. Розмір набору й FPS не є якістю анімації.
+Locate the best accepted version, current manifest, generator, key poses and settings, native set membership and file IDs, and actual bytes. Track accepted_unchanged, suspect, reproduced_defect, repaired, visually_reviewed and device_observed for each file. Evaluate motion separately from set size and FPS.
 
-Перевіряти кожен змінений/підозрілий файл:
+Inspect each changed or suspect item:
 
-- Цілісність персонажа, пропорцій, обличчя/лап/вух/одягу, чистий alpha край; немає зайвих кінцівок, здвоєння, тимчасової зміни обличчя.
-- Емоція зрозуміла з preview й відповідає сцені; різні настрої не дублюють одну заготовку.
-- Стабільні топологія/предмети між keyposes; немає dissolve/ghosting несумісних поз, стрибків, зникнення деталей/розтягування/шуму.
-- Осмислені anticipation/action/settle, траєкторія й швидкість; додаткові кадри не лікують погану інтерполяцію.
-- Початок/кінець/loop seam у русі, відсутність обрізання. Дивитися повний цикл у реальному й уповільненому темпі.
+- Preserve character, proportions, face, paws, ears, garments and clean alpha. Check extra limbs, doubles and temporary identity shifts.
+- Make emotion legible and appropriate to the scene. Different moods need meaningful expressions.
+- Keep topology and objects consistent across key poses. Check incompatible-pose dissolve, ghosting, jumps, lost detail, stretching and noise.
+- Verify useful anticipation, action, settle, trajectory and speed. Repair interpolation at its cause.
+- Watch the complete beginning, end and loop in real and slow playback. Check clipping in motion.
 
-Scan всіх файлів: decode/timestamps, alpha/bounds, blank/black frames, повтори, frame/loop differences. Великі різниці — підказка, не універсальний veto. Contact sheet доповнює анімацію, не заміняє її. Оглянути всі замінені/позначені та незмінені control files; для заяви «весь пак перевірено» потрібен облік огляду кожного.
+Scan every file for decoding and timestamps, alpha and bounds, blank or black frames, repeats, frame differences and loop differences. Large differences indicate an item to inspect. Use contact sheets alongside playback. Inspect all replaced or flagged files and unchanged controls. A whole-pack verdict requires a record for every item.
 
-Порівняти defective/repaired зі старим прийнятим контролем. Лікувати generator/rig/masks/keypose correspondence за причиною. Не підміняти анімацію нерухомим кадром із коливанням усього зображення; не урізати набір без доручення. Для технічного mux/re-encode imagegen не потрібний; для створення/редагування растрової картинки використовувати належний imagegen workflow.
+Compare a repair against the reproduced defect and an accepted control. Fix the generator, rig, masks or pose correspondence where causal. Preserve meaningful motion and authorized pack scope. Use a technical mux or re-encode for format work and the applicable image workflow for drawing or editing a raster asset.
 
-Для обраного каналу звіряти актуальні вимоги до медіа перед encode/publication; Telegram video-sticker profile активувати тільки для Telegram. Після публікації перевірити item → hash → provider file → позицію. Невідоме mobile acceptance так і позначати.
+Verify current selected-channel media requirements before encode or publication. Apply a Telegram video-sticker profile only to Telegram. After publication verify item, hash, provider file and position. Preserve unknown mobile acceptance as a gap.
 
-## Походження й заморожений пакет
+## Lineage and frozen package
 
-Зберігати точні початкові джерела перед перезаписом canonical. Кадри, декодовані з відео, називати derived frames; нові намальовані опори чи окремі шари — generated sources, з фактичними input/output SHA, prompt і процедурою crop/resize. Не приписувати новому малюнку timestamp старого відео або статус відновленого original atlas. Prompt записувати в артефакт разом із викликом: тимчасова пам'ять оркестратора не є збереженим доказом.
+Preserve exact originals before replacing canonical output. Label video extracts as derived frames and newly drawn poses or layers as generated sources. Record input/output SHA, prompt and crop/resize procedure. Keep the original timestamp and recovered atlas claims bound to actual historic bytes. Save the prompt with the invocation.
 
-Перед freeze дочекатися фактичного завершення кожного encoder process; існування файла чи повернутий running session не доводять готовності. Після COPY перевірити саме остаточні заморожені файли: probe, повний decode з помилкою на пошкодженні, число/порядок кадрів, duration і відповідність candidate. SHA та bytes у proof мають збігатися з цими копіями. Ще раз звірити всі hashes після перевірки та лише тоді завершити immutable manifest. Перевірка live source до копіювання не підтверджує пізніший snapshot.
+Wait for every encoder to finish before freeze. Probe the final copied files, fully decode with failure on damage, verify frame count, order, duration and match to the accepted candidate. Bind proof to those bytes and SHA. Recheck all hashes after review, then finalize the immutable manifest. A later snapshot needs its own verification.
 
-Після незалежного FINAL не переписувати його пакет або proof. Виправлений review-файл чи відсутню metadata оформити новим адресованим addendum із parent SHA й фактичним незалежним closure. Відрізняти дефект preview/handoff від дефекту самої анімації; жоден із них не приховувати. Reproduction запускати зі збережених inputs/recipe/generator, не з уже перезаписаного canonical.
+Keep an independently accepted FINAL and proof immutable. Record metadata or review repair as a targeted addendum with parent SHA and actual independent closure. Classify preview/handoff defects separately from defects in animation. Reproduce from preserved input, recipe and generator.
 
-## Відео з музикою
+## Video with music
 
-Розрізняти montage, нову генерацію, source audio, music track і voice synthesis. Відкладений голос не забороняє надану музику; не вмикати TTS/платних провайдерів без дозволу.
+Distinguish montage, new generation, source audio, music and voice synthesis. Deferred voice leaves an approved track in scope. Confirm authority for TTS or paid providers before use.
 
-Перевірити inputs/duration, scene order/framing/captions, audio trim/loop/mix/fades/levels, mux, actual video/audio streams, duration/decode/size/access/delivery. Фактичний звук перевіряти слуханням/аналізом, не розширенням .mp4. За `-an`/відсутнього audio mapping не обіцяти музику.
+Verify inputs and duration, scene order, framing, captions, trim, loops, mix, fades and levels, mux, actual video and audio streams, duration, decode, size, access and delivery. Listen or analyze the actual sound. `-an` or a missing audio mapping leaves the music requirement unfulfilled.
 
-Не вигадувати трек, ліцензію або URL. За відсутнього джерела — одне природне питання. Перевірити доступний існуючий інструмент у реальному шляху до оголошення функції.
+Record actual track, license and source. Ask one useful question if a source is needed. Exercise the real available route before claiming the feature.
 
-Вимогу музики виводити з фактичного чинного авторського прохання та версії мети, а не лише прапорця, який обрала модель. Пропущений прапорець не дозволяє віддати мовчазний результат як музичний. Узгодити ingress, вибір доріжки, decoder, verifier і delivery для всіх заявлених джерел, зокрема вилучення аудіо з відео, якщо воно вже підтримане. Явне нове прохання без музики може змінити намір; сторонній контекст, retry або стерте джерело — ні.
+Derive the music requirement from current self-authored intent and goal version. A missing model flag does not retire the requirement. Bind ingress, track selection, decoder, verifier and delivery for each promised source, including audio extraction from video where supported. An explicit user change can remove music. A retry, unrelated context or erased source cannot change the intent.
 
-Job повинен мати зрозумілі початок/готово/помилку/скасування, зберігати actor/topic/audience/provenance, не публікувати private output у групу. Retry/restart не дублює повідомлення й не повертає старий файл. Технічну причину логувати всередині; людині давати точне тепле пояснення без stack/code/step IDs.
+Give jobs a clear start, completion, error and cancel. Preserve actor, topic, audience and provenance. Private output stays within its permitted audience. Retry and restart keep one message and return current bytes. Keep technical errors in logs and give the user a concise, accurate explanation.

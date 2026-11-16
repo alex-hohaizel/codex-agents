@@ -11,10 +11,10 @@ python3 scripts/check_repository.py
 python3 scripts/build_packages.py
 ```
 
-For core 6.1.0, the build writes these files to `dist/`:
+The build reads the core version from the current release record and writes these files to `dist/`:
 
-- `Agent_System_6.1.0_WORK.zip`
-- `Agent_System_6.1.0_CODEX.zip`
+- `Agent_System_<core-version>_WORK.zip`
+- `Agent_System_<core-version>_CODEX.zip`
 - `SHA256SUMS`
 - `BUILD.json`
 
@@ -31,7 +31,7 @@ The optional `maintenance-skill/` and `optional-skills/atelier-orchestrator/` so
 3. Select a completed successful run for the exact revision you want. Use the latest verified revision of the active branch for current instructions. The [current release record](../releases/current.json) also links the original feature release bundles. If there is no successful run yet, build locally or run **Run workflow** if your permissions and repository settings allow it.
 4. In that run's **Artifacts** section, download **agent-system-bundles**. GitHub may require sign-in. Artifact availability and retention depend on repository settings.
 5. Extract GitHub's artifact archive. It contains the two source ZIP files, `SHA256SUMS` and `BUILD.json`.
-6. Compare the bundle hashes with `SHA256SUMS`. In the extracted artifact directory, run `shasum -a 256 -c SHA256SUMS` on macOS or `sha256sum -c SHA256SUMS` on Linux. Then extract the required bundle and start with `PACKAGE_README.md` and `START_HERE.md`.
+6. Compare the bundle hashes with `SHA256SUMS`. In the extracted artifact directory, run `shasum -a 256 -c SHA256SUMS` on macOS or `sha256sum -c SHA256SUMS` on Linux. For source inspection or a disposable fixture, review the extracted `PACKAGE_README.md` and `START_HERE.md`. For managed Codex adoption, verify the stable archive and its GitHub attestation, and audit the exact staged kit from the admission receipt. Follow the migration in the [current release record](../releases/current.json); checksums packaged next to the ZIP do not replace provenance.
 
 The workflow definition is included in this repository. Its presence does not prove that a run has already happened or that downloadable artifacts currently exist. A GitHub Actions artifact is also separate from a published GitHub Release.
 

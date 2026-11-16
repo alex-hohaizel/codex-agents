@@ -2,7 +2,7 @@
   "schema_version": "chatbot.atelier-stage/2",
   "toolkit_version": "5.0.0",
   "id": "chatbot-atelier-build",
-  "purpose": "Наскрізна реалізація чатбота",
+  "purpose": "End-to-end chatbot implementation",
   "primary_requirement_ids": [
     "practical_completion",
     "execution_truth",

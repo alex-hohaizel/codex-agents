@@ -1,4 +1,4 @@
-# Каталог матеріалів і передача в runtime
+# Asset catalog and runtime handoff
 
 ## Finite scope
 
@@ -8,7 +8,7 @@ For procedural content list full authored vocabulary, executable grammar/config 
 
 ## Per-item record
 
-Catalog є проєкцією current game model: додати source path/revision/hash, model object/state/event IDs, scenario IDs і runtime binding IDs. Не вести в item metadata інші числа damage/cost/unlock, ніж canonical rules. Construction/export values мають derivation recipe. Для image proposal, source preview, actual native capture і physical-device observation зберігати різні evidence origin/modality/stage; record не створює доказ сам собою.
+Bind the catalog to the current game model with source path, revision and digest, object, state and event IDs, scenario IDs, and runtime binding IDs. Keep damage, cost, and unlock values consistent with canonical rules. Provide a derivation recipe for construction and export values. Record image proposals, source previews, actual native captures, and physical-device observations with their respective origins, modalities, and stages.
 
 The exact container schema is defined by shared handoff; domain catalog can use the bundled starter form. Each item needs:
 
@@ -39,6 +39,6 @@ Consumer opens required sources/exports, verifies relocatable paths/dependencies
 
 ## Semantic coverage closure
 
-До denominator додати death/crash/disabled/part-break/cancel, status stacking, interaction start/update/end, locality/quality/sensory alternatives за actual rules. Reuse не потребує зайвих декартових копій, але кожний consumer/state має mapping. Для generated content потрібні всі authored modules і grammar bindings, а не нескінченний список інстансів.
+Count applicable death, crash, disabled, part-break and cancel states, status stacking, interaction start, update and end, and locale, quality, and sensory alternatives under actual rules. Map each consumer and state to reused assets. Cover every authored module and grammar binding for generated content.
 
-Consumer intake перевіряє не лише файли, а scale/axes/contact markers/collision/time/loop/color та actual whole-scene behavior. Accepted source, exported derivative, imported resource й native capture мають distinct identity. Missing production output не стає delivered завдяки recipe.
+During intake verify scale, axes, contact markers, collision, time, loops, color, and observed whole-scene behavior. Keep identities separate for accepted sources, exports, imports, and native captures. Check that the required outputs exist independently of their recipes.

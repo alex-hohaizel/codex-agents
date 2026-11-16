@@ -1,43 +1,43 @@
-# Світ, зустрічі та граматика контенту
+# World, encounters and content grammar
 
-## Застосування, вхід і власний результат
+## Applicability, inputs and owned outputs
 
-Застосовувати до будь-якої просторової/контентної структури; географію, кампанію, супротивників і генерацію не нав'язувати жанрам, що їх не потребують. Прийняти gameplay verbs, camera/input, actor rules, progression/rewards, художню й виробничу місткість. Власний артефакт — world/content graph, finite authored vocabulary, encounter grammar, route/revisit contracts та план життєвого циклу контенту. Використати [шаблон](../../assets/domain-templates/world-encounters.template.json); authoritative choices й evidence лишаються в чинному проекті.
+Apply to the relevant spatial or content structure. Include geography, campaigns, opponents and procedural generation when the genre and goals require them. Start with gameplay verbs, camera and input, actor rules, progression and rewards, and creative and production capacity. Deliver a world and content graph, finite authored vocabulary, encounter grammar, route and revisit contracts, and a content lifecycle plan. Use the [world and encounter template](../../assets/domain-templates/world-encounters.template.json). Keep authoritative choices and evidence in the current project.
 
-## Просторова структура й повна арка
+## Spatial structure and the complete arc
 
-Окремо визначити географічний розмір, кількість одночасно видимого, форму переходів, довжину сесії й довгий горизонт розвитку. Невелика гра не означає довільно одну повторювану арену; у scope цього користувача одна арена з незначними перестановками не закриває повноцінний продукт. Довести заплановане різноманіття ситуацій і довгу арку. Для іншого brief коротка завершена гра допустима за явним scope, без неправдивої обіцянки нескінченного змісту.
+Distinguish geographic size, concurrent visibility, transitions, session length and the long progression horizon. The original full-product brief requires more than one arena with minor rearrangements. Demonstrate the planned variety and lasting arc within that scope. A different brief can explicitly accept a short complete game with a finite content promise.
 
-Обрати за fit безперервний простір, зв'язані зони, hub/expeditions, маршрути/траси, серії матчів/задач чи іншу структуру. Для вузла графа задати механічну роль, objectives, prerequisites, local rules, authored content, entry/exit, rest/recovery, persistence/reset, save boundary, preview/навігацію і виробничу вартість. Для ребра — спосіб переходу, guard, travel/loading cost, information shown, failure/recovery і наслідки для стану. Великий світ не зобов'язаний бути open world.
+Choose a continuous space, connected zones, hub and expeditions, routes or tracks, matches or tasks, or another structure that fits. For each node define mechanical role, objectives, prerequisites, local rules, authored content, entry and exit, rest and recovery, persistence and reset, save boundary, preview and navigation, and production cost. For each edge define traversal, guard, travel and loading cost, shown information, failure and recovery, and state effects. An open world is one option for a large game.
 
-Побудувати конкретний шлях ранньої/середньої/пізньої гри: чим займався, що дізнався/відкрив, яку нову задачу це дозволяє, чому наступна ділянка відчутно інша, що зберігається й яка власна мета видима далі. Не замінювати цей граф десятьма назвами сцен або ворогами з більшим HP. До launch визначити завершення основної арки, optional goals і чесний postgame; обсяг має відповідати виробничій місткості.
+Create concrete early, middle and late journeys. Show what players do, learn and unlock, which new problem that enables, why the next part feels distinct, what persists and what goal they see next. Show causal variation beyond scene names or more enemy HP. Before launch specify the main ending, optional goals and honest postgame within actual production capacity.
 
-## Інтерактивне оточення й маршрути
+## Interactive environments and routes
 
-Оточення описати як стани, дії та зміни: surfaces/materials, movable/destructible/usable elements, hazards, visibility/noise, switches/flows, ownership або інші властивості за fit. Для елемента задати affordance/cue, rule, input/target, costs, interaction partners, limits, reset/persistence і recovery. Не кожний видимий prop має бути інтерактивним, але гравець повинен розрізняти потрібні можливості.
+Describe the environment through states, actions and changes such as surfaces and materials, movable, destructible and usable elements, hazards, visibility and noise, switches and flows, and ownership where relevant. For each element define affordance and cue, rule, input and target, costs, interaction partners, limits, reset or persistence, and recovery. Use cues to show which visible props are interactive.
 
-Маршрутні варіанти потребують відмінного рішення: risk/reward, витрата ресурсу, швидкість/складність, потрібна здібність, information uncertainty, наслідок для майбутнього. Бонус не ставити випадково без перевірки досяжності й ціни. Відоме правило світу має лишатися надійним, коли ситуація ускладнюється.
+Route alternatives need different decisions about risk and reward, resource spend, speed and difficulty, required ability, uncertainty or future effects. Verify reachability and cost of placed bonuses. Established world rules remain dependable as scenarios get more complex.
 
-Для повернення задати добровільний мотив, зрозумілу ціль, отриману інформацію, потрібний unlock, змінений контекст, reward availability/probability disclosure там, де це релевантно, repetition/expiry, shortcut і ціну дороги. Нова здібність може відкривати стару зону інакше. Не вимагати повторно проходити всю порожню дорогу або продавати покупку, що лише прибирає штучну незручність.
+For a revisit specify voluntary motivation, clear goal, information acquired, required unlock, changed context, reward availability and probability disclosures where relevant, repetition and expiry, shortcuts and travel cost. A new ability may expose an older area in a new way. Avoid lengthy empty backtracking and purchases that only remove an artificial inconvenience.
 
-## Encounter grammar й керована невизначеність
+## Encounter grammar and bounded uncertainty
 
-Розділити authored vocabulary, правила сполучення й отримані instances. Encounter задає topology/approach, objective, actor roles, hazards/material states, доступні інструменти, resource pressure, temporal phases, camera constraints, fail/recovery й reward. Для небойової гри використати релевантні задачі/перешкоди/суперників. Показати, як комбінація змінює пріоритети й стратегію; сума двох ізольованих ворогів не автоматично є новою ситуацією.
+Separate authored vocabulary, combination rules and resulting instances. An encounter includes topology and approach, objective, actor roles, hazards and materials, available tools, resource pressure, phases, camera limits, failure and recovery, and reward. Noncombat games use relevant tasks, obstacles and rivals. Show how combinations change priorities and strategy.
 
-Задати compatibility/exclusion, difficulty/pacing budgets, entry/exit sockets, movement clearance, fairness/offscreen constraints, safe starts, доступну інформацію й допустимі escalation/recovery phases. Випадкові події мають trigger/eligibility, weights, cooldown/repetition, telegraph, вплив на ціль і fallback. Гравець адаптується до читабельних змін; випадковість не повинна робити вивчені правила безглуздими або створювати unavoidable failure.
+Specify compatibility and exclusions, difficulty and pacing budgets, entry and exit sockets, movement clearance, fairness and offscreen limits, safe starts, available information, escalation and recovery phases. For random events define trigger and eligibility, weights, cooldown and repetition, cue, objective impact and fallback. Preserve readable behavior and viable responses.
 
-Для процедурного маршруту потрібні algorithm/version/seed, reachability/solvability checks із реальними movement constants, rejected classes, repair policy, bounded retries і authored fallback. Без solver не називати випадкове розміщення повноцінним генератором. Не оцінювати контент арифметичним добутком кольорів, seeds і статистик. Порахувати semantic situation signatures й показати, які рішення між ними змінюються.
+Procedural routes need the algorithm, version and seed, reachability and solvability against actual movement constants, rejected classes, repair, bounded retries and an authored fallback. A placement generator needs a verified solvability path. Count semantic scenario signatures and show the decisions that differ across them. Treat color, seed and stat variations according to their actual gameplay effects.
 
-## Місткість, зв'язки й due proof
+## Capacity, dependencies and evidence due
 
-Finite launch inventory містить сімейства локацій/encounters/викликів, механічні відмінності, reusable kits, унікальні assets, authoring effort, validation cost і novelty exhaustion. Контентна cadence пояснює, як нова порція використовує наявні системи, хто її створить і скільки це коштує. «Потім додамо нові світи щотижня» без операційного плану не закриває довгий горизонт.
+A finite launch inventory records families of locations, encounters or challenges, mechanical distinctions, reusable kits, unique assets, authoring and validation cost, and when novelty is exhausted. A content cadence explains how new material uses existing systems, who produces it and what that costs. Treat «Потім додамо нові світи щотижня» (“we will add new worlds every week”) as unverified until an operating plan supports it.
 
-Пов'язати world graph із [systems](systems.md), [progression/rewards](progression.md), [camera/learning](experience.md), [creative](creative.md), [commerce](commerce.md) і [lifecycle](lifecycle.md). Новий маршрут може вимагати іншої камери, enemy behavior, навчання, source assets і save migration; перевіряти транзитивний вплив.
+Connect the graph to [systems](systems.md), [progression and rewards](progression.md), [camera and learning](experience.md), [creative](creative.md), [commerce](commerce.md) and [lifecycle](lifecycle.md). Check transitive impact when new routes affect camera, actor behavior, teaching, source assets or save migration.
 
-На concepts — конкретна causal world/content arc і приклади різних ситуацій. На preproduction — typed topology/encounter/generation rules і production inventory. На slice — normal і peak encounters, справжні transitions, camera/readability, source/import/performance proof. На beta — player agency, route understanding, сприйнята новизна й repetition. На release — відсутність blocking progression/save faults; на liveops — фактичне виснаження й ефект доданого контенту. Level/world designer готує граф; encounter/systems і UX/technical art узгоджують; independent reviewer перевіряє рішення та fair counterexamples.
+Concepts need a concrete causal world and content arc with varied situations. Preproduction needs typed topology, encounter and generation rules and the production inventory. The slice demonstrates normal and peak encounters, actual transitions, camera and readability, source, import and performance. Beta checks player agency, route comprehension, perceived novelty and repetition. Release checks blocking progression and save failures. Live operations observe exhaustion and effects of new content. The world or level designer owns the graph, encounter, systems, UX and technical art coordinate it, and an independent reviewer evaluates decisions and fairness counterexamples.
 
-## Джерела й статус рекомендацій
+## Sources and status of recommendations
 
-- [Nintendo: Wonder, chapter 1](https://www.nintendo.com/en-za/News/2023/October/Ask-the-Developer-Vol-11-Super-Mario-Bros-Wonder-Chapter-1-2460393.html) — практика поєднання трансформацій світу й довіри до правил.
-- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) — практика доступних маршрутів, відмінних здібностей і добровільних варіантів складності.
-- Topology/grammar/signature gates — проектні правила Game Atelier; жодне джерело не доводить універсальної кількості рівнів, ворогів або годин.
+- [Nintendo: Wonder, chapter 1](https://www.nintendo.com/en-za/News/2023/October/Ask-the-Developer-Vol-11-Super-Mario-Bros-Wonder-Chapter-1-2460393.html) illustrates world transformations and trust in rules.
+- [Nintendo: Wonder, chapter 3](https://www.nintendo.com/sg/interview/aqmx/03.html) illustrates accessible routes, distinct abilities and optional difficulty.
+- Topology, grammar and signature checks are Game Atelier practices. Choose the number of levels, opponents and hours for the actual project.

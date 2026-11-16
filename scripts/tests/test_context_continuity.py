@@ -3,6 +3,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -98,6 +99,43 @@ class ContextContinuityTest(unittest.TestCase):
         self.assertFalse(packet['authority_authenticated'])
         self.assertFalse(packet['source_completeness_authenticated'])
         self.assertEqual(packet, self.compile(require_complete=True))
+
+    @unittest.skipUnless(shutil.which("node"), "Node required for Python/workbench parity")
+    def test_same_bound_project_and_source_drift_agree_with_workbench(self):
+        script = """
+import { inspectProject } from './apps/agent-atelier/server/projects.mjs';
+import { compileContext } from './apps/agent-atelier/server/context.mjs';
+const root = process.argv[1];
+const workspace = await inspectProject(root);
+try {
+    const copy = await compileContext({
+        project: { id: 'P', root },
+        workspace: { ...workspace, project: { revision: workspace.revision } },
+        payload: { objective: 'Continue the same task', acceptance: 'Report actual evidence' },
+        taskId: 'T', authorityEpoch: 1, instructionManifest: {}
+    });
+    console.log(JSON.stringify(copy));
+} catch (error) {
+    console.log(JSON.stringify({ error: error.code }));
+}
+"""
+
+        def workbench():
+            p = subprocess.run([shutil.which("node"), "--input-type=module", "-e", script, str(self.root)],
+                               cwd=ROOT, capture_output=True, text=True, check=True, timeout=12)
+            return json.loads(p.stdout)
+
+        portable, native = self.compile(require_complete=True), workbench()
+        self.assertEqual(portable["context_coverage"]["status"], native["context_coverage"]["status"])
+        for field in ("current_decisions", "deferred_work"):
+            self.assertEqual({row["id"] for row in portable[field]}, {row["id"] for row in native[field]}, field)
+        match = lambda packet: next(row for row in packet["requirements"] if row["id"] == "R01")
+        self.assertEqual(match(portable)["verbatim"], match(native)["verbatim"])
+        self.assertEqual(match(portable)["source_sha256"], match(native)["source_sha256"])
+        (self.root / "brief.md").write_text("An unbound revision no longer matches.\n")
+        with self.assertRaises(C.ContextError):
+            self.compile(require_complete=True)
+        self.assertEqual(workbench()["error"], "SOURCE_DRIFT")
 
     def test_actual_management_request_schema_keeps_all_rows_and_provenance(self):
         management = ROOT / 'docs/evolution/2026-11-10/REQUESTS.json'

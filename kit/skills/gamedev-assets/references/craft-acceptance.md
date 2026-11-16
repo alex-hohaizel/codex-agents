@@ -1,45 +1,45 @@
-# Craft-приймання без фальшивої готовності
+# Craft acceptance and required evidence
 
-## Evidence by modality
+## Evidence by medium
 
-| Review | Required actual access | Cannot substitute |
+| Review | Required access and observation | Insufficient on its own |
 |---|---|---|
-| Scope | GDD + finite inventory + actual outputs | Count of filenames or pages |
-| Technical source/export | Reopen/import/export/inspect real files with tool result | Extension or generated receipt only |
-| Whole-frame art | Full normal/peak scene images at phone scale | Isolated hero portrait |
-| Motion/rig/VFX | Time-based playback/captures with boundary poses/interactions | Static image or clip list |
-| UI | Whole screen-state flows, target/actual, responsive/locale states | Single menu mockup |
-| Audio | Actual audible files and context playback, timecoded findings | WAV header, waveform, FFT, transcript |
-| Haptics | Physical supported-device interaction | Simulator/JSON pattern |
-| Rights | Exact license/source/receipt/derivation | Provider marketing or public preview |
-| Native integration | Actual platform build/device/capture | DCC render or desktop editor |
+| Scope | GDD, finite inventory, and actual outputs | Filename or page count |
+| Technical source and export | Reopen, import, export, and inspect real files with the tool result | Extension or generated receipt |
+| Whole-frame art | Full normal and peak scene images at phone scale | Isolated hero portrait |
+| Motion, rig, and VFX | Playback or captures over time, including boundary poses and interactions | Static image or clip list |
+| UI | Whole screen-state flows, target and actual, responsive and locale states | Single menu mockup |
+| Audio | Listen to actual files in context and record timecoded findings | WAV header, waveform, FFT, or transcript |
+| Haptics | Actual interaction on the supported physical device | Simulator or JSON pattern |
+| Rights | Exact license, source, receipt, and derivation | Provider marketing or public preview |
+| Native integration | Actual platform build, device, and capture | DCC render or desktop editor |
 
-A reviewer must be independent of the material author for independent QA. Actual tool access and task IDs are recorded after execution only. A role title does not create evidence. A final reviewer should not be the same author or the earlier QA whose decision is being independently reviewed.
+For independent QA, assign a reviewer distinct from the author. Record actual tool access and task IDs after execution. The final independent reviewer also differs from the earlier QA actor whose work is under review.
 
 ## Quality gates
 
-Перед перевірками прочитати actual model objects, dependencies й acceptance scenarios. Закривати предметний scope: усі потрібні semantic states/cues/consumers, а не лише filenames. Camera/input/art acceptance включає temporal policy й phone-scale contexts; resources/progression/rewards/learning повинні залишатися зрозумілими в інтегрованій сцені. Automatic schema/byte checks, independent semantic review, native observation і human playtest мають різні verdicts.
+Read the actual model objects, dependencies, and acceptance scenarios first. Cover required semantic states, cues, and consumers. Camera, input, and art acceptance includes timing rules and phone-scale contexts. Resources, progression, rewards, and learning must remain legible in the integrated scene. Record separate verdicts for structural and byte checks, independent semantic review, native observations, and human playtesting.
 
-1. All required finite items exist in real formats with declared coverage, source/export/rights/reproducible recipes.
-2. Baseline identity is retained across every category; differences are allowed derivatives, repaired defects or approved material changes.
-3. Whole-frame normal/peak scenes have intentional composition and clear gameplay hierarchy. No primitive placeholder camouflage or mismatched random asset collection.
-4. All named rig/animation/VFX/UI states function in context; no anatomy collapse, image bobbing masquerading as action, root drift, broken loops, unreadable telegraphs or dead controls.
-5. Music is complete, cohesive and contextually mixed; SFX families and transitions are polished; no abrupt fragments/tone files called modern score. Audio state/rights/actual listening are separate checks.
-6. Haptics are restrained, meaningful, optional and physically reviewed when claimed.
-7. Source/import/output status and per-platform/native scope are honest; missing critical item does not disappear into average score.
+1. Every required finite item exists in an actual format with declared coverage, source and export, rights, and a reproducible recipe.
+2. Every category retains baseline identity through approved derivatives, repairs, and authorized material changes.
+3. Whole-frame normal and peak scenes show intentional composition, clear gameplay hierarchy, and finished assets coherent with the baseline.
+4. Each named rig, animation, VFX, and UI state works in context. Check anatomy and deformation, deliberate motion, root stability, loop boundaries, readable cues, and functioning controls.
+5. Music is complete, cohesive, and mixed in context. SFX families and transitions are polished. Listen to the actual score and effects. Track sound state, rights, and audition separately.
+6. Haptics are restrained, meaningful, optional, and checked on the physical device for applicable claims.
+7. Report source, import, and output status and exact per-platform native scope. Each missing critical item stays open independently of aggregate scores.
 
 ## Representative tests
 
-Open on clean/pinned toolchain; relocate package; remove/mutate source/export/license file; import wrong-axis/scale/material map; blend loop boundary; attack/grasp/contact extreme pose; overlap peak effects; narrow safe-area/long locale/muted/reduced-motion/offline/pending/reconnect UI; loop music repeatedly; interrupt/resume during transition; crowded audio mix on phone speaker; unsupported haptics/focus loss; stale build capture. These tests are chosen by risk and actual categories, not blindly repeated on every typo.
+Use the scenarios that cover actual categories and risks. Open in a clean pinned toolchain, relocate the package, remove or mutate source, export, or license files, import incorrect axes, scale, or material maps, test blend and loop boundaries, extreme attack and grasp poses, overlapping peak effects, long locales and narrow safe areas, muted and reduced-motion modes, offline, pending, and reconnect UI. Loop music, interrupt and resume transitions, try crowded mixes on a phone speaker, exercise unsupported haptics and focus loss, and reject stale build captures. Select only the affected cases for a narrow edit.
 
 ## Repair and handoff
 
-Bundle related defects, identify root cause/dependency closure, repair to baseline and retest impacted classes. Preserve valid unchanged evidence with exact hashes/rationale. After two failed repetitions change diagnostic route; don't spend unlimited generations on the same prompt. Material identity change requires actual sampled user choice; routine export/repair within locks proceeds without another approval.
+Group related defects, determine their root cause and affected dependencies, repair to baseline, and retest affected classes. Preserve unaffected evidence by exact hash and rationale. Adopt a new diagnostic approach after two identical failures. Bind a material identity change to an actual sampled owner decision. Proceed with routine export or repair within accepted constraints.
 
-Report required/created/exported/technically-reviewed/creatively-reviewed/runtime-tested per category with IDs and limitations. Partial/unperformed listening/native/device QA remains explicit. Hand off real source/export/catalog/scene assemblies, rights, baseline mapping, build adapter instructions and next action. Structural validator pass is integrity evidence, not artistic quality, user enjoyment or commercial success.
+Report required, created, exported, technically reviewed, creatively reviewed, and runtime-tested items by category and ID, with limitations. Mark pending or partial audition, native, and device evidence. Transfer actual source, export, catalogue, scene assemblies, rights, baseline mapping, build adapter instructions, and next action. Establish integrity, artistic quality, enjoyment, and commercial success with their own evidence.
 
-## Від operational witness до assembly
+## Operation and assembly evidence
 
-Перевірити recipe й actual material consumption на кожному edge. Negative cases: валідний GLB із хибною scale/axes; rig без deformation weights; clip marker не збігається з active window; WAV із обірваною phrase/loop; flattened PNG замість required layers; ігнорований model parameter; old native capture після importer change.
+Verify the recipe and actual consumption across each dependency. Negative cases include valid GLB with wrong scale or axes, rig without deformation weights, a clip marker outside its active window, WAV with a cut phrase or loop, flattened PNG instead of editable layers, an ignored model parameter, and an old native capture after an importer change.
 
-Додати integrated AssemblyEvidence з exact scene/build/config/inputs, normal/peak/cancel/failure/return за fit та due modalities. Фактичне слухання/дотик/рух/phone readability не замінюються provenance або bytepass. Семантичний defect повертається causal owner, не маскується widening tolerance.
+Record integrated `AssemblyEvidence` for the exact scene, build, configuration, and inputs. Include applicable normal, peak, cancellation, failure, and return scenarios and required media observations. Listen, feel haptics, inspect motion, and check phone legibility on the actual applicable medium. Return a semantic defect to its causal owner and retain the accepted tolerance until a change is approved.

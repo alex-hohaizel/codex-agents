@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Дослідження · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-research до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Дослідження
+  short_description: "Research app needs, alternatives, and market evidence"
+  default_prompt: "Use $app-atelier-research to compare the unmet needs, actual alternatives, and evidence for these markets."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

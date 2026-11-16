@@ -1,10 +1,10 @@
-# Game model4.0: current format and executable checks
+# Game model 4.0: current format and executable checks
 
-Зміст: commands → envelope → production → evidence → handoff → limits.
+This reference covers commands, the model envelope, production, evidence, handoff, and limits.
 
 ## Commands
 
-Визнач фактичний `<SKILL_DIR>` активної навички; не підставляй шлях чужого Mac. Python3.10+ достатній для bundledtools.
+Find the actual `<SKILL_DIR>` of the active skill. Use the paths of the host performing the check. Python 3.10 or later is sufficient for the bundled tools.
 
 ```bash
 python3 <SKILL_DIR>/scripts/game_model.py --help
@@ -18,43 +18,49 @@ python3 <SKILL_DIR>/scripts/reference_math.py <SKILL_DIR>/assets/v4/golden-arith
 python3 <SKILL_DIR>/scripts/check_suite.py --skill <SKILL_DIR>
 ```
 
-У `plan/validate` stage: concept/preproduction/slice/beta/release. C0/C1/T — зрілість дизайну, не заміна цих gates. Preproduction і пізніше вимагають T; нижчий override не знижує gate. C0 не буває ready. `--design-only` завжди `stage_ready:false`; exit0 означає тільки pass запитаного структурного authoring scope. Для stage gate missing due evidence дає nonzero. `quality_certified:false` зберігається.
+Use concept, preproduction, slice, beta or release for the stage in `plan/validate`. C0, C1 and T are design maturity. From preproduction onward the minimum is T, and a lower input cannot reduce the gate. C0 remains preliminary. `--design-only` always gives `stage_ready:false`. Exit 0 covers the structural authoring scope requested. Missing due evidence at a stage gate returns a nonzero exit. Preserve `quality_certified:false`.
 
-## Чинний envelope
+<a id="чинний-envelope"></a>
 
-Єдина чинна схема `assets/game-model.schema.json` має `schema_version:"4.0.0"` і обов’язкові `id,title,author_ids,source_requirement_ids,constraints,features,domains,dependencies,scenarios,evidence,production`. [Точний довідник](model-contract.md) описує домени, сценарії та докази. `game_model.schema()` повертає тільки цю схему; інші версії відхиляються.
+## Current envelope
 
-Одне канонічне `design/game-model.json`; проектні requirements/decisions — чинна authority. Typed refs не створюють нової мови або іншої registry. Власні source/code/data/specs лежать у pinned linkedfiles. Модель не копіює кожний mesh і sample уJSON.
+The current only schema, `assets/game-model.schema.json`, has `schema_version:"4.0.0"` and requires `id,title,author_ids,source_requirement_ids,constraints,features,domains,dependencies,scenarios,evidence,production`. See the [exact field reference](model-contract.md) for domains, scenarios and evidence. `game_model.schema()` returns this schema. Unsupported versions are rejected.
 
-## Productionextension
+Keep one canonical `design/game-model.json`. Project requirements and decisions govern. Typed references pin the one source set and registry. Keep actual source, code, data and specifications in pinned linked files. Include only the necessary model representation of meshes and samples.
 
-`production`:
+## Production extension
 
-- `maturity:C0|C1|T`;
-- `tracks`: рівно TR01…TR20 за `v4_contract.TRACKS` і [systems](v4/systems.md): stable name, enabled/rationale, owner/receiver, requirement_ids, summary, reads/writes, contract_ids, invariants, scenario_ids, progression/content/feedback/persistence/budget, pinnedconcept_refs/spec_refs;
-- `applicability`: damage/physics/ai/cloud/procedural/purchases з enabled/rationale. AI узгоджується з autonomousactors; не домислюй combat чиcloud із самого жанру;
-- `contracts`: typed behavior/state_machine/numeric/rng/family/generator/ai/persistence/damage/physics/input/presentation/economy/commerce/journey/asset/release/measurement, fields з `assets/v4-model/contract.template.json`;
-- `state_fields`: typed Catalogue із classification/owner/scope/authority/storage/encoding/consistency_group/commit/restore/merge/migration/retention/initial;
-- `dependencies:[{from,to,reason}]`: upstream→dependent між існуючими IDs;
-- `operations`: capabilities/recipes/transformations/attempts/assemblies/obligations за [production](v4/production.md);
-- `unresolved:[{id,description,owner,due:C0|C1|T,blocks:[ID]}]`; due unresolved блокує відповідну зрілість.
+`production` has the following fields.
 
-Шаблони `assets/v4-model/` і деталізовані `assets/v4-domain-templates/` — матеріали authoring, не evidence. Приклади моделей і `production.template.json` починаються з C0/unresolved. Не змінюй placeholders на invented receipts. Machinecontract — мінімум форми; semantic completeness перевіряє предметний owner/receiver/QA.
+- `maturity:C0|C1|T`.
+- `tracks` has exactly TR01 through TR20 from `v4_contract.TRACKS` and [systems](v4/systems.md). Each has a stable name, enabled status and rationale, owner and receiver, requirement_ids, summary, reads and writes, contract_ids, invariants, scenario_ids, progression, content, feedback, persistence and budget, pinned concept references and specification references.
+- `applicability` covers damage, physics, AI, cloud, procedural systems and purchases with enabled status and rationale. Align AI with actual autonomous actors. Derive combat and cloud needs from the chosen game.
+- `contracts` contains typed behavior, state_machine, numeric, rng, family, generator, ai, persistence, damage, physics, input, presentation, economy, commerce, journey, asset, release and measurement records. Take fields from `assets/v4-model/contract.template.json`.
+- `state_fields` records the typed Catalogue with classification, owner, scope, authority, storage, encoding, consistency_group, commit, restore, merge, migration, retention and initial value.
+- `dependencies:[{from,to,reason}]` records upstream to dependent between existing IDs.
+- `operations` records capabilities, recipes, transformations, attempts, assemblies and obligations. See [production](v4/production.md).
+- `unresolved:[{id,description,owner,due:C0|C1|T,blocks:[ID]}]` blocks the corresponding maturity when due and unresolved.
 
-C1 active tracks мають linkedconcept documents, concrete rule status/invariants/positive і negativecases. T додає pinned specs, all state classifications, detailedbody за kind (mathdomain/round/clamp/overflow; RNGstreams/version/resume; FSMguards/tie; AIknowledge/actiontiming; damagechannels/capture/dedup/commit; solverprofile; purchase/save lifecycle), operationobligations. Numeric tuning має exact initial/min/max/goal/method; немає поведінкового TBD. Readonlychecker не виконує формули/callbacks/engine: validation потребує ordinary code/fixtures/oracle.
+Use `assets/v4-model/` and the detailed `assets/v4-domain-templates/` as authoring forms. Example models and `production.template.json` start C0 or unresolved. Replace placeholders with verified observations when available. The machine contract specifies the minimum structure. The domain owner, receiver and QA check semantic completeness.
 
-## Evidence, assembly та impact
+Active C1 tracks have linked concept documents, concrete rule statuses, invariants, positive cases and negative cases. T adds pinned specifications and all state classifications. The kind-specific contract covers math domain, rounding, clamp and overflow, RNG streams and resume/version, state guards and ties, AI knowledge and action timing, damage channels and capture/deduplication/commit, solver profile, purchase/save lifecycle and operation obligations as applicable. Numeric tuning specifies initial/minimum/maximum values, goal and method. Resolve behavior before the gate. Use actual code, fixtures and oracles to verify formulas, callbacks and engines.
 
-Належні domain checks та незалежні track reviews `v4.TRxx.concept|contract`. `plan` дає actualcheck IDs і scope_sha256. Proofbinds currentbytes/inputs, declareddependencyclosure, сценарій і actualobserver. Зміна authors/toolchain/recipe/input/потрібнихданих інвалідує dependentproof; missinggraph edge вимагає integratortriage. Не оновлюй digest замість повторної перевірки.
+<a id="evidence-assembly-та-impact"></a>
 
-T/A/B/R productiongates: Tcontract → actualassembly/slice A → beta B → release R. Slice+ вимагає assembly; native_verified assembly builddigest має збігатися з перевіреним nativeartifactreceipt. Документ і samplevalidity не доводять device/humanfact. `scope_is_product_release` не встановлюй для boundedreview.
+## Evidence, assembly and impact
 
-`reference_math.py` відтворює чотири погоджені D2arithmeticalillustrations: channelorder/round/barrier/overkill, DoT/capture/resume, TTKdistribution, idealcontactimpulse. Це chosenexamplepolicies; не переносити їх у кожну гру як default. Під actualruntime створюй спільні goldenfixtures і differentialcheck.
+Use due domain checks and independent track reviews `v4.TRxx.concept|contract`. `plan` gives actual check IDs and scope_sha256. Bind proof to current bytes and inputs, declared dependency closure, scenario, and actual observer. Changes to authors, toolchain, recipe, inputs or required data invalidate dependent proof. The integrator investigates missing graph edges. Repeat the affected check before rebinding evidence.
 
-## Handoff і продовження
+The T/A/B/R production gates are T contract, actual assembly or slice A, beta B, and release R. Slice and later require assembly. A native_verified assembly's build digest matches the verified native artifact receipt. Document and sample validity cover their own tests. Device and human claims require their own observation. Use `scope_is_product_release` for actual full product release scope.
 
-Toolkit **4.3.0**, game-model **4.0.0**, handoff protocol **1.0.0** і runtime state **2.0.0** — окремі чинні версійні області. Handoff і runtime вимагають точний поточний toolkit marker. Попередні формати результатів не читаються й не конвертуються. Для продовження віднови фактичні вимоги, рішення, код, дані, media й стан продукту, потім створи поточні contracts та отримай належні докази. Установлення навички не змінює ці файли або game saves. Scoped QA/liveops/production decision rules — [handoff](handoff-contract.md), [workflow](game-model-workflow.md).
+`reference_math.py` reproduces the four approved D2 arithmetic examples: channel order/round/barrier/overkill, DoT/capture/resume, TTK distribution, and ideal contact impulse. Their policies apply only to the approved examples unless explicitly adopted. For actual runtime use shared golden fixtures and differential checks.
+
+<a id="handoff-і-продовження"></a>
+
+## Handoff and continuation
+
+The toolkit marker, game-model **4.0.0**, handoff protocol **1.0.0** and runtime state **2.0.0** are separate version domains. Use the exact current toolkit marker implemented by the handoff and runtime tools. Historical display editions do not set protocol compatibility. Old output formats are outside the current reader. For continuation, recover actual requirements, decisions, code, data, media and product state, then author current contracts and obtain due evidence. Installing a skill preserves those sources and game saves. See [handoff](handoff-contract.md) and [workflow](game-model-workflow.md) for scoped QA, LiveOps and production decisions.
 
 ## Limits
 
-Структура/links/bytes/freshness не доводять 100%повноти людського задуму, mathematicalcorrectness усіх algorithmrefs, diversity/fun/comfort/rights/truthofreceipt. Actualgeneration/import/runtime/device/playtest/revenue — окремі операції та модальності. Не роби accepted із countполів або rolelabels.
+Structural, link, byte and freshness checks cover their observed scope. Completeness of the human intent, proof of all referenced algorithms, decision variety, enjoyment, comfort, rights and the authenticity of a receipt need their own validation. Actual generation, import, runtime, device run, player observation and revenue have distinct proof.

@@ -1,54 +1,54 @@
-# Економіка, що належить самій грі
+# Design an economy that belongs to the game
 
-## Почати з player value
+## Start with player value
 
-Спершу визначити satisfying безкоштовний/базовий шлях, його mastery і змістовні unlocks. Для кожного платного класу пояснити: яку потребу він обслуговує, як змінює взаємодію, хто/коли його бачить, earned route, вплив на challenge, альтернативи й downside. Не вставляти магазин поверх слабкого core. Не вимагати десяток валют/гачу/season pass у кожній грі лише тому, що приклад їх має.
+Define the complete base or free journey, mastery and meaningful unlocks. For each paid class, identify the player's need, interaction changes, eligibility and timing, earned path, impact on challenge, viable alternatives, and downsides. Add commerce where it serves the established play experience. Derive currencies and offers from the game.
 
-Матеріальна монетизаційна розвилка потребує user choice. Показати whole player journey і платний/неплатний баланс, а не тільки ціни. «Не pay-to-win» перевіряти визначеними межами: ranked parity/normalization, no mandatory paid counter, earned access, no hidden disadvantage, effect sizes, time-to-access і actual scenarios. Sidegrade із іншою weapon mechanic все одно може домінувати й потребує balance tests.
+Bring material commerce choices to the owner. Compare complete player journeys and free and paying outcomes. Define ranked parity or normalization, paid counters and earned access, effects and time-to-access, reasonable alternatives, and visible advantage. Test whether different mechanics create situational or universal dominance.
 
-## Повна карта цінності
+## Map the economy
 
-| Система | Проєктувати явно |
+| System | Required design |
 |---|---|
-| Currencies | Stable ID, purpose, earn/spend/exchange, tradability, paid/earned provenance, caps, precision, expiry, inventory authority |
-| Characters/weapons/build options | Input/mechanical differences, synergies, counters, skill floor/ceiling, base availability, unlock/upgrade trees, power envelope |
-| Catalog/offers | SKU, platform product kind, localized display source, grant, eligibility, price schedule, duration, limits, stock, dependencies, fallback |
-| Bundles/pass/subscription | Exact contents, free/paid tracks, level cadence, eligibility, expiry, missed rewards, duplicate items, renewal/cancel/restore, entitlement lifetime |
-| Rewarded ads | Voluntary trigger, reward/value, frequency/fatigue caps, no-fill/offline/fail/cancel, grant-once authority, interruption/resume, child/privacy eligibility |
-| Random rewards if chosen | Full pool/version, weights/probability display, pity/guarantee, reset, duplicate conversion, caps, earned route, purchase boundary, audit |
-| Events | Entry/exit, calendar/clock authority, progression overlap, event currency expiry/conversion, late arrival/catch-up, post-event claims |
-| Support/refunds | Receipt/status lookup, restore/revoke, consumed consumables, negative balance policy, support trace and user message |
+| Currencies | Stable ID, purpose, earning and spending and exchange, transferability, paid and earned provenance, caps and precision and expiry, inventory authority |
+| Characters, weapons, and builds | Controls and mechanical differences, synergy, counterplay, skill floor and ceiling, baseline access, unlock and upgrades, power bounds |
+| Catalogues and offers | SKU, provider product type, localized source, grant, eligibility, pricing schedule, duration, limits, stock, dependencies and fallback |
+| Bundles, passes, and subscriptions | Exact contents, free and paid tracks, cadence, eligibility, expiry, unclaimed rewards, duplicates, renewal, cancel, restore, and validity |
+| Rewarded ads | Optional trigger and reward, frequency and fatigue limits, no-fill and offline and failure and cancel, grant once, interruption and return, age and privacy applicability |
+| Random rewards where selected | Complete pool and version, weights and disclosed odds, pity and guarantee, reset, duplicates, caps, earned route, purchase boundary, and audit |
+| Events | Entry and exit, calendar and clock authority, progression overlap, event currency expiry and conversion, late join and catch-up, post-event claims |
+| Support and refunds | Verify receipt and status, restore and revoke, consumed goods, negative-balance policy, support evidence and message |
 
-Включити directed graph faucet→wallet→sink→reward→gameplay→next need. У кожного ребра: exact quantities/formula, prerequisites, time/cost, authority, transaction/retry/persistence semantics і UI representation. Не дозволяти валюті існувати лише як абстрактний «diamond» без ролі у flow.
+Graph sources through wallet and sinks, reward, gameplay and the next need. Define exact amounts and formulas, prerequisites, time and cost, authority, transaction and retry and persistence, and visible presentation at each edge. Every currency needs an explicit purpose.
 
 ## Balance and simulation
 
-Виконувана модель має policy profiles: casual/regular/skilled, nonpayer/payer, lucky/unlucky, new/returning. Inputs: sessions/playtime, performance, earn rates, offer exposure, caps, unlock costs, season lengths. Outputs: time to each meaningful unlock, dominant progression route, currency inflation/stranding, paid advantage distributions, frustration walls, content exhaustion, expected spend limits, uncertainty. Revenue assumptions позначати як сценарії; не називати їх фактом попиту.
+Compare applicable casual, regular and expert, nonpaying and paying, lucky and unlucky, new and returning policies. Use session and playtime, performance, earning rates, exposure, caps, unlock costs, and season length. Measure time to meaningful unlocks, dominant routes, inflation and stranded currency, paid advantage distributions, frustration, exhaustion, spending limits, and uncertainty. Track revenue assumptions as scenarios.
 
-Окремо розвести difficulty curve та conversion. Не налаштовувати навмисні near-fail/непрозоре погіршення skill для примусу купити. Якщо задана випадковість, failure reasons мають бути читабельними й відтворюваними. Показати приклади, де гравець купив content option і все одно мусить освоїти його; перевірити, що без покупки він має повний дієвий шлях.
+Keep difficulty grounded in the game. Preserve readable and reproducible failure with the selected random policy. Show how players master purchased tools and how the base game remains meaningful without them.
 
-## Commerce is a state machine
+## Purchase state machine
 
-Specify product discovery→eligible→store sheet→pending/success/cancel/fail→verification→grant→acknowledge/finish→inventory/UI. Include retries, duplicate callback, app kill before/after payment, offline return, revoked/refunded transaction, account switch, restore and parental approval. IDs for purchase/order/transaction/grant are separate; grant-once key persists across reconnect. Never trust client currency writes or screenshot receipts as financial authority.
+Define discovery and eligibility, store sheet, pending or success or cancellation or error, verification, grant, provider acknowledgment or finish, and inventory and UI. Include retries, duplicate callbacks, process termination around charge, offline return, revocation and refund, account switches, restoration, and parental approval. Separate purchase, order, transaction and grant IDs. Persist grant identity across reconnection. Use authoritative financial records.
 
-Store policy varies by region, entitlement, age, product type and date. Verify current official requirements during release; do not hardcode external checkout as universal. Paid randomized items require current platform/legal check and disclosed odds where applicable; do not claim legislation is checked by a design checklist. Real-money gambling/cash-out is a different product boundary and needs explicit scope and specialist review.
+Check current store requirements by market, entitlement, age and product type at release. Verify applicable checkout, disclosures, and paid randomness rules from actual official and legal sources. Real-money gambling and cash-out require separate product scope and qualified review.
 
-## UX and analytics
+## User experience and analytics
 
-Ціна/валюта/вміст/термін/умови мають бути зрозумілі до підтвердження. Позначати actual purchase context, без оманливих кнопок, фальшивих countdowns або прихованого renewal. Events reference offer/catalog version, eligibility, source, purchase/grant/refund state, real/virtual currency and experiment assignment; minimize personal data. Experiment balance cannot silently change paid entitlement.
+Show price, currency, contents, duration and conditions before confirmation. Present truthful countdowns, controls and renewal terms. Events pin offer and catalogue version, eligibility, source, purchase and grant and refund status, monetary or virtual currency, and experiment assignment with limited personal data. Experiments preserve purchased entitlements.
 
-## Fit і магазин 4.0
+## Model fit and shop journey
 
-Обирати модель доходу через досліджену взаємодію із конкретним loop/progression/content demand; порівняти релевантні premium, content, playstyle, convenience, capped attempts/boosts, voluntary ads, passes або інші моделі, не вставляючи всі в кожну гру. Для аналога відокремити observable implementation, commercial evidence, distribution/IP effects і висновок про переносимість. Чужий успіх не доводить fit.
+Compare relevant premium, paid content and playstyles, convenience, capped opportunities and boosters, optional ads, passes, and other models against the loop, progression, and demand. Distinguish observed implementations, commercial evidence, distribution and IP, and suitability for this game.
 
-Якщо обрані додаткові спроби/часові переваги/спеціальна валюта, визначити exact cap, reset/clock authority, earned/paid provenance, stacking, expiry, conversion, challenge effect і безкоштовний шлях. «Rewarded continue» без правил спроб/наслідків/повернення не є завершеним дизайном. Не приписувати paid randomness, subscription або recurring spend погодженням концепту.
+If choosing additional attempts, time advantage, or currency, define exact caps and reset and clock authority, paid or earned provenance, stacking, expiry and conversion, challenge effects, and the free path. Rewarded continuation needs rules for attempts, consequences, and return. Paid randomness, subscriptions, and recurring costs each need current authorization.
 
-Магазин має journey discovery→understanding→trial/use preview→choice/decline→purchase/grant→use→restore/support; state/data/UX зв'язані з тією ж моделлю. Для кожного offer показати конкретну цінність у грі, сумарний портфель покупок і сильний counterexample домінування. Простий скін може бути доречним, але не закриває вимогу змістовної альтернативи там, де вона явно встановлена brief.
+Map discovery, understanding, trial or preview, choice or decline, purchase and grant, repeated use, restoration and support. Use the same state and data across design and interface. For each offer, show in-game value, combined paid portfolio, and a strong dominance counterexample. If the brief requires an alternate way to play, show mechanical value beyond cosmetics.
 
-## Погоджені commercial boundaries 4.0
+## Accepted commercial boundaries
 
-Функціональна покупка може давати доречну перевагу часу/можливостей/сили: виміряти її прозоро, задати межі й окремо fairness/ranked policy. Не проголошувати non-dominance універсальною забороною всіх power goods. Якщо модель чи межа вже погоджені, не просити повторного дозволу; нову material зміну оформити конкретно.
+An appropriate functional purchase may change time, options, or power. Quantify and bound its effects, and define fairness and ranked policy independently. Carry forward accepted models and bounds. Return a material change as a specific decision.
 
-Default — deterministic purchase і прозорий earned RNG; paid RNG лише окремим явним рішенням. Bundle contract: повний функціональний склад/compatible slots/learning/cost, free acquisition distributions і tails, partial ownership/missing components/duplicates/compensation, trial/decline, receipt/grant/restore/refund/offline, cumulative paid portfolio. Commerce може належати виробництву/експедиціям/контенту/колекції/сервісу за fit, а не лише equipment.
+Prefer deterministic purchases and transparent earned randomness. Paid randomness requires a separate explicit decision. A bundle defines complete functional contents and compatible slots, learning and cost, free acquisition distribution and tails, partial ownership and missing items and duplicates and compensation, trial and decline, receipt and grant and restore and refund and offline, and combined effects. Commerce may serve crafting or expeditions, content, collections, or services where suitable.
 
-Reward/economy spend і результат мають consistency group та durable identity. Cloud save/OS backup/store restore не дублюють consumed currency/consumables. Смерть/crash/repair/continue не додають платного rescue за замовчуванням і не псують базову арку заради conversion.
+Keep economy spend, reward, and result in a consistency group with durable identity. Cloud, device backup, and store restoration preserve spent currency and consumed goods. Death, crash, repair, and retry follow accepted recovery. Paid rescue requires an explicit design choice that preserves the base game.

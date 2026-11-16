@@ -1,60 +1,60 @@
-# Концепт 4.0: ціла гра, розвиток і комерційна система
+# Concept 4.0 as a whole game, progression, and commerce system
 
-Застосовувати [Game Model workflow](game-model-workflow.md) і предметні модулі. Цей reference уточнює concept-stage outputs; Game Model schema й [model format](model-format.md) визначають machine contracts. Чинний systemic passport є linked pre-illustration projection; повні виробничі домени й contracts зберігаються в моделі.
+Use the [Game Model workflow](game-model-workflow.md) and domain modules. This reference governs concept outputs. The Game Model schema and [model format](model-format.md) govern machine contracts. Link the current concept passport before illustration and keep production contracts in the model.
 
-## Шари й застосовність
+## Layers and applicability
 
-| Шар | Що визначити до показу кандидата | Що розгорнути до реалізації |
+| Layer | Define before showing a candidate | Expand before implementation |
 |---|---|---|
-| Дія/освоєння | Намір, стабільний input, rule/contact, помилка/feedback/recovery; input now/later/absent | Стани, timing, hitboxes/physics, buffering/cancel, accessibility і tests |
-| Спроба | Мета, підготовка, проміжні вибори, кульмінація, кінець/наслідок | State graph, fail/retry/quit/resume, save/authority й UI flow |
-| Світ/зустрічі | Topology, маршрути, варіанти ризику/винагороди, поведінкові ролі | Входи/виходи, encounter budget, навігація, агенти, world states і constraints |
-| Розвиток/винагороди | Early/mid/late зміна можливостей; бажана наступна мета й винагорода | Unlock graph, prerequisites, формули/stacking, acquire/equip/upgrade/use, pace/duplicates/caps |
-| Варіативність/життя | Причина добровільного повтору, authored families, відмінні рішення й launch scope | Контентний inventory, generators/fixtures, endgame/cadence, capacity/cost і telemetry |
-| Commerce/магазин | Модель-кандидати, fit, цінність/відмова, earned/paid impact й store journey | Eligibility/catalog/pricing/receipt/grant/restore/refund/ads/expiry failure contracts |
+| Action and learning | Intent, stable input, rule and contact, mistakes, cues and recovery, input now, later or absent. | States, timing, hitboxes and physics, buffering and cancellation, accessibility and tests. |
+| Attempt | Goal, preparation, choices, climax, completion and consequence. | State graph, fail, retry, quit and resume, save and authority, UI. |
+| World and encounters | Topology, routes, risk and reward, and behavioral roles. | Entrances and exits, encounter budget, navigation, agents, world states and constraints. |
+| Progression and rewards | Early, mid and late capability changes, desirable next goal and reward. | Unlock graph, prerequisites, formulas and stacking, acquire, equip, upgrade and use, pacing, duplicates and caps. |
+| Variety and longevity | Voluntary replay, authored families, different decisions and release scope. | Inventory, generators and fixtures, endgame, cadence, capacity and cost, and telemetry. |
+| Commerce and store | Candidate models and fit, value and decline route, earned and paid effects, store journey. | Eligibility, catalog, pricing, receipts, grants, restore, refunds, ads, expiry and failure. |
 
-Не вимагати однакових форм для всіх жанрів. Спортивна майстерність може бути провідним розвитком; гра без бою має поведінкові виклики; гра без inventory не потребує штучного loot. Застосовність має предметну причину й requirement refs. Невідоме не означає N/A. Малий production scope обмежує authored capacity, а не якість рішень.
+Derive applicability and requirement references from the actual genre and scope. Sports can center mastery, a noncombat game can use behavioral challenges, and a game without inventory can omit loot. Record unknowns separately from deliberate exclusions. A small scope limits content capacity while preserving required design quality.
 
-## Правила та причинність
+## Causal rules
 
-Механіка має state variables, conditions/events, player choice, cost/limit, consequence, counterplay/failure/recovery і cues. Зв'язок зараховувати, коли конкретна зміна A змінює можливість/пріоритет/timing/траєкторію/ризик B. Два контексти з тими самими інструментами мають показувати інший розумний вибір. Перевіряти remove-system, strongest-simple-policy, novice/expert та early/late counterexamples; кількість вузлів не є глибиною.
+A mechanic specifies state, conditions and events, player choice, cost or limit, consequences, counterplay, failure and recovery, and cues. A dependency names how changing A affects available action, priority, timing, trajectory or risk in B. Use two situations with the same tools but different rational choices. Test removal of a system, strongest simple strategy, novice and skilled play, and early and late states.
 
-Характеристика предмета/гравця/супротивника має units/domain, gameplay effect, acquisition/progression, cap/reset, modifiers/stacking/order, conflicts/synergies, readable cue, persistence/authority, scenario/test refs. Для техніки задати family/body/modules/handling/maintenance/customization за fit. Не замінювати різний досвід пасивним +1%. C1 визначає повну архітектуру сімейств, їхній причинний зміст, простір поєднань, розвиток і ризики; preproduction замикає точні executable запускові таблиці/граматики й повний finite inventory T. Кілька демонстраційних рядків не закривають C1 архітектуру.
+For each character, item or opponent trait define units and domain, effect, acquisition and progression, cap and reset, modifiers, stacking and order, conflicts, synergies, cues, persistence and authority, and scenarios and tests. Define equipment family, body, modules, handling, maintenance and customization where relevant. A passive +1% modifier does not establish a distinct experience. C1 defines the full family architecture, causal purpose, combination space, progression and risk. At T, preproduction finalizes executable release tables or rules and complete finite inventory.
 
-Ресурс може бути HP, станом тіла, теплом, імпульсом, шумом, інформацією, довірою, позицією чи доступом. Задати sources/sinks/transform, альтернативну витрату, depletion/overuse/recovery, reader cue, persistence/reset і вплив на іншу систему. Не додавати валюту лише для заповнення поля. Якщо дві валюти об'єднуються без втрати рішення, обґрунтувати складність або спростити.
+A resource may represent health, body condition, heat, impulse, noise, information, trust, position or access. Define sources, sinks, transformations, alternative spending, depletion, overuse, recovery, cues, persistence and reset, and dependent systems. Add currency only when it supports a decision. Investigate combining currencies when it preserves intended choices.
 
-## Світ і поведінкові виклики
+## World and behavioral challenges
 
-Розділити масштаб виробництва, topology світу, локальний encounter і видимий фрагмент. Перехід між authored локаціями має entry/exit, prerequisites, loading/save, navigation feedback і зміст розвитку. Для повернення визначити добровільну ціль, змінений доступ/контекст, drop chance або чесну невизначеність, tracking і reward relevance. Постійні зміни світу не скидати тихо для зручного повтору.
+Distinguish production scale, world topology, local encounters and the viewport. For transitions between authored locations specify entry and exit, requirements, load and save, navigation cues and progression. For a revisit, define voluntary objective, changed access and context, drop chance or acknowledged uncertainty, tracking, and relevant reward. Preserve intended permanent world changes through revisits.
 
-Агент має role/intent, senses/memory, стани/вибір дії, ability preconditions/cost/telegraph/recovery, навігацію, протидію, взаємодії/координацію й difficulty progression. Encounter grammar комбінує ролі, простір, цілі, ресурси й наслідки; сильніший ворог зі збільшеним HP не є новою роллю. Динамічні події мають admission/fairness/compatibility constraints; не читати input приховано й не створювати невідворотний offscreen damage без чесних cues/відповіді.
+Define agent role, intent, senses and memory, states and decisions, ability requirements and costs, telegraph and recovery, navigation, counterplay, interaction and coordination, and difficulty progression. Derive encounter combinations from roles, space, goals, resources and consequences. Increased HP alone preserves the same role. Constrain dynamic events for eligibility, fairness and compatibility. Keep information and unavoidable offscreen effects within the game's cues and response contract.
 
-Процедурні дані розділяти на authored vocabulary і generated instances. Для алгоритму визначити connectors, reachability, skill prerequisites, budgets, заборонені комбінації й validation fixtures. Seed record містить algorithm/version, random streams і rules/content versions. Різні seeds не доводять різні стратегії або нескінченний зміст.
+Separate authored content from generated instances. For procedural rules define connectors, reachability, skill prerequisites, budgets, forbidden combinations and fixtures. Save algorithm and version, random streams and rules and content revisions with the seed. Verify different strategies and meaningful variety separately from seed counts.
 
-## Нагороди й навчання
+## Rewards and learning
 
-Reward contract пов'язує trigger/eligibility, exact reward або table/odds, delivery/claim, duplicates/cap/expiry, persistence, cue, next use/choice й recovery. Покращення/колекція/здібність/маршрут має видиму користь, а не лише число. Розвиток має дальню ціль з prerequisites і pace; повернення не перетворювати на примусове відпрацювання старих арен.
+Define reward trigger and eligibility, exact reward or table and odds, delivery and claim, duplicates, caps and expiry, persistence, cue, next use and recovery. Show actual use of improvements, collections, skills and routes. Give progression a distant goal with prerequisites and pace. Preserve choice on revisits.
 
-Навчання має knowledge prerequisites, safe discovery, guided/unguided action, evidence of comprehension, transfer, optional help/re-entry і skip для вже освоєного. Для кожної ключової комбінації показати шлях від простої дії до її застосування під тиском. Зв'язувати input→rule/contact→animation/VFX→audio/music→haptic→cost/reward/world change→next decision; зберігати predictive/confirmation/error/recovery і mute/no-haptic parity.
+Specify knowledge prerequisites, safe discovery, guided and independent use, proof of understanding, transfer, optional help and re-entry, and skip for known material. For each key combination describe a route from simple action to use under pressure. Link input, rule and contact, animation and VFX, audio and music, haptics, cost or reward and world change, and next choice. Keep prediction, confirmation, error, recovery and mute or haptic-off equivalents.
 
-## Комерційний fit без універсального kit
+## Commercial fit
 
-Порівнювати придатні моделі на їхній функції в конкретному loop, audience, session arc, прогресії та content capacity. Premium/content/expansion, collections/playstyles, pass/season, limited attempts/rewarded, consumables/currency, convenience/acceleration — кандидати для аналізу, не обов'язковий набір. Альтернативний досвід і відмова від cosmetic-only залишаються вимогами відповідного brief; це не доводить, що кожна гра має продавати одну роль назавжди. Latest user instructions уточнюють попередні вимоги шаблон.
+Compare models against the specific loop, audience, session arc, progression and production capacity. Evaluate premium, content and expansion, collections and playstyles, passes and seasons, limited attempts and rewarded ads, consumables and currency, or convenience and acceleration where relevant. Keep any current brief that requires alternative experiences or excludes cosmetic-only offers. Use current owner instructions to resolve template assumptions, including ownership duration.
 
-Для chosen hypothesis визначити sources/sinks/exchanges, earn/spend, authority/persistence, free/paid/earned pace, caps/expiry/replenishment, cumulative access/power/synergies, next meaningful goal та production/recurring costs. Paid attempts не нескінченні за замовчуванням; rewarded ad не гарантовано завантажується; no-fill/offline/cancel не повинні ламати основний прогрес. Для alternative playstyle порівняти ту саму ситуацію в поточному проходженні, tradeoffs і спільні стани без невказаного refill/reset.
+For a selected hypothesis specify sources, sinks and exchanges, earning and spending, authority and persistence, free, paid and earned pace, caps, expiry and replenishment, cumulative access and power, synergies, next goal and production and recurring costs. Define paid attempt limits and handle unavailable, offline or declined ads without breaking core progression. Compare alternate playstyles in the same current situation, with tradeoffs and shared state and explicit refills or resets.
 
-Магазин має discovery/offer/trial/compare/price/confirmation/grant/use/restore/refund/failure/recovery. До реалізації кожна offer задає exact contents/benefit, eligibility, localized price source, purchase type/recurrence, duration/expiry, decline/free path, grant semantics і player-readable outcome. Ads потребують opt-in, natural pause, cap, no-fill/cancel/reward exactly once/audio lifecycle. Pass — free/paid tracks, objectives, start/end/timezone, reachable pace, late join/catchup, unclaimed rewards. Paid randomness — окремий вибір, versioned odds/guarantees/pity/duplicates/disclosures й актуальна перевірка ринків/store policy.
+Cover store discovery, offer, trial, comparison, price, confirmation, grant, use, restore, refund, failure and recovery. Each offer defines contents and benefit, eligibility, localized price source, purchase type and recurrence, duration and expiry, decline and free routes, grant and visible result. Ads need opt-in, natural pause, caps, no-fill, cancellation, deduplicated reward and audio lifecycle. A pass needs free and paid tracks, objectives, time range and timezone, reachable pace, late entry and catchup, and unclaimed rewards. Paid randomness is a separate decision with versioned odds, guarantees, pity, duplicates and disclosure and current market and store verification.
 
-No-offer control, повна free арка за F2P hypothesis, shortest/longest/rare scenarios, dominant portfolio та strongest paid-advantage counterexample — частини оцінки, не автоматична обіцянка балансу. Однакова DPS не доводить горизонтальності. One-time purchase не моделювати щомісячним recurring revenue. Conversion/eCPM/LTV лишаються assumptions/ranges із source, доки нема own observed evidence.
+Test no-offer control, complete free arc under an F2P hypothesis, shortest, longest and rare routes, dominant offers in combination, and the strongest paid advantage. Equal DPS alone does not establish horizontal progression. Separate one-time purchases from recurring revenue. Attribute conversion, eCPM and LTV assumptions and ranges until product evidence exists.
 
-## Приймання
+## Acceptance
 
-Design coherence, simulation, human replay desire, native feel, sandbox payment, observed revenue й sustainable contribution — окремі висновки. Результат концепта містить mechanism, strongest objection, evidence/limits і next discriminating test для всіх due must. Незакритий must не усереднюється score. Повний концептуальний документ C1 належить кожному завершеному кандидату; виробничий TDD T, actual device/human/commercial proof мають свої наступні gates; заповнення документа не робить їх виконаними.
+Keep design coherence, simulation, human replay desire, native feel, sandbox payments, observed revenue and sustainable contribution separate. For every due requirement show mechanism, strongest objection, evidence and limitations, and next discriminating test. A failed requirement stays open. Every complete candidate needs C1. The T design and device, human and commercial proof follow their own gates.
 
-## C1 як завершена продуктова архітектура
+## C1 complete product architecture
 
-Пройти всі 20виробничих напрямів із предметним applicability rationale. Для активних систем віддати purpose/owner/consumer, causal rules/state, залежності, сімейства/variation envelope, progression/opportunity, full journey, art/audio/input, save/authority, production route й acceptance scenarios. У C1 можна лишити T-level tuning з owner/метою/межами/due stage; не можна лишити невідомими механізм, довгу арку, ціну помилки або значущий state.
+Review all 20 production tracks with reasons for applicability. For active systems record purpose, owner and consumer, causal rules and states, dependencies, families and limits, progression and opportunities, whole journey, art and audio and input, save and authority, production route and acceptance scenarios. Leave T tuning open only with owner, purpose, range and due stage. Resolve mechanism, long arc, cost of failure and meaningful state at C1.
 
-Для damage/death/crash визначити contact/delivery/effect/defense/resource/part/lifecycle architecture, доступну контрдію, failure recovery, kept/lost costs, retry й persistent consequences. Для AI вказати knowledge channels/memory, decisions/actions, encounter legality та boss-phase purpose за fit. Для світу — authored macro, progression, space, encounters, persistent reactions і генеративні constraints/fallback.
+For damage, death and crash specify contact, delivery, effect, defense, resource and part, lifecycle, counterplay, recovery, retained and lost costs, retries and persistent consequences. For AI define knowledge and memory, decisions and actions, encounter legality and boss phase purpose where applicable. For the world define authored macro structure, progression, space, encounters, persistent reactions and procedural limits and fallback.
 
-Consumer preproduction має відтворити first/normal/peak/late/failure/retry/return/completion і назвати всі потрібні T-level уточнення без вигадування продуктового задуму. C0 називати ескізом; число previews або розмір гри не дають автоматичного C1.
+A preproduction receiver can reproduce first, normal, peak, late, failure, retry, return and completion scenarios and identify T questions from the material. Label C0 sketches accordingly. Many previews and larger scope still need evidence of C1 completeness.

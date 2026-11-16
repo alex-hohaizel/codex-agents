@@ -4,21 +4,21 @@
   "record_kind": "suite_requirements_mapping",
   "preserve_previous_ids": true,
   "rules": [
-    "Модулі активуються за задумом; приклади не є обов’язковими механіками.",
-    "Concept потребує причинно завершеного задуму; повний GDD після вибору.",
-    "Факти/гіпотези/actual proof/quality judgments розділені."
+    "Activate modules when the design requires them. Examples are not mandatory mechanics.",
+    "A concept needs a complete causal design; produce the full GDD after selection.",
+    "Separate fact, hypothesis, actual proof and quality judgment."
   ],
   "items": [
     {
       "id": "GA3-01",
-      "title": "Камера й простір",
+      "title": "Camera and space",
       "source_ref": "user-sources-3.0.json#GA3-01",
       "modules": [
         "experience",
         "world"
       ],
       "domain": "camera",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -32,17 +32,17 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-02",
-      "title": "Художня специфікація",
+      "title": "Art specification",
       "source_ref": "user-sources-3.0.json#GA3-02",
       "modules": [
         "creative"
       ],
       "domain": "art",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -56,18 +56,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-03",
-      "title": "Масштаб ключової дії",
+      "title": "Scale of the central action",
       "source_ref": "user-sources-3.0.json#GA3-03",
       "modules": [
         "experience",
         "creative"
       ],
       "domain": "camera",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -81,18 +81,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-04",
-      "title": "Системна глибина",
+      "title": "Systemic depth",
       "source_ref": "user-sources-3.0.json#GA3-04",
       "modules": [
         "systems",
         "world"
       ],
       "domain": "systems",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -106,17 +106,17 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-05",
-      "title": "Керування",
+      "title": "Controls",
       "source_ref": "user-sources-3.0.json#GA3-05",
       "modules": [
         "experience"
       ],
       "domain": "input",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -130,18 +130,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-06",
-      "title": "Ресурси й відновлення",
+      "title": "Resources and recovery",
       "source_ref": "user-sources-3.0.json#GA3-06",
       "modules": [
         "systems",
         "experience"
       ],
       "domain": "systems",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -155,11 +155,11 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-07",
-      "title": "Портфель різних концепцій",
+      "title": "Diverse concept portfolio",
       "source_ref": "user-sources-3.0.json#GA3-07",
       "modules": [
         "research",
@@ -167,7 +167,7 @@
         "creative"
       ],
       "domain": "lifecycle",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -181,18 +181,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-08",
-      "title": "Вбудована монетизація",
+      "title": "Integrated monetization",
       "source_ref": "user-sources-3.0.json#GA3-08",
       "modules": [
         "commerce",
         "research"
       ],
       "domain": "commerce",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -206,18 +206,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-09",
-      "title": "Прогресія",
+      "title": "Progression",
       "source_ref": "user-sources-3.0.json#GA3-09",
       "modules": [
         "progression",
         "systems"
       ],
       "domain": "progression",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -231,18 +231,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-10",
-      "title": "Навчання",
+      "title": "Learning",
       "source_ref": "user-sources-3.0.json#GA3-10",
       "modules": [
         "experience",
         "progression"
       ],
       "domain": "learning",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -256,18 +256,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-11",
-      "title": "Внутрішній магазин",
+      "title": "In-game shop",
       "source_ref": "user-sources-3.0.json#GA3-11",
       "modules": [
         "commerce",
         "experience"
       ],
       "domain": "commerce",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -281,18 +281,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-12",
-      "title": "Повний шлях гравця",
+      "title": "Complete player journey",
       "source_ref": "user-sources-3.0.json#GA3-12",
       "modules": [
         "experience",
         "lifecycle"
       ],
       "domain": "lifecycle",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -306,18 +306,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-13",
-      "title": "Змістовний обсяг",
+      "title": "Meaningful scope",
       "source_ref": "user-sources-3.0.json#GA3-13",
       "modules": [
         "world",
         "lifecycle"
       ],
       "domain": "lifecycle",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -331,18 +331,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-14",
-      "title": "Супротивники",
+      "title": "Opponents",
       "source_ref": "user-sources-3.0.json#GA3-14",
       "modules": [
         "world",
         "systems"
       ],
       "domain": "actors",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -356,18 +356,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-15",
-      "title": "Інтерактивний світ",
+      "title": "Interactive world",
       "source_ref": "user-sources-3.0.json#GA3-15",
       "modules": [
         "world",
         "systems"
       ],
       "domain": "world",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -381,11 +381,11 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-16",
-      "title": "Глибина кожного масштабу",
+      "title": "Depth at every scale",
       "source_ref": "user-sources-3.0.json#GA3-16",
       "modules": [
         "world",
@@ -393,7 +393,7 @@
         "lifecycle"
       ],
       "domain": "world",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -407,18 +407,18 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-17",
-      "title": "Винагороди",
+      "title": "Rewards",
       "source_ref": "user-sources-3.0.json#GA3-17",
       "modules": [
         "progression",
         "commerce"
       ],
       "domain": "rewards",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -432,11 +432,11 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     },
     {
       "id": "GA3-18",
-      "title": "Властивості й здібності",
+      "title": "Properties and abilities",
       "source_ref": "user-sources-3.0.json#GA3-18",
       "modules": [
         "systems",
@@ -444,7 +444,7 @@
         "world"
       ],
       "domain": "equipment",
-      "applies_when": "За задумом і застосовністю; не вимикається через відсутність інструмента.",
+      "applies_when": "Apply when the design calls for it. Unavailable tooling does not change applicability.",
       "design_due": "concept",
       "typed_rules_due": "preproduction",
       "actual_behavior_due": "slice",
@@ -458,7 +458,7 @@
         "release",
         "liveops"
       ],
-      "acceptance": "Конкретний артефакт, причинний сценарій і належний доказ; structural pass не доводить якості."
+      "acceptance": "A concrete artifact, a causal scenario, and appropriate evidence; structural checks do not establish quality."
     }
   ]
 }

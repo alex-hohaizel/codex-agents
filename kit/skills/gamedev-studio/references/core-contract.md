@@ -1,57 +1,73 @@
-# Game Atelier — спільний виробничий контракт
+# Game Atelier shared production contract
 
-> Чинний контракт4.0: спочатку [зрілість/компетенції/authority](v4/index.md), потім потрібні предметні розділи. GA4-P1/D1/D2 доповнюють GA3/UA26 та старі IDs. C1 потрібен для кожної завершеної концепції, T — для виробничої передачі; evidence відповідного gate не замінюється документацією. Історичні джерела й approvals зберегти. R6-профілі, один масштаб, стиль, камера чи one-time kit не є глобальними defaults.
+> Read [maturity, competence and authority](v4/index.md) first for the 4.0 contract, then the relevant domain sections. GA4-P1/D1/D2 extend GA3/UA26 and earlier IDs. Every complete concept needs C1 and production handoff needs T. Gather the evidence each gate requires. Preserve historical sources and approvals. Apply R6 profiles, scale, art style, camera and one-time kit only to the scope where they were approved.
 
-Інструмент 4.0.0, сумісний handoff protocol 1.0.0. Це виконувані правила роботи агента, а не обіцянка результатів гри. Читати на старті кожного етапу разом із experience-contract.md, handoff-contract.md та requirements.md і [systemic-design.md](systemic-design.md). Специфічні references свого етапу читати за предметом задачі.
+This 4.0 operating contract uses handoff protocol 1.0.0. It defines the agent's work. Read it at each new stage with experience-contract.md, handoff-contract.md, requirements.md, and [systemic-design.md](systemic-design.md). Open stage references that apply to the current task.
 
-## Межі й порядок
+<a id="межі-й-порядок"></a>
 
-`gamedev-director` координує studio → concepts → preproduction → assets ↔ build → qa → release → liveops. Studio та concepts зручні у Work; preproduction, assets, build, qa, release, liveops мають canonical repo у Codex. Work залишається research/visual/audition/consultation bridge, якщо саме там доступна модальність. Середовище не визначати за назвою застосунку: спочатку перевірити filesystem, tools, network, native SDK, devices, генератори та права.
+## Scope and order
 
-Користувач уже може мати студію/гру. Прийняти актуальні файли й провести адресний intake, не запускати перейменування або повторний research автоматично. Зберегти підтверджений вибір назви/студії чинного проєкту; готовність старого artwork перевіряється окремо. Історичні профілі доступні адресно в [джерелах спадщини](historical-project-profiles.md). Ця навичка не вимагає наперед обрати одну гру, рушій або дві платформи для всіх майбутніх проєктів.
+`gamedev-director` coordinates studio → concepts → preproduction → assets ↔ build → qa → release → liveops. Work can suit Studio and Concepts. Keep the canonical repository in Codex for Preproduction, Assets, Build, QA, Release and LiveOps. Where Work offers the needed modality, use it for research, visual work, audition or consultation and verify the actual handoff. Choose an environment by its filesystem, tools, network, native SDK, devices, generators and rights.
 
-## Рішення користувача
+A user can start with an existing studio or game. Recover the current files and conduct a focused intake. Preserve the accepted studio and name while checking artwork readiness separately. Use [historical sources](historical-project-profiles.md) only for the matching project. Choose game, engine and target platforms from the actual task.
 
-Перед залежною реалізацією запитувати матеріальні розвилки: Android/iOS/обидві; портрет/ландшафт; 2D/2.5D/3D; core mechanics; online/offline/co-op; engine з суттєвими наслідками; цільові пристрої; аудиторія/вікові групи/ринки; модель продажу/реклами/випадкових покупок; дані акаунта й cloud save; paid tools/backend; графічний/audio master; юридична особа/публічні контакти/продакшн-публікація. Показати 2–3 реальні опції, наслідки та рекомендацію. Зберегти дослівне джерело/посилання на відповідь і точний scope. Невідповідь не є вибором. Незалежні гілки роботи продовжувати.
+<a id="рішення-користувача"></a>
 
-Не перепитувати вже надану чинну згоду; не просити погоджувати кожну кнопку чи оборотний технічний ремонт. Якщо дія не входить у чинне доручення (витрати, реєстрація, публікація, destructive migration), підготувати конкретний reviewable результат до запиту. Не підміняти користувацьке рішення AI-оцінкою або записом JSON.
+## User decisions
 
-## Збереження ідентичності
+Resolve outstanding material choices before dependent work. These can include Android, iOS or both; orientation; 2D, 2.5D or 3D; core mechanics; online, offline or co-op; a consequential engine; target devices; audiences, age and markets; sales, ads and paid randomness; accounts and cloud saves; paid tools and backend; accepted visual or audio master; legal entity, public contacts or production publishing. Present two or three viable choices, consequences and the recommendation. Record verbatim authority or its link and exact scope. Continue independent work while waiting for a specific answer.
 
-Перший схвалений frame/audio audition є canonical intent, а не редагованою сценою. Записати asset ID, точний оригінал, sha256, resolution/color profile, source/generation provenance, дозволи, scope схвалення. Не вигадувати font/model/rig/stems, яких зображення/аудіофайл не містить.
+Apply existing current consent without repeating it. Make routine reversible repairs inside the accepted scope. When new spending, registration, publication or destructive migration needs a decision, first prepare a concrete reviewable result. Consent comes from the actual source decision.
 
-Розкласти зображення на camera/projection/lens, композицію й safe areas, proportions/silhouettes, world scale, palette/material/texture, lighting/shadows, geometry/layers, typography з ліцензованими binaries, UI tokens, VFX; рух на clips, curves, contact phases, per-limb constraints, collisions і фізичні параметри. Зв'язати кожну частину з реальним source, export, import settings і scene node. Для звуку — motifs/instrument palette/темп/key/texture, event map, stems/loops/transitions/mix і runtime routing.
+<a id="збереження-ідентичності"></a>
 
-Byte-identical reuse обов'язковий для unchanged canonical asset. Derived export має явний рецепт. Векторизація, перемальовування, інша поза/персонаж/шрифт не стає «ідентичним» через схожу палітру. Допустиму зміну показати поруч із master та погодити. До масового виробництва відтворити canonical scene у цільовому рушії, на цільовому пристрої, з тим самим aspect/camera/state/seed. User acceptance включає кадр, motion/contact clip, audio в gameplay, input/haptic feel. Pixel-diff корисний у контрольованому capture; він не доводить художню чи фізичну тотожність і залежить від рендера. Непідтверджену тотожність позначати pending, не обіцяти математично неможливу гарантію з одного JPEG.
+## Preserve creative identity
 
-## Ціла гра
+The first approved frame or audio audition records canonical intent. Record asset ID, exact original, SHA-256, resolution and color profile, source and generation provenance, rights and scope. Inspect the capabilities actually present in the editable source before promising fonts, models, rigs or stems.
 
-Описувати дію пальця → правило/розрахунок → фізичну відповідь → animation/VFX/audio/haptic → reward/cost → next state → save/analytics. Для replay визначити run loop, завершення, failure/recovery, mastery, build variety, content grammar, meta progression, long-term content cadence і межі скінченного launch scope. Нескінченні seeds не є нескінченним змістом. Не підміняти відчутну різницю косметичним recolor.
+Break down visual intent into camera, projection and lens; composition and safe areas; proportions and silhouettes; scale; palette, material and texture; lighting, geometry and layers; licensed fonts; UI tokens and effects. For motion record clips, curves, contact phases, constraints for individual limbs, collisions and physics. Bind each to actual source, export, import settings and scene node. For audio record motifs, instruments, tempo, key and texture, event map, stems, loops, transitions, mix and runtime routing.
 
-Економіка починається з корисного базового досвіду відповідно до обраної моделі: для F2P потрібна повна free/no-offer арка, для premium — чесний обсяг після купівлі; безплатний доступ до всієї premium гри не вимагається. Монетизація є спроєктованим шаром системи з source/sink, earn/spend, unlock/entitlement, sidegrades, cadence, безкоштовним шляхом, purchase failure/refund/restore та перевіркою домінантної платної стратегії. Кількість валют або скриньок не є якістю. Випадкові платні предмети — окремий матеріальний вибір і актуальна store/legal перевірка для ринків. Гіпотези утримання/доходу не видавати за фактичні D1/D7/ARPU.
+Reuse byte-identical originals for unchanged canonical assets. Give each derivative an explicit recipe. Compare any vectorization, redraw, pose, character or type substitution to the actual master and obtain a specific decision where needed. Before batch work reproduce the canonical scene in the intended engine and device at the same aspect, camera, state and seed. Obtain due user acceptance for the frame, motion and contact, in-game audio, input and haptic feel. Pixel differences can support a controlled capture comparison and depend on rendering. Judge creative and physical parity with the appropriate proof, and leave unverified identity pending.
 
-## Команда і приймання
+<a id="ціла-гра"></a>
 
-Один producer/director веде requirement IDs, рішення та integration. Предметні техліди самі виробляють артефакти: gameplay/progression/content/economy; UX/accessibility; art/animation/technical art; audio/haptics; runtime/backend/stores. Активувати лише потрібних спеціалістів у фактичному ліміті слотів. Кожен має artifact path, assigned IDs, inputs, resource cap, stop і адресата. Ніяких порожніх менеджерських поверхів.
+## The complete game
 
-Автор не є незалежним QA власного артефакту. Записувати реальних actor IDs і output paths; якщо subagents недоступні, чесно self-check, потім зовнішнє/людське QA pending. Не симулювати незалежну раду ролями в одному повідомленні. Фінального окремого рецензента активувати для великого freeze, спірної вимоги або критичної зміни, не для кожної правки. Докази попередніх перевірок переносити за незмінних hashes та залежностей. Зміна shared shader, schema, currency чи brand master відкриває всі транзитивно залежні перевірки.
+Trace touch intent through rule or calculation, physical response, animation/effects/audio/haptics, reward or cost, next state, save and analytics. For replay define the loop and ending, failure and recovery, mastery, build variety, content grammar, meta progression, sustainable content cadence and finite launch scope. Show meaningfully different decisions and consequences.
 
-Local repair: автор усуває причину й проганяє релевантний check → QA відтворює тільки зачеплений scope → integration. Після двох безрезультатних повторів змінити діагностику/підхід. Не крутити безмежний цикл суддів. Critical money/privacy/authorization/save migration/release потребують незалежної перевірки незалежно від розміру diff.
+Start the economy from a valuable baseline appropriate to the chosen model. Free-to-play has a complete free or no-offer arc. Premium has the clear scope delivered after purchase. Specify sources and sinks, earnings and spending, unlocks and entitlements, sidegrades, cadence and base path, transaction failure, refund and restore. Test for dominant paid strategies. Paid random items require their own decision and current store and legal checks for applicable markets. Mark retention and revenue hypotheses separately from observed D1/D7 or ARPU.
 
-## Чесність результату
+<a id="команда-і-приймання"></a>
 
-Розрізняти: drafted; structurally_valid; independently_reviewed; user_accepted; built; device_verified; submitted; store_approved; released; observed_in_production. Файл APK не доводить тест на пристрої; README про музику не є музикою; прослуховування не замінює вимір, вимір не замінює прослуховування. Статус accepted у manifest — декларація, що перевіряється і протоколом, і людиною; seal рахує hashes і не дає дозволу.
+## Team and acceptance
 
-Жоден етап не називає майбутню роботу виконаною. За відсутності оплаченої можливості/SDK/device/license дати blocked scope, локально готові частини, точну інструкцію завершення й наступний executable крок. Не погіршувати якість до примітивних звуків/геометрії без матеріального рішення користувача.
+One producer or director owns requirement IDs, decisions and integration. Working domain leads produce actual artifacts for applicable gameplay, progression, content, economy, UX/accessibility, art, animation, technical art, audio/haptics, native runtime, backend or stores. Bring in the specialists needed within the actual slot limit. Assign artifact path, requirement IDs, inputs, resource cap, stop, and recipient.
 
-## Наскрізний досвід і виконання
+Use a different actual actor for independent QA. Record actor IDs and outputs. If subagents are unavailable, identify author checks and then pending external or human QA. Use a final separate reviewer for a major freeze, disputed requirement or critical change. Carry forward only proof whose hashes and dependencies still match. A changed shader, schema, currency or brand master reopens transitive checks.
 
-Кожний seed поєднує дію, функціональний розвиток персонажа/інструментів і світу, потенційну добровільну цінність покупки та особливий художній задум. Кількість кнопок/валют/рівнів не доводить глибину. Показати, як одна система змінює рішення в іншій, як росте майстерність і як нові можливості переосмислюють старі задачі. Від першого кадру до магазинів тримати art/audio/input/commerce як частини одного досвіду; різні ідеї не отримують один графічний preset автоматично.
+For a local repair, fix the cause and run the relevant check, have QA reproduce the affected scope, and integrate. Change the diagnosis or method after two attempts with the same failure. Critical spending, privacy, authority, save migration and release need independent verification regardless of diff size.
 
-Для ключових взаємодій визначити передбачення → дія → рух/контакт → animation/VFX/audio/haptic → результат → навчання/наступне рішення; перевіряти mute/no-haptic/reduced-motion паритет. Для кожного offer: конкретне бажання, проба, earned/decline path, optional purchase, повторне використання, наступна мета та сумарний вплив колекції/доступу на payer/nonpayer. No-offer і змістовна альтернатива допустимі. Гіпотези про успіх й прибуток відокремлювати від чужих доказів і власних вимірів.
+<a id="чесність-результату"></a>
 
-Director звіряє current intent/knowledge/decisions/dependencies перед job, записує проектну особливість і вплив, не змінює глобальну політику під назвою self-learning. Pause now/after artifact/after stage зупиняє подальші jobs у точному scope; checkpoint містить готове, поточне, невідомі external outcomes і наступний крок. Запам’ятаний фаворит, прев’ю та прийнята виробнича концепція — різні рішення. Автоматичний маршрут не скасовує матеріального вибору користувача.
+## Evidence and result
 
-## Системний поріг ілюстрованого пошуку 3.0.0
+Keep the states drafted, structurally_valid, independently_reviewed, user_accepted, built, device_verified, submitted, store_approved, released and observed_in_production separate. A file, test trace, listening check, measurement and device check prove different things. Verify an accepted manifest status against the actual protocol and human decision. A seal pins hashes and permission comes from the actual grant.
 
-[Системний контракт](systemic-design.md) уточнює чинні must через `UA26-SYS-01…07`. До ілюстрації кожного кандидата потрібні пов’язаний паспорт, доступний visual production profile й незалежний смисловий review; до показу — actual огляд кожного кадру. Довжина картки, кількість кандидатів і preview-only не знижують поріг. Повний GDD, native/device доказ та user acceptance мають свої пізніші due gates. Не створювати другу authority registry або повторне погодження вже дорученого scope.
+If a paid capability, SDK, device or license is unavailable, report the blocked scope, locally prepared parts, exact completion instruction and next executable step. Obtain a material decision before downgrading accepted sound, geometry or other creative quality.
+
+<a id="наскрізний-досвід-і-виконання"></a>
+
+## End-to-end experience and execution
+
+Each seed links player action, practical growth of character, equipment and world, optional purchase value where applicable, and a distinct creative direction. Show the decisions changed by interaction across systems, increasing mastery and applying new abilities to old tasks. Integrate art, audio, input, gameplay and relevant commerce from first frame through use of the actual store.
+
+For every key interaction specify anticipation, action, motion or contact, animation/effects/audio/haptic feedback, result, learning and the next decision. Check muted, no-haptic and reduced-motion parity. For each offer identify player desire, trial, earned and decline paths, optional purchase, reuse, next goal and cumulative payer and nonpayer impact. Keep a no-offer or other substantial alternative when appropriate. Separate hypotheses about success and profit from other creators' evidence and actual measurements.
+
+Before a job the director checks current intent, knowledge, decisions and dependencies, and logs project-specific learning and impact. Project learning has project scope. Honor pause now, after an artifact or after a stage. Keep completed work, current work, unknown external results and the exact next action in the checkpoint. Saved favorites, preview and accepted production concept retain distinct status. Preserve material decisions for the owner.
+
+<a id="системний-поріг-ілюстрованого-пошуку-300"></a>
+
+## Systemic gate for illustrated search 3.0.0
+
+The [systemic contract](systemic-design.md) refines current musts through `UA26-SYS-01…07`. Before illustrating each candidate, require a linked passport, a feasible visual production profile and independent review of the gameplay concept. Inspect each actual frame before displaying it. The gate applies across card length, number of candidates and preview scope. Full GDD, native/device proof and user acceptance remain due at their applicable stages. Preserve the current authority registry and existing exact approval.

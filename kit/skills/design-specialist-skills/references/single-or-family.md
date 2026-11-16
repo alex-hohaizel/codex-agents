@@ -1,20 +1,20 @@
-# Одна навичка або сімейство
+# One skill or a family
 
-Оцінити реальний обсяг до вибору кількості файлів і ролей. Порівняти в пропозиції:
+Estimate the actual scope before deciding how many files and roles are needed. Compare the options in the proposal.
 
-Одиниця встановлення й фаза workflow незалежні: одна навичка може вести кілька фаз, а кілька навичок — працювати в одній спільній фазі. `architecture.kind=single` означає один модуль, не один stage. Для `family` явно задати `architecture.modules`: щонайменше два записи з portable `name` та непорожніми `stage_ids`; усі IDs посилаються на поточний DAG, разом покривають кожну фазу. Такий самий явний список з одним модулем допустимий для `single`; без нього single decision охоплює його поточні фази. Кількість фаз не є доказом потреби створювати більше навичок.
+An installable unit and a workflow phase are independent. One skill can lead multiple phases and multiple skills can contribute to the same phase. `architecture.kind=single` describes one module and can cover several stages. For `family`, explicitly define `architecture.modules`. Include at least two entries with a portable `name` and nonempty `stage_ids`. All IDs refer to the current DAG and together cover every phase. The same explicit single-module list is valid for `single`. When the list is omitted, the single-module decision covers its current phases. Derive the number of skills from independent responsibilities and reuse.
 
-| Умова | Організація |
+| Condition | Organization |
 | --- | --- |
-| Один результат, близькі джерела й компетенції, одне приймання | Одна спеціалізована навичка з умовними гілками |
-| Спочатку потрібно вибрати рішення з різних підходів | Окремий research або явна дослідницька фаза |
-| Реалізація має споживати точні узгоджені правила, UI, дані або матеріали | Окремий design/authoring handoff |
-| Код, збірки або виробничі активи мають власні довгі цикли | Окрема implementation навичка |
-| Публікація має інші credentials, власників, ризики й зовнішні стани | Окремий deploy/operations етап |
-| Завдання невелике, stages не перевикористовуються окремо | Залишити одну навичку, не створювати сімейство за шаблоном |
+| One result, related sources and competencies, one acceptance process | One specialist skill with conditional branches |
+| The approach needs to be chosen from meaningful alternatives | Separate research work or an explicit research phase |
+| Implementation must consume exact approved rules, UI, data, or materials | A separate design or authoring handoff |
+| Code, builds or production assets have their own long cycles | A separate implementation skill |
+| Publishing has different credentials, owners, risks and external states | A separate deployment or operations phase |
+| A small task with phases that have no separate reuse | One skill |
 
-Обґрунтувати кожну межу: який стабільний артефакт передається, хто його споживає, яке рішення вже зафіксовано й що не слід виконувати заново. За відсутності такої межі віддати перевагу простішій організації.
+Justify each boundary with the stable artifact, consumer, decision already made, and the work that carries forward. Prefer the simpler arrangement when a boundary has no practical role.
 
-Кожний handoff містить identity/version, первинний бриф і amendments, requirement coverage, exact artifacts/hashes, actual evidence, approved choices, права, відкриті issues, відхилені альтернативи, scope й наступного власника. Зміна спільного контракту повертається адресно; вона не перезапускає всі етапи автоматично.
+Every handoff contains identity and version, the original brief and amendments, requirement coverage, exact artifacts and hashes, actual evidence, approved choices, rights, open issues, rejected alternatives, scope, and the next owner. Route changes to a shared contract to the affected owner and stages.
 
-Приклад: аналітичний щотижневий звіт часто покривається однією навичкою. Платний вебсервіс може потребувати research → design → implementation → deploy/support, якщо користувач погодив такий обсяг. Вебсайт не є обов’язковим результатом будь-якої ідеї. Підготовлений deploy checklist не означає live service; persistent monitoring і recurring operations мають фактичний ресурс, власника й дозвіл.
+A weekly analysis report often fits one skill. A paid web service may need research, design, implementation, deployment and support when the user approved that scope. A prepared deployment checklist establishes preparation. Persistent monitoring and recurring operations require actual resources, a responsible owner, and permission.

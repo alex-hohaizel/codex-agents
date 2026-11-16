@@ -1,7 +1,7 @@
 interface:
-  display_name: APP · Залучення · 6.0.0
-  short_description: Предметна робота над одним корисним застосунком
-  default_prompt: Застосуй $app-atelier-growth до поточного проєкту й виконай дозволений наступний крок.
+  display_name: APP · Залучення
+  short_description: "Plan app acquisition and measure attributed activation"
+  default_prompt: "Use $app-atelier-growth to select an attainable channel and define how to verify useful activation."
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

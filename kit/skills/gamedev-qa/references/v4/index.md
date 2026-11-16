@@ -1,66 +1,80 @@
-# Game Atelier 4.0 — вхід, зрілість і навігація
+# Game Atelier 4.0 intake, maturity and navigation
 
-Зміст: authority → компетенції → виходи → виконання → перенесення → докази.
+This reference covers authority, competence, outputs, execution, transfer and evidence.
 
-## Authority й обсяг
+<a id="authority-й-обсяг"></a>
 
-Читай цей файл на вході нового scope. Чинний запит/згода користувача → прийнятий задум і constraints → project requirements/decisions → одна project-owned game model → specs/data/code/assets → actual evidence. `assets/approved-baseline-4.0.json` зберігає згоду на оновлення сімейства; вона не обирає гру, рушій, платежі або випуск. `assets/requirements-4.0.json` додає74IDs до GA3/UA26/попередніх IDs. Копіюй застосовні вимоги до чинної project registry з owner, artifact, acceptance, due gate, evidence і closure. Відсутня capability є blocked, не N/A. Не дублюй authority в таблиці або іншій DSL.
+## Authority and scope
 
-Для чинного проєкту зберегти його підтверджені керування, студію/IP, раунди, favorites, accepted originals/hash, платформи й performance targets. Джерело — актуальний project-owned profile/requirements/decisions. Для нового проєкту показати запропоновані defaults сімейства й предметно зафіксувати застосовні targets; конкретна історія не є новою згодою. Історичні приклади винесено до [профілів спадщини](../historical-project-profiles.md), які читаються лише за відповідним project scope. Favorites не є production choice. Обсяг нового раунду визначає поточний запит; оновлення агента не запускає раунд. Скінченний scope не дорівнює невичерпності всіх можливих ігор.
+Read this file when opening a new scope. Apply the current user request and consent, accepted intent and constraints, project requirements and decisions, one project-owned game model, specifications/data/code/assets, then actual evidence. `assets/approved-baseline-4.0.json` records consent to the family update. A specific game, engine, payment or release needs its own decision. `assets/requirements-4.0.json` adds 74 IDs to GA3/UA26 and prior IDs. Copy applicable requirements to the existing project registry with owner, artifact, acceptance, due gate, evidence and closure. Missing capabilities block the applicable evidence. Keep the project registry as the sole authority record.
 
-P1 defaults A–F: завершений кандидат має C1; authored/hybrid допустимі; функціональна покупка може давати прозору виміряну перевагу за доречного задуму; deterministic paid default/earned RNG transparent; paid RNG — окреме рішення; hidden DDA за успіхом/покупками не є default; network/social/backend/newpaidservice conditional. Не вводь повсюдний RPG, інвентар, бойові HP, ворогів, crafting або мережу.
+For an existing project retain its confirmed controls, studio and IP, rounds, favorites, approved originals and hashes, platforms, and performance targets. Use its current profile, requirements and decisions. For a new project explain applicable family defaults and establish actual targets. Read [historical profiles](../historical-project-profiles.md) only for the matching scope. A favorite records a preference. Production choice requires the current decision. The current request sets the round's scope. An agent update preserves the current round. A finite scope can cover the requested game without covering every possible design.
 
-## Метод, профіль і поточна задача
+P1 defaults A–F are a C1 for a complete candidate, allowance for authored or hybrid content, and a transparent measured functional purchase advantage where the chosen design calls for it. Use deterministic paid offers by default and transparent earned randomness. Paid randomness needs a separate decision. Hidden DDA tied to success or purchase is outside the default. Network, social, backend and new paid services depend on actual need. Apply RPG inventory, hit points, enemies, crafting and networking only to games that need them.
 
-Загальні вимоги — повнота застосовного задуму, причинні правила й належний доказ. Жанр, камера, студія, бюджет, платформи, FPS, монетизація, участь людей та мережеві можливості — явні параметри конкретного профілю або його прийняті обмеження. Чинні погоджені targets не знімати через встановлення навички, відсутній SDK чи новий раунд. Пропозиція native Android/iOS або 60 FPS не є доказом їх прийняття новим проєктом. Зміна прийнятого scope має адресний impact/рішення й належний native upgrade шлях.
+<a id="метод-профіль-і-поточна-задача"></a>
 
-Перед матеріальним scope застосувати [адаптивну роботу](../adaptive-work.md). За необхідності викликати [дослідження, системний синтез або звірку](../research-and-synthesis.md) із власним output і evidence plan; постійний новий штат не потрібний. Локальна визначена правка має короткий шлях із targeted regression. Пізні must зберігати з due gate; перший working slice не викреслює повний target.
+## Method, profile and current task
 
-## Шість логічних компетенцій
+Preserve the applicable intent, causal rules and corresponding evidence. Genre, camera, studio, budget, platforms, frame rate, monetization, human participation and networking are project parameters. Retain approved targets during installation, a new round or a host capability gap. Mark Android, iOS, 60 FPS or another proposed target as accepted only with the corresponding decision. An approved scope change needs specific impact, authority and a viable native upgrade route.
 
-Завантажуй потрібні файли за дією, а не весь корпус на кожну зміну. Це напрями роботи, не фіксований штат чи нові публічні навички.
+Before a material scope apply [adaptive work](../adaptive-work.md). Use [research, system synthesis or coverage review](../research-and-synthesis.md) with a named output and evidence plan when necessary. Select the smallest competent path for a local repair and test the affected regression. Track later musts and their due gate after the first slice.
 
-| Компетенція P1 | Ресурси в цій навичці | Коли потрібні |
+<a id="шість-логічних-компетенцій"></a>
+
+## Six logical competencies
+
+Read resources for the actual operation. The competencies guide work and staffing based on need.
+
+| P1 competence | Resources in this skill | Applicable work |
 |---|---|---|
-| Поведінка/математика/фізика/стан/RNG | [math](math.md), [systems](systems.md) | Правила, ресурси, damage/death/crash/contact, modifiers, симуляції |
-| Каталог/сумісність/розвиток/винагороди | [catalog-progression](catalog-progression.md) | Сімейства можливостей, unlock, builds, sources/sinks, opportunity |
-| Світ/ситуації/маршрути/AI | [world-ai](world-ai.md) | Генерація, агенти/боси, encounters, живість, ритм |
-| Лор/сюжет/знання/діалог | [lore-narrative](lore-narrative.md) | Канон, reactive narrative, NPC knowledge, quests |
-| Намір/touch/camera/UX/відгук | [experience-commerce](experience-commerce.md), старий [experience](../domains/experience.md) | Перший/peak/late досвід, gestures/cancel, tutorial, accessibility, multimodal |
-| Метагра/економіка/commerce | [experience-commerce](experience-commerce.md), [catalog-progression](catalog-progression.md) | Fit моделей, комплекти, cumulative effects, store/ads/purchase lifecycle |
+| Behavior, math, physics, state and RNG | [math](math.md), [systems](systems.md) | Rules, resources, damage, death, crash, contact, modifiers and simulation |
+| Catalog, compatibility, growth and rewards | [catalog-progression](catalog-progression.md) | Capability families, unlocks, builds, sources, sinks and opportunity |
+| World, situations, routes and AI | [world-ai](world-ai.md) | Generation, agents and bosses, encounters, activity and rhythm |
+| Lore, narrative, knowledge and dialogue | [lore-narrative](lore-narrative.md) | Canon, reactive narrative, NPC knowledge and quests |
+| Intent, touch, camera, UX and feedback | [experience-commerce](experience-commerce.md), [existing experience domain](../domains/experience.md) | First, peak and later experience, gesture and cancel, learning, accessibility and sensory integration |
+| Metagame, economy and commerce | [experience-commerce](experience-commerce.md), [catalog-progression](catalog-progression.md) | Model fit, packages, cumulative effects, store, ads and purchase lifecycle |
 
-Наскрізні опори: [persistence](persistence.md) для будь-якого mutable state; [production](production.md) для кожної операції/перетворення й інструмента. Реєстр20систем та поля handoff — [systems](systems.md). Старі8domains зберігають предметні подробиці; новіpackуточнюють3.0, не скасовують незгадані must. Для чинного формату/CLI читай [model-format](../model-format.md); машинний checker не оцінює цікавість.
+Use [persistence](persistence.md) for mutable state and [production](production.md) for each operation, transformation and tool. [systems](systems.md) contains the 20 systems and handoff fields. The eight earlier domains retain their detail. The new pack extends 3.0 without dropping musts. Use [model-format](../model-format.md) for the current format and commands. Judge whether a game interests players with the applicable human evidence.
 
-## Три виходи
+<a id="три-виходи"></a>
 
-**C0 — попередній ескіз.** Гачок/аудиторія/дія/основні системи/світ/розвиток/камера/input/art/commerce fit/ризики. Познач C0 незавершеним. Не називай його повною концепцією або accepted handoff. Не витрачай виробництво для маскування невизначеного задуму.
+## Three outcomes
 
-**C1 — завершена концепція.** Кожний кандидат, поданий як готовий до остаточного вибору, має повний продуктовий документ: фантазія/стовпи/межі,20застосовностей, причинні цикли й всі периферійні journeys, архітектура каталогів/сумісності/стратегій/прогресії, світ/новизна/повернення/живість, ризик/damage/failure/reward, AI або предметна N/A, controls/camera/навчання/accessibility, арт/аудіо по елементах і станах, комерційні альтернативи/free path/інфраструктура, persistence, finite launch/expansion/cost, ризиковіprobes і критерії відхилення. Числове налаштування може мати діапазон/метод/due; основний характер поведінки й ціль не лишаються TBD. Три екрани лише ілюструють пакет. Cold receiver відновлює сценарії без історії чату.
+**C0 — preliminary sketch.** Include hook, audience, action, key systems, world, progression, camera, input, art, commerce fit and risks as available. Label C0 incomplete and use it for an explicit decision or question. A complete concept or accepted handoff requires the later gates. Spend production effort once the necessary intent is resolved.
 
-**T — виробнича передача.** Для вибраної в розробку гри: повний launch catalogue або точна grammar, typed rules/functions/tables/curves/state/priority/time/capture/round/tolerance/RNG, exact baseline та fixtures, generation constraints/repair/fallback, state/persistence/authority/migration, всі asset+audio+UI+locale states, source/export/import/scene recipes, кодові й platform contracts, budgets/devices, test oracles/negative cases/diagnostics, tasks/DAG/consumer acceptance. Немає невизначеного значення, яке змушує implementer самостійно придумати поведінку. Tuneableparameter має baseline/range/owner/criterion/affectedIDs. Product choice, tuning experiment та external permission — різні речі.
+**C1 — complete concept.** Each candidate ready for final choice needs a full product document: player fantasy, pillars, boundaries, applicability of the 20 systems, causal loops and peripheral journeys, catalog architecture, compatibility, strategy and progression. Define world, novelty, return goals and activity, risk/damage/failure/reward, AI or a meaningful N/A, controls/camera/learning/accessibility, art and audio by element and state, commerce alternatives, free route and infrastructure where applicable, persistence, finite launch and expansion cost, high-risk probes and rejection criteria. Numeric tuning may have range, method and due point. Resolve core behavior and intent. Screens illustrate the full package. A fresh receiver reconstructs the scenarios from the files.
 
-Ранній технічний spike дозволений до T для перевірки ризику; він не закриває пакет. Після T — representative native slice з фактичними input/camera/art/motion/contact/audio/haptic/save на declaredplatforms; лише потім masscontent. Бета/реліз потребують додаткових device/human/purchase proofs, а не довшого GDD.
+**T — production handoff.** For the game chosen for development specify a full launch catalog or exact grammar, typed rules/functions/tables/curves/state/priority/time/capture/rounding/tolerance/RNG, exact baseline and fixtures, generation constraints and repair/fallback, state and persistence/authority/migration, every asset/audio/UI/locale state, source/export/import/scene recipes, code and platform contracts, budgets and devices, test oracles, negative cases and diagnostics, task dependencies and consumer acceptance. The implementer receives all decisions needed to build the desired behavior. A tunable parameter carries baseline, range, owner, criterion and affected IDs. Record product choice, a tuning experiment and external authority separately.
 
-## Алгоритм кожної задачі
+An early technical spike can prove a specific risk before T. After T, verify a representative native slice with actual input, camera, art, motion, contact, audio, haptics and save on the declared platforms. Verify due evidence before producing dependent content in batches. Beta and release have additional device, human and purchase evidence.
 
-1. Звір current intent, stop, IDs, inputs/hash, accepted originals, capability/permissions; визнач operation і current maturity.
-2. Назви owned paths, consumer, observable result, boundaries, due evidence, budget; одного writer на спільний source/device/export/account.
-3. Замкни requirements→20tracks→behavior/state/catalog→asset/code→scenario→build/release. Ребро пояснює конкретне читання/зміну/наслідок. Не вимагай all-to-all.
-4. Для операції обери capability/recipe/semantic transformation/attempt/assembly records за [production](production.md). Descriptor/catalog/schema — лише факт доступності; потрібне фактичне parameter consumption.
-5. Виконай дозволену роботу, збережи actual files/traces/receipts. Timeout external outcome спочатку reconcile, не repeat. Після двох однакових failedrepair зміни діагностику.
-6. Перевір структуру, числові й semantic invariants, negative case та належну модальність. Інший actualactor перевіряє критичне; selfcheck не перейменовуй independent.
-7. Consumer читає пакет без чату й відтворює expected scenario. Не підвищуй proof strength або охоплення. Запиши output/hash/status/gaps/nextaction.
+<a id="алгоритм-кожної-задачі"></a>
 
-Нормальний damage cue слідує за authoritative simulation resolution; disk/cloud durable commit окремий. Critical grant/spend/victory acknowledgement має явну durableboundary; не затримуй кожний hit звуком очікування cloud. Загальна simulationorder, save consistency groups та відповідні invariants узгоджуються.
+## Task procedure
 
-## Продовження і зміни
+1. Reconcile intent, stop, IDs, exact inputs and hashes, accepted originals, capability and permissions. Determine the operation and maturity.
+2. Name writable paths, consumer, observable result, boundaries, due evidence and budget. Assign a single writer to each shared source, device, export and account.
+3. Trace requirements to the 20 tracks, behavior/state/catalog, asset and code, scenario, build and release. Give each dependency its actual read, change or effect.
+4. Select capability, recipe, semantic transformation, attempt and assembly records from [production](production.md). Confirm that the actual operation consumes the intended parameters.
+5. Execute authorized work and record actual files, traces and receipts. Reconcile an unknown external outcome before repeating. Reconsider diagnosis after two attempts with the same failure.
+6. Check structure, math, semantic invariants, negative cases and the appropriate modality. A different actual actor reviews critical work. Record author checks as their own category.
+7. A fresh consumer reconstructs the expected scenario from the package. Record the actual output, hash, status, gaps and next action.
 
-Поточний toolkit **6.0.0** читає тільки game-model **4.0.0**; converter попередніх результатів відсутній. Для продовження віднови фактичні вимоги, рішення й матеріали продукту та створи поточний C0/C1/T contract. Не змінюй гру, дані чи saves встановленням навички. Handoff **1.0.0** та runtime state **2.0.0** — чинні незалежні протоколи з поточним toolkit marker.
+Ordinary damage feedback follows authoritative simulation resolution. Disk or cloud durability has its own commit. Critical grant, spending and victory acknowledgements use a defined durable boundary. Align simulation order, save consistency groups and their invariants so a hit can give immediate feedback.
 
-Після зміни інвалідуй транзитивно залежні evidence за фактичними semanticinputs, версіями importer/model/recipe/build і dependencyclosure. Acceptedoriginal з незмінними bytes не генеруй повторно. Відсутнє ребро не виявляється магічно: integrator перевіряє closure.
+<a id="продовження-і-зміни"></a>
 
-Випуск/liveops спираються на exact signedbinary/config/contentepoch/schema/symbols/receipts та actualobservations. Очікування нових вказівок має checkpoint; без запущеного дозволеного scheduler/service не заявляй постійний monitoring. При новому зверненні звір поточний releasedstate й лише зачеплені вимоги.
+## Continue and change
 
-## Межі доказів
+The current reader supports game-model **4.0.0**. Recover actual product requirements, decisions and materials to create the current C0/C1/T contract. Preserve game data and saves during skill installation. Handoff **1.0.0** and runtime state **2.0.0** remain separate protocols. Use their actual toolkit compatibility marker independently from the current release's edition.
 
-Машинний PASS означає тільки перевірені структурні/арифметичні/byte/link властивості. Смислова повнота, чесність authorship/observations, ергономіка, художня якість, physicalfeel/fun/revenue мають окремий accountable review/дослід. Не підміняй прогалини загальним score. `quality_certified=false` лишається у звітах.
+Invalidate transitive evidence for changed semantic inputs, importer/model/recipe/build versions and dependency closure. Keep the accepted original and evidence for unchanged bytes. The integrator checks for missing dependency edges.
+
+Release and LiveOps use exact signed binary, config, content epoch, schema, symbols, receipts and actual observations. Record a checkpoint while waiting. Establish whether a permitted scheduler or service is actually running before claiming monitoring. On return verify current released state and affected requirements.
+
+<a id="межі-доказів"></a>
+
+## Evidence scope
+
+Machine PASS covers its exercised structural, arithmetic, byte or link checks. Semantic completeness, authenticity of authorship and observation, ergonomics, creative quality, physical feel, play interest and revenue have their own checks. Keep each gap visible and preserve `quality_certified=false` in tool reports.

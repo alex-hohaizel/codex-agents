@@ -1,38 +1,35 @@
-# Приймання залучення
+# Growth acceptance
 
-Застосувати REQ-18 / TEST-18 разом із наскрізними вимогами; розділити приймання plan і activation.
+Apply REQ-18 / TEST-18 with cross-cutting requirements. Accept planning and activation separately.
 
-## PH-GROWTH-PLAN до build
+## PH-GROWTH-PLAN before build
 
-- Надати визначений сегмент/тригер, механізм discovery, фактичні джерела, assets/destination, доступи, вартість, lag і unknowns.
-- Показати шлях із нульової аудиторії; не припускати існуючий reach або гарантоване вірусне зростання.
-- Довести здійсненність automation route, регулярний upkeep і fallback; не замінювати їх словами «SEO/контент».
-- Передати funnel/event dictionary й cost sensitivity у concept/specification; перевірити fit для всіх потрібних клієнтів.
-- Не активувати публікації/кошти/дані. Не вимагати людської валідації, щоб назвати plan підготовленим.
-- Показати blocked/reject, якщо єдиний маршрут потребує забороненої ручної роботи, бюджету чи людських дослідів.
+- Provide segment and trigger, discovery mechanism, actual sources, assets and destination, access, cost, lag and unknowns.
+- Describe the route from zero audience without assuming existing reach or guaranteed virality.
+- Prove feasible automation, regular upkeep and fallback. The phrase «SEO/контент» is not an operational route.
+- Pass the funnel/event dictionary and cost sensitivity into concepts and specification, covering applicable clients.
+- Exclude publication, spending and data activation from a plan. Human validation is a separate claim.
+- Report blocked or rejected if the only route needs prohibited manual work, spending or human experiments.
 
-## PH-GROWTH після release
+## PH-GROWTH after release
 
-- Перевірити actual release/read-back, матеріали/версії, поточні platform rules, account scope, funds, hard caps і чинну effect authority.
-- Підтвердити окремий telemetry/data gate; не додавати fingerprinting або приховану передачу даних.
-- Зберегти stable action ID/pending/actual receipt; unknown effect спершу звірити зі зовнішнім станом.
-- Для recurring automation перевірити runtime/schedule, alert і stop; не називати конфігурацію працюючою службою.
-- Розділити observed metrics, modeled estimates, attribution та причинність; указати time range/джерела/межі.
+- Verify actual release/read-back, material versions, current platform rules, account scope, funds, hard caps and current effect authority.
+- Verify the separate telemetry and data gate. Do not introduce fingerprinting or hidden data transfer.
+- Keep stable action ID, pending state and actual receipt. Reconcile an unknown effect before retry.
+- For recurring work verify runtime, schedule, alert and stop. Configuration is not a running service.
+- Distinguish observed metrics, model estimates, attribution and causality. Include time range, sources and limits.
 
-## Негативні cases
+## Negative cases
 
-| Контракт | Відхилити таку поведінку |
-|---|---|
-| REQ-03 / TEST-03 | Витратити кошти через free trial, unchecked budget або прихований регулярний сервіс. |
-| REQ-04 / TEST-04 | Назвати автоматизованим канал, що потребує щоденних постів/продажів власника. |
-| REQ-17 / TEST-17 | Запустити A/B, опитування, людський пілот чи рекрутинг після релізу без явного delta. |
-| REQ-18 / TEST-18 | Обіцяти вірусність, підмінити канал списком назв або видати чернетки за фактичні installs. |
-| REQ-24 / TEST-24 | Прирівняти прийняту концепцію/агентський паспорт до дозволу нової публікації чи витрати. |
-| REQ-32 / TEST-32 | Почати дозволений експеримент без metric/threshold/horizon/cap/stop або змінити поріг після провалу. |
-| REQ-36 / TEST-36 | Після timeout повторно оплатити/опублікувати без reconciliation; втратити lineage зміненого claim. |
-| REQ-37 / TEST-37 | Назвати авторський self-check незалежним прийманням spend/privacy/claims. |
+| Contract | Behavior to reject |
+| --- | --- |
+| REQ-03 / TEST-03 | Spend through a free trial, unchecked budget or hidden recurring service. |
+| REQ-04 / TEST-04 | Call a channel automated when it depends on daily owner posting or sales. |
+| REQ-17 / TEST-17 | Start post-release A/B, a survey, human pilot or recruiting without an explicit change decision. |
+| REQ-18 / TEST-18 | Promise virality, provide channel names without a route, or present a draft as actual installs. |
+| REQ-24 / TEST-24 | Use accepted concept or agent passport as permission for a new publication or cost. |
+| REQ-32 / TEST-32 | Run an authorized experiment without metric, threshold, horizon, cap and stop, or alter the threshold after failure. |
+| REQ-36 / TEST-36 | Pay or publish again after timeout without reconciliation, or lose evidence lineage. |
+| REQ-37 / TEST-37 | Call an author check independent acceptance of spending, privacy or claims. |
 
-Відхилити вигадані відгуки, приховану рекламу, spam/outreach без явного доручення, автоматичне повідомлення контактам і недоведені дохідні обіцянки.
-Відхилити псевдоточний CAC/конверсію, подвійний облік переходів, неврахований content/API cost і причинні висновки лише з before/after.
-За зміни профілю, provider rules, тарифу, продуктового claim або release version перевірити affected assets/jobs/metrics; чинні незачеплені рішення не відкривати повторно.
-Передати files/hashes, фактичні receipts, scope verdict, gaps, checkpoint і next step; authored/prepared/authorized/activated/observed звітувати окремо.
+Reject fabricated reviews, unlabeled advertising, unsolicited outreach, automatic messages to contacts and unsupported income promises. Reject spurious precision in CAC and conversion, duplicate attribution, omitted content/API cost and causal claims based only on before/after comparison. Changes to profile, provider rules, prices, claims or release reopen only affected assets, jobs and metrics. Hand off files and hashes, real receipts, scoped verdict, gaps, checkpoint and next action. Report authored, prepared, authorized, activated and observed separately.

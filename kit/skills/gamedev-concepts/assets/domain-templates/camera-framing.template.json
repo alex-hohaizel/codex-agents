@@ -73,8 +73,8 @@
     "limitations"
   ],
   "notes": [
-    "12% героя, fixed camera, whole-arena й два диски не є default.",
-    "Одну projection можна зберігати під час tracking; fixed projection не означає одну нерухому арену.",
-    "Кожний показаний кадр потребує actual inspection; runtime/device claims мають окремий доказ."
+    "A 12% player-character scale, fixed camera, whole-arena view, and two on-screen controls are specific design choices.",
+    "A projection can stay fixed while the camera tracks a subject. The environment and camera position can still change.",
+    "Inspect every frame before showing it. Record runtime and device evidence separately."
   ]
 }

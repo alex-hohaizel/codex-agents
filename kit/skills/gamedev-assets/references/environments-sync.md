@@ -1,54 +1,54 @@
-# Середовища, доставка і синхронізація
+# Environments, delivery, and synchronization
 
-> Чинний контракт4.0: спочатку [зрілість/компетенції/authority](v4/index.md), потім потрібні предметні розділи. GA4-P1/D1/D2 доповнюють GA3/UA26 та старі IDs. C1 потрібен для кожної завершеної концепції, T — для виробничої передачі; evidence відповідного gate не замінюється документацією. Історичні джерела й approvals зберегти. R6-профілі, один масштаб, стиль, камера чи one-time kit не є глобальними defaults.
+Read the [maturity, competence, and authority index](v4/index.md) for current Game Model semantics. GA4-P1/D1/D2 supplement GA3/UA26 and earlier IDs. Complete concepts require C1 and production handoff requires T. Collect actual evidence at the appropriate gate. Preserve historical sources and approvals. R6 profile, scale, style, camera, and one-time kits belong to their selected concepts.
 
-## Основне правило
+## Source and runtime boundaries
 
-Одне канонічне versioned source сімейства → кілька перевірюваних delivery forms. Дані гри мають власний source repo й checkpoints. Skill installation не переносить chat history, browser session, локальні файли або game backend.
+Build different delivery forms from one versioned suite source. Keep the game in its own repository with its own checkpoints. Verify chat history, browser session, local files, and game backend separately from skill installation.
 
-## Матриця можливостей
+## Host matrix
 
-| Поверхня | Що застосувати | Що перевіряти окремо |
-| --- | --- | --- |
-| Work web / mobile | Bundled plugin skills за наявності install/save; передавати stage packages | Cloud filesystem, current tools, generation rights, service authorization |
-| Work desktop | Реально доступні standalone/plugin skills | Cloud чи local execution; local tools/access не припускати |
-| Codex desktop Local | Repo `.agents/skills` або підтримуваний plugin | Відкритий game repo, OS deps, permissions, device access |
-| Codex Worktree | Той самий tracked skill snapshot у конкретному checkout | Setup deps, branch state; зовнішні DB/store accounts не ізольовані worktree |
-| Codex Cloud | Committed repo skills у task checkout або доступний plugin, published env deps | Local Mac/browser/signing sessions не перенесені; environment changes окремо |
-| Codex CLI | Repo skills або встановлений plugin; `$skill-name` / `/skills` | CWD/root, exact version, доступна команда CLI |
-| Codex IDE extension | Repo/user standalone skills | Plugins офіційно не підтримуються; не обіцяти plugin UI |
+Use the following as a 2026-11-01 documentation snapshot. Verify the actual host, version, and available capabilities during setup.
 
-Це baseline за офіційними docs від 2026-11-01; перевіряти конкретний host та актуальні зміни під час setup.
+| Host | Route described in the snapshot | Verify for actual use |
+|---|---|---|
+| Work web or mobile | Bundled plugin skills where install or save is available, and portable stage packages | Cloud filesystem, current tools, generation rights, and service authority |
+| Work desktop | Actual standalone or plugin skills | Whether execution is cloud or local and actual local access |
+| Codex desktop Local | Repository `.agents/skills` or a supported plugin | Open game repository, host dependencies and permissions, device access |
+| Codex Worktree | Exact tracked snapshot in the intended checkout | Dependencies and branch, plus shared databases and store accounts outside the worktree |
+| Codex Cloud | Committed task-checkout skills or available plugin and published environment dependencies | Local Mac, browser and signing boundaries, and independently authorized environment changes |
+| Codex CLI | Repository skills or installed plugin, `$skill-name` or `/skills` where available | Current directory and root, version and actual CLI options |
+| Codex IDE extension | Repository or user standalone skills in that snapshot | Current plugin support and actual UI |
 
-## Доставка без конфліктів
+## Supported delivery and duplicate resolution
 
-Готовий комплект toolkit **4.3.0** має `install_codex.py`, manifest із hashes і дев’ять skill folders. Installer виконує audit/apply/verify, зберігає backups і дає rollback та автоматичне відновлення для перерваного update. Це установка інструкцій, а не game environment/SDK або proof host discovery. Він замінює лише точні Game Atelier skills у погодженому install scope, зберігаючи unrelated files. Для tracked product repository потрібні явні `--project /absolute/project --project-skills in-place` і точний `--skills-root /absolute/project/.agents/skills` або `.codex/skills`; шляхи наявних skill folders та AGENTS references зберігаються. Personal remote-skills checkout та вкладені managed source repositories цим режимом не редагуються. Точні commands і повернення описані в `UPDATE_CODEX_UA.md` комплекту; агент виконує їх у дозволеному scope.
+The archived toolkit **4.3.0** kit comprised `install_codex.py`, a hash manifest, and nine skill folders, with audit, apply, verify, backups, rollback, and interrupted-update recovery. Its `UPDATE_CODEX_UA.md` describes exact commands. The project installation used `--project /absolute/project --project-skills in-place` and the exact `--skills-root /absolute/project/.agents/skills` or `.codex/skills` for a tracked repository. It preserved existing skill paths and host rules and excluded personal remote-skill repositories and nested managed sources. Use the actual candidate release's supported installer and documentation for current deployment. Track installation, actual discovery, and game environment readiness separately.
 
-- Repo installs у `<project>/.agents/skills/<name>` робити зі stable source. Не редагувати generated installed copy, якщо це не цілеспрямований suite development.
-- User-wide install у `$HOME/.agents/skills` має ширший scope. Не робити його default для окремої гри; інші проєкти можуть потребувати іншої suite version.
-- Однакові skill names у plugin + repo + user paths можуть дублюватися; Codex не зливає їх. Залишити один активний канал на host. Не видаляти unrelated skill або global configuration для приховання конфлікту.
-- Plugin archive підготовлено ≠ plugin збережено/встановлено у cloud account. Якщо save/import capability недоступна, явно зафіксувати межу й залишити готовий installable package. Не створювати вигадані посилання.
-- Для поточного personal skills checkout використовувати штатний Skill Creator save/validation/Git flow. Це окрема дія від установки на Mac користувача.
+- Install project skills in `<project>/.agents/skills/<name>` using a stable source. Edit installed copies only for a specifically scoped suite development workflow.
+- A user-wide install at `$HOME/.agents/skills` affects independent projects. Choose it only within current user authorization and confirm compatibility.
+- Resolve duplicate names across plugin, repository, and user roots for the actual host. Keep one applicable active source for the selected ID and scope. Preserve unrelated skills and global configuration.
+- Track package preparation separately from actual cloud import, save, and discovery. If the host cannot install it, deliver the valid package and exact blocker.
+- For a personal skills checkout, use supported Skill Creator save, validation, and Git flow. Verify native Mac installation separately.
 
-## Version discipline
+## Versions
 
-Порівнювати toolkit version, contract schema/suite protocol, package identity та actual file hashes. Toolkit **4.3.0**, game-model **4.0.0**, handoff schema/suite protocol **1.0.0** і runtime state **2.0.0** — різні чинні версійні області. Handoff/runtime вимагають точний toolkit marker; попередні формати результатів не читаються. Назва «останній.zip» не визначає свіжість. За конфлікту двох edited copies не брати більший timestamp автоматично: зіставити source commit, accepted decisions і manifest parents, сформувати change/impact report.
+Compare the toolkit, schema and protocol, package identity, and actual hashes. Toolkit **4.3.0** identifies the historical kit above. The separate game model **4.0.0**, handoff schema and suite protocol **1.0.0**, and runtime state **2.0.0** remain distinct. Match the actual runtime or handoff compatibility marker from the installed tool. For edited copies, compare source commits, accepted decisions, and manifest ancestry and record affected work.
 
-Для update: canonical source change → validate + forward tests → new package → explicit project update → sync-check → read impact report. Зберегти старий accepted package для rollback; не перегенеровувати media для простої зміни instruction text.
+Update the canonical source, run targeted validation and behavioral checks, package, use the authorized project updater, check synchronization, and inspect impact. Retain the accepted package for rollback. Reuse media unaffected by text-only changes.
 
-## Передача через host boundary
+## Host transfer
 
-Work → Codex: approved brief, current studio assets, specs/configs/content matrices, source media where produced, license/provenance, manifest+hashes, decisions and gaps, exact next skill/host. Codex → Work: review extracts, real captures, asset requests, identity masters і IDs, не secrets або весь database dump.
+From Work to Codex, include the approved brief, current studio assets, design and config and content, source media, licenses and lineage, manifest and hashes, decisions and gaps, and exact next skill and host. From Codex to Work, include relevant review extracts and actual captures, asset requests and identity master references, without credentials or unrelated database contents.
 
-Generation bridge має окремий job/request manifest. У ньому: request ID, master file hashes, selection status, locked features, allowed creative variation, dimensions/duration/export requirements, provider/license/cost constraints, required return files. Після повернення compare з masters; modified output стає новим versioned asset лише після acceptance.
+For generation in another environment, record job or request ID, master hashes, selection status, fixed properties and permitted variation, size or duration and export, provider and license and cost, and required return files. Compare the actual return with the masters. Version and accept derivatives before dependent use.
 
-## MCP / plugins / CLI
+## MCP, plugins, and CLI
 
-CLI достатній → не встановлювати MCP лише заради модної архітектури. MCP до зовнішнього сервісу додавати за реальною потребою та з мінімальними правами; перевірити доступність у потрібному host. Browser login не означає MCP OAuth і навпаки. Secret values не входять у suite/game archives, logs або screenshots.
+Use an existing CLI when sufficient. Choose MCP only for an actual operation and verify host availability, authentication, and least privilege. Check browser login and MCP authorization independently. Exclude secrets from archives, logs and captures.
 
-За Cloud localhost MCP не вважати доступним. Документувати transport/host/network/auth prerequisites; залишити owner setup step, якщо немає дозволеного supported connector. Не використовувати неперевірені третьосторонні server executables або «безкоштовні» API як обов’язкову залежність.
+Check whether a cloud host can reach a required service. Document transport, host, network, and authorization prerequisites and the exact owner step for any missing approved connector. Bind only verified executables and services as dependencies.
 
-## Офіційні джерела
+## Official references
 
 - https://learn.chatgpt.com/docs/build-skills
 - https://learn.chatgpt.com/docs/plugins
@@ -56,6 +56,6 @@ CLI достатній → не встановлювати MCP лише зара
 - https://learn.chatgpt.com/docs/extend/mcp?surface=cli
 - https://learn.chatgpt.com/docs/enterprise/plugin-management
 
-Workspace marketplace sync потребує admin-доступу; не рекомендувати його як гарантоване personal account рішення. Підтримуваність формату не доводить feature flag або permissions користувача.
+Check current marketplace permissions and actual feature availability for the account. Confirm administrator access if the selected route requires it.
 
-Установлення toolkit не змінює game saves чи project registries. Звичайні команди `atelier.py` приймають лише поточний toolkit marker та runtime schema **2.0.0**. Для чинного native workflow4.2→4.3 є явний `workflow-upgrade` preview/apply за [сценарієм](orchestrator-workflow.md): exact source/target hashes, reviewed authority, незмінний backup, journal receipt та адресні impact IDs. Він не запускається suite installer автоматично, не змінює продукт і не повторює tasks/effects. Інші попередні формати не читаються як чинні: відновити їх фактичний accepted intent і джерела до окремого рішення. Reconcile suite hashes перед залежною роботою, не перезаписувати canonical approval чи masters.
+Skill installation preserves game saves and registries. `atelier.py` ordinary commands require the actual current toolkit marker and runtime schema **2.0.0**. The prior 4.2 to 4.3 route was a separate reviewed workflow upgrade. Use the currently declared `WORKFLOW_UPGRADE_FROM` table and the [preview and apply procedure](orchestrator-workflow.md) for any supported change. Bind source and target hashes, actual authority, exact backup, journal receipt, and affected IDs. Installation does not trigger project migration. Unsupported formats are sources for a scoped reconstruction and decision. Reconcile suite hashes before following dependencies and preserve approved masters and authority.

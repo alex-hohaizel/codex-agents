@@ -1,88 +1,49 @@
-# Виробничий workflow застосунку
+# App implementation workflow
 
-Зміст: приймання → стек/межі → зріз → контракти → billing → платформи/CI → передача.
+Contents include intake, stack and boundaries, representative slice, domain and integration, billing, clients and CI, and handoff.
 
-## Приймання завдання
+## Intake
 
-Відновити поточні repo/files, approved intent, requirement IDs, design masters, resource cap і stop.
-Зіставити current bytes/hash із попереднім review; новий input інвалідовує лише залежні докази.
-Розкласти роботу на tasks із owned paths, входами, interfaces, output, DoD і перевіркою.
-Паралелити незалежні зміни; shared schema/state/міграції та інтеграцію виконувати послідовно.
-Worktree ізолює файли, а не спільну production БД або provider account.
-До повного build отримати early release/account/store/testing/cost feasibility; повторити його перед випуском.
-Відсутній доступ не прирівнювати до готовності або незастосовності.
-Не починати нові витрати/публікації/міграції поза чинним scope.
+Recover the actual repository and files, approved intent, requirement IDs, design masters, resource cap, and stopping condition. Compare current hashes with reviewed evidence and reopen checks only for dependent changes. Define owned paths, inputs, interfaces, outputs, definition of done, and verification. Parallelize independent changes and serialize shared schema, state, migrations and integration. Verify isolation for production databases and provider accounts separately from a Git worktree.
 
-## Стек і межі
+Check release, account, store, testing and cost feasibility early and refresh it before release. Mark missing access explicitly. Use current authority for any spending, publication, or migration.
 
-Скласти коротку матрицю: use case, platform capability, offline, data lifecycle, latency/cost, maintainability.
-Порівняти достатні маршрути; обирати не за модою або попереднім ігровим проєктом.
-Залишити матеріальний вибір власнику; рутинні бібліотеки в погоджених межах обрати самостійно.
-Перевірити чинні primary docs, ліцензії, цільові SDK і доступний toolchain.
-Сервер додавати для потрібних shared/auth/integration функцій, не механічно для кожної утиліти.
-Один бренд і продукт не вимагають передачі всіх локальних даних або одного runtime для всіх клієнтів.
-Задати контракти помилок, cancellation, timeout, idempotency та compatibility до паралельного виконання.
+## Stack and boundaries
 
-## Репрезентативний зріз
+Compare sufficient routes across use cases, platform capabilities, offline use, data lifecycle, latency and cost, and maintainability. Ground choices in the current product. Route material choices to the owner and choose ordinary libraries within accepted scope. Check current official docs, licenses, target SDKs and tools. Introduce a server when needed for shared state, auth, or integrations. Choose local data boundaries and runtimes appropriate to each client within the shared product. Define errors, cancellation, timeout, idempotency, and compatibility before parallel work.
 
-Вибрати найбільш ризиковий реальний шлях, а не найлегший UI-екран.
-Включити accepted assets/motion, domain result, persistence, recovery і потрібну external integration.
-При платній моделі включити sandbox purchase/entitlement; support interface передбачити разом із правами.
-Показати success, empty, loading, error, interrupted і resumed стани в цільових клієнтах.
-Записати source commit/hash, build configuration, platform/device, процедуру й спостереження.
-Перевірити відмінності клавіатури, touch/back navigation, permissions, resize/safe areas за застосовності.
-Недоступну iOS/web/physical перевірку чесно залишити відкритою з bridge; Android success не закриває її.
-Після підтвердженого зрізу масштабувати; scope/fidelity компроміс приймати адресно.
+## Representative slice
 
-## Domain, дані та інтеграції
+Choose the highest-risk useful journey. Include accepted assets and motion, domain outcome, persistence, recovery, and necessary integrations. For a paid model include sandbox purchase and entitlement. Define the support interface with permissions. Show success, empty, loading, failure, interrupted and resumed states on target clients. Pin source commit or hash, build configuration, platform and device, procedure and observation.
 
-Сформулювати domain invariants незалежно від UI та provider response.
-Перевіряти вхідні типи/розміри/формати й auth на межі, не розкидати правила між екранами.
-Визначити data ownership, retention/delete/export, encryption/keys і дозволені recipients.
-Для local/cloud порівняти користь і вартість; узгодити конфлікти, sync retry, recovery та offline limits.
-Будувати migrations як сумісні переходи; перевірити backup і restore до небезпечного застосування.
-Зовнішній API обмежити deadline, retry policy, quota, cost cap та поведінкою при зміні/недоступності.
-Не повторювати effect після timeout без reconciliation; застосувати provider idempotency за наявності.
-Обмежити зовнішні файли/URL/команди, secrets та права згідно з реальною поверхнею атаки.
-Виключити customer records і секрети з screenshots/logs/CI artifacts/skills.
-Підтримку інтегрувати typed allowlist API; account context надає backend, не довільний запит моделі.
+Verify keyboard, touch and back, permissions, resizes and safe areas as relevant. Keep unavailable iOS, web or physical evidence open with a specific handoff. Scale from observed proof and seek decisions on material changes to scope or fidelity.
 
-## Billing і entitlement за застосовності
+## Domain, data and integrations
 
-Визначити модель окремо для storefront/платформи, recurring value, free path і розрахунок собівартості.
-Спроєктувати entitlement як перевірний предметний стан із provenance provider event/receipt.
-Визначити trusted verification layer; accountless/local продукт не перетворювати мовчки на account/backend продукт.
-Зафіксувати permitted account/device/platform переносимість та route restore до рекламування цих властивостей.
-Не відкривати paid feature через сам client success callback або повернення на success URL.
-Задати stable event/transaction identities, deduplication, verification, reconciliation та audit без зайвих даних.
-Розділяти checkout, payment state, entitlement state і UI; timeout не є доведеною невдачею платежу.
-Визначити active, pending, expiry, renewal failure, grace/hold за provider model, cancel, refund/revoke.
-Порівнювати авторитетний стан/періоди; старі чи переставлені notifications не відновлюють відкликане право.
-Обробити restore/reinstall/device switch, повтор callbacks, webhook replay та offline expiry/recovery.
-Не забирати вже оплачений період через скасування наступного поновлення без відповідної підстави.
-Перевірити upgrades/downgrades та plan changes лише якщо вони входять у модель.
-Для ads визначити placement, disclosure, cap, dismiss/failure, ad-free restore і недопустимі критичні переривання.
-Rewarded unlock має підтверджений сигнал за доступним SDK; відмова реклами не ламає основний шлях.
-Перевірити official provider sandbox; недоступний sandbox — blocker відповідного proof, не simulated success.
-Для відсутніх покупок/ads обґрунтувати N/A за вимогою, не нав’язуючи зайвої монетизації.
+State domain invariants independently from UI and provider responses. Validate input type, size, format and auth at boundaries. Define data ownership, retention, deletion and export, encryption and keys, and allowed recipients. Compare local and cloud value and cost with conflicts, retry, recovery and offline limits. Create compatible migrations and verify backup and restore before consequential application.
 
-## Клієнти, CI і докази
+Give external APIs deadlines, retry policy, quotas, cost limits, and degradation behavior. Reconcile unknown outcomes before retrying and use actual provider idempotency where available. Bound external files, URLs, commands, secrets and permissions according to the attack surface. Keep customer records and secrets out of screenshots, logs, CI artifacts, and skills. Integrate support through typed allowlisted API with account context from the authenticated backend.
 
-Реалізувати complete core у Android, iOS, web: вхід, корисний результат, збереження, повернення, помилки.
-Дотримати accepted design masters; не завершувати з placeholder, якщо він не погоджений як final.
-Перевірити доступність, text resize, focus/keyboard, контраст, reduced motion за обраними сценаріями.
-Підтримувані OS/browser/device/offline режими обґрунтувати; не обіцяти максимальне покриття без доказів.
-Налаштувати lockfiles, clean build, lint/static checks, meaningful tests і reproducible artifact generation.
-Зберігати signing/production secrets поза repo/chat/ZIP; build без signing не називати store-ready.
-У CI ізолювати test/prod конфігурації, не під’єднувати live оплату заради smoke test.
-Виміряти ключові сценарії, memory/startup/latency/network size за продуктово потрібними budgets.
-Додати recovery з kill/background/network loss і app/schema upgrade.
-Автоматичні перевірки не замінюють відсутній actual device proof або ринкові факти.
-Передати незалежному QA raw artifacts/commands/proofs і невідомості без бажаного висновку.
-Повернути source, builds, contracts, migrations/runbook, actual results, current hashes та відкриті gates.
+## Applicable billing and entitlement
 
-## Видимий результат і достатність підходу
+For each storefront or platform, specify model, recurring value, free path, and cost. Define entitlement as a verifiable domain state with provider event or receipt provenance. Select trusted verification without adding accounts or backend outside product scope. Verify account, device, and platform portability and restore before making those promises. Grant paid access after authoritative verification independent of client callbacks and return URLs.
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: працюючий погоджений зріз або зміна, рішення щодо технологій за фактичними обмеженнями, точний diff/build і належні перевірки. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Use stable event and transaction identities, deduplication, verification, reconciliation, and minimized audit data. Distinguish checkout, payment, entitlement and UI. A timeout leaves payment outcome unknown. Define active, pending, expiry, renewal failure, provider grace and hold, cancel, refund and revocation. Use authoritative current state and period to prevent stale or reordered notifications regaining revoked access. Test restore, reinstall, device change, repeated callbacks, webhook replay, and offline expiry and recovery.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: цілісність інтеграції, коректність і ризик змін, відповідність accepted design/spec. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+Cancellation of future renewal preserves the already-paid period unless the applicable policy authorizes a different result. Verify upgrades, downgrades and plan changes where supported. For ads, specify placement, disclosure, caps, dismissal and failure, ad-free restore, and prohibited critical interruptions. Rewarded unlock needs the verified SDK signal. Preserve the core route when ads fail.
+
+Verify official provider sandbox operation where required. Mark a missing sandbox blocked. Record subject-specific N/A for purchases and ads deliberately outside the model.
+
+## Clients, CI and evidence
+
+Implement the full core on Android, iOS and web: entry, usefulness, persistence, return and error paths. Preserve accepted design and resolve placeholders unless accepted as final. Verify accessibility, text resize, focus and keyboard, contrast and reduced motion. Justify supported OS, browser, device and offline ranges with proof.
+
+Maintain lockfiles, clean builds, lint and static checks, meaningful tests, and reproducible builds. Keep signing and production secrets outside repository, chat, and ZIP. Record signing and store readiness independently. Isolate test and production CI and use suitable sandbox payments. Measure key scenarios with relevant memory, startup, latency, and network budgets. Include recovery after process death, backgrounding, network loss, and app or schema upgrade.
+
+Keep actual device and market evidence separate from automated checks. Give independent QA raw artifacts, commands, proof and unknowns without suggesting a conclusion. Return source, builds, contracts, migrations and runbook, actual results, current hashes, and open gates.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show the working accepted slice or change, technical decisions under verified constraints, exact diff or build, and appropriate checks. Distinguish completed work, inherited decisions, and future results with due gates. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Review integration, correctness, changed risk, and alignment with design and specification. Review raw sources for omitted requirements. Verify reviewer competence beyond actor ID and keep structural checks at their actual evidence level. Preserve context, approvals, and unaffected results.

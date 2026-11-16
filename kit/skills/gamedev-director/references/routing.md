@@ -1,65 +1,57 @@
-# Маршрутизація та повернення upstream
+# Routing work and returning it upstream
 
-> Чинний контракт4.0: спочатку [зрілість/компетенції/authority](v4/index.md), потім потрібні предметні розділи. GA4-P1/D1/D2 доповнюють GA3/UA26 та старі IDs. C1 потрібен для кожної завершеної концепції, T — для виробничої передачі; evidence відповідного gate не замінюється документацією. Історичні джерела й approvals зберегти. R6-профілі, один масштаб, стиль, камера чи one-time kit не є глобальними defaults.
+Read the [maturity, competence, and authority index](v4/index.md) for current Game Model semantics. GA4-P1/D1/D2 supplement GA3/UA26 and earlier IDs. Complete concepts require C1 and production handoff requires T. Reconcile each applicable gate with actual evidence. Preserve historical sources and approvals. R6 profiles, scale, style, camera, and one-time kits remain specific to their approved projects.
 
-## Короткий зміст
+## 1. Identify the work object
 
-1. Об’єкт виконання.
-2. Контракти етапів.
-3. Прийняття вибору і повернення.
-4. Режими запуску.
-5. Негативні приклади.
+Track suite source, studio identity package, game source repository, stage handoff, build artifact, store release, and live operations change independently. Each requires its own evidence.
 
-## 1. Об’єкт виконання
+Provide each package's next action in plain language with exact skill and host, input, capability prerequisites, necessary owner action, and acceptance. Derive available tools and permissions from host evidence.
 
-Окремі об’єкти: suite source (інструкції й scripts), studio identity package (бренд і account plan), game source repo, stage handoff, build artifact, store release, liveops change. Вони не замінюють одне одного. «Створив release skill» не означає «випустив гру». «Запакував studio assets» не означає «зареєстрував юридичну особу».
+Use the machine-readable `assets/stage-catalog.json` and the [local orchestration workflow](orchestrator-workflow.md) when that runtime applies. The agent interprets ordinary language, reads the active skill, and selects real tools. The local runtime checks structured records. Clarify material ambiguity in user terms. Accept requests without a skill or script name.
 
-До кожного пакета додавати читабельний next-action: точна skill, primary host, потрібний input, capability prerequisites, що користувач має зробити сам, acceptance gate. Різні hosts можуть мати різні функції; capability report має пріоритет над назвою продукту.
+## 2. Stage contracts
 
-Актуальний машинний каталог — `assets/stage-catalog.json`, внутрішній робочий цикл — [orchestrator-workflow.md](orchestrator-workflow.md). Agent інтерпретує природну мову, сам читає навичку й обирає реальні tools; local runtime перевіряє структуровані записи. Для незрозумілого матеріального наміру — пояснене питання, не мовчазне keyword routing. Користувач не зобов’язаний знати назву skill/script.
+| Stage | Minimum accepted output | Verify separately |
+|---|---|---|
+| Studio | Approved master identity, production source and exports, fonts and rights, placements, account and tooling plan, owner setup steps | Name clearance, registered entity, paid account, and payouts |
+| Concepts | Alternatives and research, core loop and progression and variation and economy, exact visual target, feasibility and cost, actual concept choice and open issues where required | Retention and revenue, implemented physics, production assets |
+| Preproduction | Versioned GDD and TDD, state and controls, simulation and formulas, content and authoring matrices, build and QA, resolved critical choices | Complete game, human playtests, store approval |
+| Assets | Actual sources and exports, identity parity, complete in-scope audio and motion and collision and materials, lineage, integration smoke | Runtime performance across devices and complete play |
+| Build | Actual native source, deterministic content and configuration, reproducible build, artifacts and captures, integration | Independent release verdict and valid distribution signing |
+| QA | Independent requirement, fidelity, gameplay, physical-device and commerce checks, defects and recommendation | Unobserved defects, future revenue, store approval |
+| Release | Exact release output and submission assets, current policy, rollout and rollback, owner actions and actual service status | Published status before an observed result |
+| Live operations | Versioned incident or change scope, actual deployed results where authorized, economy or content and telemetry | Recurring monitoring without a running authorized service |
 
-## 2. Контракти етапів
+Use the common handoff contract for machine-readable fields, paths, and statuses.
 
-| Етап | Мінімальний зміст прийнятого результату | Не доведено одним таким пакетом |
-| --- | --- | --- |
-| Studio | Approved master identity, production exports/source, fonts/licenses, placements, developer/account/tooling plan, owner setup steps | Name clearance, legal entity, active paid accounts, connected payouts |
-| Concepts | Alternatives/market evidence, explicit core loop/progression/variation/economy, master visual target, feasibility/cost assumptions, chosen concept and questions | Player retention/revenue, physics from image, all production assets |
-| Preproduction | Versioned GDD/TDD, exhaustive state/input flows, simulation configs/formulas, concrete content/authoring matrices, build/QA plan, closed critical choices | Complete game, user playtests, store acceptance |
-| Assets | Real source/export files, identity conformance, complete audio/animation/collision/material definitions, provenance, integration smoke evidence | Runtime performance on all devices, completed gameplay |
-| Build | Native source, deterministic content/config inputs, reproducible build setup, actual test artifacts, runtime capture, integration evidence | Independent release acceptance, valid distribution signing without credentials |
-| QA | Independent requirement/fidelity/gameplay/device/monetization tests, results and defects, release recommendation | Zero bugs, future revenue, review approval by stores |
-| Release | Real release artifact + submission assets, verified current policies, staged rollout/rollback, owner actions and observed store/backend status | Published status before confirmation by actual service |
-| Liveops | Versioned incident/change plan and deployed results only when executed, economy/content changes and telemetry | Permanent autonomous monitoring without a running authorized scheduler |
+## 3. Selection and return
 
-Common handoff contract supplies exact required paths/statuses; this table explains meaning, not a competing schema.
+Finish authorized research and recommendation while production selection remains open. Record the actual selection before committing to a concept. Carry studio originals forward byte-for-byte.
 
-## 3. Прийняття вибору і повернення
+Track favorites, search and previews, pausing after an artifact, and production approval independently. Use current stop before every job. For an incident or feature, use relevant return routes and affected acceptance checks and preserve the rest of the accepted design.
 
-Без прийнятого concept selection не вибирати фінальну гру за таблицею оцінок мовчки. Можна завершити дослідження, порівняння й recommendation до рішення користувача. За accepted studio identity переносити originals, не відтворювати логотип генерацією.
+For a material change in platforms, controls or physics, engine or render compatibility, visual or sonic identity, progression or paid advantage, accounts and network, audience or market, paid tools or cloud, return the specific question, feasible choices, trade-offs, and affected dependencies.
 
-Saved favorites не є production selection. Preview-only/search-only або pause after artifact дає зрозумілий проміжний пакет без accepted production status. Перед кожним job звіряти current stop; перед наступним етапом не трактувати «гарно» чи рейтинг як згоду на двигун, економіку або випуск. Адресна incident/feature робота використовує catalog return routes й зачеплені acceptance, зберігаючи решту прийнятого задуму.
+A changed input hash opens an impact review through requirement, specification or config, asset or code, tests, and build or release. Reuse evidence for unaffected transitive dependencies. A logo change can preserve game economy research. Changed odds may require simulation, disclosure, purchase, and UX checks even with unchanged gameplay code.
 
-Матеріальна зміна включає: platforms, core control/physics model, engine/rendering compatibility, visual/audio identity, progression type/paid advantage, account/online architecture, user audience/region, платні tools/cloud. Повернути конкретне питання з tradeoffs і впливом; не повертати весь stage до нуля.
+## 4. Modes
 
-Змінився input hash → побудувати impact graph requirement → spec/config → asset/code → test → build/release. Старі докази придатні лише для незмінених транзитивних залежностей. Зміна логотипа не вимагає повторного game-economy research; зміна economy odds вимагає simulation, disclosure й purchase/UX checks навіть без коду gameplay.
+- **New.** Intake, critical decisions, and routing.
+- **Resume.** Verify current checkpoint, inputs and locks, then take the next incomplete task.
+- **Audit.** Inspect exact artifacts against requirements. Treat author checks on a resulting repair as self-checks.
+- **Repair.** Address a bounded defect set and verify affected acceptance.
+- **Handoff.** Verify files and hashes, studio carry-forward, and exact next invocation.
+- **Release.** Require actual candidate evidence and applicable authority. Verify credentials, certificates, and store records from their real sources.
+- **Live operations.** Scope the time window and intended action. Verify separate scheduling when ongoing work is authorized.
 
-## 4. Режими запуску
+Open only the needed mode and find required records by IDs and evidence.
 
-- **New:** intake → critical decisions → stage routing.
-- **Resume:** current checkpoint + input/lock verification → next incomplete task.
-- **Audit:** inspect artifacts against requirements; findings cannot become independent QA of newly self-authored repair.
-- **Repair:** bounded defect set → affected acceptance only.
-- **Handoff:** verify files/hashes/studio carry-forward and next invocation.
-- **Release:** demand observed ready candidate and real external authority; do not manufacture credentials/certificates/store record.
-- **Liveops:** scope time window and desired action; use separate scheduling mechanism for future recurring execution.
+## 5. Negative examples
 
-Одночасно відкривати лише потрібний режим. Директор не читає всі GDD, усі assets і всі logs щоразу; шукає потрібні IDs та докази.
-
-## 5. Негативні приклади
-
-- «R06 рекомендував parkour, отже починаю її реалізацію» — потрібне actual user selection/current package.
-- «Mac skill є, отже web Work теж її бачить» — потрібний inventory/capability check.
-- «Зробив png екран, він гарантує точну гру» — потрібні specifications + real runtime comparison.
-- «Не можу зібрати iOS тут, отже завершив обидві платформи» — Android evidence і iOS blocker окремо.
-- «Кожен reviewer переглядає весь архів після зміни одного рядка» — застосувати dependency impact.
-- «Плагін встановлено, бо є zip» — окремі package-prepared та cloud-installed результати.
+- R06's parkour recommendation is used as production selection. Obtain the actual scoped decision and package.
+- A Mac skill is assumed visible in Work web. Verify inventory and capability on that host.
+- A PNG is used to claim actual game fidelity. Verify specifications and actual runtime comparison.
+- iOS cannot be built locally but both platforms are reported ready. Record Android proof and the precise iOS blocker.
+- A one-line change triggers whole-archive review. Determine the affected dependencies.
+- A ZIP is reported as a cloud plugin installation. Verify actual import and discovery independently.

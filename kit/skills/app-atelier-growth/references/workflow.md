@@ -1,76 +1,49 @@
-# Workflow автоматизованого залучення
+# Automated acquisition workflow
 
-## 1. Розділити підготовку й живу роботу
+## 1. Separate planning and activation
 
-До значного build завершити PH-GROWTH-PLAN: audience entry, channel feasibility, потрібні продукту assets/events, економіку й automation route.
-Завершити plan фактичними файлами й перевіреними припущеннями; не вимагати живих користувачів для закриття plan.
-Після фактичного release та дозволу окремого effect активувати PH-GROWTH; prelaunch публікацію, waitlist або рекламу не підміняти «безкоштовним дослідженням».
-За repair відкрити лише уражений канал/claim/job, зберегти чинні approvals у незмінному scope.
+Before significant build, finish PH-GROWTH-PLAN with audience entry, channel feasibility, required assets and events, economics, and automation route. Close planning with actual files and checked assumptions. Live users belong to a different proof level. Activate PH-GROWTH after actual release with authority for the exact effect. Prelaunch publishing, waitlists, and advertising also require scoped authority, even if presented as «безкоштовним дослідженням». Reopen only affected channels, claims or jobs after repair and carry current approvals forward.
 
-## 2. Вибрати здійсненний канал
+## 2. Select a feasible channel
 
-Для кожного каналу скласти channel card:
-
-| Поле | Потрібний зміст |
+| Field | Required content |
 |---|---|
-| Segment / trigger | Хто, де й чому побачить продукт; яка потреба вже існує. |
-| Mechanism | Конкретний пошук, каталог, поверхня магазину, результат або партнерський потік. |
-| Evidence | Поточні першоджерела/спостереження, ринок, дата й межа переносимості. |
-| Assets / destination | Матеріали та робочий шлях до першої користі потрібного клієнта. |
-| Permissions / costs | Акаунт, rules/API доступ, кошти, quotas, регулярне обслуговування. |
-| Automation / failure | Доступний tool/job, input/output, період, freshness check, retry/stop і recovery. |
-| Funnel / uncertainty | Зрозумілі метрики, невідомі conversion й attribution limits. |
+| Segment and trigger | Who encounters the product, where, why, and with what current need. |
+| Mechanism | Specific search, directory, store surface, shared result, or partner flow. |
+| Evidence | Current primary sources or observations, market, date, and limits. |
+| Assets and destination | Assets and working path to first value on the intended client. |
+| Permissions and costs | Account, rules and API access, funds, limits, maintenance. |
+| Automation and failure | Available job and tool, inputs and outputs, interval, freshness, retry, stop, and recovery. |
+| Funnel and uncertainty | Measured transitions, unknown conversions, and attribution limitations. |
 
-Для ASO перевірити поточні правила магазину, сегмент/країну/мову, пошуковий намір, metadata й відповідність screenshots реальному продукту.
-Для SEO перевірити конкретний informational/task intent, якість конкурентного результату й корисну destination; ключові слова не гарантують traffic.
-Для автоматизованого контенту визначити власну користь, достовірні джерела/права, повторюваний refresh, перевірку й cost; не будувати масовий шаблонний спам.
-Для self-service партнерств/каталогів перевірити існування маршруту, умови приймання, можливу плату й відсутність постійних ручних переговорів.
-Для продуктового поширення визначити справді корисний artifact/link і добровільну дію користувача; не завантажувати контакти й не надсилати від його імені повідомлення.
-Для paid оцінити актуальні доступні ставки лише як evidence/діапазон, не обіцяти CAC; без затверджених funds і hard caps лишити draft.
-За нульової аудиторії й відсутнього бюджету прямо показати невідомий обсяг органічного reach та часову затримку; не називати «безкоштовне» безвитратним.
-Джерело або platform policy перевірити перед залежною дією; не покладатися на застарілу пам’ять чи неперевірений snippet.
+For ASO, check current rules, region and language, search intent, metadata, and whether screenshots show actual functionality. For SEO, check the actual information or task intent, competing result quality, and useful destination. Validate reach independently of keywords. For automated content, require original utility, sound sources and rights, refresh, review, and cost. Keep distribution focused and avoid spam. For self-service partners and directories, verify real acceptance conditions, fees, and manual obligations. For product sharing, provide a useful artifact or link and voluntary action. Keep contact ingestion and outgoing messages outside that permission.
 
-## 3. Звести funnel і економіку
+For paid channels, treat available current bids as ranges and CAC as unproven. Keep campaigns in draft until funds and hard caps are approved. With zero audience and no budget, surface unknown organic reach, delay, and non-cash cost even for a «безкоштовне» route. Verify the underlying source or platform policy before dependent actions.
 
-Визначити одиницю кожного переходу: показ, qualified visit, install, перша корисна дія, retained active, покупка/renewal.
-Розділити канали, ринки, клієнти й cohorts лише там, де це дозволено даними та виправдано рішенням.
-Не змішувати переходи з різними denominator, attribution window, датою або eligibility; виключити дублювання за наявної правомірної методики.
-Залишити unknown там, де дедуплікація чи attribution неможливі; не створювати fingerprinting заради красивої звітності.
-Показати acquisition cost як застосовні витрати каналу, контенту/інструментів, API й automation; відокремити cash spend та оцінку часу.
-Передати contribution/churn/renewal inputs у concepts; не оптимізувати дешеві installs, які не отримують користі або мають від’ємну маржу.
-Побудувати sensitivity до reach, activation, paid conversion, канальної ціни й cost обслуговування; не підбирати величини під бізнес-ціль.
-Фактичні метрики брати з provider/продукту з time range, freshness, consent scope і межами; модельні залишити hypothesis.
+## 3. Model funnel and economics
 
-## 4. Підготувати й перевірити assets/jobs
+Define the unit for impression, qualified visit, install, first useful action, retained activity, purchase, and renewal. Split channel, market, client, and cohort where data permits and a decision needs it. Preserve denominators, attribution window, date, and eligibility. Deduplicate lawfully and mark unknowns where identity or attribution is unavailable. Keep fingerprinting outside the measurement route.
 
-Використати accepted brand/design masters та чинну версію продукту; зберегти claim → source/feature → asset lineage.
-Дати прозорі free/paid умови; реклама чи affiliate не повинні маскувати свою природу.
-Для локалізації перевірити предметні значення, валюту/умови й придатність destination; не вважати машинний переклад готовністю ринку.
-Побудувати bounded pipeline: source refresh → rights/freshness check → draft → factual/design validation → permitted publish → read-back → observable result.
-У job зафіксувати account/operation, artifact hash, period, quota, cost cap, stop signal, owner, logs redaction й safe resume.
-Не вважати генератор повною системою: без доступної публікації/перевірки/відновлення automation лишається partial.
-За відсутнього API/connector оцінити дозволений підтримуваний fallback; не вгадувати browser session чи доступ.
+Record channel, content and tools, API, and automation acquisition costs. Separate cash from time estimates. Pass contribution, churn, and renewal inputs to concepts. Include usefulness and margin when evaluating installs. Test sensitivity to reach, activation, conversion, channel pricing, and serving costs. Report actual metrics from providers and product with time, freshness, consent boundaries and limitations. Label modeled values as hypotheses.
 
-## 5. Перевірити activation gate
+## 4. Prepare assets and jobs
 
-До ефекту звірити доступність released продукту, version/hash, owner release readiness, точний channel/material/budget scope та provider rules.
-Незалежно перевірити критичні claims, spend caps і приватність; author self-check не закриває independent review.
-Перед будь-яким person-directed повідомленням вимагати явне конкретне доручення й перевіреного одержувача; загальний growth plan такого права не дає.
-Перевірити event/field purpose, retention, дозволених одержувачів і видалення до ввімкнення telemetry.
-Записати pending/stable identity, виконати дозволений tool call, зберегти receipt, звірити read-back.
-Timeout означає unknown до status reconciliation; використовувати provider idempotency за доступності, локальний запис не гарантує exactly-once.
-Для schedule/monitor перевірити actual running job, alert/stop test і межі повноважень; не запускати безстроковий процес через наявність навички.
+Use accepted brand and design masters, the current release, and a traceable claim → source or feature → asset. Make free and paid terms transparent and advertising and affiliate content identifiable. Validate localized meaning, currency, terms, and destination in context. Build a bounded source refresh → rights and freshness check → draft → factual and design review → authorized publication → read-back → observed result route.
 
-## 6. Спостерігати й передати рішення
+Bind account and operation, artifact hash, interval, limits, cost cap, stop signal, owner, log redaction, and safe resume. Verify publication, read-back, and recovery separately from generation. When an API or connector is unavailable, use an authorized supported fallback from verified capabilities.
 
-Не створювати навмисні human experiments за чинної заборони. Звичайний дозволений реліз/маркетинг не називати контрольованим доказом причинності.
-Порівнювати фактичне використання з наперед записаними бізнес-порогами; показати сезонність, version changes, малу вибірку й attribution gaps.
-Запропонувати continue/pivot/stop зі збереженням невдач; матеріальну зміну продукту, дизайну, бюджету або publication scope повернути власнику.
-За repeatable low-quality reach, provider cost spike або автоматично нерозв’язної рутини повернути finding у concepts/operations.
-Передати фактичні assets/jobs/receipts/metrics, невідомі ефекти, витрати, scope review і next action; не звітувати «канал працює» за самими чернетками.
+## 5. Verify activation
 
-## Видимий результат і достатність підходу
+Before effect, check actual product availability, release digest, owner readiness, exact channel, material, budget authority, and provider rules. Independently review material claims, caps and privacy. Keep author checks separate. Person-directed messages need explicit authority for the specific recipient. Define event purpose, retention, allowed recipients, and deletion before telemetry.
 
-Застосувати [адаптивну роботу](adaptive-work.md) до поточного обсягу. Для цієї ролі явно показати: перевірний канал, матеріали/claims, causal funnel, витрати, automation contract і дані результату. Позначити, що фактично досліджено/створено, що успадковано з чинних рішень і що лишається майбутнім результатом із due gate. Обґрунтувати потрібну глибину й компетенції через невизначеність, наслідки та зв’язність; для локальної правки не запускати новий повний цикл.
+Record pending state and stable identity, make the authorized call, save the receipt, and verify read-back. Reconcile unknown outcomes before retrying. Use actual provider idempotency when available. For schedules and monitoring, observe the running job, alert and stop behavior, and scope. Ongoing execution requires current authority.
 
-За матеріальних прогалин викликати потрібний режим [дослідження/синтезу/звірки](research-and-synthesis.md). Перевірка якості охоплює: доказовість claims, допустимість каналу, ресурсні межі й причинність метрик. Raw-source review має шукати й невнесені вимоги. Інший actor ID сам не доводить належної компетенції; структурний PASS не підвищує вид доказу. Зберігати проєктний контекст, чинні погодження та незачеплені результати.
+## 6. Observe and hand off
+
+Honor restrictions on human experiments. Treat ordinary authorized marketing or release as observational. Compare actual usage with preregistered thresholds and show seasonality, change of version, small samples, and attribution gaps. Retain failed results. Propose continue, pivot, or stop, and route material changes of product, design, budget, or publication authority to the owner. Route recurring poor reach, cost spikes, and unresolved manual work to concepts or operations. Provide actual assets, jobs, receipts, metrics, unknown effects, costs, scope review, and next action. A conclusion such as «канал працює» requires actual channel evidence.
+
+## Visible result and proportionality
+
+Apply the [adaptive workflow](adaptive-work.md). Show a verifiable route, assets and claims, connected funnel, costs, automation contract, and real result data. Distinguish completed work, inherited decisions, and due future results. Scale depth and roles to uncertainty, consequence, and coupling. Use a local repair for a local change.
+
+For material gaps, use the relevant [research, synthesis, or reconciliation mode](research-and-synthesis.md). Verify claims, channel authority, resource limits, and causal measurement. Inspect raw sources for omitted requirements. Verify reviewer competence beyond actor ID and keep structural proof at its actual level. Preserve context, decisions, and unaffected results.

@@ -1,143 +1,98 @@
-# Прийми специфікацію за доказами
+# Evidence for accepting a specification
 
-## Зміст
+## Contents
 
-1. Розділи spec і майбутні gates.
-2. Перевір власні due requirements.
-3. Перевір наскрізні вимоги.
-4. Пройди negative cases.
-5. Передай findings і статус.
+1. Distinguish specification and future gates.
+2. Check requirements due at this stage.
+3. Check cross-cutting requirements.
+4. Exercise negative cases.
+5. Return findings and status.
 
-## 1. Розділи spec і майбутні gates
+## 1. Distinguish specification and future gates
 
-Використай common requirements/decisions/evidence contracts, не створюй паралельний registry.
-Збережи reviewer/date/method/inputs/hash/finding/REQ-ID/status/limits кожної перевірки.
-Назви роботу автора self-check; independent QA вимагай від фактичного іншого reviewer.
-Schema/link validation не видавай за семантичну повноту PRD/TDD.
+Use the existing requirements, decisions and evidence contracts. Record reviewer, date, method, inputs, hash, finding, REQ-ID, status and limits. Keep author self-check and actual independent review separate. Schema and link validation cannot establish semantic completeness of PRD/TDD.
 
-| Gate/status | Підтвердь | Не підміняй |
-|---|---|---|
-| draft/blocked | Назви придатні частини й exact blocker. | Не приймай headings як готовий контракт. |
-| spec-ready | Підтвердь предметну достатність документів, оцінок, due checks і рішень. | Не стверджуй working product, store access або proven demand. |
-| slice_planned | Підтвердь виконуваний risk-based plan. | Не називай план actual pass. |
-| before-full-build | Вимагай actual slice й решту prerequisites. | Не проходь gate лише за PRD/TDD. |
-| before-release | Вимагай current tests/permissions/owner readiness. | Не успадковуй readiness від ранньої feasibility. |
+| Gate or status | Confirm | Scope boundary |
+| --- | --- | --- |
+| draft/blocked | Valid parts and exact blocker. | Headings alone do not define a contract. |
+| spec-ready | Sufficient domain documents, estimates, due checks and decisions. | No claim of working app, store access or proven demand. |
+| slice_planned | Executable risk-based plan. | A plan does not prove an actual pass. |
+| before-full-build | Actual slice and other prerequisites. | PRD/TDD alone is insufficient. |
+| before-release | Current tests, permission and owner readiness. | Early feasibility does not make the candidate ready. |
 
-Приймай spec без binary, production API чи live покупки за достатніми контрактами.
-Не відкладай невідомий due spec must під виглядом future test.
-За недоступної external feasibility збережи перевірену документацію й блокуй саме залежне production рішення; не гарантуй route.
+Accept a sufficient spec without binary, production API or live purchase. A due specification must cannot be deferred as a future test. Preserve verified docs when external access is unavailable and block only the dependent production decision.
 
-## 2. Перевір власні due requirements
+## 2. Check requirements due at this stage
 
-### REQ-11 — мінімальна залежність від AI/API
+### REQ-11 — Minimal AI and API dependence
 
-Перевір concrete value кожної dependency, варіант без неї й реальну альтернативу/fallback.
-Вимагай current source/date для price/limits/commercial/data/license rights, offline, exit і caps.
-Включи expected/stress usage, abuse/retries й витрати в економіку.
-Для відсутності APIs вимагай пояснення предметної достатності, не порожню таблицю.
-Відхили free tier без quota/overage або наявну підписку як необмежений production API.
-Відхили one-time purchase з неврахованими довічними платними викликами.
-Познач unknown price/license/account доступ blocker залежного effect.
-Вимагай dependency-options, cost model, data map, fallback/exit і trace до feature/API.
+For each dependency verify concrete value, a no-dependency option and a real alternative or fallback. Require current source and date for price, quotas, commercial and data rights, license, offline behavior, exit and caps. Include expected and stress usage, abuse and retries in costs. A no-API solution needs a reasoned domain explanation. Reject a free tier without quota/overage analysis, a subscription treated as unlimited production API use, and one-time revenue with unmodeled indefinite paid calls. Missing price, license or account access blocks the affected effect. Require options, cost model, data map, fallback and exit, and a trace to the feature or API.
 
-### REQ-16 — локальні дані й мінімальний збір
+### REQ-16 — Local data and minimization
 
-Вимагай повну карту fields/copies/transfers, local/cloud comparison і функціональну причину cloud branch.
-Визнач purpose, access/authz, retention/export/delete/revoke/restore для кожного data kind.
-Вимагай explicit no-account/guest/account branches; не приймай неявне створення identity.
-Перевір sync conflicts/offline queue/tombstones/migrations/backups і restore межі.
-Перевір support/dialogs/logs/cache/index/AI/telemetry окремо від primary records.
-Відхили default telemetry й мовчазне відправлення всіх локальних даних у cloud.
-Відхили public KB або AI context з приватних звернень поза дозволеною картою.
-Вимагай data-auth contract, access matrix, state/sync rules, lifecycle policy, negative fixtures і data gate status.
+Require a full field, copy and transfer map, local/cloud comparison and reason for cloud. Specify purpose, access/authz, retention/export/delete/revoke/restore for each data class. Define no-account, guest and account branches. Check sync conflict, offline queue, tombstones, migrations, backups and restore. Review support, dialogs, logs, cache, indexes, AI and telemetry separately. Reject default tracking and silent upload of local data. Keep private support out of public knowledge or model context beyond the approved map. Require data/auth contracts, access matrix, sync and state rules, lifecycle, negatives and data-gate status.
 
-### REQ-19 — завершений обсяг і чесний строк
+### REQ-19 — Complete scope and realistic estimates
 
-Вимагай core із входом, корисним результатом, повторним використанням і recovery на трьох клієнтах.
-Порівняй core/wider за однаковими time/resource assumptions.
-Вимагай packages, ranges, critical path, dependencies, integration/QA/release/support effort і buffer.
-Вимагай конкретного reuse evidence; «AI швидко напише» не приймай.
-Перевір приховане зниження якості, втрату платформи або ручний сервіс власника.
-Не вигадуй deadline й не стискай estimate заради бажаного результату.
-Вимагай scope table, client-core matrix, assumptions, risks, slice plan, roadmap і scope decision.
+Require entry, useful result, repeat use and recovery on the three applicable clients. Compare core and broader scope under equal time and resource assumptions. Include work packages, ranges, critical path, dependencies and integration, QA, release and support effort with contingency. Require concrete reuse evidence rather than «AI швидко напише». Check hidden loss of quality, platform scope or owner work. Do not invent a deadline or compress estimates to fit a desired answer. Require scope table, client core matrix, assumptions, risks, slice plan, roadmap and decision.
 
-### REQ-38 — рання здійсненність релізу
+### REQ-38 — Early release feasibility
 
-Вимагай dated primary rules/fees, platform routes, account type/access evidence, signing/build host і required testing map.
-Зістав prerequisites із budget/no-human profile до production scope/значного build.
-Без доступу познач unverified, exact dependency, blocked action і спосіб наступної перевірки.
-Не приховуй mandatory fee; не симулюй особу, тестувальників, підпис чи MFA.
-Вимагай before-release recheck й event-driven recheck при зміні account/platform/model.
-Вимагай feasibility source/date/status/cost/conflict/alternative/recheck і owner delta для budget/scope за потреби.
+Require dated primary rules and fees, platform route, actual account type/access, signing/build host and required testing. Compare prerequisites to budget and human-work limits before production or significant build. Without access, mark the exact dependency and operation unverified and specify the next check. Do not hide required fees or simulate identity, testers, signatures or MFA. Recheck before release and after account, platform or model changes. Record source, date, status, cost, conflict, alternative, recheck and owner budget/scope delta where needed.
 
-## 3. Перевір наскрізні вимоги
+## 3. Check cross-cutting requirements
 
-| REQ | Перевір у spec | Збережи межу |
-|---|---|---|
-| REQ-03 | Зістав setup/recurring/usage зі cap й покажи zero-budget conflicts. | Не створюй зовнішніх витрат. |
-| REQ-04, REQ-09 | Задай recurring automation, faults і unresolved cases. | Не закладай щоденну ручну бізнес-роботу власника. |
-| REQ-10 | Задай повний independent core Android/iOS/web і acceptance. | Actual client pass залиш build/QA. |
-| REQ-12, REQ-15 | Пов'яжи value, monetization, recurring benefit і costs. | Не гарантуй попит або profit. |
-| REQ-17 | Заборони intentional human research/testing/A/B на всіх фазах. | Synthetic/public reviews/owner review не називай user validation. |
-| REQ-18 | Задай automated acquisition від zero audience з rights/caps/stop. | Activation залиш окремому gate. |
-| REQ-20, REQ-21 | Передай design states/accessibility/device/offline constraints. | Не обирай дизайн за власника й не приймай placeholder. |
-| REQ-24 | Використай чинні owner decisions у exact scope. | Не перепитуй без delta й не обирай reserved decisions. |
-| REQ-28, REQ-30, REQ-31 | Задай guest/auth/data/KB/read-only/fallback contracts. | Не розширюй context або bot actions автоматично. |
-| REQ-32 | До досліду задай metric/threshold/horizon/budget/stop/next action. | Не змінюй поріг після невдачі й не додавай human experiment. |
-| REQ-35, REQ-36 | Збережи status/detail/chat, versions/hashes/checkpoint. | Не втрачай requirements і не повторюй unknown effect. |
-| REQ-37, REQ-40 | Назви actual authors/reviewers, bounded jobs й caps. | Не називай self-check незалежним QA. |
-| REQ-43 | Задай model-specific entitlement/restore/events/refund/expiry/cancel. | Actual provider-backed tests залиш build/QA; не нав'язуй subscription. |
+| REQ | Check in spec | Scope boundary |
+| --- | --- | --- |
+| REQ-03 | Compare setup, recurring and usage charges with the cap and show zero-budget conflicts. | No external spending. |
+| REQ-04, REQ-09 | Define recurring automation, errors and unresolved cases. | No hidden daily owner work. |
+| REQ-10 | Define complete standalone Android/iOS/web cores and acceptance. | Actual client proof belongs to build/QA. |
+| REQ-12, REQ-15 | Link value to monetization, recurring benefit and costs. | No guaranteed demand or profit. |
+| REQ-17 | Preserve applicable bans on human research, testing or A/B at every phase. | Synthetic, public reviews and owner review cannot prove human validation. |
+| REQ-18 | Define acquisition from zero audience with rights, caps and stop. | Activation is a separate gate. |
+| REQ-20, REQ-21 | Pass design states, accessibility, device and offline requirements. | Do not choose on behalf of the owner or accept a placeholder. |
+| REQ-24 | Reuse current owner decisions in exact scope. | Reopen only an affected decision and preserve reserved choices. |
+| REQ-28, REQ-30, REQ-31 | Define guest/auth/data/knowledge, read-only help and fallback. | No automatic expansion of the context or bot effects. |
+| REQ-32 | Specify metric, threshold, horizon, budget, stop and next action before a test. | Preserve thresholds after failure and human-experiment restrictions. |
+| REQ-35, REQ-36 | Keep status, details, chat explanation, versions, hashes and checkpoint. | Preserve requirements and reconcile unknown effects before retry. |
+| REQ-37, REQ-40 | Identify actual authors and reviewers, scope of jobs and caps. | Self-check stays distinct. |
+| REQ-43 | Define model-specific rights, restore, events, refund, expiry and cancellation. | Provider proof remains due in build/QA. No automatic subscription. |
 
-Перевір experience handoff: journeys/objects/states/platform constraints й owner design choice.
-Перевір build handoff: transitions/invariants/schemas/errors/events/conflicts/slice oracle/fixtures.
-Перевір support handoff: version/language/KB sources/context fields/link/revoke/retention/cost/fallback/action boundary.
-Перевір release handoff: prerequisites, unverified items, exact blocked effect, source age/recheck.
-Перевір growth/operations handoff: economics/automation/caps/stop/recovery/exit без прихованої ручної рутини.
+Check experience handoff for journeys, objects, states, platform constraints and owner decision. Build needs transitions, invariants, schemas, errors, events, conflicts, slice oracle and fixtures. Support needs version, locale, knowledge sources, context fields, linking, revocation, retention, costs, fallback and action bounds. Release needs prerequisites, unverified items, exact blocked effect and recheck dates. Growth/operations need economics, automation, caps, stop, recovery and retirement without hidden manual work.
 
-## 4. Пройди negative cases
+## 4. Exercise negative cases
 
-Пройди tabletop із synthetic fixtures; для кожного case знайди expected rule/state/output й artifact section.
-За відсутності однозначної відповіді відкрий finding.
-Не видавай walkthrough за runtime test, експеримент на людях або proven usability.
+Use a tabletop with synthetic fixtures. For every case require an unambiguous rule, transition, output and artifact section. Record a finding for ambiguities. A walkthrough does not establish runtime execution, actual human research or usability.
 
-| Case | Введи | Вимагай |
-|---|---|---|
-| NEG-SPEC-01 | Почни web core без mobile client. | Отримай повний core result; відхили landing-only заміну. |
-| NEG-SPEC-02 | Виконай command у забороненому стані на трьох клієнтах. | Отримай однакову domain відмову й визначений recovery. |
-| NEG-SPEC-03 | Зміни запис offline на двох клієнтах і sync у reverse order. | Визнач conflict result без мовчазної втрати даних/ownership. |
-| NEG-SPEC-04 | Видали record/account і віднови old backup/offline device. | Збережи delete/revoke/tombstone; не відроджуй видалене. |
-| NEG-SPEC-05 | Передай ID B в session A через API/support/cache/history/channel. | Відхили backend access; не повертай чужий context. |
-| NEG-SPEC-06 | Зроби guest merge з duplicates і partial failure. | Визнач ownership proof, merge/retry без чужого доступу. |
-| NEG-SPEC-07 | Зміни display name/username або підроби link/transport credential вибраного каналу. | Вимагай server proof, expiry/replay/revoke. |
-| NEG-SPEC-08 | Перевищ API quota або отримай offline/stale/invalid result. | Застосуй bounded retry/fallback і visible limit без cap overrun. |
-| NEG-SPEC-09 | Зміни vendor price/license або припини API. | Визнач blocker/recheck/exit й economics/scope impact. |
-| NEG-SPEC-10 | Дай one-time покупцю максимальний recurring usage. | Покажи sustainability/caps/rights, не unbounded loss. |
-| NEG-SPEC-11 | Повтори provider event, достав refund до delayed purchase, розірви мережу після provider success. | Визнач dedupe/reconcile й authoritative rights без double grant. |
-| NEG-SPEC-12 | Зроби restore/new device/account change/sign-out/offline після expiry. | Узгодь заявлені rights Android/iOS/web і recovery. |
-| NEG-SPEC-13 | Cancel/refund/частково спожив usage. | Застосуй різні model-correct transitions. |
-| NEG-SPEC-14 | Обери ads/affiliate/no-purchase model. | Обґрунтуй N/A branches; не додавай subscription. |
-| NEG-SPEC-15 | Увімкни «корисну аналітику» або AI diagnostics без data decision. | Залиш pending; не передавай нові fields/private dialogs. |
-| NEG-SPEC-16 | Назви synthetic UX доказом demand або passive metrics дозволом A/B. | Обмеж висновок і відхили human experiment. |
-| NEG-SPEC-17 | Вияв mandatory fee/human store testing за zero-budget/no-human profile. | Познач conflict, blocked route, allowed alternative/delta/stop. |
-| NEG-SPEC-18 | Не май developer account/signing access. | Познач unverified prerequisite, не store-ready. |
-| NEG-SPEC-19 | Додай wider scope без готового reuse за того самого строку. | Зроби re-estimate/critical path/decision; не стискай QA. |
-| NEG-SPEC-20 | Не розв'яжи recurring support/moderation/content case автоматично. | Відкрий operational feasibility finding; не маскуй щоденну працю власника. |
-| NEG-SPEC-21 | Візьми красивий mockup без persistence/auth/API ризику. | Відхили як representative slice для такого ризику. |
-| NEG-SPEC-22 | Отримай повну spec без binary. | Дозволь spec-ready за її доказами; залиш actual gates pending. |
-| NEG-SPEC-23 | Зміни data/API/paid rights після baseline. | Перевідкрий affected evidence/estimates/decisions, збережи superseded. |
-| NEG-SPEC-24 | Вичерп cap після двох однакових невдалих дослідів. | Збережи checkpoint, зміни діагностику/stop; не знижуй must. |
+| Case | Input | Required behavior |
+| --- | --- | --- |
+| NEG-SPEC-01 | Start the web core without mobile. | Deliver the complete core. Reject a landing-only substitute. |
+| NEG-SPEC-02 | Send a command in a forbidden state across three clients. | Same domain refusal with defined recovery. |
+| NEG-SPEC-03 | Offline changes from two clients synchronize in reverse order. | Defined conflict result without loss of ownership or data. |
+| NEG-SPEC-04 | Delete record/account, then restore old data or reconnect an offline client. | Respect deletion, revocation and tombstones. |
+| NEG-SPEC-05 | Session A passes B's ID through API, support, cache, history or channel. | Reject backend access and keep B's context private. |
+| NEG-SPEC-06 | Merge a guest session with duplicates and partial failure. | Ownership proof, defined merge and retry without access leaks. |
+| NEG-SPEC-07 | Change display name or username, or present an invalid channel link or credential. | Require server proof, expiry, replay resistance and revoke. |
+| NEG-SPEC-08 | Quota exhausted or offline, stale or invalid provider result. | Bounded retry or fallback and visible limit, under cap. |
+| NEG-SPEC-09 | Vendor pricing, license or API availability changes. | Block/recheck/exit path with economic and scope impact. |
+| NEG-SPEC-10 | One-time purchaser uses maximum recurring resources. | Verify costs, caps and permitted access. |
+| NEG-SPEC-11 | Duplicate provider events, refund before late purchase, or network loss after provider success. | Deduplicate, reconcile and verify authoritative entitlement without double grant. |
+| NEG-SPEC-12 | Restore, new device, account change or sign-out/offline after expiry. | Reconcile claimed cross-client rights and recovery. |
+| NEG-SPEC-13 | Cancel, refund or partially consume usage. | Model-specific distinct transitions. |
+| NEG-SPEC-14 | Ads, affiliate or no-purchase model. | Justify inapplicable branches. No forced subscription. |
+| NEG-SPEC-15 | Enable «корисну аналітику» or AI diagnostics without a data decision. | Leave pending. Do not transfer new fields or private dialogs. |
+| NEG-SPEC-16 | Use synthetic UX for demand or passive metrics as A/B consent. | Limit claims and reject the human experiment. |
+| NEG-SPEC-17 | Required fee or human store testing conflicts with profile. | Record conflict, blocked route, allowed alternative, delta and stop. |
+| NEG-SPEC-18 | No developer account or signing access. | Mark prerequisite unverified and leave store readiness open. |
+| NEG-SPEC-19 | Add larger scope without reuse at the same deadline. | Re-estimate critical path and reopen decision without compressing QA. |
+| NEG-SPEC-20 | Recurring support, moderation or content cannot be automated. | Address operational feasibility and expose required owner work. |
+| NEG-SPEC-21 | A polished mock lacks persistence, auth or API risk. | Reject as representative of those risks. |
+| NEG-SPEC-22 | Complete spec without binary. | Allow spec-ready when due proofs pass and actual future gates remain pending. |
+| NEG-SPEC-23 | Change data, API or paid rights after baseline. | Reopen affected proof, estimates and decisions. Preserve superseded records. |
+| NEG-SPEC-24 | Cap exhausted after two equivalent failed tests. | Save checkpoint and change diagnosis or stop. Preserve musts. |
 
-Додай product-specific cases: empty/max size, units, timezone/DST, localization, permissions denied, stale external data, migration incompatibility.
-Обирай fixtures за ризиком, без дублювання implementation.
+Extend cases for empty/max-size inputs, units, timezones/DST, localization, denied permissions, stale external data and migration incompatibility. Choose fixtures by risk instead of replicating implementation branches.
 
-## 5. Передай findings і статус
+## 5. Return findings and status
 
-Для finding запиши ID, REQ-ID, artifact/hash/section, expected/actual, severity, blocked gate, owner, repair/retest.
-Розрізняй spec blocker, future implementation acceptance, external prerequisite і hypothesis/evidence gap.
-Не маскуй критичне unknown словом assumption без impact й due verification.
-Зупини залежну дію за незакритого due must, reserved decision delta, невідомих data/effect rights або cap overrun.
-Продовж незалежні незаблоковані документальні роботи в чинних межах.
-Перевір links/REQ-ID/paths/hashes, семантичну узгодженість і відсутність незаповнених шаблонів.
-Видай spec-ready лише з accepted documents, due checks і відсутністю spec blockers.
-Окремо назви actual future gates, unverified prerequisites, hypotheses й точну наступну дію.
-Достав короткий статус, докладні матеріали й пояснення рішень; не називай spec delivery створенням продукту.
+Record finding ID, REQ-ID, artifact/hash/section, expected and actual behavior, severity, blocked gate, owner, repair and retest. Distinguish spec blocker, future implementation proof, external prerequisite, hypothesis and evidence gap. Show impact and due verification for critical unknowns. Stop the dependent action for missing due must, reserved decision change, uncertain data/effect rights or cap, while continuing independent document work. Verify links, REQ-ID, paths, hashes, semantic consistency and completed documents. Report spec-ready only with accepted documents, due checks and resolved spec blockers. Identify future gates, unreliable prerequisites, hypotheses and exact next action. Deliver short status with detailed material and reasoning. Specification delivery does not establish the finished product.

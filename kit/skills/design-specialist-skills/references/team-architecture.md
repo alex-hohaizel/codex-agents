@@ -1,17 +1,17 @@
-# Команда за предметною областю
+# Domain team
 
-Почати з переліку артефактів і ризиків. Для кожного визначити потрібну компетенцію, а потім згрупувати суміжну роботу в підкоманди. Критерії залишаються окремими одиницями якості, навіть коли їх веде одна підкоманда.
+Start with the artifacts and risks. Identify the competence each one needs and group related work. Each criterion retains its own quality verdict when one team handles several criteria.
 
-Виробниче підпорядкування: один оркестратор → працюючі предметні техліди → потрібні спеціалісти. Перевірка: незалежні QA та quality lead/хранитель звітують оркестратору. Тимчасова рада має право предметного допуску й обґрунтованого блокування, а не прихованого виробничого редизайну.
+One orchestrator owns integration and assigns work to hands-on domain leads and the specialists they need. Independent QA and the quality lead report to the orchestrator. A temporary review group decides domain acceptance and can block a choice with evidence. Changes to product design follow the established decision route.
 
-Для кожної ролі назвати матеріальний вихід, assigned IDs, потрібні входи, компетенцію, момент активації, ресурс, stop і адресата. Не заповнювати слот менеджером, який лише чекає дитини. Працювати в реальному ліміті слотів; root може запускати виконавців за адресованим планом техліда. Actual spawn-tree, підзвітність і незалежне приймання — різні зв’язки.
+For each role, name its concrete output, assigned IDs, inputs, competence, activation point, resource limits, stop condition, and recipient. Prioritize workers who produce or verify artifacts within the actual slot limit. The root can dispatch work according to a lead's scoped plan. The observed spawn tree, ownership, and independent acceptance are separate relationships.
 
-Суміщати PM/producer/оркестратора; техліда й старшого автора; суміжні критерії одного експерта; QA coordination і хранителя за достатньої незалежності й навантаження. Не суміщати автора з незалежним QA його результату або автора/попередній QA з фінальним незалежним рецензентом того самого рішення.
+Combine the PM, producer and orchestrator duties where appropriate. A lead can be a senior author and one expert can cover related criteria. QA coordination and quality stewardship may share a role when independence and workload permit. Independent QA cannot be the author. An independent final reviewer cannot be the author or previous QA actor for the same decision.
 
-Для research зберігати потрібні незалежні первинні альтернативи. Для craft зберігати реальні спеціалізації та actual pixels/motion/audio/native доступ. Для security, грошей, згоди, прав, видалення даних і production-змін визначати критичний шлях незалежно від розміру diff.
+Retain independent first perspectives when research needs them. Keep craft specialists and actual access to pixels, motion, audio or native consumers where necessary. Identify the critical path for security, money, consent, rights, deletion and production changes regardless of diff size.
 
-Не обіцяти збереження якості самим скороченням кількості агентів. Перевіряти ту саму задачу, повноту критеріїв, виявлення дефектів, цілісність результату та витрати. Кількість ролей не є кількістю незалежних емпіричних фактів.
+When consolidating roles, compare the same task, criteria coverage, defect detection, integrity and actual cost. Empirical evidence comes from independent observations.
 
-## Пропорційна стратегія та компетентність
+## Proportionate strategy and competence
 
-Перед вибором модулів показати різницю між публічним агентом, skill package, lifecycle phase, компетенцією та actual actor. Вивести outputs і невідомості, порівняти reuse/compose/extend/create_gap, пояснити достатність обраних методів і evidence. Один інтегратор утримує цілісний результат; callable research, system synthesis та coverage review активуються за потребою. Не встановлювати кількість нових skills заздалегідь. Інший actor ID не доводить компетентності: для незнайомого домену потрібні method/source/tool/oracle і межі claims.
+Before choosing modules, distinguish the public agent, skill package, lifecycle phase, competence and actor. Derive outputs and uncertainties, compare reuse, composition, extension, and creation for a demonstrated gap, and explain why the chosen methods and evidence are sufficient. One integrator owns the whole result. Bring in research, system synthesis, or coverage review where needed. For unfamiliar domains, verify competence through the method, source, actual tool, oracle and scope of claims.

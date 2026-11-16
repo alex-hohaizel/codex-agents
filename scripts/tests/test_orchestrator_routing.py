@@ -46,6 +46,61 @@ class RoutingContractTests(unittest.TestCase):
         self.assertFalse(result["execution_performed"])
         self.assertFalse(result["quality_certified"])
 
+    def test_material_policy_rejects_a_direct_route_that_requires_delegation(self):
+        value = task()
+        value["routing"]["policy"] = {
+            "schema": "atelier.orchestrator-policy/1",
+            "single_actor_sufficient": True,
+            "delegation_limit": 1,
+            "planned_delegations": 1,
+            "effect_class": "local_reversible",
+            "required_capability_gaps": [],
+        }
+        outcome = ROUTING.validate(value, ready=True)
+        self.assertFalse(outcome["valid"])
+        self.assertIn("direct route requires one sufficient actor and no delegation", outcome["errors"])
+        value["routing"]["policy"]["planned_delegations"] = 0
+        self.assertTrue(ROUTING.validate(value, ready=True)["valid"])
+
+    def test_material_policy_requires_authority_to_record_dispatched_effect(self):
+        value = task()
+        value["routing"].update(route="specialist", source_pins=[source_pin("scoped-specialist")])
+        policy = value["routing"]["policy"] = {
+            "schema": "atelier.orchestrator-policy/1",
+            "single_actor_sufficient": True,
+            "delegation_limit": 0,
+            "planned_delegations": 0,
+            "effect_class": "external",
+            "required_capability_gaps": [],
+        }
+        self.assertTrue(ROUTING.validate(value, ready=True)["valid"])
+        value["execution"].update(state="started", executor_ref="current-specialist", receipt_refs=[
+            {"kind": "execution_start", "ref": "current-start", "actor": "current-specialist"}])
+        self.assertFalse(ROUTING.validate(value, ready=True)["valid"])
+        policy["effect_authority_ref"] = "exact-fixture-effect-decision"
+        result = ROUTING.validate(value, ready=True)
+        self.assertTrue(result["valid"])
+        self.assertFalse(result["human_authority_authenticated"])
+
+    def test_material_policy_does_not_accept_receipt_with_required_capability_gap(self):
+        value = task()
+        value["routing"].update(route="compose", source_pins=[source_pin("actual-reviewer")])
+        policy = value["routing"]["policy"] = {
+            "schema": "atelier.orchestrator-policy/1",
+            "single_actor_sufficient": False,
+            "delegation_limit": 1,
+            "planned_delegations": 1,
+            "coordination_reason": "independent_acceptance",
+            "effect_class": "read_only",
+            "required_capability_gaps": ["native reviewer not available"],
+        }
+        self.assertTrue(ROUTING.validate(value, ready=True)["valid"])
+        value["execution"].update(state="result", executor_ref="parent", receipt_refs=[
+            {"kind": "execution_result", "ref": "unreviewed-notes", "actor": "parent", "activity": "task_execution"}])
+        self.assertFalse(ROUTING.validate(value, ready=True)["valid"])
+        policy["required_capability_gaps"] = []
+        self.assertTrue(ROUTING.validate(value, ready=True)["valid"])
+
     def test_unknown_project_agent_is_not_an_active_continuation(self):
         value = task()
         value["routing"].update(route="project_agent", source_pins=[source_pin()])

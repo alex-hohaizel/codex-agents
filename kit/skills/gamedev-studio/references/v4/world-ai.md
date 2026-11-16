@@ -1,124 +1,122 @@
-# Світ, ситуації, противники й боси 4.0
+# World, situations, opponents and bosses 4.0
 
-## Навігація
+## Navigation
 
-1. П’ять шарів світу
-2. Generator і різноманітність
-3. Actor/knowledge/action/decision
-4. Encounter і boss
-5. Інтеграція, збереження й тести
+1. Five layers of the world
+2. Generation and diversity
+3. Actor, knowledge, action and decision
+4. Encounters and bosses
+5. Integration, persistence and checks
 
-Застосувати до будь-якої просторової структури, маршрутів/сцен, живого оточення, NPC/супротивників і генерації. Відсутність ворогів або PCG допускається предметним задумом. Не додавати RPG, відкритий світ, bosses чи LLM agents заради заповнення реєстру.
+Use for spatial structure, routes and scenes, dynamic environments, NPCs and opponents, and generation. Include enemies, procedural content, RPG features, open worlds, bosses and LLM agents only when the design needs them.
 
-## 1. Скласти узгоджений світ
+## 1. Design a coherent world
 
-| Шар | Що зафіксувати | Перевірка |
+| Layer | Contract | Check |
 |---|---|---|
-| Авторська основа | Ідентичність, geography/topology, канон, орієнтири, незамінні сцени | Впізнаваність і причинність не руйнуються варіацією |
-| Місія/розвиток | Цілі, prerequisites, доступні capabilities, освоєння, ризик/винагорода | Потрібна можливість доступна до виклику |
-| Простір | Модулі/траси/кімнати, transitions, routes, visibility/reachability | Ціль досяжна, переходи легальні |
-| Ситуація | Ролі загроз, ресурси, погода, події, стан об’єктів, темп | Поєднання лишає заплановані відповіді |
-| Стійкі наслідки | Memory, фракції, відбудова/руйнування, відкриття, reaction | Restore й повернення відтворюють причинний стан |
+| Authored foundation | Identity, geography and topology, canon, landmarks and irreplaceable scenes | Variation preserves recognition and causality |
+| Mission and progression | Goals, prerequisites, available abilities, learning, risks and rewards | Required abilities become available before the challenge |
+| Space | Modules, tracks and rooms, transitions, routes, visibility and reachability | Goals are reachable and transitions legal |
+| Situation | Threat roles, resources, weather, events, object state and pacing | Combinations preserve intended responses |
+| Durable consequences | Memory, factions, rebuilding and destruction, discoveries and reactions | Restoration and return preserve the causal state |
 
-Розділити виробничий scale, spatial topology, тривалість розвитку й complexity. Small гра може мати глибокий компактний світ; large гра може складатися з пов’язаних authored локацій. Тридцять трас не є моделлю lifecycle. Авторські/hybrid сцени дозволені з поясненням, де й чому варіюються інші шари.
+Distinguish production scale, spatial topology, progression duration and complexity. A small game can have a deep compact world and a large one can use connected authored scenes. Lifecycle includes progression and return beyond a track count. Authored and hybrid scenes can define where and why other layers vary.
 
-На C1 описати структуру світу, функціональні сімейства ситуацій, повний маршрут розвитку/повернень/завершення та точні типи вибору. На T дати topology/mission/progression graphs, module ports, parameters, exact conditions/weights, authoring source, generation algorithms, validation/repair/fallback й fixtures.
+At C1 specify world structure, functional situation families, complete progression, return and ending, and actual player choice types. At T provide topology, mission and progression graphs, module ports and parameters, exact conditions and weights, sources, generation algorithms, validation, repair and fallback, and fixtures.
 
-Для route edge визначити доступність/умову, state transition, required capabilities/resources, інформацію до вибору, ризик, gameplay distinction, нагороду, commitment/return/escape, presentation і persistence. Колір коридору сам не створює іншого рішення. Необов’язковий ризик не стає прихованою вимогою купівлі.
+For each route edge specify availability and conditions, state change, required abilities and resources, pre-choice information, risk, gameplay distinction, reward, commitment, return or escape, presentation and persistence. Show the distinct decision behind surface changes. Preserve optional risk and keep purchases within the agreed model.
 
-## 2. Реалізувати bounded генерацію
+## 2. Implement bounded generation
 
-Вхід: accepted player/world revision, capabilities/loadout, progression position, learned mechanics/exposure, difficulty profile, session budget, history і isolated generator RNG/version.
+Inputs include accepted player and world revision, capabilities and loadout, progression stage, learned mechanics and exposure, difficulty profile, session budget, history, and isolated generator RNG and version.
 
-Алгоритм:
+1. Compute eligible goals and the context boundary.
+2. Choose mission structure and authored anchors under the rules.
+3. Lay out spatial modules with port, type, scale, navigation and material compatibility.
+4. Build routes, keys, resources, encounters and events within constraints.
+5. Check reachability, prerequisites, feasible resources, timing and counterplay, lore, semantic diversity and budget.
+6. Apply named local repairs within the specified count and time.
+7. Sample again only within limits and use a verified compatible fallback when exhausted.
+8. Record accepted result, seed, algorithm version, history and repair reasons. Keep rejected results out of player state.
 
-1. Обчислити допустимі цілі й context envelope; не семплувати несумісну ціль з надією потім виправити.
-2. Вибрати mission structure та authored опори за правилами.
-3. Розкласти spatial modules із port/type/scale/nav/material compatibility.
-4. Побудувати маршрут/ключі/ресурси/зустрічі/події в межах constraints.
-5. Перевірити reachability, prerequisites, resource feasibility, timing/counterplay, lore, semantic diversity й budgets.
-6. Застосувати названі локальні repairs у maximum count/time budget.
-7. Повторити sampling лише в установлених bounds; за exhaustion взяти перевірений compatible fallback.
-8. Зберегти accepted result/seed/algorithm version/history/repair reasons; rejected sample не стає світом гравця.
+Validation considers a key behind its own lock, mutually exclusive flags, a requirement to use a tool after the last opportunity to obtain it, infeasible resources, unavoidable unseen threats, removed support, exit without a return and performance bounds. Propagate topology and content revision to consumers.
 
-Валідація має охоплювати ключ до власного замка; одночасні взаємовиключні flags; потрібний tool після останньої можливості його отримати; неспроможність завершити з ресурсами; невидимі неминучі attacks; знищену опору; exit без return; performance envelope. Залежні системи мають отримати topology/content revision.
+Define semantic signatures from decisions, required capabilities, role combinations, route tradeoffs, resource pressure, environmental interaction and known or new mechanics. Measure actual repetition, coverage and novelty streaks under named player policies. State simulation scope and which cases remain unexplored.
 
-Не оцінювати новизну числом seeds. Описати semantic signature: рішення, потрібні capabilities, role combination, route trade-off, resource pressure, environmental interaction, known/unseen mechanic. Вимірювати фактичні повтори/покриття/довжину novelty runs на визначених політиках гравця. Позначати обсяг симуляції й неперебраний простір.
+Model pacing, difficulty and progression separately. Pacing can alternate intensity and recovery. Check hidden adaptation after success or purchase against the accepted product. Optional transparent assistance and difficulty use their own contract.
 
-Ритм, difficulty і progression — окремі моделі. Pacing може чергувати intensity/recovery, але не потай підсилювати ворогів рівно після кожної покупки. Hidden adaptation за успіхами/покупками не є default. Transparent optional assist/difficulty має окремий контракт.
+Record challenge across spatial precision, reaction time, simultaneous demands, information and resource pressure, and penalty. Isolate the intended dimension when tuning. For mechanics unused for a long time check exposure and accessible alternatives (D1Q05,Q09,Q10).
 
-Вести challenge vector: spatial precision, reaction time, simultaneity, information pressure, resource pressure, penalty. Зростання одного виміру не повинно випадково піднімати всі. Для давно невживаної механіки перевірити exposure і доступні альтернативи (D1Q05,Q09,Q10).
-
-## 3. Проєктувати AI через досвід і відоме знання
+## 3. Design AI from player experience and available knowledge
 
 ### Actor contract
 
-Для кожного family задати role→observable distinction→player response→prerequisite/tool→strong/weak context→combinations→progression position. Числовий рівень/перефарбування є варіантом, а не новою поведінковою сім’єю.
+For each family define role, observable distinction, player response, prerequisite or tool, strong and weak contexts, combinations and progression position. Treat numeric tiers and palette changes as variants unless behavior differs.
 
-Паспорт actor: definition/instance IDs, motivation/goal, body/scale/shape, movement/turn/acceleration, collision/hit/hurt/parts/materials, resources/stats/armor/resists/statuses, abilities, perception, knowledge, decisions, navigation/positioning, coordination, signals/counterplay, progression/variants, failure/recovery/despawn, reward/credit, state/save/LOD/budgets/diagnostics.
+The actor record covers definition and instance IDs, motivation and goals, body, scale and shape, movement, turning and acceleration, collision, hit, hurt, parts and materials, resources, stats, armor, resistance and statuses, abilities, perception, knowledge, decision, navigation and positioning, coordination, signals and counterplay, progression and variants, failure, recovery and despawn, rewards and credit, state, save, LOD, budgets and diagnostics.
 
-Для союзників додатково перевірити blocking, stealing agency/rewards, scene interruption і нав’язливість. Sleeping/LOD actor не прокидається з уже завершеною невидимою атакою. Фізичне тіло, collider і animation не можуть незалежно визначати несумісні положення.
+For allied actors check obstruction, lost player agency or reward, scene interruptions and intrusiveness. Sleeping or simplified actors return without a completed unseen attack. Give body, collider and animation a consistent transform authority.
 
 ### Knowledge contract
 
-Відділити world truth від observed fact і belief. Fact record: subject/predicate/value, source/channel, observed time, location/uncertainty, confidence, TTL/decay, refresh/forget, share recipients/delay/range, privacy/authority. Loss of sight не дорівнює миттєвому забуванню або вічному точному tracking.
+Separate authoritative world truth, observation and belief. A fact record includes subject, predicate and value, source and channel, time, location and uncertainty, confidence, TTL and decay, refresh and forgetting, sharing audience, delay and range, privacy and authority. Define memory and tracking after loss of sight.
 
-AI не читає неприйнятий input, майбутній RNG чи всю world truth як sensor. Після шуму можливе дослідження last-known area, а не telepathic атака актуальної позиції. Shared knowledge має визначений канал і час; perception event не копіюється магічно всій фракції.
+Limit AI sensors to actual allowed observations. Exclude uncommitted inputs, future random outcomes and hidden world truth. A sound may reveal a last-known area. Communicate current position only through actual observation. Define channel and timing for any shared faction knowledge.
 
-### Action і decision contracts
+### Action and decision contracts
 
-Action: eligibility/guards, costs, startup/telegraph, target lock/tracking, active geometry/window, commitment, combo transition, interrupt/cancel, recovery/cooldown, resource refund, movement/physics ownership, capture/RNG, cues, expected result і failure.
+An action covers eligibility and guards, costs, startup and telegraph, targeting lock and tracking, active geometry and window, commitment, combination transitions, interruption, cancel, recovery, cooldown, refund, movement or physics ownership, capture and RNG, cues, expected result and failure.
 
-Decision: alternatives, eligibility, scoring/priority, tie-break, reevaluation cadence, commitment/hysteresis, abort conditions, budget, fallback. FSM/HFSM, behavior tree, utility, GOAP/HTN обирати за authoring/debug/runtime needs; найбільший алгоритм не є кращим автоматично.
+A decision covers alternatives and eligibility, score or priority, tie-break, reevaluation cadence, commitment and hysteresis, abort conditions, resource limits and fallback. Choose FSM or HFSM, behavior tree, utility, GOAP or HTN for authoring, debugging and runtime needs.
 
-Trace пов’язує відомі факти→допустимі альтернативи→причину вибору→команду→фактичний результат→replan. Логи обмежити бюджетом/retention, не відкривати гравцю приховане знання. Зруйнована опора/зайнятий slot/недоступний ресурс мають reason і fallback.
+Trace known facts, eligible alternatives, decision reason, command, actual outcome and replanning. Bound log size and retention and preserve hidden information. Record reasons and fallbacks for removed support, occupied slots or unavailable resources.
 
-Для небезпеки порівняти досяжний response time з cue availability/visibility/input latency/action startup, але не видавати позитивну арифметику за доказ людського комфорту. Помилкова позиція не зобов’язана завжди бути врятовною; перевірити, що гравець міг знати до commitment.
+For a threat compare the reachable response time with cue availability and visibility, input latency and startup. Evaluate actual comfort separately. A bad position can be unrecoverable when the player could know the relevant risk before committing.
 
-## 4. Оформити encounter і boss як окремі contracts
+## 4. Define encounter and boss contracts
 
-Encounter: purpose/objective, arena/routes/visibility, allowed roles/compositions, prerequisites, spawn/entry/exit, resource envelope, attack concurrency, coordination, pacing/recovery, win/fail/abort, reward, save/resume і budgets.
+An encounter specifies purpose and objective, arena, routes and visibility, permitted roles and combinations, prerequisites, spawn, entry and exit, resource bounds, attack concurrency, coordination, pacing and recovery, win, fail and abort, reward, save and resume, and budgets.
 
-Threat points не доводять legality. Перевірити поєднання crowd control, взаємне нескінченне лікування, закриті responses, spawn біля гравця, blocking, camera occlusion, resource starvation. За потреби attack slots/position reservations/team roles мають owner, TTL, release/cancel/death, fairness/starvation policy. Не нав’язувати slots усім жанрам.
+Test beyond threat totals. Check combined crowd control, indefinite mutual healing, inaccessible responses, spawn near the player, obstruction, camera occlusion and resource starvation. Where attack slots, position reservations or team roles are useful, assign owner, TTL, release, cancel and death behavior, fairness and starvation policy.
 
-Boss blueprint визначає призначення: перевірка mastery, narrative turn, переосмислення систем, optional apex або spectacle. Кількість фаз не є quality score.
+A boss blueprint defines its intended function, such as mastery assessment, narrative turn, reinterpretation of systems, optional apex or spectacle. Evaluate the function beyond number of phases.
 
-Обов’язкові поля boss: prerequisites, arena/camera, full action catalogue, phase graph, exact triggers/priority, HP threshold/overflow, stagger/interrupt, projectiles/status keep/remove policy, body/parts/weakpoints, minions, combo grammar/RNG bounds, teaching, accessibility, loss/retry/checkpoint, resources/rewards/world flags, save/migration, content and budgets.
+Required boss fields include prerequisites, arena and camera, complete action catalog, phase graph, exact triggers and priority, HP threshold and overflow, stagger and interruption, projectile and status retention or removal, body, parts and weak points, minions, combinations and RNG bounds, teaching and accessibility, loss, retry and checkpoint, resources, reward and world flags, save and migration, content and budgets.
 
-Вибрати outcome одночасних lethal+phase+stagger й player/boss death; animation end не видає reward. Перехід не лишає старий collider, нескінченну invulnerability, reservation або duplicate grant. Визначити, чи дозволено phase skip і куди йде excess damage.
+Choose what happens when lethal, phase and stagger coincide and when player and boss die together. Rewards follow authoritative state. On transition remove invalid colliders, invulnerability, reservations and duplicate grants. Define phase skip and excess damage.
 
-## 5. Живість із причинністю
+## 5. Integrate dynamic world behavior
 
-Розклади, локальні події, погода, шум, ecological/resource reactions, NPC routines і persistent aftermath активувати там, де вони створюють досвід. Задати activation/simulation radius, offscreen approximation, update rates, maximum active entities, LOD transitions і authoring ownership.
+Use schedules, local events, weather, sound, ecological and resource responses, NPC routines and persistent aftermath where they improve play. Define activation and simulation radii, offscreen approximation, update rates, maximum active entities, LOD transitions and authoring ownership.
 
-Offscreen simplification зберігає важливі інваріанти й не вигадує неможливі outcomes. Ambient animation не вважається повною simulation. Живий світ не вимагає величезного open world чи нескінченної фонoвої симуляції.
+Preserve meaningful invariants under offscreen simplification and rule out impossible outcomes. Treat ambient animation as presentation. A dynamic world can use a compact playable area and bounded background simulation.
 
-Пов’язати стани actor/action/variant із rig/clip/contact markers/VFX/SFX/haptic/UI, runtime bindings і сценою. При break змінити topology revision та AI plan; при death звільнити slots, скасувати неприпустимі commands, створити exact reward intent.
+Bind actor, action and variant to rig, clip, contact markers, VFX, SFX, haptics, UI, runtime and scene. A break changes topology revision and plans. Death releases slots, cancels invalid commands and creates an exact reward intent.
 
-Кожне AI поле отримує persist/recompute/reset policy. Відновлювати logical state/knowledge за правилами; paths/planner pointers перераховувати. Restore dependencies: world topology→actors/resources→knowledge→decisions→presentation→neutral input. Зміна engine/content потребує сумісності golden saves і actor bindings.
+Give each AI field a persistence, recompute or reset rule. Restore logical state and knowledge, then recalculate paths and planning pointers. Restore dependencies in this order: world topology, actors and resources, knowledge, decisions, presentation and neutral input. For engine or content updates verify golden saves and actor bindings.
 
-## 6. Перевірити наскрізні контрприклади
+## 6. Exercise cross-system counterexamples
 
-- Ключ розміщено за власними дверима: deterministic rejection/repair/fallback, причина й seed записані.
-- Новий tool відкрито, але generator ніколи не дає opportunity: coverage defect, не лише low pick rate.
-- Ворог нічого не бачив/чув: немає точних player coordinates.
-- Два actors претендують на slot; смерть owner звільняє його без starvation іншого.
-- Зруйнована опора під час плану: path invalidated, actor не виконує старий jump.
-- Correct attacks окремо утворюють unavoidable combo: encounter відхиляється.
-- Cue схований VFX/пальцем/камерою/мовою: visual review проходить реальну peak scene.
-- Одночасні phase/stagger/lethal: golden outcome без actor iteration dependence.
-- Kill між boss victory і durable reward: одна причинна consistency group після restore.
-- Sleeping actor повернувся; стара attack не влучає до нового readable telegraph.
-- Late old callback після respawn/profile change відхиляється revision/generation binding.
-- Приймач без чату реконструює encounter/phase/retry зі специфікації й власним counterexample.
+- A key behind its own door is deterministically rejected, repaired or replaced by fallback. Record cause and seed.
+- A new tool with no generated opportunity is a coverage defect, independently of selection rate.
+- An opponent without relevant sensory evidence lacks exact player coordinates.
+- Two actors compete for a slot. The owner's death frees it without starving the other actor.
+- A support is destroyed during planning. Invalidate the path and cancel the outdated jump.
+- Individually valid actions combine into an unavoidable situation. Reject the encounter.
+- Effects, finger, camera or language obscure a cue. Check the actual peak scene.
+- Phase, stagger and lethal coincide. The oracle does not depend on actor iteration.
+- Process termination between boss victory and reward restores one causal group.
+- A waking actor cannot connect an old attack before a new readable cue.
+- Revision and generation checks reject callbacks from before respawn or profile switch.
+- A new recipient reconstructs encounter, phase and retry from the specification without chat and produces a counterexample.
 
-Документальне приймання не замінює scene/native/device/human evidence. До масового тиражування контенту провести representative slice та sample production throughput.
+Record scene, native, device and human evidence at their actual boundaries. Exercise a representative slice and measure representative production throughput before scaling.
 
-## Первинні матеріали
+## Primary materials
 
-Опорне дослідження P1/D1/D2 перевірено 2026-11-02; pinned engine APIs перевіряти повторно під реальний проєкт.
+P1/D1/D2 research was verified on 2026-11-02. Recheck the actual project's pinned APIs.
 
-- Valve, The AI Systems of Left4Dead: perception/navigation/behavior/pacing, не універсальний DDA: https://steamcdn-a.akamaihd.net/apps/valve/2009/ai_systems_of_l4d_mike_booth.pdf
+- Valve, The AI Systems of Left4Dead, about perception, navigation, behavior and pacing: https://steamcdn-a.akamaihd.net/apps/valve/2009/ai_systems_of_l4d_mike_booth.pdf
 - Epic AI Perception: https://dev.epicgames.com/documentation/unreal-engine/ai-perception-in-unreal-engine
 - Epic Behavior Trees: https://dev.epicgames.com/documentation/unreal-engine/behavior-trees-in-unreal-engine
 - Epic Environmental Query System: https://dev.epicgames.com/documentation/unreal-engine/environment-query-system-in-unreal-engine

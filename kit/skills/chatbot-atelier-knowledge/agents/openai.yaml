@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · Пам’ять і знання · 6.0.0
-  short_description: Пам’ять, retrieval, приватність і видалення
-  default_prompt: Використай $chatbot-atelier-knowledge для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · Пам’ять і знання
+  short_description: Scoped memory, retrieval, and deletion
+  default_prompt: Use $chatbot-atelier-knowledge. Trace the requested knowledge or memory behavior through current sources, permissions, and retention.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

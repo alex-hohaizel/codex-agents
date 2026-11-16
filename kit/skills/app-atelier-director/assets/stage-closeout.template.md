@@ -1,19 +1,19 @@
-# Результат етапу — [продукт / етап / редакція]
+# Stage outcome — [product / stage / revision]
 
-Шаблон заповнює агент. Мала правка отримує короткий огляд у чаті; повні поля й файли потрібні за застосовним scope. Не вимагати від власника редагувати JSON.
+The agent fills this template. For small fixes, give a short chat update. Include full fields and files when the scope requires them. Keep JSON editing with the agent.
 
-**Стан:** [continue / ready_for_acceptance / accepted_continue / accepted_done / waiting_decision / paused / blocked / cancelled]. Підтверджене власником приймання записувати лише з фактичного повідомлення та current output hashes.
+**State** [continue / ready_for_acceptance / accepted_continue / accepted_done / waiting_decision / paused / blocked / cancelled]. Record owner acceptance from the actual message and current output hashes.
 
-**Результат:** [конкретний матеріал/поведінка, де переглянути, редакція].
+**Result** [specific material or behavior, location, revision].
 
-**Перевірено:** [твердження → actual method/result → артефакт/hash/actor; specification/code/integration/device/human/released/observed окремо].
+**Verified** [claim, actual method and result, artifact, hash, actor]. Report specification, code, integration, device, human, released, and observed evidence separately.
 
-**Обмеження:** [реальні gaps, failed/unknown proofs, залежні блокери; незалежна дозволена робота].
+**Limits** [actual gaps, failed or unknown proof, blocked dependencies, independent authorized work].
 
-**Потрібне рішення:** [лише незакрите суттєве питання: рекомендація, альтернативи, наслідок; чинну згоду не перепитувати].
+**Decision needed** [unresolved material issue, recommendation, alternatives and consequences]. Carry forward valid authority.
 
-**Далі:** [точна дозволена дія; або чесне завершення/пауза/скасування].
+**Next** [exact authorized action, completed outcome, pause, or cancellation].
 
-Для фактичної передачі додати пакет/checkpoint, input/output hashes, наявні повноваження, точний Work/Codex selector, launch prompt і return checks. Для terminal outcome наступна стадія та запит відсутні.
+For a real handoff, attach the packet and checkpoint, input and output hashes, current authority, exact Work or Codex selector, launch prompt, and return checks. Terminal outcomes do not need a next stage or task request.
 
-Наступний БРИФ пропонувати лише коли `needs_brief=true`: [який матеріальний scope/вибір потрібно уточнити й що це розблокує].
+Offer the next briefing (`БРИФ`) only when `needs_brief=true`. Name the material scope or choice and what it unlocks.

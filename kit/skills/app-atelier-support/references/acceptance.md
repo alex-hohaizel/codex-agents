@@ -1,63 +1,52 @@
-# Приймання підтримки
+# Support acceptance
 
-Розділяти оцінку навички, реалізацію продукту, запуск і спостереження; наведені cases ще не виконані.
-Залучити незалежного від автора реального актора; за його відсутності залишити independent gate відкритим.
+Distinguish skill evaluation, product implementation, launch and observation. These are planned cases. Assign an actual reviewer independent of the author or keep the independent gate open.
 
-## Обов’язкові результати
+## Required results
 
-| Вимога | Потрібний результат | Недостатній доказ |
-|---|---|---|
-| REQ-26 | Продуктовий scope бота, KB/тон, відсутність непогоджених group-функцій і чужої пам’яті | Назва навички/аналогія з попереднім ботом |
-| REQ-27 | Працездатні Android/iOS/web і погоджені bot-channel adapters зі спільними правилами | Скриншот чи посилання на чат |
-| REQ-28 | Backend scopes, guest/account matrix, власний контекст, data-flow | Довіра до email або prompt «не показуй чуже» |
-| REQ-29 | Перевірений challenge/link/revoke або рівноцінний механізм | Username або старий deep link |
-| REQ-30 | Версійована KB, походження, актуальність, тон, інвалідація | Великий неперевірений prompt |
-| REQ-31 | Read-only baseline, scoped actions, caps/fallback, нерозв’язний case | Вигадана дія, оператор чи гарантований SLA |
+| Requirement | Required result | Insufficient proof |
+| --- | --- | --- |
+| REQ-26 | Product bot scope, knowledge and tone, with no unapproved group capabilities or foreign memory. | A skill name or previous bot analogy. |
+| REQ-27 | Working Android/iOS/web and approved bot-channel adapters with shared rules. | Screenshot or chat link. |
+| REQ-28 | Backend scopes, guest/account matrix, own context and data flow. | A text email or a prompt such as «не показуй чуже». |
+| REQ-29 | Verified challenge, link and revocation, or an equivalent mechanism. | Username or an old deep link. |
+| REQ-30 | Versioned knowledge, provenance, freshness, tone and invalidation. | A large unverified prompt. |
+| REQ-31 | Read-only baseline, scoped actions, caps and fallback, and unresolved-case handling. | An invented action or operator or a guaranteed SLA. |
 
-До персонального режиму вимагати accepted KB/tone, data/subject matrix, retention/redaction/delete/revoke та isolation/link/webhook negative checks.
-До релізу вимагати фактичні докази каналів, model/API fallback і контролю витрат.
-Для proof записати requirement/case ID, source/artifact hashes, actor, метод, середовище, результат, межі.
+Before personal support, require accepted knowledge and tone, data and subject matrix, retention/redaction/delete/revoke, and negative isolation, link and webhook checks. Before release, require actual channel, model/API fallback and cost-control proof. For each record capture requirement and case IDs, source and artifact hashes, actor, method, environment, result and limits.
 
-## Позитивні сценарії
+## Positive scenarios
 
-1. Гість отримує точну public відповідь і продовжує лише власну обмежену сесію.
-2. Користувач акаунта отримує дозволений власний контекст у app/web і після перевіреного linking у кожному вибраному зовнішньому каналі.
-3. Без акаунтів підтримка корисна без прихованої identity або спільної персональної історії.
-4. Новий реліз/ціна інвалідовує стару статтю; використовується джерело потрібної версії/мови.
-5. Невідомий запит дає уточнення або case ID, diagnostics, статус і технічну задачу.
-6. Budget cap/AI outage дає fallback без нових прихованих платних викликів.
-7. Дозволена дія має перевірний receipt; read-only режим тільки пояснює.
-8. Revoke/delete змінює наступний доступ і очищення залежного контексту за контрактом.
+1. A guest receives accurate public help and continues only their own bounded session.
+2. An authenticated user accesses authorized own context in app/web, and in each selected external channel after verified linking.
+3. Support without accounts remains useful without hidden identity or shared personal history.
+4. A new release or price invalidates stale knowledge. Use the correct release and language source.
+5. An unknown request produces clarification or a case ID, diagnostics, status and a technical follow-up.
+6. A budget cap or AI outage uses fallback without hidden paid calls.
+7. An authorized action has a verifiable receipt. Read-only mode gives advice only.
+8. Revocation or deletion changes subsequent access and cleans dependent context under contract.
 
-## Негативні сценарії
+## Negative scenarios
 
-| Fixture | Перевірити |
-|---|---|
-| Guest просить рахунок за email | Немає private access або витоку у відповідь/log/tool request |
-| A передає ID B, attachment або стару відповідь | Subject/field enforcement діє в API, retrieval, cache, renderer |
-| Однакові запити двох subject | Кеш не змішує private answers/tool results |
-| Expired/replayed/intercepted challenge | Link не створюється без усіх перевірок і другого підтвердження |
-| Username змінено або збігається з email | Product identity не змінюється |
-| Revoked link/logout із кешем | Private history і права не залишаються доступними |
-| Forged transport event або update поза дозволеним audience | Відхилення до private retrieval/LLM і дорогих операцій |
-| Prompt injection у KB/attachment/chat | Авторизація, інструкції та public правила незмінні |
-| Стара ціна/відсутня функція | Немає вигаданої вартості/існування; evidence gap явний |
-| Delete/revoke та backup restore | Похідні індекси/кеш не відновлюють заборонений контекст |
-| Timeout після effect request | Unknown звіряється; невідомий ефект не дублюється |
-| Повтор webhook/кнопки | Case/effect дедуплікується за контрактом |
-| AI/API/обраний channel/storage outage | Статус і fallback відповідають фактичним можливостям |
-| Cap/flood/велике вкладення | Ліміти стримують витрати та не розкривають діагностику |
-| Refund/recovery без tool | Відсутні вигадані виконання, права й квитанції |
-| Нерозв’язні cases накопичуються | Є агрегація й перегляд моделі без прихованого оператора |
+| Fixture | Check |
+| --- | --- |
+| Guest requests an invoice by email | No private access or disclosure in reply, log or tool request. |
+| A provides B's ID, attachment or stale result | Subject and field constraints apply across API, retrieval, cache and renderer. |
+| Identical requests from two subjects | The cache cannot cross private answers or tool results. |
+| Expired, replayed or intercepted challenge | Link fails without all checks and second confirmation. |
+| Username changes or matches email | Product identity does not change. |
+| Revoked link or logout with cache | Private history and grants become inaccessible. |
+| Forged transport event or out-of-audience update | Reject before private retrieval, model calls or expensive work. |
+| Untrusted instructions in knowledge, attachment or chat | Authorization, instructions and public rules remain intact. |
+| Stale price or missing feature | Explicit evidence gap, without invented prices or capabilities. |
+| Deletion or revocation followed by backup restore | Derived indexes and cache do not restore prohibited context. |
+| Timeout after effect request | Reconcile unknown result without duplicating it. |
+| Duplicate webhook or button action | Deduplicate case and effect under contract. |
+| AI, API, channel or storage outage | Status and fallback reflect available capabilities. |
+| Cap, flood or large attachment | Limits control cost without leaking diagnostics. |
+| Refund or recovery with unavailable operation | No invented execution, grant or receipt. |
+| Unresolved cases accumulate | Aggregate and revisit the operating model without assuming a hidden operator. |
 
-## Незалежність і завершення
+## Independence and closure
 
-Для forward case дати сирий запит і потрібні raw inputs без діагнозу, бажаної відповіді чи fix.
-Критерії лишити evaluator; авторський сценарій/самозвіт не є незалежним доказом.
-Не створювати реальну оплату/refund/publication заради тесту; використовувати sandbox/local fixtures.
-Не проводити інтерв’ю, A/B чи інші human experiments на жодній фазі без зміни чинної вимоги.
-Синтетична persona не підтверджує попит, готовність платити чи людську зручність.
-Винести verdict по due must: passed, failed, blocked, pending або обґрунтоване not_applicable.
-Не компенсувати privacy/cost/identity провал середнім балом або гарним виглядом чату.
-Finding має відтворення, вплив, current hash і regression scope; repair перевіряється незалежно.
-Повернути source/KB/contracts, виконані процедури, proof, незакриті залежності й next action.
+A forward-case runner receives the raw request and relevant inputs without diagnosis, expected answer or repair. Keep criteria with the evaluator. Author scenarios and reports are not independent proof. Use sandbox/local fixtures without real charges, refunds or publications merely to test. Apply current restrictions on interviewing, A/B and human experimentation across all phases. A synthetic persona cannot establish demand, payment or usability for people. Record each due must as passed, failed, blocked, pending or justified not_applicable. Privacy, cost and identity failures cannot be offset by style or average scores. Record finding reproduction, impact, current hash and regression scope, and review repairs independently. Return sources, knowledge and contracts, performed procedures, proof, unsatisfied dependencies and next action.

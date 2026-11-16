@@ -1,7 +1,7 @@
 interface:
-  display_name: BOT · QA · 6.0.0
-  short_description: Незалежні докази та предметне приймання
-  default_prompt: Використай $chatbot-atelier-qa для завершення потрібного етапу створення або розвитку чатбота.
+  display_name: BOT · QA
+  short_description: Independent chatbot verification
+  default_prompt: Use $chatbot-atelier-qa. Check the assigned chatbot requirements against exact artifacts and native evidence.
   icon_small: ./assets/family-icon-small.png
   icon_large: ./assets/family-icon-large.png
 policy:

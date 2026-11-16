@@ -1,33 +1,39 @@
-# Виробництво спеціалізованої навички
+# Producing a specialized skill
 
-Чинний контракт. Зміст: записи → алгоритм → рецепти → докази → зміна.
+## Records and execution
 
-## Записи й алгоритм
+Use one project-owned blueprint or linked manifest to trace stable IDs from requirement through domain contract, operation, recipe, attempt, assembly, and evidence. Record the digest and dependencies of external JSON and sources. Keep one authoritative record of intent. The [common core](cross-domain-core.md) specifies evidence and execution records. This document adds skill-production requirements.
 
-В одному project-owned blueprint/linked manifest вести stable IDs: requirement→domain contract→operation→recipe→attempt→assembly→evidence. До зовнішніх JSON/джерел додати digest і залежності; зберігати одну authority задуму. Спільне [ядро](cross-domain-core.md) визначає докази й execution records; поточний файл додає семантику створення навичок.
+For each capability, specify the exact operation, tool, model, host, target, version, parameter schema, supported inputs and outputs, editable source, limits, permissions, data, cost, unsupported flags, verification of material parameters, and fallback. Track descriptor, schema, catalogue, configuration, testing, and integration separately. Inspect actual outputs to establish suitability.
 
-Для capability вказати exact operation, tool/model/host/target/version, схему параметрів, supported IO, editable source, limits, права/дані/вартість, unsupported flags, спосіб перевірки матеріальних параметрів і fallback. Descriptor/schema/catalog/configured/tested/integrated — окремі факти. Наявність CLI або назва моделі не підтверджує придатність результату.
+Each recipe records the exact accepted inputs and hashes, competence, owner, consumer, ordered steps or dependency graph, bound argument array or API operation, or numbered GUI steps. Include output formats, masters and derivatives, transformations, validators and oracles, budget and effect scope, repair, and stopping conditions. Bind a template to the project and real toolchain before execution. On API timeout, reconcile an unknown external result by request or effect ID before deciding whether to retry.
 
-Recipe містить exact accepted inputs/hash, competence/owner/consumer, ordered steps/DAG, bound argv array/API або numbered GUI actions, output formats/masters/derivatives, transformations, validators/oracles, budget/effect scope, repair/stop. Шаблон не виконується: спочатку bind до конкретного проєкту й фактичного toolchain. API timeout із невідомим зовнішнім outcome спочатку reconcile за request/effect ID, потім вирішувати retry.
+Allocate an attempt and effect identity before the side effect. Record input, toolchain, and recipe digests, actual arguments, seeds where supported, job and run references, append-only observations, actual outputs and hashes, cost, and evidence produced. Keep run-specific values outside the reusable skill. Assembly records the exact package, version and configuration, components, executed scenario, expected and observed results, actual authors and reviewers, evidence type, and unresolved gaps.
 
-Для кожного запуску створити attempt/effect identity перед side effect, зберегти input/toolchain/recipe digests, фактичні arguments, seed лише коли підтримано, job/run refs, append-only observations, actual outputs/hash/cost і achieved proof. Не вбудовувати ці мінливі значення в reusable skill. Assembly фіксує exact пакет/версію/конфігурацію, компоненти, виконаний сценарій, expected/observed, actual authorship/review, modality і unresolved gaps.
+## Production recipes
 
-## Три виробничі рецепти конструктора
+### R-SK1 — turn requirements into a domain contract and skill
 
-### R-SK1: вимога → предметний контракт → навичка
+- **Input.** Accepted requirement registry, vocabulary, current capabilities, constraints, and authorization scope.
+- **Steps.** Assess applicability. Select a primary method. Write typed contracts and scenarios. Define the stage, competence, and consumer. Build the child `SKILL.md` and resources. Resolve local links and CLI references, and verify lineage. Run positive and negative cases and hand off to a receiver without the prior conversation.
+- **Output.** Installable source, child manifest, exact test and review records, gaps, and next action. Preserve musts, scope, permissions, and rejected simplifications in the transformation from source to instructions.
+- **Acceptance.** The receiver completes the example with defined rules, rejects the counterexample correctly, and reconciles all inherited IDs. A runtime requires its own scope.
 
-Вхід: accepted requirement registry, vocabulary, current capabilities, constraints і approval scope. Кроки: перевірити applicability; вибрати первинну методику; написати typed contracts/scenarios; визначити stage/competence/consumer; побудувати child SKILL+resources; звірити local links/CLI й lineage; виконати negative/positive cases; передати cold receiver. Вихід: installable source, child manifest, exact tests/review, gaps, next action. Source→prompt transformation зберігає must, scope, права й заборонені спрощення; стислий текст не має губити зобов'язання. Acceptance: receiver виконує приклад без домисленого правила, контрприклад належно відхилено, успадковані IDs повністю зіставлено. Не створювати runtime замість навички за відсутності такого доручення.
+### R-SK2 — turn a skill family into independent stages and handoffs
 
-### R-SK2: сімейство → самостійні етапи → handoff
+- **Input.** Exact stage graph and contract ownership.
+- **Steps.** Identify actual boundaries for artifacts, access, and independent reuse. Assign a single owner to each authority. Bundle self-contained, versioned common resources. For each edge define input and output format, hashes, consumer validation, and the conditions for failure or reopening. Verify the package without sibling paths or conversation history.
+- **Output.** Independently installable skills, shared manifest and lineage, a positive handoff, and negative cases for missing and stale dependencies.
+- **Acceptance.** The downstream stage reuses accepted research and rejects incomplete upstream work. Returning work upstream retains decisions and originals and reopens the exact affected IDs. Install only the skills required by the scoped work.
 
-Вхід: точна stage graph і contract ownership. Кроки: виділити справжні межі артефактів/доступів/незалежного повторення; призначити одного owner кожній authority; зробити самодостатні версійовані common resources; для кожного edge визначити input/output format, hashes, consumer validation, failure/reopen; перевірити пакет без sibling paths і без історії чату. Вихід: окремо встановлювані skills, спільний manifest/lineage, positive handoff і negative missing/stale dependency. Acceptance: downstream не повторює вже прийнятий research і не приймає неповний upstream; return upstream зберігає рішення/оригінали, відкриває точні affected IDs. Не встановлювати все сімейство лише заради одного вузького етапу.
+### R-SK3 — change, verify, and save in Work or Codex
 
-### R-SK3: зміна → перевірка → збереження Work/Codex
+- **Input.** Current skill and blueprint, exact user request, accepted originals, versioned backup, and actual operation capabilities.
+- **Steps.** Inventory the current source before editing. Review the semantic diff and preservation of coverage. Copy required reusable resources. Run `quick_validate`, consistency checks, and domain tests as appropriate. Have a separate actor test the bounded task using raw input. Save a single supported skill operation through the native Skill Creator in Work and read back the exact saved content. For Codex export, package the same sources with a manifest and hashes and provide audit, apply, verify, and rollback procedures. Keep project data and production outside the export operation.
+- **Acceptance.** Each must survives. External effects remain within authorization. The skill works independently of unbundled siblings. Revalidate affected outputs before carrying forward readiness. Confirm the actual saved Work version before reporting its update.
 
-Вхід: чинна навичка/blueprint, exact user request, accepted originals, versioned backup і operation capabilities. Кроки: inventory перед редагуванням; semantic diff і coverage preservation; скопіювати лише потрібні reusable ресурси; виконати quick_validate/consistency/предметні tests; bounded independent forward-test без підказок; зберегти одну skill operation штатним Skill Creator; verify exact saved content. Codex export пакує ті самі sources з manifest/hash, audit/apply/verify/rollback; не змінює project data/production. Acceptance: немає dropped must, unapproved external mutation, прихованої sibling dependency або непідтвердженого перенесення готовності попереднього результату. Не називати Work update успішним до перевірки збереженої версії.
+## Evidence and changes
 
-## Докази й зміни
+Separate schema, byte, reference, and arithmetic checks from domain semantics, source accuracy, user experience, perceptual quality, actual deployment, and operational results. Establish independence from actors and artifact provenance. Each generated child needs its own cases and acceptance evidence.
 
-Зберігати schema/byte/ref/arithmetical PASS окремо від domain semantics, правдивості джерела, UX/perception, actual deployment або operational результату. Незалежність — властивість фактичних actors і artifact provenance, не слова QA у назві файлу. Тести конструктора не доводять працездатність усіх майбутніх дітей; дитяча навичка має власні cases й приймання.
-
-Після зміни пройти dependency closure за semantic inputs, source/model/exporter/toolchain/platform/config versions. Carry-forward дозволено лише для явно незмінної області; stale receipt не покриває новий результат. Дві однакові невдалі repair спроби потребують іншої причинної гіпотези й діагностики; budget/stop запобігає нескінченним генераціям. Після зупинки лишити checkpoint з actual files, version/hash, completed/pending/blocked, external unknown outcome й next action.
+After a change, follow affected dependencies through semantic inputs, source, model, exporter, toolchain, platform, and configuration versions. Carry evidence forward only for an explicitly unaffected scope. A stale receipt cannot prove the changed result. Two identical unsuccessful repair attempts require a different causal hypothesis and investigation. Set a budget and stopping condition. On stopping, leave a checkpoint with actual files, version and hashes, completed, pending, and blocked work, any unknown external outcome, and the next action.

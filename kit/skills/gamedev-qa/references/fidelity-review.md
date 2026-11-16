@@ -1,42 +1,42 @@
-# Візуал, рух, звук та вібрація
+# Visual, motion, audio, and haptic fidelity
 
-## Що є baseline
+## Establish the baseline
 
-Одна generated concept image — ціль конкретного кадру, а не повна специфікація runtime. Для acceptance потрібні exact reference hash, scene/object IDs, layout/camera/light/material tokens, source→export→runtime lineage, animation/physics specs та actual approved sensory samples. За відсутності потрібної деталі позначити gap, не винаходити target під перевірюваний результат.
+A generated concept image can define a target frame. Runtime acceptance needs the exact reference hash, scene and object IDs, layout, camera, lighting and material tokens, source to export to runtime lineage, animation and physics specifications, and approved sensory samples. Record unresolved target details without inventing expectations after seeing the result.
 
-## Контрольний кадр
+## Compare controlled captures
 
-Встановити однакові build/quality tier/aspect ratio/safe area/localization, scene/seed/state, camera й capture time. Захопити runtime без debug overlays; comparison може містити side-by-side, alpha overlay, crops та measured color/layout differences. Зберегти raw images і capture procedure. Scene-perfect screenshot не гарантує gameplay fidelity інших станів.
+Use the same build, quality tier, aspect ratio, safe area, locale, scene, seed, state, camera and time. Capture runtime without debug overlays. Compare side by side, use alpha overlays or crops, and measure relevant color and layout properties. Keep raw images and capture procedure. Repeat in other states when their fidelity is in scope.
 
-| Категорія | Предметна перевірка |
+| Area | Check |
 |---|---|
-| Composition | camera/FOV/perspective, silhouettes, layering, focal hierarchy, scale/spacing |
-| Character/world | exact model family, body proportions, anatomy, attachments, materials, palette |
-| Lighting/FX | direction, exposure, contact shadow, depth, bloom/particles, readable hazards |
-| UI | exact fonts/licenses, tokens, layout, text wrapping, icons, touch areas, localization |
-| Brand | supplied studio mark/clearspace/colors, credits/legal identity refs, correct export |
-| Device tiers | agreed fidelity envelope and deviations; no important telegraph disappears |
+| Composition | Camera, FOV and perspective, silhouettes, layers, focal hierarchy, scale and spacing. |
+| Character and world | Model family, proportions, anatomy, attachments, materials and palette. |
+| Lighting and VFX | Direction, exposure, contact shadow, depth, bloom and particles, readable hazards. |
+| UI | Exact fonts and licenses, tokens, layout, wrapping, icons, touch targets and localization. |
+| Brand | Supplied studio mark, clear space and colors, credit and legal references, correct export. |
+| Device tiers | Accepted fidelity range and deviations, preserved visibility of important telegraphs. |
 
-Pixel equality не вимагати для недетермінованих particles/AA/renderers без спеціально контрольованого capture. Hash equality підтверджує asset bytes, не whole-frame appearance. SSIM/perceptual score лише допомагає знайти відхилення; він не сертифікує artistic identity. Tolerances мають бути погоджені до capture: allowed scaling/AA vs prohibited silhouette/font/palette/layout changes.
+Set tolerances before capture. Specify permitted scaling and anti-aliasing alongside prohibited silhouette, font, palette or layout changes. Require pixel equality for nondeterministic particles, anti-aliasing or renderers only under an appropriate controlled capture. Hash equality establishes asset identity. Use SSIM and perceptual scores to locate differences and inspect artistic fidelity in context.
 
-## Motion та physics
+## Observe motion and physics
 
-Записати representative і worst-case gameplay video з input/timing refs. Перевірити anticipation/action/contact/recovery, weight, root motion/hitbox alignment, foot/hand contacts, rig extremes, props, interruption/blending, idle loops, death/retry, camera damping/shake. Тестувати низький і високий FPS, pause/resume та multi-touch.
+Record representative and worst-case gameplay video with input and timing references. Inspect anticipation, action, contact and recovery, weight, root and collision alignment, foot and hand contact, rig extremes, props, interruption and blending, idle loop, death and retry, and camera damping and shake. Exercise low and high FPS, pause and resume, and multi-touch.
 
-Штучний рух усього PNG вгору-вниз не приймається як character animation, якщо target потребує articulation. Audio contact не повинен розходитися з impact; телеграфи мають відповідати collision window. Відео з editor не доводить native frame pacing.
+Verify true articulation when required, including motion of limbs beyond moving the full PNG. Check contact audio against impact and telegraphs against collision windows. Observe native frame pacing separately from an editor capture.
 
-## Listening acceptance
+## Listen to runtime
 
-Прослухати actual runtime mix на headphones і device speakers, із low/high intensity та interruptions. Music перевіряється як цілісна композиція, узгоджена з identity: motif/timbre/arrangement, intro/loop/outro, stem transitions на musical boundary, відсутність clipping/clicks/drone fatigue, balanced loudness і маскування важливого SFX. Короткий sine-wave/метадані WAV не є production music.
+Listen to the exact runtime mix on headphones and device speakers through quiet, intense and interrupted sections. Review motif, timbre, arrangement, intro, loop and outro, stem transitions at musical boundaries, clipping, clicks, fatigue, loudness balance, and masking of critical cues. Confirm full music phrases through actual listening.
 
-Кожен SFX/UI cue: correct trigger/state, clear information, no duplicate/late cues, polyphony/priority/cooldown, spatial behavior, mute/volume/accessibility. Loudness/peak/loop analysis допомагає engineering перевірці, але не замінює фактичне слухання. Якщо роль не може слухати — `listening_not_performed` і адресний handoff людині/доступному tool, без fabricated praise.
+For each UI or gameplay cue, check correct trigger and state, information, duplicate or late delivery, polyphony, priority, cooldown, spatial behavior, mute, volume, and accessibility. Use loudness, peaks and loop analysis alongside listening. If listening is unavailable, record `listening_not_performed` and provide a specific handoff for a person or capable tool.
 
-## Haptics
+## Test haptics
 
-Перевірити на physical devices із різним hardware: semantic match, timing, комфорт, intensity/cadence, repeated-action fatigue, no-support fallback, app settings/system disabled/reduced modes. Simulator чи відео не передають відчуття. Вібрація не має дублювати кожен frame/event; важливість cue й підтримка feedback визначає pattern. Audio/visual feedback зберігається коли haptics вимкнені.
+Observe physical devices with different hardware. Check semantic match, timing, comfort, intensity and cadence, fatigue during repetition, unsupported fallback, app controls, system-disabled and reduced modes. Record simulator and video evidence separately from actual sensation. Match each pattern to cue importance and maintain visual or audio feedback when haptics are off.
 
-Офіційний орієнтир: [Android haptic principles](https://developer.android.com/develop/ui/views/haptics/haptics-principles). Поточні APIs/capabilities перевіряти під selected platforms.
+Use the [Android haptic principles](https://developer.android.com/develop/ui/views/haptics/haptics-principles) as an official reference. Verify current APIs and capabilities for selected platforms.
 
-## Результат
+## Findings
 
-Кожне відхилення має screenshot/video/timecode/audio cue, expected reference, severity/impact і owner. Рішення: repair до baseline; accepted within existing tolerance; або material change request. QA не «схвалює» новий стиль мовчки.
+For each deviation provide a screenshot, video or timecode, or audio cue, expected reference, severity and impact, and owner. Route it to repair against the baseline, acceptance within existing tolerances, or a material change request. Only the authorized decision can change accepted style. A QA statement such as «схвалює» cannot silently change the baseline.

@@ -1,130 +1,50 @@
 ---
 name: gamedev-assets
-description: "Game Atelier: створюй, ремонтуй та інтегруй повний арт, анімацію, UI, звук і haptics гри з прийнятого задуму та моделі систем. Використовуй для виробничих матеріалів, здійсненного візуального референсу, source→export→runtime відповідності та передачі Work/Codex. Зберігай точні прийняті оригінали, творчий напрям, editable sources, права й фактичні докази. Покривати всі функціональні стани, semantic transformations, source roundtrip й actual assembly evidence."
+description: "Produce or repair the approved editable game art, motion, UI, VFX, sound, and haptics. Use for source-to-engine integration and modality-aware acceptance in the actual gameplay context."
+metadata:
+  version: "6.2.0"
 ---
 
-Відповідати за фактичні редаговані ресурси та перевірені перетворення model→source→export→import→scene. Виводити весь потрібний state/event/variant inventory з прийнятого контракту й замикати його без прихованого спрощення.
+# Game Atelier Assets
 
-## Виробнича якість і контекст6.0
+## Scope and current evidence
 
-Для нового, делегованого чи відновленого task застосувати [контекст виконання](references/context-capsule.md): current native sources/requirements/identity/authority, усі застосовні must та їхні залежності, exact inputs, outputs/consumer, budget/stop і належне приймання. Optional `scripts/context_capsule.py` компілює заявлену проєкцію, не створює згоди чи сертифікації.
+Use the caller's language, then the project preference, then Ukrainian. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
 
-Перед створенням або зміною матеріалу прочитати застосовний [виробничий контракт](references/production-quality.md) і medium profile з `assets/production-profiles.json`. Зберегти визначальні властивості референсу — композицію, масштаб, виразний механізм, взаємодію й функціональну глибину; палітра/назви елементів самі не доводять fidelity. Спершу довести representative slice на actual носії, потім тиражувати. Creative, functional, source/runtime та owner verdicts окремі. Пряме доручення й надана творча свобода сильніші за own defaults; прийняту identity не змінювати заради різноманіття.
+For **BRIEF (БРИФ)** or **RESUME (ВІДНОВИ)**, follow the [briefing protocol](references/briefing-protocol.md), with the [topics](assets/briefing-topics.json) and [domain guide](references/briefing-domain-guide.md) where relevant. Reconcile current sources and runtime before resuming. Reuse exact authority, ask only about unresolved material decisions, and honor the existing pause. Close a stage with the deliverable, due evidence, remaining gaps, and the next action or decision. Separate the full target, first release, and representative slice.
 
-## Контракт 4.0 та предметне завантаження
+Before making or changing material, apply [production quality](references/production-quality.md) and the relevant profile in `assets/production-profiles.json`. Keep reference composition, scale, interaction, and functional depth. Demonstrate a representative slice on the actual medium before scaling a dependent batch. Use the relevant [AI and data workflow](references/ai-production.md) for applicable data, retrieval, model, media, or evaluation work. Seek an evidenced need before adding infrastructure. Keep original data, rights, and creative identity in their native sources. Discuss material deviations with the owner and retain current visual identity using the [visual identity contract](references/visual-identity.md).
 
-Перед новим scope прочитати [вихід і приймання цього маршруту](references/v4-route.md). Звірити maturity **C0 / C1 / T** окремо від фактичного implementation stage. C0 — позначений ескіз; C1 — повний задум кожного представленого завершеного кандидата; T — точний виробничий контракт прийнятої до розробки гри. Ранній обмежений spike дозволений до T; він має питання, inputs, oracle й межу, а не статус готової реалізації.
+Give each artifact one owner and use independent reviewers for the checks the stage requires. Use [research and synthesis](references/research-and-synthesis.md) for consequential unfamiliar decisions. Consult the [interaction protocol](references/interaction-protocol.md) for status or handoff. A structural helper validates records. Record separate observations for craft, function, source, native or device execution, independent review, and owner acceptance. Keep due blocked evidence visible. After two attempts with the same failure, change the diagnosis.
 
-Шість логічних компетенцій P1 завантажувати за предметом, а не як шість додаткових етапів:
+Use [Work and Codex continuity](references/joint-work-codex.md) for authorized cross-host recovery and transfer. Give exact inputs, capabilities, steps, expected receipt, and return verification. Apply [tool compatibility](references/tool-compatibility.md) to the actual operation, target, rights, and costs. Reconcile unknown effects before retrying. For batches report the denominator and separate completed, blocked, skipped, and failed entries. Test self-updates on comparable inputs, preserve the known predecessor, and verify recovery.
 
-| Компетенція | Точний ресурс |
-|---|---|
-| Поведінка, математика, фізика, стани, RNG | [Math](references/v4/math.md) |
-| Каталоги, сумісність, комплекти, розвиток, винагороди | [Catalogs/progression](references/v4/catalog-progression.md) |
-| Світ, генерація, маршрути, encounters, ритм, AI | [World/AI](references/v4/world-ai.md) |
-| Лор, знання, сюжет/діалоги, реактивний канон | [Lore/narrative](references/v4/lore-narrative.md) |
-| Намір, touch, камера, UX, навчання, мультимодальність | [Experience](references/v4/experience-commerce.md) |
-| Метагра, економіка, монетизація, магазин, платежі | [Commerce](references/v4/experience-commerce.md) |
+Use one versioned Game Model and the current game workflow and handoff contracts. Keep the distinct maturity gates C0 labelled exploration, C1 complete candidate concept, and T production design. A bounded early spike has a question, precise inputs, an oracle, and a stop. It supplies evidence for that question. Cover every applicable production domain and assign due proof. Separate game maturity from implementation, native build, and distribution status. Keep legacy sources unchanged and reconstruct the current projection from accepted source facts, using the supported current format and explicit mappings. Check installed capabilities for the operation; host names alone give no tool, runtime, or device proof.
 
-Наскрізно підключати [Persistence](references/v4/persistence.md) для state/continuity й [Production](references/v4/production.md) для операцій/ролей/recipes/доказів. Логічний поділ компетенцій не вимагає одного файла або одного агента на кожну. Source IDs й accepted masters зберігати. Для продовження відновити фактичні вимоги, рішення й матеріали продукту та створити поточні contracts; попередні формати результатів не читати й не конвертувати.
+## Bind production to the accepted Game Model
 
-Для активних систем вести один зв’язок requirement → rule/state/catalog → production operation → consumer → scenario → actual evidence. Перевіряти застосовність усіх 20 виробничих напрямів; не вимагати 20 окремих документів чи агентів. Missing tool/device — блокер належного доказу, а не `absent_by_design`.
+Use [production bindings](references/production-bindings.md) and [catalog integration](references/catalog-integration.md). Pin studio identity and rights, accepted masters, current camera and input, actor, inventory, world, resource, progression, reward, learning, commerce and state/event IDs, finite inventory, budget, and consumer. A visual favorite or proposal only carries the scope observed in its record. Keep originals byte-identical for exact reuse and preserve model revision, source, import and derivation for runtime data. The asset catalog maps model IDs to material and presentation. Domain state, damage and rewards remain under the simulation and durable authority appropriately assigned by the model.
 
-# Game Atelier 6.1.0 · Матеріали
+For each accepted object, state, event and variant, specify editable source, rights, export/import method, version, production budget, runtime consumer, reference and due proof. Cover required states, motion transitions, screens, audio cues/audio material, VFX and assemblies, including intentional silence. Select only actual sufficient representations and tools available at the needed operation level. Verify rights, source editing, export, importer, preview, and transfer before relying on a route. A raster source supplies neither mesh, rig, layers nor stems. Missing tools do not reduce the inventory.
 
-## Умовні AI/data та виробничі профілі6.1
+## Produce the representative slice and expand from it
 
-Коли задача справді потребує збору чи аналізу даних, LLM/RAG, прогнозування, адаптації моделі, серійного виробництва матеріалів або їх оцінювання, прочитати лише застосовні частини [AI/data виробничого маршруту](references/ai-production.md). Обрати потрібні DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA чи EVALUATION всередині чинної предметної команди. Спочатку достатній наявний виконавець і метод; нові агент, framework чи глобальний індекс не є типовою передумовою.
+Use the applied [art direction](references/art-direction.md), [character motion and physics](references/character-motion-physics.md), [environments and effects](references/environments-vfx.md), [UI](references/ui-production.md), and [audio and haptics](references/audio-haptics.md) contracts where relevant. Plan form, silhouette, scale, material, typography, lighting, role cues, animation and sensory grammar from the game's accepted creative target. Ensure the normal, high-risk, and edge camera and state reveal the decision. Camera distance/FOV, tracking, follow, transitions, aspect and accessibility serve intended movement, readability, and interaction. Do not rescale the character merely to show the whole world. Avoid importing genre presets into unrelated games.
 
-Зберегти первинний результат, усі застосовні вимоги, прийняті оригінали, налаштування, дозволи й відкладене в тому самому рідному стані. Типізовані матеріали та `scripts/ai_production.py` використовувати лише для доречних оголошених перевірок. Їхній PASS не доводить фактичного збору, навчання, якості, споживання, незалежності чи прийняття власником. Виявлена втрата прийнятої працюючої властивості відхиляє кандидата; неперевірений потрібний доказ лишається відкритим.
+With Build, integrate one risky action through the actual camera and real source import. Inspect world and character scale, combat/interaction state, contact and net player information, motion, HUD, VFX, sound and haptics. Verify exact event frame, telegraph visibility and audible linkage against the model and measure imported GPU/texture budget in the named context. A still-approved sprite whose cape hides the telegraph or whose texture exceeds the budget fails that integrated axis. Pin scene, state, camera, build, method and device when relevant. Label engine/dummy scene, preview, and physical-device evidence accurately. Dose sound/animation at the right runtime event and keep immediate cues separate from durable reward confirmation.
 
-## Спільний спосіб роботи6.0
+Before a dependent batch, reproduce reopen/export/import and actual modality review, confirm accepted fidelity and feasibility, and resolve needed scope changes. Independently owned character/motion, world/effects, UI or audio branches use precise source hashes, model IDs, inputs and output paths. Keep one integration owner. Verify rendered frames and time-based movement at phone scale, audio by listening, and haptics on the supported device when required. Frame count, header, PNG, hash, or JSON only prove their stated property.
 
-На новому/відновленому дорученні застосувати [адаптивний контракт](references/adaptive-work.md): звірити первинний намір, приклади, всі застосовні вимоги й пізні результати; обрати пропорційні глибину, компетенції та докази. Коротко показати достатність підходу й матеріальні рішення. Для міждоменних питань адресно викликати [дослідження, системний синтез або звірку повноти](references/research-and-synthesis.md); не фіксувати команду наперед. Зберігати чинний проєктний registry і прийняті обмеження. Структурний helper `scripts/adaptive_work.py` не приймає зміст і не запускає зовнішні jobs. Оновлення та створення агентів підпорядкувати [стабільній візуальній ідентичності](references/visual-identity.md): наявні іконки й кольори зберігати; новим проєктним агентам — відмінний стиль.
+## Deliver editable, reproducible results
 
-Для незнайомого домену виконати предметний source/probe за матеріальними невідомостями й назвати межі доказу. План створення агента включає весь шлях: аналіз → погоджена архітектура → реалізація переносного пакета → незалежна перевірка representative tasks → installation/discovery → супровід; виконувати лише поточний дозволений scope. Після зміни host до заяви готовності провести доступний bounded предметний smoke або явно позначити його blocked/not_tested.
+Return exact masters, production profile, source/export/import, recipe, catalog, finite covered inventory, rights, assembly/evidence, deviations, outstanding IDs with owners, and next integrated test. Keep absent format/capability or missing device visible and provide a specific permitted bridge. Use [craft acceptance](references/craft-acceptance.md), [style lock](assets/domain-templates/style-lock.template.json), [production-bindings form](assets/domain-templates/production-bindings.template.json) as applicable. Review scope and negative instances such as contact breakage, lost telegraph, non-native tactile claims, system behavior with no corresponding feedback, or repeated callback grants. Keep accepted camera/world/rights unchanged unless a real decision changes them. Use actual Game Model and pipeline help for the structural slice and handoff gates. Forward the real media and exact reproducer to Build and independent QA.
 
-## Узгоджена взаємодія
+## Supporting references
 
-Тримати одного відповідального за продукт і чинний project state. На матеріальному виборі показати рекомендацію/альтернативи/наслідок; routine work і локальні виправлення виконувати в прийнятому scope. Чинні погодження успадковувати. Прогрес: результат/належні докази → зараз → gaps → потрібне рішення → next; стан specification/code/integration/device/human розділяти. Питання не скасовує роботу. Дрібний scope не запускає повний продуктовий цикл; повний задум не спрощувати. Для нового/відновлюваного scope або стану читати [протокол взаємодії](references/interaction-protocol.md); `python3 -B scripts/interaction.py status --source PROJECT --format markdown` формує read-only огляд підтриманого domain state, без нових grants, відтворення effects чи фонового виконання. Для конкретного зовнішнього tool route звірити застосовний пункт [сумісності](references/tool-compatibility.md).
+Open the references applicable to the current deliverable and its due proof.
 
-Коли вибираєш середовище, виявляєш перешкоду виконанню, передаєш етап чи відновлюєш роботу, застосуй [спільний маршрут Work ↔ Codex](references/joint-work-codex.md) разом із предметними правилами. Перевір фактичні входи, права та можливості. Виконай єдиний придатний дозволений маршрут. Якщо потрібна дія власника, дай точний наступний крок.
+- **Game Model disciplines**. [Math](references/v4/math.md), [Catalog progression](references/v4/catalog-progression.md), [World ai](references/v4/world-ai.md), [Lore narrative](references/v4/lore-narrative.md), [Experience commerce](references/v4/experience-commerce.md), [Persistence](references/v4/persistence.md), [Production](references/v4/production.md).
 
-## БРИФ, ВІДНОВИ й передача наступного етапу
+- **Product domains**. [Creative](references/domains/creative.md), [Experience](references/domains/experience.md), [Systems](references/domains/systems.md), [World](references/domains/world.md), [Progression](references/domains/progression.md), [Commerce](references/domains/commerce.md), [Lifecycle](references/domains/lifecycle.md).
 
-Визначити поточний scope й чинні рішення. Для нового обсягу, БРИФ або ВІДНОВИ прочитати [спільний протокол](references/briefing-protocol.md); для bounded локальної роботи завантажити лише застосовні частини й потрібні предметні джерела. Прямий виклик **БРИФ**: аналіз повного застосовного обсягу й наслідків → адаптивне предметне опитування → читабельний версійний сценарій → явне погодження → точне виконання. **ВІДНОВИ**: спочатку фактичні source/accepted intent/evidence/runtime/continuation чинного продукту, потім цей цикл. Це діє й у прямому вході спеціаліста та делегованому job; чинну точну згоду успадковувати без повтору. Саме відновлення не знімає pause й не дозволяє залежне виконання.
-
-Використати застосовні [теми етапу](assets/briefing-topics.json) і [предметний посібник](references/briefing-domain-guide.md), зберігати повний target, перший випуск і перевірний зріз окремо. Виконувати чинне доручення без повторної анкети. Після етапу показати результат, належні перевірки, gaps і наступний крок/потрібне рішення; exact пакет/launch/return потрібний для фактичної передачі. Наступний БРИФ — лише для нового матеріального вибору. Terminal outcome завершує scope без вигаданого наступного етапу. `scripts/briefing.py` перевіряє bindings, не людську волю чи якість.
-
-Працювати як предметна гілка `gamedev-director` (остання актуальна версія). Виробляти реальні матеріали скінченного погодженого scope: персонажі, предмети, середовища, UI, rig, animation, VFX, музика, SFX і haptics. Передавати source, export, import/assembly recipe та перевірку в контексті гри. Prompts, назви файлів або таблиці не замінюють матеріал.
-
-Зберігати handoff protocol **1.0.0**, чинний runtime state **2.x**, project IDs, рішення та originals. Версія моделі гри не мігрує їх мовчки. Не обирати концепцію, рушій, матеріальну зміну стилю або нову витрату за користувача.
-
-## Intake та джерела
-
-Перед залежною роботою прочитати [уніфікований вхід](references/unified-agent.md), [core](references/core-contract.md), [handoff](references/handoff-contract.md), [вимоги](references/requirements.md), [experience](references/experience-contract.md), [systemic](references/systemic-design.md) і [game model workflow](references/game-model-workflow.md). Звірити actual files/decisions/knowledge/hashes, owner, ресурси й stop boundary. Saved favorite, visual proposal, accepted reference та production permission — різні стани.
-
-На новий scope прочитати [model format](references/model-format.md), [creative](references/domains/creative.md) і [experience](references/domains/experience.md). За залежностями читати [systems](references/domains/systems.md), [world](references/domains/world.md), [progression](references/domains/progression.md), [commerce](references/domains/commerce.md), [lifecycle](references/domains/lifecycle.md). За локального repair завантажувати лише актуальні зачеплені зрізи; невідомий вплив спершу діагностувати.
-
-| Робота | Предметний посібник |
-|---|---|
-| Стиль, camera, phone-scale композиція | [Art direction](references/art-direction.md) |
-| Тіло, rig, contact, clips, physics | [Character/motion](references/character-motion-physics.md) |
-| Локації, об’єкти, матеріали, VFX | [Environment/VFX](references/environments-vfx.md) |
-| Повні screen/state flows | [UI](references/ui-production.md) |
-| Музика, звук, вібрація | [Audio/haptics](references/audio-haptics.md) |
-| Model→sources→runtime | [Production bindings](references/production-bindings.md), [каталог](references/catalog-integration.md) |
-| Засоби, bridge, витрати, права | [Tools](references/tools-budget-rights.md) |
-| Modality докази | [Craft acceptance](references/craft-acceptance.md) |
-
-## Єдине джерело задуму
-
-Брати rules, object/state/event IDs, camera/input semantics, actors/equipment/world, progression/reward/learning і commerce із чинної моделі гри. Каталог зберігає виробниче відображення, не другу економіку чи поведінкову специфікацію: **model object/state/event → source/clip/cue/screen → runtime consumer → evidence**. Похідні construction values мають model revision/hash і import/derivation recipe.
-
-Зміна читабельності або identity має dependency impact. Якщо матеріал вимагає іншої камери, silhouette, animation representation чи правил, передати розвилку director/design. Routine derivatives у погоджених межах виконувати автономно. Exact accepted originals/hash/provenance залишати незмінними; перемальовування не називати byte-identical.
-
-## Порядок виробництва
-
-1. **Прийняти baseline.** Звірити studio payload, accepted references, model/GDD/TDD, camera/input/actor/equipment/world/resource/progression/reward/learning/offer IDs, finite inventory, бюджети й risks. За missing design/rights зробити gap map і продовжувати незалежне; brief не є production-ready baseline.
-2. **Вивести inventory з моделі.** Покрити всі approved content families/states/variants/clips/screens/cues/music transitions/assemblies/quality profiles. Функціональний стан має читабельне представлення або явну intentional silence. Копії файлів не доводять variety; missing tool не зменшує знаменник.
-3. **Перевірити маршрут.** Для actual operation перевірити source creation/edit, export, rights, transfer, importer і preview. 2D/cutout/pixel/vector/2.5D/3D обирати за задумом і можливостями. PNG generator не доводить mesh/rig/cloth/physics. Фіксована арена, один engine або stylized preset не є default.
-4. **Зібрати representative slice з build.** Поєднати ризикову взаємодію, gameplay camera movement, character scale, world states, HUD, animation/contact, VFX, audio й haptics. Відкрити sources, повторити export/import; перевірити normal/peak/boundary sequence. Graybox доводить конкретний technical risk; creative parity потребує реальних матеріалів. До тиражування закрити actual feasibility/fidelity gaps.
-5. **Виробляти незалежними гілками.** Character/motion, world/lookdev/VFX, UI та audio/sensory мають precise model IDs, source hashes, owners/output paths. Lead створює й інтегрує. Не давати двом writers один source; не симулювати незалежних reviewers назвами ролей.
-6. **Прийняти в контексті.** Phone-scale composition/target-actual, time-based contact/motion, whole UI flows, audible mixes і supported-device tactile feel. Header/frame count/JSON не доводять craft quality. Недоступну modality позначити pending/unperformed і підготувати exact human task.
-7. **Передати результат.** Exact sources/exports/catalog/assemblies, model/baseline hashes, recipes, rights, coverage, deviations, actual capture/review refs, missing IDs/owners і next action — у build та незалежне QA. Зупинитися на user boundary.
-
-Контакт, смерть, аварія, пошкодження частини й cancel мають state-covered clips/cues/markers та runtime consumers. Animation не визначає damage/reward authority. Звичайний hit feedback походить від узгодженого simulation outcome; disk/cloud не затримують його. Критичний reward/purchase success відповідає належній durable/verification межі.
-
-## Камера, образ і дія
-
-Відтворити camera policy моделі: projection/FOV, follow/lookahead/dead zones, transitions, world/character scale, normal/precision/peak contexts, aspect/safe areas/readability/reduced-motion. Оглядова картка не задає камеру всієї гри. Не зменшувати героя для вміщення всієї локації: показати фрагмент і дистанцію, потрібні рішенню. Широкий огляд допустимий за жанрової причини.
-
-Зберігати творчий напрям конкретної гри через form/silhouette, surface, palette/value hierarchy, lighting/material response, UI/type, motion, music/SFX і haptic vocabulary. Різні палітри не доводять art diversity. Намір противника, стан інструмента, recovery ресурсу, зміна маршруту, reward і нова можливість мають залишатися читабельними. Жоден жанр або масштаб не нав’язує автоматично RPG stats, HP bars, інвентар або ворогів.
-
-## Deliverables та due proof
-
-| Результат | Зв’язки | Доказ у named scope |
-|---|---|---|
-| Production profile/plan | Model IDs, accepted target, operations/cost/rights | Перевірений route + unresolved risks; не device-proof |
-| Style/construction lock | Exact original, camera/input context, fixed properties/tolerances | Actual samples і source user acceptance для material choice |
-| Матеріальний item | State/event IDs, editable source, export/import, consumers | Reopen/export/import + actual modality preview |
-| Whole-frame/sensory slice | Build/state/seed/time/camera/quality | Actual capture/playback, scoped independent review; haptics/thermal — device |
-| Finite handoff | Required/produced/exported/reviewed/runtime-tested IDs | Реальні files/rights/lineage/coverage і відкриті gaps |
-
-`assets/domain-templates/` — форми, не виконані outputs. [Style lock](assets/domain-templates/style-lock.template.json) і [production bindings](assets/domain-templates/production-bindings.template.json) деталізують model→craft mapping. `game_model.py validate MODEL --stage slice` перевіряє відповідний structural gate після читання actual `--help`; workflow визначає строк доказу. `pipeline.py` зберігає handoff1. Structural pass не доводить fun, balance, native execution або artistic identity.
-
-## Контрприклади та repair
-
-- Frame вимагає недоступного 3D/rig route, а після вибору пропонується спростити — unresolved feasibility.
-- Новій грі без предметної причини дісталися попередні composition/material/HUD — creative repair.
-- Hero art гарний, але на телефоні не видно contact/telegraph; overview підмінює camera policy — readability defect.
-- Gameplay states існують, а вироблено одну іконку; enemy recolor без cues його іншої поведінки — incomplete mapping.
-- Whole-image bobbing, зламана рука/контакт або clip list замість playback — motion defect.
-- Reward animation/audio callback видає валюту або повторний cue після resume дублює grant — authority defect.
-- Hash/catalog pass подано як listening/haptics/device performance — unsupported claim.
-
-Після двох однакових невдалих repairs змінити diagnosis/owner/tool/route. Не послаблювати accepted target мовчки. Фінально показати scope, coverage, реально перевірені modalities/platforms, блокери та точний next action.
-
-Версія інструмента: **6.0.0**.
-
-Для великої повторюваної операції фіксувати повний знаменник елементів, виконані/пропущені/помилкові записи, checkpoint і контроль повноти batch; representative sample не підміняє виконання всього дорученого набору. Для self-update порівнювати baseline/candidate на однакових входах із незалежною рубрикою та перевіряти replay/adoption старого state/schema і rollback; не вигадувати історичне приймання.
+- **Working contracts**. [V4 route](references/v4-route.md), [Unified agent](references/unified-agent.md), [Core contract](references/core-contract.md), [Handoff contract](references/handoff-contract.md), [Requirements](references/requirements.md), [Experience contract](references/experience-contract.md), [Systemic design](references/systemic-design.md), [Game Model domain modules](references/game-model-workflow.md), [Model format](references/model-format.md), [Tools budget rights](references/tools-budget-rights.md).

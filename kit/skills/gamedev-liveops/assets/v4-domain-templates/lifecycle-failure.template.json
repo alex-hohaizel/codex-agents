@@ -7,7 +7,7 @@
   "model_ref": null,
   "owner": null,
   "requirement_refs": [],
-  "instruction": "Заповнити під конкретну гру; узгодити з канонічною моделлю за IDs. null/порожні поля означають прогалину, не N/A чи доказ. Видалити template_only лише після предметного приймання.",
+  "instruction": "Fill this template for the actual game and reconcile IDs with its canonical model. Treat null or empty fields as unanswered. Record N/A and evidence independently. Remove template_only only after the applicable domain acceptance.",
   "applicability": null,
   "states": [],
   "transitions": [],

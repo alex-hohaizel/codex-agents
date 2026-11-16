@@ -1,35 +1,29 @@
-# Контракт етапу chatbot-atelier-director
+# Stage contract for chatbot-atelier-director
 
-## Видимий результат і застосовність
+## Visible result and applicability
 
-Визначити доречний scope й достатній спосіб роботи за [адаптивною роботою](adaptive-work.md); адресне [дослідження та синтез](research-and-synthesis.md) доступні на будь-якому етапі. Нижче наведено предметний метод ролі, а набір активних функцій/платформ/персони задає погоджений project profile. Зберігати чинні IDs, права, прийняті результати й повний намір; нові правила не створюють заднім числом reviews. Для local repair застосувати лише зачеплений маршрут і належне чинному gate приймання.
+Determine the task scope and a sufficient method using [adaptive work](adaptive-work.md). Apply [focused research and synthesis](research-and-synthesis.md) at any stage when it is relevant. The agreed project profile defines active functions, platforms and persona. Preserve established IDs, permissions, accepted results and full intent. Bind reviews to the exact observed source and version. A local repair uses the affected route and its applicable acceptance requirements.
 
-Показати цілісну карту продукту, звірку наміру й повного обсягу, альтернативи архітектури рішення та окреме обґрунтування складу агентної роботи. Один інтегратор утримує контракти компонентів і майбутні due outputs; кількість skill-файлів не є доказом достатності.
+Show the full product map, verified intent and scope, solution architecture alternatives and the reason for the chosen agent team. One integrator owns component contracts and later due outputs. Judge sufficiency by coverage and evidence.
 
-## Обов’язковий предметний маршрут
+## Intake and team ownership
 
-## Вхід і аналіз до декомпозиції
+Restate the user's job, current alternative, affected users, timing and frequency, and consequence of failure. Identify channel, DM/group/workspace/topic/audience, persona, language/time, actions/data, access, budget, latency, scale, existing sources/assets, and completion. Distinguish quoted text from requirements. Ask only about unknowns that change the route.
 
-Відновити задачу своїми словами: для кого бот, яку роботу полегшує, що люди роблять зараз, коли/де/як часто виникає потреба, наслідок помилки. Визначити platform/DM/group/workspace/topic/audience, роль/характер, мови/час, потрібні дії й дані, доступи, budget/latency/scale, наявний код/активи та completion. Відрізнити власну вимогу користувача від цитати/прикладу. Питати про вирішальне unknown, не проводити зайву анкету.
+For new work, map applicable requirements, systems, and interactions. Compare complete concepts and architectures by value, user journey, evidence, practical cost, risk, support, and operations. Add retrieval, multiple agents, payments, games, or voice only for an identified need. For an existing bot, preserve the 24 companion requirements and accepted capabilities, then repair the affected area.
 
-Побудувати applicability matrix і повну system/interaction map. На новому боті порівняти цілісні product concepts й архітектурні альтернативи за доказами: користь, повний journey, ціна/ризик, реальні можливості, support/операції. Не вибирати RAG/багатоагентність/монетизацію/ігри/голос без потреби. Для існуючого бота зробити impact map усіх24 інваріантів і чинних capabilities, потім адресний repair.
+## Coordinate the needed work
 
-## Оркестрація по сімейству
+Use research and specification for open questions, then the relevant conversation, knowledge, integrations, media, build, QA, release, or operations skills. Design dialogue and execution together. A stage can work directly and includes its own contracts if a sibling is unavailable. Assign an owner for each output and an independent reviewer where needed. Check actual slots, model availability, and cost limits. Shared files, database state, and effects retain one writer. A new channel extends the existing authoritative registry, permissions, pending jobs, and supported channels. Route an integration proposal for a second writer back to the shared owner. Keep the current director, registry, and backlog for AI/data work. Knowledge owns sources and retrieval, integrations/build own execution and consumer wiring, media owns assets, and QA checks evidence.
 
-Активувати research → specification, потім потрібні conversation/knowledge/integrations/media, build, QA, release, operations. Розмовний досвід проєктувати разом із виконанням, не після backend. Одна stage skill може виконати свій маршрут самостійно; директор передає самодостатній пакет із source IDs/hash, вимогами, точними доменними правилами, decisions, recipes, attempts/jobs/evidence, receiver/acceptance. Відсутній sibling skill не причина втратити required результат: потрібні загальні контракти включено локально.
+Pass a self-contained packet and an exact return condition to each receiver. Prove one platform event through permission, state, effect, outcome, visible delivery, and recovery before widening the catalog. Estimate larger production from an integrated representative item. Review every must for its own evidence and keep unknowns open. Change the hypothesis and test after two attempts that yield no new evidence.
 
-## Виконання та приймання
+## Handoff
 
-Один root інтегрує, working leads й фахівці мають owned artifacts; independent QA/reviewer не є автором. Model/slot/cost limits беруться фактичні. Не запускати12 ролей за назвою12 критеріїв. Shared files/DB/resources мають одного mutable owner. Кожен stage вихід має cold receiver й upstream return condition.
+Provide stage ID, requirement and source IDs, exact versions and hashes, applicability and reason, typed rules, states and cross-system dependencies, capabilities and authority, operation contracts, recipes and effective parameters, actual attempts and job IDs, outputs and consumers, evidence and limits, negative cases, unresolved items, receiving owner and next acceptance check. The receiver can verify the finding without chat history. Return incompatible input or an infeasible requirement to the appropriate upstream owner.
 
-Почати з одного повного platform event→permission/state→provider effect→outcome→delivery→recovery slice, перевірити всі його межі. Потім довести весь заявлений scope/catalog, не називати один slice повним продуктом. Перед обіцянкою великого обсягу виміряти виробництво одного репрезентативного елемента до інтегрованого QA. Кожен must має належний доказ, critical unknown не pass. Після двох безрезультатних повторів змінити гіпотезу й тест. Фінал містить exact scope/proof limits, current checkpoint і наступний виконуваний крок.
+## Criteria and completion
 
-## Контракт передачі
+Check applicability for these criterion IDs first: human_value, practical_completion, version_continuity. Use all 24 baseline IDs for the impact map. Record active, carried or out of scope with reasons based on the current profile and accepted scope. Retain all approved requirements. For each active requirement record an owner, artifact, positive and negative checks, evidence kind, verdict, strongest objection and limits. Unknown evidence for a critical claim blocks the affected readiness. The author and independent QA are distinct. Human or production verification requires the actual applicable observation.
 
-Передавати stage_id/requirement IDs/source IDs/exact version/hash, applicability із причиною, formal typed rules/states/перетини, capabilities/rights, operation passports/recipes/effective params, actual attempts/jobIDs, outputs/consumer, evidence/proof limits, negative scenarios, unresolved, receiver і next acceptance. Отримувач відтворює висновок без історії чату; несумісний input або нездійсненний requirement повертається upstream адресно.
-
-## Критерії та завершення
-
-Першочергові criterion IDs для перевірки застосовності: human_value, practical_completion, version_continuity. Зберегти всі24 IDs як карту перевірки впливу; active/carried/out_of_scope визначати за чинним profile і scope з доказовою причиною, без видалення погодженого must. Для кожного active must: owner/artifact/positive/negative check/evidence kind/verdict/strongest objection/limitations; unknown критичного claim блокує цей readiness. Автор не незалежний QA. Модельна оцінка не людська/production proof.
-
-Вихід у повному потрібному scope, а не список рекомендацій або stub. Ескіз/специфікація/виробнича передача/інтеграція/live/human proof розрізняються. Після двох повторів без нових доказів змінити diagnostic hypothesis; не знижувати критерій через вичерпаний бюджет.
+Deliver the complete requested result. Track concept, specification, production handoff, integration, live observation and human evaluation independently. When two attempts yield no new evidence, change the diagnostic hypothesis. A depleted budget leaves unmet acceptance criteria visible.
