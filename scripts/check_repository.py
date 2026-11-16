@@ -132,11 +132,7 @@ def check(root: Path, *, links: bool = True) -> dict:
             except (OSError, ValueError) as exc:
                 errors.append(f"kit integrity {relative}: {exc}")
 
-    release_paths = ["release_notes", "migration", "requirements"]
-    release_paths.extend(
-        field for field in ("repository_release_notes", "repository_migration")
-        if field in current
-    )
+    release_paths = ["release_notes", "installation_guide", "requirements"]
     for field in release_paths:
         relative = current.get(field)
         if not relative:
@@ -148,13 +144,6 @@ def check(root: Path, *, links: bool = True) -> dict:
                 errors.append(f"{field}: missing or empty {relative}")
         except ValueError as exc:
             errors.append(str(exc))
-    migration = root / current.get("migration", "__missing__")
-    if migration.is_file():
-        text = migration.read_text(encoding="utf-8")
-        for marker in ["## Before", "## Steps", "## Verify", "## Rollback", "## Existing projects"]:
-            if marker not in text:
-                errors.append(f"migration lacks {marker}")
-
     branch = current.get("repository_branch")
     if branch is not None and (
         not isinstance(branch, str) or not branch or any(char.isspace() for char in branch)
@@ -215,9 +204,9 @@ def check(root: Path, *, links: bool = True) -> dict:
             }
             requirements_file = safe_path(root, f"{source}/requirements.json")
             if requirements_file.is_file():
-                versions["requirements.json release_candidate"] = load(
+                versions["requirements.json version"] = load(
                     f"{source}/requirements.json"
-                ).get("release_candidate")
+                ).get("version")
             for origin, actual in versions.items():
                 if actual != version:
                     errors.append(f"local service {origin} version {actual!r} differs from release {version}")

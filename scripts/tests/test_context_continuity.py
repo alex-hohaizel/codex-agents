@@ -137,8 +137,8 @@ try {
             self.compile(require_complete=True)
         self.assertEqual(workbench()["error"], "SOURCE_DRIFT")
 
-    def test_actual_management_request_schema_keeps_all_rows_and_provenance(self):
-        management = ROOT / 'docs/evolution/2026-11-10/REQUESTS.json'
+    def test_localized_fixture_keeps_all_rows_and_provenance(self):
+        management = ROOT / 'evaluations/fixtures/localized-requirements.json'
         raw = management.read_bytes()
         native = json.loads(raw)
         (self.root / 'management.json').write_bytes(raw)

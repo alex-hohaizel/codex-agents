@@ -1,20 +1,21 @@
 {
-  "schema": "codex-agents.current-campaign/1",
-  "active_path": "marketing/campaign",
-  "source_language": "uk",
-  "default_documentation_language": "en",
-  "artwork_languages": [
+  "schema": "codex-agents.current-showcase/1",
+  "entry": "marketing/README.md",
+  "offline_entry": "marketing/campaign/index.html",
+  "illustrated_pdf": "marketing/campaign/Showcase.pdf",
+  "artwork_manifest": "marketing/campaign/artwork.json",
+  "catalog": "marketing/campaign/catalog.json",
+  "artwork_source": "assets/marketing/current",
+  "languages": [
     "en",
-    "uk"
+    "uk",
+    "de",
+    "it",
+    "es",
+    "fr",
+    "zh-CN"
   ],
-  "materials_per_language": 10,
-  "reference_artwork": "assets/marketing/campaign/uk/01-original.png",
-  "original_sha256": "ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f",
-  "identity_contract": "Corresponding English artwork changes text only in intended composition; preserve objects, product identities, colors and framing. Do not claim unverified non-text pixel identity.",
-  "status": "finalized-bilingual-campaign",
-  "obsolete_materials": "Removed from current tree; available only in Git history",
-  "publication_status": "complete",
-  "publication_commit": "4a968a95dc899bed694b6163f2cff256ef77d54b",
-  "publication_tree": "3206fe02527af5ea3f2e8c9fba5f3c1df0fb14f7",
-  "publication_ci_run_id": 42482264010
+  "artwork_language": "neutral",
+  "illustrations": 10,
+  "kind": "representative_workflows"
 }

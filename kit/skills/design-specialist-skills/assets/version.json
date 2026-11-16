@@ -1,6 +1,6 @@
 {
   "toolkit": "design-specialist-skills",
-  "version": "6.0.0",
+  "version": "6.2.1",
   "blueprint_schema": "skill.blueprint/2",
   "supported_schemas": [
     "skill.blueprint/2"

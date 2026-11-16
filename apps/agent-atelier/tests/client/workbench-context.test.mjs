@@ -710,11 +710,11 @@ test("successful workspace recovery clears only that matching read error and pre
   assert.equal(recoveredWorkspaceError(null, failure, "project-a"), null);
 });
 
-test("all 27 actual request-register rows show their native meaning and status in both supported source languages", () => {
+test("all 27 localized fixture requirement rows show their native meaning and status in both supported source languages", () => {
   const { requirements } = JSON.parse(
     fs.readFileSync(
       new URL(
-        "../../../../docs/evolution/2026-11-10/REQUESTS.json",
+        "../../../../evaluations/fixtures/localized-requirements.json",
         import.meta.url,
       ),
       "utf8",

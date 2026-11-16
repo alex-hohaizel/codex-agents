@@ -1,0 +1,77 @@
+{
+  "schema": "codex-agents.showcase-art/1",
+  "assets": {
+    "overview": {
+      "file": "overview.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "c86b92f29583b1175fe689c167a980db61109ee0fd7a6aec9e86164fb644dcb5"
+    },
+    "product": {
+      "file": "product.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "5230c6e8b48ee742f3a1f1e5e2a7ceb2bedb2ca26fe1f4c6c83acc8fd614af4a"
+    },
+    "game": {
+      "file": "game.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "b21e3e78bbc16af644ea53fd8b9cc63c95d37b51ac117f09c6eeae8f519d8866"
+    },
+    "conversation": {
+      "file": "conversation.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "b48d38de870c36f0b0ecf3034fbba55604723e6ff8a812813f3af4a3b9d25885"
+    },
+    "operations": {
+      "file": "operations.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "6843f01872bb1ad534f8b997ecf30f01884cf803da4fb5218636affb3659ec25"
+    },
+    "documents": {
+      "file": "documents.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "f573540ef4820eaa4eed56997852f08fc8cfb18bfc331127bd9add9c6d2b0b6b"
+    },
+    "specialists": {
+      "file": "specialists.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "d9ae057f7336ac813edb347bb91e6e8a5cff0333ecb4eb7b5eb5780ad6266cbd"
+    },
+    "retrieval": {
+      "file": "retrieval.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "dfcec2fb2147e3d69912f8f3b0351434c24dc24b4c521e22e23b47ac0ad3ff8e"
+    },
+    "evaluation": {
+      "file": "evaluation.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "d807fa051e2bd8d5c640081c2d567f44baf0fddb929148bd72905962a0fd7636"
+    },
+    "workbench": {
+      "file": "workbench.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "b7492bd1daa36f65d7dcb1ed1df3164632ae6242ac28d4ed0aaf3d70c9329c0b"
+    }
+  },
+  "cover": {
+    "path": "assets/marketing/current/overview.png",
+    "method": "Built-in ImageGen",
+    "reference_commit": "1ccee85edd66a44d76724b50387cac6b0afce23c",
+    "reference_paths": [
+      "assets/marketing/campaign/uk/01-original.png",
+      "assets/marketing/campaign/en/05-platform.png",
+      "assets/marketing/campaign/en/03-game.png"
+    ],
+    "generation_prompt": "Use case: ads-marketing. Asset: a completely new wide, photographic product showcase cover for the Codex Agent System GitHub docs, with locale-neutral artwork. Input 1 is the accepted composition and color reference, input 2 is the Global Logistics platform world and exact map / options / exception mechanism reference, input 3 is the Sunridge Studio coast, explorer and studio identity mechanism reference. Generate one wide 16:9 art-directed editorial product shot on a dark navy desk, built from the same recognizable fictional product identities and an unequal landscape composition, with warm late-day light on a wooden surface, restrained turquoise, deep midnight glass, pale sand and coral alerts. One central large desktop glass display shows a cartographic oceanic logistics network of two genuine alternative routes and a coral exception with a separate low-key review panel/check; small phone at left shows a home agenda/route map and a pending assistant confirmation expressed through icons and native UI geometry; foreground at right is a vivid stylized game preview showing the established auburn-haired explorer with blue vest/backpack overlooking the open sunlit coastal island village, turquoise bay, lighthouse, world map and progression motifs; include a paper color palette and ink character silhouettes linked to Sunridge Studio, plus small adjacent data-grid to completed document symbols with one amber exception. Reference identities are conveyed visually, without labels. Make screen content dense enough to look like actual intended product workings; maintain clear hierarchy and one hero desk scene and room for mobile downsampling. Completely remove all type from the art: no brand names, title, footer, lettering, words, numbers, letters, pseudo-text, logo wordmark, version, watermark, framing lines or poster text. Use pictograms, legible lines representing schematic content, real maps and state indicators only. No flat card collage, orbs, robots, random decorative filler, or copied commercial marks. Fill the art to every edge. All copy lives in a localized HTML or Markdown caption outside the image."
+  },
+  "workflow_source": "marketing/campaign/render_boards.py"
+}

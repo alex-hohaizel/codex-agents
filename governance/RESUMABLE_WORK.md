@@ -40,4 +40,4 @@ The current campaign builder and checker own their dependency and artifact requi
 
 Preserve the conversation URL/ID, event time and timezone, model, app version and explicit termination notice when available. Check the same conversation on web. A screenshot proves the displayed symptom, not its underlying event. Platform support needs event evidence to investigate; smaller stages or a new checkpoint are not a confirmed fix for the ChatGPT service.
 
-These are compatible repository controls. Existing verified 5.0.0 installations need no reinstall; native product state and installed icon identity remain unchanged. To stop using a local runner, retain its receipts and continue from verified artifacts using the ordinary manual checks and authorized publication procedure.
+Retain local runner receipts and continue from the verified artifacts using the authorized checks and publication procedure.

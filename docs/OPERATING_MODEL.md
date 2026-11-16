@@ -1,51 +1,75 @@
-# Engineering and operating Codex agents
+# Engineering with Codex Agent System
 
-Use this guide to move from a focused task to a maintained agent without adding infrastructure before it solves a problem. The [capability map](CAPABILITIES.md) lists the available implementation paths. The [current release record](../releases/current.json) identifies the versions and migration that apply.
+The unit of work is a result with a source, owner, and acceptance check. From a single-file repair to a production workflow, pick the shortest route that preserves the required result and its evidence. [Capability map](CAPABILITIES.md)
 
-## What the harness owns
+## Harness and authority
 
-| Layer | Existing owner | Extend when |
+| Layer | Where it lives | What to inspect |
 | --- | --- | --- |
-| Model loop, tool execution and permission policy | Native Codex runtime | The target host cannot execute a needed operation under the right scope. |
-| Repository instructions and skill discovery | `AGENTS.md`, stable skill metadata and local resources | A repeated task needs expertise, evidence or actions Codex cannot infer reliably. |
-| Domain workflow and reusable construction | Family skills, Orchestrator and Foundry | A new product component or recurring competence remains uncovered after reuse. |
-| Long work, handoffs and continuation | Native project state with an optional derived capsule; Agent Atelier for supported local operations | The task cannot recover safely from source, identity and an existing checkpoint. |
-| Repeatable controls and quality | Existing checkers, consumers, native cases and independent review | A consequence needs an enforceable boundary or behavior proof that the current checks do not establish. |
+| Runtime | Native Codex host and tools | Effective sandbox, connector availability, approvals, and account scope |
+| Instructions and discovery | `AGENTS.md`, skill frontmatter, and linked resources | Loaded source, working-directory precedence, stable names, and exact paths |
+| Workflow | Orchestrator, product families, and constructors | Task intent, prerequisites, applicable domain rules, and consumer |
+| State | Native project records and a bounded task capsule | Exact revision, current decision, musts, deferred work, and pins |
+| Checks | Schemas, source reads, sandbox fixtures, native evals, and independent review | Test outcome, actual artifact and consumer behavior, attribution, and limits |
 
-Give the model enough trusted guidance to make a judgment. Keep type, path, source binding, prerequisite, authority and state-transition checks in code where the actual workflow uses them. Verify permissions at the execution boundary; an instruction file, schema or role name does not enforce tool isolation. Keep repository instructions short and put task-specific branches behind named skills and precise resources. [Codex harness engineering](https://openai.com/index/harness-engineering/) · [Agent Skills specification](https://agentskills.io/specification) · [Codex subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+Put stable routing guidance and exact resource links in `AGENTS.md` and skill entrypoints. Enforce type, path, target, rights, and state-transition controls at the actual operation. A scope declared in prose still needs the host’s permission checks. Select or delegate only what the job requires. [Adaptive work](../standards/adaptive-work.md) · [Tool compatibility](../standards/tool-compatibility.md)
 
-## Pick a sufficient route
+## Routes and subagents
 
-Start from outcome, current source, consequence, uncertainty, owner and the check that would show success. A reversible local repair needs a focused action and relevant verification. An existing specialist brings useful domain methods, prerequisites or checks. Delegate when separate artifacts or an independent obligation justify another actor. Keep a single integrator and assign each writable resource to one owner unless the consumer has a tested concurrent-write contract. Construct a new skill or agent when a demonstrated gap recurs or a persistent workflow clearly needs its own lifecycle.
+1. Start from the requested outcome, existing owner, actual inputs, permitted changes, and one appropriate acceptance check.
+2. Work directly for a narrow task. Use a relevant skill or director for a recurring method or connected lifecycle. Let Orchestrator choose when the route is uncertain.
+3. Delegate when the outputs are separable or review must be independent. Give each actor a bounded task, paths, authorized actions, source revision, budget, stop conditions, output, and return address. Assign a single writer per shared mutable target unless the consumer implements a tested concurrency contract.
+4. Use Foundry to build an agent for a demonstrated recurring gap. Agree on the passport and verify the staged consumer using an original task. Build a reusable skill when its trigger, resources, and result can be specified and tested independently.
+5. Integrate the actual result, retain its source and checks, and record each accepted and unresolved obligation. Route preparation, a subagent spawn, a result, and independent review are distinct observations.
 
-For material choices, explain differences the user can evaluate: scope, time, quality, cost, access, recovery and observable outcome. A delegable task states what the actor should consume and return, not only a role name. Pin source, accepted requirements and unresolved decisions, output, write paths, resource ceiling, stop, evidence and return location. Prefer primary sources and a checked real example over a generic instruction to "use best practices." [Adaptive work](../standards/adaptive-work.md) · [Foundry](../kit/skills/agent-foundry/SKILL.md) · [Skill constructor](../kit/skills/design-specialist-skills/SKILL.md)
+[Orchestrator instructions](../optional-skills/atelier-orchestrator/SKILL.md) · [Agent Foundry](../kit/skills/agent-foundry/SKILL.md) · [Role sources](../agent-profiles/manifest.json)
 
-## Keep context small and current
+## Project context and handoffs
 
-Use exact project, task and source IDs to open the current native records. Preserve accepted originals, decisions, musts and deferred work, relevant evidence, permissions and unresolved external effects. A capsule carries a bounded projection for a task, new actor or environment. It does not replace the ledger or authenticate an approval. A dependency change invalidates affected proof. Record corrections with explicit supersession instead of sorting old text by recency.
+Open the project’s authoritative requirements, identity, decisions, and checkpoint by ID or exact path. Use a capsule to carry a focused projection across a task, session, agent, or environment. Identify the original goal, applicable requirements and musts, source and revision hashes, accepted decisions and supersession, deferred work, allowed effects, output, recovery and next action. Record the gaps alongside the loaded references. A changed dependency invalidates the proof it affects.
 
-Use one reference path at discovery, then read narrow files for the active stage. Limit long histories through supported pagination, task IDs and checkpoints. Send only the needed material to subagents and providers. A summarized context can guide retrieval; verify durable facts against the owned source. [Context capsule contract](../standards/context-capsule.md) · [Local workbench API](../apps/agent-atelier/shared/API.md)
+In a handoff, preserve the project owner, actual files, and current authority. Limit read scope to what the consumer needs. When history is unavailable or incomplete, use verified project sources and name any unresolved context. Native project and provider state decide operational truth. A summary or retrieval result helps find sources and cannot amend their decisions. [Context capsule](../standards/context-capsule.md) · [Handoff template](../templates/HANDOFF.md) · [Project context template](../templates/project-context.json)
 
-## Add retrieval after measuring the gap
+## Retrieval and RAG
 
-1. Start from authoritative IDs, paths, structured filters and lexical search in the permitted corpus. Read current evidence and active permissions directly from their owner.
-2. If known misses matter, freeze representative questions and permitted, expected sources. Include no-answer requests, ambiguous terms, exact IDs, paraphrases, mixed languages, stale and revoked sources, and nearby projects that must remain invisible.
-3. Compare lexical, semantic and hybrid retrieval under the same corpus and scoped permission filter. Measure whether ranking returns the right evidence, whether the answer cites it faithfully or abstains, and the latency, ingestion, storage and deletion costs. Keep the simplest route that satisfies the acceptance criteria for the workload.
-4. If adopting embeddings, pin origin, document revision, chunk and index identity, embedding and ranking configuration, access scope and lifecycle. Filter authorization before retrieval and recheck sources before citation. Invalidate caches and indexes on correction, revocation and deletion. Test the real consumer and explain the fallback or rebuild path.
-5. Select a local index, existing database extension or hosted vector store for a demonstrated operational need. A managed index needs its own transfer rights, retention, provider scope and rollback. Keep indexed text untrusted as instructions and never use a retrieval score to authorize an action.
+Retrieval-augmented generation gives the model evidence selected from a corpus for the present query. Keep exact IDs, owned APIs, and ordinary lexical searches for cases they already solve. Add scoped semantic or hybrid ranking when examples reveal costly misses that those routes cannot cover.
 
-This repository supplies scoped context, knowledge guidance and evaluable workflows. A vector store is an optional integration to be selected and verified for the downstream corpus. [Knowledge skill](../kit/skills/chatbot-atelier-knowledge/SKILL.md) · [AI and data production](../standards/ai-production.md) · [OpenAI Retrieval guide](https://developers.openai.com/api/docs/guides/retrieval)
+1. Freeze a corpus with source ownership, authorized audience, revision, and lifecycle. Separate operational records with authoritative structured reads from discovery material.
+2. Record representative questions and expected evidence, including exact IDs, paraphrases, mixed languages, ambiguity, no-answer, stale and revoked data, and neighboring private scopes.
+3. Compare lexical, semantic, and hybrid retrieval on the same corpus and authorization rules. Check ranking and relevant hit rate, answer citation and abstention, latency, ingestion/storage cost, and deletion. Use independent or held-out examples for guidance instead of tuning solely against the public fixture.
+4. If deploying an index, pin each chunk to its origin and revision, the index, embedding model and version, filters, ranking configuration, retention and rebuild plan. Filter permissions before retrieval and recheck source rights before citation. Remove stale or revoked content from indexes and caches. Treat retrieved material as data, not instructions.
+5. Choose an index backend only for a demonstrated need. Keep a safe fallback or rebuild route and verify the actual consumer. A hosted vector store requires permission to send the corpus, a retention policy, and a deletion path.
 
-## Bind tools and actions to observed outcomes
+The repository provides scoped context, a knowledge workflow, and eval patterns. Build and verify the index appropriate to your application when it needs one. [ChatBot knowledge skill](../kit/skills/chatbot-atelier-knowledge/SKILL.md) · [AI and data profiles](../standards/ai-production.md)
 
-Record operation, supported schema, target, affected user or project scope, rights, expected receipt, material parameters, limits and fallback before effects. Treat sources and tool output as data. Put input and state checks in the real consumer. Keep effect identity, pending status and observed receipt together, and reconcile unknown external results in read-only mode before retrying. Use Model Context Protocol (MCP) for a real connector capability and compatible client and server versions; use an inter-agent protocol only when separate runtimes must interoperate. Neither is necessary for native Codex delegation.
+## Tools, evidence, and recovery
 
-Store just enough local metadata to distinguish route, tool attempt, run or parent IDs, source pins, status, resource use and output evidence. Keep prompt, tool arguments and protected outputs out of shared telemetry by default. An optional tracing adapter needs an authorized destination, content policy and retention. [Tool compatibility](../standards/tool-compatibility.md) · [MCP specification](https://modelcontextprotocol.io/specification/2026-07-28)
+Choose an actual supported tool operation with known input schema, target, rights, cost, and receipt. Verify inputs before the effect and read the result from the owning system. After a timeout, pending status, or missing receipt, check the authoritative state for the exact target and request before any replay. Retry only with authority and a tested duplicate-prevention mechanism. Keep an unresolved effect open with the next fact needed to resolve it.
 
-## Evaluate behavior and keep releases reproducible
+Agent Atelier discovers local native Codex project and chat metadata with coverage, opens history on demand, binds explicit folders, and prepares source-backed tasks. Review the original goal, selected skills, access, plan and acceptance before preparing and starting the task. Dispatch rechecks authority and sources. A workbench instance coordinates its supported jobs and cannot fence a separate Codex desktop writer. Inspect the native result and exact receipt before accepting an effect. Keep evidence local and scope any telemetry with explicit ownership and content policy. [Workbench guide](../apps/agent-atelier/README.md) · [Operation API](../apps/agent-atelier/shared/API.md) · [Resumable work](../governance/RESUMABLE_WORK.md)
 
-Choose checks for the change. Run schemas, fixtures and source comparisons before costly model or device runs. Measure an actual artifact or consumer outcome beside common positive, nearby negative and recovery cases. For a changed trigger, compare explicit invocation, natural requests and neighboring requests with the full discovery catalog. Compare the predecessor, candidate and a direct route where a comparison can answer a real question. Hold back new examples to avoid optimizing only for the published suite. Record verified activation and source read separately from output quality.
+## Evals and evidence
 
-Pin case, source, model, host, inputs and checks, exact outputs, attempts, elapsed time and reported token usage when available. Separate uncached from cached input when interpreting cost. A single successful run is a case result, not a reliability or efficiency claim. If a check fails, classify the first missing link: input or oracle, source and routing, model output, host, consumer, or permission. Change the diagnosis before another identical attempt. Require independent review for material scope and actual rendering, playback or interaction for the corresponding claim.
+| Check | Evidence to keep |
+| --- | --- |
+| Trigger and route | Positive and nearby negative requests, explicit and natural routing, and the resolved skill source |
+| Context and handoff | Original requirements, denied reads, stale references, restored identity, and resumed behavior |
+| Consumer and tool effect | Exact artifact, real runtime when available, target/state/receipt, and relevant failure and recovery behavior |
+| Attribution and cost | Source, input, model and host, observed actor, retries, elapsed time, cost and usage when reported |
+| Judgment | Criteria, independent actor or method, scoped verdict, and unverified areas |
 
-Use the [native suites](../evaluations/README.md), the [validation contract](../governance/VALIDATION.md) and [maintainer update rules](../governance/UPDATE_CONTRACT.md). Preserve prior evidence against prior bytes. Verify the fixed commit, package provenance, preflight, actual installation, fresh discovery, and first useful action as distinct stages. [Testing Agent Skills with evaluations](https://developers.openai.com/blog/eval-skills) · [GitHub artifact attestations](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations)
+Start with deterministic checks and use native sessions for behavior. Measure the result and the quality of what was preserved, with an appropriate oracle. A fixture can demonstrate behavior within its controlled environment; use a real device, environment, channel, target, or independent actor when the claim requires one.
+
+```bash
+python3 -B kit/verify_release.py
+python3 -B scripts/materialize_standards.py --check
+python3 -B scripts/check_repository.py
+receipt_dir="$(mktemp -d)"
+python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir/direct.jsonl"
+```
+
+Run the first three from the repository source directory. The canary uses the native Codex CLI and a signed-in host. Keep raw inputs, paths, and diagnostics private and publish only the permitted, scoped result. [Native eval suite](../evaluations/README.md) · [Validation and evidence](../governance/VALIDATION.md)
+
+## Install, verify, and recover
+
+Use the stable GitHub asset, exact source, attestation, and manifest. Review the audit, apply its plan once, retain the journal, and check fresh Codex discovery and behavior separately. Use per-component journals when recovering. Reconcile unknown external effects before resuming. Preserve existing project authority and unpublished local changes. [Install in Codex](INSTALL.md) · [Packages](../governance/PACKAGES.md)

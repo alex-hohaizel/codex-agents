@@ -1,51 +1,69 @@
-# Agent System — der vollständige Leitfaden für Work + Codex
+# Handbuch für Codex Agent System
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [中文](../zh-CN/GUIDE.md)
+Erledigen Sie eine einzelne Aufgabe mit Codex, entwickeln Sie ein Produkt mit Fachrollen oder entwerfen Sie einen wiederverwendbaren Agenten. Das System verknüpft die Arbeit mit ihrer tatsächlichen Quelle, einer verantwortlichen Person und einem überprüfbaren Ergebnis.
 
-**Wiederverwendbare Suite** — 33 Skills. Dieser Leitfaden erklärt die Erstinstallation, die tägliche Arbeit, gemeinsame Projekte in Work und Codex und das Aktualisieren bestehender Projekte. Dokumentation, Repository-Ausgaben und Komponentenversionen können sich unabhängig voneinander ändern.
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [Bildbeispiele](../../marketing/de/README.md)
 
+[Installation](#install) · [Erste Aufgabe](#first-task) · [Ablauf](#workflow) · [RAG](#retrieval) · [Evals](#evals) · [Mac-Oberfläche](#workbench) · [Betrieb](#operations) · [Katalog](#catalog)
 
-Das Versionsverzeichnis listet Repository-Ausgabe, Kernsuite, optionale Skills, Rollen- und Hostprofile, lokale Arbeitsoberfläche, Freigabestatus und zugehörige Migrationen. Wähle dort die Zielversion. Der frühere rc.5-Nachweis dokumentiert die Prüfungen für den Kern 6.1.0, Atelier Orchestrator 1.2.0, den Wartungs-Skill 1.1.0 und Agent Atelier 0.5.0. [Aktuelles Versionsverzeichnis](../../releases/current.json) · [Historischer Nachweis zu rc.5](../../releases/repository-1.4.0-rc.5.md) · [Historisches Update auf 6.1](../../releases/migrations/6.1.0.md)
+<a name="install"></a>
+## Installieren und Erkennung prüfen
 
-Die frühere 1.1.0-Kampagne bleibt unverändert: [englische Werbung](../../marketing/campaign/README.md) und [ukrainische Werbung](../../marketing/campaign/README.uk.md), zehn Materialien je Sprache. Werbung ist EN/UK; Leitfäden und Dienstoberfläche decken alle sieben angegebenen Sprachen ab. Live-Audit, Aktualisierung, Installation und Steuerung in Work bleiben eine separate Aufgabe im jeweiligen Host; ein Quellarchiv oder eine Repository-Verbindung ist kein Installationsbeleg.
+1. Öffnen Sie die stabile Veröffentlichung von `alex-hohaizel/codex-agents`. Das Terminalverfahren unter macOS oder Linux verwendet Bash, Python 3.9+, Git, eine angemeldete GitHub CLI (`gh`) und Codex. Für eine begleitete Installation kann Codex jeden Schritt auf Deutsch erklären und exakte Optionen und Pfade beibehalten.
+2. Folgen Sie der attestierten Installation. Das Prüfwerkzeug gleicht Archivprüfsumme und GitHub-Attestierung mit Quell-Commit, Workflow und Manifest ab. Wählen Sie die Neuinstallation für ein leeres Profil oder geben Sie die verifizierte Version einer vorhandenen Suite an. [Stabile Veröffentlichung](https://github.com/alex-hohaizel/codex-agents/releases/latest) · [Genaue Befehle](../INSTALL.md#steps)
+3. Kontrollieren Sie im Prüfplan die 33 Skills, das Ziel, den Erhalt der Symbole und ihrer Verweise sowie offene Konflikte. Wenden Sie den geprüften Plan an und verifizieren Sie die Dateien mit dem zurückgegebenen Journal. Das verwaltete Profil und die zwölf Rollen haben eine eigene Prüfung und ein eigenes Journal. [Profil und Rollen](../INSTALL.md#profile-and-roles)
+4. Installieren Sie Orchestrator und Maintenance nach Bedarf einzeln. Prüfen Sie in Agent Atelier die Vorschau mit exakter Quelle, Ziel und Änderungen. Wenden Sie diese an und kontrollieren Sie das Ergebnis. In Codex stehen die jeweilige persönliche Skill-Verwaltung und die vollständige optionale Quelle zur Verfügung. [Optionale Bestandteile](../INSTALL.md#optional-components)
+5. Öffnen Sie einen neuen Codex-Chat im Produktordner. Rufen Sie `$agent-foundry` oder den gewählten Skill auf. Wenn der Host den aufgelösten Pfad anzeigt, vergleichen Sie ihn mit der installierten Quelle. Danach prüfen Sie die Nutzung mit einer Aufgabe, die ein sichtbares Ergebnis hat. [Erkennung in Codex](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills)
 
-**Pass 0.2 ist zur Umsetzung genehmigt.** Alle 17 Fähigkeiten, R01–R27 und A01–A29 bleiben mit denselben 35 wiederverwendbaren Quellen und 12 Rollen im Umfang. Kontext, professionelles Design und die Arbeitsoberfläche haben Vorrang. Begrenzte reale Kontext/UI/Codex-Prüfungen wurden ausgeführt; sie schließen weder alle vollständigen Fälle ab noch belegen sie Modelltraining oder Eigentümerabnahme. Jede bestätigte Regression verhindert die Übernahme; fehlende erforderliche Nachweise bleiben offen. Lesen Sie [den Umsetzungsstand](../evolution/2026-11-10/IMPLEMENTATION.en.md). Endgültige Installation, betriebliche Übernahme, Veröffentlichung und CI sind getrennte Fakten. WORK bleibt zurückgestellt. Die ausführliche Implementierungsdokumentation ist EN/UK.
+ChatGPT Work hat eine eigene Oberfläche für persönliche Skills. Verwenden Sie das Work-Archiv und prüfen Sie dort gespeicherte und geladene Einträge. Eine lokale Codex-Installation ist ein eigener Vorgang. [Pakete](../../governance/PACKAGES.md)
 
-**Historischer Kandidat rc.3.** Agent Atelier 0.3.1 korrigiert den Tastaturfokus und erhält die Artefaktauswahl nach Projekt/Pfad mit aktuellen Metadaten; Core 6.1.0, Orchestrator 1.2.0, Wartung 1.1.0 und 35 Quellen/12 Rollen bleiben unverändert. Bei fehlgeschlagener Hintergrundaktualisierung werden nicht verfügbare Projektdaten ausgeblendet und eine Wiederherstellung angeboten, statt veraltete Nachweise beizubehalten. Markdown-Artefakte öffnen sich als lesbare Berichte mit dem beobachteten Hash der Originaldatei; deklarierte Hashes werden geprüft, ungebundene Dateien bleiben reine Quellenbeobachtungen. Relative Pfade unterscheiden gleichnamige Dateien. Optionale Praxisbeispiele umfassen lizenzierte Datenbeschaffung, tatsächlich trainierte Baselines/Kandidaten, quellengeprüfte HTTP-Inferenz, native Metal-Anpassung/Exporte und PDF/Rendering/Cache der bestehenden zweisprachigen Kampagne. Schlechtere Review-/LoRA-Kandidaten, unzureichende Intervallabdeckung und quantisierte Ausführungsäquivalenz wurden abgelehnt; ausreichende akzeptierte Wege bleiben erhalten. Kontrollierte Fixtures sind gekennzeichnet und gelten nicht als menschliche Wahrheit oder Geschäftsgenauigkeit. Das [Praxis-Handbuch](../evolution/2026-11-10/REAL-WORLD.en.md) ist EN/UK verfügbar. Dies bedeutet weder 29 PASS noch die endgültige stabile 1.4.0 oder einen Nachweis, dass Ihr laufender Dienst ersetzt wurde. CPA-Genauigkeit bleibt ohne repräsentative Daten ungeprüft; der Eigentümer bestätigte Schutzprüfungen und Enthaltung für den aktuellen Fall A10. Vollständiger Kontextabgleich, LIGHT-BOT-Laufzeit/Eigentümer und abschließende Eigentümer-/Freigabegates bleiben offen, wo Nachweise fehlen. WORK bleibt zurückgestellt.
+<a name="first-task"></a>
+## Eine erste Änderung durchführen
 
-**Erweiterte Aufgaben-API: lokaler Speicher.** Das optionale `memory_mode` hat standardmäßig `inherit`; normale Aufgaben und globale Einstellungen bleiben erhalten. Ein ausdrückliches `disabled` verlangt einen neuen dienstseitigen Chat, ausgeschaltete Speichereinstellungen ab dem ersten Start, eine native Bestätigung und nur für diese Aufgabe geltende Lesesperren der Speicherdateien. Bei Übernahme eines vorhandenen Benutzerchats wird `disabled` abgelehnt, damit dessen Einstellung unverändert bleibt. Das native Protokoll bietet keinen unabhängigen Abruf des Speichermodus und keine direkte Messung des eingefügten Kontexts. Die ursprünglichen Versuche sowie R2 und R3 behalten ihr Urteil NOT_ADMITTED. Alle drei begrenzten R4-Fortsetzungen bestanden G01–G10 in Codex. Das Flag begrenzt den Host-Speicher; die deklarierten Aufgabenquellen bestimmen weiterhin ihre Nachweise. Ausgewählte Skill-Dateien verwenden einen getrennten unveränderlichen Ausführungsbereich; ihr Kontrollarchiv bleibt privat. Die JSON-Sicherung des Dienstes enthält Metadaten, nicht diese Dateien. Siehe den [EN/UK-Vertrag](../evolution/2026-11-10/REAL-WORLD.en.md), [Memories](https://learn.chatgpt.com/docs/customization/memories) und [Berechtigungen](https://learn.chatgpt.com/docs/permissions).
+Erstellen Sie einen Testordner und öffnen Sie darin einen neuen Codex-Chat. Schreiben Sie `# Cheklist` in `README.md` und eine Zeile zum Beibehalten in `notes.txt`. Fragen Sie auf Deutsch:
 
-Aktualisieren Sie in Agent Atelier das Portfolio, um registrierte lokale Codex-Projekte sowie die Seiten aktiver und archivierter Chats zu finden. Projekte ohne Chats erscheinen, wenn der Host sie meldet. Öffnen Sie ein Projekt, um den Arbeitsverlauf zu lesen. Unter Verbindungen finden Sie den Status nativer Plugins und Apps, die Suche nach öffentlichen Medien mit Quelle und Lizenz sowie den Weg zu Codex für Aktionen, die den Host benötigen. Entfernte oder unzugängliche Quellen werden als Lücken ausgewiesen. Mit einer bestehenden Anmeldung bei GitHub CLI können Sie dort Repository-Metadaten abrufen. [Portfolioänderungen in rc.4](../../releases/migrations/repository-1.4.0-rc.4.md).
-
-Öffnen Sie die angezeigte nächste Aktion, um ihren vollständigen Text in das Formular zu übernehmen. Bearbeiten Sie Ziel und Abnahmekriterien und prüfen Sie vor der Vorbereitung den Ablauf. Unter Verbindungen liefert OpenAI Docs MCP Links zur offiziellen Dokumentation. Codex Image zeigt eine Vorschau des PNG und stellt es zum Download bereit, wenn die bestehende ChatGPT-Anmeldung und der Codex-Host die Aktion unterstützen. Die Bilderzeugung nutzt das enthaltene Codex-Kontingent. Aufrufe verwalteter Plugins mit ungeprüftem Werkzeugumfang laufen über den vorgesehenen Codex-Weg. [Aktualisierung von 0.4.0 auf 0.5.0 und Rollback](../../releases/migrations/repository-1.4.0-rc.5.md)
-
-## 0. Verwaltete Codex-Skills aktualisieren und die lokale Arbeitsoberfläche öffnen
-
-Für eine verwaltete Installation verwende eine freigegebene stabile Version mit genau den genehmigten Quellen und dem dazugehörigen Archiv. Prüfkandidaten lassen sich in einer isolierten Testumgebung erproben. [Codex-Update mit Signaturprüfung und Rückkehr zur Vorgängerversion](../../releases/migrations/6.2.0.md)
-
-1. Wähle den genauen Release-Commit und das zugehörige Archiv. Sichere die Quellen der 33 installierten Skills, Icon-Dateien und -Zuordnungen, Farben, lokale Änderungen und Besitznachweise. Bewahre Projektanforderungen, bestätigte Identität und Persona, Entscheidungen, Berechtigungen, offene Arbeiten und ungeklärte externe Auswirkungen. Die Übernahme im Projekt folgt einer eigenen Migration.
-2. Befolge die Migration mit Signaturprüfung aus einem separat vertrauenswürdigen Checkout. Prüfe die GitHub-Actions-Attestierung und die exakten Hashes von Archiv und Manifest. Verwende den im Prüfnachweis angegebenen Paketpfad und vergleiche vor apply den Manifest-Hash des Plans mit dem genehmigten Hash. Prüfe alle 33 Einträge, Konflikte und den Erhalt der visuellen Identität. Die Befehle unten erproben audit, apply und verify aus `kit/` mit isolierten Testpfaden. Bewahre Pläne und Sicherungen außerhalb der Skill-Suchpfade auf.
-
-```bash
-python3 portable/update_skill_suite.py --help
-fixture_root=/absolute/path/to/isolated-test
-mkdir -p "$fixture_root"
-python3 portable/update_skill_suite.py audit --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
-python3 portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
-python3 portable/update_skill_suite.py verify --kit . --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /actual/apply/journal.json
+```text
+Korrigiere die Rechtschreibung der Überschrift in README.md. Lass notes.txt unverändert.
+Zeige die korrigierte Überschrift und deine Prüfung beider Dateien.
 ```
 
-3. Ersetze den Journal-Platzhalter ausschließlich durch den tatsächlich von apply zurückgegebenen Pfad. Unbekannte Abweichungen müssen geklärt werden; erzwinge kein Überschreiben. Prüfe tatsächliche Erkennung/Quellenladung und eine begrenzte Aufgabe getrennt. Bestehende Icons und andere Skills bleiben erhalten.
-4. Prüfe das Codex-Hostprofil getrennt vom Repository-Stamm aus: `python3 scripts/install_host_profile.py audit --plan /absolute/host-plan.json`. Wende es mit `apply --plan /absolute/host-plan.json --journal /absolute/host-journal.json` an, danach mit `verify --journal /absolute/host-journal.json` prüfen. Der verwaltete Block erhält bestehende globale Anweisungen; die zwölf begrenzten Rollen behalten ihre Modelle und Beschränkungen externer Effekte. Das tatsächliche Laden im Host ist eine eigene Prüfung.
-5. Aktualisiere einen vorhandenen `atelier-orchestrator` mit dem unterstützten Skill-Manager aus `optional-skills/atelier-orchestrator` der ausgewählten Version. Der Kern-Updater verwaltet die 33 Basisskills. Der Wartungs-Skill ist eine weitere optionale Komponente. Installiere fehlende optionale Skills nur auf Wunsch. Prüfe die tatsächliche Erkennung und Ausführung.
+Prüfen Sie die Überschrift `# Checklist` und den ursprünglichen Inhalt von `notes.txt`. Für diesen Auftrag genügt die direkte Bearbeitung. Geben Sie Orchestrator bei einem größeren Projekt das Ziel, den Projektordner, erlaubte Änderungen und ein beobachtbares Abnahmekriterium. Bitten Sie beispielsweise um eine Prüfung des Bestellablaufs mit reproduzierbaren Befunden und Erhalt des freigegebenen Zahlungsvertrags. [Erste Aufgabe zum Nachmachen](../../START_HERE.md#install-and-verify)
 
-Atelier Orchestrator ist der optionale zentrale Einstieg: Beschreiben Sie das Ergebnis einmal, und er wählt direkte Ausführung, einen vorhandenen Spezialisten, einen Projektagenten, einen Direktor, Komponentenkoordination oder Foundry. Einfache Anfragen bleiben einfach. Ein gemeinsames Briefing und die bestehenden Berechtigungen begleiten die Arbeit. Sobald ein Projektagent erstellt, geprüft und vom Host erkannt wurde, empfiehlt der Orchestrator die Fortsetzung über diesen Agenten und behält diese Zuordnung bei späteren Anfragen bei. Agentenerstellung und ursprüngliche Produktaufgabe haben getrennte Abnahmekriterien; ein Agentenpaket schließt kein bestelltes Produkt ab.
+<a name="workflow"></a>
+## Arbeitsweg und Kontext festlegen
 
-Anfragen zur Verbesserung oder Überarbeitung des Orchestrators selbst, eines Skills, Konstruktors, einer Familie oder eines bestehenden Agenten nutzen den Wartungsweg: tatsächliche Quellen und Einstellungen lesen, Auswirkungen und Änderungen prüfen, Identität und lokale Anpassungen bewahren, eine vorherige Kopie sichern und das gespeicherte Ergebnis prüfen. Eine Wegvorschau und der optionale Routing-Prüfer zertifizieren weder fachliche Eignung noch menschliche Zustimmung, Ausführung oder Qualität. Bestehende direkte Skill-Aufrufe bleiben verfügbar.
+- **Harness.** Codex stellt Laufzeit, Werkzeuge und Berechtigungen bereit. Das Repository liefert `AGENTS.md`, Skill-Beschreibungen und Ressourcen, Fachverträge, Rollen und Prüfungen. Verifizieren Sie die geladenen Anweisungen und die Berechtigung am tatsächlichen Werkzeug.
+- **Arbeitsweg.** Erledigen Sie die Aufgabe direkt, wählen Sie einen Skill oder lassen Sie `$atelier-orchestrator` entscheiden. Ein Director koordiniert den gesamten Lebenszyklus einer App, eines Chatbots oder Spiels. `$agent-foundry` entwirft einen Agenten oder ein Team für wiederkehrende Arbeit. Prüfen Sie den Agentenpass vor der Erstellung und testen Sie das vorbereitete Paket mit einer Originalaufgabe. Für einen wiederverwendbaren Ablauf mit Auslösern und Abnahmefällen dient `$design-specialist-skills`.
+- **Rollen und Subagenten.** Delegieren Sie eigenständige Ergebnisse oder unabhängige Prüfungen. Nennen Sie Rolle, Quellrevision, Eingabepfade, Schreibbereich, Ausgabe, Grenzen, Abbruchbedingung und Rückgabeort. Legen Sie für gemeinsam veränderlichen Zustand einen Schreibverantwortlichen fest. Fordern Sie vor der Integration das tatsächliche Ergebnis an.
+- **Kontextkapsel.** Beginnen Sie mit maßgeblichen Anforderungen, Projektidentität, Entscheidungen und Kontrollpunkt. Binden Sie exakte Quell-Hashes, relevante Pflichten, erlaubte Auswirkungen, zurückgestellte Arbeit, Ausgabe, ungeklärte Auswirkungen und den nächsten Schritt. Bei einer geänderten oder fehlenden Quelle prüfen Sie die betroffene Verpflichtung erneut. Die Übergabe überträgt diesen Ausschnitt an die nächste Aufgabe oder Umgebung; die Originalquellen bleiben maßgeblich.
 
-Öffne Agent Atelier mit dem lokalen Starter. Arbeitsoberfläche und Skills haben unabhängig voneinander versionierte Releases. Prüfe den laufenden Build mit `status` und `doctor` und kontrolliere beim Update Original-SVG, PNG-Zuordnungen und Markenfarbe. Eine ältere Instanz kann bis zum geprüften Austausch weiterlaufen. Siehe den [Leitfaden für Agent Atelier](../../apps/agent-atelier/README.md) sowie die [historische Migration von 0.4.0 auf 0.5.0](../../releases/migrations/repository-1.4.0-rc.5.md) für diesen Übergang.
+Speichern Sie `preferred_language` im Projektkontext und geben Sie die Einstellung bei Übergaben weiter. Bewahren Sie exakte Befehle, Selektoren, IDs, Quellverweise und Originalzitate. [Betriebsmodell](../OPERATING_MODEL.md#project-context-and-handoffs) · [Projektkontext](../../templates/project-context.json) · [Übergabe](../../templates/HANDOFF.md)
 
-6. Baue den lokalen Dienst aus den Quellen mit der festgeschriebenen Lockdatei und Node.js 24.22.2 oder einer unterstützten neueren Laufzeit. Führe in `apps/agent-atelier/` Folgendes aus. Für die erste Abhängigkeitsinstallation ist Netzwerkzugriff erforderlich; ein neuer kostenpflichtiger Dienst ist damit nicht verbunden.
+<a name="retrieval"></a>
+## Wissenssuche und RAG ergänzen
+
+Beginnen Sie mit verifizierten Pfaden, exakten IDs, strukturierten Abfragen und Stichwortsuche. Nutzen Sie Retrieval-Augmented Generation, wenn relevante Belege wiederholt schwer zu finden sind. Vergleichen Sie Stichwortsuche, semantische und hybride Verfahren mit denselben Daten und Rechten. Prüfen Sie Treffer, korrekte Zitate, Fälle ohne Antwort, mehrere Sprachen, widerrufene und veraltete Quellen, benachbarte private Projekte, Latenz und Kosten. Speichern Sie Rechte und Quellrevision je Abschnitt, prüfen Sie Rechte vor Abruf und Zitierung, und ermöglichen Sie Löschung oder Neuaufbau. Abgerufene Texte sind Daten; Berechtigung entsteht im Projekt und an Werkzeugen.
+
+`$chatbot-atelier-knowledge` unterstützt Korpus, Suche, belegte Antworten und Pflege. DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA und EVALUATION sind Profile für die jeweils passende Arbeit. Wählen Sie das kleinste passende Profil und prüfen Sie das tatsächliche Ergebnis. [Technischer Suchleitfaden](../OPERATING_MODEL.md#retrieval-and-rag) · [KI- und Datenprofile](../../standards/ai-production.md)
+
+<a name="evals"></a>
+## Verhalten mit Evals prüfen
+
+Fixieren Sie typische Eingaben, Quellrevision, Modell, Host, erwartetes Ergebnis, Fehlerszenarien und Zeit- oder Kostengrenzen. Prüfen Sie den direkten Aufruf und die natürliche Auswahl, ähnliche Anfragen, verweigerten Zugriff, veraltete Quellen und Wiederherstellung. Prüfen Sie das exakte Artefakt im tatsächlichen Ziel und erfassen Sie Strukturprüfungen, natives Verhalten, Werkzeugbelege und unabhängige Abnahme separat. Rohdaten und private Pfade bleiben im privaten Testmaterial.
+
+Führen Sie im Repository mit nativer Codex CLI und unterstützter Anmeldung einen kleinen Laufzeittest aus:
+
+```bash
+receipt_dir="$(mktemp -d)"
+python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir/direct.jsonl"
+```
+
+Der Test korrigiert einen erwarteten Tippfehler im Testprojekt und kontrolliert die zweite Datei. Die Suite prüft auch eine begrenzte Übergabe, einen genehmigten Agentenpass und die erste Nutzung eines erzeugten Skills. Aussagen über externe Produkte benötigen Belege aus deren Umgebung. [Suite, Testdaten und Belege](../../evaluations/README.md) · [Validierung](../../governance/VALIDATION.md)
+
+<a name="workbench"></a>
+## Agent Atelier auf dem Mac verwenden
+
+1. Bauen Sie die aktuelle Quelle mit der fixierten Node.js-Lockdatei. In `apps/agent-atelier/` ausführen:
 
 ```bash
 npm ci --ignore-scripts
@@ -53,460 +71,87 @@ npm run build
 node launcher/atelier.mjs start
 node launcher/atelier.mjs status
 node launcher/atelier.mjs doctor
-node launcher/atelier.mjs stop
 ```
 
-7. Auf dem Mac startet nach dem Build ein Doppelklick auf `apps/agent-atelier/launcher/Agent Atelier.command` den Dienst. Der Launcher öffnet Loopback, verwendet seine eigene laufende Instanz erneut und aktiviert keinen Anmeldungs-Autostart. Wähle einen konkreten Projektstamm, prüfe dessen Vorschau und verbinde ihn dann. Die Zuordnung ist schreibgeschützte Projekterkennung, keine Produktübernahme und keine Erlaubnis für alle künftigen Aufgaben. Der Demomodus enthält erfundene Daten und führt keine Befehle aus.
+2. Suchen Sie in der lokalen Browseroberfläche das Projekt und prüfen Sie die angegebene Abdeckung. Registrierte Codex-Projekte können ohne Chats erscheinen. Verlauf und Artefakte werden beim Öffnen geladen. Prüfen Sie den genauen Ordner in der Vorschau und binden Sie ihn ausdrücklich. Der Demomodus zeigt fiktive Einträge.
+3. Öffnen Sie das Arbeitselement und den belegten nächsten Schritt. Übernehmen Sie ihn in das Formular, prüfen Sie Ziel, Abnahme, Eingaben, Rechte und Skills sowie die Route des Orchestrators. Bereiten Sie die Aufgabe vor, starten Sie den autorisierten Lauf und prüfen Sie Ergebnis und Beleg. Einen vorhandenen Chat setzen Sie bei unterstütztem Kontext, bestätigter Identität und freiem Schreibzugriff fort. Für nicht verfügbaren gespeicherten Kontext bereiten Sie eine begrenzte neue Aufgabe vor.
+4. Prüfen Sie unter Verbindungen Apps, Plugins und Konnektoren. Bei entsprechender Unterstützung können Sie offizielle OpenAI-Dokumente suchen, ein von Codex erzeugtes PNG ansehen und herunterladen, Openverse-Bilder und -Audio samt Herkunft und Lizenz suchen sowie Repository-Metadaten mit einer vorhandenen GitHub-CLI-Anmeldung lesen. Wählen Sie die im tatsächlichen Host und Konto verfügbaren Operationen. [Handbuch der Oberfläche](../../apps/agent-atelier/README.md) · [API und Verbindungen](../../apps/agent-atelier/shared/API.md)
 
-Suchen Sie im Arbeitsbereich nach verfügbaren Codex-Arbeiten und prüfen Sie die angezeigte Verlaufsabdeckung. Projekte und Arbeiten werden aus tatsächlichem nativem Verlauf und Quelleneinträgen gruppiert, einschließlich verfügbarer direkt in Codex begonnener Arbeiten. Das ist weder ein Scan des Home-Ordners noch eine Erlaubnis, einen anderen Schreiber zu übernehmen. Verbinden Sie den genauen Projektordner für Kontext und Fortsetzung. Die Arbeitskarte trennt erhaltene Antworten, in Quellen dokumentierte Ergebnisse und abgenommene Ergebnisse. Ziel und dokumentierte Abnahme behalten ihre Quelle; ein Vorschlag ist keine Zustimmung, eine Skill-Erwähnung keine Ausführung und ein geplanter Agent nicht installiert. Beschreiben Sie das nächste Ergebnis über den zentralen Einstieg, prüfen Sie den vorgeschlagenen Weg und bereiten Sie danach die begrenzte Aufgabe vor und starten Sie sie. Bestehende Chats erfordern eine unterstützte Übergabe im inaktiven Zustand; geschützte Änderungen des nativen Zustands erfolgen über den geprüften Controller statt durch beliebige Dateischreibzugriffe.
+<a name="operations"></a>
+## Betrieb, Wiederherstellung und Aktualisierung
 
-Das Portfolio kann registrierte lokale Codex-Projekte ohne Chats anzeigen, sofern der Host das Register bereitstellt. Fehlt ein Projekt, verbinden Sie ausdrücklich seinen genauen Ordner. Wählen Sie für den bekannten optionalen Orchestrator- oder Repository-Wartungs-Skill im Katalog **Dieses Skill-Update prüfen**. Prüfen Sie genaue Quelländerungen, Erhaltung, Konflikte und den Plan für die vorherige Kopie; wenden Sie nur das bereite geprüfte Update an. Prüfen Sie das tatsächliche Journal und aktualisieren Sie die Host-Erkennung separat. Der Rollback stellt die genaue verwaltete vorherige Kopie wieder her und lehnt spätere unbekannte Änderungen ab. Diese optionalen Quelloperationen aktualisieren nicht die 33 Core-Skills und migrieren keine Produkte.
+Prüfen Sie vor einem schreibenden Werkzeugaufruf Operation, Ziel, Berechtigung, Kosten, Grenzen und erwarteten Beleg. Nach einem Timeout oder ohne Beleg lesen Sie den maßgeblichen Zustand der exakten Anfrage. Wiederholen Sie einen Vorgang nur mit gültiger Berechtigung und geprüftem Schutz vor Duplikaten. Halten Sie ungeklärte Auswirkungen und Belege sichtbar. Bewerten Sie Ergebnisse im tatsächlichen Produkt und erfassen Sie Vorbereitung, Ausführung und Dateierstellung als eigene Zustände.
 
-Vorhandene native Codex-Chats lassen sich im Portfolio über einen eigenen schreibgeschützten Zugriff auf den Verlauf einsehen. Der isolierte Ausführungsdienst kann einen inaktiven Chat nicht fortsetzen, wenn sich dessen gespeicherter Kontext dort nicht wiederherstellen lässt. Bereiten Sie dann aus geprüften Quellen eine neue, klar begrenzte Projektaufgabe vor oder setzen Sie den bestehenden Chat in einer nativen Codex-Umgebung fort, die seinen Kontext wiederherstellen kann. Zugriff auf Metadaten oder Verlauf eines Chats bedeutet noch nicht, dass ein nutzbarer Ausführungskontext vorliegt. Die Ausführungsisolation bleibt bestehen; native Datenbanken werden nicht migriert.
+Verwenden Sie für Updates das stabile Archiv und den exakten Plan. Bewahren Sie Journale und vorhandene Daten auf. Nach einer Unterbrechung prüfen Sie zuerst das tatsächliche Ziel. Setzen Sie Kern, Profil oder optionalen Skill mit deren jeweiligem Journal zurück. Sichern Sie Datenbank und Dateien der Oberfläche nach der beschriebenen Prozedur. Starten Sie sie im eigenen Datenordner und prüfen Sie Projektbestand und eine begrenzte Aufgabe. Produktdaten, native Chats und Konten haben eigene Verantwortliche und Wiederherstellungsschritte. [Installation und Wiederherstellung](../INSTALL.md#rollback) · [Arbeit fortsetzen](../../governance/RESUMABLE_WORK.md)
 
-8. Bereite eine Aufgabe mit exaktem Umfang, Eingaben, Abnahme und Grenzen vor und starte sie über den unterstützten Codex-Adapter. Quelle, handwerkliche Qualität, Integration, Gerät, unabhängige Prüfung und Eigentümerabnahme haben unterschiedliche Zustände. Ein Abbruch ist erst nach dem tatsächlichen Host-Ergebnis bestätigt. Bestehende Chats benötigen genaue Identität/cwd und eine Übergabe im Ruhezustand; ein Dienst-Lease sperrt keinen anderen Desktop-Schreibprozess. Gleiche einen ungeklärten Effekt vor einem erneuten Versuch ab. Bei der Aufgabenvorbereitung erfasst der Dienst die exakten maßgeblichen AGENTS-Quellen, ihre Rangfolge oder ihr bestätigtes Fehlen sowie die Einstellungen, mit denen Codex selbst Anweisungen lädt. Er prüft, ob diese Aufzeichnungen mit den tatsächlich geladenen Anweisungsquellen übereinstimmen, und kontrolliert sie vor einem Modellaufruf erneut. Ändern sich diese Eingaben oder fehlen einem älteren Auftrag solche Aufzeichnungen, muss die Aufgabe erneut vorbereitet werden; ihr Verlauf und die nativen Produktdateien bleiben erhalten.
-9. Bestehende Foundry-Sitzungen verwenden `suite-update-plan` und einen geprüften `refresh --accept-suite-update`-Datensatz mit exakten Quellzustands-/Ziel-Hashes. App state/1 benötigt keine toolkitbedingte Formatmigration. Integrierte Chat-Nachweise benötigen aktuelle Bindungen des Vertragsgegenstands und eine echte neue Beobachtung; alte Beweise werden nicht rückwirkend ergänzt. Game verwendet das unterstützte Workflow-Upgrade 5→6 und behält runtime2/model4/handoff1 bei. Erzeugte Agenten benötigen einen Quell-Ziel-Vergleich und eine Wiederaufnahme ohne verborgenen Chatkontext; kein Projekt wird zurückgesetzt.
-10. Dienstsicherung und -wiederherstellung betreffen nur den Dienstzustand: Prüfe die exakte Sicherung vorab, gleiche Aufträge ab und erhalte widerrufene Berechtigungen; Produktdatenbanken oder externe Effekte werden nicht wiederhergestellt. Skill-Rollback verwendet das tatsächliche Updater-Journal; Hostprofil-Rollback verwendet sein eigenes Journal und weist spätere Abweichungen zurück. Live-Installation/-Steuerung in WORK bleibt zurückgestellt. Lies die [ausführliche Migration](../../releases/migrations/6.2.0.md) und die [Dienstanleitung](../../apps/agent-atelier/README.md) zu Wiederherstellung und unterstützten Grenzen.
+<a name="catalog"></a>
+## Skill oder Produktfamilie auswählen
 
-## 0.1. Arbeitsmethoden und frühere Prüfungen
-
-Kontext stammt aus nativen Projektanforderungen, Entscheidungen, Identität und Checkpoints. Direkte Skills können eine explizite Projektion mit dem portablen Helfer kompilieren; die Oberfläche kompiliert ihr JavaScript-Aufgabenpaket getrennt. Optionale Deklarationen nach `atelier.context-bindings/1` prüfen Quellhashes, Projektidentität, erwartete IDs, Muss-Anforderungen und wörtliche Auszüge. Fehlende oder geänderte erforderliche Quellen blockieren die abhängige Vorbereitung. Projekte ohne Deklaration behalten den bisherigen Weg mit ungeprüfter Abdeckung. Keiner der Wege speichert automatisch jedes Wort oder stellt einen globalen Embedding-Index bereit. RAG ist bedingte Suche für einen nachgewiesenen Wissensbedarf und keine Autorität für den aktuellen Aufgabenstatus.
-
-Aktivieren Sie nur die benötigte Verantwortung DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA oder EVALUATION unter dem bestehenden Verantwortlichen. Es gibt weder sieben neue installierte Skills noch dauerhafte Worker oder Pflicht-Frameworks. Dreizehn optionale Artefakttypen beschreiben passende Daten-, Modell-, Ausführungs-, Evaluations- und Batch-Aufzeichnungen. Der schreibgeschützte Helfer prüft deklarierte Struktur, lokale Bindungen, Leakage-/Retry-Grenzen und Abrechnung; er sammelt keine Daten, trainiert kein Modell, zertifiziert keine Qualität und startet keine Provider-Jobs. Lesen Sie vom Repository-Stamm aus zuerst die Hilfe der tatsächlichen Helfer:
-
-```bash
-python3 -B standards/context_capsule.py --help
-python3 -B standards/ai_production.py --help
-```
-
-Version 6.1 führte generierte Agentenpakete mit 15 gemeinsamen Betriebsressourcen und sieben lokalen Referenzlinks ein. Bestehende 6.0-Pakete behalten ihren exakten Vertrag mit zwölf Ressourcen, 5.x-Pakete mit acht; sie werden nicht rückwirkend als 6.1 zertifiziert. Aktualisieren Sie bestehende Agenten über einen Quell-Ziel-Vergleich, bewahren Sie Domänenregeln, Identität, Einstellungen und unbekannte Änderungen und prüfen Sie anschließend eine Fortsetzung ohne Chatverlauf sowie eine begrenzte ursprüngliche Aufgabe. Eine Toolkit-Installation allein ist keine Projektübernahme.
-
-Die Oberfläche zeigt lesbare Anforderungen, aktuelle Entscheidungen, zurückgestellte Arbeit und Quellenprüfungen. „Status in der Quelle“ bewahrt den Wortlaut des Datensatzes und überschreibt keine spätere aktuelle Entscheidung. Große Gespräche werden in getrennten begrenzten Turn-/Item-Seiten mit sichtbarer Fortsetzung und unvollständiger Abdeckung gelesen. Laden und fehlgeschlagene Lesezugriffe haben explizite Zustände und Wiederherstellung. Installiert, vom Host erkannt, verbunden, ausgeführt und vom Eigentümer angenommen sind getrennte Fakten. Das ausführliche [Komponentenhandbuch](../evolution/2026-11-10/IMPLEMENTED-COMPONENTS.en.md) und der [reale Feedback-Fall](../evolution/2026-11-10/REVIEW-STUDY.en.md) erläutern Quellen, Aktivierung, Verbraucher und Grenzen.
-
-
-Arbeitsablauf der Designüberarbeitung: Ein normales Projekt öffnet seine Karte dokumentierter Arbeiten mit tatsächlichen Arbeiten/Ergebnissen, Nachweisen und nächster Aktion. Wählen Sie eine Arbeit, um den zunächst geschlossenen Inspektor zu öffnen. Quelldokumente / Änderungen vergleichen behält den vollständigen technischen Arbeitsbereich, Rohquellen, Diffs und vorhandene Aktionen. Native Historie wird bei Bedarf mit sichtbarer Abdeckung gelesen. Nur ein passender aktiver Laufzeitjob belegt laufende Arbeit; der alte Aufgabenstatus dispatched genügt nicht. Verständliche Profilnamen und alle sieben Sprachen bleiben erhalten; anfänglicher UI-Standard ist Ukrainisch, gespeicherte Sprachpräferenzen haben Vorrang. Der Eigentümer hat die gezeigte visuelle Grundlage der revision6 angenommen: „Так, цю основу приймаю“. Das gilt nur für diese visuelle Grundlage; der vollständige Fall A26, alle 29 Fälle, spätere Daten-/Hilfsprogrammlogik und Installation bleiben getrennt. Frühere Renderings oder CI zertifizieren keine geänderten Bytes. Alle 11 Ansichten, 41 Befehle und 48 API-Operationen müssen an der genauen Fassung auf Erhalt geprüft werden.
-
-Die optionale Ansicht `current_checkpoint` stammt aus genau einer ausdrücklich gebundenen, erforderlichen und bytegeprüften Quelle mit Rolle `checkpoint`. Sie zeigt deren `phase`, `completed`, `in_progress` und `next` mit Hash und `status: declared`; sie überschreibt weder die native Phase noch belegt sie Ausführung oder Annahme. Fehlende, mehrdeutige, geänderte oder nicht unterstützte Eingaben ergeben `null` mit sichtbarer Lücke statt einer geratenen aktuellen Stufe. Die abgeleitete Lücke erzeugt keine neue globale Sperre; bestehende Fehler erforderlicher Quellen behalten ihre normale Wirkung. Ein erfasstes Ergebnis braucht seine Nachweise; Dateibestandszahlen sind keine Zahlen ausgelieferter Ergebnisse.
-
-
-Der tatsächliche Designfehler verändert auch die gemeinsame UI-Produktionsregel. Beim Erstellen oder Prüfen einer Benutzeroberfläche muss der vorgesehene Nutzer Ziel, reale Arbeit/Ergebnis, Handlungsbedarf und sinnvolle nächste Aktion erkennen können; anschließend muss er einen Eintrag auswählen → verständlichen Nachweis/Ergebnis lesen → die richtig begrenzte Aktion ausführen können. Übertragen Sie den Arbeitsmechanismus der Referenz auf die Aufgabe; eine kopierte Codeansicht, Karte oder Hülle genügt nicht. Regel und UI-Profil sind in den bestehenden 33 Core-Paketen und dem optionalen Orchestrator materialisiert. Geladene Anweisungen sind weder Qualitätszertifikat noch automatische Garantie; prüfen Sie die tatsächliche Oberfläche und einen repräsentativen Ablauf.
-
-
-Eine Vorschau des kompatiblen Updates ist keine Installation. Wird ein unveränderter bekannter Vorgänger als unbekannt gemeldet, vergleichen Sie genaue Release-Bytes und Dateimodi mit dem kanonischen Vorgängerregister; erzwingen Sie kein Überschreiben und ändern Sie keine Hashes, um Unterschiede zu verdecken. Der damals geprüfte optionale Orchestrator-Pfad 1.1.0 → 1.2.0 nutzt den exakten Vorgängerbestand aus 40 Dateien. Eine fehlende Wartungskompetenz bleibt fehlend, sofern ihre Installation nicht angefordert wurde. Ein begrenztes Prioritätsupdate wird erst nach Prüfung seiner betroffenen Invarianten zugelassen; das ist getrennt von der Annahme aller Fähigkeiten oder Projekte.
-
-## 1. Was du damit erhältst
-
-Beschreibe ein Ergebnis in gewöhnlicher Sprache. Das System hilft, daraus eine konkrete Aufgabe zu machen, zieht die passenden Fachgebiete hinzu, hält Entscheidungen und Anforderungen zusammen und prüft das Ergebnis am vereinbarten Ziel.
-
-Zum Beispiel kann „Hilf mir, die Datenbanklast in diesem Backend zu reduzieren“ zu einer gezielten Untersuchung von Abfragen, Transaktionsgrenzen, Caching, Leistungsmessungen und einer getesteten Änderung werden. „Erstelle eine mobile Anwendung für diese Zielgruppe“ braucht einen umfassenderen Ablauf: Recherche, Produktentscheidungen, Design, Architektur, Implementierung, Qualitätsprüfungen, Release-Vorbereitung und Betrieb. Eine kleine Reparatur soll eine kleine Reparatur bleiben. Bei einem vollständigen Produkt müssen sämtliche Anforderungen erhalten bleiben, auch die Teile, die erst nach der ersten funktionsfähigen Version geplant sind.
-
-Ein **Skill** ist ein wiederverwendbarer Satz aus Arbeitsanweisungen, Referenzen und manchmal Skripten. Ein **Agent** wendet eine Rolle und diese Anweisungen auf eine Aufgabe an. Ein **Direktor** koordiniert eine Produktfamilie. Ein **Konstruktor** entwirft einen spezialisierten Agenten oder einen wiederverwendbaren Satz von Skills, wenn die vorhandenen Familien die Aufgabe nicht abdecken. Sie arbeiten über ChatGPT oder Codex und die Werkzeuge, die in dieser Umgebung tatsächlich verfügbar sind. Das Installieren von Anweisungen erstellt keinen laufenden Server, kauft keine Dienste, erteilt keine Repository-Berechtigungen und startet keinen dauerhaften Hintergrundprozess.
-
-Der Nutzen liegt im geordneten Arbeitsablauf: ein gemeinsames Briefing, ausdrückliche Anforderungen, passende Fachleute, erhaltene Entscheidungen, überprüfbare Übergaben und eine Möglichkeit, die Arbeit fortzusetzen. Das Repository behauptet weder eine gemessene Überlegenheit noch garantierte Einnahmen, eine garantierte Store-Zulassung oder automatische Produktionsreife.
-
-## 2. Wähle deinen Einstieg
-
-| Deine Situation | Beginne mit | Eine hilfreiche erste Anfrage |
-| --- | --- | --- |
-| Sie möchten einen Einstieg für eine Aufgabe, ein Projekt oder eine Systemverbesserung | `atelier-orchestrator` | „Hier ist das benötigte Ergebnis. Stelle den Projektkontext wieder her, wähle passende verfügbare Kompetenzen und erledige die vereinbarte Arbeit.“ |
-| Du möchtest einen spezialisierten Agenten für eine wiederkehrende Aufgabe | `agent-foundry` | „Erstelle einen Agenten, der Leistungsprobleme in unseren Go-Diensten untersucht. Kläre zuerst seine Zuständigkeiten, Nachweise und Zugriffe.“ |
-| Du möchtest einen wiederverwendbaren Skill oder eine koordinierte Skill-Familie | `design-specialist-skills` | „Entwirf einen wiederverwendbaren Prüfablauf für unsere ereignisgesteuerten Integrationen, einschließlich der Wiederherstellung nach Fehlern.“ |
-| Du möchtest eine Anwendung oder ein bestehendes Produkt weiterentwickeln | `app-atelier-director` | „Setze diese Anwendung von ihrem Checkpoint aus fort. Erhalte die akzeptierten Anforderungen und bestimme das nächste nützliche Arbeitsergebnis.“ |
-| Du möchtest einen Chatbot, Support-Bot oder Gesprächsbegleiter | `chatbot-atelier-director` | „Entwirf einen Bot für diese Zielgruppe und diese Kanäle, einschließlich Sprache, Gedächtnis, Aktionen und Betriebskosten.“ |
-| Du möchtest ein mobiles Spiel oder ein bestehendes Spiel fortsetzen | `gamedev-director` | „Entwickle Spielkonzepte für dieses Erlebnis mit sinnvoller Steuerung, Fortschritt und einem umsetzbaren Produktionsweg.“ |
-| Du kennst die genaue Phase bereits | Dem passenden Spezialisten unten | „Prüfe diesen Zahlungsbildschirm anhand des freigegebenen Designs und der Abnahmekriterien.“ |
-
-Du musst dir nicht alle 33 Namen merken. Verwende für ein Produkt einen Direktor oder für einen neuen spezialisierten Arbeitsablauf einen Konstruktor. Du kannst einen Skill auch ausdrücklich über die Skill-Auswahl des Hosts anfordern. In Work ist die übliche Form `@skill-name`, in Codex `$skill-name`. Verfügbare Auswahlelemente und Anzeigenamen können sich je nach Host-Version unterscheiden. Bitte den Host, die tatsächlich geladene Quelle anzuzeigen, wenn du Gewissheit brauchst.
-
-### Der vollständige Katalog
-
-#### Zwei Konstruktoren
-
-| Skill | Wobei er dich unterstützt |
+| Selektor | Einstieg für |
 | --- | --- |
-| `agent-foundry` | Ein spezialisierter Agent oder eine koordinierte Agentenfamilie, zugeschnitten auf ein reales Fachgebiet, Zuständigkeiten, Werkzeuge, Wissen, Prüfungen und einen praktikablen Betriebsweg. Seine erste Aufgabe ist der Entwurf des Agenten, statt unbemerkt dessen späteres Projekt auszuführen. |
-| `design-specialist-skills` | Wiederverwendbare Skills und Skill-Familien für eine festgelegte Aufgabe: passende Fachgebiete, Qualitätskriterien, Referenzen, Werkzeuge und Arbeitsreihenfolge. |
-
-#### Anwendungsteam — 11 Skills
-
-| Skill | Seine Aufgabe in verständlichen Worten |
-| --- | --- |
-| `app-atelier-director` | Hält das Anwendungsprojekt von der ersten Idee über die Entwicklung bis zum Betrieb zusammen. |
-| `app-atelier-research` | Untersucht Nutzer, Bedürfnisse, Alternativen und Marktbelege, bevor das Team in eine Produktrichtung investiert. |
-| `app-atelier-concepts` | Vergleicht vollständige Produktoptionen: Nutzen, Erlebnis, Geschäftsmodell, Kosten und realistischen Umfang. |
-| `app-atelier-specification` | Übersetzt das gewählte Produkt in präzise Anforderungen sowie Verträge für Verhalten, Daten, API, Authentifizierung und Zahlungen. |
-| `app-atelier-experience` | Erstellt und prüft Marke, Bildschirme, Zustände, Einführung, Barrierefreiheit, Lokalisierung und Designunterlagen für die Produktion. |
-| `app-atelier-build` | Implementiert die vereinbarten Android-, iOS- und Web-Clients sowie bei Bedarf Backend und Integrationen mit reproduzierbaren Builds. |
-| `app-atelier-support` | Entwirft und implementiert den Support-Bot und den Wissensablauf des Produkts, einschließlich Eskalation und kontrollierter Aktionen. |
-| `app-atelier-qa` | Prüft unabhängig Anforderungen, Design, Implementierung, Zahlungen, Datenschutz, Wiederherstellung und Release-Reife, sofern ein unabhängiger Akteur verfügbar ist. |
-| `app-atelier-release` | Prüft frühzeitig die Umsetzbarkeit der Veröffentlichung und bereitet anschließend Signierung, Store-Einträge, Deployments, Belege und Rückabwicklung innerhalb des erlaubten Umfangs vor. |
-| `app-atelier-growth` | Bewertet passende Kanäle zur Nutzergewinnung, Inhalte und Messungen, bereitet sie vor und aktiviert einen autorisierten Weg, sobald das Produkt bereit ist. |
-| `app-atelier-operations` | Bearbeitet Vorfälle, Produktkennzahlen, Supportfälle, Kosten, Sicherungen, Änderungen und den fortlaufenden Betrieb. |
-
-#### Chatbot-Team — 11 Skills
-
-| Skill | Seine Aufgabe in verständlichen Worten |
-| --- | --- |
-| `chatbot-atelier-director` | Koordiniert den gesamten Lebenszyklus eines Bots und erhält dessen vorhandene Fähigkeiten, wenn die Arbeit fortgesetzt wird. |
-| `chatbot-atelier-research` | Untersucht Zielgruppe, Fachgebiet, Plattformgrenzen, Integrationen und praktische Umsetzbarkeit. |
-| `chatbot-atelier-specification` | Definiert Regeln, Zustand, Daten, Werkzeuge, Ereignisse, Fehler, Datenschutz und Abnahmekriterien des Bots. |
-| `chatbot-atelier-conversation` | Entwickelt Sprache, Charakter, hilfreiche Fragen, Eigeninitiative, Schaltflächen und Verhalten in Einzel- oder Gruppengesprächen. |
-| `chatbot-atelier-knowledge` | Entwirft Wissensquellen und ein klar abgegrenztes Gedächtnis, bei Bedarf Informationsabruf, Korrekturen, Ablauf, Löschung und Datenschutz. |
-| `chatbot-atelier-integrations` | Baut Plattformadapter, Callbacks, Werkzeuge, geplante Aufgaben und zuverlässige externe Aktionen mit Wiederherstellung und Zustellnachweisen. |
-| `chatbot-atelier-media` | Erstellt und integriert die visuelle Identität, Bilder, Animationen, Audio und Stimme des Bots über verfügbare Werkzeuge. |
-| `chatbot-atelier-build` | Implementiert den vollständigen vereinbarten Bot, einschließlich der notwendigen Laufzeitumgebung und Integration in den Produktivbetrieb. |
-| `chatbot-atelier-qa` | Prüft Gesprächsverhalten, Wissen, Datenschutz, Aktionen, Medien, Laufzeit und Negativszenarien anhand tatsächlicher Nachweise. |
-| `chatbot-atelier-release` | Bereitet eine autorisierte Veröffentlichung vor und führt sie aus, mit genauer Quellen-/Build-Identifikation, Zustellprüfungen, Datenkompatibilität und Rückabwicklung. |
-| `chatbot-atelier-operations` | Pflegt Zuverlässigkeit, Gesprächsqualität, Support, Kosten, Migrationen und laufende Weiterentwicklung. |
-
-#### Spieleteam — neun Skills
-
-| Skill | Seine Aufgabe in verständlichen Worten |
-| --- | --- |
-| `gamedev-director` | Koordiniert das Spielprojekt und erhält dabei die akzeptierte kreative Richtung, Entscheidungen und Checkpoints. |
-| `gamedev-studio` | Erstellt oder stellt die Studioidentität, akzeptierte Markenoriginale, Entwickleridentität und Kontobereitschaft wieder her. |
-| `gamedev-concepts` | Erstellt unterschiedliche Spielkonzepte mit Steuerung, zusammenwirkenden Systemen, Fortschritt, visueller Gestaltung und einem umsetzbaren Produktionsweg. |
-| `gamedev-preproduction` | Erweitert das gewählte Konzept zu detailliertem Spiel- und Technikdesign, Zahlenregeln, Katalogen, Zuständen und einem Produktionsplan. |
-| `gamedev-assets` | Erstellt und integriert Grafik, Animation, UI, Ton und Haptik und erhält dabei akzeptierte Quellen und die Beziehung zu Laufzeit-Assets. |
-| `gamedev-build` | Implementiert das native mobile Spiel: Steuerung, Kamera, Spielmechanik, Gegner, Welt, Fortschritt, Wirtschaft, Spielstände und Plattform-Builds. |
-| `gamedev-qa` | Prüft tatsächliches Gameplay, Geräteverhalten, Steuerung, Spielstände, Leistung und Anforderungen und unterscheidet reale Laufzeitnachweise von Dokumentenprüfungen. |
-| `gamedev-release` | Bereitet Signierung, genaue Binärdateien, Store-Materialien, Käufe, Datenschutz, Einführung und Wiederherstellung für eine autorisierte Veröffentlichung vor. |
-| `gamedev-liveops` | Entwickelt und pflegt das veröffentlichte Spiel anhand beobachteter Telemetrie, Vorfälle, Fortschritte, Inhalte, Wirtschaft und kompatibler Änderungen. |
-
-Das sind Zuständigkeiten und kein Versprechen, dass 33 Agenten gleichzeitig laufen. Das System soll Team und Aufwand entsprechend der Aufgabe auswählen. Eine unabhängige Prüfung ist nur dann unabhängig, wenn ein anderer Akteur sie tatsächlich ausführt; die Eigenprüfung eines Autors muss entsprechend gekennzeichnet werden.
-
-## 3. Wähle deine Sprache vor der Installation
-
-Öffne den übersetzten Leitfaden über die Links oben. Ohne ausdrückliche Präferenz gilt Englisch als Standard. Die übersetzten Leitfäden behandeln dieselben Schritte; Code, stabile Skill-Namen, Dateinamen und Protokollkennungen bleiben unverändert, damit Befehle einheitlich funktionieren.
-
-Füge zu Beginn der Installation oder des Projekts diesen Text ein und passe die Sprache an:
-
-```text
-Meine Arbeitssprache ist Deutsch (de). Verwende sie für Erklärungen, Fragen,
-Statusmeldungen, Übergabeanweisungen und Berichte für mich. Lasse stabile
-Skill-Namen, Befehlssyntax und technische Kennungen unverändert. Halte
-diese Präferenz im gespeicherten Projektkontext und in Übergaben fest. Frage gesondert
-nach der Sprache des Produkts, das wir entwickeln.
-```
-
-Dokumentationssprache, Gesprächssprache und Produktsprache sind getrennte Entscheidungen. Du kannst beispielsweise den ukrainischen Leitfaden lesen, auf Ukrainisch mit dem Agenten arbeiten und eine Anwendung auf Englisch und Deutsch veröffentlichen. Gib bei Bedarf alle drei an. Halte die Präferenz in der Vorlage für den Projektkontext oder einer bestehenden gleichwertigen Datei fest und übernimm sie in jede Übergabe. Das Ändern der Seitensprache im Browser allein legt die Sprache eines anderen Chats nicht fest.
-
-## 4. Bereite Konten und Quellen vor
-
-1. Melde dich bei dem ChatGPT- oder Codex-Konto an, in dem du das Paket verwenden möchtest. Prüfe, ob der erforderliche Modus und die Werkzeuge zur Skill-Verwaltung in diesem Konto oder Arbeitsbereich tatsächlich verfügbar sind.
-2. Öffne `https://github.com/alex-hohaizel/codex-agents`. Der Eigentümer bestimmt derzeit die Sichtbarkeit des Repositorys. Ein privates Repository erfordert ein berechtigtes GitHub-Konto und eine Verbindung mit Zugriff auf genau dieses Repository.
-3. Verbinde oder wähle GitHub in Work über die verfügbare Plugins-/Verbindungsoberfläche. Wenn der Zugriff auf ausgewählte Repositorys beschränkt ist, nimm `alex-hohaizel/codex-agents` auf. Bitte Work, `README.md` zu lesen und den tatsächlich zugänglichen Branch und die Revision anzugeben.
-4. Autorisiere im lokalen Codex den lokalen Git-Zugriff, wenn du ein privates Repository klonen möchtest. Eine GitHub-Verbindung in Work belegt nicht, dass sich Terminal auf deinem Computer authentifizieren kann.
-5. Verwende für die Installation ein benanntes Release oder einen genauen Commit. Speichere diese Kennung. Das Lesen eines nicht festgeschriebenen Branches `main`, während er sich ändert, kann Versionen vermischen.
-6. Für verwaltete Codex-Skills lade das benannte Codex-Archiv der gewählten stabilen Version und folge der [Migration mit Signaturprüfung](../../releases/migrations/6.2.0.md). GitHubs **Code → Download ZIP** und ein Git-Checkout liefern Quellen zur Prüfung, für Work oder für einen isolierten Probelauf. Der Quellbaum enthält `kit/manifest.json`, `kit/portable/` und `kit/skills/`.
-7. Lege Download, Pläne und Sicherungen nicht in einem Verzeichnis ab, das für die Skill-Erkennung verwendet wird. Ein normaler Ordner wie Downloads oder ein eigener Arbeitsbereich zur Skill-Verwaltung ist geeignet.
-
-Verwende für lokales Git einen bestätigten Branch und ein neues Ziel, das keine anderen Arbeiten enthält:
-
-```bash
-git clone --branch main https://github.com/alex-hohaizel/codex-agents.git "codex-agents"
-cd "codex-agents"
-git rev-parse HEAD
-git status --short
-```
-
-Ein Klon von `main` ist ein praktischer Quellen-Checkout. Bestätige vor dem Anwenden einer Aktualisierung, dass dessen SHA zum gewählten Release passt. Füge Zugriffstoken weder in Chats, Projektdateien, Shell-Befehle noch in Übergabedokumente ein. Verwende die Kontoverbindung oder den Anmeldeablauf der Plattform.
-
-## 5. Installation in Work mit einem neuen Konto
-
-### Was dieser Weg bewirkt
-
-Er speichert die 33 wiederverwendbaren Skills über den unterstützten Verwaltungsprozess des Hosts als persönliche Skills. Allein das Verbinden von GitHub, Hochladen einer ZIP-Datei, Lesen dieses Leitfadens oder Hinzufügen von Repository-Dateien als Projektquellen belegt nicht, dass ein Skill installiert oder geladen wurde.
-
-### Schritt für Schritt
-
-1. Öffne Work und erstelle oder öffne ein Projekt zur Skill-Verwaltung. Hier verwaltest du den Werkzeugsatz, nicht das Produkt, das du später entwickeln wirst.
-2. Wähle deine Sprache mit dem Block aus Abschnitt 3.
-3. Stelle Zugriff auf die gewählte Repository-Revision bereit. Falls Work private GitHub-Dateien nicht lesen kann, verbinde dieses Repository oder füge das zusammengestellte Paket über die verfügbare Dateischnittstelle hinzu.
-4. Rufe die verfügbare Funktion Skill Creator/Skill-Verwaltung auf. Bitte sie, das Paket zu prüfen, bevor installierte Einträge verändert werden.
-5. Füge den Installationsblock unten ein. Er autorisiert die begrenzte Installation und die erforderliche Überprüfung.
-6. Lasse Work das vorhandene Skill-Inventar nach stabilen Namen prüfen. Bei einem neuen Konto soll es fehlende Einträge erstellen; bei einem vorhandenen Konto die passenden persönlichen Einträge aktualisieren und andere Skills erhalten.
-7. Bewahre den Installationsbericht auf. Er muss jeden der 33 Skills, seine Version, Quellenrevision, das Ergebnis und ungelöste Fehler nennen.
-8. Aktualisiere oder öffne die Skills-Seite erneut, wenn ihre Anzeige veraltet ist. Öffne einen neuen Chat im vorgesehenen Produktprojekt und führe die unten beschriebene Lade- und Praxisprüfung aus.
-
-```text
-Installiere die 33 wiederverwendbaren persönlichen Skills aus der gewählten, überprüften Revision
-von alex-hohaizel/codex-agents anhand von kit/manifest.json und kit/skills/.
-Meine Arbeitssprache ist Deutsch (de).
-
-Verwende den vom Host unterstützten Verwaltungsprozess für persönliche Skills. Prüfe vorhandene
-Einträge anhand stabiler Namen, überprüfe das Paket, erhalte andere Skills und die
-vorhandene visuelle Identität und installiere oder aktualisiere die passenden Einträge. Bewahre
-Sicherungen und die genaue Quellenherkunft auf. Installiere projektspezifische Agenten nicht
-global. Verändere keine Produktdaten, Produktivdienste oder Kontoeinstellungen.
-
-Melde jeden stabilen Namen, Version, Quellenrevision und den Status create/update/noop/failure.
-Unterscheide einen gespeicherten Skill von der Erkennung durch den Host und der tatsächlichen Aufgabennutzung.
-Falls die Skill-Verwaltung nicht verfügbar ist, erkläre die genau fehlende Fähigkeit;
-bezeichne eine hochgeladene oder schreibgeschützte Kopie nicht als installiert.
-```
-
-Der unterstützte Verwaltungsprozess von Work kann Skills einzeln speichern. Bei einem Teilergebnis sollen abgeschlossene und verbleibende Einträge benannt werden, damit eine sichere Fortsetzung möglich ist, statt neu zu beginnen. Ein portabler Codex-Updater, der in einem Cloud-Dateisystem ausgeführt wurde, beweist keine Aktualisierung deines persönlichen Skill-Verzeichnisses in Work.
-
-## 6. Installation oder Aktualisierung in Codex
-
-### Der einfachste Weg: Bitte Codex um die kontrollierte Installation
-
-1. Wähle die stabile Version und beschaffe die genehmigte Quellrevision und Hashes aus der [Migration mit Signaturprüfung](../../releases/migrations/6.2.0.md).
-2. Öffne Codex in deinem vorhandenen Arbeitsbereich zur Skill-Verwaltung. Bei der ersten Installation öffne den Checkout oder einen anderen normalen Verwaltungsordner; ein neues Produkt-Repository ist unnötig.
-3. Gib Codex den Pfad zum vertrauenswürdigen Checkout, das heruntergeladene Codex-Archiv und die unabhängig genehmigten Kennungen und Hashes. Auf dem Mac kannst du im Finder mit **Option + Command + C** den Pfad eines markierten Ordners kopieren.
-4. Füge den folgenden Block ein, nachdem du deine bevorzugte Sprache festgelegt hast.
-5. Prüfe den abschließenden Installationsbericht und bewahre sein Journal sowie den Sicherungsort auf.
-6. Öffne für Lade- und Praxisprüfungen einen neuen Chat im tatsächlichen Produktprojekt.
-
-```text
-Installiere die 33 persönlichen Basis-Skills aus der gewählten stabilen Version
-von alex-hohaizel/codex-agents. Folge der Codex-Migration mit Signaturprüfung in Abschnitt 0.
-Verwende das im Prüfnachweis genannte Paket. Vor apply muss der Manifest-Hash
-des Update-Plans mit dem genehmigten Hash übereinstimmen.
-Meine Arbeitssprache ist Deutsch (de).
-
-Dies autorisiert lokales audit → apply → verify, genaue Pläne und Sicherungen für dieses
-Paket. Lies kit/manifest.json und --help des Updaters. Prüfe die Paketintegrität.
-Prüfe persönliche Verzeichnisse und alle bekannten Projektkopien. Speichere Pläne und
-Sicherungen außerhalb der Verzeichnisse zur Skill-Erkennung. Wende nur den genauen fertigen Plan an. Erhalte
-unbekannte lokale Änderungen und melde Konfliktdateien; umgehe keine Drift-Prüfungen.
-
-Erhalte bestehende icon_small, icon_large, brand_color, Icon-Pfade und Icon-Bytes,
-einschließlich historischer Verweise auf ./assets/. Prüfe mit dem genauen Journal,
-das apply zurückgibt. Melde canonical_core_verified, visual_preservation_verified,
-Anzahlen für updated/noop, Blockaden, Fehler und Duplikate.
-
-Verändere keine Produkte, Produktivsysteme, Plugins oder Umgebungskonfiguration.
-Prüfe anschließend gesondert die Erkennung beider Konstruktoren und der App-, ChatBot-
-und Game-Direktoren durch den Host. Installierte Dateien sind kein Beleg für tatsächliche Aufgabennutzung.
-```
-
-### Terminal-Weg für alle, die die genauen Befehle möchten
-
-Für eine aktive Codex-Installation folge der [Migration mit Signaturprüfung](../../releases/migrations/6.2.0.md) mit genau dem Paket aus dem Prüfnachweis. Die folgenden Befehle erproben den portablen Installer vom Repository-Stamm aus in einer isolierten Testumgebung. Er braucht Python 3.9 oder neuer und verwendet die Standardbibliothek. Audit liest das Paket und die Testpfade und schreibt einen Plan. Apply ändert nur die gewählte Testumgebung und erstellt ein Journal.
-
-```bash
-python3 kit/portable/update_skill_suite.py --help
-fixture_root=/absolute/path/to/isolated-test
-mkdir -p "$fixture_root"
-python3 kit/portable/update_skill_suite.py audit --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --backup-root "$fixture_root/backups" --plan "$fixture_root/core-plan.json"
-python3 kit/portable/update_skill_suite.py apply --plan "$fixture_root/core-plan.json"
-```
-
-Lies das Ergebnis von `apply`. Kopiere dessen genauen `journal`-Pfad in den Prüfbefehl:
-
-```bash
-python3 kit/portable/update_skill_suite.py verify --kit kit --destination "$fixture_root/.agents/skills" --legacy-root "$fixture_root/.codex/skills" --journal /absolute/path/from-apply/journal.json
-```
-
-Der letzte Pfad oben ist ein Platzhalter. Ersetze ihn; führe ihn nicht wörtlich aus. Standardmäßig installiert der Updater nach `~/.agents/skills` und prüft das ältere Stammverzeichnis `~/.codex/skills`. Verwendet deine Umgebung ein anderes unterstütztes persönliches Stammverzeichnis, gib `--destination` und `--legacy-root` ausdrücklich und einheitlich an. Lies zuerst `audit --help`. Ergänze `--project-root /absolute/path/to/product`, um relevante lokale Produktkopien zu prüfen. Der Updater entfernt nicht automatisch eine Projektkopie, die einen persönlichen Skill überlagert.
-
-Eine erfolgreiche Dateiinstallation bedeutet: 33 Quellen in der vorgesehenen Version überprüft, keine ungelösten Blockaden/Fehler/Duplikate sowie `canonical_core_verified=true` und `visual_preservation_verified=true` aus einer Prüfung mit dem tatsächlichen Apply-Journal. Eine Hash-Prüfung ohne dieses Journal kann den Erhalt deiner vorhandenen Icons nicht belegen. Halte bei einem Konflikt an und sichere die lokale Arbeit; verwende kein erzwungenes Ersetzen, nur damit der Bericht sauber aussieht.
-
-### Prüfe das Laden getrennt von der Installation
-
-Frage Codex oder Work in einem neuen Produktchat:
-
-```text
-Ermittle vor jeder Änderung die genau geladene Quelle und Version von
-agent-foundry, design-specialist-skills und den drei Produktdirektoren.
-Bestätige, welche Anweisungen zu adaptiver Arbeit, Recherche, visueller Identität und Work↔Codex
-du tatsächlich gelesen hast. Melde nicht verfügbare Quellen gesondert.
-```
-
-Gib danach eine kleine reale Aufgabe mit bekanntem Eingang und Abnahmekriterium. Bitte beispielsweise den Anwendungsdirektor, die Fehlerzustände eines einzelnen Bildschirms anhand einer bestehenden Anforderung zu prüfen, oder einen Konstruktor, die Zuständigkeiten eines spezialisierten Agenten zu umreißen. Dies prüft das Verhalten. Es zertifiziert nicht jede Produktfähigkeit. Halte Dateiinstallation, Laden durch den Host, praktische Nutzung und Produktabnahme als getrennte Ergebnisse fest.
-
-## 7. Nutze das System für eine reale Aufgabe
-
-### Eine eng begrenzte technische Aufgabe
-
-```text
-Untersuche wiederholte Datenbankabfragen in diesem Endpunkt. Erhalte seine API und
-sein Geschäftsverhalten. Lies zuerst Code und bestehende Messungen. Ermittle,
-welche Nachweise fehlen, schlage die kleinste nützliche Untersuchung vor und
-implementiere eine begründete Reparatur in diesem Branch. Prüfe die Korrektheit und zeige
-Vorher-/Nachher-Messungen, soweit die Umgebung sie ermöglicht.
-```
-
-Dafür braucht es kein neues Unternehmen, Produkt, keine Marke und keine vollständige Marktstudie. Ein Konstruktor kann einen wiederverwendbaren Untersuchungsagenten entwerfen, wenn du diesen Ablauf als dauerhaften Agenten möchtest; für eine einmalige Aufgabe verwende die vorhandenen passenden Werkzeuge und Anweisungen. Das System soll nicht allein deshalb einen neuen Agenten erzeugen, weil eine Aufgabe technisch ist.
-
-### Eine vollständige Anwendung
-
-```text
-BRIEF: Ich möchte eine Anwendung für [Zielgruppe], die [Problem] löst. Die Ziel-
-plattformen sind [Plattformen], das Budget ist [Budget] und meine Rolle ist [Rolle]. Kläre
-Unbekanntes, untersuche reale Alternativen und bereite vollständige Optionen vor. Halte
-alle meine Anforderungen, einschließlich Design, Sprache, Support und Monetarisierung,
-im gesamten Plan sichtbar. Wähle kein Konzept stillschweigend für mich aus.
-```
-
-Das Team soll Relevantes untersuchen, Optionen vergleichen und Veröffentlichungs- oder Kontohindernisse vor einer großen Implementierung erkennen. Nach der Konzeptwahl müssen gewählte Designreferenzen und sämtliche vereinbarten Anforderungen erhalten bleiben. Eine frühe funktionsfähige Version ist ein Checkpoint in diesem Plan und keine Erlaubnis, den Rest zu verwerfen.
-
-### Ein mobiles Spiel
-
-```text
-BRIEF: Entwickle unterschiedliche mobile Spielkonzepte für [Zielgruppe/Erlebnis]. Behandle
-Steuerung und Rückmeldung, zusammenwirkende Systeme, Gegner, sinnvollen Fortschritt,
-visuelle Gestaltung, Monetarisierung und einen umsetzbaren Produktionsweg für Android/iOS.
-Zeige vergleichbare visuelle Konzepte. Erhalte die ausgewählte Identität in
-Assets und der spielbaren Implementierung. Definiere tatsächliche Geräteprüfungen.
-```
-
-Ein Konzeptbild kann weder Animation, Touch-Steuerung, Leistung noch die Wiederherstellung von Spielständen belegen. Der Spielablauf soll das gewählte visuelle Versprechen mit bearbeitbaren Quell-Assets und einem repräsentativen spielbaren Ausschnitt verbinden, bevor der vollständige Asset-Satz entsteht.
-
-## 8. Work und Codex im selben Projekt
-
-Work ist dort hilfreich, wo die erforderlichen Quellen, Recherchewerkzeuge, Designwerkzeuge und verbundenen Dienste verfügbar sind. Codex ist dort hilfreich, wo Quellen-Checkout, Laufzeitumgebung, Build-Werkzeuge sowie Geräte- oder lokale Integrationen vorhanden sind. Jeder Modus kann mit den passenden Fähigkeiten mehr übernehmen. Wähle anhand tatsächlicher Zugriffe und Nachweise, statt jede Denkaufgabe einem Modus und jede Codeaufgabe dem anderen zuzuweisen.
-
-Lege eine gemeinsame Produktidentität an. Namen wie `My Product [WORK]` und `My Product [CODEX]` erleichtern die Navigation, beweisen aber nicht, dass beide Projekte dasselbe Produkt enthalten. Halte Repository, Branch, Unterverzeichnis, Projektkennungen und Checkpoint-Quellen fest. Ein neuer Chat soll innerhalb dieses bestehenden Projekts bleiben.
-
-### Halte einen kleinen gemeinsamen Kontext fest
-
-Verwende die Projektkontext-Vorlage des Repositorys oder eine bestehende gleichwertige Datei in deinem Produkt. Erfasse mindestens: Projektkennung; Repository und Branch; aktuellen vollständigen Commit-SHA; Aufgabenkennung; aktuelle Phase; Arbeits- und Produktsprachen; Toolkit-Version und Installationsbeleg; akzeptierte Entscheidungen; vollständige Anforderungsquelle; Designreferenzquelle; gewährten Umfang; aktuellen Checkpoint; ungeklärte Wirkungen oder Entscheidungen und nächste Aktion. Zugangsdaten gehören nicht in diesen Datensatz.
-
-### Work → lokales Codex, Schritt für Schritt
-
-1. Bitte Work: „Setze diese Phase in Codex fort. Bereite die Übergabe für dieses bestehende Projekt vor.“
-2. Work soll das genaue nächste Arbeitsergebnis und die für dessen Abnahme erforderlichen Nachweise bestimmen. Es soll die relevanten Anforderungen, Entscheidungen, Quellen und den Checkpoint speichern oder bereitstellen.
-3. Ist ein autorisierter gemeinsamer Kanal verfügbar, kann Work die Übergabe speichern und die gespeicherte Revision überprüfen. Das Speichern einer Datei belegt nicht den Start einer anderen Codex-Sitzung.
-4. Öffne den bestehenden lokalen Checkout. Gibt es keine lokale Kopie, klone das bestätigte Repository und den Branch in den gewählten Ordner. Authentifiziere dich für private Repositorys lokal.
-5. Prüfe den Checkout vor seiner Aktualisierung:
-
-```bash
-git remote get-url origin
-git branch --show-current
-git rev-parse HEAD
-git status --short
-```
-
-6. Ist der Arbeitsbaum sauber und eine Aktualisierung dieses Branches erforderlich, verwende `git pull --ff-only origin <confirmed-branch>` mit dem tatsächlichen Branchnamen. Bestätige den resultierenden vollständigen SHA. Gibt es lokale Änderungen oder auseinanderlaufende Historien, erhalte sie und kläre die Abweichung vor abhängigen Arbeiten.
-7. Öffne den genauen Ordner in der Projektoberfläche von Codex. Verwende bei einem bestehenden Produkt dessen vorhandenes Projekt; füge den Ordner bei Bedarf über die verfügbare Projektbearbeitung hinzu.
-8. Füge den ausgefüllten Übergabeblock unten ein. Codex bestätigt zuerst Repository-Identität, Revision, lokale Änderungen, Berechtigungen und Checkpoint und arbeitet dann an der begrenzten Aktion.
-9. Bewahre Ergebnisbericht, Commit-/Build-Verweise und Testnachweise für die Rückübergabe auf.
-
-### Codex → Work, Schritt für Schritt
-
-1. Bitte Codex um eine Ergebnisübergabe oder eine neue Aufgabenübergabe für dasselbe bestehende Projekt.
-2. Nimm die tatsächlich geänderten Dateien, vollständigen SHA oder die Artefaktrevision, ausgeführte Prüfungen, Einschränkungen, offene Entscheidungen und nächste Aktion auf. Gib an, ob die Änderungen lokal, committed oder veröffentlicht sind.
-3. Ist das Veröffentlichen der vereinbarten Änderungen auf einem benannten Branch autorisiert, veröffentliche nur diesen Umfang und überprüfe die entfernte Revision. Andernfalls stelle ein kontrolliertes Artefakt über den verfügbaren Kanal bereit. Ein lokaler Mac-Pfad ist nicht automatisch von Work aus lesbar.
-4. Öffne das bestehende Work-Projekt, verbinde das relevante Repository oder füge das genaue Artefakt hinzu und füge die Übergabe ein.
-5. Work liest die tatsächlichen Quellen und prüft die Eingangsrevision, bevor es überprüft oder fortsetzt. Nicht zugängliche Dateien soll es ausdrücklich nennen.
-6. Halte die Abnahme getrennt von Lieferung und Ausführung fest. Der Bericht, dass ein Build existiert, ist nicht dasselbe wie die Produktabnahme.
-
-### Kopierbare Übergabe
-
-Ersetze vor Verwendung dieses Blocks jedes Feld in eckigen Klammern:
-
-```text
-Setze das bestehende Projekt [Projekt-ID/Name] in [Work/Codex] fort.
-Arbeitssprache: [Sprache/Code]. Produktsprachen: [Sprachen].
-Repository: [URL]. Branch/Unterverzeichnis: [Branch/Pfad].
-Eingangsrevision: [vollständiger SHA oder genaue Artefaktrevision].
-Aufgaben-ID und Phase: [ID/Phase].
-Checkpoint: [genaue zugängliche Quelle].
-Anforderungen und akzeptierte Entscheidungen: [genaue Quellen].
-Designreferenzen und Identität: [genaue Quellen, falls relevant].
-Erwartetes Arbeitsergebnis und Abnahme: [konkretes Ergebnis/Prüfungen].
-Autorisierter Umfang: [was geändert oder veröffentlicht werden darf].
-Abgeschlossene Arbeit und Nachweise: [Fakten und Verweise].
-Offene Entscheidungen, Blockaden oder unklare externe Wirkungen: [Einzelheiten/keine].
-Nächste Aktion: [eine konkrete Aktion].
-
-Prüfe zuerst Projektidentität, Revision, verfügbare Werkzeuge und Berechtigungen.
-Erhalte jede akzeptierte Anforderung und Entscheidung. Initialisiere das
-Produkt nicht neu. Unterscheide vorbereitete Übergabe, überprüfte Zustellung, Empfang, Ausführung,
-Ergebnis und Abnahme. Setze die autorisierte Arbeit fort, die tatsächlich möglich ist.
-```
-
-## 9. Fortsetzen nach einem unterbrochenen Chat
-
-Öffne einen neuen Chat im selben Projekt und bitte ihn, den letzten überprüften Checkpoint wiederherzustellen. Stelle die Checkpoint-Quelle bereit, falls sie noch nicht zugänglich ist. Vor der Fortsetzung soll er Aufgabe, Anforderungen, Quellenrevision, aktuelle Dateien und tatsächliche externe Ergebnisse abgleichen.
-
-```text
-Stelle diese bestehende Aufgabe aus dem letzten überprüften Checkpoint und den tatsächlichen Quellen wieder her.
-Erhalte Anforderungen, Entscheidungen, Berechtigungen, abgeschlossene Ergebnisse und unklare
-externe Wirkungen. Prüfe die aktuelle Revision und die Zuständigkeit für die nächste Aktion.
-Bevor du ein Deployment, eine Zahlung, Nachricht oder andere externe Aktion wiederholst,
-prüfe, ob der vorherige Versuch tatsächlich abgeschlossen wurde. Setze die verfügbare
-autorisierte Arbeit fort und halte einen neuen Checkpoint fest.
-```
-
-Ein festgefahrenes Gespräch ist kein Nachweis dafür, dass dessen letzter Vorgang fehlgeschlagen ist. Bei der Wiederherstellung muss das reale Ergebnis geprüft werden, bevor eine möglicherweise doppelte Aktion erneut versucht wird.
-
-## 10. Versionen aktualisieren, ohne ein bestehendes Projekt zu verlieren
-
-### Lies zuerst den Release-Eintrag
-
-Jedes Release soll erklären, was sich geändert hat, welche Nutzer betroffen sind, Voraussetzungen, Installationsschritte, Übernahmeschritte für Projekte, Überprüfung, bekannte Einschränkungen und Rückabwicklung. Auch der allgemeine Leitfaden muss sich ändern, wenn sich der normale Ablauf ändert. Verlasse dich nicht allein auf eine Versionsnummer.
-
-Release 6.0.0 erhält die 33 stabilen Namen und die Icon-Identität und stärkt zugleich Nachweise, Quellabhängigkeiten, JSON-Annahme und Zustandsschreibvorgänge. Es ergänzt eigenständig nutzbare Produktions-/Kontextprofile und explizite Referenztreue. Historische Protokoll- und native Laufzeitschema-Nummern bleiben getrennt; ein altes Schema ohne Migration in die Suite-Nummer umzubenennen, bricht die Kompatibilität.
-
-### Bestehende Projekte aus Agent Systems 2.3 / Game 4.3
-
-1. Sichere aktuellen Projektcheckpoint, akzeptierte Anforderungen, Entscheidungen, Designoriginale, Quellenrevision, Toolkit-Version und bekannte externe Wirkungen.
-2. Halte fest, woher jeder Skill oder Projektagent tatsächlich geladen wird. Erfasse persönliche und projektlokale Kopien; gehe nicht davon aus, dass die Änderung eines globalen Verzeichnisses jedes Projekt ändert.
-3. Installiere das Zielpaket über den passenden Work- oder Codex-Weg oben. Bewahre Quellenversion und Installationsbeleg auf.
-4. Öffne das bestehende Projekt erneut und führe vor der nächsten abhängigen Aktion eine ausschließlich lesende Kompatibilitätsprüfung durch.
-5. Bitte den Direktor oder Konstruktor, den aktuellen Projektzustand mit dem neuen Ablauf zu vergleichen. Bestimme eine ausdrückliche Aktualisierung des nativen Zustands oder des Arbeitsablaufs nur dort, wo sie erforderlich ist. Erhalte Produktverhalten, akzeptierte Entscheidungen und unbekannte Wirkungen.
-6. Zeige die genauen Änderungen vorab an. Ist eine Zustandsmigration erforderlich, verwende das unterstützte Werkzeug und dessen tatsächliches `--help`; binde die Vorschau an den Hash des Quellzustands, den Hash des Zielpakets und die Autorisierungsquelle. Wende den autorisierten geprüften Plan an, statt eine frühere Freigabe zu erfinden.
-7. Prüfe jede betroffene Anforderung und die Abnahmekriterien der aktuellen Phase erneut. Führe eine kleine reale Fortsetzungsaufgabe aus und sichere ihre Nachweise.
-8. Halte die übernommene Toolkit-Version im Produktcheckpoint fest. Bewahre den Migrationseintrag auf, damit der nächste Chat den Übergang erklären kann.
-
-Game6.0.0 enthält einen geprüften Weg zur Aktualisierung des Arbeitsablaufs für Projekte aus 4.2.0/4.3.0/5.0.0 und behält dabei Laufzeitschema 2.0.0 bei. Die Verwendung hängt vom tatsächlichen Projektzustand und den unterstützten Eingaben des Werkzeugs ab. Auch App- und ChatBot-Projekte brauchen ihre eigene Zustands- und Kompatibilitätsprüfung; sie dürfen nicht allein deshalb durch eine Spielmigration geleitet werden, weil das Paket eine gemeinsame Version hat.
-
-### Zuvor mit einem Konstruktor erstellte Agenten
-
-Die Aktualisierung des Konstruktors schreibt früher von ihm erstellte Agenten nicht um. Solche Agenten können projektspezifische Regeln, Werkzeuge, Wissen und visuelle Identität enthalten. Erfasse sie in ihren eigenen Projekten. Vergleiche die alte Quelle, lokale Änderungen und die vorgeschlagene neue Quelle. Erhalte die ursprünglichen Eigentums-/Installationsnachweise. Fehlen sie, bereite einen ausdrücklichen Übernahmevergleich und Plan vor; erfinde keinen alten Beleg. Führe Regressionstests für die tatsächlichen Zuständigkeiten des Agenten aus und halte die übernommene Version getrennt fest.
-
-Das wiederverwendbare Repository enthält keine privaten Quellpakete von Produktagenten. Die Aktualisierung eines einzelnen Projekts gehört in die kontrollierten Quellen und den Migrationseintrag dieses Projekts und nicht in die globale Skill-Installation aller Nutzer.
-
-### Visuelle Identität erhalten
-
-Bestehende Codex-Icons, Icon-Pfade, Farbe und Icon-Bytes müssen routinemäßige Aktualisierungen überstehen. Eine neue Version ist keine Anweisung, einen vorhandenen Skill oder ein Produkt neu zu gestalten. Neue Skills ohne Identität können den passenden System- oder Projektstil erhalten. Work kann einen Dienstavatar selbst verwalten; trenne dessen Host-Anzeigeverhalten von der portablen Codex-Identität. Erhalte ausgewählte Produkt- und Spieldesignoriginale, nicht nur ihre sprachliche Beschreibung.
-
-### Sorgfältig zurücksetzen
-
-Verwende für die Installation eines Codex-Pakets das genaue Installationsjournal:
-
-```bash
-python3 kit/portable/update_skill_suite.py rollback --journal /absolute/path/from-apply/journal.json
-```
-
-Die Rückabwicklung prüft Sicherungen und schützt spätere unbekannte Änderungen. Sie macht die durch dieses Journal erfasste Skill-Installation rückgängig. Sie macht keine Produktdatenmigration, kein Deployment, keine Nachricht, keinen Kauf und keine andere externe Aktion rückgängig. Die Wiederherstellung in Work soll den unterstützten Skill-Verwaltungsweg und die gespeicherte frühere Quelle verwenden. Das Zurücksetzen eines Produktzustands braucht ein eigenes geprüftes Wiederherstellungsverfahren.
-
-## 11. Künftige Aktualisierungen vollständig halten
-
-Aktualisiere dieses Repository bei jeder künftigen Toolkit-Änderung mit den kanonischen Quellen, betroffenen Anforderungen, Paketinhalten, Versionsaufzeichnung, Migrationsschritten, Prüfnachweisen und allen erforderlichen Leitfaden- oder Übersetzungsänderungen. Erhalte frühere Release-Einträge. Erzeuge Pakete und Integritätsmetadaten neu aus den geprüften Quellen; veröffentliche kein Archiv aus einem veralteten Host-Cache.
-
-Veröffentlichen Sie genehmigte Quellen, betroffene Anforderungen, Versionen, Anleitungen und die benötigten Pakete gemeinsam im aktiven GitHub-Branch. Verwenden Sie `main`, sofern der Eigentümer keinen anderen aktiven Branch benennt. Folgen Sie dem Review- und CI-Verfahren des Repositorys und prüfen Sie danach den zusammengeführten Stand im Zielbranch. [Regeln für Repository-Aktualisierungen](../../governance/UPDATE_CONTRACT.md)
-
-Führe die Prüf- und Paketbefehle des Repositorys entsprechend dem aktuellen `--help` und der Dokumentation für Verantwortliche aus. Bestätige nach der Veröffentlichung den entfernten Commit. „Lokal gespeichert“, „committed“, „veröffentlicht“, „installiert“, „geladen“ und „von einem Projekt übernommen“ sind getrennte Zustände. Verhindert fehlender Zugriff die Veröffentlichung, bewahre die abgeschlossene Arbeit auf und nenne die genaue nicht synchronisierte Revision.
-
-Eine Repository-Regel wirkt, wenn ein künftiger Agent sie in einer Umgebung mit dem erforderlichen Zugriff liest. Sie ist kein globaler Beobachter für alle anderen Chats und Computer. Beginne eine künftige Skill-Verwaltungsaufgabe damit, dieses Repository zu verbinden und dessen `AGENTS.md`, Anforderungen und neuesten Release-Eintrag zu lesen. Ein separater geplanter Synchronisationsdienst bräuchte eine eigene tatsächliche Laufzeitumgebung und Autorisierung; das Paket erstellt ihn nicht unbemerkt.
-
-## 12. Fehlerbehebung
-
-| Symptom | Nächste Prüfung |
-| --- | --- |
-| Work kann das Repository nicht lesen | Prüfe GitHub-Konto, genaue Freigabe des privaten Repositorys und gewählte Verbindung; bitte Work, eine bekannte Datei zu lesen. |
-| Der lokale Klon verlangt Authentifizierung | Richte die lokale Git-Autorisierung über den Anmeldeablauf der Plattform ein. Die Work-Verbindung ist davon getrennt. |
-| Skills erscheinen nach dem Speichern nicht | Aktualisiere oder öffne die Skills-Seite erneut, verwende dann einen neuen Projektchat und prüfe die tatsächliche Quellenerkennung. |
-| Zwei Kopien desselben Skills erscheinen | Prüfe stabile Namen in persönlichen und Projektstammverzeichnissen. Erhalte lokale Änderungen und kläre die genaue doppelte Quelle; lösche keine anderen Skills. |
-| Der Updater meldet Drift oder einen Konflikt | Sichere den lokalen Diff und vergleiche die benannten Dateien mit der gewählten Quelle. Verwende einen geprüften Abgleichplan. |
-| Die Dateiprüfung war erfolgreich, doch der Agent verhält sich wie zuvor | Prüfe die vom Host tatsächlich geladene Quelle und führe dann eine kleine Aufgabe aus; Dateiintegrität allein genügt nicht. |
-| Work sieht auf einem Mac geänderten Code nicht | Veröffentliche den autorisierten Umfang oder füge ein genaues Artefakt hinzu; ein lokaler Pfad allein gewährt keinen Zugriff. |
-| In einem neuen Chat fehlen Entscheidungen | Stelle vor der Fortsetzung den Checkpoint und die vollständigen Anforderungsquellen wieder her. Aktualisiere den gespeicherten Kontext. |
-| Der ersten funktionsfähigen Version fehlen vereinbartes Design oder Sprache | Gleiche das Anforderungsverzeichnis ab; erhalte diese Anforderungen im Plan und benenne ihre Implementierungs- und Abnahmeschritte. |
-| Deployment, Store-Einreichung oder Geräteprüfungen sind nicht verfügbar | Benenne das genau fehlende Konto, Werkzeug, Gerät oder den Zugriff und setze unabhängige Vorbereitungen fort. Behaupte nicht, die nicht verfügbare Prüfung sei bestanden. |
-| Ein Agent behauptet, eine andere Sitzung gestartet zu haben | Frage nach einem überprüften Start-/Empfangsnachweis. Eine Übergabedatei belegt nur den tatsächlich beobachteten Status. |
-| Du möchtest kontinuierliche Aufgaben | Bestätige einen tatsächlichen Scheduler, Executor, Zugangsdaten, Verfügbarkeitsprüfungen und Wiederherstellungsweg. Eine Skill-Installation allein stellt sie nicht bereit. |
-
-## 13. Offizielle Dokumentation und Reichweite der Nachweise
-
-Die Oberflächen des Hosts und die Kontoverfügbarkeit können sich ändern. Prüfe beim Installieren oder Verbinden von Diensten die tatsächliche Oberfläche und aktuelle offizielle Dokumentation. Für diesen Leitfaden am 7. November 2026 geprüfte Referenzen zum Produktverhalten:
-
-- [Build skills — ChatGPT Learn](https://learn.chatgpt.com/docs/build-skills): Struktur wiederverwendbarer Skills, lokale Erkennung und Installationskonzepte.
-- [Plugins — ChatGPT Learn](https://learn.chatgpt.com/docs/plugins): Plugin-Verzeichnis, Verbindungs- und Vertriebskonzepte.
-
-Dieses Repository verteilt ein wiederverwendbares Paket und dessen kontrollierten Installationsablauf. Ein öffentliches Marketplace-Plugin, eine kommerzielle Lizenz, eine dauerhafte gehostete Laufzeitumgebung, kostenpflichtige Drittanbieterwerkzeuge und Zugangsdaten sind getrennte Liefergegenstände, sofern ein bestimmtes Release sie nicht ausdrücklich liefert und überprüft. Die Marketingkonzepte veranschaulichen Abläufe und vorgesehene Nutzungen; endgültige Werbeaussagen müssen zu überprüften Fähigkeiten und Nachweisen passen.
+| `$atelier-orchestrator` | Route wählen, Arbeit fortsetzen und koordinieren |
+| `$agent-foundry` | Agent oder Team für eine praktische wiederkehrende Aufgabe |
+| `$design-specialist-skills` | Fokussierten wiederverwendbaren Skill oder Skill-Familie entwerfen |
+| `$app-atelier-director` | App-Recherche, Konzepte, Spezifikation, UX, Entwicklung, Support, Wachstum, QA, Veröffentlichung und Betrieb |
+| `$chatbot-atelier-director` | Nutzer und Kanäle, Produkt, Gespräch, Wissen, Integration, Medien, Entwicklung, QA, Veröffentlichung und Betrieb |
+| `$gamedev-director` | Studio, Spielideen, Vorproduktion, Assets, Entwicklung, QA, Veröffentlichung und Live-Betrieb |
+| `$codex-agents-maintenance` | Autorisierte Änderungen an Skills und Dokumentation, Releaseprüfung und Pakete |
+
+### Alle Fachskills und Rollen
+
+**App-Team**
+
+- [`$app-atelier-director`](../../kit/skills/app-atelier-director/SKILL.md) · Leitung des Lebenszyklus
+- [`$app-atelier-research`](../../kit/skills/app-atelier-research/SKILL.md) · Nutzer- und Marktforschung
+- [`$app-atelier-concepts`](../../kit/skills/app-atelier-concepts/SKILL.md) · Produktkonzepte
+- [`$app-atelier-specification`](../../kit/skills/app-atelier-specification/SKILL.md) · Anforderungen und Verträge
+- [`$app-atelier-experience`](../../kit/skills/app-atelier-experience/SKILL.md) · Nutzungserlebnis und Barrierefreiheit
+- [`$app-atelier-build`](../../kit/skills/app-atelier-build/SKILL.md) · Implementierung
+- [`$app-atelier-growth`](../../kit/skills/app-atelier-growth/SKILL.md) · Nutzergewinnung
+- [`$app-atelier-support`](../../kit/skills/app-atelier-support/SKILL.md) · Supportablauf
+- [`$app-atelier-qa`](../../kit/skills/app-atelier-qa/SKILL.md) · Unabhängige Qualitätsprüfung
+- [`$app-atelier-release`](../../kit/skills/app-atelier-release/SKILL.md) · Veröffentlichung
+- [`$app-atelier-operations`](../../kit/skills/app-atelier-operations/SKILL.md) · Betrieb
+
+**Chatbot-Team**
+
+- [`$chatbot-atelier-director`](../../kit/skills/chatbot-atelier-director/SKILL.md) · Leitung des Lebenszyklus
+- [`$chatbot-atelier-research`](../../kit/skills/chatbot-atelier-research/SKILL.md) · Publikums- und Kanalforschung
+- [`$chatbot-atelier-specification`](../../kit/skills/chatbot-atelier-specification/SKILL.md) · Verhalten und Zustandsverträge
+- [`$chatbot-atelier-conversation`](../../kit/skills/chatbot-atelier-conversation/SKILL.md) · Dialoggestaltung
+- [`$chatbot-atelier-knowledge`](../../kit/skills/chatbot-atelier-knowledge/SKILL.md) · Wissen und Abruf
+- [`$chatbot-atelier-integrations`](../../kit/skills/chatbot-atelier-integrations/SKILL.md) · Integrationen und Belege
+- [`$chatbot-atelier-media`](../../kit/skills/chatbot-atelier-media/SKILL.md) · Medien
+- [`$chatbot-atelier-build`](../../kit/skills/chatbot-atelier-build/SKILL.md) · Implementierung
+- [`$chatbot-atelier-qa`](../../kit/skills/chatbot-atelier-qa/SKILL.md) · Qualitätsprüfung
+- [`$chatbot-atelier-release`](../../kit/skills/chatbot-atelier-release/SKILL.md) · Veröffentlichung
+- [`$chatbot-atelier-operations`](../../kit/skills/chatbot-atelier-operations/SKILL.md) · Betrieb und Wiederherstellung
+
+**Spieleteam**
+
+- [`$gamedev-director`](../../kit/skills/gamedev-director/SKILL.md) · Leitung des Lebenszyklus
+- [`$gamedev-studio`](../../kit/skills/gamedev-studio/SKILL.md) · Studiopraxis
+- [`$gamedev-concepts`](../../kit/skills/gamedev-concepts/SKILL.md) · Spielbare Konzepte
+- [`$gamedev-preproduction`](../../kit/skills/gamedev-preproduction/SKILL.md) · Systeme und Produktionsplanung
+- [`$gamedev-assets`](../../kit/skills/gamedev-assets/SKILL.md) · Asset-Produktion
+- [`$gamedev-build`](../../kit/skills/gamedev-build/SKILL.md) · Gameplay-Implementierung
+- [`$gamedev-qa`](../../kit/skills/gamedev-qa/SKILL.md) · Qualitätsprüfung
+- [`$gamedev-release`](../../kit/skills/gamedev-release/SKILL.md) · Veröffentlichung
+- [`$gamedev-liveops`](../../kit/skills/gamedev-liveops/SKILL.md) · Live-Betrieb
+
+**Codex-Fachrollen**
+
+- [`foundry-architecture`](../../agent-profiles/foundry-architecture.toml) · Architektur
+- [`foundry-backend`](../../agent-profiles/foundry-backend.toml) · Backend
+- [`foundry-conversation`](../../agent-profiles/foundry-conversation.toml) · Dialoge
+- [`foundry-cost`](../../agent-profiles/foundry-cost.toml) · Kosten
+- [`foundry-integrations`](../../agent-profiles/foundry-integrations.toml) · Integrationen
+- [`foundry-judge`](../../agent-profiles/foundry-judge.toml) · Unabhängige Beurteilung
+- [`foundry-platform`](../../agent-profiles/foundry-platform.toml) · Zielplattformen
+- [`foundry-privacy`](../../agent-profiles/foundry-privacy.toml) · Datenschutz
+- [`foundry-product`](../../agent-profiles/foundry-product.toml) · Produkt
+- [`foundry-qa`](../../agent-profiles/foundry-qa.toml) · Qualität
+- [`foundry-reliability`](../../agent-profiles/foundry-reliability.toml) · Zuverlässigkeit
+- [`foundry-skeptic`](../../agent-profiles/foundry-skeptic.toml) · Kritische Prüfung
+
+Der Katalog enthält alle Skills mit ihren stabilen Namen und alle zwölf Rollen. [Vollständiger Katalog](../CAPABILITIES.md#all-skills-and-roles) · [Bildbeispiele](../../marketing/de/README.md) · [Weitere Sprachen](../../START_HERE.md#use-another-language)

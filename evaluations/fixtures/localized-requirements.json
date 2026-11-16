@@ -1,0 +1,193 @@
+{
+  "requirements": [
+    {
+      "id": "R01",
+      "source_text_uk": "Вимога 01 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 01 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R02",
+      "source_text_uk": "Вимога 02 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 02 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R03",
+      "source_text_uk": "Вимога 03 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 03 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R04",
+      "source_text_uk": "Вимога 04 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 04 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R05",
+      "source_text_uk": "Вимога 05 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 05 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R06",
+      "source_text_uk": "Вимога 06 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 06 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R07",
+      "source_text_uk": "Вимога 07 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 07 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R08",
+      "source_text_uk": "Вимога 08 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 08 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R09",
+      "source_text_uk": "Вимога 09 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 09 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R10",
+      "source_text_uk": "Вимога 10 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 10 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R11",
+      "source_text_uk": "Вимога 11 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 11 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R12",
+      "source_text_uk": "Вимога 12 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 12 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R13",
+      "source_text_uk": "Вимога 13 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 13 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R14",
+      "source_text_uk": "Вимога 14 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 14 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R15",
+      "source_text_uk": "Вимога 15 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 15 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R16",
+      "source_text_uk": "Вимога 16 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 16 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R17",
+      "source_text_uk": "Вимога 17 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 17 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R18",
+      "source_text_uk": "Вимога 18 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 18 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R19",
+      "source_text_uk": "Вимога 19 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 19 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R20",
+      "source_text_uk": "Вимога 20 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 20 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R21",
+      "source_text_uk": "Вимога 21 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 21 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R22",
+      "source_text_uk": "Вимога 22 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 22 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R23",
+      "source_text_uk": "Вимога 23 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 23 preserves the original record.",
+      "current_status": "scope retained; revised target implementation awaits exact passport0.2 approval",
+      "priority": "must"
+    },
+    {
+      "id": "R24",
+      "source_text_uk": "Вимога 24 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 24 preserves the original record.",
+      "current_status": "revision documented; target proof planned not executed",
+      "priority": "must"
+    },
+    {
+      "id": "R25",
+      "source_text_uk": "Вимога 25 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 25 preserves the original record.",
+      "current_status": "revision documented; target proof planned not executed",
+      "priority": "must"
+    },
+    {
+      "id": "R26",
+      "source_text_uk": "Вимога 26 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 26 preserves the original record.",
+      "current_status": "revision documented; target proof planned not executed",
+      "priority": "must"
+    },
+    {
+      "id": "R27",
+      "source_text_uk": "Вимога 27 зберігає первинне джерело.",
+      "requirement_en": "Native requirement 27 preserves the original record.",
+      "current_status": "revision documented; target proof planned not executed",
+      "priority": "must"
+    }
+  ]
+}

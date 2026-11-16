@@ -2,7 +2,7 @@
 name: chatbot-atelier-research
 description: "Study chatbot needs, alternatives, channels, costs, and feasibility using current evidence. Use specification for settled rules and contracts."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # ChatBot Atelier · Research

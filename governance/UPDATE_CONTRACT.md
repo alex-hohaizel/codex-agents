@@ -1,65 +1,13 @@
-# Keep this repository current
+# Maintain the current product
 
-This repository is the distribution and operating record for the reusable Agent System. A skill change is unfinished until its affected sources, requirements, instructions, release notes, migration instructions and packages have been reconciled here. Read the root `AGENTS.md` before any update.
+Identify the current target, the owning source, the authorized effect, and the evidence required to accept it. Work from the current repository and the installed source it actually meets. Keep current user guidance in [the handbook](../START_HERE.md) and current component versions in [the release record](../releases/current.json).
 
-## What an update must contain
+1. Record the request and acceptance in [the requirement register](requirements.csv). Compare exact sources for affected skills, optional components, host profiles, documentation, and projects.
+2. Preserve stable skill names, configured behavior, user icons, role identities, and native product state. Keep updater ownership and approved predecessor hashes as machine inputs. A particular project agent must pass its ownership check and actual first task before adoption.
+3. Update affected shared standards, materialized references, localized guides, package manifests and tests. Follow the [source QA](VALIDATION.md) and [package instructions](PACKAGES.md). Change only the versions of the affected component releases. Keep format and runtime schema versions distinct from product package versions.
+4. Run the relevant artifact, runtime, and behavior checks. Bind evidence to the exact source and state. Keep native discovery, workbench preparation, external execution, and release publication distinguishable in receipts.
+5. Publish the reviewed change to the authorized branch. For a release, check the merged tree, successful workflow, archive contents, exact source attestation, tag and release assets. Read back the public release before adopting its files.
 
-1. Record the request and every acceptance criterion in `requirements.csv` or a linked task-specific register. Keep design, language, behaviour, integrations and operational requirements visible even when implementation happens later.
-2. Identify the current installed source and repository revision. Inspect local changes; do not silently export a stale host materialization or replace unknown edits.
-3. Classify the change: reusable system skill, family, project-specific agent, documentation, package, visual identity or migration. Keep actual project secrets, product state and customer data in their own project repositories.
-4. Update affected canonical sources in `kit/skills`. Preserve stable names. Use the supported skill-management workflow when changing an installed personal skill; changing this repository alone does not install anything.
-5. Preserve existing Codex icon files, icon references and colours. `ICON_BASELINE.json` records the initial portable identity. Keep that baseline across ordinary updates; an explicitly authorized visual change needs a recorded exception and its evidence before refreshing the affected entry. A new skill may receive a suitable new icon. A marketing rebrand never silently rebrands installed skills. Work's host avatar and portable Codex identity are separate display profiles.
-6. Refresh `kit/manifest.json` and the curated kit integrity record using the release procedure. Never edit a hash merely to conceal an unexplained difference. Keep previous-tree compatibility data required by the updater.
-7. Update the English guide whenever the user-facing workflow changes. Translate every affected passage into all advertised guide languages, preserving steps, commands, caveats and meaning. Refresh `docs/translations.json` only after comparison with the new English source. A matching hash checks freshness, not linguistic accuracy.
-8. Add a release record with what changed, why, affected skills, compatibility and evidence. Provide numbered instructions for projects or generated agents already using an earlier version. If no project migration is needed, explain why.
-9. Run repository validation, appropriate domain checks and the existing updater's relevant checks. Build both source bundles and inspect their contents and hashes. Separate file integrity, host discovery, task execution and acceptance in the report.
-10. Publish the approved change to the active GitHub branch and verify the resulting remote revision, versions, requirements and changed paths. If publication fails, retain the prepared revision and report the blocked step.
+Keep plans and backup journals outside active skill roots. Apply only an exact ready plan, verify with its journal, and do a fresh host check. Reconcile a timeout or missing response with the authoritative destination before an authorized repeat. Unknown local ownership, changed tool scope, and unverified project state are concrete reasons to keep an operation open.
 
-## Publish to the active branch
-
-1. Read the actual GitHub target and its current revision before editing. Use `main` by default. Use the owner's explicitly designated active branch for that change when one is given.
-2. Keep the version, approved scope, requirements and evidence, current instructions, release notes and migration in the same reviewed change. Update only the version fields affected by the change. Keep historical release and verification records tied to the revision they describe.
-3. Follow the target branch's protections. Where a pull request is used, confirm the intended source revision, complete the applicable checks, merge the approved change and read the target back from GitHub.
-4. In `releases/current.json`, record the active branch and the published release source, with the related validation and bundle evidence when available. A documentation-only follow-up keeps the component versions and the feature release's recorded commit. Record the documentation change's own published revision in its completion record.
-
-## Version numbers
-
-The current release record separates the repository edition, core suite, optional components and local service. It also identifies the active branch and the feature release's published revision and evidence. Read the applicable migration before adopting an update. Keep the verified baseline active where an affected gate is open. A candidate does not inherit stable acceptance from its predecessor. [Current release and migration links](../releases/current.json) · [Implementation scope](../docs/evolution/2026-11-10/README.md)
-
-Historical editions remain historical:1.0.0 established distribution;1.1.0 finalized the campaign;1.2.x introduced production/context distribution and targeted service/presentation repairs;1.3.0 added universal entry and native portfolio while preserving core6.0.0;1.3.1/1.3.2 published the audit and revised passport without runtime changes in those editions. The later owner approval authorizes candidate implementation; it does not rewrite those records. Core6.1 retains33 names,35 total reusable sources and12 role configurations, adds compatible context and conditional production resources, and leaves native schema/project identities independent. Do not increment every skill merely to change the guide.
-
-Use semantic versioning for future editions. A patch corrects compatible behavior. A minor version adds compatible capability. A major version changes a supported contract or requires incompatible migration. State the actual impact and support scope.
-
-### Choose and verify component versions
-
-| Change | Version to select | What must agree at release |
-| --- | --- | --- |
-| A repository snapshot changes | Repository edition | Current release record, Git tag and GitHub Release, package descriptors, migration and exact publication evidence. |
-| The canonical set of 33 skills changes | Core suite | Current record, curated kit manifest, source integrity report and exact predecessor. The core entries share this suite version. |
-| An optional skill changes | That optional component | Current record, portable skill `metadata.version` for newly authored sources, verified upgrade path and discovery. Older installed sources may report their version from their legacy heading. |
-| Role definitions or host instructions change | Role/profile version where recorded | Stable names, effective model settings, the profile/role source inventory, compatible predecessor and actual native configuration proof. |
-| Agent Atelier changes | Workbench version | Current record, package and lockfile, runtime health, service migration and verified local build. Existing database and API schema versions retain their own compatibility rules. |
-
-Use a prerelease designation while required evidence is still open. A verified documentation correction must not bump unaffected package versions. Release notes should point readers to the current component record and put historical tuples behind dated links. Do not repeat component version strings in UI display names. Follow the maintainer's actual authorization and promote only the exact build and evidence being reviewed.
-
-The optional advanced task field `memory_mode` defaults to `inherit`, including legacy capsules. Explicit disabled is a task-only host-memory restriction for fresh service-owned chats, with first-start configuration, required native acknowledgement and exact memory-file denies; it does not reset global preferences or migrate state. Adopted native user chats reject disabled before any setting mutation. The host exposes no independent memory-mode getter or direct measurement of injected context. The initial, R2 and R3 records retain their NOT_ADMITTED verdicts. Three bounded R4 continuations passed G01–G10 with independent review of the responses and native traces. See [the detailed field contract](../docs/evolution/2026-11-10/REAL-WORLD.en.md).
-
-New selected-input transport preserves source identity and a private control archive while supplying only approved manifest files in a separate immutable execution namespace. Ownership/task/complete-membership checks govern dispatch and explicit cleanup; no parent control read, global memory bypass or legacy rebind is implied. STORE JSON backup remains record metadata only, and filesystem archive backup is separate before live replacement. See the [transport limits](../docs/evolution/2026-11-10/REAL-WORLD.en.md).
-
-## Existing projects and generated agents
-
-Installing a new toolkit never proves that a project has adopted it. Restore the last confirmed checkpoint, requirements, approvals, design identity, deployment revision and unfinished work. Check the project's native contracts before applying a workflow upgrade. Produce a source-to-target mapping for generated project agents, preserve their own changes and visual identity, then verify one bounded real task. Do not invent old ownership receipts or reinitialize a project to bypass a migration conflict.
-
-New6.1 generated children include15 common operating resources; historical6.0 and5.x contracts remain12 and eight until separately adopted. Retain full requirements, current decisions and deferred work through direct, delegated and resumed execution. Declared source hashes prove only the checked sources; they do not authenticate complete original context or consent. Semantic retrieval is conditional and never substitutes for authoritative native status or receipts.
-
-Keep source checks, actual runtime, independent review, owner acceptance, installation/discovery, project adoption, publication and exact CI distinct. An earlier model job or render cannot be rebound to later changed bytes. Any confirmed degradation rejects affected adoption without compensation; a reproduced isolation failure is an operational blocker even if unrelated tests pass. Candidate publication can preserve a reviewable change while its remaining gates stay open. This does not assert a universal future no-regression guarantee.
-
-A bounded priority update may be admitted against an explicit ledger of its affected invariants while the complete capability programme remains open. Close each material source/runtime/preservation defect and obtain the applicable exact-source checks first; visual acceptance alone does not close functional or installation gates. Record the priority scope and remaining full cases separately. An unknown predecessor may be a missing canonical compatibility entry: compare exact Git bytes and file modes before repairing that register, then rerun preview. Never mask unknown edits, force an overwrite or install a previously absent optional skill merely to simplify the report.
-
-## Language and identity
-
-English is the documentation default. Store the selected conversation language in the project context and include it in handoffs. Translate explanations and copyable prompts; keep stable skill names, paths, protocol IDs, code and commands unchanged. Final marketing assets follow the selected campaign in `marketing/CURRENT_CAMPAIGN.json` and its recorded identity contract. Edition 1.1.0 uses one settled campaign in English and Ukrainian; obsolete concept rounds and rejected draft renderers are removed from the current tree. Future new concepts remain proposals until the owner selects them. English localization must preserve intended composition and product identity; generative edits require actual review and must not be called pixel-identical without evidence.
-
-## Scope of the promise
-
-These rules apply whenever an authorized agent works on this repository or reads the installed maintenance instructions. They do not create a universal background observer or grant access to every chat, computer or private project. A connected session must actually read the policy and have repository write access. Scheduled checks require a separately configured scheduler. Do not claim automatic synchronization outside those capabilities.
+Translate the complete public guide and navigation together. Preserve functional commands, user-language choice, branding, and public claims tied to the actual system. For visual changes, verify artwork in its delivery medium and accessibility with the current captions and workflows. Keep private project inventories, raw chat traces, credentials and runtime state out of packages.

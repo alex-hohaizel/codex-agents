@@ -186,7 +186,7 @@ class PipelineRecoveryTests(unittest.TestCase):
         directory = self.root / "staged-pdf"
         directory.mkdir()
         records = []
-        for name in ("index.html", "en.html", "uk.html", "pdf/Campaign.en.pdf", "pdf/Campaign.uk.pdf"):
+        for name in ("index.html", "en.html", "uk.html", "de.html", "it.html", "es.html", "fr.html", "zh-CN.html", "Showcase.pdf"):
             path = directory / name
             path.parent.mkdir(parents=True, exist_ok=True)
             payload = (b"%PDF-1.4\n" + b"/Type /Page\n" * 10 if path.suffix == ".pdf"
@@ -196,7 +196,7 @@ class PipelineRecoveryTests(unittest.TestCase):
         receipt = directory / "exports.json"
         receipt.write_text(json.dumps({"files": records}))
         validate_export(directory)
-        path = directory / "pdf/Campaign.uk.pdf"
+        path = directory / "Showcase.pdf"
         path.write_bytes(b"%PDF-1.4\n/Type /Page\n")
         records[-1].update(sha256=sha(path), size=path.stat().st_size)
         receipt.write_text(json.dumps({"files": records}))
@@ -235,10 +235,16 @@ class PipelineRecoveryTests(unittest.TestCase):
     def test_sigterm_stops_cli_child_and_saves_interrupted_stage(self):
         source = self.root / "marketing/campaign"
         source.mkdir(parents=True)
-        (self.root / "assets/marketing/campaign").mkdir(parents=True)
+        (self.root / "assets/marketing/current").mkdir(parents=True)
+        (self.root / "locales.json").write_text("{}")
+        (self.root / "marketing/README.md").write_text("# Showcase")
+        for locale in ("en", "uk", "de", "it", "es", "fr", "zh-CN"):
+            page = self.root / "marketing" / locale / "README.md"
+            page.parent.mkdir()
+            page.write_text("# Showcase")
         releases = self.root / "releases"
         releases.mkdir()
-        (releases / "current.json").write_text('{"suite_version":"5.0.0"}')
+        (releases / "current.json").write_text('{"suite_version":"6.2.1"}')
         scripts = self.root / "scripts"
         scripts.mkdir()
         (scripts / "showcase_pipeline.py").write_text("fingerprinted runner source")

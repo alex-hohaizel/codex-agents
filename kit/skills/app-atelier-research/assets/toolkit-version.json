@@ -1,5 +1,5 @@
 {
-  "toolkit_version": "6.0.0",
+  "toolkit_version": "6.2.1",
   "skill_name": "app-atelier-research",
   "current_protocol_policy": "current_only; format revisions are independent from toolkit display version"
 }

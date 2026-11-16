@@ -1,5 +1,7 @@
+from contextlib import redirect_stderr, redirect_stdout
 from dataclasses import replace
 import hashlib
+import io
 import json
 from pathlib import Path
 import stat
@@ -68,6 +70,13 @@ class ReleaseAdmissionTest(unittest.TestCase):
                 archive.writestr(info, body)
         return replace(self.pin, archive_sha256=hashlib.sha256(self.archive.read_bytes()).hexdigest())
 
+    def cli_args(self, pin, *mode):
+        args = ["admit_codex_bundle.py", "--archive", str(self.archive), "--stage", str(self.stage)]
+        for name, value in vars(pin).items():
+            if name != "installed_suite_version":
+                args.extend(("--" + name.replace("_", "-"), value))
+        return [*args, *mode]
+
     @staticmethod
     def attestation(digest):
         data = [{
@@ -96,11 +105,44 @@ class ReleaseAdmissionTest(unittest.TestCase):
         self.assertNotIn("--signer-repo", argv)
         self.assertEqual(read_kit.call_count, 1)
         self.assertEqual(result["status"], "admitted-for-updater-audit")
+        self.assertEqual(result["installation_mode"], "update")
+        self.assertEqual(result["installed_suite_version"], "6.1.0")
         kit = Path(result["kit"])
         self.assertTrue(kit.is_dir())
         self.assertEqual((kit / "manifest.json").read_bytes(), self.manifest)
         self.assertEqual(stat.S_IMODE((kit / "portable/update_skill_suite.py").stat().st_mode), 0o755)
         self.assertEqual(stat.S_IMODE(self.stage.stat().st_mode), 0o700)
+
+    def test_fresh_cli_stages_with_verified_provenance_and_no_installed_version(self):
+        pin = self.bundle()
+        output = io.StringIO()
+        with (
+            patch.object(sys, "argv", self.cli_args(pin, "--fresh-install")),
+            patch.object(admission.subprocess, "run", return_value=self.attestation(pin.archive_sha256)) as gh,
+            patch.object(admission, "trusted_read_kit") as read_kit,
+            redirect_stdout(output),
+        ):
+            self.assertEqual(admission.main(), 0)
+
+        receipt = json.loads(output.getvalue())
+        self.assertEqual(receipt["installation_mode"], "fresh")
+        self.assertIsNone(receipt["installed_suite_version"])
+        self.assertEqual(receipt["source_sha"], pin.source_sha)
+        self.assertEqual(receipt["manifest_sha256"], pin.manifest_sha256)
+        gh.assert_called_once()
+        read_kit.assert_called_once()
+        self.assertEqual((Path(receipt["kit"]) / "manifest.json").read_bytes(), self.manifest)
+
+    def test_cli_requires_one_installation_mode_before_verification(self):
+        pin = self.bundle()
+        for mode in ((), ("--fresh-install", "--installed-suite-version", "6.1.0")):
+            with self.subTest(mode=mode), patch.object(sys, "argv", self.cli_args(pin, *mode)):
+                with patch.object(admission, "admit") as admit, redirect_stderr(io.StringIO()):
+                    with self.assertRaises(SystemExit) as error:
+                        admission.main()
+                self.assertEqual(error.exception.code, 2)
+                admit.assert_not_called()
+        self.assertFalse(self.stage.exists())
 
     def test_archive_mismatch_and_downgrade_fail_before_network(self):
         pin = self.bundle()

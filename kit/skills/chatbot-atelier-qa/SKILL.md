@@ -2,7 +2,7 @@
 name: chatbot-atelier-qa
 description: "Independently verify chatbot behavior, privacy, delivery, and release evidence against exact inputs. Use build or operations for implementation."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # ChatBot Atelier · QA
