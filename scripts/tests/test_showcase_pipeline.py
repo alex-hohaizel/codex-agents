@@ -236,6 +236,7 @@ class PipelineRecoveryTests(unittest.TestCase):
         source = self.root / "marketing/campaign"
         source.mkdir(parents=True)
         (self.root / "assets/marketing/current").mkdir(parents=True)
+        (self.root / "assets/marketing/concepts").mkdir()
         (self.root / "locales.json").write_text("{}")
         (self.root / "marketing/README.md").write_text("# Showcase")
         for locale in ("en", "uk", "de", "it", "es", "fr", "zh-CN"):
@@ -259,6 +260,9 @@ class PipelineRecoveryTests(unittest.TestCase):
         self.addCleanup(lambda: process.kill() if process.poll() is None else None)
         limit = time.monotonic() + 3
         while not (self.root / "started").exists() and time.monotonic() < limit:
+            if process.poll() is not None:
+                stdout, stderr = process.communicate()
+                self.fail(f"export runner exited before the child started: {(stdout + stderr).decode(errors='replace')}")
             time.sleep(.01)
         self.assertTrue((self.root / "started").exists(), "export child did not start")
         process.send_signal(signal.SIGTERM)
