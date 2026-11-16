@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
-"""Check all canonical bilingual campaign outputs without changing them."""
-from build_campaign import main
+"""Verify the current showcase, with an explicit mode when supplied."""
 import sys
-if __name__=='__main__':
-    if '--check' not in sys.argv:sys.argv.append('--check')
+
+from build_campaign import main
+
+
+if __name__ == "__main__":
+    modes = {"--check-source", "--check", "--verify", "--export", "--refresh-markdown"}
+    if not modes.intersection(sys.argv[1:]):
+        sys.argv.append("--check")
     raise SystemExit(main())
