@@ -20,7 +20,16 @@ python3 -B evaluations/native_canary.py --prepare-only \
   --output "$private_prepare_receipt"
 ```
 
-For P1 and P2, omit `--prepare-only` and use a new receipt file. P1 must add no extra work and keep the other file intact. P2 uses a persisted synthetic turn because native subagent spawn needs the parent rollout. Its trace must show the named role, a returned wait and an exact product artifact. The runner pins the role configuration path for that invocation and matches the new fixture parent's rollout and its uniquely linked child. It checks the child's exact received developer instructions and completion, and records the parent's role invocation and model separately. Other local rollouts are considered only by their parent metadata; the receipts contain no instruction text or raw events. These cases exercise actual behavior in the supplied fixtures. Broader regression coverage, implicit routing and providers require their own cases.
+From the repository root, run the direct repair in a fresh disposable project:
+
+```sh
+receipt_dir="$(mktemp -d)"
+python3 -B evaluations/native_canary.py --case p01-direct \
+  --output "$receipt_dir/direct.jsonl"
+cat "$receipt_dir/direct.jsonl"
+```
+
+The expected change is `cheklist` to `checklist` in `README.md`; `notes.md` stays byte for byte the same. The receipt keeps the file checks, Codex completion, and source observation separate. Run P2 with `--case p02-handoff` and a new receipt path. P2 uses a persisted synthetic turn because native subagent spawn needs the parent rollout. Its trace must show the named role, a returned wait and an exact product artifact. The runner pins the role configuration path for that invocation and matches the new fixture parent's rollout and its uniquely linked child. It checks the child's exact received developer instructions and completion, and records the parent's role invocation and model separately. Other local rollouts are considered only by their parent metadata; the receipts contain no instruction text or raw events. These cases exercise actual behavior in the supplied fixtures. Broader regression coverage, implicit routing and providers require their own cases.
 
 The constructor has an explicit review boundary. Run `p03-passport` alone. `awaiting-exact-passport-review` means the builder has returned a review request; it is an intermediate stage. Review the exact saved revision, digest, accepted inputs and effects, then continue the constructor under its documented approval contract to produce the approved single-entry `canary-invoice-checker` package. Preserve the construction receipt. With a reviewed unpacked kit and matching authorized manifest digest, run the actual installed consumer against an independent invoice fixture:
 

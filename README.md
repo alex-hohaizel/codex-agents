@@ -7,7 +7,7 @@ Reusable skills, specialist roles, and a local workbench for Codex. Start with a
 ## Quickstart
 
 1. Follow [Start here](START_HERE.md) for the supported Codex setup. Use the [current release record](releases/current.json) to select the exact package and migration.
-2. Open a fresh Codex chat in a disposable project. Try a task you can verify, such as “Fix the broken relative link in this README and confirm its target exists.”
+2. Try the [direct repair canary](evaluations/README.md#run-a-focused-native-codex-canary). It creates a disposable project, asks real Codex to correct one typo in `README.md`, and verifies that `notes.md` is unchanged.
 3. For help choosing a route, install the optional Atelier Orchestrator and start with `$atelier-orchestrator`. For ongoing work, point Codex to the actual project and its checkpoint. Do not restate facts the project already records.
 
 Skills can be used separately. The local workbench is optional. You can give instructions and request artifacts in the language you use at work. The [installation guide](docs/en/GUIDE.md) covers discovery, updating, and recovery.
