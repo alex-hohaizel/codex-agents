@@ -358,8 +358,18 @@ def execute(case_id, case, args, raw_root):
         "{path=" + json.dumps(path, ensure_ascii=False) + ",enabled=false}"
         for path in duplicate_paths
     )
+    if case["sandbox"] == "workspace-write":
+        # The built-in workspace profile permits scratch writes by default.
+        # Keep its protected paths while making general temp trees read-only;
+        # workspace writes remain confined to the synthetic project.
+        sandbox = ["--permission-profile", "atelier-canary", "-c",
+                   'permissions={atelier-canary={extends=":workspace",'
+                   'filesystem={":slash_tmp"="read",":tmpdir"="read"},'
+                   'network={enabled=false}}}']
+    else:
+        sandbox = ["--sandbox", "read-only"]
     command = [args.codex, "-a", "never", "exec", "--ignore-user-config",
-                "--strict-config", "--json", "--sandbox", case["sandbox"],
+                "--strict-config", "--json", *sandbox,
                "-c", "skills.config=[" + configured + "]",
                "-c", 'web_search="disabled"', "--disable", "apps",
                "-c", "sandbox_workspace_write.network_access=false",
