@@ -1,6 +1,6 @@
 # Showcase sources and exports
 
-Open the [showcase language selector](../README.md) on GitHub or open [the gallery entry file](index.html) from a local checkout. The validation workflow publishes `Showcase.zip` with the seven HTML editions, all artwork, and the illustrated PDF. Extract the archive before opening `index.html`.
+Open the [showcase language selector](../README.md) on GitHub or open [the gallery entry file](index.html) from a local checkout. For the standalone download, sign in to GitHub and open a [successful validation run for main](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain). Under **Artifacts**, download `product-showcase`, extract `Showcase.zip`, and open `index.html`. The gallery contains seven HTML editions, all ten illustrations, and the illustrated PDF.
 
 The illustrated scenarios use fictional products and are paired with practical guides. The workbench plate is schematic. The gallery links to source-based instructions on retrieval, evaluation, permissions, and run evidence.
 

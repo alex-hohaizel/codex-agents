@@ -4,7 +4,9 @@
 
 Partez d’une tâche concrète ou reprenez un produit existant. Ces illustrations présentent les entrées, les décisions et les résultats de parcours représentatifs.
 
-[Ouvrir le guide](../../docs/fr/GUIDE.md#install) · [PDF illustré](../campaign/Showcase.pdf) · [Galerie hors ligne](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[Ouvrir le guide](../../docs/fr/GUIDE.md#install) · [PDF illustré](../campaign/Showcase.pdf) · [Galerie hors ligne](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+Connectez-vous à GitHub et ouvrez une validation réussie pour main. Dans Artifacts, téléchargez product-showcase, extrayez Showcase.zip et ouvrez index.html.
 
 [Un espace de travail connecté](#showcase-overview) · [My Day](#showcase-product) · [Sunridge Studio](#showcase-game) · [Assistant](#showcase-conversation) · [Global Logistics](#showcase-operations) · [Du tableur aux documents](#showcase-documents) · [Un spécialiste pour une tâche récurrente](#showcase-specialists) · [Recherche avec sources](#showcase-retrieval) · [Évaluer un parcours réel](#showcase-evaluation) · [Panneau Agent Atelier](#showcase-workbench)
 

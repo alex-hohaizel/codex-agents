@@ -4,7 +4,7 @@ The [component record](../releases/current.json) identifies the current reposito
 
 ## Download and verify
 
-Open [GitHub Releases](https://github.com/alex-hohaizel/codex-agents/releases/latest). Download the archive for your host and the accompanying `SHA256SUMS`. Select the exact tag and commit recorded in the release notes. Verify the downloaded digest, repository, signing workflow `.github/workflows/validate.yml`, source ref `refs/heads/main`, and approved commit. The Codex admission command checks all these pins and stages the archive outside skill discovery roots.
+Open [GitHub Releases](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.5.1). Download the archive for your host and the accompanying `SHA256SUMS`. Select the exact tag and commit recorded in the release notes. Verify the downloaded digest, repository, signing workflow `.github/workflows/validate.yml`, source ref `refs/heads/main`, and approved commit. The Codex admission command checks all these pins and stages the archive outside skill discovery roots.
 
 | Asset | Use |
 | --- | --- |
@@ -21,4 +21,4 @@ python3 -B scripts/check_repository.py
 python3 -B scripts/build_packages.py
 ```
 
-Both archives include current documentation, executable and test sources, curated skill assets, and technical examples. Local builds support inspection and disposable rehearsals. The release workflow signs the verified artifacts produced on the authoritative branch. For an installed result, keep the updater journal and open a fresh Codex session to confirm discovery and one meaningful invocation.
+Source builds contain current documentation, executable and test sources, curated skill assets, and technical examples. GitHub Actions supplies the showcase export and source snapshots for the exact checked commit. For published installation downloads, use the files attached to the stable release and their own recorded digest and attestation. For an installed result, keep the updater journal and open a fresh Codex session to confirm discovery and one meaningful invocation.

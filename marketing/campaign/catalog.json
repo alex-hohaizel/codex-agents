@@ -79,7 +79,8 @@
         "caption": "Open a local project, inspect its pinned next action, preview a draft and use the Orchestrator route. Confirm a runtime effect from the observed output and its evidence.",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "To download the offline gallery, sign in to GitHub and open a successful validation run for main. Under Artifacts, download product-showcase, then extract Showcase.zip and open index.html."
   },
   "uk": {
     "label": "Українська",
@@ -161,7 +162,8 @@
         "caption": "Відкрийте локальний проєкт, перегляньте прив’язану наступну дію й чернетку та використайте маршрут Orchestrator. Підтвердьте виконання за фактичним результатом і доказами.",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "Щоб завантажити офлайн-галерею, увійдіть до GitHub і відкрийте успішний запуск перевірки для main. У розділі Artifacts завантажте product-showcase, розпакуйте Showcase.zip і відкрийте index.html."
   },
   "de": {
     "label": "Deutsch",
@@ -243,7 +245,8 @@
         "caption": "Öffnen Sie ein lokales Projekt, prüfen Sie den nächsten Schritt und den Entwurf, und nutzen Sie den Orchestrator. Bestätigen Sie die Wirkung anhand der tatsächlichen Ausgabe.",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "Melden Sie sich bei GitHub an und öffnen Sie einen erfolgreichen Validierungslauf für main. Laden Sie unter Artifacts product-showcase herunter, entpacken Sie Showcase.zip und öffnen Sie index.html."
   },
   "it": {
     "label": "Italiano",
@@ -325,7 +328,8 @@
         "caption": "Apri il progetto locale, controlla la prossima azione e la bozza, poi usa il percorso Orchestrator. Conferma l’effetto osservando il risultato effettivo.",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "Accedi a GitHub e apri una convalida riuscita per main. In Artifacts scarica product-showcase, estrai Showcase.zip e apri index.html."
   },
   "es": {
     "label": "Español",
@@ -407,7 +411,8 @@
         "caption": "Abre el proyecto, revisa su siguiente acción y la propuesta, y usa la ruta de Orchestrator. Confirma el efecto a partir del resultado observado.",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "Inicia sesión en GitHub y abre una validación completada con éxito para main. En Artifacts, descarga product-showcase, extrae Showcase.zip y abre index.html."
   },
   "fr": {
     "label": "Français",
@@ -489,7 +494,8 @@
         "caption": "Ouvrez un projet local, examinez la prochaine action et le brouillon, puis utilisez Orchestrator. Confirmez l’effet d’après le résultat observé.",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "Connectez-vous à GitHub et ouvrez une validation réussie pour main. Dans Artifacts, téléchargez product-showcase, extrayez Showcase.zip et ouvrez index.html."
   },
   "zh-CN": {
     "label": "简体中文",
@@ -571,6 +577,7 @@
         "caption": "打开本地项目，检查下一步操作与草稿，再使用 Orchestrator 路由。根据实际输出和证据确认操作结果。",
         "section": "workbench"
       }
-    ]
+    ],
+    "offline_help": "登录 GitHub 并打开 main 分支的一次成功验证。在 Artifacts 中下载 product-showcase，再解压 Showcase.zip 并打开 index.html。"
   }
 }

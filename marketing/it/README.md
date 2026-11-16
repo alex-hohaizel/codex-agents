@@ -4,7 +4,9 @@
 
 Parti da un compito preciso o prosegui su un prodotto esistente. Questi esempi illustrano dati di ingresso, decisioni e risultati dei flussi di lavoro.
 
-[Apri la guida](../../docs/it/GUIDE.md#install) · [PDF illustrato](../campaign/Showcase.pdf) · [Galleria offline](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[Apri la guida](../../docs/it/GUIDE.md#install) · [PDF illustrato](../campaign/Showcase.pdf) · [Galleria offline](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+Accedi a GitHub e apri una convalida riuscita per main. In Artifacts scarica product-showcase, estrai Showcase.zip e apri index.html.
 
 [Uno spazio di lavoro condiviso](#showcase-overview) · [My Day](#showcase-product) · [Sunridge Studio](#showcase-game) · [Assistente](#showcase-conversation) · [Global Logistics](#showcase-operations) · [Dal foglio di calcolo ai documenti](#showcase-documents) · [Uno specialista per un’attività ricorrente](#showcase-specialists) · [Recupero di informazioni con fonti](#showcase-retrieval) · [Valutazioni di un flusso reale](#showcase-evaluation) · [Pannello Agent Atelier](#showcase-workbench)
 

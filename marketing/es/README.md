@@ -4,7 +4,9 @@
 
 Empieza por una tarea concreta o continúa un producto existente. Las ilustraciones muestran entradas, decisiones y resultados de flujos de trabajo representativos.
 
-[Abrir la guía](../../docs/es/GUIDE.md#install) · [PDF ilustrado](../campaign/Showcase.pdf) · [Galería sin conexión](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[Abrir la guía](../../docs/es/GUIDE.md#install) · [PDF ilustrado](../campaign/Showcase.pdf) · [Galería sin conexión](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+Inicia sesión en GitHub y abre una validación completada con éxito para main. En Artifacts, descarga product-showcase, extrae Showcase.zip y abre index.html.
 
 [Un espacio de trabajo conectado](#showcase-overview) · [My Day](#showcase-product) · [Sunridge Studio](#showcase-game) · [Asistente](#showcase-conversation) · [Global Logistics](#showcase-operations) · [De la hoja de cálculo a los documentos](#showcase-documents) · [Un especialista para una tarea recurrente](#showcase-specialists) · [Recuperación de información con evidencias](#showcase-retrieval) · [Evaluaciones de un flujo real](#showcase-evaluation) · [Panel Agent Atelier](#showcase-workbench)
 

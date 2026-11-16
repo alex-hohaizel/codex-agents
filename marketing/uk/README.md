@@ -4,7 +4,9 @@
 
 Почніть із конкретної задачі або продовжте наявний продукт. Ілюстрації показують вхідні дані, рішення й результати, з якими можна працювати за допомогою набору навичок.
 
-[Відкрити посібник](../../docs/uk/GUIDE.md#install) · [Ілюстрований PDF](../campaign/Showcase.pdf) · [Офлайн-галерея](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[Відкрити посібник](../../docs/uk/GUIDE.md#install) · [Ілюстрований PDF](../campaign/Showcase.pdf) · [Офлайн-галерея](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+Щоб завантажити офлайн-галерею, увійдіть до GitHub і відкрийте успішний запуск перевірки для main. У розділі Artifacts завантажте product-showcase, розпакуйте Showcase.zip і відкрийте index.html.
 
 [Єдиний робочий простір](#showcase-overview) · [Мій день](#showcase-product) · [Sunridge Studio](#showcase-game) · [Асистент](#showcase-conversation) · [Global Logistics](#showcase-operations) · [З таблиці до документів](#showcase-documents) · [Спеціаліст для повторюваної задачі](#showcase-specialists) · [Пошук із перевірними джерелами](#showcase-retrieval) · [Оцінювання робочого процесу](#showcase-evaluation) · [Панель Agent Atelier](#showcase-workbench)
 

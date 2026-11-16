@@ -15,6 +15,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ASSETS = ROOT / "assets/marketing/current"
 SITE = "https://github.com/alex-hohaizel/codex-agents"
+SHOWCASE_RUNS = f"{SITE}/actions/workflows/validate.yml?query=branch%3Amain"
 SECTIONS = {"install", "first-task", "workflow", "retrieval", "evals", "workbench", "operations", "catalog"}
 ASSET_NAMES = ("overview", "product", "game", "conversation", "operations", "documents", "specialists",
                "retrieval", "evaluation", "workbench")
@@ -91,8 +92,10 @@ def html_locale(books, record, locale, *, embedded=False):
         (handbook_link(locale, "install", medium="html"), book["guide"]),
         ("Showcase.pdf", book["pdf"]),
     ]
+    offline_help = ""
     if not embedded:
-        actions.append((f"{SITE}/actions/workflows/validate.yml", book["offline"]))
+        actions.append((SHOWCASE_RUNS, book["offline"]))
+        offline_help = f'<p>{e(book["offline_help"])}</p>'
     sections = []
     for index, card in enumerate(book["cards"]):
         identifier = card["id"]
@@ -119,7 +122,7 @@ def html_locale(books, record, locale, *, embedded=False):
         f'<body><a class="skip" href="#showcase">{e(book["title"])}</a><header>'
         f'<a href="index.html">Codex Agent System</a><nav aria-label="{e(book["choose"], quote=True)}">'
         f'{nav}</nav></header><main id="showcase"><h1>{e(book["title"])}</h1>'
-        f'<p class="intro">{e(book["intro"])}</p><ul class="actions">{top}</ul>'
+        f'<p class="intro">{e(book["intro"])}</p><ul class="actions">{top}</ul>{offline_help}'
         f'<div class="exhibits">{"".join(sections)}</div></main></body></html>\n'
     ).encode()
 
@@ -145,7 +148,7 @@ def markdown_locale(books, locale):
     lines = [
         f'# {book["title"]}', "", listing, "", book["intro"], "",
         f'[{book["guide"]}]({guide}) · [{book["pdf"]}](../campaign/Showcase.pdf) · '
-        f'[{book["offline"]}]({SITE}/actions/workflows/validate.yml)', "",
+        f'[{book["offline"]}]({SHOWCASE_RUNS})', "", book["offline_help"], "",
         " · ".join(f'[{card["title"]}](#{heading_id(card["id"])})' for card in book["cards"]), "",
     ]
     for card in book["cards"]:
@@ -173,10 +176,9 @@ def marketing_index(books):
         f"![{b['cards'][0]['alt']}](../assets/marketing/current/overview.png)\n\n"
         "[Explore the illustrated workflows](en/README.md) · [Read the user guide](../docs/en/GUIDE.md) · "
         "[Download the illustrated PDF](campaign/Showcase.pdf)\n\n"
-        "For offline viewing, open `marketing/campaign/index.html` from a checked-out repository or "
-        "download `Showcase.zip` from the latest successful validation run. The archive contains all "
-        "seven language editions and their shared artwork. "
-        "[Validation runs](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)\n"
+        "For offline viewing, open `marketing/campaign/index.html` from a checkout of `main`. "
+        "The standalone download contains all seven language editions and their shared artwork. "
+        f"{b['offline_help']} [Validation runs for main]({SHOWCASE_RUNS})\n"
     ).encode()
 
 
@@ -194,7 +196,7 @@ def load(*, refresh=False):
     for locale, book in books.items():
         if tuple(card["id"] for card in book["cards"]) != ASSET_NAMES:
             raise ValueError(f"Unexpected exhibit inventory: {locale}")
-        labels = ("label", "title", "intro", "guide", "view", "pdf", "offline", "choose")
+        labels = ("label", "title", "intro", "guide", "view", "pdf", "offline", "choose", "offline_help")
         if any(not book[key].strip() for key in labels):
             raise ValueError(f"Incomplete showcase copy: {locale}")
         if any(not all(card[key].strip() for key in ("title", "alt", "caption")) or card["section"] not in SECTIONS

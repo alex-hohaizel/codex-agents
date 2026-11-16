@@ -12,7 +12,7 @@ Start with the 33 core skills. Add the managed Codex profile and twelve role def
 
 ### Stage the official archive
 
-Set `setup_mode` to `fresh` or to the installed suite version you have verified. This block opens a private setup directory, resolves the exact official tag to a commit, checks out the trusted verifier there, and admits the ZIP using the published asset digest and that commit’s manifest. The attestation binds the ZIP to the repository, commit, source ref, and workflow.
+Set `setup_mode` to `fresh` or to the installed suite version you verified. This block selects the published stable release, fixes its tag and commit for the entire operation, and checks out the portable tools from that commit. It reads the archive digest from GitHub’s release metadata and the manifest pin from that commit’s release record. The verifier checks the attestation against the archive, repository, commit, source ref, and workflow.
 
 ```bash
 setup_mode=fresh
@@ -21,17 +21,22 @@ setup_dir="$(mktemp -d)"
   set -eu
   cd "$setup_dir"
   repository=alex-hohaizel/codex-agents
-  tag="$(gh release view --repo "$repository" --json tagName --jq .tagName)"
+  tag="$(gh release view --repo "$repository" --json tagName,isDraft,isPrerelease \
+    --jq 'select(.isDraft == false and .isPrerelease == false) | .tagName')"
+  [ -n "$tag" ]
   commit="$(gh api "repos/$repository/commits/$tag" --jq .sha)"
   git clone --quiet --filter=blob:none --no-checkout "https://github.com/$repository.git" source
   git -C source sparse-checkout set --no-cone \
     /scripts/ /kit/portable/ /kit/manifest.json /releases/current.json
   git -C source checkout --quiet --detach "$commit"
-  manifest_digest="$(python3 -c 'import hashlib,pathlib; print(hashlib.sha256(pathlib.Path("source/kit/manifest.json").read_bytes()).hexdigest())')"
+  [ "$tag" = "$(python3 -c 'import json; print(json.load(open("source/releases/current.json"))["release_tag"])')" ]
+  manifest_digest="$(python3 -c 'import json; print(json.load(open("source/releases/current.json"))["source_manifest_sha256"])')"
   suite="$(python3 -c 'import json; print(json.load(open("source/releases/current.json"))["suite_version"])')"
   edition="$(python3 -c 'import json; print(json.load(open("source/releases/current.json"))["repository_version"])')"
+  [ "$manifest_digest" = "$(python3 -c 'import hashlib,pathlib; print(hashlib.sha256(pathlib.Path("source/kit/manifest.json").read_bytes()).hexdigest())')" ]
   asset="Agent_System_${suite}_CODEX.zip"
-  archive_digest="$(gh api "repos/$repository/releases/tags/$tag" --jq ".assets[] | select(.name == \"$asset\") | .digest")"
+  archive_digest="$(gh api "repos/$repository/releases/tags/$tag" \
+    --jq ".assets[] | select(.name == \"$asset\") | .digest")"
   gh release download "$tag" --repo "$repository" --pattern "$asset"
   if [ "$setup_mode" = fresh ]; then
     set -- --fresh-install
@@ -48,7 +53,7 @@ setup_dir="$(mktemp -d)"
   admitted_kit="$(python3 -c 'import json; print(json.load(open("admission.json"))["kit"])')"
   python3 -B source/kit/portable/update_skill_suite.py audit \
     --kit "$admitted_kit" --plan "$setup_dir/review-pending-core.json"
-  python3 - admission.json review-pending-core.json <<'PY'
+  python3 - admission.json review-pending-core.json "$setup_mode" <<'PY'
 import json, sys
 with open(sys.argv[1], encoding="utf-8") as f:
     receipt = json.load(f)
@@ -58,14 +63,14 @@ if (receipt["status"] != "admitted-for-updater-audit" or not plan["ready"]
         or receipt["kit"] != plan["kit"]
         or receipt["manifest_sha256"] != plan["manifest_sha256"]):
     raise SystemExit("The plan does not match the admission receipt or is blocked.")
-if receipt["installation_mode"] == "fresh" and plan["discovered"]:
-    raise SystemExit("Managed skills already exist. Confirm the installed version and rerun setup as an update.")
+if sys.argv[3] == "fresh" and (receipt.get("installation_mode") != "fresh" or plan["discovered"]):
+    raise SystemExit("First installation is blocked. Check the admission mode and any discovered managed skills.")
 PY
   mv review-pending-core.json core-plan.json
 )
 ```
 
-If a GitHub deployment uses a different attestation ref or workflow from the official repository, use that release’s independently verified signer and source pins. The commands above target this repository’s official release path. Select explicit `--destination`, `--legacy-root`, or `--project-root` during audit only when your Codex configuration requires them. Use the same target roots in verification. Ask Codex to inspect a plan in your language if you want a guided installation.
+Use the official package source pins in this procedure. Select explicit `--destination`, `--legacy-root`, or `--project-root` during audit only when your Codex configuration requires them. Use the same target roots in verification. Ask Codex to inspect a plan in your language if you want a guided installation.
 
 ### Review and apply
 

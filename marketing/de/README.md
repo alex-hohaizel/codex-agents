@@ -4,7 +4,9 @@
 
 Beginnen Sie mit einer konkreten Aufgabe oder entwickeln Sie ein bestehendes Produkt weiter. Die Illustrationen zeigen Eingaben, Entscheidungen und Ergebnisse für typische Arbeitsabläufe.
 
-[Leitfaden öffnen](../../docs/de/GUIDE.md#install) · [Illustriertes PDF](../campaign/Showcase.pdf) · [Offline-Galerie](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[Leitfaden öffnen](../../docs/de/GUIDE.md#install) · [Illustriertes PDF](../campaign/Showcase.pdf) · [Offline-Galerie](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+Melden Sie sich bei GitHub an und öffnen Sie einen erfolgreichen Validierungslauf für main. Laden Sie unter Artifacts product-showcase herunter, entpacken Sie Showcase.zip und öffnen Sie index.html.
 
 [Ein gemeinsamer Arbeitsbereich](#showcase-overview) · [My Day](#showcase-product) · [Sunridge Studio](#showcase-game) · [Assistent](#showcase-conversation) · [Global Logistics](#showcase-operations) · [Von der Tabelle zum Dokument](#showcase-documents) · [Ein Spezialist für wiederkehrende Aufgaben](#showcase-specialists) · [Informationsabruf mit Belegen](#showcase-retrieval) · [Evaluation eines Arbeitsablaufs](#showcase-evaluation) · [Agent Atelier](#showcase-workbench)
 

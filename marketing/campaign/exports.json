@@ -79,23 +79,23 @@
     },
     {
       "path": "de.html",
-      "sha256": "952efeb7560be9607cac5ea216f6ee6ba517503a0ebbb6cf20bff807f75840e5",
-      "size": 8907
+      "sha256": "21d021f333aa1d52cb771b90c9125183e112be3e04f071866f21389edfd8ba39",
+      "size": 9135
     },
     {
       "path": "en.html",
-      "sha256": "674c18dc25ee9fb48057e710fd6a15d7542e34f4bdcdff05ec8fa879acd07f01",
-      "size": 8956
+      "sha256": "b85af75e8f042d121eef36f73b234d06bbe4d5afdc8caffbac09248c4ab69a43",
+      "size": 9171
     },
     {
       "path": "es.html",
-      "sha256": "d427d780126aff525ce0a8a17798c6fd54059c98322c2d678694abf515c2307c",
-      "size": 8650
+      "sha256": "27947e27ee706f2c59fb3b81dc6d8f3a7a433c5f3134e9b1fb197c03b92d8a10",
+      "size": 8837
     },
     {
       "path": "fr.html",
-      "sha256": "cae46166eea95e51b24406f612fde4b47a3e23c6b3d3de449e7bae4a49192319",
-      "size": 8844
+      "sha256": "39e2687d4473cfefa14e410fd383b88df4333c379c6d7a45153dc931463295b0",
+      "size": 9032
     },
     {
       "path": "index.html",
@@ -104,18 +104,18 @@
     },
     {
       "path": "it.html",
-      "sha256": "8c20f24a6367a100b817b458a99d036a7d0ab5a812738ce67bf02e00e542942a",
-      "size": 8680
+      "sha256": "61b0d0e9d6eebba3b5645e1a6cd45bee4b3eeb5dc1095105b852b3c992a88b42",
+      "size": 8840
     },
     {
       "path": "uk.html",
-      "sha256": "eab3441b1751c07fdfdea0466ebe5b50e2b06d720a8b0315e3e048a9ce2bb03e",
-      "size": 11686
+      "sha256": "c85d0c47af84404946e1b2a650578d568f19e94df7645e1505eb6823b3fa7526",
+      "size": 12019
     },
     {
       "path": "zh-CN.html",
-      "sha256": "1c3719759c9265e6126fd5bcf4424eaf292ae5d57aa7feed72029871fc536449",
-      "size": 8245
+      "sha256": "0cb30d7016b2c0e56dfa942caec49107373c2204b68bd38138f102d4e33554a6",
+      "size": 8420
     }
   ]
 }

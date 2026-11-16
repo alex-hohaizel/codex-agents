@@ -8,4 +8,4 @@ Start with a useful task or carry an existing product forward. These illustrated
 
 [Explore the illustrated workflows](en/README.md) · [Read the user guide](../docs/en/GUIDE.md) · [Download the illustrated PDF](campaign/Showcase.pdf)
 
-For offline viewing, open `marketing/campaign/index.html` from a checked-out repository or download `Showcase.zip` from the latest successful validation run. The archive contains all seven language editions and their shared artwork. [Validation runs](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+For offline viewing, open `marketing/campaign/index.html` from a checkout of `main`. The standalone download contains all seven language editions and their shared artwork. To download the offline gallery, sign in to GitHub and open a successful validation run for main. Under Artifacts, download product-showcase, then extract Showcase.zip and open index.html. [Validation runs for main](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)

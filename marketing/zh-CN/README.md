@@ -4,7 +4,9 @@
 
 从具体任务开始，或继续开发已有产品。以下示例展示典型工作流程的输入、决策与结果。
 
-[打开指南](../../docs/zh-CN/GUIDE.md#install) · [图解 PDF](../campaign/Showcase.pdf) · [离线图库](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[打开指南](../../docs/zh-CN/GUIDE.md#install) · [图解 PDF](../campaign/Showcase.pdf) · [离线图库](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+登录 GitHub 并打开 main 分支的一次成功验证。在 Artifacts 中下载 product-showcase，再解压 Showcase.zip 并打开 index.html。
 
 [关联的工作区](#showcase-overview) · [My Day](#showcase-product) · [Sunridge Studio](#showcase-game) · [对话助手](#showcase-conversation) · [Global Logistics](#showcase-operations) · [从表格到文档](#showcase-documents) · [用于重复任务的专员](#showcase-specialists) · [有证据的信息检索](#showcase-retrieval) · [评估实际工作流程](#showcase-evaluation) · [Agent Atelier 工作台](#showcase-workbench)
 

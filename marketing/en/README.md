@@ -4,7 +4,9 @@
 
 Start with a useful task or carry an existing product forward. These illustrated scenarios show decisions, inputs and outcomes you can work through with the suite.
 
-[Start the guide](../../docs/en/GUIDE.md#install) · [Illustrated PDF](../campaign/Showcase.pdf) · [Offline gallery](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml)
+[Start the guide](../../docs/en/GUIDE.md#install) · [Illustrated PDF](../campaign/Showcase.pdf) · [Offline gallery](https://github.com/alex-hohaizel/codex-agents/actions/workflows/validate.yml?query=branch%3Amain)
+
+To download the offline gallery, sign in to GitHub and open a successful validation run for main. Under Artifacts, download product-showcase, then extract Showcase.zip and open index.html.
 
 [A connected workspace](#showcase-overview) · [My Day](#showcase-product) · [Sunridge Studio](#showcase-game) · [Assistant](#showcase-conversation) · [Global Logistics](#showcase-operations) · [Spreadsheet to documents](#showcase-documents) · [A specialist for a recurring task](#showcase-specialists) · [Retrieval with evidence](#showcase-retrieval) · [Evaluations for a real workflow](#showcase-evaluation) · [Agent Atelier workbench](#showcase-workbench)
 
