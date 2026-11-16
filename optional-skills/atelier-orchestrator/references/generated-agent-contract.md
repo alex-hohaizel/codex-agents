@@ -136,7 +136,7 @@ A self-contained child bundles the applicable protocol, `assets/decision-card.te
 
 ## Inherited general working method
 
-Every new child bundles exact current `references/adaptive-work.md`, `references/research-and-synthesis.md`, `references/visual-identity.md`, `references/joint-work-codex.md`, `scripts/adaptive_work.py`, `scripts/visual_identity.py`, `assets/adaptive-task.schema.json`, and `assets/adaptive-task.example.json`. Link all four references locally in the child `SKILL.md` and define when to use them. Retain domain, depth and rule contracts. Before export run the constructor's `scripts/check_generated_inheritance.py` for all child roots. `package_agent.py --purpose generated` uses this structural gate and records exact resource hashes in manifest `operating_standard`.
+Bundle the complete operating resources listed below and link the local references from the entrypoint. Retain domain, depth and rule contracts. Before export run the constructor's `scripts/check_generated_inheritance.py` for all child roots. `package_agent.py --purpose generated` uses this structural gate and records exact resource hashes in manifest `operating_standard`.
 
 For new or resumed scope separately assess task size, uncertainty, consequences, coupling, capability, authority and evidence needed for acceptance. A localized task only needs a short assessment. Material work records strategy, competency and source reconciliation in the current registry. Do not create a duplicate backlog or a new product for a one-off assignment.
 
@@ -158,14 +158,16 @@ Create a new project-specific icon using `scripts/visual_identity.py create-proj
 
 Keep existing icons without regeneration or recoloring. Include the genuine prior freeze as a local source, for example `assets/visual-identity-prior.json`, and pin its SHA-256. Origin uses `kind=preserved` and `prior_snapshot={path,sha256}`. The current lock matches the prior snapshot exactly. A date, file label or preserved field does not establish history. Retain actual observation in the project registry and check it in semantic review. Do not represent a new system icon as preexisting to evade the project style requirement.
 
-## Production and context standard 6.0
+## Portable operating resources
 
-A 6.0 child includes 12 shared resources: the earlier eight adaptive, visual and host resources plus `references/production-quality.md`, `references/context-capsule.md`, `assets/production-profiles.json`, and `scripts/context_capsule.py`. The entry has six local links. Choose the applicable medium profile, transfer defining reference mechanisms, identity, functional depth and exact task context, and accept an actual representative result before batch production. A byte or link check does not prove semantic quality, craft, consent or runtime. A 5.0 package with eight resources does not inherit 6.0 review retroactively. Adoption requires an explicit source-to-target comparison and a fresh recipient.
+Bundle these 15 exact resources in every self-contained child.
 
-## Conditional production standard 6.1
+- Link `references/adaptive-work.md`, `references/research-and-synthesis.md`, `references/visual-identity.md`, `references/joint-work-codex.md`, `references/production-quality.md`, `references/context-capsule.md`, and `references/ai-production.md` from the entrypoint.
+- Include the helpers `scripts/adaptive_work.py`, `scripts/visual_identity.py`, `scripts/context_capsule.py`, and `scripts/ai_production.py`.
+- Include the data files `assets/adaptive-task.schema.json`, `assets/adaptive-task.example.json`, `assets/production-profiles.json`, and `assets/ai-production.schema.json`.
 
-A 6.1 child adds exact local `references/ai-production.md`, `assets/ai-production.schema.json`, and `scripts/ai_production.py` to the earlier twelve resources for 15 total. Link `references/ai-production.md` as the seventh local reference and direct the agent to use only applicable profiles. Copy resources to each self-contained child without depending on the parent runtime or an upstream checkout.
+Choose the medium profile that matches the task, transfer the defining reference mechanisms and exact context, and verify a representative result in the actual medium before scaling. Preserve identity, functional depth and domain requirements.
 
-DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA, and EVALUATION are conditional capabilities of actual workers. Do not add seven default skills or permanent actors. Retain the integrator, domain contracts and original requested result. From the 13 material types create only relevant records with actual inputs, consumer and proof. The context compiler and AI/data checker do not execute model or external jobs or certify quality, agreement or independence.
+Use DATA, ANALYSIS, LLM, PREDICTION, ADAPTATION, MEDIA, and EVALUATION as conditional capabilities of actual workers. Keep one integrator and add only the material records that apply, with actual inputs, owner, consumer and evidence. Inspect the original source independently and verify native behavior separately from the file and link checks.
 
-The checker verifies 15 exact resources and seven reference links for a new 6.1 result. The installer distinguishes the eight-resource 5.x, 12-resource 6.0.x and 15-resource 6.1.x contracts; do not infer later formats. Extra files in a legacy package do not promote its standard. Adopt an existing agent only with explicit source-to-target comparison, permissions, identity and changes preserved, and a bounded actual task. Historical evidence stays at its original scope. The repository edition does not change the portable contract version by itself.
+Use the operating-standard identifier and hashes emitted by the bundled checker. The suite version and the package contract identify different artifacts. An existing agent retains its declared contract until a reviewed change preserves permissions, approved work and visual identity and passes a bounded task in a fresh context.

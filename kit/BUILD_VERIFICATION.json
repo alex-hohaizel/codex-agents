@@ -1,12 +1,16 @@
 {
   "files": {
     "PROVENANCE.md": {
-      "sha256": "fc120aa806af8de1f15db0ed0a7e5e7ee0e88debe90f24f85735725847e40083",
-      "size": 3474
+      "sha256": "8a0037f01e9da7bed93fd1731496edffa6267e89ef15191e8d73ab41dca8b354",
+      "size": 1878
+    },
+    "README.md": {
+      "sha256": "f0835bdd823b9d034e20bd781715f83d7aaca3c201173eb066be874934fc7989",
+      "size": 1096
     },
     "manifest.json": {
-      "sha256": "2c3aa159ed17c9b047ac58f0b92635af68a938308ae9a984c339431540b0907c",
-      "size": 3871659
+      "sha256": "ec54048e487bcb669171821dbc213c994dac2dd383dba43ae20c3fa318e8ac5d",
+      "size": 4569873
     },
     "portable/check_generated_inheritance.py": {
       "sha256": "4ad3b0e8c8b2c98c05816326ce02530ab02c5323e6dd83aabd0ab4a7e668aa73",
@@ -25,7 +29,7 @@
       "size": 10573
     },
     "skills/agent-foundry/SKILL.md": {
-      "sha256": "4a9414e1dc9c98b1152bd56503712acf281b4c2c57688a96383b13dcb573541e",
+      "sha256": "8352e6868c637f1d0773e6bbb1938f26723ced8b137ac1104c9236dcbc9dfd84",
       "size": 15860
     },
     "skills/agent-foundry/agents/openai.yaml": {
@@ -177,16 +181,16 @@
       "size": 5462
     },
     "skills/agent-foundry/references/generated-agent-contract.md": {
-      "sha256": "d47a4efe3c334b2c00e0b3fe9278872785c61d3b0536da291024ae1db7fa9463",
-      "size": 27022
+      "sha256": "7eaabd6266230b5664e5e82f6d356d99ecfd8f2c31825c1b1c9977ae20b127b5",
+      "size": 26125
     },
     "skills/agent-foundry/references/interaction-protocol.md": {
       "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
       "size": 5835
     },
     "skills/agent-foundry/references/joint-use-inheritance.md": {
-      "sha256": "da70e5ed910358a62b0f07dbbdd141ca7ac68503165208e41ac34d383b52a746",
-      "size": 4509
+      "sha256": "547e55c573a62e2f5e7e61846b61b06ecf546d1db9ff8f4cd08182f97dd03006",
+      "size": 3048
     },
     "skills/agent-foundry/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -349,7 +353,7 @@
       "size": 8646
     },
     "skills/app-atelier-build/SKILL.md": {
-      "sha256": "0387a6eef49af3d4dbe04412947ffb75f15391842b5203ba62f6fd321e874961",
+      "sha256": "1735e175587df7764947d6442d7a2710a67c06c8e8a4948771f867cafa16004f",
       "size": 8848
     },
     "skills/app-atelier-build/agents/openai.yaml": {
@@ -437,7 +441,7 @@
       "size": 17700
     },
     "skills/app-atelier-build/assets/toolkit-version.json": {
-      "sha256": "79b2c7f3aa979a9685f2ee9d6214af9afd38112d5d938b9d7a4d8781a4fc8df5",
+      "sha256": "e801c5efe0d606570252145bd61e3e591e8482eea4595abc6c0893a6e03dae16",
       "size": 178
     },
     "skills/app-atelier-build/references/acceptance.md": {
@@ -589,7 +593,7 @@
       "size": 8646
     },
     "skills/app-atelier-concepts/SKILL.md": {
-      "sha256": "7f889ec30797d94863bc0f54122c97a0b524d68d09199c66f9c858e86068761e",
+      "sha256": "3bc08fd4dd2b5ef90215309da7ac8a3c91149b32f04f264426af1c04d74c140d",
       "size": 7845
     },
     "skills/app-atelier-concepts/agents/openai.yaml": {
@@ -677,7 +681,7 @@
       "size": 17700
     },
     "skills/app-atelier-concepts/assets/toolkit-version.json": {
-      "sha256": "dbe6110feb3a81b642e966aaf518a66a6a6ed1c0d4a20c0659fc18e967ae65f9",
+      "sha256": "b8b2025cb7ac5a33da0b96295f90ba74f371f290209d7ffd6e8ede4b56d437b7",
       "size": 181
     },
     "skills/app-atelier-concepts/references/acceptance.md": {
@@ -829,7 +833,7 @@
       "size": 8646
     },
     "skills/app-atelier-director/SKILL.md": {
-      "sha256": "8dd530fd03ab9b34a2b9c2a55aaf475697aa01f7e5be8ff228593e81b2afe8cf",
+      "sha256": "e96a382def54e1e5dd4066c4bcd76b67c884d6d5ac56ed6d6509b7ad7ef8b3bd",
       "size": 8588
     },
     "skills/app-atelier-director/agents/openai.yaml": {
@@ -917,7 +921,7 @@
       "size": 17700
     },
     "skills/app-atelier-director/assets/toolkit-version.json": {
-      "sha256": "8bdf1a5e087dd5a2c1fd2b398ff5cc5cc8b7d9d78a4e5fcef82e3b31895192ba",
+      "sha256": "1232a313f8542eb78c448c06e1bfee53215cafdce9a0c10e5a0510d6f300dc22",
       "size": 181
     },
     "skills/app-atelier-director/references/acceptance.md": {
@@ -1081,7 +1085,7 @@
       "size": 8646
     },
     "skills/app-atelier-experience/SKILL.md": {
-      "sha256": "4f50a5e8cf93dbc1cdbb0dff7c76dec7287ffb9e5cd1ab399657400ec213e563",
+      "sha256": "45efd28ea1d0d41630c21e56805c03d422acdb5571a61294d43b38658bb11049",
       "size": 8383
     },
     "skills/app-atelier-experience/agents/openai.yaml": {
@@ -1169,7 +1173,7 @@
       "size": 17700
     },
     "skills/app-atelier-experience/assets/toolkit-version.json": {
-      "sha256": "632907e417eaabb36ed2a509b8f8f1e77c0e7d56d6a2a644649b954dd4fab63b",
+      "sha256": "6cffeda01b38a1d35a31aa789349d068a21c908a4abc81672993e4fbcbccadb6",
       "size": 183
     },
     "skills/app-atelier-experience/references/acceptance.md": {
@@ -1321,7 +1325,7 @@
       "size": 8646
     },
     "skills/app-atelier-growth/SKILL.md": {
-      "sha256": "4b3ea472644faedb7c8b4883ed586d116c56cc18599dafbe936aed81526d781b",
+      "sha256": "3cb16be9eea8f845c17b7e6e09fa16b2dc1ac7498cc10eb3cee1dbb457e4acad",
       "size": 8194
     },
     "skills/app-atelier-growth/agents/openai.yaml": {
@@ -1409,7 +1413,7 @@
       "size": 17700
     },
     "skills/app-atelier-growth/assets/toolkit-version.json": {
-      "sha256": "1d8f3d17510f31232069007c813f39f697d62322fcb51c4bdedfc63d9635d6a7",
+      "sha256": "a3965aa68d2ced1f53def796332004d5688a5ebdd90da28b3521632553dab815",
       "size": 179
     },
     "skills/app-atelier-growth/references/acceptance.md": {
@@ -1561,7 +1565,7 @@
       "size": 8646
     },
     "skills/app-atelier-operations/SKILL.md": {
-      "sha256": "d7e21dba5eee5525a7fb0fcfe2dbc1352aebbc866a0c35071f7a604649bc6c88",
+      "sha256": "ab5c557ee963ac0bd8f0187f74a06702872bb4e7d3c5288d40a46868e3e13a32",
       "size": 7874
     },
     "skills/app-atelier-operations/agents/openai.yaml": {
@@ -1649,7 +1653,7 @@
       "size": 17700
     },
     "skills/app-atelier-operations/assets/toolkit-version.json": {
-      "sha256": "d6196a1484d3ec9e27c7ee5fbe77624b0be36293d90e0d9072c415f2a1376413",
+      "sha256": "c2342403c127d44b36552ca925a7ea0e7c9a8ede77cb6ab8d3e2f83322c3f2ef",
       "size": 183
     },
     "skills/app-atelier-operations/references/acceptance.md": {
@@ -1801,7 +1805,7 @@
       "size": 8646
     },
     "skills/app-atelier-qa/SKILL.md": {
-      "sha256": "91df21d74a02a8dcca5af535321e247fb3f24d969646bae4fb579ac46ab0dde7",
+      "sha256": "a8c1fd5fd1e732330240aaf07ea17cc8f830461a8921945f5ac805cbd85b1376",
       "size": 10889
     },
     "skills/app-atelier-qa/agents/openai.yaml": {
@@ -1889,7 +1893,7 @@
       "size": 17700
     },
     "skills/app-atelier-qa/assets/toolkit-version.json": {
-      "sha256": "186124a9d32f44a17d4893f3c8214c27a3cb17efe71dfebeadb6c42acf548219",
+      "sha256": "7c9d2e5444fe25423539c4ec564140170f88ff6bbb70e5078f9d9b688dd2c365",
       "size": 175
     },
     "skills/app-atelier-qa/references/acceptance.md": {
@@ -2041,7 +2045,7 @@
       "size": 8646
     },
     "skills/app-atelier-release/SKILL.md": {
-      "sha256": "6c382d8d006e4402c6328628ba3d6182a3df1ed0a07a3482702bae372fd2e83a",
+      "sha256": "5d17629f3c81e734536a2b520960b9757ffb7df9d10d19f675570d7f6197f9ae",
       "size": 7853
     },
     "skills/app-atelier-release/agents/openai.yaml": {
@@ -2129,7 +2133,7 @@
       "size": 17700
     },
     "skills/app-atelier-release/assets/toolkit-version.json": {
-      "sha256": "2aafe1456baa900582eafa12120f7de28ab747f3ac366609773a4703080d2e7e",
+      "sha256": "9274f00783fb916be189ea859ad475af5c0c941f355d8547946a85d1a294fcb0",
       "size": 180
     },
     "skills/app-atelier-release/references/acceptance.md": {
@@ -2281,7 +2285,7 @@
       "size": 8646
     },
     "skills/app-atelier-research/SKILL.md": {
-      "sha256": "f3f03f34b73228c739b5cd77acfa030010c84236471045a5cbac7f9511a48f14",
+      "sha256": "0fb2ed1891d3a2e26916278f60040a70a7d9bf3bba251cf539e8cdc6fa9cd5eb",
       "size": 7951
     },
     "skills/app-atelier-research/agents/openai.yaml": {
@@ -2369,7 +2373,7 @@
       "size": 17700
     },
     "skills/app-atelier-research/assets/toolkit-version.json": {
-      "sha256": "815dbdbadaca90f8bdb3111fcf67a34dbb8515efc8b24cc461f39d7227769fdc",
+      "sha256": "02d45dc63397f288ff928d6d5a7a1794863758a488ec3c188834d0e2b1041d37",
       "size": 181
     },
     "skills/app-atelier-research/references/acceptance.md": {
@@ -2521,7 +2525,7 @@
       "size": 8646
     },
     "skills/app-atelier-specification/SKILL.md": {
-      "sha256": "f3b3ce023ad49ffcf80dd8fe2af5f7512509da0266adcddb7ca5488a29acf632",
+      "sha256": "b3a5013b62ae0ae8398aaf23324039e2be035e6dda0391d1dfc85fac3ce29d86",
       "size": 9081
     },
     "skills/app-atelier-specification/agents/openai.yaml": {
@@ -2609,7 +2613,7 @@
       "size": 17700
     },
     "skills/app-atelier-specification/assets/toolkit-version.json": {
-      "sha256": "7563611a48a2bcb3a8bd4f4b21e8b5ffe6ffb130242f308478fe92b32b2a39e2",
+      "sha256": "6c66199ef90cc7043b29f2de325f5291e0def9d4bd60f77430c434bc59026a7d",
       "size": 186
     },
     "skills/app-atelier-specification/references/acceptance.md": {
@@ -2761,7 +2765,7 @@
       "size": 8646
     },
     "skills/app-atelier-support/SKILL.md": {
-      "sha256": "32686800f9eb09d6b1997a15b6755369d1a36d19ab065199e0d9131da67d8aea",
+      "sha256": "ca0854612e523bb4ccd256b8b4508b93fcba47c4472deff4eed79a854cce811c",
       "size": 9382
     },
     "skills/app-atelier-support/agents/openai.yaml": {
@@ -2849,7 +2853,7 @@
       "size": 17700
     },
     "skills/app-atelier-support/assets/toolkit-version.json": {
-      "sha256": "ab611e1d0e4a3f124967120ce5804ac67570d38b55295f2a3954c1ca66cc2679",
+      "sha256": "b4e573074e3f051ee6003266bbb0848f016a824032776e9769df3ca48b90b654",
       "size": 180
     },
     "skills/app-atelier-support/references/acceptance.md": {
@@ -3001,7 +3005,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-build/SKILL.md": {
-      "sha256": "de01395c26195fcd4849343b1e6c99ffe8940788c02b65daad30108922f04b50",
+      "sha256": "2314ea156c3591f2fb7a69470d2a384b32eeab80b9f431d7bc96dc70e9367cdd",
       "size": 9077
     },
     "skills/chatbot-atelier-build/agents/openai.yaml": {
@@ -3353,7 +3357,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-conversation/SKILL.md": {
-      "sha256": "51bd24f9135a774959d3c9143aa58b98b29ac7e3ab7bcf7d1a46b56cf7f1610b",
+      "sha256": "48e4726394c46f7c7b316dead13ffdeb39f3acb9092b535ad63146ab11b09758",
       "size": 9188
     },
     "skills/chatbot-atelier-conversation/agents/openai.yaml": {
@@ -3705,7 +3709,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-director/SKILL.md": {
-      "sha256": "73bd8ef434020f444c9ba12da48150c743a81c0924c262d8203472d5f492c0e3",
+      "sha256": "0f223fcf0d55d1a4d124841ac5457694fe3716e819c466cdf452dd71c8f0f67b",
       "size": 9108
     },
     "skills/chatbot-atelier-director/agents/openai.yaml": {
@@ -4061,7 +4065,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-integrations/SKILL.md": {
-      "sha256": "c96348b2d2594ff62312afa5cd6e99c810176e81cab0fe90f7a1c7a5a7b5583f",
+      "sha256": "e636f420c55cb0c0eb81b3c91531fe9741c12d01431ea59abda5fdb1ab3886c4",
       "size": 9604
     },
     "skills/chatbot-atelier-integrations/agents/openai.yaml": {
@@ -4413,7 +4417,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-knowledge/SKILL.md": {
-      "sha256": "ec9b65179ac5826f683429bf4aec3a8f621d5271b33e0706432fbc8d927b1a4e",
+      "sha256": "9450475ce13af5ede65085b5d8283c96895daffbb4a917e7d23c16de695c9310",
       "size": 9451
     },
     "skills/chatbot-atelier-knowledge/agents/openai.yaml": {
@@ -4765,7 +4769,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-media/SKILL.md": {
-      "sha256": "7190f6aecc2fabaf2db9f6728b9069dba8ba0db11ff9692bcfa0abad318cd4f1",
+      "sha256": "42c53d8b2bf881cd7d5444c1b7560689f6e26ec924bd27b7f3a72ee6c58936cf",
       "size": 9205
     },
     "skills/chatbot-atelier-media/agents/openai.yaml": {
@@ -5117,7 +5121,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-operations/SKILL.md": {
-      "sha256": "ac28c4d962d14cec304ce871e771bfdd4c633cb5ad95aa89fbc6cabe78f52ca0",
+      "sha256": "23bd3681518df04c330c75bdba9b418aab665117d06ef1b2beb33445791277aa",
       "size": 9413
     },
     "skills/chatbot-atelier-operations/agents/openai.yaml": {
@@ -5469,7 +5473,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-qa/SKILL.md": {
-      "sha256": "37cf4e37fe45d8fd6a0c4d3fd18b30f7470f488bf628e87c24a5c2b8dd49448a",
+      "sha256": "b283ddff6764c0a004507e345d8ab9b832a99b5ace4543d2488c5180eed06a9a",
       "size": 9716
     },
     "skills/chatbot-atelier-qa/agents/openai.yaml": {
@@ -5821,7 +5825,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-release/SKILL.md": {
-      "sha256": "63ec51291b0f4530f110228ac065932289c12cd44a6d645892e58aaaa69302d3",
+      "sha256": "faca7bcf4681799c3dea31555599739378c08ae9c3587c17f0aec993073a5fc2",
       "size": 9058
     },
     "skills/chatbot-atelier-release/agents/openai.yaml": {
@@ -6173,7 +6177,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-research/SKILL.md": {
-      "sha256": "00db29e02b66fd9cc220e3724986fa711982b74e68577aa6164dccc4ade537ea",
+      "sha256": "e767851785d07f397f9f2582f3810fe3b843fd36ceec5aa8df1e91a3f942d944",
       "size": 8956
     },
     "skills/chatbot-atelier-research/agents/openai.yaml": {
@@ -6525,7 +6529,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-specification/SKILL.md": {
-      "sha256": "c2414f95aa3de1aa5e0dfdd7dbb593b768f50d4f12033f768e6db3ab45e390ac",
+      "sha256": "2f97fd0c0a726825cbd481a9feaf29162f2628c29ce6e01db0e58e2c0e9661e7",
       "size": 9434
     },
     "skills/chatbot-atelier-specification/agents/openai.yaml": {
@@ -6881,7 +6885,7 @@
       "size": 19
     },
     "skills/design-specialist-skills/SKILL.md": {
-      "sha256": "b27ef91bbbb5c30a3a49677a77c213a09ba0c25602e7bca68aa2da3d3c931aa7",
+      "sha256": "002caad7321a84d7c59eded7fca090db869a389893223063fa2a835754bb03cb",
       "size": 9185
     },
     "skills/design-specialist-skills/agents/openai.yaml": {
@@ -6973,7 +6977,7 @@
       "size": 17700
     },
     "skills/design-specialist-skills/assets/version.json": {
-      "sha256": "8efb1e591ef08618391d3976361a0d9bccb0dbc01d2d1e3055f1559ce2c1bb55",
+      "sha256": "7632de50fa4e57075f768b9f2d2798491ae97435b500011b701af1654309808f",
       "size": 163
     },
     "skills/design-specialist-skills/references/adaptive-work.md": {
@@ -7013,16 +7017,16 @@
       "size": 8421
     },
     "skills/design-specialist-skills/references/inheritance-contract.md": {
-      "sha256": "a4466339172738c45475e1dc374045c6468032458fde1c02cf587c1bd64bac90",
-      "size": 10970
+      "sha256": "5ba7d6aae9ce9b59a4b319f1868603e5813eea8d86d9b71c9d2db6ec8e16c33b",
+      "size": 10623
     },
     "skills/design-specialist-skills/references/interaction-protocol.md": {
       "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
       "size": 5835
     },
     "skills/design-specialist-skills/references/joint-use-inheritance.md": {
-      "sha256": "666f999a24a511c004dcab5f9eaed714a8f13fbe26fa455e6a52289bcceb3703",
-      "size": 4210
+      "sha256": "d5cf9950a90e03e06d69036f4eb57b8e7b5a1b04d8761fcb75692f7b3968109d",
+      "size": 4082
     },
     "skills/design-specialist-skills/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -7137,7 +7141,7 @@
       "size": 8646
     },
     "skills/gamedev-assets/SKILL.md": {
-      "sha256": "c3976c282a2e33a54079f68535b05cf790358a15b3918b7f4f88fa4c98042a4d",
+      "sha256": "beda5bd80f33942f78ac9b7593c40c4886db4161f725a69e705a27686786b7ec",
       "size": 9842
     },
     "skills/gamedev-assets/agents/openai.yaml": {
@@ -7581,8 +7585,8 @@
       "size": 6337
     },
     "skills/gamedev-assets/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-assets/references/environments-vfx.md": {
       "sha256": "25e382b977713a8a8a72375588d0713580b888dd6e7af54cac2133e9556f4c01",
@@ -7597,8 +7601,8 @@
       "size": 6455
     },
     "skills/gamedev-assets/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-assets/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -7625,8 +7629,8 @@
       "size": 7094
     },
     "skills/gamedev-assets/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-assets/references/production-bindings.md": {
       "sha256": "7ba41219f8f3a5b294ae2e1ef25b3b71c8e08e343b2dddd7745ccefa33db4d62",
@@ -7797,7 +7801,7 @@
       "size": 23525
     },
     "skills/gamedev-build/SKILL.md": {
-      "sha256": "053acefb188b94ebfaed73bc024eb359baed6d15bc2c247c9d0e485840d74ce3",
+      "sha256": "bebbf48de99caef6acfee0810edc2c0e998e570c59136dfe0c5359d04e43af94",
       "size": 10346
     },
     "skills/gamedev-build/agents/openai.yaml": {
@@ -8205,8 +8209,8 @@
       "size": 6337
     },
     "skills/gamedev-build/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-build/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -8221,8 +8225,8 @@
       "size": 6455
     },
     "skills/gamedev-build/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-build/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -8261,8 +8265,8 @@
       "size": 5691
     },
     "skills/gamedev-build/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-build/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -8429,7 +8433,7 @@
       "size": 23525
     },
     "skills/gamedev-concepts/SKILL.md": {
-      "sha256": "85eebd195055200e749486cb2a9be990bbe6bcbe3b403bd7dfb17867df39a91b",
+      "sha256": "255a9e620ee9ed84fdfa405e399925df11e4730f4c769762c66db22963c5d5b2",
       "size": 11295
     },
     "skills/gamedev-concepts/agents/openai.yaml": {
@@ -8837,8 +8841,8 @@
       "size": 6337
     },
     "skills/gamedev-concepts/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-concepts/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -8849,8 +8853,8 @@
       "size": 6455
     },
     "skills/gamedev-concepts/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-concepts/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -8877,8 +8881,8 @@
       "size": 7094
     },
     "skills/gamedev-concepts/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-concepts/references/product-systems.md": {
       "sha256": "076c5d2cd368d9e12321f73ed90f64af59aa8eac1a41e3c231e047a82ac702e3",
@@ -9053,7 +9057,7 @@
       "size": 23525
     },
     "skills/gamedev-director/SKILL.md": {
-      "sha256": "6271539b874800a12589ccd68299b5678ec91378ef98ffc84936a63baf26cb6a",
+      "sha256": "c76c517bcd33aee39d36646c327accec80e316d025e20ccddda7f338e1026c09",
       "size": 9854
     },
     "skills/gamedev-director/agents/openai.yaml": {
@@ -9441,8 +9445,8 @@
       "size": 6337
     },
     "skills/gamedev-director/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-director/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -9453,8 +9457,8 @@
       "size": 6455
     },
     "skills/gamedev-director/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-director/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -9481,8 +9485,8 @@
       "size": 7094
     },
     "skills/gamedev-director/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-director/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -9637,7 +9641,7 @@
       "size": 23525
     },
     "skills/gamedev-liveops/SKILL.md": {
-      "sha256": "13455c9027b694cec2766e01328bfa2c4286a5d15c14bf629f17afdd3bfbdb9a",
+      "sha256": "ad7f98e32ab5aa744919664bee5d0034d0fedab26974ec0b5a986ec7f111faad",
       "size": 9198
     },
     "skills/gamedev-liveops/agents/openai.yaml": {
@@ -10033,8 +10037,8 @@
       "size": 6337
     },
     "skills/gamedev-liveops/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-liveops/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -10045,8 +10049,8 @@
       "size": 6455
     },
     "skills/gamedev-liveops/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-liveops/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -10077,8 +10081,8 @@
       "size": 7094
     },
     "skills/gamedev-liveops/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-liveops/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -10237,7 +10241,7 @@
       "size": 23525
     },
     "skills/gamedev-preproduction/SKILL.md": {
-      "sha256": "98f442dab85cf6fc5bd7ca7100b0fcf318321c04786dfce8f5a0beec5931ac4d",
+      "sha256": "5b75450aebbe31bb68d3163ed3c5eafe058a5d18b2e85b91aedec69ec0c2a4fe",
       "size": 10635
     },
     "skills/gamedev-preproduction/agents/openai.yaml": {
@@ -10673,8 +10677,8 @@
       "size": 6192
     },
     "skills/gamedev-preproduction/references/design-runtime-mapping.md": {
-      "sha256": "b17bf18b1101f852ed3874f129802fc551e053679c23a5bc29e23ff3a9187377",
-      "size": 7295
+      "sha256": "02de5f8547ad8d7b8818c23411542399b6ae127575745bf47dc94771cd61546a",
+      "size": 7292
     },
     "skills/gamedev-preproduction/references/domains/commerce.md": {
       "sha256": "fe3bf831a36a70e0027163d0312495bcf8b9e6f4021171790fe0b4baaca3842f",
@@ -10717,8 +10721,8 @@
       "size": 5010
     },
     "skills/gamedev-preproduction/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-preproduction/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -10733,8 +10737,8 @@
       "size": 6455
     },
     "skills/gamedev-preproduction/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-preproduction/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -10765,8 +10769,8 @@
       "size": 7094
     },
     "skills/gamedev-preproduction/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-preproduction/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -10933,7 +10937,7 @@
       "size": 23525
     },
     "skills/gamedev-qa/SKILL.md": {
-      "sha256": "19904a042830f0d7335e1cd706c22f63f85546b811290a56fa5776c89a804fc0",
+      "sha256": "8391b99d62f3e36a7704a9067d17c1404370453d6ebe5736ac14a29ef42f12d4",
       "size": 10049
     },
     "skills/gamedev-qa/agents/openai.yaml": {
@@ -11333,8 +11337,8 @@
       "size": 6337
     },
     "skills/gamedev-qa/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-qa/references/evidence-reviews.md": {
       "sha256": "9c907c740594184a8439e4a925496514881b9e79de60199d6bcd5f648ad49a43",
@@ -11353,8 +11357,8 @@
       "size": 6455
     },
     "skills/gamedev-qa/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-qa/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -11385,8 +11389,8 @@
       "size": 4611
     },
     "skills/gamedev-qa/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-qa/references/players-release-gate.md": {
       "sha256": "a29b8037c5e3ae9ddbac74395c69727e2e888af6457473d0848369ae626044d9",
@@ -11561,7 +11565,7 @@
       "size": 23525
     },
     "skills/gamedev-release/SKILL.md": {
-      "sha256": "04970f623230e8eefba5cbe970a2280cd0d0d47127e81ec1d9ff7b45a55788e3",
+      "sha256": "aa6ad3b4bda20dd03555369c33690a155c2f955eb17875b0684d4d8e413be6d4",
       "size": 9578
     },
     "skills/gamedev-release/agents/openai.yaml": {
@@ -11957,8 +11961,8 @@
       "size": 6337
     },
     "skills/gamedev-release/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-release/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -11969,8 +11973,8 @@
       "size": 6455
     },
     "skills/gamedev-release/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-release/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -11997,8 +12001,8 @@
       "size": 7094
     },
     "skills/gamedev-release/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-release/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -12165,7 +12169,7 @@
       "size": 23525
     },
     "skills/gamedev-studio/SKILL.md": {
-      "sha256": "3a041429dc488e67d9d1276adeb52ad4e517f49fceb4af581d9d576110f7374b",
+      "sha256": "18dac400b19c403cf0412ad4ab0fdbe309d164da43b0abd35b2f5b2e68d066ce",
       "size": 8980
     },
     "skills/gamedev-studio/agents/openai.yaml": {
@@ -12561,8 +12565,8 @@
       "size": 6337
     },
     "skills/gamedev-studio/references/environments-sync.md": {
-      "sha256": "0e41c53e226cdb9974310c17659b3a21c4d8faad4c4ee0ed8b1a31ab76107ebd",
-      "size": 6733
+      "sha256": "fb90d46bd34b60e435b7bf0b5fee2d18766b3a0cd3f6c2ac75e4515b73443bf0",
+      "size": 6664
     },
     "skills/gamedev-studio/references/experience-contract.md": {
       "sha256": "3efcf26d40919f03f5628299a1047ac6486b088839c7c282185d95ac6f85134a",
@@ -12573,8 +12577,8 @@
       "size": 6455
     },
     "skills/gamedev-studio/references/handoff-contract.md": {
-      "sha256": "ff080188778197aae9e70d315a6a8e9575ec3419e15a6e333cca710216d5d104",
-      "size": 14252
+      "sha256": "72dfdd3daab128c68512ecc3bc304606549e62def1b9529cb2fabd6867ce1a8f",
+      "size": 14243
     },
     "skills/gamedev-studio/references/historical-project-profiles.md": {
       "sha256": "38955272413786569fdc7bab272b67ed3d25988c035165235bd28b7be9dc381b",
@@ -12601,8 +12605,8 @@
       "size": 7094
     },
     "skills/gamedev-studio/references/orchestrator-workflow.md": {
-      "sha256": "15deeed55e4c11df6c5c12afcbd3887f8b985d0037286112465caf497be588fa",
-      "size": 14039
+      "sha256": "35402eafacebb0cd14d11cbd0ffecd9e8a8d9d0b5d7b62bb3d2ad598a4bf96a7",
+      "size": 13964
     },
     "skills/gamedev-studio/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -12778,8 +12782,8 @@
     }
   },
   "hardware_bound": false,
-  "manifest_sha256": "2c3aa159ed17c9b047ac58f0b92635af68a938308ae9a984c339431540b0907c",
-  "release": "6.2.0",
+  "manifest_sha256": "ec54048e487bcb669171821dbc213c994dac2dd383dba43ae20c3fa318e8ac5d",
+  "release": "6.2.1",
   "schema": "agent-release-integrity/1",
   "scope": "curated-reusable-core-33-skills"
 }

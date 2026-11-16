@@ -2,7 +2,7 @@
 name: app-atelier-qa
 description: "Independently verify app behavior or release readiness against accepted requirements. Use for Android, iOS, and web QA, agent forward cases, device checks, and regression after repair."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # App Atelier QA

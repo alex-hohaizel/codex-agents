@@ -73,12 +73,12 @@ def write_zip(root: Path, output: Path, files: list[Path], mode: str, release: d
                            "is not installation. Work's host avatar may differ from portable Codex icons.\n\n")
     else:
         package_readme += ("For managed Codex adoption, verify the approved stable archive and its GitHub attestation. Audit the exact staged kit "
-                           "from the admission receipt using the trusted portable updater and the migration in releases/current.json. Keep plans and backups "
+                           "from the admission receipt using the trusted portable updater. Follow [installation and operation](docs/INSTALL.md). Keep plans and backups "
                            "outside skill discovery roots, preserve existing icons and local modifications, pass the actual journal to verify, and check fresh "
                            "host discovery separately. A local source build can be used for inspection and isolated fixture rehearsal.\n\n")
     package_readme += (f"maintenance-skill/ is an optional repository-maintenance instruction skill, separate from the {baseline_count} baseline skills. "
                        "Install it through the supported manager only when requested; including its sources in this archive does not activate it. "
-                       f"Existing projects still need compatibility intake and preserved-context adoption. See releases/migrations/{version}.md.\n")
+                       "Review ownership and current product state before adopting an update in an existing project.\n")
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         entries = [(p.relative_to(root).as_posix(), p.read_bytes(), 0o755 if p.stat().st_mode & stat.S_IXUSR else 0o644) for p in files]
         entries.append(("PACKAGE.json", (json.dumps(descriptor, indent=2, sort_keys=True) + "\n").encode(), 0o644))

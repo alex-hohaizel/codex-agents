@@ -6,7 +6,7 @@ The 33-core skill suite, optional orchestrator and this service have separate ve
 
 ## Build and launch
 
-Select the published source revision recorded for the version you need. Follow the current service migration to preserve the data directory and existing work. [Current release record](../../releases/current.json) · [Update and rollback](../../releases/migrations/repository-1.5.0.md)
+Use the published source pinned by the [current component record](../../releases/current.json). Follow [installation](../../docs/INSTALL.md) for the source and toolchain, and use the recovery steps below to preserve an existing workspace.
 
 Use the pinned lockfile and Node.js 24.22.2 or a verified compatible runtime. Run these commands from this directory.
 
@@ -90,7 +90,7 @@ Unknown native outcomes block dependent writers. Reconciliation first checks the
 
 Use the service recovery screen to create a service STORE-JSON metadata backup and inspect restore preview/digest. This export contains records, not file payloads, selected-skill archives or execution copies. For a complete local update backup, also preserve the idle service data directory and separately owned execution-input namespace as private filesystem copies; never publish them. Restore requires an idle/reconciled boundary, current preview, explicit scope and no revival of revoked dispatch authority. It preserves newer durable receipts; it does not restore product files/DB or external effects. Test restore on an isolated instance before relying on a backup.
 
-To update: stop new dispatch, reconcile running/unknown jobs, create/verify backup, select an exact compatible source/build, install its lockfile and build, then restart and run doctor. Unknown newer schemas reject. Code rollback requires compatible service schema and task-policy/input contracts, or a separately reviewed restore. In particular,0.3.0 does not enforce the new memory mode and execution-transport guarantees: do not resume new0.3.1 tasks on it merely because DB schema1 is unchanged. Immediate failed-start rollback requires proof of no new jobs or owner changes. Later rollback must reconcile effects, preserve new receipts and revoke or reprepare affected capsules before selecting the old runtime. Follow the migration for your exact version in the [current release record](../../releases/current.json) for native project adoption and toolkit rollback.
+Before updating, finish or reconcile active jobs and ambiguous effects. Stop the identified instance. Keep a verified private copy of the whole service data directory and the separate execution-input namespace when present. Build the exact supported source with its lockfile. Start it against the same data directory and run `doctor`. Check project bindings, settings, saved receipts and installed Orchestrator source in the actual panel. If startup fails, reconcile any new records before restoring a prior runtime or scoped data backup.
 
 ## Retention, forgetting and diagnostic export
 
@@ -98,7 +98,6 @@ Settings let the owner choose service-history/event/input-cache/backup periods o
 
 Forgotten record/root tombstones filter restores. Pending file cleanup stores reviewed target hashes; a replacement at the same path requires a fresh preview. Pruned task inputs revoke dispatch/continue until a new preparation. Diagnostic export first shows only redacted aggregates for review, then writes/downloads that exact content locally; it sends nothing externally.
 
-The personal Mac update to 0.5.0 was verified on source `c86ce907544410afcb8bbd19181f1640446aefb7`. The service reopened through the updated launcher with the same SQLite file, four project bindings, owner settings and existing task/job history. The filesystem backup was checked before replacement. The earlier 0.3.1 observation remains available with its own source and history-coverage limits. [0.5.0 release and verification](../../releases/repository-1.4.0-rc.5.md) · [0.3.1 checkpoint](../../docs/evolution/2026-11-10/STATUS.json)
 
 ## Verification and maintenance
 
@@ -108,6 +107,6 @@ npm test
 npm run build
 ```
 
-Server tests use isolated fixtures. Real loopback, model and browser checks require the corresponding local runtime permissions. The 0.5.0 record covers the next-action form, a persisted prepared task with zero dispatches, real OpenAI Docs results, and a downloaded Codex-generated PNG. Find earlier checks under their original release scope. [0.5.0 verification](../../releases/repository-1.4.0-rc.5.md) · [Historical 6.0 verification](../../governance/RELEASE_6_VERIFICATION.json)
+Server tests use isolated fixtures. Verify loopback owner entry, exact host discovery, project selection and source-scoped preparation in the actual client. For an update over existing data, check preservation separately. Any provider operation, actual dispatch or device result needs its own observed proof.
 
 `shared/API.md` describes commands, receipts and boundaries. Server modules separate native project reads, context compilation, store/command recovery, Codex transport and supported skill updates. Client components separate the stable workbench, adaptive views, dialogs, API state and localization. Formatting, pinned dependencies and focused tests support ordinary human maintenance.

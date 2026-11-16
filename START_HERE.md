@@ -1,31 +1,46 @@
-# Start here
+# Start using Codex Agent System
 
-Use the guide you prefer and give Codex the task in the language you use at work. A project may record a preferred language for explanations, handoffs and deliverables. Keep commands, paths, identifiers and original quotations intact.
+Choose your guide, install the pieces you need, and finish one task in a disposable project. The local Agent Atelier panel is an optional way to inspect projects, prepare tasks, and review their results.
 
-| Language | Complete guide | Project preference |
-| --- | --- | --- |
-| English | [Open](docs/en/GUIDE.md) | `preferred_language=en` |
-| Українська | [Відкрити](docs/uk/GUIDE.md) | `preferred_language=uk` |
-| Deutsch | [Öffnen](docs/de/GUIDE.md) | `preferred_language=de` |
-| Italiano | [Apri](docs/it/GUIDE.md) | `preferred_language=it` |
-| Español | [Abrir](docs/es/GUIDE.md) | `preferred_language=es` |
-| Français | [Ouvrir](docs/fr/GUIDE.md) | `preferred_language=fr` |
-| 简体中文 | [打开](docs/zh-CN/GUIDE.md) | `preferred_language=zh-CN` |
+| Language | Complete guide |
+| --- | --- |
+| English | [Open the guide](docs/en/GUIDE.md) |
+| Українська | [Відкрити посібник](docs/uk/GUIDE.md) |
+| Deutsch | [Anleitung öffnen](docs/de/GUIDE.md) |
+| Italiano | [Apri la guida](docs/it/GUIDE.md) |
+| Español | [Abrir la guía](docs/es/GUIDE.md) |
+| Français | [Ouvrir le guide](docs/fr/GUIDE.md) |
+| 简体中文 | [打开指南](docs/zh-CN/GUIDE.md) |
 
-## Install or update
+## Install and verify
 
-1. Read the [current release record](releases/current.json). The repository edition, core suite, optional skills and local workbench each identify their own version. Choose the migration for the component and predecessor you actually use.
-2. For managed Codex installation or update, obtain the approved stable Codex archive, follow its attestation and migration steps, and audit the exact admitted kit. Use **Code → Download ZIP** at a verified GitHub reference for source inspection or an isolated rehearsal. The [package guide](governance/PACKAGES.md) covers the difference.
-3. Follow your complete guide for the target host. Check source integrity and inspect the installation plan. Verify the saved files, their discovery in a fresh session, and a small actual task.
-4. For an existing product, resume in the original project with its accepted requirements, decisions, identity, and checkpoint. To adopt a newer generated agent, compare its actual source ownership and migration. A new chat is a new entry into the existing project.
+1. [Install in Codex](docs/INSTALL.md). Download the stable Codex archive, verify its GitHub attestation, and inspect the installation plan before applying it. The procedure includes a fresh session check and recovery.
+2. Start with a small, observable change in a disposable folder. Create `README.md` with `# Cheklist` and `notes.txt` with a line you want preserved. In a fresh Codex chat opened in that folder, request the following:
 
-Install the 33 core skills separately from optional [Atelier Orchestrator](optional-skills/atelier-orchestrator/), [maintenance](maintenance-skill/), and [Agent Atelier for Mac](apps/agent-atelier/README.md). The workbench can discover local projects, prepare a scoped next action and use supported Docs and image operations on the actual host. Work continuity uses its own available interface. Find the support and evidence in the [capability map](docs/CAPABILITIES.md) and [validation record](governance/VALIDATION.md).
+   ```text
+   Correct the spelling of the heading in README.md. Keep notes.txt intact.
+   Show the resulting heading and how you verified both files.
+   ```
 
-## Continue learning
+   Expect the heading `# Checklist` and the original contents of `notes.txt`. For a repeatable runtime check, use the [native eval canary](evaluations/README.md#run-a-focused-native-codex-canary).
+3. For coordination install the optional Atelier Orchestrator, then start with `$atelier-orchestrator`. For a specific job, choose a [skill or product director](docs/CAPABILITIES.md#all-skills-and-roles). To see native Codex projects and bounded work in a browser, [launch Agent Atelier on your Mac](apps/agent-atelier/README.md#build-and-launch).
 
-- [Component and tool map](docs/CAPABILITIES.md) explains the distinct roles of a skill, a native role, a generated agent and the local workbench.
-- [Update and rollback contract](governance/UPDATE_CONTRACT.md) connects release records, migration, verification and preservation checks.
-- [Historical changes](CHANGELOG.md) link prior editions and their individually pinned evidence. The [29-case ledger](docs/evolution/2026-11-10/FULL-CASE-RESULTS.en.md) retains its original scope.
-- [Showcase in English](marketing/campaign/README.md) and [українські матеріали](marketing/campaign/README.uk.md) illustrate a selection of possible applications.
+## Use another language
 
-Tell Codex to apply the language you choose for the current deliverable. To use that language throughout a project, record it in the [project context](templates/project-context.json) and include it in new handoffs.
+You can work in any language your Codex session handles. The seven guides above are the maintained written editions. Give Codex the following request for a guided adaptation into another language:
+
+```text
+Guide me through Codex Agent System in [language]. Read START_HERE.md and
+follow the relevant links for the task I describe. Keep all commands, paths,
+skill names, flags, source citations, and permission boundaries exact.
+Explain each action in my language, including what I should observe and
+how to recover if a check fails. Start with the smallest useful result.
+```
+
+For project-wide language preferences, record `preferred_language` in [project context](templates/project-context.json) and include it in handoffs.
+
+## Keep going
+
+- [Discover all skills, product families, roles, and tools](docs/CAPABILITIES.md).
+- [Understand harnesses, subagents, context, retrieval, and evals](docs/OPERATING_MODEL.md).
+- [See illustrated workflows and the resources behind them](marketing/README.md).

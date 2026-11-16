@@ -1,0 +1,7 @@
+# Atelier Orchestrator
+
+Atelier Orchestrator is the optional task entrypoint for Codex and the routing skill used by Agent Atelier. It starts with the task and the project's current state. It selects a direct path, an existing skill, specialist collaboration, or an agent-building workflow based on what the work needs. A small task can proceed with a single relevant check. [Skill instructions](SKILL.md)
+
+Install the complete optional source from the official CODEX package using the supported skill manager. In Agent Atelier, use the skill catalog to review the target, exact source, and affected files before applying. For an existing installation, keep its current visual identity and recovery journal. Open a fresh Codex session to verify the resolved source. [Optional installation](https://github.com/alex-hohaizel/codex-agents/blob/main/docs/INSTALL.md#optional-components)
+
+In a project, invoke `$atelier-orchestrator` and describe the result you want in your own language. For continuing work, refer to the exact project and its approved checkpoint. In the panel, select the project, inspect its sources and next action, and review the prepared task's actual scope before dispatch. [Agent Atelier for Mac](https://github.com/alex-hohaizel/codex-agents/blob/main/apps/agent-atelier/README.md) · [Engineering guide](https://github.com/alex-hohaizel/codex-agents/blob/main/docs/OPERATING_MODEL.md)

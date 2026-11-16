@@ -2,7 +2,7 @@
 name: app-atelier-growth
 description: "Plan app acquisition from initial discovery to activation and repeat value. Use for channel selection, growth materials, attributed metrics, or authorized activation."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # App Atelier Growth

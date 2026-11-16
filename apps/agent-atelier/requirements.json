@@ -1,8 +1,7 @@
 {
   "schema_version": "atelier.product-requirements/1",
   "product_id": "agent-atelier",
-  "release_candidate": "0.6.0",
-  "baseline_reference": "Current selected operational-platform marketing reference; translated into usable actual controls, not decorative fake capability",
+  "baseline_reference": "Use the actual operator controls, project bindings, and source receipts.",
   "requirements": [
     {
       "id": "AT-01",
@@ -10,7 +9,7 @@
       "interpretation": "Personal local Mac portfolio with explicit project bindings and future team-ready boundaries",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-02",
@@ -18,7 +17,7 @@
       "interpretation": "Rich reference-faithful operational workbench with actual source/contract/diff/context/results/actions",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-03",
@@ -26,7 +25,7 @@
       "interpretation": "Adaptive app/bot/game/research/document/mixed product navigation with stable shell",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-04",
@@ -34,7 +33,7 @@
       "interpretation": "Original intent, must/deferred requirements, decisions, identity and dependency pins survive tasks/resume",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-05",
@@ -42,7 +41,7 @@
       "interpretation": "Actual supported Codex prepare/dispatch/approval/interrupt/reconcile/restart with honest outcomes",
       "status": "implemented_with_one_actual_restricted_model_smoke_passed",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-06",
@@ -50,7 +49,7 @@
       "interpretation": "One canonical native registry; safe read adapters; no hidden product migration or competing approval ledger",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-07",
@@ -58,7 +57,7 @@
       "interpretation": "Professional medium-specific production/craft evidence separate from functional/source/runtime/owner verdicts",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-08",
@@ -66,7 +65,7 @@
       "interpretation": "Skills competence search, exact audit/update-plan/diff and authorized apply/verify/rollback journals",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-09",
@@ -74,7 +73,7 @@
       "interpretation": "Service-owned durable command identities, revision conflicts, writer ownership, recovery and isolated backup/restore",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-10",
@@ -82,7 +81,7 @@
       "interpretation": "Loopback session/CSRF/origin/path isolation; untrusted artifact preview cannot act as command authority",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-11",
@@ -90,7 +89,7 @@
       "interpretation": "Seven advertised UI locales with complete strings, keyboard/focus/responsive/zoom/reduced-motion behavior",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-12",
@@ -98,7 +97,7 @@
       "interpretation": "Clear double-click/CLI launch/status/stop/doctor/update with real first useful task",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-13",
@@ -106,7 +105,7 @@
       "interpretation": "Preserve33core names/icons, accepted projects, original marketing and unrelated work",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-14",
@@ -114,7 +113,7 @@
       "interpretation": "Existing access first, no new spending or external production effects implied",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     },
     {
       "id": "AT-15",
@@ -122,7 +121,7 @@
       "interpretation": "Work live audit/update/install/control deferred to separately authorized task",
       "status": "implemented_with_scoped_evidence",
       "owner": "integrator",
-      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/RELEASE_6_VERIFICATION.json; owner acceptance remains separate"
+      "acceptance": "Observed source/runtime/browser/privacy scope and limits are recorded in governance/VALIDATION.md; owner acceptance remains separate"
     }
   ],
   "native_product_state_migration": false,
@@ -139,8 +138,9 @@
       "REQ-049",
       "REQ-050"
     ],
-    "verified_release_evidence": "../../releases/repository-1.4.0-rc.5.md",
-    "local_catalog_evidence": "../../releases/repository-1.4.0-rc.4.md",
-    "baseline_acceptance_evidence": "../../governance/RELEASE_6_VERIFICATION.json"
-  }
+    "verified_release_evidence": "../../governance/VALIDATION.md",
+    "local_catalog_evidence": "../../governance/VALIDATION.md",
+    "baseline_acceptance_evidence": "../../governance/VALIDATION.md"
+  },
+  "version": "0.6.0"
 }

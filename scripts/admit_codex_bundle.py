@@ -3,7 +3,9 @@
 
 The expected Git commit, release versions, archive and manifest digests, and
 signer workflow come from the operator's approved release record. Embedded
-metadata is only checked against those pins. This command does not install.
+metadata is only checked against those pins. Declare a first install or provide
+the observed installed suite version. The portable updater audits the actual
+destination before installation.
 """
 from __future__ import annotations
 
@@ -51,7 +53,7 @@ class ReleasePin:
     manifest_sha256: str
     repository_version: str
     suite_version: str
-    installed_suite_version: str
+    installed_suite_version: str | None
 
     def validate(self):
         if not GIT_SHA.fullmatch(self.source_sha):
@@ -64,13 +66,16 @@ class ReleasePin:
             raise ValueError("Expected the approved workflow path in .github/workflows")
         if not all(SHA256.fullmatch(x) for x in (self.archive_sha256, self.manifest_sha256)):
             raise ValueError("Approved archive and manifest must have lowercase SHA-256 pins")
-        if not all(STABLE_VERSION.fullmatch(x) for x in (
-            self.repository_version, self.suite_version, self.installed_suite_version,
-        )):
+        versions = [self.repository_version, self.suite_version]
+        if self.installed_suite_version is not None:
+            versions.append(self.installed_suite_version)
+        if not all(STABLE_VERSION.fullmatch(value) for value in versions):
             raise ValueError("Admission expects stable X.Y.Z version pins")
-        version = lambda value: tuple(map(int, value.split(".")))
-        if version(self.suite_version) < version(self.installed_suite_version):
-            raise ValueError("The target core suite is older than the installed baseline; use rollback")
+        if self.installed_suite_version is not None:
+            target = tuple(map(int, self.suite_version.split(".")))
+            installed = tuple(map(int, self.installed_suite_version.split(".")))
+            if target < installed:
+                raise ValueError("The target core suite is older than the installed baseline; use rollback")
 
 
 def load_json(data):
@@ -288,6 +293,8 @@ def admit(archive, stage, pin):
             "source_sha": pin.source_sha, "source_ref": pin.source_ref,
             "signer_workflow": pin.signer_workflow,
             "repository_version": pin.repository_version, "suite_version": pin.suite_version,
+            "installation_mode": "fresh" if pin.installed_suite_version is None else "update",
+            "installed_suite_version": pin.installed_suite_version,
             "archive_sha256": pin.archive_sha256, "manifest_sha256": pin.manifest_sha256,
             "verified_attestations": verified, "kit": str(stage / "bundle/kit")}
 
@@ -303,7 +310,11 @@ def main():
     parser.add_argument("--manifest-sha256", required=True)
     parser.add_argument("--repository-version", required=True)
     parser.add_argument("--suite-version", required=True)
-    parser.add_argument("--installed-suite-version", required=True)
+    installation = parser.add_mutually_exclusive_group(required=True)
+    installation.add_argument("--fresh-install", action="store_true",
+                              help="Stage a bundle for a destination without managed core skills")
+    installation.add_argument("--installed-suite-version",
+                              help="Observed version of the installed core suite")
     args = parser.parse_args()
     pin = ReleasePin(**{name: getattr(args, name) for name in ReleasePin.__dataclass_fields__})
     try:

@@ -1,12 +1,12 @@
 {
   "schema_version": "codex-agents.document-translations/1",
   "source": "governance/RESUMABLE_WORK.md",
-  "source_sha256": "b67c27e16c9969d7e09a8d7e8e1913422a97b326d58fc752334ac1636d785119",
+  "source_sha256": "82752bf4e094fde6d10880638b7130b256736a28e08de063996a9e6cc2c18fc0",
   "translations": [
     {
       "locale": "uk",
       "path": "governance/RESUMABLE_WORK.uk.md",
-      "sha256": "a5a3755c40cac21434f4afe9b90f9da2a3ca4b675adce0698ea9f695b0a5a711",
+      "sha256": "b9f9d0cc9640da03ab3f54939857621f26634e5422cb8f123072060a2c49c630",
       "status": "complete-same-scope-reviewed"
     }
   ],

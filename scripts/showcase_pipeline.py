@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run bilingual campaign stages with bounded commands and verified resume receipts.
+"""Run localized showcase stages with bounded commands and verified resume receipts.
 
 This runner does not publish, deploy, install skills, or operate another chat.
 Its stable filename and checkpoint schema preserve existing caller compatibility.
@@ -239,10 +239,10 @@ def execution_lock(path: Path):
 
 def validate_export(directory: Path) -> None:
     receipt = json.loads((directory / "exports.json").read_text(encoding="utf-8"))
-    expected = {"index.html", "en.html", "uk.html", "pdf/Campaign.en.pdf", "pdf/Campaign.uk.pdf"}
+    expected = {"index.html", "Showcase.pdf", *(f"{locale}.html" for locale in ("en", "uk", "de", "it", "es", "fr", "zh-CN"))}
     records = receipt.get("files", [])
     if len(records) != len(expected) or {entry.get("path") for entry in records} != expected:
-        raise ValueError("export must contain exactly the bilingual galleries and two compact PDF records")
+        raise ValueError("export must contain the seven localized galleries, language selector, and showcase PDF")
     for entry in records:
         path = within(directory, entry["path"])
         payload = path.read_bytes()
@@ -282,9 +282,12 @@ def default_stages(root: Path) -> list[Stage]:
     s = "marketing/campaign"
     artifacts = "reports/local-campaign-artifacts"
     version = json.loads((root / "releases/current.json").read_text(encoding="utf-8"))["suite_version"]
-    source = (s, "assets/marketing/campaign", "releases/current.json", "scripts/showcase_pipeline.py")
-    exports = tuple(f"{s}/{name}" for name in ("index.html", "en.html", "uk.html", "pdf/Campaign.en.pdf",
-                                              "pdf/Campaign.uk.pdf", "exports.json"))
+    galleries = ("en", "uk", "de", "it", "es", "fr", "zh-CN")
+    source = (s, "assets/marketing/current", "locales.json", "marketing/README.md",
+              "releases/current.json", "scripts/showcase_pipeline.py",
+              *(f"marketing/{locale}/README.md" for locale in galleries))
+    exports = tuple(f"{s}/{name}" for name in ("index.html", "Showcase.pdf", "exports.json",
+                                              *(f"{locale}.html" for locale in galleries)))
     packages = tuple(f"dist/Agent_System_{version}_{mode}.zip" for mode in ("WORK", "CODEX")) + ("dist/BUILD.json", "dist/SHA256SUMS")
     return [
         Stage("export", (("{python}", "-B", f"{s}/build_campaign.py", "--output", "{output}",

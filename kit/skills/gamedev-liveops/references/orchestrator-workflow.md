@@ -98,7 +98,7 @@ For one complete C1 candidate, use concepts `game_model.acceptance_scope=candida
 
 ## Explicit workflow-state upgrade
 
-Skill installation preserves product state and saves. For runtime schema 2.0.0, use the current `WORKFLOW_UPGRADE_FROM` declaration in `scripts/atelier.py`. The historical 4.2 to 4.3 workflow was a separately supported path. The current 6.0.0 runtime supports sources 4.2.0, 4.3.0, and 5.0.0. Run `workflow-upgrade PROJECT` for a read-only preview with `source_state_sha256`, `target_suite_sha256`, pause, and unsettled effects. Preserve state when no path is supported.
+Skill installation preserves product state and saves. For runtime schema 2.0.0, use the current `WORKFLOW_UPGRADE_FROM` declaration in `scripts/atelier.py`. The controller determines which source formats it can adopt. Run `workflow-upgrade PROJECT` for a read-only preview with `source_state_sha256`, `target_suite_sha256`, pause, and unsettled effects. Preserve state when no path is supported.
 
 After actual review run `workflow-upgrade PROJECT --apply --expected-state-hash SOURCE_SHA --target-suite-hash TARGET_SHA --authority ACTUAL_REVIEW_SOURCE [--impact ID]` using exact hashes from the latest preview. Apply verifies journal and snapshot and both endpoints, preserves an exact backup, and adds a journal receipt. Unsupported schemas are rejected. Repeating the same receipt is a no-op. A changed input needs a fresh preview.
 

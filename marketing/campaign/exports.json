@@ -1,435 +1,121 @@
 {
-  "schema": "codex-agents.bilingual-campaign-export/1",
-  "kind": "repository-relative-galleries-and-compact-pdfs",
-  "suite_version": "5.0.0",
+  "schema": "codex-agents.showcase-export/1",
   "languages": [
     "en",
-    "uk"
+    "uk",
+    "de",
+    "it",
+    "es",
+    "fr",
+    "zh-CN"
   ],
-  "materials_per_language": 10,
-  "all_ten_uk_source_hashes_preserved": true,
-  "original_uk_sha256": "ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f",
   "artworks": {
-    "en": {
-      "01-original.png": {
-        "path": "assets/marketing/campaign/en/01-original.png",
-        "sha256": "accaf2e3ac54fc41ded47c6badb83b2409b3c1703798a60faea03f9016852c2f",
-        "size": 2289885,
-        "width": 1672,
-        "height": 941
-      },
-      "02-app.png": {
-        "path": "assets/marketing/campaign/en/02-app.png",
-        "sha256": "5976b129bcc18d295f1a825392615254ff1c9b6560a7b7f73c161f8da571b5f1",
-        "size": 2137378,
-        "width": 1672,
-        "height": 941
-      },
-      "03-game.png": {
-        "path": "assets/marketing/campaign/en/03-game.png",
-        "sha256": "1ba62f94cfdb8718e385584b3a54bc6e9ce2bc7d02ae2525aff23d27334606fd",
-        "size": 2463697,
-        "width": 1672,
-        "height": 941
-      },
-      "04-bot.png": {
-        "path": "assets/marketing/campaign/en/04-bot.png",
-        "sha256": "87abe52e5e2a700de10c4077877f7106297335130088ef5f319b5014f85d2ca6",
-        "size": 2166706,
-        "width": 1672,
-        "height": 941
-      },
-      "05-platform.png": {
-        "path": "assets/marketing/campaign/en/05-platform.png",
-        "sha256": "5665ea03430a9881ee914081aea1f1843d9ef0472b3a9db07aa165b454eaf0d8",
-        "size": 2050958,
-        "width": 1672,
-        "height": 941
-      },
-      "06-automation.png": {
-        "path": "assets/marketing/campaign/en/06-automation.png",
-        "sha256": "08a409fbab26b61fca04d2ee21a851f78b00b30ca67b2e0bb228fd8bcf2597e9",
-        "size": 2119282,
-        "width": 1672,
-        "height": 941
-      },
-      "07-constructors.png": {
-        "path": "assets/marketing/campaign/en/07-constructors.png",
-        "sha256": "53a5e3fbfcc912f8e03af80210db87b0d5ed8c7b88d92425684458636c6fb387",
-        "size": 2232866,
-        "width": 1672,
-        "height": 941
-      },
-      "08-lifecycle.png": {
-        "path": "assets/marketing/campaign/en/08-lifecycle.png",
-        "sha256": "f04894efb3fdcf1d24410d5ba5a5e322e7373c37fbe92b505a84db096c45a841",
-        "size": 2646344,
-        "width": 1672,
-        "height": 941
-      },
-      "09-continuity.png": {
-        "path": "assets/marketing/campaign/en/09-continuity.png",
-        "sha256": "01e4e89d5647ffb03aad7663785c24275625b2b4b8e7f8df3feea417d00a068b",
-        "size": 2275260,
-        "width": 1672,
-        "height": 941
-      },
-      "10-next-task.png": {
-        "path": "assets/marketing/campaign/en/10-next-task.png",
-        "sha256": "9d52ffcf4ca6a0e23fd93290ef8d5d687590002ae02545ee5a29bfea907b86f0",
-        "size": 2335303,
-        "width": 1672,
-        "height": 941
-      }
+    "overview": {
+      "file": "overview.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "c86b92f29583b1175fe689c167a980db61109ee0fd7a6aec9e86164fb644dcb5"
     },
-    "uk": {
-      "01-original.png": {
-        "path": "assets/marketing/campaign/uk/01-original.png",
-        "sha256": "ac9fad92384396039af134c824cf1663e0e00ca1d94fc3fc7767b997d4d82c4f",
-        "size": 2513948,
-        "width": 1672,
-        "height": 941
-      },
-      "02-app.png": {
-        "path": "assets/marketing/campaign/uk/02-app.png",
-        "sha256": "3455619560d60f100defc6cb9372a5736551f39568ee58059ba34a2ae217ac5b",
-        "size": 2248969,
-        "width": 1672,
-        "height": 941
-      },
-      "03-game.png": {
-        "path": "assets/marketing/campaign/uk/03-game.png",
-        "sha256": "11dfca69c6a353a433258408f083a74231d26bdda0011c161c2e292577320c92",
-        "size": 2773383,
-        "width": 1672,
-        "height": 941
-      },
-      "04-bot.png": {
-        "path": "assets/marketing/campaign/uk/04-bot.png",
-        "sha256": "3408bcb7be51969be76b412ea3de2eb3dbd74f79ef139e1c5b55fcdaf7a7eb33",
-        "size": 2184248,
-        "width": 1672,
-        "height": 941
-      },
-      "05-platform.png": {
-        "path": "assets/marketing/campaign/uk/05-platform.png",
-        "sha256": "e5bac05a7cd713238772922fe5150e9f0f844758566976ad29c3d9445f39831c",
-        "size": 2129624,
-        "width": 1672,
-        "height": 941
-      },
-      "06-automation.png": {
-        "path": "assets/marketing/campaign/uk/06-automation.png",
-        "sha256": "2467b7ef828530d1bc1f805ac6b3e36e7928a2923cbc8d90f0b57b3f0637acf6",
-        "size": 2143755,
-        "width": 1672,
-        "height": 941
-      },
-      "07-constructors.png": {
-        "path": "assets/marketing/campaign/uk/07-constructors.png",
-        "sha256": "1fb483ccb6a14f13533c64c9d35fd6bd6018f0bb1a4f70b2b86fa5a753b4e66e",
-        "size": 2287417,
-        "width": 1672,
-        "height": 941
-      },
-      "08-lifecycle.png": {
-        "path": "assets/marketing/campaign/uk/08-lifecycle.png",
-        "sha256": "a87257142a775932db141dbaa6ac20adca3fcebe41b479e4d4589c8c7239f5c1",
-        "size": 2817927,
-        "width": 1672,
-        "height": 941
-      },
-      "09-continuity.png": {
-        "path": "assets/marketing/campaign/uk/09-continuity.png",
-        "sha256": "d995ab9a447d72ba00348af23438ed059c335b7e9a3fd9132184ee1851a73ab0",
-        "size": 2235984,
-        "width": 1672,
-        "height": 941
-      },
-      "10-next-task.png": {
-        "path": "assets/marketing/campaign/uk/10-next-task.png",
-        "sha256": "2a21a84541f4985910b0918f241aba729bd85760b37fd582600b2e5f605f8767",
-        "size": 2489080,
-        "width": 1672,
-        "height": 941
-      }
+    "product": {
+      "file": "product.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "5230c6e8b48ee742f3a1f1e5e2a7ceb2bedb2ca26fe1f4c6c83acc8fd614af4a"
+    },
+    "game": {
+      "file": "game.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "b21e3e78bbc16af644ea53fd8b9cc63c95d37b51ac117f09c6eeae8f519d8866"
+    },
+    "conversation": {
+      "file": "conversation.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "b48d38de870c36f0b0ecf3034fbba55604723e6ff8a812813f3af4a3b9d25885"
+    },
+    "operations": {
+      "file": "operations.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "6843f01872bb1ad534f8b997ecf30f01884cf803da4fb5218636affb3659ec25"
+    },
+    "documents": {
+      "file": "documents.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "f573540ef4820eaa4eed56997852f08fc8cfb18bfc331127bd9add9c6d2b0b6b"
+    },
+    "specialists": {
+      "file": "specialists.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "d9ae057f7336ac813edb347bb91e6e8a5cff0333ecb4eb7b5eb5780ad6266cbd"
+    },
+    "retrieval": {
+      "file": "retrieval.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "dfcec2fb2147e3d69912f8f3b0351434c24dc24b4c521e22e23b47ac0ad3ff8e"
+    },
+    "evaluation": {
+      "file": "evaluation.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "d807fa051e2bd8d5c640081c2d567f44baf0fddb929148bd72905962a0fd7636"
+    },
+    "workbench": {
+      "file": "workbench.png",
+      "width": 960,
+      "height": 540,
+      "sha256": "b7492bd1daa36f65d7dcb1ed1df3164632ae6242ac28d4ed0aaf3d70c9329c0b"
     }
   },
   "files": [
     {
-      "path": "pdf/Campaign.en.pdf",
-      "sha256": "587fa2e3f9174e611e9ebe453977ffb36d84700f14297847653f90783e2d0fc9",
-      "size": 7915995
+      "path": "Showcase.pdf",
+      "sha256": "bd1bd0a4daa017499a7ca23ab626a93b84d1b7ee4ad33618de2bef68c535aa8d",
+      "size": 4818419
+    },
+    {
+      "path": "de.html",
+      "sha256": "952efeb7560be9607cac5ea216f6ee6ba517503a0ebbb6cf20bff807f75840e5",
+      "size": 8907
     },
     {
       "path": "en.html",
-      "sha256": "1980b94fc050435a0f258497175a18f89574092e5b362526e8f1023d2a6c13f5",
-      "size": 29809
+      "sha256": "674c18dc25ee9fb48057e710fd6a15d7542e34f4bdcdff05ec8fa879acd07f01",
+      "size": 8956
     },
     {
-      "path": "pdf/Campaign.uk.pdf",
-      "sha256": "d541702bab2cbafb8bcc54f153b6e938cfdb26d993c6d48243dd52a9f80db999",
-      "size": 8371411
+      "path": "es.html",
+      "sha256": "d427d780126aff525ce0a8a17798c6fd54059c98322c2d678694abf515c2307c",
+      "size": 8650
     },
     {
-      "path": "uk.html",
-      "sha256": "80c3e91122d7c8e0dc50889daf99eba8234fdf15549caa25878a286dc50c8a22",
-      "size": 39139
+      "path": "fr.html",
+      "sha256": "cae46166eea95e51b24406f612fde4b47a3e23c6b3d3de449e7bae4a49192319",
+      "size": 8844
     },
     {
       "path": "index.html",
-      "sha256": "952b26c9dad6d045eff11b66dc3014465aab437e9a9e1978d3e95107965f2b56",
-      "size": 634
+      "sha256": "5f39b6a6b057685e01c23d9aa015ac4df5e82331e4ef872a454d97f13bc8dd30",
+      "size": 2484
+    },
+    {
+      "path": "it.html",
+      "sha256": "8c20f24a6367a100b817b458a99d036a7d0ab5a812738ce67bf02e00e542942a",
+      "size": 8680
+    },
+    {
+      "path": "uk.html",
+      "sha256": "eab3441b1751c07fdfdea0466ebe5b50e2b06d720a8b0315e3e048a9ce2bb03e",
+      "size": 11686
+    },
+    {
+      "path": "zh-CN.html",
+      "sha256": "1c3719759c9265e6126fd5bcf4424eaf292ae5d57aa7feed72029871fc536449",
+      "size": 8245
     }
-  ],
-  "pdf_image_placements": {
-    "pdf/Campaign.en.pdf": [
-      {
-        "page": 1,
-        "asset": "01-original.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 2,
-        "asset": "02-app.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 3,
-        "asset": "03-game.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 4,
-        "asset": "04-bot.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 5,
-        "asset": "05-platform.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 6,
-        "asset": "06-automation.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 7,
-        "asset": "07-constructors.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 8,
-        "asset": "08-lifecycle.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 9,
-        "asset": "09-continuity.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 10,
-        "asset": "10-next-task.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      }
-    ],
-    "pdf/Campaign.uk.pdf": [
-      {
-        "page": 1,
-        "asset": "01-original.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 2,
-        "asset": "02-app.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 3,
-        "asset": "03-game.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 4,
-        "asset": "04-bot.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 5,
-        "asset": "05-platform.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 6,
-        "asset": "06-automation.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 7,
-        "asset": "07-constructors.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 8,
-        "asset": "08-lifecycle.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 9,
-        "asset": "09-continuity.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      },
-      {
-        "page": 10,
-        "asset": "10-next-task.png",
-        "whole_image": true,
-        "crop": false,
-        "placement_points": [
-          0.4250797024442363,
-          0.0,
-          1599.1498405951115,
-          900.0
-        ]
-      }
-    ]
-  },
-  "compact_encoding": "Full-resolution JPEG quality95 4:4:4; separate delivery copy, not canonical source pixels",
-  "language_pair_pixel_identity_claimed": false,
-  "publication_performed": false,
-  "browser_layout_verified": false
+  ]
 }

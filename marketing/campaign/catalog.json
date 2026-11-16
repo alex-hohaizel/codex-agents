@@ -1,0 +1,576 @@
+{
+  "en": {
+    "label": "English",
+    "title": "What can you build with Codex?",
+    "intro": "Start with a useful task or carry an existing product forward. These illustrated scenarios show decisions, inputs and outcomes you can work through with the suite.",
+    "guide": "Start the guide",
+    "view": "Open this workflow in the guide",
+    "pdf": "Illustrated PDF",
+    "offline": "Offline gallery",
+    "choose": "Choose a language",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "A connected workspace",
+        "alt": "A logistics map, an agenda, a game world and validated documents on a shared desk.",
+        "caption": "A developer can move from a focused repair to a reusable project workflow with the same source and review controls.",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "My Day",
+        "alt": "An agenda and route continue from a phone to a larger workspace.",
+        "caption": "Start with a daily planning task. Preserve appointments and route decisions while adding a reviewed change that works across product surfaces.",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "A coastal world map, a character reference and a playable build checkpoint.",
+        "caption": "Carry the original explorer and coastal setting through game design, asset production and a playable review. Record a device claim only after observing the actual build.",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "Assistant",
+        "alt": "A conversation offers a separate confirmation before a receipt is shown.",
+        "caption": "Check product details, stage the purchase as an example, then specify the exact authorized target and confirmation. Keep a pending effect open until a verified receipt arrives.",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "A disrupted route, a viable alternative and a reviewed outcome.",
+        "caption": "Inspect a shipment exception, compare feasible routes, review the affected account and record the outcome once the operational state confirms it.",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "Spreadsheet to documents",
+        "alt": "A table becomes validated records and prepared files, with one record set aside.",
+        "caption": "Validate three shipment rows and hold the fourth, which has no address. After clarification, verify the corrected row and generate its document without duplicating the earlier output.",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "A specialist for a recurring task",
+        "alt": "A scoped API contract is handed to a specialist and an independent check.",
+        "caption": "Start with an API contract audit. Give a named specialist the exact contract, evidence and return condition, then use an independent check to verify the type mismatch and proposed change.",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "Retrieval with evidence",
+        "alt": "A query passes through scoped sources to a cited answer or an unresolved result.",
+        "caption": "Begin with file paths and exact IDs. When measured misses justify retrieval, compare lexical, semantic and hybrid approaches over the same authorized corpus. Cite the current source or abstain.",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "Evaluations for a real workflow",
+        "alt": "Positive, negative and nearby cases pass through a run and produce separate observations.",
+        "caption": "Give each case an expected outcome, run it against a fixed source and inspect the actual artifact or tool effect. Keep a pending result visible and compare the same cases before broad adoption.",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Agent Atelier workbench",
+        "alt": "A local project list, a prepared task and verified output are shown as separate states.",
+        "caption": "Open a local project, inspect its pinned next action, preview a draft and use the Orchestrator route. Confirm a runtime effect from the observed output and its evidence.",
+        "section": "workbench"
+      }
+    ]
+  },
+  "uk": {
+    "label": "Українська",
+    "title": "Що можна створити з Codex?",
+    "intro": "Почніть із конкретної задачі або продовжте наявний продукт. Ілюстрації показують вхідні дані, рішення й результати, з якими можна працювати за допомогою набору навичок.",
+    "guide": "Відкрити посібник",
+    "view": "Відкрити цей сценарій у посібнику",
+    "pdf": "Ілюстрований PDF",
+    "offline": "Офлайн-галерея",
+    "choose": "Обрати мову",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "Єдиний робочий простір",
+        "alt": "Логістична мапа, розклад, ігровий світ і перевірені документи на одному столі.",
+        "caption": "Розробник може перейти від локального виправлення до відтворюваного процесу з тими самими правилами перевірки джерел і результатів.",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "Мій день",
+        "alt": "Розклад і маршрут переходять із телефона на більший екран.",
+        "caption": "Почніть із планування дня. Збережіть наявні зустрічі й рішення щодо маршруту та перевірте, що зміна коректно працює на різних екранах.",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "Мапа узбережжя, референс персонажа й контрольна точка ігрової збірки.",
+        "caption": "Збережіть мандрівницю й прибережний світ від проєктування до підготовки матеріалів та огляду ігрової збірки. Підтверджуйте поведінку пристрою після фактичного спостереження.",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "Асистент",
+        "alt": "Діалог окремо показує запит на підтвердження й отриману квитанцію.",
+        "caption": "Перевірте дані товару, підготуйте тестове замовлення й уточніть дозволений об’єкт та спосіб підтвердження. Залиште дію відкритою, доки не отримаєте перевірену квитанцію.",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "Порушений маршрут, придатна альтернатива й результат перевірки.",
+        "caption": "Дослідіть виняток у перевезенні, порівняйте доступні маршрути, перевірте обліковий запис і зафіксуйте підсумок після звірки фактичного стану.",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "З таблиці до документів",
+        "alt": "Перевірені рядки таблиці перетворюються на документи, а один рядок відкладено.",
+        "caption": "Перевірте три рядки відправлень і утримайте четвертий без адреси. Після уточнення перевірте його та згенеруйте документ без дублювання попередніх результатів.",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "Спеціаліст для повторюваної задачі",
+        "alt": "Окреслений контракт API передається спеціалісту й на незалежну перевірку.",
+        "caption": "Почніть з аудиту контракту API. Передайте точний контракт, докази й умови повернення, а потім незалежно перевірте розбіжність типів і запропоновану зміну.",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "Пошук із перевірними джерелами",
+        "alt": "Запит проходить через дозволені джерела й дає відповідь із посиланням або лишається відкритим.",
+        "caption": "Почніть із шляхів до файлів і точних ідентифікаторів. Якщо зафіксовані пропуски виправдовують retrieval, порівняйте лексичний, семантичний і гібридний пошук на тому самому дозволеному корпусі. Посилайтеся на актуальне джерело або утримайтеся від відповіді.",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "Оцінювання робочого процесу",
+        "alt": "Позитивні, негативні та схожі контрольні випадки завершуються окремими спостереженнями.",
+        "caption": "Задайте очікування, зафіксуйте джерело й перевірте реальний артефакт або дію інструмента. Порівнюйте ті самі випадки перед ширшим впровадженням і фіксуйте незавершені результати.",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Панель Agent Atelier",
+        "alt": "Перелік локальних проєктів, підготовлена задача та перевірений результат як окремі стани.",
+        "caption": "Відкрийте локальний проєкт, перегляньте прив’язану наступну дію й чернетку та використайте маршрут Orchestrator. Підтвердьте виконання за фактичним результатом і доказами.",
+        "section": "workbench"
+      }
+    ]
+  },
+  "de": {
+    "label": "Deutsch",
+    "title": "Was lässt sich mit Codex entwickeln?",
+    "intro": "Beginnen Sie mit einer konkreten Aufgabe oder entwickeln Sie ein bestehendes Produkt weiter. Die Illustrationen zeigen Eingaben, Entscheidungen und Ergebnisse für typische Arbeitsabläufe.",
+    "guide": "Leitfaden öffnen",
+    "view": "Diesen Ablauf im Leitfaden öffnen",
+    "pdf": "Illustriertes PDF",
+    "offline": "Offline-Galerie",
+    "choose": "Sprache auswählen",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "Ein gemeinsamer Arbeitsbereich",
+        "alt": "Eine Logistikkarte, ein Kalender, eine Spielwelt und geprüfte Dokumente auf einem Schreibtisch.",
+        "caption": "Von einer einzelnen Korrektur zum wiederverwendbaren Ablauf bleiben Quellen und Prüfschritte nachvollziehbar.",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "My Day",
+        "alt": "Termine und Route wechseln vom Telefon in einen größeren Arbeitsbereich.",
+        "caption": "Ändern Sie eine Tagesplanung und prüfen Sie die Änderung auf den relevanten Oberflächen. Termine und bisherige Entscheidungen bleiben erhalten.",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "Eine Küstenwelt, eine Figurenreferenz und ein spielbarer Prüfstand.",
+        "caption": "Übernehmen Sie Figur und Gestaltungsidentität in die Produktion. Aussagen über Geräte folgen erst nach Prüfung des tatsächlichen Builds.",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "Assistent",
+        "alt": "Der Dialog fordert eine ausdrückliche Bestätigung und zeigt dann einen Beleg.",
+        "caption": "Bereiten Sie eine Beispielbestellung vor und prüfen Sie Ziel und Berechtigung. Schließen Sie den Vorgang erst mit bestätigtem Beleg.",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "Eine gesperrte Route, eine Alternative und ein geprüftes Ergebnis.",
+        "caption": "Untersuchen Sie die Transportstörung und vergleichen Sie verfügbare Routen. Erfassen Sie das Ergebnis nach Abgleich des Betriebsstatus.",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "Von der Tabelle zum Dokument",
+        "alt": "Geprüfte Tabellenzeilen werden zu Dateien. Ein offener Datensatz bleibt zurück.",
+        "caption": "Erzeugen Sie Dokumente für gültige Zeilen. Klären Sie die fehlende Adresse und verarbeiten Sie die Zeile ohne doppelte Ausgabe.",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "Ein Spezialist für wiederkehrende Aufgaben",
+        "alt": "Ein eingegrenzter API-Vertrag geht an einen Spezialisten und eine unabhängige Prüfung.",
+        "caption": "Übergeben Sie Vertrag, Belege und Rückgabekriterien. Lassen Sie die Typabweichung und den vorgeschlagenen Fix unabhängig prüfen.",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "Informationsabruf mit Belegen",
+        "alt": "Eine Abfrage erreicht freigegebene Quellen und liefert eine belegte Antwort oder bleibt offen.",
+        "caption": "Beginnen Sie mit Pfaden und exakten IDs. Vergleichen Sie bei nachgewiesenen Lücken lexikalische, semantische und hybride Suche. Zitieren Sie die aktuelle Quelle oder lassen Sie die Frage offen.",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "Evaluation eines Arbeitsablaufs",
+        "alt": "Positive, negative und ähnliche Fälle führen zu getrennten Beobachtungen.",
+        "caption": "Definieren Sie das erwartete Ergebnis je Fall und prüfen Sie das tatsächliche Artefakt oder die Werkzeugwirkung. Vergleichen Sie vor der Einführung dieselben Fälle.",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Agent Atelier",
+        "alt": "Lokale Projekte, ein Auftragsentwurf und ein geprüftes Ergebnis sind getrennt erkennbar.",
+        "caption": "Öffnen Sie ein lokales Projekt, prüfen Sie den nächsten Schritt und den Entwurf, und nutzen Sie den Orchestrator. Bestätigen Sie die Wirkung anhand der tatsächlichen Ausgabe.",
+        "section": "workbench"
+      }
+    ]
+  },
+  "it": {
+    "label": "Italiano",
+    "title": "Che cosa puoi creare con Codex?",
+    "intro": "Parti da un compito preciso o prosegui su un prodotto esistente. Questi esempi illustrano dati di ingresso, decisioni e risultati dei flussi di lavoro.",
+    "guide": "Apri la guida",
+    "view": "Apri questo flusso nella guida",
+    "pdf": "PDF illustrato",
+    "offline": "Galleria offline",
+    "choose": "Scegli la lingua",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "Uno spazio di lavoro condiviso",
+        "alt": "Una mappa logistica, un’agenda, un gioco e documenti verificati sulla stessa scrivania.",
+        "caption": "Passa da una correzione mirata a un processo riutilizzabile mantenendo fonti e verifiche tracciabili.",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "My Day",
+        "alt": "Agenda e itinerario proseguono dal telefono a uno spazio di lavoro più ampio.",
+        "caption": "Modifica il piano della giornata e verifica l’aggiornamento sulle interfacce interessate, preservando gli appuntamenti e le decisioni.",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "Una costa di gioco, riferimenti del personaggio e un punto di verifica giocabile.",
+        "caption": "Mantieni il personaggio e l’identità della costa durante la produzione. Conferma il comportamento sul dispositivo dopo aver verificato la build effettiva.",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "Assistente",
+        "alt": "La conversazione separa la conferma esplicita dalla ricevuta finale.",
+        "caption": "Prepara un ordine di esempio e verifica il destinatario e l’autorizzazione. Chiudi l’operazione dopo aver osservato la ricevuta.",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "Una tratta interrotta, una via alternativa e un esito verificato.",
+        "caption": "Esamina l’eccezione e compara gli itinerari disponibili. Registra l’esito dopo aver verificato lo stato operativo.",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "Dal foglio di calcolo ai documenti",
+        "alt": "Le righe convalidate diventano documenti e un’eccezione resta in sospeso.",
+        "caption": "Elabora le righe valide e chiarisci l’indirizzo mancante. Genera il documento corretto senza duplicare quelli già prodotti.",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "Uno specialista per un’attività ricorrente",
+        "alt": "Un contratto API delimitato passa a uno specialista e a una verifica indipendente.",
+        "caption": "Consegna il contratto esatto, i riscontri e i criteri attesi. Verifica in modo indipendente il conflitto di tipi e la correzione proposta.",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "Recupero di informazioni con fonti",
+        "alt": "La richiesta consulta fonti autorizzate e restituisce una risposta citata oppure resta aperta.",
+        "caption": "Parti da percorsi di file e identificativi esatti. Se osservi lacune, confronta metodi lessicali, semantici e ibridi. Cita la fonte attuale oppure astieniti.",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "Valutazioni di un flusso reale",
+        "alt": "Casi positivi, negativi e simili producono osservazioni separate.",
+        "caption": "Definisci l’esito atteso per ogni caso, verifica il risultato effettivo e confronta gli stessi casi prima di ampliare l’adozione.",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Pannello Agent Atelier",
+        "alt": "I progetti locali, la bozza di un’attività e il risultato verificato sono stati distinti.",
+        "caption": "Apri il progetto locale, controlla la prossima azione e la bozza, poi usa il percorso Orchestrator. Conferma l’effetto osservando il risultato effettivo.",
+        "section": "workbench"
+      }
+    ]
+  },
+  "es": {
+    "label": "Español",
+    "title": "¿Qué puedes crear con Codex?",
+    "intro": "Empieza por una tarea concreta o continúa un producto existente. Las ilustraciones muestran entradas, decisiones y resultados de flujos de trabajo representativos.",
+    "guide": "Abrir la guía",
+    "view": "Abrir este flujo en la guía",
+    "pdf": "PDF ilustrado",
+    "offline": "Galería sin conexión",
+    "choose": "Elegir idioma",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "Un espacio de trabajo conectado",
+        "alt": "Un mapa logístico, una agenda, un juego y documentos validados en una misma mesa.",
+        "caption": "Pasa de una corrección puntual a un proceso reutilizable y conserva las fuentes y comprobaciones.",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "My Day",
+        "alt": "La agenda y la ruta continúan del teléfono a un espacio de trabajo más amplio.",
+        "caption": "Revisa un cambio del plan diario en las interfaces correspondientes sin perder las citas y decisiones de ruta.",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "Un mundo costero, una referencia del personaje y un punto de verificación jugable.",
+        "caption": "Conserva el personaje y la identidad del mundo durante la producción. Verifica la compilación real antes de describir su comportamiento en un dispositivo.",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "Asistente",
+        "alt": "La conversación separa la confirmación explícita del comprobante final.",
+        "caption": "Prepara un pedido de ejemplo, verifica el objetivo y la autorización, y confirma el resultado mediante el comprobante.",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "Una ruta interrumpida, una alternativa viable y un resultado revisado.",
+        "caption": "Investiga la incidencia, compara las rutas disponibles y registra el resultado después de verificar el estado operativo.",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "De la hoja de cálculo a los documentos",
+        "alt": "Las filas validadas se convierten en documentos y se retiene una excepción.",
+        "caption": "Procesa las filas válidas y aclara la dirección ausente. Genera el documento de esa fila sin duplicar los anteriores.",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "Un especialista para una tarea recurrente",
+        "alt": "Un contrato de API acotado pasa a un especialista y a una revisión independiente.",
+        "caption": "Entrega el contrato exacto, la evidencia y las condiciones de entrega. Verifica el conflicto de tipos y la propuesta mediante una revisión independiente.",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "Recuperación de información con evidencias",
+        "alt": "Una consulta pasa por fuentes autorizadas para dar una respuesta citada o quedar abierta.",
+        "caption": "Empieza por rutas e identificadores exactos. Si hay carencias medibles, compara búsqueda léxica, semántica e híbrida. Cita la fuente vigente o abstente.",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "Evaluaciones de un flujo real",
+        "alt": "Casos positivos, negativos y cercanos dan resultados observados separados.",
+        "caption": "Define un resultado esperado por caso, inspecciona el artefacto o efecto real y compara los mismos casos antes de ampliar la adopción.",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Panel Agent Atelier",
+        "alt": "Los proyectos locales, una tarea preparada y la salida verificada aparecen por separado.",
+        "caption": "Abre el proyecto, revisa su siguiente acción y la propuesta, y usa la ruta de Orchestrator. Confirma el efecto a partir del resultado observado.",
+        "section": "workbench"
+      }
+    ]
+  },
+  "fr": {
+    "label": "Français",
+    "title": "Que pouvez-vous créer avec Codex?",
+    "intro": "Partez d’une tâche concrète ou reprenez un produit existant. Ces illustrations présentent les entrées, les décisions et les résultats de parcours représentatifs.",
+    "guide": "Ouvrir le guide",
+    "view": "Ouvrir ce parcours dans le guide",
+    "pdf": "PDF illustré",
+    "offline": "Galerie hors ligne",
+    "choose": "Choisir la langue",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "Un espace de travail connecté",
+        "alt": "Carte logistique, agenda, univers de jeu et documents contrôlés sur un même bureau.",
+        "caption": "Passez d’une correction ciblée à un processus réutilisable en gardant les sources et les contrôles vérifiables.",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "My Day",
+        "alt": "L’agenda et le trajet passent du téléphone à un espace de travail plus complet.",
+        "caption": "Modifiez le programme de la journée, conservez les rendez-vous et vérifiez la mise à jour sur les interfaces concernées.",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "Une carte du littoral, une référence du personnage et une étape de contrôle jouable.",
+        "caption": "Préservez le personnage et l’identité du décor jusqu’à la production. Vérifiez la version réelle sur l’appareil avant d’en affirmer le comportement.",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "Assistant",
+        "alt": "La conversation distingue la confirmation explicite et le reçu final.",
+        "caption": "Préparez une commande de démonstration, vérifiez la cible et l’autorisation, puis confirmez l’effet à partir du reçu.",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "Un itinéraire perturbé, une solution de rechange et un résultat vérifié.",
+        "caption": "Analysez l’incident, comparez les trajets disponibles et enregistrez le résultat après contrôle de l’état opérationnel.",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "Du tableur aux documents",
+        "alt": "Les lignes validées deviennent des documents. Une ligne incomplète reste en attente.",
+        "caption": "Traitez les lignes conformes, clarifiez l’adresse manquante, puis générez le document corrigé sans reproduire les précédents.",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "Un spécialiste pour une tâche récurrente",
+        "alt": "Un contrat d’API circonscrit est confié à un spécialiste et à une vérification indépendante.",
+        "caption": "Transmettez le contrat exact, les éléments probants et les critères attendus. Vérifiez séparément la divergence de type et la correction.",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "Recherche avec sources",
+        "alt": "Une demande passe par les sources autorisées, puis reçoit une réponse citée ou reste ouverte.",
+        "caption": "Commencez avec les chemins et identifiants exacts. En cas d’échecs mesurés, comparez les recherches lexicale, sémantique et hybride. Citez la source actuelle ou abstenez-vous.",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "Évaluer un parcours réel",
+        "alt": "Des cas positifs, négatifs et proches produisent des observations distinctes.",
+        "caption": "Fixez un résultat attendu pour chaque cas, vérifiez l’artefact ou l’effet réel, puis comparez les mêmes cas avant une adoption plus large.",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Panneau Agent Atelier",
+        "alt": "Les projets locaux, une tâche préparée et le résultat vérifié correspondent à trois états distincts.",
+        "caption": "Ouvrez un projet local, examinez la prochaine action et le brouillon, puis utilisez Orchestrator. Confirmez l’effet d’après le résultat observé.",
+        "section": "workbench"
+      }
+    ]
+  },
+  "zh-CN": {
+    "label": "简体中文",
+    "title": "使用 Codex 可以构建什么？",
+    "intro": "从具体任务开始，或继续开发已有产品。以下示例展示典型工作流程的输入、决策与结果。",
+    "guide": "打开指南",
+    "view": "在指南中查看此流程",
+    "pdf": "图解 PDF",
+    "offline": "离线图库",
+    "choose": "选择语言",
+    "cards": [
+      {
+        "id": "overview",
+        "title": "关联的工作区",
+        "alt": "同一个工作台上展示物流地图、日程、游戏世界和已校验的文档。",
+        "caption": "从局部修复逐步建立可复用流程，并保留可追溯的来源和验证步骤。",
+        "section": "first-task"
+      },
+      {
+        "id": "product",
+        "title": "My Day",
+        "alt": "日程和路线从手机延续到更大的工作界面。",
+        "caption": "调整当天的安排，保留已有预约和路线决策，并核查相关界面的更新。",
+        "section": "workflow"
+      },
+      {
+        "id": "game",
+        "title": "Sunridge Studio",
+        "alt": "海岸世界地图、角色参考图和可运行版本的检查点。",
+        "caption": "从设计到制作保留角色与海岸场景的辨识度。通过实际版本验证后，再说明设备上的行为。",
+        "section": "catalog"
+      },
+      {
+        "id": "conversation",
+        "title": "对话助手",
+        "alt": "对话明确区分确认步骤和最终凭证。",
+        "caption": "准备示例订单，核查具体对象和授权。取得已验证的凭证后，才确认操作结果。",
+        "section": "operations"
+      },
+      {
+        "id": "operations",
+        "title": "Global Logistics",
+        "alt": "受阻的路线、可行的替代路线和已经核查的结果。",
+        "caption": "分析运输异常并比较可用路线。确认实际运行状态后记录结果。",
+        "section": "operations"
+      },
+      {
+        "id": "documents",
+        "title": "从表格到文档",
+        "alt": "已校验的数据行生成文档，缺少信息的一行暂缓处理。",
+        "caption": "处理有效的行，补齐缺失地址，再生成该行的文档，避免重复生成已有结果。",
+        "section": "operations"
+      },
+      {
+        "id": "specialists",
+        "title": "用于重复任务的专员",
+        "alt": "限定范围的 API 契约交给专员和独立核查人员。",
+        "caption": "提供确切契约、证据和验收条件，独立核实类型差异和拟议修改。",
+        "section": "catalog"
+      },
+      {
+        "id": "retrieval",
+        "title": "有证据的信息检索",
+        "alt": "请求经过授权来源，得到带引用的答案，或因证据不足保持未解决。",
+        "caption": "先用文件路径和精确标识。如果发现可测量的遗漏，在同一授权语料上比较词法、语义和混合检索。引用当前有效来源，或暂不作答。",
+        "section": "retrieval"
+      },
+      {
+        "id": "evaluation",
+        "title": "评估实际工作流程",
+        "alt": "正例、反例和相似对照用例各自保留可观察结果。",
+        "caption": "为每个用例确定预期结果，验证实际产物或工具效果，并在扩大采用前比较同一组用例。",
+        "section": "evals"
+      },
+      {
+        "id": "workbench",
+        "title": "Agent Atelier 工作台",
+        "alt": "本地项目、已准备的任务和经验证的输出分别呈现。",
+        "caption": "打开本地项目，检查下一步操作与草稿，再使用 Orchestrator 路由。根据实际输出和证据确认操作结果。",
+        "section": "workbench"
+      }
+    ]
+  }
+}

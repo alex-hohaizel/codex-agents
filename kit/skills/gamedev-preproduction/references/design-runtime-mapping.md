@@ -40,7 +40,7 @@ Design freeze requires concrete accepted contracts, execution of applicable mode
 
 ## Compatibility and gates
 
-Use [model format](model-format.md) for schema 4.0 and actual CLI. Reject unsupported older result formats. Map stable IDs across `camera`, `input`, `systems`, `actors`, `world`, `progression`, `rewards`, `learning`, `art`, `commerce`, `lifecycle`, and `equipment`. Keep dependencies and `initial_state/action/expected_observable/changed_decision/without_rule`. Add evidence only after observation. The gates are `concept`, `preproduction`, `slice`, `beta`, and `release`. Use preproduction for design freeze and slice for bounded Assets or Build verification. Handoff 1.0.0 and runtime 2.0.0 remain separate schemas. Use the compatibility marker from `scripts/pipeline.py` and `scripts/atelier.py`, currently 6.0.0.
+Use [model format](model-format.md) for schema 4.0 and actual CLI. Validate result formats against the current model contract. Map stable IDs across `camera`, `input`, `systems`, `actors`, `world`, `progression`, `rewards`, `learning`, `art`, `commerce`, `lifecycle`, and `equipment`. Keep dependencies and `initial_state/action/expected_observable/changed_decision/without_rule`. Add evidence only after observation. The gates are `concept`, `preproduction`, `slice`, `beta`, and `release`. Use preproduction for design freeze and slice for bounded Assets or Build verification. Handoff 1.0.0 and runtime 2.0.0 remain separate schemas. Read the toolkit marker from `scripts/pipeline.py` and `scripts/atelier.py`.
 
 ## Contact, results, and continuation
 

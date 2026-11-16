@@ -2,7 +2,7 @@
 name: app-atelier-specification
 description: "Turn an accepted app concept into PRD, technical design, and verifiable cross-client contracts. Use for requirements, data, APIs, entitlements, and build feasibility."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # App Atelier Specification

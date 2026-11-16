@@ -2,7 +2,7 @@
 name: app-atelier-director
 description: "Lead a new or existing app through the relevant product stages. Use to restore project state, choose the next stage, or coordinate Android, iOS, and web delivery."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # App Atelier Director

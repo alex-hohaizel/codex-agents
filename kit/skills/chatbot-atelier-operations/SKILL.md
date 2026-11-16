@@ -2,7 +2,7 @@
 name: chatbot-atelier-operations
 description: "Diagnose and maintain a running chatbot, including incidents, support, and service health. Use release for planned rollout or migration."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # ChatBot Atelier · Operations

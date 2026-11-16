@@ -2,7 +2,7 @@
 name: gamedev-release
 description: "Prepare or perform an authorized mobile game release. Use for exact release candidate review, native signing, store readiness, privacy, commerce, phased rollout and recovery."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # Game Atelier Release

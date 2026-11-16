@@ -29,9 +29,9 @@ class RepositoryToolsTests(unittest.TestCase):
             if p.is_file():
                 files[p.relative_to(self.root / "kit/skills/example").as_posix()] = {"sha256": sha(p.read_bytes()), "size": p.stat().st_size, "mode": 420}
         self.json("kit/manifest.json", {"suite_id": "agent-system-5.0.0", "skills": [{"name": "example", "version": "5.0.0", "files": files}]})
-        self.json("releases/current.json", {"repository_version": "1.0.0", "suite_version": "5.0.0", "stable_skill_names": ["example"], "release_notes": "releases/5.0.0.md", "migration": "releases/migrations/5.0.0.md", "requirements": "governance/requirements.csv"})
-        self.write("releases/5.0.0.md", "# Synthetic release\n" + "Release evidence. " * 12)
-        self.write("releases/migrations/5.0.0.md", "# Migration\n## Before\nSave context.\n## Steps\nAudit then apply.\n## Verify\nCheck result.\n## Rollback\nRestore.\n## Existing projects\nKeep requirements.\n")
+        self.json("releases/current.json", {"repository_version": "1.0.0", "suite_version": "5.0.0", "stable_skill_names": ["example"], "release_notes": "releases/README.md", "installation_guide": "docs/INSTALL.md", "requirements": "governance/requirements.csv"})
+        self.write("releases/README.md", "# Synthetic release\n" + "Release evidence. " * 12)
+        self.write("docs/INSTALL.md", "# Install\nVerify artifact provenance before applying. Review the install plan and keep its journal. Confirm effective discovery from a fresh session.\n")
         self.write("governance/requirements.csv", "id,requirement,acceptance,evidence,status\nREQ-1,Keep sources,Verified hashes,kit/manifest.json,implemented\n")
         self.write("docs/en/GUIDE.md", "# Synthetic guide\n" + "A complete procedure. " * 10)
         entries = []
@@ -98,9 +98,9 @@ class RepositoryToolsTests(unittest.TestCase):
         self.json("apps/example/package.json", {"version": "0.5.0"})
         self.json("apps/example/package-lock.json", {"version": "0.5.0", "packages": {"": {"version": "0.5.0"}}})
         self.write("apps/example/shared/contracts.mjs", 'export const SERVICE_VERSION = "0.5.0";\n')
-        self.json("apps/example/requirements.json", {"release_candidate": "0.4.0"})
-        self.assertTrue(any("requirements.json release_candidate" in error for error in check(self.root)["errors"]))
-        self.json("apps/example/requirements.json", {"release_candidate": "0.5.0"})
+        self.json("apps/example/requirements.json", {"version": "0.4.0"})
+        self.assertTrue(any("requirements.json version" in error for error in check(self.root)["errors"]))
+        self.json("apps/example/requirements.json", {"version": "0.5.0"})
         self.assertTrue(check(self.root)["ok"])
 
     def test_symlink_and_path_escape_are_rejected(self):
@@ -122,11 +122,11 @@ class RepositoryToolsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "symlink"):
             collect(self.root, ["apps"])
 
-    def test_missing_migration_and_broken_link_are_detected(self):
-        (self.root / "releases/migrations/5.0.0.md").unlink()
+    def test_missing_installation_guide_and_broken_link_are_detected(self):
+        (self.root / "docs/INSTALL.md").unlink()
         self.write("README.md", "[missing instructions](docs/no-such-guide.md)\n")
         errors = check(self.root)["errors"]
-        self.assertTrue(any("migration" in x for x in errors))
+        self.assertTrue(any("installation_guide" in x for x in errors))
         self.assertTrue(any("broken local link" in x for x in errors))
 
     def test_icon_change_is_caught_even_after_source_manifest_refresh(self):

@@ -2,7 +2,7 @@
 name: agent-foundry
 description: "Create, adapt, recover, or extend a specialized agent or skill family. Use when the user needs durable capabilities, roles, tools, memory, verification, or a portable agent package for repeated work."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # Agent Foundry

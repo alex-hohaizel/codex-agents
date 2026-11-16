@@ -60,7 +60,7 @@ python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip
 
 ## Current project context
 
-The handoff's `schema_version` and `suite_version` are **1.0.0**. `toolkit_version` uses the compatibility marker in `scripts/pipeline.py`, currently **6.0.0**. Include `records/intent-lock.json`, `records/experience-coverage.json`, relevant project lessons and knowledge, and a readable checkpoint as normal artifacts with kind, status, `depends_on`, and `sha256`. Link actual requirement, decision, and review IDs so a context copy retains the original authority. Files under `assets` provide templates.
+The handoff's `schema_version` and `suite_version` are **1.0.0**. `toolkit_version` uses the `TOOLKIT_VERSION` contract declared by `scripts/pipeline.py`. Include `records/intent-lock.json`, `records/experience-coverage.json`, relevant project lessons and knowledge, and a readable checkpoint as normal artifacts with kind, status, `depends_on`, and `sha256`. Link actual requirement, decision, and review IDs so a context copy retains the original authority. Files under `assets` provide templates.
 
 The director's live records reside in `.gameatelier/orchestrator/state.json`. Preserve existing `.gameatelier/state.json`, requirements, decisions, and game saves. The sidecar pins canonical authority files and hashes. Transfer the relevant checkpoint and context, inputs and masters, open decisions, stopping boundary, knowledge, and dependencies. Include internal logs only when needed. Keep an unknown external outcome open with the action ID and a status query until reconciliation.
 
@@ -68,7 +68,7 @@ When runtime state has stage records, reconcile current due requirements, decisi
 
 `START_HERE.md` explains the result and one next action in plain language. Invoke the needed skill or tool directly when the environment permits. For a manual handoff, specify where to open the project, exact file versions, what to run, expected output and receipt, what to return, and how to verify it. A pause or search-only package can satisfy its intermediate scope with draft status. Production depends on accepted evidence for the next gate.
 
-Transfer the current systemic passports, visual production profiles, structural receipts, independent semantic reviews, and actual image inspections as artifacts and evidence with pinned hashes and current requirement IDs. Preview readiness leaves the accepted concept gate open until the owner chooses the concept. Runtime state uses schema **2.0.0** with the compatible **6.0.0** toolkit marker from `scripts/atelier.py`.
+Transfer the current systemic passports, visual production profiles, structural receipts, independent semantic reviews, and actual image inspections as artifacts and evidence with pinned hashes and current requirement IDs. Preview readiness leaves the accepted concept gate open until the owner chooses the concept. Runtime state uses schema **2.0.0** with the compatible toolkit marker declared by `scripts/atelier.py`.
 
 ## Scoped acceptance profiles
 

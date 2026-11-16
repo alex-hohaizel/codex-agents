@@ -2,7 +2,7 @@
 name: app-atelier-research
 description: "Research app needs, target markets, competing products, and alternatives. Use for a source-backed market map, direction shortlist, or targeted market reassessment."
 metadata:
-  version: "6.2.0"
+  version: "6.2.1"
 ---
 
 # App Atelier Research
