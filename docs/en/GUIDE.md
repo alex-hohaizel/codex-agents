@@ -2,9 +2,16 @@
 
 Use Codex for a focused task, develop a product with specialists, or design a reusable agent. The system connects work to its actual source, an owner, and a result you can verify.
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [Visual examples](../../marketing/en/README.md)
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-[Install](#install) · [First task](#first-task) · [Workflow](#workflow) · [RAG](#retrieval) · [Evals](#evals) · [Mac workbench](#workbench) · [Operations](#operations) · [Catalog](#catalog)
+## Choose where to start
+
+- **Try Codex.** [Install and verify](#install) · [Do a first task](#first-task) · [See illustrated workflows](../../marketing/en/README.md)
+- **Develop or run a project.** [Choose a workflow](#workflow) · [Find a skill or role](#catalog) · [Mac workbench](#workbench) · [Operations and recovery](#operations)
+- **Understand the system.** [Harness](#harness) · [Subagents](#subagents) · [Context capsules](#context) · [Models and cost](#models)
+- **Find and verify evidence.** [Retrieval (RAG)](#retrieval) · [Evals](#evals) · [Tools and permissions](#permissions)
+
+[Engineering topics](../OPERATING_MODEL.md#engineering-topics) · [Worked RAG example](../technical/RETRIEVAL.md) · [Product requirements](../../governance/requirements.csv)
 
 <a name="install"></a>
 ## Install and check discovery
@@ -32,12 +39,29 @@ Accept the result after observing `# Checklist` and the original `notes.txt`. Fo
 <a name="workflow"></a>
 ## Route a project and retain context
 
-- **Harness.** Codex supplies the runtime, tools, and permission controls. The repository supplies `AGENTS.md`, skill descriptions and resources, domain contracts, role definitions, and checks. Confirm the loaded instructions and apply authorization at the actual tool boundary.
-- **Route.** Work directly, invoke a skill, or ask `$atelier-orchestrator` to choose. Select a director for the whole lifecycle of an app, chatbot, or game. Use `$agent-foundry` for a recurring agent or team. Review its passport before construction, then test its staged package on an original task. Use `$design-specialist-skills` for a reusable workflow with clear triggers and acceptance cases.
-- **Roles and subagents.** Delegate separate outputs or independent review. Name the actor, source revision, input paths, write scope, expected output, limits, stop condition, and return address. Keep a single writer for shared state. Collect the actual child result before integration.
-- **Context capsule.** Start from authoritative project requirements, identity, current decisions and checkpoint. Pin exact source hashes and carry relevant requirements, allowed effects, deferred work, output, unresolved effects, and next action. If a source changes or is unavailable, verify the affected obligation again. A handoff carries this projection to another task or host; the original sources stay authoritative.
+Work directly, invoke a skill, or ask `$atelier-orchestrator` to choose. Select a director for the whole lifecycle of an app, chatbot, or game. Use `$agent-foundry` for a recurring agent or team. Review its passport before construction, then test its staged package on an original task. Use `$design-specialist-skills` for a reusable workflow with clear triggers and acceptance cases.
+
+<a name="harness"></a>
+### Harness and authority
+
+Codex supplies the runtime, tools, and permission controls. The repository supplies `AGENTS.md`, skill descriptions and resources, domain contracts, role definitions, and checks. Confirm the loaded instructions and apply authorization at the actual tool boundary. [Harness and authority](../OPERATING_MODEL.md#harness-and-authority)
+
+<a name="subagents"></a>
+### Roles and subagents
+
+Delegate separate outputs or independent review. Name the actor, source revision, input paths, write scope, expected output, limits, stop condition, and return address. Keep a single writer for shared state. Collect the actual child result before integration. [Routes and subagents](../OPERATING_MODEL.md#routes-and-subagents)
+
+<a name="context"></a>
+### Context capsules
+
+Start from authoritative project requirements, identity, current decisions and checkpoint. Pin exact source hashes and carry relevant requirements, allowed effects, deferred work, output, unresolved effects, and next action. If a source changes or is unavailable, verify the affected obligation again. A handoff carries this projection to another task or host. The original sources stay authoritative.
 
 Record `preferred_language` in project context and pass it through handoffs. Keep commands, selectors, IDs, citations, and original quotations exact. [Operating model](../OPERATING_MODEL.md#project-context-and-handoffs) · [Project context](../../templates/project-context.json) · [Handoff](../../templates/HANDOFF.md)
+
+<a name="models"></a>
+### Models and cost
+
+Record the model, reasoning setting, and result when comparing routes. Use a lower-cost setup when it passes the same acceptance checks on the same inputs. [Engineering reference for model choice and cost](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Add knowledge retrieval and RAG
@@ -80,7 +104,12 @@ node launcher/atelier.mjs doctor
 <a name="operations"></a>
 ## Operate, recover, and update
 
-Before a tool write, verify operation, target, authorization, cost, limits and required receipt. After a timeout or a missing receipt, read authoritative state for the exact request, then retry only with current authority and a duplicate-prevention guarantee. Keep unresolved effects and evidence visible. Review outcomes in the real product, independent of successful preparation, command execution or file creation.
+<a name="permissions"></a>
+### Tools and permissions
+
+Before a tool write, verify operation, target, authorization, cost, limits and required receipt. After a timeout or a missing receipt, read authoritative state for the exact request, then retry only with current authority and a duplicate-prevention guarantee. Keep unresolved effects and evidence visible. Review outcomes in the real product, independent of successful preparation, command execution or file creation. [Tool effects and evidence](../OPERATING_MODEL.md#tools-evidence-and-recovery)
+
+### Recovery and updates
 
 Use the stable asset and exact plan for component updates. Keep journals and existing state. After an interruption, inspect the actual target before resuming. Roll back the core, profile, or optional kit using its own verified journal. Back up the workbench’s database and service-owned files with the documented procedure. Restart on the owned data directory and check the project inventory and a scoped task. Live product data, native chat and account state have their own owners and recovery rules. [Install and recovery](../INSTALL.md#rollback) · [Resumable work](../../governance/RESUMABLE_WORK.md)
 

@@ -1,14 +1,24 @@
 # Capabilities, skills, and roles
 
+[Repository home](../README.md) · [First task](../START_HERE.md#install-and-verify) · [Technical topics](../README.md#technical-topics) · [Illustrated workflows](../marketing/README.md)
+
 Choose the result you want and where it must work. The same project can use a direct Codex request, a reusable skill, a native specialist role, or an agent with its own package. Its own requirements, decisions, and acceptance evidence remain the record of the work. [Engineering guide](OPERATING_MODEL.md)
+
+## Built in, optional, or supplied by your project
+
+| Scope | What is available |
+| --- | --- |
+| **Included in the core** | Workflow instructions, [context contracts](OPERATING_MODEL.md#project-context-and-handoffs), constructors, and [validation examples](OPERATING_MODEL.md#evals-and-evidence). Some checks require a fresh signed-in Codex session. |
+| **Install or configure separately** | [Orchestrator, Maintenance, and Agent Atelier](INSTALL.md#optional-components), native role profiles, and host connectors. Availability and permissions depend on the host and task. |
+| **Provided for a particular project** | Source of truth, corpus, storage and indexing where needed, external integrations, and real acceptance evidence. [Retrieval and RAG](OPERATING_MODEL.md#retrieval-and-rag) describes how to decide which infrastructure is justified. |
 
 ## Product families
 
 | Family | Workflow | Example of acceptance |
 | --- | --- | --- |
-| App Atelier | Research the need, choose a concept, specify behavior, design and build the UX, verify, release, and operate | A target client performs the agreed flow, including the expected failure and recovery behavior |
-| ChatBot Atelier | Shape the product, language, knowledge corpus, integrations, media, runtime, and support | The intended channel exhibits the approved behavior, cites the permitted current sources, and records action receipts |
-| Game Atelier | Define studio identity, playable concepts, systems and assets, build, test, release, and evolve | The agreed gameplay loop runs on the target environment, with evidence for controls, performance, recovery, and media |
+| App Atelier | Research the need, choose a concept, specify behavior, design and build the UX, verify, release, and operate | A target client performs the agreed flow, including the expected failure and recovery behavior. [My Day](../marketing/en/README.md#showcase-product) |
+| ChatBot Atelier | Shape the product, language, knowledge corpus, integrations, media, runtime, and support | The intended channel exhibits the approved behavior, cites the permitted current sources, and records action receipts. [Assistant](../marketing/en/README.md#showcase-conversation) |
+| Game Atelier | Define studio identity, playable concepts, systems and assets, build, test, release, and evolve | The agreed gameplay loop runs on the target environment, with evidence for controls, performance, recovery, and media. [Sunridge Studio](../marketing/en/README.md#showcase-game) |
 
 ## Constructors and roles
 
@@ -74,4 +84,4 @@ Native Codex specialist roles are `foundry-architecture`, `foundry-backend`, `fo
 | Verify behavior and outputs | Structural checks, native fixtures, domain evals, and independent review of the actual consumer or medium |
 | Publish or update managed components | The official stable asset, attestation, exact plan and journal, and a fresh native check |
 
-[Local workbench API](../apps/agent-atelier/shared/API.md) · [Retrieval and evals](OPERATING_MODEL.md#retrieval-and-rag) · [Install and recover](INSTALL.md) · [Visual showcase](../marketing/README.md)
+[Local workbench API](../apps/agent-atelier/shared/API.md) · [RAG](OPERATING_MODEL.md#retrieval-and-rag) · [Evals](OPERATING_MODEL.md#evals-and-evidence) · [Install and recover](INSTALL.md) · [Visual showcase](../marketing/README.md)

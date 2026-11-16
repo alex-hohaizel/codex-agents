@@ -1,6 +1,20 @@
 # Engineering with Codex Agent System
 
-The unit of work is a result with a source, owner, and acceptance check. From a single-file repair to a production workflow, pick the shortest route that preserves the required result and its evidence. [Capability map](CAPABILITIES.md)
+[Repository home](../README.md) · [Install](INSTALL.md) · [Capability map](CAPABILITIES.md) · [Illustrated workflows](../marketing/README.md)
+
+## Engineering topics
+
+| Open a topic | What you can decide or check |
+| --- | --- |
+| [Harness and authority](#harness-and-authority) | Which parts of the host control instructions, execution, and evidence |
+| [Routing and subagents](#routes-and-subagents) | When to work directly, use a specialist, delegate, or build an agent |
+| [Context and handoffs](#project-context-and-handoffs) | Which sources, requirements, decisions, and permissions cross a task boundary |
+| [RAG and retrieval](#retrieval-and-rag) | When exact lookup is enough and how to evaluate lexical, semantic, or hybrid ranking |
+| [Tools, permissions, and recovery](#tools-evidence-and-recovery) | What a tool may do and how to verify an operation's outcome |
+| [Evals and evidence](#evals-and-evidence) | What static checks, native runs, and independent review can each establish |
+| [Models and cost](#models-and-cost) | How model settings resolve and when to evaluate a different model or effort |
+
+Start with the requested outcome, authoritative sources, and an acceptance check. For a narrow task, open only the records and checks it needs. For a change that affects several systems, carry the same source pins, task authority, and acceptance criteria through each step.
 
 ## Harness and authority
 
@@ -12,7 +26,7 @@ The unit of work is a result with a source, owner, and acceptance check. From a 
 | State | Native project records and a bounded task capsule | Exact revision, current decision, musts, deferred work, and pins |
 | Checks | Schemas, source reads, sandbox fixtures, native evals, and independent review | Test outcome, actual artifact and consumer behavior, attribution, and limits |
 
-Put stable routing guidance and exact resource links in `AGENTS.md` and skill entrypoints. Enforce type, path, target, rights, and state-transition controls at the actual operation. A scope declared in prose still needs the host’s permission checks. Select or delegate only what the job requires. [Adaptive work](../standards/adaptive-work.md) · [Tool compatibility](../standards/tool-compatibility.md)
+The harness is the combination of these controls around the model. Keep durable project instructions and resource links in `AGENTS.md` and skill entrypoints. Enforce target, permission, and state checks at the operation itself. For example, the workbench's `task.prepare` binds the task to the selected sources and paths, and `task.dispatch` checks those pins and authority again before the turn starts. [Managed Codex profile](../host-profiles/codex/AGENTS.md) · [Adaptive work](../standards/adaptive-work.md) · [Workbench API](../apps/agent-atelier/shared/API.md)
 
 ## Routes and subagents
 
@@ -22,33 +36,46 @@ Put stable routing guidance and exact resource links in `AGENTS.md` and skill en
 4. Use Foundry to build an agent for a demonstrated recurring gap. Agree on the passport and verify the staged consumer using an original task. Build a reusable skill when its trigger, resources, and result can be specified and tested independently.
 5. Integrate the actual result, retain its source and checks, and record each accepted and unresolved obligation. Route preparation, a subagent spawn, a result, and independent review are distinct observations.
 
+```mermaid
+flowchart LR
+    A["Task and authoritative sources"] --> B{"Choose a route"}
+    B --> C["Direct work or a specialist"]
+    B --> D["Delegate or construct"]
+    C --> E["Verify in the intended environment"]
+    D --> E
+    E --> F["Record evidence and the next action"]
+```
+
 [Orchestrator instructions](../optional-skills/atelier-orchestrator/SKILL.md) · [Agent Foundry](../kit/skills/agent-foundry/SKILL.md) · [Role sources](../agent-profiles/manifest.json)
 
 ## Project context and handoffs
 
 Open the project’s authoritative requirements, identity, decisions, and checkpoint by ID or exact path. Use a capsule to carry a focused projection across a task, session, agent, or environment. Identify the original goal, applicable requirements and musts, source and revision hashes, accepted decisions and supersession, deferred work, allowed effects, output, recovery and next action. Record the gaps alongside the loaded references. A changed dependency invalidates the proof it affects.
 
-In a handoff, preserve the project owner, actual files, and current authority. Limit read scope to what the consumer needs. When history is unavailable or incomplete, use verified project sources and name any unresolved context. Native project and provider state decide operational truth. A summary or retrieval result helps find sources and cannot amend their decisions. [Context capsule](../standards/context-capsule.md) · [Handoff template](../templates/HANDOFF.md) · [Project context template](../templates/project-context.json)
+In a handoff, preserve the project owner, actual files, and current authority. Limit read scope to what the consumer needs. When history is incomplete, recover the task from verified project sources and name the gaps. For a shipment exception, pass the shipment identifier, the permitted read scope, the current dispatch rule and its revision, the selected alternative, and the pending approval to the receiver. Check those records against the owning system before continuing. The project's native records remain authoritative. [Context capsule contract and commands](../standards/context-capsule.md) · [Handoff template](../templates/HANDOFF.md) · [Project context template](../templates/project-context.json) · [Global Logistics example](../marketing/en/README.md#showcase-operations)
 
 ## Retrieval and RAG
 
-Retrieval-augmented generation gives the model evidence selected from a corpus for the present query. Keep exact IDs, owned APIs, and ordinary lexical searches for cases they already solve. Add scoped semantic or hybrid ranking when examples reveal costly misses that those routes cannot cover.
+Retrieval-augmented generation supplies evidence from an authorized corpus to the model for the current question. Start with an exact ID, current API or database read, or a lexical search. If held-out questions expose material misses such as paraphrases or language changes, compare semantic or hybrid ranking over the same sources and permissions.
 
-1. Freeze a corpus with source ownership, authorized audience, revision, and lifecycle. Separate operational records with authoritative structured reads from discovery material.
-2. Record representative questions and expected evidence, including exact IDs, paraphrases, mixed languages, ambiguity, no-answer, stale and revoked data, and neighboring private scopes.
-3. Compare lexical, semantic, and hybrid retrieval on the same corpus and authorization rules. Check ranking and relevant hit rate, answer citation and abstention, latency, ingestion/storage cost, and deletion. Use independent or held-out examples for guidance instead of tuning solely against the public fixture.
-4. If deploying an index, pin each chunk to its origin and revision, the index, embedding model and version, filters, ranking configuration, retention and rebuild plan. Filter permissions before retrieval and recheck source rights before citation. Remove stale or revoked content from indexes and caches. Treat retrieved material as data, not instructions.
-5. Choose an index backend only for a demonstrated need. Keep a safe fallback or rebuild route and verify the actual consumer. A hosted vector store requires permission to send the corpus, a retention policy, and a deletion path.
+| If you need to find | Begin with | Check before adding complexity |
+| --- | --- | --- |
+| A current record by its ID | Exact lookup in the authoritative system | Correct record, revision or timestamp, and access |
+| A policy by title or wording | Search over documents the caller may read | Correct clause, current revision, and a citation |
+| A policy described in different terms or languages | Compare lexical and semantic or hybrid candidates | Relevant source appears in the results, citations support the answer, and latency and cost fit the task |
 
-The repository provides scoped context, a knowledge workflow, and eval patterns. Build and verify the index appropriate to your application when it needs one. [ChatBot knowledge skill](../kit/skills/chatbot-atelier-knowledge/SKILL.md) · [AI and data profiles](../standards/ai-production.md)
+The repository supplies the knowledge workflow, context contracts, and evaluation patterns. Indexing, embedding, and hosting are implementation choices for your application. Follow the worked example for source authority, filtering, deletion, safe abstention, and deciding whether ranking improved the result. [Worked RAG example and evaluation](technical/RETRIEVAL.md) · [ChatBot knowledge skill](../kit/skills/chatbot-atelier-knowledge/SKILL.md) · [AI and data profiles](../standards/ai-production.md)
 
 ## Tools, evidence, and recovery
 
 Choose an actual supported tool operation with known input schema, target, rights, cost, and receipt. Verify inputs before the effect and read the result from the owning system. After a timeout, pending status, or missing receipt, check the authoritative state for the exact target and request before any replay. Retry only with authority and a tested duplicate-prevention mechanism. Keep an unresolved effect open with the next fact needed to resolve it.
 
-Agent Atelier discovers local native Codex project and chat metadata with coverage, opens history on demand, binds explicit folders, and prepares source-backed tasks. Review the original goal, selected skills, access, plan and acceptance before preparing and starting the task. Dispatch rechecks authority and sources. A workbench instance coordinates its supported jobs and cannot fence a separate Codex desktop writer. Inspect the native result and exact receipt before accepting an effect. Keep evidence local and scope any telemetry with explicit ownership and content policy. [Workbench guide](../apps/agent-atelier/README.md) · [Operation API](../apps/agent-atelier/shared/API.md) · [Resumable work](../governance/RESUMABLE_WORK.md)
+Agent Atelier discovers local native Codex project and chat metadata with coverage, opens history on demand, binds explicit folders, and prepares source-backed tasks. Review the original goal, selected skills, access, plan, and acceptance before starting the task. Dispatch rechecks authority and sources. When using a separate Codex desktop client, coordinate ownership of the same project and task before writing from either client. Inspect the native result and exact receipt before accepting an effect. Keep evidence local and scope telemetry by ownership and content policy. [Workbench guide](../apps/agent-atelier/README.md) · [Operation API](../apps/agent-atelier/shared/API.md) · [Resumable work](../governance/RESUMABLE_WORK.md)
 
+<a name="evaluations-and-observed-results"></a>
 ## Evals and evidence
+
+Choose a case that would change whether you adopt the result. For a new route, check a request that should select it, a similar request that should stay direct, and a denied or incomplete input that should stop the operation.
 
 | Check | Evidence to keep |
 | --- | --- |
@@ -58,7 +85,7 @@ Agent Atelier discovers local native Codex project and chat metadata with covera
 | Attribution and cost | Source, input, model and host, observed actor, retries, elapsed time, cost and usage when reported |
 | Judgment | Criteria, independent actor or method, scoped verdict, and unverified areas |
 
-Start with deterministic checks and use native sessions for behavior. Measure the result and the quality of what was preserved, with an appropriate oracle. A fixture can demonstrate behavior within its controlled environment; use a real device, environment, channel, target, or independent actor when the claim requires one.
+Run deterministic checks first for source and structure. Use a native session to observe the selected route, the actual artifact, and its use by the intended consumer. Keep hard requirements and reference fidelity explicit in the acceptance criteria. If a case concerns a real device, permission boundary, provider, or external effect, collect the result on the affected target under the matching conditions.
 
 ```bash
 python3 -B kit/verify_release.py
@@ -68,7 +95,15 @@ receipt_dir="$(mktemp -d)"
 python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir/direct.jsonl"
 ```
 
-Run the first three from the repository source directory. The canary uses the native Codex CLI and a signed-in host. Keep raw inputs, paths, and diagnostics private and publish only the permitted, scoped result. [Native eval suite](../evaluations/README.md) · [Validation and evidence](../governance/VALIDATION.md)
+Run these commands from the repository source directory. The canary uses the native Codex CLI and a signed-in host. Keep raw inputs, paths, and diagnostics private. Record the fixture, exact source, model, observed artifact, and outcome with any scoped public result. [Native eval suite and prerequisites](../evaluations/README.md) · [Validation and evidence](../governance/VALIDATION.md) · [OpenAI evaluation practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices)
+
+## Models and cost
+
+The session chooses the main model. For a subagent, an explicit model or effort in its role file has precedence. For each unset field, Codex resolves the spawn option, the matching `[agents]` default, and then the parent setting. A different model selected by a spawn option or default can use that model's own default effort when neither setting specifies effort. [Codex model selection for subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents#custom-agents)
+
+The supplied `foundry-cost` role explicitly sets a model and reasoning effort for cost and performance review. The other supplied roles leave model selection to the host. Inspect the role and record the effective model when comparing behavior. [Role definitions](../agent-profiles/manifest.json) · [Cost reviewer configuration](../agent-profiles/foundry-cost.toml)
+
+Change one variable at a time. Compare the current and candidate settings on the same source, task cases, permissions, and pass criteria. Track missed requirements, erroneous tool actions, retries, time, and cost when available. Keep the setting that meets the acceptance criteria within the task's budget, and retain the exact model and effort in the receipt.
 
 ## Install, verify, and recover
 

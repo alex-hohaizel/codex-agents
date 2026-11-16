@@ -2,9 +2,16 @@
 
 Svolgete un compito mirato con Codex, sviluppate un prodotto con specialisti o progettate un agente riutilizzabile. Il sistema collega il lavoro alla fonte effettiva, a un responsabile e a un risultato verificabile.
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [Esempi visivi](../../marketing/it/README.md)
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-[Installazione](#install) · [Primo compito](#first-task) · [Flusso](#workflow) · [RAG](#retrieval) · [Valutazioni](#evals) · [Pannello Mac](#workbench) · [Operazioni](#operations) · [Catalogo](#catalog)
+## Da dove iniziare
+
+- **Provate Codex.** [Installazione e verifica](#install) · [Primo compito](#first-task) · [Flussi illustrati](../../marketing/it/README.md)
+- **Sviluppate o gestite un progetto.** [Scegliete un flusso di lavoro](#workflow) · [Trovate una skill o un ruolo](#catalog) · [Pannello per Mac](#workbench) · [Operazioni e ripristino](#operations)
+- **Capite come funziona il sistema.** [Harness](#harness) · [Subagenti](#subagents) · [Capsule di contesto](#context) · [Modelli e costi](#models)
+- **Trovate e verificate le evidenze.** [Ricerca documentale (RAG)](#retrieval) · [Valutazioni (evals)](#evals) · [Strumenti e autorizzazioni](#permissions)
+
+[Argomenti tecnici (in inglese)](../OPERATING_MODEL.md#engineering-topics) · [Esempio pratico di RAG (in inglese)](../technical/RETRIEVAL.md) · [Requisiti del prodotto](../../governance/requirements.csv)
 
 <a name="install"></a>
 ## Installare e verificare il rilevamento
@@ -32,12 +39,29 @@ Accettate il risultato dopo aver visto `# Checklist` e il contenuto originale di
 <a name="workflow"></a>
 ## Scegliere il percorso e conservare il contesto
 
-- **Harness.** Codex fornisce runtime, strumenti e autorizzazioni. Il repository contiene `AGENTS.md`, descrizioni e risorse delle skill, contratti di dominio, ruoli e verifiche. Confermate quali istruzioni sono state caricate e applicate l’autorizzazione al confine dello strumento effettivo.
-- **Percorso.** Svolgete il compito direttamente, invocate una skill o affidate la scelta a `$atelier-orchestrator`. Selezionate un direttore per il ciclo di vita di un’app, chatbot o gioco. `$agent-foundry` serve per un agente o una squadra che svolge un lavoro ricorrente. Verificate il passaporto prima della costruzione e provate il pacchetto preparato su un compito originale. `$design-specialist-skills` definisce un flusso riutilizzabile con attivazione e criteri di accettazione.
-- **Ruoli e subagenti.** Delegate un risultato autonomo o una revisione indipendente. Indicate soggetto, revisione delle fonti, percorsi in ingresso, permessi di scrittura, risultato, limiti, condizioni di arresto e dove restituirlo. Assegnate un solo scrittore allo stato condiviso. Raccogliete il risultato effettivo prima di integrarlo.
-- **Capsula di contesto.** Aprite requisiti autorevoli, identità, decisioni e punto di ripresa. Fissate i digest esatti delle fonti e includete i requisiti applicabili, gli effetti permessi, il lavoro rinviato, il risultato, gli effetti incerti e la prossima azione. Se una fonte manca o cambia, verificate nuovamente l’obbligo interessato. Il passaggio consegna la selezione alla prossima attività o ambiente, conservando l’autorità delle fonti originali.
+Svolgete il compito direttamente, invocate una skill o affidate la scelta a `$atelier-orchestrator`. Selezionate un direttore per il ciclo di vita di un’app, chatbot o gioco. `$agent-foundry` serve per un agente o una squadra che svolge un lavoro ricorrente. Verificate il passaporto prima della costruzione e provate il pacchetto preparato su un compito originale. `$design-specialist-skills` definisce un flusso riutilizzabile con attivazione e criteri di accettazione.
+
+<a name="harness"></a>
+### Harness e autorizzazioni
+
+Codex fornisce runtime, strumenti e autorizzazioni. Il repository contiene `AGENTS.md`, descrizioni e risorse delle skill, contratti di dominio, ruoli e verifiche. Confermate quali istruzioni sono state caricate e applicate l’autorizzazione al confine dello strumento effettivo. [Harness e autorizzazioni](../OPERATING_MODEL.md#harness-and-authority)
+
+<a name="subagents"></a>
+### Ruoli e subagenti
+
+Delegate un risultato autonomo o una revisione indipendente. Indicate soggetto, revisione delle fonti, percorsi in ingresso, permessi di scrittura, risultato, limiti, condizioni di arresto e dove restituirlo. Assegnate un solo scrittore allo stato condiviso. Raccogliete il risultato effettivo prima di integrarlo. [Percorsi e subagenti](../OPERATING_MODEL.md#routes-and-subagents)
+
+<a name="context"></a>
+### Capsule di contesto
+
+Aprite requisiti autorevoli, identità, decisioni e punto di ripresa. Fissate i digest esatti delle fonti e includete i requisiti applicabili, gli effetti permessi, il lavoro rinviato, il risultato, gli effetti incerti e la prossima azione. Se una fonte manca o cambia, verificate nuovamente l’obbligo interessato. Il passaggio consegna la selezione alla prossima attività o ambiente, conservando l’autorità delle fonti originali.
 
 Registrate `preferred_language` nel contesto e passatelo con le consegne. Mantenete esatti comandi, selettori, ID, riferimenti e citazioni originali. [Modello operativo](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contesto](../../templates/project-context.json) · [Consegna di lavoro](../../templates/HANDOFF.md)
+
+<a name="models"></a>
+### Modelli e costi
+
+Quando confrontate percorsi diversi, registrate il modello, il livello di ragionamento e il risultato. Usate una variante meno costosa se supera le stesse verifiche di accettazione con gli stessi dati in ingresso. [Scelta dei modelli e valutazione dei costi](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Aggiungere ricerca documentale e RAG
@@ -80,7 +104,12 @@ node launcher/atelier.mjs doctor
 <a name="operations"></a>
 ## Gestire, ripristinare e aggiornare
 
-Prima di un’azione di scrittura verificate operazione, destinazione, autorizzazione, costo, limiti e ricevuta attesa. Dopo un timeout o senza ricevuta consultate lo stato autorevole della richiesta esatta. Ripetete l’azione con l’autorizzazione corrente e una protezione verificata contro i duplicati. Conservate gli effetti irrisolti e le evidenze. Valutate il risultato nel prodotto effettivo e registrate preparazione, esecuzione del comando e creazione dei file separatamente.
+<a name="permissions"></a>
+### Strumenti e autorizzazioni
+
+Prima di un’azione di scrittura verificate operazione, destinazione, autorizzazione, costo, limiti e ricevuta attesa. Dopo un timeout o senza ricevuta consultate lo stato autorevole della richiesta esatta. Ripetete l’azione con l’autorizzazione corrente e una protezione verificata contro i duplicati. Conservate gli effetti irrisolti e le evidenze. Valutate il risultato nel prodotto effettivo e registrate preparazione, esecuzione del comando e creazione dei file separatamente. [Effetti degli strumenti ed evidenze](../OPERATING_MODEL.md#tools-evidence-and-recovery)
+
+### Ripristino e aggiornamenti
 
 Per gli aggiornamenti usate il pacchetto stabile e il suo piano. Conservate i journal e lo stato. Dopo un’interruzione esaminate la destinazione effettiva prima di riprendere. Ripristinate nucleo, profilo e skill opzionale dal rispettivo journal. Salvate il database e i file del pannello con la procedura documentata, riavviate con la directory dati appropriata e controllate i progetti e un compito limitato. Dati di prodotto, chat native e account hanno responsabili e procedure di ripristino propri. [Installazione e ripristino](../INSTALL.md#rollback) · [Riprendere il lavoro](../../governance/RESUMABLE_WORK.md)
 

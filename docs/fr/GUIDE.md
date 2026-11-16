@@ -2,9 +2,16 @@
 
 Traitez une tâche précise dans Codex, développez un produit avec les spécialistes ou créez un agent réutilisable. Le système rattache le travail à sa source, à un responsable et à un résultat vérifiable.
 
-[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md) · [Exemples visuels](../../marketing/fr/README.md)
+[English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-[Installation](#install) · [Première tâche](#first-task) · [Flux de travail](#workflow) · [RAG](#retrieval) · [Évaluations](#evals) · [Atelier Mac](#workbench) · [Exploitation](#operations) · [Catalogue](#catalog)
+## Par où commencer
+
+- **Essayez Codex.** [Installez et vérifiez](#install) · [Réalisez une première tâche](#first-task) · [Scénarios illustrés](../../marketing/fr/README.md)
+- **Développez ou exploitez un projet.** [Choisissez un flux de travail](#workflow) · [Trouvez une compétence ou un rôle](#catalog) · [Atelier pour Mac](#workbench) · [Exploitation et reprise](#operations)
+- **Comprenez le système.** [Harness](#harness) · [Sous-agents](#subagents) · [Capsules de contexte](#context) · [Modèles et coûts](#models)
+- **Trouvez et vérifiez les preuves.** [Recherche documentaire (RAG)](#retrieval) · [Évaluations (evals)](#evals) · [Outils et autorisations](#permissions)
+
+[Sujets techniques (en anglais)](../OPERATING_MODEL.md#engineering-topics) · [Exemple pratique de RAG (en anglais)](../technical/RETRIEVAL.md) · [Exigences du produit](../../governance/requirements.csv)
 
 <a name="install"></a>
 ## Installer et vérifier la détection
@@ -32,12 +39,29 @@ Relevez le titre `# Checklist` et le contenu original de `notes.txt`. Un traitem
 <a name="workflow"></a>
 ## Choisir le parcours et conserver le contexte
 
-- **Harness .** Codex fournit le moteur d’exécution, les outils et le contrôle des permissions. Le dépôt fournit `AGENTS.md`, les descriptions et ressources des compétences, les contrats métier, les rôles et les vérifications. Confirmez les instructions chargées et appliquez les autorisations au niveau de l’outil réel.
-- **Parcours .** Traitez la tâche directement, appelez une compétence ou demandez à `$atelier-orchestrator` de choisir. Prenez un directeur pour le cycle complet d’une application, d’un chatbot ou d’un jeu. `$agent-foundry` sert à concevoir un agent ou une équipe pour un travail récurrent. Relisez le passeport avant construction, puis testez le paquet préparé sur une tâche originale. `$design-specialist-skills` sert à définir un flux réutilisable, ses déclencheurs et son acceptation.
-- **Rôles et sous-agents .** Déléguez des résultats séparés ou une revue indépendante. Précisez l’acteur, la révision, les chemins en entrée, l’autorisation d’écriture, le livrable, les limites, la condition d’arrêt et où rendre le résultat. Attribuez l’écriture de l’état partagé à un seul acteur. Récupérez le résultat réel avant l’intégration.
-- **Capsule de contexte .** Partez des exigences qui font foi, de l’identité, des décisions et du point de reprise du projet. Fixez les empreintes des sources et transportez les obligations, effets permis, travaux différés, résultat, effets non résolus et prochaine action qui concernent la tâche. Une source modifiée ou indisponible entraîne une nouvelle vérification de l’obligation associée. Le transfert passe cette sélection au prochain acteur ou hôte et les sources originales continuent de faire foi.
+Traitez la tâche directement, appelez une compétence ou demandez à `$atelier-orchestrator` de choisir. Prenez un directeur pour le cycle complet d’une application, d’un chatbot ou d’un jeu. `$agent-foundry` sert à concevoir un agent ou une équipe pour un travail récurrent. Relisez le passeport avant construction, puis testez le paquet préparé sur une tâche originale. `$design-specialist-skills` sert à définir un flux réutilisable, ses déclencheurs et son acceptation.
+
+<a name="harness"></a>
+### Harness et autorisations
+
+Codex fournit le moteur d’exécution, les outils et le contrôle des permissions. Le dépôt fournit `AGENTS.md`, les descriptions et ressources des compétences, les contrats métier, les rôles et les vérifications. Confirmez les instructions chargées et appliquez les autorisations au niveau de l’outil réel. [Harness et autorisations](../OPERATING_MODEL.md#harness-and-authority)
+
+<a name="subagents"></a>
+### Rôles et sous-agents
+
+Déléguez des résultats séparés ou une revue indépendante. Précisez l’acteur, la révision, les chemins en entrée, l’autorisation d’écriture, le livrable, les limites, la condition d’arrêt et où rendre le résultat. Attribuez l’écriture de l’état partagé à un seul acteur. Récupérez le résultat réel avant l’intégration. [Parcours et sous-agents](../OPERATING_MODEL.md#routes-and-subagents)
+
+<a name="context"></a>
+### Capsules de contexte
+
+Partez des exigences qui font foi, de l’identité, des décisions et du point de reprise du projet. Fixez les empreintes des sources et transportez les obligations, effets permis, travaux différés, résultat, effets non résolus et prochaine action qui concernent la tâche. Une source modifiée ou indisponible entraîne une nouvelle vérification de l’obligation associée. Le transfert passe cette sélection au prochain acteur ou hôte et les sources originales continuent de faire foi.
 
 Enregistrez `preferred_language` dans le contexte du projet et transmettez-le lors des relais. Conservez les commandes, sélecteurs, identifiants, références et citations originales. [Modèle de travail](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contexte de projet](../../templates/project-context.json) · [Passage de relais](../../templates/HANDOFF.md)
+
+<a name="models"></a>
+### Modèles et coûts
+
+Pour comparer les parcours, relevez le modèle, le niveau de raisonnement et le résultat. Utilisez une variante moins coûteuse si elle satisfait aux mêmes critères d’acceptation avec les mêmes données en entrée. [Choix du modèle et coûts](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Ajouter de la recherche et du RAG
@@ -80,7 +104,12 @@ node launcher/atelier.mjs doctor
 <a name="operations"></a>
 ## Exploiter, restaurer et mettre à jour
 
-Avant une action d’écriture, vérifiez opération, cible, autorisation, coût, limites et reçu attendu. Suite à un délai dépassé ou à un reçu absent, relisez l’état faisant foi pour la requête exacte. Renouvelez l’action avec l’autorisation courante et une protection testée contre les doublons. Tenez visibles les effets incertains et les preuves. Évaluez le résultat dans le produit réel en distinguant préparation, exécution et création de fichiers.
+<a name="permissions"></a>
+### Outils et autorisations
+
+Avant une action d’écriture, vérifiez opération, cible, autorisation, coût, limites et reçu attendu. Suite à un délai dépassé ou à un reçu absent, relisez l’état faisant foi pour la requête exacte. Renouvelez l’action avec l’autorisation courante et une protection testée contre les doublons. Tenez visibles les effets incertains et les preuves. Évaluez le résultat dans le produit réel en distinguant préparation, exécution et création de fichiers. [Effets des outils et preuves](../OPERATING_MODEL.md#tools-evidence-and-recovery)
+
+### Reprise et mises à jour
 
 Utilisez le paquet stable et son plan exact pour les mises à jour. Conservez journaux et état. Après une interruption, examinez la cible réelle avant de continuer. Restaurez le noyau, le profil ou un composant optionnel avec son propre journal. Sauvegardez la base et les fichiers de l’interface selon la procédure, redémarrez avec le bon répertoire de données puis vérifiez les projets et une tâche bornée. Données produit, chats natifs et comptes ont chacun leurs responsables et procédures de restauration. [Installation et restauration](../INSTALL.md#rollback) · [Reprise du travail](../../governance/RESUMABLE_WORK.md)
 
