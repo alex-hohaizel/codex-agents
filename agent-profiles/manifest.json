@@ -61,9 +61,10 @@
     },
     {
       "file": "foundry-product.toml",
-      "sha256": "31cd0847c7c00c37edc6908cec26f9d367e112afbfcf66e9e9c4564343b838a4",
+      "sha256": "d9a710534b4fcb33409603a6f6a2d01f41b7156f59ac631ee3bef18dcffea96e",
       "previous_sha256": [
-        "8a493847826091cf29c15cbab645b60c908f9e8604673d0062b14298f8fcb570"
+        "8a493847826091cf29c15cbab645b60c908f9e8604673d0062b14298f8fcb570",
+        "31cd0847c7c00c37edc6908cec26f9d367e112afbfcf66e9e9c4564343b838a4"
       ]
     },
     {

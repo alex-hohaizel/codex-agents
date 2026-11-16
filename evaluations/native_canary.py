@@ -362,7 +362,7 @@ def execute(case_id, case, args, raw_root):
         # The built-in workspace profile permits scratch writes by default.
         # Keep its protected paths while making general temp trees read-only;
         # workspace writes remain confined to the synthetic project.
-        sandbox = ["--permission-profile", "atelier-canary", "-c",
+        sandbox = ["-c", 'default_permissions="atelier-canary"', "-c",
                    'permissions={atelier-canary={extends=":workspace",'
                    'filesystem={":slash_tmp"="read",":tmpdir"="read"},'
                    'network={enabled=false}}}']
@@ -372,7 +372,6 @@ def execute(case_id, case, args, raw_root):
                 "--strict-config", "--json", *sandbox,
                "-c", "skills.config=[" + configured + "]",
                "-c", 'web_search="disabled"', "--disable", "apps",
-               "-c", "sandbox_workspace_write.network_access=false",
                *role_config, "-C", str(project)]
     if not case["persist"]:
         command.append("--ephemeral")
