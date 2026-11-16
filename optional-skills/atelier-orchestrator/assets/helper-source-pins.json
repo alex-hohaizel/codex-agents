@@ -1,12 +1,12 @@
 {
   "schema": "orchestrator-helper-source-pins/1",
-  "source_ref": "bcc25058117cf442351b3959ce0c8ca1147ae57b",
+  "source_ref": "87a7e4b4e581f62440d72f5e4a7f3cb136b0f88b",
   "purpose": "Self-contained local commands referenced by discovery and typed component handoff contracts",
   "files": [
     {
       "path": "scripts/discover_specialists.py",
       "source": "kit/skills/agent-foundry/scripts/discover_specialists.py",
-      "sha256": "faf6576b6b0974ee8b0a7f8192ecfea7b846907940c899cf5d22917593181086",
+      "sha256": "5049aff26dd27a4bef5b185f29b3641c8928273b3ac942361534393bbfc13230",
       "mode": 420
     },
     {
