@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit and stage BMad modules and reviewed file migrations in a fresh directory."""
+"""Audit and stage project modules and reviewed file migrations in a fresh directory."""
 from __future__ import annotations
 
 import argparse
@@ -18,8 +18,11 @@ import import_codex as native
 import install_agent as fs
 
 
-RECEIPT = "BMAD-IMPORT.json"
+RECEIPT = "MODULE-IMPORT.json"
+RECEIPT_SCHEMA = "codex-agents.module-import-stage/1"
+CHANGE_SET_SCHEMA = "codex-agents.project-module-migration/1"
 MANIFEST = "bmod.toml"
+PRIVATE_PATH_PARTS = {".git", ".agents", ".codex", ".module-import", ".env"}
 RESERVED_CODES = {"custom", "modules", "scripts", "_config"}
 BMOD_FIELDS = {
     "code", "version", "update_source", "skills", "required_skills",
@@ -30,6 +33,29 @@ SKILL_FIELDS = {"bmod", "source", "required_skills", "recommended_skills", "scri
 MIGRATION_FIELDS = {"module", "from", "to", "title", "summary", "detect", "guide", "checklist"}
 VERSION = re.compile(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([\w.-]+))?(?:\+[\w.-]+)?")
 require = native.require
+
+
+def project_directory(value):
+    path = fs.relative_file(value)
+    require(not any(native.portable_key(part) in PRIVATE_PATH_PARTS for part in Path(path).parts),
+            "Choose a project data directory outside host and import state: " + path)
+    return path
+
+
+def overlaps(left, right):
+    left, right = map(native.portable_key, (left, right))
+    return left == right or left.startswith(right + "/") or right.startswith(left + "/")
+
+
+@dataclass(frozen=True)
+class Layout:
+    runtime: str = "_modules"
+    artifacts: str = "_module-output"
+
+    def __post_init__(self):
+        project_directory(self.runtime)
+        project_directory(self.artifacts)
+        require(not overlaps(self.runtime, self.artifacts), "Module runtime and artifact roots overlap")
 
 
 @dataclass
@@ -111,7 +137,7 @@ def names(value, label):
 
 def version_key(value):
     match = VERSION.fullmatch(value) if isinstance(value, str) else None
-    require(match, "Unorderable BMad version: " + str(value))
+    require(match, "Unorderable module version: " + str(value))
     pre = match[4]
     atoms = tuple((0, int(part)) if part.isdigit() else (1, part)
                   for part in pre.split(".")) if pre else ()
@@ -275,7 +301,7 @@ def legacy(source, module_path, version):
 
 def convert_legacy(module, update_source):
     require(update_source.startswith(("github:", "https://", "file:", "plugin:")),
-            "Legacy conversion needs a BMad update source URI")
+            "Legacy conversion needs a module update source URI")
     record = "bmod-" + module.code
     require(record not in module.skills, "Existing skill has the generated module record's name")
     members = sorted(module.skills)
@@ -341,7 +367,7 @@ def read_modules(sources, legacy_version):
     modules = {}
     for source in sources:
         source = fs.safe_path(source)
-        require(source.is_dir(), "BMad source must be a local directory")
+        require(source.is_dir(), "Module source must be a local directory")
         first = fs.safe_path(source / MANIFEST)
         candidates = [first] if first.exists() else [
             path for folder in sorted(source.iterdir()) if folder.is_dir()
@@ -360,22 +386,37 @@ def read_modules(sources, legacy_version):
                 legacy_path = matches[0]
             found = [legacy(source, legacy_path, legacy_version)]
         for module in found:
-            require(module.code not in modules, "Two inputs use BMad module code " + module.code)
+            require(module.code not in modules, "Two inputs use module code " + module.code)
             modules[module.code] = module
     return modules
 
 
-def materialize_runtime(module, output):
+def materialize_runtime(module, output, layout):
     for member, registration in module.registrations.items():
         for path in array(registration.get("scripts", []), "member scripts"):
             path = fs.relative_file(path)
             require(path.startswith("scripts/") and path in module.skills[member].files,
                     "Missing registered script " + member + "/" + path)
-            output.file(f"_bmad/{module.code}/{path}", module.skills[member].files[path])
-    if module.code == "core-tools" and "bmad" in module.skills:
-        for path, item in module.skills["bmad"].files.items():
-            if re.fullmatch(r"scripts/[^/]+\.py", path):
-                output.file("_bmad/" + path, item)
+            output.file(f"{layout.runtime}/{module.code}/{path}", module.skills[member].files[path])
+
+
+def materialize_shared_runtime(paths, output, layout):
+    sources = []
+    for supplied in paths:
+        path = fs.safe_path(supplied)
+        require(path.is_dir(), "Shared runtime must be an existing directory")
+        scripts = sorted(path.glob("*.py"))
+        require(scripts, "Shared runtime directory must contain Python source files")
+        sources.append(str(path))
+        for script in scripts:
+            relative = layout.runtime + "/scripts/" + script.name
+            item = entry(script)
+            existing = output.files.get(native.portable_key(relative))
+            if existing is None:
+                output.file(relative, item)
+            else:
+                require(existing == (relative, item), "Shared runtime paths or bytes conflict: " + relative)
+    return sources
 
 
 class Output:
@@ -399,7 +440,7 @@ class Output:
 
     def check_bounds(self):
         require(len(self.files) + len(self.directories) <= native.MAX_FILES
-                and self.bytes <= native.MAX_TOTAL_BYTES, "BMad stage exceeds size limits")
+                and self.bytes <= native.MAX_TOTAL_BYTES, "Module stage exceeds size limits")
 
     def file(self, path, item):
         path = fs.relative_file(path)
@@ -458,40 +499,43 @@ def dependencies(modules, members, blockers):
     return reports
 
 
-def configure(project, modules, retired, output, plan):
+def configure(project, modules, retired, output, plan, layout):
     def configuration(path, destination, item):
         plan["configuration_inputs"][path] = item.identity()
         if destination.endswith(".user.toml"):
             item = native.File(item.content, 0o600)
         output.file(destination, item)
 
-    central = fs.safe_path(project / "_bmad/config.toml")
+    central_path = layout.runtime + "/config.toml"
+    central = fs.safe_path(project / central_path)
     if central.exists():
         item = entry(central)
         toml(item)
-        configuration("_bmad/config.toml", "_bmad/config.toml", item)
+        configuration(central_path, central_path, item)
     elif any(module.format == "bmod" for module in modules.values()):
         initial = (
             "[core]\nproject_name = " + json.dumps(project.name, ensure_ascii=False)
-            + '\noutput_folder = "{project-root}/_bmad-output"\n'
+            + "\noutput_folder = " + json.dumps("{project-root}/" + layout.artifacts, ensure_ascii=False) + "\n"
         )
-        output.file("_bmad/config.toml", native.File(initial.encode("utf-8"), 0o600))
-    legacy_user = fs.safe_path(project / "_bmad/config.user.toml")
+        output.file(central_path, native.File(initial.encode("utf-8"), 0o600))
+    legacy_user_path = layout.runtime + "/config.user.toml"
+    legacy_user = fs.safe_path(project / legacy_user_path)
     if legacy_user.exists():
         item = entry(legacy_user)
         toml(item)
-        configuration("_bmad/config.user.toml", "_bmad/config.user.toml", item)
+        configuration(legacy_user_path, legacy_user_path, item)
     for module in modules.values():
-        original = fs.safe_path(project / "_bmad" / module.code / "config.yaml")
+        relative = f"{layout.runtime}/{module.code}/config.yaml"
+        original = fs.safe_path(project / relative)
         if module.format == "module.yaml" and original.exists():
             item = entry(original)
             legacy_yaml(item)
-            relative = f"_bmad/{module.code}/config.yaml"
             configuration(relative, relative, item)
-    custom = fs.safe_path(project / "_bmad/custom")
+    custom_path = layout.runtime + "/custom/"
+    custom = fs.safe_path(project / custom_path)
     snapshot = native.read_tree(custom) if custom.exists() else native.Snapshot({})
     for directory in snapshot.directories:
-        output.directory("_bmad/custom/" + directory)
+        output.directory(custom_path + directory)
     names = set(snapshot.files)
     rename_targets = set()
     for path, item in sorted(snapshot.files.items()):
@@ -516,30 +560,29 @@ def configure(project, modules, retired, output, plan):
                             "from": path, "to": destination, "scope": "user" if suffix.startswith(".user") else "team",
                             "sha256": item.identity()["sha256"],
                         })
-        configuration("_bmad/custom/" + path, "_bmad/custom/" + destination, item)
+        configuration(custom_path + path, custom_path + destination, item)
     if snapshot.files and ".gitignore" not in snapshot.files:
-        output.file("_bmad/custom/.gitignore", native.File(b"*.user.toml\n", 0o644))
+        output.file(custom_path + ".gitignore", native.File(b"*.user.toml\n", 0o644))
 
 
-def selected_migrations(path, project, modules, output):
+def selected_migrations(path, project, modules, output, layout, accepted_schema):
     if path is None:
         return None
     path = fs.safe_path(path)
     raw = entry(path)
     document = native.object_keys(fs.strict_json_loads(raw.content.decode("utf-8")),
                                   ("schema", "module", "number", "definition_sha256", "roots", "files"))
-    require(document["schema"] == "bmad-project-migration/1", "Unknown project migration format")
+    require(document["schema"] == accepted_schema, "Unknown project migration format")
     module = modules.get(name(document["module"], "migration module"))
     require(type(document["number"]) is int and module is not None
             and document["number"] in module.migrations, "Select a numbered migration from this import")
     definition = module.migrations[document["number"]]
     require(definition["sha256"] == document["definition_sha256"], "Migration guide changed after planning")
-    roots = [fs.relative_file(value) for value in array(document["roots"], "migration roots")]
+    roots = [project_directory(value) for value in array(document["roots"], "migration roots")]
     require(roots, "Select one or more project artifact roots")
     observed, directories = {}, set()
     for root in roots:
-        require(not any(part in {".git", ".agents", ".codex", "_bmad", ".bmad-import", ".env"}
-                        for part in Path(root).parts), "Migration roots must contain project artifacts: " + root)
+        require(not overlaps(root, layout.runtime), "Migration root overlaps the module runtime: " + root)
         snapshot = native.read_tree(project / root)
         directories.add(root)
         directories.update(root + "/" + directory for directory in snapshot.directories)
@@ -623,7 +666,9 @@ def audit(args):
     require(project.is_dir(), "The audited project directory must already exist")
     modules = read_modules(args.source, args.legacy_version)
     prior = read_modules(args.previous, args.previous_legacy_version or args.legacy_version)
-    plan = {"schema": "bmad-module-import-plan/1", "project": str(project), "modules": [], "configuration_inputs": {},
+    layout = Layout(args.runtime_root, args.artifact_root)
+    plan = {"schema": "codex-agents.module-import-plan/1", "project": str(project), "modules": [], "configuration_inputs": {},
+            "layout": {"runtime_root": layout.runtime, "artifact_root": layout.artifacts},
             "customization_moves": [], "retired_customizations": [], "target_entries": [], "blockers": [],
             "operator_steps": ["review-code-and-prompts", "answer-module-setup-questions-where-needed",
                                "review-and-run-numbered-migration-checklist", "open-and-test-staged-codex-project"]}
@@ -634,32 +679,23 @@ def audit(args):
             convert_legacy(module, args.convert_legacy)
         plan["modules"].append(contract(module))
         for member, snapshot in module.skills.items():
-            require(member not in members, "Duplicate member across BMad modules: " + member)
+            require(member not in members, "Duplicate member across imported modules: " + member)
             members[member], snapshots[member] = module, snapshot
             output.tree((native.SKILLS / member).as_posix(), snapshot)
         for old, new in module.retired.items():
-            require(old not in retired, "Duplicate retired skill across BMad modules: " + old)
+            require(old not in retired, "Duplicate retired skill across imported modules: " + old)
             retired[old] = new
         for relative, item in module.resources.items():
-            output.file(f".bmad-import/modules/{module.code}/{relative}", item)
-        materialize_runtime(module, output)
+            output.file(f".module-import/modules/{module.code}/{relative}", item)
+        materialize_runtime(module, output, layout)
     require(not (retired.keys() & members.keys()), "A retired skill is present in another imported module")
-    if any(module.format == "module.yaml" for module in modules.values()) and args.legacy_runtime:
-        path = fs.safe_path(args.legacy_runtime)
-        require(path.is_dir(), "Legacy runtime must be an existing directory")
-        for script in sorted(path.glob("*.py")):
-            relative = "_bmad/scripts/" + script.name
-            if native.portable_key(relative) in output.files:
-                require(output.files[native.portable_key(relative)][1] == entry(script),
-                        "Legacy and current modules require different shared script bytes: " + script.name)
-            else:
-                output.file(relative, entry(script))
+    plan["shared_runtime"] = materialize_shared_runtime(args.shared_runtime, output, layout)
     for index, license_path in enumerate(args.license, 1):
         license_path = fs.safe_path(license_path)
-        output.file(f".bmad-import/licenses/{index}-{license_path.name}", entry(license_path))
+        output.file(f".module-import/licenses/{index}-{license_path.name}", entry(license_path))
     plan["dependencies"] = dependencies(modules, members, plan["blockers"])
-    configure(project, modules, retired, output, plan)
-    plan["migration"] = selected_migrations(args.change_set, project, modules, output)
+    configure(project, modules, retired, output, plan, layout)
+    plan["migration"] = selected_migrations(args.change_set, project, modules, output, layout, args.change_set_schema)
     verify_collisions(project, snapshots, prior, plan)
     for old, new in sorted(retired.items()):
         path = fs.safe_path(project / native.SKILLS / old)
@@ -682,13 +718,13 @@ def stage(args):
     require(not output.exists() and output.parent.is_dir(), "Output must be a fresh directory with an existing parent")
     project = Path(plan["project"])
     require(output != project and project not in output.parents, "Stage outside the audited project")
-    for source in [*args.source, *args.previous]:
+    for source in [*args.source, *args.previous, *args.shared_runtime]:
         source = fs.safe_path(source)
         require(output != source and source not in output.parents, "Stage outside the source modules")
-    lock = output.with_name("." + output.name + ".bmad-import-lock")
+    lock = output.with_name("." + output.name + ".module-import-lock")
     lock.mkdir(mode=0o700)
     try:
-        temp = Path(tempfile.mkdtemp(prefix=".bmad-import-", dir=output.parent))
+        temp = Path(tempfile.mkdtemp(prefix=".module-import-", dir=output.parent))
         try:
             for path in sorted(snapshot.directories.values()):
                 (temp / path).mkdir(parents=True, exist_ok=True)
@@ -696,7 +732,7 @@ def stage(args):
                 fs.write_file(temp / path, item.content, item.mode)
             refreshed, _ = audit(args)
             require(refreshed["plan_sha256"] == args.expect, "Inputs changed while writing the staged project")
-            receipt = {"schema": "bmad-module-import-stage/1", "plan": plan, "root": str(output),
+            receipt = {"schema": RECEIPT_SCHEMA, "plan": plan, "root": str(output),
                        "source_project_writes": 0, "hooks_executed": 0}
             fs.write_file(temp / RECEIPT, fs.encode(receipt), 0o600)
             require(not output.exists(), "Staging output already exists")
@@ -709,17 +745,18 @@ def stage(args):
         lock.rmdir()
 
 
-def verify(output, expect):
+def verify(output, expect, receipt_name=RECEIPT, receipt_schema=RECEIPT_SCHEMA):
     output = fs.safe_path(output)
     require(output.is_dir(), "Expected a staged directory")
-    receipt = fs.read_json(output / RECEIPT)
-    require(receipt.get("schema") == "bmad-module-import-stage/1" and receipt.get("root") == str(output),
+    require("/" not in fs.relative_file(receipt_name), "Receipt must be a top-level file name")
+    receipt = fs.read_json(output / receipt_name)
+    require(receipt.get("schema") == receipt_schema and receipt.get("root") == str(output),
             "Receipt refers to another stage")
     plan = dict(receipt["plan"])
     stored = plan.pop("plan_sha256")
     require(stored == expect == fs.digest(fs.encode(plan)), "Staged receipt differs from the reviewed plan")
     actual = native.read_tree(output, bounded=False)
-    del actual.files[RECEIPT]
+    del actual.files[receipt_name]
     require(actual.identity() == plan.get("output"), "Observed stage bytes, paths, or modes differ from the reviewed plan")
     return {"ready": True, "verified_files": len(actual.files), "plan_sha256": expect, "root": str(output)}
 
@@ -734,16 +771,21 @@ def main():
         command.add_argument("--previous", type=Path, action="append", default=[])
         command.add_argument("--legacy-version")
         command.add_argument("--previous-legacy-version")
-        command.add_argument("--legacy-runtime", type=Path)
+        command.add_argument("--runtime-root", default=Layout.runtime)
+        command.add_argument("--artifact-root", default=Layout.artifacts)
+        command.add_argument("--shared-runtime", "--legacy-runtime", type=Path, action="append", default=[])
         command.add_argument("--convert-legacy", metavar="UPDATE_SOURCE")
         command.add_argument("--license", type=Path, action="append", default=[])
         command.add_argument("--change-set", type=Path)
+        command.add_argument("--change-set-schema", default=CHANGE_SET_SCHEMA)
         if action == "stage":
             command.add_argument("--output", type=Path, required=True)
             command.add_argument("--expect", required=True)
     checker = commands.add_parser("verify")
     checker.add_argument("--output", type=Path, required=True)
     checker.add_argument("--expect", required=True)
+    checker.add_argument("--receipt-name", default=RECEIPT)
+    checker.add_argument("--receipt-schema", default=RECEIPT_SCHEMA)
     args = parser.parse_args()
     try:
         if args.action == "audit":
@@ -751,7 +793,7 @@ def main():
         elif args.action == "stage":
             result = stage(args)
         else:
-            result = verify(args.output, args.expect)
+            result = verify(args.output, args.expect, args.receipt_name, args.receipt_schema)
         print(fs.encode(result).decode(), end="")
         return 0 if result.get("ready", True) else 2
     except (OSError, ValueError, TypeError, KeyError, fs.InstallError) as error:

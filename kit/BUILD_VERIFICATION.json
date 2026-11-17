@@ -9,8 +9,8 @@
       "size": 1096
     },
     "manifest.json": {
-      "sha256": "5215e4d81bd72565b893133e0a81c304fc4c9ac2ee5e0db34d1e3d772ecc1c9e",
-      "size": 5968029
+      "sha256": "0d348884a42f6fce6e23d315f043ba81e9ed0671a8ae58b0910a2442fe38aac7",
+      "size": 5968040
     },
     "portable/check_generated_inheritance.py": {
       "sha256": "4ad3b0e8c8b2c98c05816326ce02530ab02c5323e6dd83aabd0ab4a7e668aa73",
@@ -29,7 +29,7 @@
       "size": 10573
     },
     "skills/agent-foundry/SKILL.md": {
-      "sha256": "f1992124444a59f8af93fdfb0291777800b70a457ddab0c53a85e8bb1720e570",
+      "sha256": "985092600b7fff9233f32402313a8fef524c6bd9b26dca75ef4637ac74120006",
       "size": 16887
     },
     "skills/agent-foundry/agents/openai.yaml": {
@@ -252,10 +252,6 @@
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
-    "skills/agent-foundry/scripts/bmad_module.py": {
-      "sha256": "c42deff74a48bf23612a2a5d18bd9b0a66896cde31d500b37cceb73e1855d1c0",
-      "size": 38672
-    },
     "skills/agent-foundry/scripts/briefing.py": {
       "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
       "size": 36936
@@ -300,6 +296,10 @@
       "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
       "size": 30003
     },
+    "skills/agent-foundry/scripts/module_migration.py": {
+      "sha256": "476b1c3aa60a32a8c3ab0e8dd5da11014575dcd638a76b7ee1fe7f7dc383bf5e",
+      "size": 40519
+    },
     "skills/agent-foundry/scripts/package_agent.py": {
       "sha256": "169035002ea8aaf1119193ae276486d3b37c432c5511e03dc291be73409b4826",
       "size": 18487
@@ -307,10 +307,6 @@
     "skills/agent-foundry/scripts/tests/test_adaptive_work.py": {
       "sha256": "de44f5f56c3f72f0b9dc707a5789da6607d04e4ec5415fdfcec4456736c8e026",
       "size": 15875
-    },
-    "skills/agent-foundry/scripts/tests/test_bmad_module.py": {
-      "sha256": "90377c497eb65b83784b77c2f0a0da71b2a9175c2edfe344db4b6205675a72e2",
-      "size": 8968
     },
     "skills/agent-foundry/scripts/tests/test_briefing.py": {
       "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
@@ -347,6 +343,10 @@
     "skills/agent-foundry/scripts/tests/test_json_admission.py": {
       "sha256": "d1bd15edde88e1815736f13257e7961649c0024600db56e556937a462efecdcc",
       "size": 1247
+    },
+    "skills/agent-foundry/scripts/tests/test_module_migration.py": {
+      "sha256": "4c81864ba8809f290c5691792a0ca6bc851151e22ab2143e88ad08b189c8bab0",
+      "size": 10182
     },
     "skills/agent-foundry/scripts/tests/test_update_skill_suite.py": {
       "sha256": "58e92f08be49f8bd75924ebdf69d2546f78a2e4e2b6be766e68489fd2ac5fc31",
@@ -12810,7 +12810,7 @@
     }
   },
   "hardware_bound": false,
-  "manifest_sha256": "5215e4d81bd72565b893133e0a81c304fc4c9ac2ee5e0db34d1e3d772ecc1c9e",
+  "manifest_sha256": "0d348884a42f6fce6e23d315f043ba81e9ed0671a8ae58b0910a2442fe38aac7",
   "release": "6.4.0",
   "schema": "agent-release-integrity/1",
   "scope": "curated-reusable-core-33-skills"

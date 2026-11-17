@@ -82,5 +82,3 @@ Use `apply --retry-rejected` only when the previous journal records a
 definite rejection. Prepare and review a fresh exact preview after fixing
 the cause. The command rechecks the destination and retains the earlier
 rejection in the journal. An uncertain response never takes this path.
-
-[Upstream comparison: BMad tracker mapping](https://docs.bmad-method.org/reference/map-your-tracker/)

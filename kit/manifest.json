@@ -65029,7 +65029,7 @@
       "files": {
         "SKILL.md": {
           "mode": 420,
-          "sha256": "f1992124444a59f8af93fdfb0291777800b70a457ddab0c53a85e8bb1720e570",
+          "sha256": "985092600b7fff9233f32402313a8fef524c6bd9b26dca75ef4637ac74120006",
           "size": 16887
         },
         "agents/openai.yaml": {
@@ -65307,11 +65307,6 @@
           "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
           "size": 39473
         },
-        "scripts/bmad_module.py": {
-          "mode": 420,
-          "sha256": "c42deff74a48bf23612a2a5d18bd9b0a66896cde31d500b37cceb73e1855d1c0",
-          "size": 38672
-        },
         "scripts/briefing.py": {
           "mode": 420,
           "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
@@ -65367,6 +65362,11 @@
           "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
           "size": 30003
         },
+        "scripts/module_migration.py": {
+          "mode": 420,
+          "sha256": "476b1c3aa60a32a8c3ab0e8dd5da11014575dcd638a76b7ee1fe7f7dc383bf5e",
+          "size": 40519
+        },
         "scripts/package_agent.py": {
           "mode": 420,
           "sha256": "169035002ea8aaf1119193ae276486d3b37c432c5511e03dc291be73409b4826",
@@ -65376,11 +65376,6 @@
           "mode": 420,
           "sha256": "de44f5f56c3f72f0b9dc707a5789da6607d04e4ec5415fdfcec4456736c8e026",
           "size": 15875
-        },
-        "scripts/tests/test_bmad_module.py": {
-          "mode": 420,
-          "sha256": "90377c497eb65b83784b77c2f0a0da71b2a9175c2edfe344db4b6205675a72e2",
-          "size": 8968
         },
         "scripts/tests/test_briefing.py": {
           "mode": 420,
@@ -65426,6 +65421,11 @@
           "mode": 420,
           "sha256": "d1bd15edde88e1815736f13257e7961649c0024600db56e556937a462efecdcc",
           "size": 1247
+        },
+        "scripts/tests/test_module_migration.py": {
+          "mode": 420,
+          "sha256": "4c81864ba8809f290c5691792a0ca6bc851151e22ab2143e88ad08b189c8bab0",
+          "size": 10182
         },
         "scripts/tests/test_update_skill_suite.py": {
           "mode": 420,

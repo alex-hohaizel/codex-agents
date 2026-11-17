@@ -7,9 +7,9 @@ import tempfile
 from unittest import TestCase
 
 COMPARATOR = Path(__file__).resolve().parents[1] / "compare_codex_results.py"
-VARIANTS = ("bare-codex", "bmad-stable", "codex-agents-stable", "candidate")
-CASE_SCHEMA = "atelier.codex-comparison/1"
-RUN_SCHEMA = "atelier.codex-comparison-run/1"
+VARIANTS = ("bare-codex", "reference", "product-baseline", "candidate")
+CASE_SCHEMA = "atelier.codex-comparison/2"
+RUN_SCHEMA = "atelier.codex-comparison-run/2"
 CHECK = "preserve-original-order"
 USAGE = {"input_tokens": 570, "cached_input_tokens": 105, "output_tokens": 200}
 
@@ -92,10 +92,10 @@ class ComparisonTest(TestCase):
 
     def test_completed_comparison_retains_failed_check_and_native_usage(self):
         for variant in VARIANTS:
-            self.record(variant, outcome="fail" if variant == "bmad-stable" else "pass")
+            self.record(variant, outcome="fail" if variant == "reference" else "pass")
         result = self.compare(0)
         self.assertEqual(result["comparison_status"], "complete")
-        self.assertEqual(result["runs"]["bmad-stable"]["status"], "failed")
+        self.assertEqual(result["runs"]["reference"]["status"], "failed")
         self.assertEqual(result["runs"]["candidate"]["status"], "passed")
         self.assertEqual(result["runs"]["candidate"]["trace_usage"], USAGE)
         self.assertFalse(result["native_origin_authenticated"])
@@ -103,22 +103,33 @@ class ComparisonTest(TestCase):
         self.assertNotIn("winner", result)
         self.assertEqual(self.compare(0), result)
 
+    def test_three_product_variants_are_a_complete_case(self):
+        self.case["variants"].pop("reference")
+        self.case_pin = self.write_json("case.json", self.case)
+        for variant in self.case["variants"]:
+            self.record(variant)
+        result = self.compare(0)
+        self.assertEqual(set(result["runs"]), set(self.case["variants"]))
+        self.paths["reference"] = "records/undeclared.json"
+        invalid = self.compare(2)
+        self.assertEqual(invalid["error"], "receipt variant is absent from frozen case")
+
     def test_missing_and_interrupted_runs_preserve_known_negative(self):
         self.record("bare-codex", terminal="failed", outcome="fail")
-        self.record("bmad-stable", terminal="interrupted", outcome="unverified")
-        self.record("codex-agents-stable", wall_ms=30001)
+        self.record("reference", terminal="interrupted", outcome="unverified")
+        self.record("product-baseline", wall_ms=30001)
         result = self.compare(1)["runs"]
         self.assertEqual(result["bare-codex"]["status"], "failed")
         self.assertIn("native turn failed", result["bare-codex"]["failures"])
-        self.assertIn("wall budget exceeded", result["codex-agents-stable"]["failures"])
+        self.assertIn("wall budget exceeded", result["product-baseline"]["failures"])
         self.assertEqual(result["candidate"]["issues"], ["receipt missing"])
-        self.assertEqual(result["bmad-stable"]["status"], "incomplete")
+        self.assertEqual(result["reference"]["status"], "incomplete")
 
     def test_separate_frozen_controls_must_match(self):
         for variant, field, replacement in (
                 ("bare-codex", "model", "different-model"),
-                ("bmad-stable", "input_sha256", "e" * 64),
-                ("codex-agents-stable", "source_sha256", "e" * 64),
+                ("reference", "input_sha256", "e" * 64),
+                ("product-baseline", "source_sha256", "e" * 64),
                 ("candidate", "scope_sha256", "e" * 64)):
             receipt = self.record(variant)
             receipt[field] = replacement
@@ -129,13 +140,13 @@ class ComparisonTest(TestCase):
 
     def test_refuses_cross_lane_thread_reuse_and_invented_metrics(self):
         first = self.record("bare-codex")
-        self.record("bmad-stable", thread=first["native"]["thread_id"])
+        self.record("reference", thread=first["native"]["thread_id"])
         inflated = self.record("candidate")
         inflated["metrics"]["usage"]["output_tokens"] += 5
         self.write_json(self.paths["candidate"], inflated)
         runs = self.compare(1)["runs"]
         self.assertIn("native thread reused across variants", runs["bare-codex"]["issues"])
-        self.assertIn("native thread reused across variants", runs["bmad-stable"]["issues"])
+        self.assertIn("native thread reused across variants", runs["reference"]["issues"])
         self.assertIn("reported usage differs from native trace", runs["candidate"]["issues"])
 
     def test_mutated_or_missing_check_evidence_remains_unverified(self):
@@ -156,13 +167,13 @@ class ComparisonTest(TestCase):
         target = self.root / "copied-trace.jsonl"
         (self.root / path).rename(target)
         (self.root / path).symlink_to(target)
-        wrong_thread = self.record("bmad-stable")
+        wrong_thread = self.record("reference")
         wrong_thread["native"]["thread_id"] = first["native"]["thread_id"]
-        self.write_json(self.paths["bmad-stable"], wrong_thread)
+        self.write_json(self.paths["reference"], wrong_thread)
         self.paths["candidate"] = "../other.json"
         runs = self.compare(1)["runs"]
         self.assertIn("symlink", runs["bare-codex"]["issues"][0])
-        self.assertIn("matching thread start", runs["bmad-stable"]["issues"][0])
+        self.assertIn("matching thread start", runs["reference"]["issues"][0])
         self.assertIn("evidence root", runs["candidate"]["issues"][0])
 
     def test_rejects_malformed_or_unpinned_case(self):

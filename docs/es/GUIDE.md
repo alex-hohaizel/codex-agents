@@ -4,7 +4,7 @@ Resuelve una tarea concreta con Codex, desarrolla un producto con especialistas 
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-Para la primera sesión, abre el [inicio guiado](../../START_HERE.md#install-and-verify). Luego [sigue una petición durante todo el proyecto](../technical/END_TO_END.md), desde la elección del equipo hasta la revisión de la publicación. [Abre el mapa del flujo](../../assets/marketing/release-1.7/workflow-en.svg)
+Para la primera sesión, abre el [inicio guiado](../../START_HERE.md#install-and-verify). Luego [sigue una petición durante todo el proyecto](../technical/END_TO_END.md), desde la elección del equipo hasta la revisión de la publicación. [Abre el mapa del flujo](../../assets/marketing/release-1.7/workflow-en.svg) · [Índice de documentación](../INDEX.md)
 
 ## Elige por dónde empezar
 
@@ -65,7 +65,7 @@ Conserva el plan original del sprint mientras cambia el backlog. Revisa las inco
 
 Continúa una lluvia de ideas o la evaluación de una propuesta en otra sesión a partir del registro guardado. Prepara un resumen, un PRFAQ o documentos de diseño y experiencia separados, con sus fuentes y decisiones pendientes. Revisa las habilidades y roles importados antes de prepararlos en un proyecto nuevo de Codex. Para una incidencia de GitHub vinculada, revisa el cambio propuesto y consulta el resultado antes de repetirlo. [Taller](../technical/WORKSHOP.md) · [Facilitación de producto](../technical/PRODUCT_FACILITATION.md) · [Importación con Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [Cambios en GitHub](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
 
-Crea un prototipo interactivo en el navegador a partir de DESIGN y EXPERIENCE revisados o vincula borradores, revisiones e inspecciones a fuentes exactas mediante el registro de plantillas. Audita un módulo BMad y prepara una migración revisada en un directorio nuevo. Para el árbol de tareas, concilia un efecto tras comprobar el estado local, previo y remoto. [Prototipo UX](../technical/UX_PROTOTYPE.md) · [Plantillas](../technical/DOCUMENT_TEMPLATES.md) · [Migración de BMad](../technical/BMAD_MODULE_MIGRATION.md) · [Árbol del gestor](../technical/TRACKER_SYNC.md) · [Proveedores](../technical/TRACKER_PROVIDERS.md)
+Crea un prototipo interactivo en el navegador a partir de DESIGN y EXPERIENCE revisados o vincula borradores, revisiones e inspecciones a fuentes exactas mediante el registro de plantillas. Audita un módulo existente y prepara una migración revisada en un directorio nuevo. Para el árbol de tareas, concilia un efecto tras comprobar el estado local, previo y remoto. [Prototipo UX](../technical/UX_PROTOTYPE.md) · [Plantillas](../technical/DOCUMENT_TEMPLATES.md) · [Migración de módulos](../technical/MODULE_MIGRATION.md) · [Árbol del gestor](../technical/TRACKER_SYNC.md) · [Proveedores](../technical/TRACKER_PROVIDERS.md)
 
 <a name="context"></a>
 ### Cápsulas de contexto

@@ -5,7 +5,7 @@ when the interaction is a decision. Use the installed App Atelier Experience
 skill to build a browser walkthrough, and keep browser interaction evidence
 with the build and QA handoff. Test the ordinary path and the blocking path.
 
-Review and stage BMad skill modules with Agent Foundry. Preserve the original
+Review and stage existing skill modules with Agent Foundry. Preserve the original
 project and personal overrides until the selected migration is verified in a
 separate directory and exercised by the actual host.
 

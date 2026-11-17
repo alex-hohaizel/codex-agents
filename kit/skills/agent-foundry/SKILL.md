@@ -42,7 +42,7 @@ Open that directory in a fresh Codex session and verify the exact task
 before adopting it. Run the importer with Python 3.11+ when the manifest
 contains roles. The tool's `--help` provides the command contract.
 
-For an existing BMad module, use `scripts/bmad_module.py audit` and stage into a new project with the exact reviewed plan. Preserve the old project and customizations, keep prose migration requirements visible, and verify the staged bytes and native first use. Inspect any upstream installation hook; copying it does not authorize execution.
+For an existing module, use `scripts/module_migration.py audit` and stage into a new project with the exact reviewed plan. Preserve the old project and customizations, keep prose migration requirements visible, and verify the staged bytes and native first use. Inspect any upstream installation hook; copying it does not authorize execution.
 
 ## Design and approve the passport
 
