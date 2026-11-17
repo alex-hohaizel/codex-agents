@@ -74,6 +74,15 @@ Native Codex specialist roles are `foundry-architecture`, `foundry-backend`, `fo
 | --- | --- |
 | Inspect or change a local repository | Native Codex tools, shell, Git, reviewed source paths, and scoped working copies |
 | Delegate a check | A configured native role, task-specific inputs, and an actual child result in the parent host |
+| Deliberate on a contested decision | Compare evidence from different roles, test their strongest disagreement, and preserve the decision and open questions in the project. [Team deliberation](../optional-skills/atelier-orchestrator/references/team-deliberation.md) |
+| Coordinate parallel Git work | Separate linked worktrees, exact worker commits, rechecked interruption checkpoints and a dedicated integration branch. [Worktree workflow](technical/TICKET_WORKTREES.md) |
+| Continue a workshop or shape a product proposal | Catalog selection, exact round recovery, a brief, PRFAQ or separate design and experience documents. [Workshop](technical/WORKSHOP.md) · [Product facilitation](technical/PRODUCT_FACILITATION.md) |
+| Import reviewed Codex material | Module dependencies, isolated skill and role staging, prompt overrides, and local collision detection. [Constructor import](technical/CONSTRUCTOR_IMPORT.md) |
+| Continue an approved local backlog change | The project-owned ticket workflow previews and applies a replan, checks the saved receipt, prepares a ready Builder handoff, and verifies the returned artifact. [Replan guide](technical/TICKET_REPLAN.md) |
+| Reconcile mapped GitHub Issues | Read the exact repository and issue identities, issue status and relationships alongside local ticket state. [GitHub reconciliation](technical/TICKET_GITHUB.md) |
+| Review acceptance evidence for a candidate | Map project requirements to risk-prioritized checks and verify the candidate and evidence pins. [Candidate quality gate](technical/TICKET_QUALITY_GATE.md) |
+| Carry a sprint across a backlog revision | Preserve the original sprint membership and dates, see current prerequisites, and preview the updated scope. [Sprint planning](technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) |
+| Review PRD and architecture against source | Pin both editable companions and compare changed requirements, affected tasks and the review for the current revision. [Product specification review](technical/TICKET_PRODUCT_SPEC.md) |
 | Discover projects and continue work | Agent Atelier’s local portfolio, work inspection, explicit project binding, task preparation, and bounded native Codex dispatch |
 | Read long native records | Paged local history and source views with explicit coverage. Continue a native chat only with supported context and an idle handoff |
 | Inspect capability and account availability | The workbench’s connection inventory. Each operation still requires its own native support, access, and observed result |

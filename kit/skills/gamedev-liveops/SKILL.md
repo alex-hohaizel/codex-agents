@@ -2,7 +2,7 @@
 name: gamedev-liveops
 description: "Operate or improve a beta or released game. Use for scoped incidents, player and device evidence, cohort analysis, progression and commerce changes, guardrails, rollout, and recovery."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # Game Atelier LiveOps

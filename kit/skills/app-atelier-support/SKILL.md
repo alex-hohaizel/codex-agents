@@ -2,7 +2,7 @@
 name: app-atelier-support
 description: "Design, implement, or repair product support across app clients and approved channels. Use for support knowledge, identity linking, case handling, and safe support actions."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # App Atelier Support

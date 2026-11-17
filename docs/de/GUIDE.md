@@ -51,6 +51,18 @@ Codex stellt Laufzeit, Werkzeuge und Berechtigungen bereit. Das Repository liefe
 
 Delegieren Sie eigenständige Ergebnisse oder unabhängige Prüfungen. Nennen Sie Rolle, Quellrevision, Eingabepfade, Schreibbereich, Ausgabe, Grenzen, Abbruchbedingung und Rückgabeort. Legen Sie für gemeinsam veränderlichen Zustand einen Schreibverantwortlichen fest. Fordern Sie vor der Integration das tatsächliche Ergebnis an. [Arbeitswege und Subagenten](../OPERATING_MODEL.md#routes-and-subagents)
 
+Verwaltet das Projekt seinen Aufgabenbestand als lokale Ticketprojektion, können Sie eine Planänderung vorbereiten, prüfen und nach der Freigabe anwenden. Lesen Sie den Beleg aus dem Projekt, bevor Sie ein ausführungsbereites Ticket übergeben. Prüfen Sie die Übergabe in der empfangenden Codex-Sitzung erneut und bewahren Sie das Ergebnis für die unabhängige Prüfung auf. [Freigegebene Planänderung und Übergabe](../technical/TICKET_REPLAN.md)
+
+Verwenden Sie für parallele Arbeit getrennte Git-Worktrees am selben Commit. Halten Sie nach einem Abbruch den Arbeitsstand fest und prüfen Sie ihn in der neuen Sitzung. Integrieren Sie geprüfte Commits in einem eigenen Worktree. [Worktrees koordinieren und Arbeit fortsetzen](../technical/TICKET_WORKTREES.md)
+
+Gleichen Sie explizit zugeordnete GitHub Issues mit der Projektübersicht ab. Lassen Sie eine unabhängige Qualitätssicherung die Akzeptanzkriterien und Risikoprüfungen mit Nachweisen für den exakten Kandidaten verknüpfen. Prüfen Sie eine unklare externe Auswirkung vor der Entscheidung im Zielsystem. [GitHub Issues abgleichen](../technical/TICKET_GITHUB.md) · [Nachweise für den Kandidaten prüfen](../technical/TICKET_QUALITY_GATE.md)
+
+Holen Sie bei einer wichtigen Entscheidung unterschiedliche Fachpositionen auf Basis derselben Belege ein. Lassen Sie die Beteiligten auf den stärksten Einwand eingehen. Wer die Entscheidung verantwortet, legt den nächsten Schritt fest. [Im Team beraten](../../optional-skills/atelier-orchestrator/references/team-deliberation.md)
+
+Bewahren Sie den ursprünglichen Sprintplan bei Änderungen am Backlog auf. Prüfen Sie vorgeschlagene Ergänzungen und Abhängigkeiten vor einer Änderung des Umfangs. Prüfen Sie die anwendbaren Anforderungen in PRD und Architektur und lassen Sie die neue Fassung erneut durchsehen. [Sprint planen](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [Produktspezifikation prüfen](../technical/TICKET_PRODUCT_SPEC.md)
+
+Setzen Sie ein Brainstorming oder die Prüfung einer Idee anhand des gespeicherten Protokolls in einer neuen Sitzung fort. Erstellen Sie einen quellengebundenen Brief, ein PRFAQ oder getrennte Dokumente für Design und Nutzungserlebnis mit offenen Entscheidungen. Prüfen Sie importierte Codex-Skills und Rollen vor der Bereitstellung im neuen Projekt. Prüfen Sie für ein zugeordnetes GitHub-Issue eine vorgeschlagene Änderung und lesen Sie das Ergebnis vor einer Wiederholung zurück. [Workshop](../technical/WORKSHOP.md) · [Produktmoderation](../technical/PRODUCT_FACILITATION.md) · [Import mit Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub-Änderungen](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
 <a name="context"></a>
 ### Kontextkapseln
 

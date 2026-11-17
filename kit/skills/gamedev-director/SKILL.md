@@ -2,7 +2,7 @@
 name: gamedev-director
 description: "Guide a native mobile game through studio setup, concept, design, assets, build, independent QA, release, or live operations. Use for cross-stage direction and when the right next owner needs to be selected."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # Game Atelier Director

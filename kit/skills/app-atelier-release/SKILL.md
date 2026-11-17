@@ -2,7 +2,7 @@
 name: app-atelier-release
 description: "Assess app store and deployment feasibility, then prepare and execute an authorized release candidate. Use for exact packages, target tracks, signing, and rollout verification."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # App Atelier Release

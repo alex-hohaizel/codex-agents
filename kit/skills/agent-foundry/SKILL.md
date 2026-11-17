@@ -2,7 +2,7 @@
 name: agent-foundry
 description: "Create, adapt, recover, or extend a specialized agent or skill family. Use when the user needs durable capabilities, roles, tools, memory, verification, or a portable agent package for repeated work."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # Agent Foundry
@@ -29,6 +29,18 @@ Pin requirements to their verbatim sources and separate interpretation from the 
 For material unknowns, use [discovery](references/discovery.md), the [discovery topics](assets/discovery-topics.json), and [research and synthesis](references/research-and-synthesis.md) as applicable. Establish actors, rules, states, typical and edge cases, data and rights, integration constraints, risks, and ways to verify. Add tracks for expression, interaction, economics, distribution, or operations when the goal requires them. Compare comparable user journeys and constraints. Verify changeable claims from current primary sources. Separate observed facts, inferences, hypotheses, and unknowns.
 
 Before deciding to create capabilities, use [specialist discovery](references/specialist-discovery.md) against the actual allowed host and project inventory. Prefer reuse, composition, or extension where sufficient. Check the specific candidate and its real availability. `scripts/discover_specialists.py --help` describes the read-only inventory and reuse plan. An inventory entry establishes availability only to the degree observed. For unresolved decisions, give the user a small set of viable options, their effects, what depends on the decision, and work that can continue. Ask only for gaps that materially affect the result.
+
+## Import reviewed native skills and roles
+
+For an existing Codex skill directory or a flat role TOML, use
+`scripts/import_codex.py audit MANIFEST --target PROJECT` to inspect the
+module order, local name collisions, output files, and prompt customizations.
+Review the original sources and the returned `plan_sha256`. Use
+`stage MANIFEST --target PROJECT --expect PLAN_SHA --output NEW_PROJECT`
+to prepare the material under the native discovery paths in a new directory.
+Open that directory in a fresh Codex session and verify the exact task
+before adopting it. Run the importer with Python 3.11+ when the manifest
+contains roles. The tool's `--help` provides the command contract.
 
 ## Design and approve the passport
 

@@ -51,6 +51,18 @@ Codex 提供运行时、工具和权限控制。仓库提供 `AGENTS.md`、技�
 
 把独立产出或独立审查交给合适的角色。写明执行者、来源版本、输入路径、写入范围、交付物、限制、停止条件和返回位置。为共享的可变状态指定一个写入负责人。集成前取回子智能体的实际结果。 [工作路径与子智能体](../OPERATING_MODEL.md#routes-and-subagents)
 
+如果项目使用本地工单投影管理待办事项，可以先起草并审阅调整方案，再应用已获批准的变更。将就绪工单交给实施者之前，请从项目中回读写入回执。在接收工单的 Codex 会话中再次验证交接，并保留返回的结果供独立复核。 [已批准的计划调整和实施交接](../technical/TICKET_REPLAN.md)
+
+并行工作时，从同一个提交为各执行者分配独立的 Git worktree。执行者中断时保存检查点，在新会话中验证后继续，并在专用 worktree 中集成已审阅的提交。 [协调 worktree 并恢复执行](../technical/TICKET_WORKTREES.md)
+
+将明确关联的 GitHub Issues 与项目任务视图核对。请独立 QA 把验收标准和风险检查关联到该候选版本的实际证据。如果外部操作的结果未知，请在目标系统核实后再记录决定。 [核对 GitHub Issues](../technical/TICKET_GITHUB.md) · [审查候选版本的证据](../technical/TICKET_QUALITY_GATE.md)
+
+面对重要决策，请不同专家根据相同的证据独立提出意见，再请他们回应最关键的分歧。由决策负责人确定下一步。 [组织团队讨论](../../optional-skills/atelier-orchestrator/references/team-deliberation.md)
+
+待办清单变更时保留原迭代计划。先核对拟新增的任务及其依赖，再调整范围。检查 PRD 和架构文档是否覆盖所有适用要求，并对新版本重新开展评审。 [规划迭代](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [评审产品规格](../technical/TICKET_PRODUCT_SPEC.md)
+
+根据保存的工作坊记录，在新会话中继续头脑风暴或检验提案。依据来源编写简报、PRFAQ，或分别编写设计和体验文档，并保留待决定事项。先审核导入的 Codex 技能和角色，再在新项目中暂存。对于已映射的 GitHub 议题，先审查拟议变更，再读取实际结果，然后决定是否重试。 [工作坊](../technical/WORKSHOP.md) · [产品引导](../technical/PRODUCT_FACILITATION.md) · [通过 Foundry 导入](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub 写入](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
 <a name="context"></a>
 ### 上下文胶囊
 

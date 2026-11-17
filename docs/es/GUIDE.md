@@ -51,6 +51,18 @@ Codex proporciona el entorno de ejecución, las herramientas y los permisos. El 
 
 Delega resultados separados o una revisión independiente. Indica actor, revisión de la fuente, rutas de entrada, autorización de escritura, resultado, límites, condición de cierre y destino de la entrega. Asigna un único escritor al estado compartido. Recoge el resultado real antes de integrarlo. [Flujos y subagentes](../OPERATING_MODEL.md#routes-and-subagents)
 
+Si el proyecto mantiene su registro de tareas en una proyección local de tickets, prepara y revisa el cambio de plan y aplícalo tras su aprobación. Lee el recibo registrado antes de asignar una tarea lista. Comprueba de nuevo la entrega en la sesión de Codex que recibe la tarea y guarda el resultado para una revisión independiente. [Cambio de plan aprobado y entrega de trabajo](../technical/TICKET_REPLAN.md)
+
+Para el trabajo en paralelo, asigna worktrees de Git separados a partir del mismo commit. Guarda un punto de control cuando se interrumpa una tarea, compruébalo en la nueva sesión e integra los commits revisados en un worktree dedicado. [Coordinar los worktrees y reanudar](../technical/TICKET_WORKTREES.md)
+
+Concilia las GitHub Issues vinculadas explícitamente con la proyección del proyecto. Encarga a un equipo de QA independiente que vincule los criterios de aceptación y las pruebas de riesgo con evidencias del candidato exacto. Si el efecto de una operación externa es incierto, compruébalo en el sistema de destino antes de decidir. [Conciliar GitHub Issues](../technical/TICKET_GITHUB.md) · [Revisar la evidencia del candidato](../technical/TICKET_QUALITY_GATE.md)
+
+Para una decisión importante, recoge posiciones de distintos especialistas a partir de la misma evidencia. Pídeles que respondan a la objeción más relevante. La persona responsable de decidir elige el siguiente paso. [Deliberar en equipo](../../optional-skills/atelier-orchestrator/references/team-deliberation.md)
+
+Conserva el plan original del sprint mientras cambia el backlog. Revisa las incorporaciones y dependencias antes de modificar el alcance. Comprueba los requisitos aplicables en el PRD y la arquitectura y solicita una revisión de la versión nueva. [Planificar el sprint](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [Revisar la especificación](../technical/TICKET_PRODUCT_SPEC.md)
+
+Continúa una lluvia de ideas o la evaluación de una propuesta en otra sesión a partir del registro guardado. Prepara un resumen, un PRFAQ o documentos de diseño y experiencia separados, con sus fuentes y decisiones pendientes. Revisa las habilidades y roles importados antes de prepararlos en un proyecto nuevo de Codex. Para una incidencia de GitHub vinculada, revisa el cambio propuesto y consulta el resultado antes de repetirlo. [Taller](../technical/WORKSHOP.md) · [Facilitación de producto](../technical/PRODUCT_FACILITATION.md) · [Importación con Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [Cambios en GitHub](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
 <a name="context"></a>
 ### Cápsulas de contexto
 

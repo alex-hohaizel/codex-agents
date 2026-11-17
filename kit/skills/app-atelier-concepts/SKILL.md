@@ -2,7 +2,7 @@
 name: app-atelier-concepts
 description: "Compare app concepts, monetization, and economics for an accepted direction. Use when choosing a complete core, pricing model, or viable operating approach."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # App Atelier Concepts and Economics

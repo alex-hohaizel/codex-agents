@@ -2,7 +2,7 @@
 name: atelier-orchestrator
 description: Choose a suitable route for a new task, an existing project, or an agent-system update. Use when the user needs an entry point, coordinated delivery, or help deciding which existing capability to use.
 metadata:
-  version: "1.3.1"
+  version: "1.4.0"
 ---
 
 # Atelier Orchestrator
@@ -16,11 +16,13 @@ Own the requested result in the conversation. Use the user's explicit output lan
 - **Coordinated:** Use separate roles when there are independent deliverables, a distinct domain judgment, or acceptance requires independent review. Name one integration owner, assign each writer a bounded area, and sequence shared state changes. Explain materially different choices in terms of scope, time, cost and risk. A simple decision need not become a menu or a questionnaire.
 - **Construct:** Use `agent-foundry` for a new reusable agent and `design-specialist-skills` for a reusable skill or family when simpler existing tools cannot meet the need or the user explicitly requests construction. Carry forward the original brief. Distinguish staging a package, proving native discovery, and completing the user's original task.
 
-Read [entry and continuation](references/universal-entry.md) for project, portfolio or complicated routing. Use [specialist discovery](references/specialist-discovery.md) if a required role or capability is uncertain. The directors for app, chatbot and game work are `app-atelier-director`, `chatbot-atelier-director`, and `gamedev-director`. Verify their actual source before relying on them. Use [system maintenance](references/system-maintenance.md) for changes to existing agents, constructors, skills, families or this orchestrator.
+Read [entry and continuation](references/universal-entry.md) for project, portfolio or complicated routing. When the user requests a roundtable or a decision needs independent domain judgments, use [team deliberation](references/team-deliberation.md). Use [specialist discovery](references/specialist-discovery.md) if a required role or capability is uncertain. The directors for app, chatbot and game work are `app-atelier-director`, `chatbot-atelier-director`, and `gamedev-director`. Verify their actual source before relying on them. Use [system maintenance](references/system-maintenance.md) for changes to existing agents, constructors, skills, families or this orchestrator.
 
 ## Continue through the actual project
 
 Bind the current project, authoritative source revision, accepted requirements and identity, the active decision and its correction chain, allowed effects, unfinished or deferred work, and any outcome that still needs reconciliation. Use the [context capsule contract](references/context-capsule.md) for material continuation, with exact source pins and current coverage. A stale pin calls for a new revision and review. It does not invalidate or rewrite historical evidence.
+
+When a changed requirement affects an active plan or accepted evidence, use [plan change review](references/plan-change-review.md) to review the exact sources, work dependencies, and the decision still due. The same reference routes interrupted worktree reservations, GitHub Issues reconciliation and candidate acceptance reviews.
 
 Only clarify a question that changes the next material step. Use the [briefing protocol](references/briefing-protocol.md) for a new material choice and the [interaction protocol](references/interaction-protocol.md) for review or continuation. Reuse the user's answers and authorization for the unchanged scope. When both creation and original work are requested, continue through the verified agent after construction. When the request covers the agent alone, finish with its specific acceptance evidence.
 

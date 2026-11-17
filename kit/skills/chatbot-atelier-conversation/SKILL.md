@@ -2,7 +2,7 @@
 name: chatbot-atelier-conversation
 description: "Design or repair chatbot language, persona, dialogue, addressee handling, and interaction. Use integrations for tool or provider wiring."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # ChatBot Atelier · Conversation

@@ -1,9 +1,9 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+  "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
   "default_locale": "en",
-  "repository_version": "1.5.1",
+  "repository_version": "1.6.0",
   "guide_editions": 7,
   "translation_editions": 6,
   "campaign_languages": [
@@ -20,8 +20,8 @@
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -38,8 +38,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "4fd600bab120b553c45a0b40859433b41fff757d3945aba7cd4e506fe217c327",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "b20acfac98b4b657a34c488b86a62d5f15059270c7c54aa12e4499853760a08e",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -56,8 +56,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "ff43d6836953bf412ffe771b7ba6c5d02cd092dbb64a682f772aaa3bcdc06368",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "3ec8a7da42cca45fbca868408eb9b772511736fcf2f31476a032fdfa79922aac",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "985f29f51710b2529026db9b3c416cd8ca638baecf27806866d10a079c98d08f",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "1c4f6f715264bbb5da89ce73220272ee1a9a80eda3f203235fb00b40c807b1ef",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -92,8 +92,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "a480216246438718583687c4430da8c9870eb25786fa93bb7cf799c599530e77",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "82df50f358631532879105dc60993ecfead1a709e019df698ebcdc4cd242b231",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -110,8 +110,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "971fe35f1e9aefafc4debf68331459093bf906768fd37d234df112227d7cb7bc",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "f138f2008d9aea1181e9262e046fc827fe08e0b18b2ea8a39572d6c6a1bcad07",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -128,8 +128,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "5702dd46854b514ebbdd9b252b544894ba01cf04d9133b8220462a3ee5344c9c",
-      "sha256": "f1a70ef99054b21554c25d87c3ef18dd23b38e03687a23996d163b002330cf3a",
+      "source_sha256": "5bd561b3930e5f741bb28ca105f42272f3dc9159aca03ee367dd5c0e077d083f",
+      "sha256": "9300873426f3bbefeb1e8ac44e1cb8e8da5742e71e091ca42e013b3bad7c098b",
       "status": "complete",
       "role": "translation",
       "verified_parity": {

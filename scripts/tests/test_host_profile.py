@@ -165,6 +165,68 @@ class HostProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'unknown customized role'):
             self.make_plan()
 
+    def test_audit_preserves_exact_role_bytes_with_omitted_or_local_selectors(self):
+        agents = self.codex / 'agents'
+        agents.mkdir()
+        cost_source = H.read(ROOT / 'agent-profiles/foundry-cost.toml')
+        qa_source = H.read(ROOT / 'agent-profiles/foundry-qa.toml')
+        cost_target, qa_target = agents / 'foundry-cost.toml', agents / 'foundry-qa.toml'
+        local_cost = cost_source.replace('model = "gpt-6-luna"\nmodel_reasoning_effort = "medium"\n', '')
+        local_qa = qa_source + "model = 'provider/model:1' # local selection\nmodel_reasoning_effort = 'high'\n"
+        cost_target.write_bytes(local_cost.encode())
+        qa_target.write_bytes(local_qa.encode())
+        self.make_plan()
+        rows = {Path(row['target']).name: row for row in H.load(self.plan)['changes']}
+        for name, local, canonical in (('foundry-cost.toml', local_cost, cost_source),
+                                       ('foundry-qa.toml', local_qa, qa_source)):
+            with self.subTest(name=name):
+                row = rows[name]
+                self.assertEqual(row['desired'], local)
+                self.assertEqual(row['source_sha256'], H.sha(canonical))
+                self.assertEqual(row['before_sha256'], H.sha(local))
+                self.assertEqual(row['after_sha256'], H.sha(local))
+        H.apply(self.plan, self.journal)
+        self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
+        H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(cost_target.read_bytes(), local_cost.encode())
+        self.assertEqual(qa_target.read_bytes(), local_qa.encode())
+
+    def test_invalid_selectors_or_role_edits_are_not_recognized_as_tuning(self):
+        (self.codex / 'agents').mkdir()
+        target = self.codex / 'agents/foundry-cost.toml'
+        canonical = H.read(ROOT / 'agent-profiles/foundry-cost.toml')
+        edited = {
+            'duplicate': canonical + 'model = "gpt-6-sol"\n',
+            'quoted duplicate': canonical + '"model" = "gpt-6-sol"\n',
+            'unknown role field': canonical + 'sandbox_mode = "workspace-write"\n',
+            'invalid selector type': canonical.replace('"gpt-6-luna"', 'false'),
+            'unknown effort': canonical.replace('"medium"', '"enormous"'),
+            'role identity': canonical.replace('name = "foundry-cost"', 'name = "other-role"'),
+            'description': canonical.replace('Cost and performance auditor.', 'Other description.'),
+            'selector-like instruction': canonical.replace('developer_instructions = """\n',
+                                                           'developer_instructions = """\nmodel = "inner"\n'),
+        }
+        for reason, text in edited.items():
+            with self.subTest(reason=reason):
+                target.write_bytes(text.encode())
+                with self.assertRaisesRegex(ValueError, 'unknown customized role'):
+                    self.make_plan()
+                self.assertEqual(target.read_bytes(), text.encode())
+                self.assertFalse(self.plan.exists())
+
+    def test_change_to_preserved_local_tuning_after_audit_blocks_apply(self):
+        (self.codex / 'agents').mkdir()
+        target = self.codex / 'agents/foundry-cost.toml'
+        canonical = H.read(ROOT / 'agent-profiles/foundry-cost.toml')
+        target.write_bytes(canonical.replace('"medium"', '"high"').encode())
+        self.make_plan()
+        updated = canonical.replace('"medium"', '"low"')
+        target.write_bytes(updated.encode())
+        with self.assertRaisesRegex(ValueError, 'target changed since audit'):
+            H.apply(self.plan, self.journal)
+        self.assertEqual(target.read_bytes(), updated.encode())
+        self.assertFalse(self.journal.exists())
+
     def test_stale_plan_and_later_edit_block_apply_and_rollback(self):
         self.make_plan()
         self.instructions.write_text('Newer owner change')

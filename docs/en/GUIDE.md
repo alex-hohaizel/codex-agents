@@ -51,6 +51,18 @@ Codex supplies the runtime, tools, and permission controls. The repository suppl
 
 Delegate separate outputs or independent review. Name the actor, source revision, input paths, write scope, expected output, limits, stop condition, and return address. Keep a single writer for shared state. Collect the actual child result before integration. [Routes and subagents](../OPERATING_MODEL.md#routes-and-subagents)
 
+A project that owns its backlog as a local ticket projection can draft, review, and apply an approved replan. Read the committed receipt before passing a ready ticket to Builder. Check the handoff again in the receiving Codex session and retain the returned result for independent review. [Approved replan and Builder handoff](../technical/TICKET_REPLAN.md)
+
+For parallel work, assign separate Git worktrees at the same commit. Keep a checkpoint when a worker stops, verify it in the fresh session, and integrate only reviewed commits in a dedicated worktree. [Coordinate worktrees and resume](../technical/TICKET_WORKTREES.md)
+
+Use the project projection to reconcile explicitly mapped GitHub Issues. Ask independent QA to link the acceptance criteria and risk checks to evidence from the exact candidate. Verify a suspected external effect at its destination before recording a decision. [Reconcile GitHub Issues](../technical/TICKET_GITHUB.md) · [Review candidate evidence](../technical/TICKET_QUALITY_GATE.md)
+
+For a consequential decision, collect different specialist positions on the same evidence, then ask them to address the strongest disagreement. Let the decision owner choose the next step. [Deliberate with a team](../../optional-skills/atelier-orchestrator/references/team-deliberation.md)
+
+Keep the original sprint plan as the backlog changes. Review proposed additions and dependencies before changing its scope. Check that both the PRD and architecture still describe every applicable requirement and request a fresh review of the new revision. [Sprint planning](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [Product specification review](../technical/TICKET_PRODUCT_SPEC.md)
+
+Use an exact workshop record to continue brainstorming or challenge a proposal in a fresh session. Build a source-backed brief, PRFAQ, or separate design and experience documents with unresolved decisions visible. Audit imported Codex skills and roles before staging them in a fresh project. For an explicitly mapped GitHub issue, review one proposed change and read back the result before any repeat. [Workshop](../technical/WORKSHOP.md) · [Product facilitation](../technical/PRODUCT_FACILITATION.md) · [Constructor import](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub writes](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
 <a name="context"></a>
 ### Context capsules
 

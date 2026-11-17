@@ -25,6 +25,7 @@ import {
 import { SERVICE_VERSION } from "../shared/contracts.mjs";
 import { InstructionsManager, instructionSettings } from "./instructions.mjs";
 const run = promisify(execFile);
+const TURN_LOOKUP_PAGE_LIMIT = 10;
 const HISTORY_READ_METHODS = new Set([
   "initialize",
   "account/read",
@@ -573,16 +574,20 @@ export class CodexAdapter extends EventEmitter {
   }
   async historyTurns(
     threadId,
-    { cursor, limit = 50, itemsView = "full" } = {},
+    { cursor, limit = 50, itemsView = "full", timeout } = {},
   ) {
     await this.connect();
-    return this.rpc("thread/turns/list", {
-      threadId,
-      limit: Math.min(100, Math.max(1, limit)),
-      sortDirection: "desc",
-      itemsView,
-      ...(cursor ? { cursor } : {}),
-    });
+    return this.rpc(
+      "thread/turns/list",
+      {
+        threadId,
+        limit: Math.min(100, Math.max(1, limit)),
+        sortDirection: "desc",
+        itemsView,
+        ...(cursor ? { cursor } : {}),
+      },
+      timeout,
+    );
   }
   async historyItems(threadId, { cursor, limit = 50 } = {}) {
     await this.connect();
@@ -602,13 +607,57 @@ export class CodexAdapter extends EventEmitter {
   }
   async readTurn(threadId, turnId) {
     await this.connect();
-    const page = await this.rpc("thread/turns/list", {
-      threadId,
-      limit: 100,
-      sortDirection: "desc",
-    });
-    return (
-      (page.data ?? page.turns ?? []).find((turn) => turn.id === turnId) ?? null
+    const deadline = performance.now() + this.rpcTimeoutMs;
+    const cursors = new Set();
+    let cursor;
+    for (let index = 0; index < TURN_LOOKUP_PAGE_LIMIT; index++) {
+      const timeout = Math.ceil(deadline - performance.now());
+      fail(
+        timeout > 0,
+        "HISTORY_LOOKUP_INCOMPLETE",
+        "Native turn lookup reached its time bound",
+        504,
+      );
+      const page = await this.historyTurns(threadId, {
+        cursor,
+        limit: 100,
+        itemsView: "notLoaded",
+        timeout,
+      });
+      const rows = page?.data ?? page?.turns;
+      fail(
+        Array.isArray(rows) &&
+          rows.length <= 100 &&
+          rows.every((turn) => typeof turn?.id === "string"),
+        "HISTORY_LOOKUP_INCOMPLETE",
+        "Native turn page did not match the supported history response",
+        409,
+      );
+      const matches = rows.filter((turn) => turn.id === turnId);
+      fail(
+        matches.length <= 1,
+        "HISTORY_LOOKUP_INCOMPLETE",
+        "Native turn identity was returned more than once",
+        409,
+      );
+      if (matches.length === 1) return matches[0];
+      if (page.nextCursor == null) return null;
+      cursor = page.nextCursor;
+      fail(
+        typeof cursor === "string" &&
+          cursor.length > 0 &&
+          cursor.length <= 16384 &&
+          !cursors.has(cursor),
+        "HISTORY_LOOKUP_INCOMPLETE",
+        "Native turn history returned an invalid or repeated cursor",
+        409,
+      );
+      cursors.add(cursor);
+    }
+    throw new ServiceError(
+      "HISTORY_LOOKUP_INCOMPLETE",
+      "Native turn lookup reached its page bound",
+      409,
     );
   }
   async instructionSettings(cwd) {

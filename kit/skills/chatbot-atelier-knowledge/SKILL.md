@@ -2,7 +2,7 @@
 name: chatbot-atelier-knowledge
 description: "Design chatbot knowledge, memory, retrieval, and deletion across access boundaries. Use conversation for wording and integrations for provider wiring."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # ChatBot Atelier · Knowledge

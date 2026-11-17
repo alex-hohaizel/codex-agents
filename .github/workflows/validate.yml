@@ -39,6 +39,7 @@ jobs:
           python3 -B -m unittest discover -s kit/skills/app-atelier-director/scripts/tests
           python3 -B -m unittest discover -s kit/skills/chatbot-atelier-director/scripts/tests
           python3 -B -m unittest discover -s kit/skills/gamedev-director/scripts/tests
+          python3 -B -m unittest discover -s evaluations/tests
       - name: Install tested campaign verification dependencies
         run: python3 -m pip install reportlab==4.4.9 pillow==13.0.0 pypdf==6.21.4
       - name: Build and verify campaign, sources, recovery tests and source bundles

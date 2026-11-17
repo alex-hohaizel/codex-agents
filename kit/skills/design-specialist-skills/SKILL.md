@@ -2,7 +2,7 @@
 name: design-specialist-skills
 description: "Design and build a reusable specialist skill or family from a concrete goal and domain evidence. Use for deliberate scope, triggers, roles, reusable resources, handoffs, and verification."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # Specialist Skill Constructor
