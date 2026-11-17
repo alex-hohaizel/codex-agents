@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" viewBox="0 0 1120 1080" width="1120" height="1080" role="img" aria-labelledby="art-title art-desc">
+<title id="art-title">One request. A specialist team.</title>
+<desc id="art-desc">Codex Agent System routes a request to existing or newly constructed agents. Product, architecture, build and independent quality review carry it to delivery with evidence. Checkpoints support recovery.</desc>
+<style>
+text{font-family:Inter,"Segoe UI",-apple-system,BlinkMacSystemFont,Arial,sans-serif}
+.signature{fill:#c6e3e5;font-size:31px;letter-spacing:2.2px;font-weight:700}
+.title{fill:#f4fbf9;font-size:72px;font-weight:780;letter-spacing:-3.3px}
+.title-color{fill:url(#hero-teal)}
+.group-title{fill:#a1e8e3;font-size:31px;font-weight:700;letter-spacing:.2px}
+.node{fill:#f4fbf9;font-size:40px;font-weight:720;letter-spacing:-.75px}
+.detail{fill:#c1dbe0;font-size:29px;font-weight:480;letter-spacing:-.15px}
+</style>
+<defs>
+<linearGradient id="ground" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06141e"/><stop offset=".55" stop-color="#0b242e"/><stop offset="1" stop-color="#09171d"/></linearGradient>
+<radialGradient id="light-cold"><stop stop-color="#1a6774" stop-opacity=".60"/><stop offset="1" stop-color="#0b3843" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-warm"><stop stop-color="#d18349" stop-opacity=".44"/><stop offset=".58" stop-color="#935230" stop-opacity=".19"/><stop offset="1" stop-color="#582314" stop-opacity="0"/></radialGradient>
+<linearGradient id="frame" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4599a4"/><stop offset=".45" stop-color="#264751"/><stop offset=".8" stop-color="#574735"/><stop offset="1" stop-color="#322d29"/></linearGradient>
+<linearGradient id="plate" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14353f"/><stop offset=".53" stop-color="#0e2833"/><stop offset="1" stop-color="#0b222b"/></linearGradient>
+<linearGradient id="plate-teal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#194753"/><stop offset="1" stop-color="#0a2833"/></linearGradient>
+<linearGradient id="plate-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#332e2e"/><stop offset=".6" stop-color="#292931"/><stop offset="1" stop-color="#172631"/></linearGradient>
+<linearGradient id="teal-edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#75eadd"/><stop offset="1" stop-color="#2b6c78" stop-opacity=".1"/></linearGradient>
+<linearGradient id="gold-edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ffd19d"/><stop offset="1" stop-color="#9c6845" stop-opacity=".1"/></linearGradient>
+<linearGradient id="hero-teal" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#b2f6f1"/><stop offset=".73" stop-color="#70e9df"/><stop offset="1" stop-color="#59cacc"/></linearGradient>
+<pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#66a5af" stroke-opacity=".12"/></pattern>
+<pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#6f9aa2" fill-opacity=".28"/></pattern>
+<marker id="arrow" viewBox="0 0 12 12" markerWidth="8" markerHeight="8" refX="10" refY="6" orient="auto-start-reverse"><path d="M3 2L9 6L3 10" fill="none" stroke="#7de4dd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<marker id="return-arrow" viewBox="0 0 12 12" markerWidth="8" markerHeight="8" refX="10" refY="6" orient="auto"><path d="M3 2L9 6L3 10" fill="none" stroke="#f2ba82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<clipPath id="frame-clip"><rect x="12" y="12" width="1096" height="1056" rx="32"/></clipPath>
+<symbol id="icon-logo" viewBox="0 0 48 48"><path d="M24 4L43 15V33L24 44L5 33V15Z M5 15L24 26L43 15 M24 26V44 M14.5 9.5L33.5 20.5V38.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 30V35L19 38V33Z" fill="currentColor"/></symbol>
+<symbol id="icon-input" viewBox="0 0 48 48"><path d="M11 6H28L37 15V42H11Z M28 6V16H37 M17 23H30 M17 29H28 M17 35H25" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 15H4V33H8" fill="none" stroke="currentColor" stroke-opacity=".6" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="icon-route" viewBox="0 0 48 48"><path d="M24 18V32 M10 34V29H38V34 M15 10H33" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="16" y="5" width="16" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="2.7"/><rect x="4" y="34" width="12" height="9" rx="3" fill="none" stroke="currentColor" stroke-width="2.7"/><rect x="18" y="34" width="12" height="9" rx="3" fill="none" stroke="currentColor" stroke-width="2.7"/><rect x="32" y="34" width="12" height="9" rx="3" fill="none" stroke="currentColor" stroke-width="2.7"/><path d="M23 10H25" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/></symbol>
+<symbol id="icon-product" viewBox="0 0 48 48"><path d="M16 10H10V41H38V10H32 M16 10V6H32V16H16Z M16 24L19 27L24 21 M27 24H33 M16 34L19 37L24 31 M27 34H33" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="icon-architecture" viewBox="0 0 48 48"><path d="M24 6L43 16L24 27L5 16Z M5 25L24 36L43 25 M5 34L24 45L43 34 M24 11V21 M16 16H32" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 11L16 16L24 21L32 16Z" fill="currentColor" fill-opacity=".15"/></symbol>
+<symbol id="icon-build" viewBox="0 0 48 48"><path d="M13 12V36 M35 12V19C35 25 30 29 24 29H13" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><circle cx="13" cy="9" r="4.5" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="13" cy="39" r="4.5" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="35" cy="9" r="4.5" fill="none" stroke="currentColor" stroke-width="2.8"/></symbol>
+<symbol id="icon-qa" viewBox="0 0 48 48"><path d="M20 5L35 11V22C35 31 29 37 20 42C11 37 5 31 5 22V11Z M13 22L18 27L26 17 M35 34L44 43" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="2.6"/></symbol>
+<symbol id="icon-delivery" viewBox="0 0 48 48"><path d="M24 5L42 15V35L24 45L6 35V15Z M6 15L24 25L42 15 M24 25V45 M15 10L33 20V31" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 29L16 34L21 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="icon-recovery" viewBox="0 0 48 48"><path d="M9 17A16 16 0 1 1 8 31 M9 7V18H20 M24 16V25L30 29" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 27H9" stroke="currentColor" stroke-width="2.9" stroke-linecap="round"/></symbol>
+</defs>
+<g clip-path="url(#frame-clip)">
+<rect width="1120" height="1080" fill="url(#ground)"/>
+<ellipse cx="210" cy="420" rx="700" ry="710" fill="url(#light-cold)"/>
+<ellipse cx="1090" cy="127" rx="515" ry="335" fill="url(#light-warm)"/>
+<ellipse cx="1030" cy="945" rx="380" ry="275" fill="url(#light-warm)" opacity=".48"/>
+<rect x="20" y="24" width="1080" height="1032" fill="url(#grid)" opacity=".43"/>
+<rect x="760" y="35" width="335" height="240" fill="url(#dots)" opacity=".66"/>
+<g fill="none" stroke="#9ed2cf" stroke-width="1">
+<path d="M712 38L764 89L831 80L890 124L980 96L1045 140L1114 119" stroke-opacity=".20"/>
+<path d="M702 55L744 109L838 106L888 149L985 124L1040 169L1116 151" stroke-opacity=".18"/>
+<path d="M713 75L753 131L830 132L877 177L981 155L1035 201L1121 178" stroke-opacity=".13"/>
+<path d="M729 102L783 163L823 156L877 202L972 190L1018 222L1102 210" stroke-opacity=".11"/>
+<path d="M49 858L113 911L147 984L214 1023L309 1020L330 1065 M31 879L100 928L130 1007L203 1047L295 1057" stroke-opacity=".13"/>
+</g>
+<g opacity=".54" stroke-width="1.4">
+<path d="M792 80H831L890 124H931" fill="none" stroke="#70e4df" stroke-dasharray="6 7"/>
+<path d="M937 124H985L1040 169L1090 159" fill="none" stroke="#efbb87"/>
+<circle cx="831" cy="80" r="4" fill="#153a43" stroke="#a5ece7"/>
+<circle cx="890" cy="124" r="5" fill="#163740" stroke="#96efe7"/>
+<circle cx="985" cy="124" r="4" fill="#4e342c" stroke="#f2bc88"/>
+<circle cx="1040" cy="169" r="6" fill="#493931" stroke="#f2bc88"/>
+<path d="M1040 158V140 M1051 169H1068 M1040 181V199 M1029 169H1011" stroke="#e5b187"/>
+</g>
+</g>
+<rect x="12.5" y="12.5" width="1095" height="1055" rx="32" fill="none" stroke="url(#frame)" stroke-width="1.5"/>
+<g stroke-width="2" fill="none" stroke-linecap="round"><path d="M34 60V39H63 M1057 39H1086V60" stroke="#6c979a" stroke-opacity=".67"/><path d="M34 1020V1041H63 M1057 1041H1086V1020" stroke="#867053" stroke-opacity=".68"/></g>
+<path d="M61 253H1061" stroke="#4b6e77" stroke-opacity=".69"/>
+<path d="M61 253H357" stroke="url(#teal-edge)" stroke-width="2"/>
+
+<use href="#icon-logo" x="61" y="39" width="39" height="39" style="color:#90f0e5"/>
+<text x="116" y="70" class="signature">Codex Agent System</text>
+<text x="59" y="154" class="title">One request.</text>
+<text x="59" y="224" class="title title-color">A specialist team.</text>
+<path d="M527 350H593" fill="none" stroke="#7de4dd" stroke-width="3.2" marker-end="url(#arrow)"/>
+<path d="M827 424V452Q827 479 800 479H586Q560 479 560 505V833" fill="none" stroke="#193943" stroke-width="16"/>
+<path d="M827 424V452Q827 479 800 479H586Q560 479 560 505V833" fill="none" stroke="#6bd1ce" stroke-width="3.2"/>
+<path d="M560 584H498 M560 584H622 M560 734H498 M560 734H622" fill="none" stroke="#69c7c8" stroke-width="2.8" marker-end="url(#arrow)"/>
+<path d="M560 831Q560 850 542 850H313Q288 850 288 874V893" fill="none" stroke="#75e0da" stroke-width="2.8" marker-end="url(#arrow)"/>
+<path d="M560 831Q560 850 579 850H797Q823 850 823 874V893" fill="none" stroke="#f1b988" stroke-width="2.8" stroke-dasharray="7 7" marker-end="url(#return-arrow)"/>
+<circle cx="560" cy="584" r="6" fill="#152d37" stroke="#82e8df" stroke-width="2"/>
+<circle cx="560" cy="734" r="6" fill="#152d37" stroke="#82e8df" stroke-width="2"/>
+<circle cx="560" cy="830" r="8" fill="#10323a" stroke="#74e1d8" stroke-width="2"/>
+<path d="M65 490H487 M632 490H1058" stroke="#45666f" stroke-opacity=".80"/>
+<rect x="56" y="521" width="1008" height="283" rx="27" fill="none" stroke="#3b666d" stroke-width="1.2" stroke-dasharray="5 7"/>
+<g transform="translate(60 278)">
+<rect x="3" y="7" width="466" height="146" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="466" height="146" rx="22" fill="url(#plate)" stroke="#37616a" stroke-width="1.7"/>
+<path d="M23 1H428" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M368 128H442L451 119V106" fill="none" stroke="#37616a" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="40" width="66" height="66" rx="16" fill="#091e28" stroke="#37616a" stroke-width="1.15"/>
+<use href="#icon-input" x="34" y="51" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="72" class="node">Request</text>
+<text x="111" y="113" class="detail">Goal and constraints</text>
+</g>
+<g transform="translate(594 278)">
+<rect x="3" y="7" width="466" height="146" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="466" height="146" rx="22" fill="url(#plate-teal)" stroke="#57a3a9" stroke-width="1.7"/>
+<path d="M23 1H428" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M368 128H442L451 119V106" fill="none" stroke="#57a3a9" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="40" width="66" height="66" rx="16" fill="#091e28" stroke="#57a3a9" stroke-width="1.15"/>
+<use href="#icon-route" x="34" y="51" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="72" class="node">Routing &amp; setup</text>
+<text x="111" y="113" class="detail">Select or create agents</text>
+</g>
+<rect x="65" y="466" width="238" height="35" rx="6" fill="#0d2631"/>
+<text x="65" y="493" class="group-title">Specialist team</text>
+<g transform="translate(72 535)">
+<rect x="3" y="7" width="450" height="112" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="450" height="112" rx="22" fill="url(#plate)" stroke="#37616a" stroke-width="1.7"/>
+<path d="M23 1H412" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M352 94H426L435 85V72" fill="none" stroke="#37616a" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="23" width="66" height="66" rx="16" fill="#091e28" stroke="#37616a" stroke-width="1.15"/>
+<use href="#icon-product" x="34" y="34" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="55" class="node">Product</text>
+<text x="111" y="96" class="detail">Scope and requirements</text>
+</g>
+<g transform="translate(598 535)">
+<rect x="3" y="7" width="450" height="112" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="450" height="112" rx="22" fill="url(#plate)" stroke="#37616a" stroke-width="1.7"/>
+<path d="M23 1H412" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M352 94H426L435 85V72" fill="none" stroke="#37616a" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="23" width="66" height="66" rx="16" fill="#091e28" stroke="#37616a" stroke-width="1.15"/>
+<use href="#icon-architecture" x="34" y="34" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="55" class="node">Architecture</text>
+<text x="111" y="96" class="detail">Contracts and decisions</text>
+</g>
+<g transform="translate(72 680)">
+<rect x="3" y="7" width="450" height="112" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="450" height="112" rx="22" fill="url(#plate)" stroke="#37616a" stroke-width="1.7"/>
+<path d="M23 1H412" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M352 94H426L435 85V72" fill="none" stroke="#37616a" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="23" width="66" height="66" rx="16" fill="#091e28" stroke="#37616a" stroke-width="1.15"/>
+<use href="#icon-build" x="34" y="34" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="55" class="node">Build</text>
+<text x="111" y="96" class="detail">Git worktrees</text>
+</g>
+<g transform="translate(598 680)">
+<rect x="3" y="7" width="450" height="112" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="450" height="112" rx="22" fill="url(#plate)" stroke="#37616a" stroke-width="1.7"/>
+<path d="M23 1H412" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M352 94H426L435 85V72" fill="none" stroke="#37616a" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="23" width="66" height="66" rx="16" fill="#091e28" stroke="#37616a" stroke-width="1.15"/>
+<use href="#icon-qa" x="34" y="34" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="55" class="node">Independent QA</text>
+<text x="111" y="96" class="detail">Checks and findings</text>
+</g>
+<g transform="translate(60 888)">
+<rect x="3" y="7" width="466" height="139" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="466" height="139" rx="22" fill="url(#plate-teal)" stroke="#57a3a9" stroke-width="1.7"/>
+<path d="M23 1H428" stroke="url(#teal-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M368 121H442L451 112V99" fill="none" stroke="#57a3a9" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="36" width="66" height="66" rx="16" fill="#091e28" stroke="#57a3a9" stroke-width="1.15"/>
+<use href="#icon-delivery" x="34" y="48" width="44" height="44" style="color:#90f0e5"/>
+<text x="111" y="68" class="node">Delivery</text>
+<text x="111" y="110" class="detail">Artifacts and evidence</text>
+</g>
+<g transform="translate(594 888)">
+<rect x="3" y="7" width="466" height="139" rx="22" fill="#020c12" fill-opacity=".46"/>
+<rect width="466" height="139" rx="22" fill="url(#plate-gold)" stroke="#8a6954" stroke-width="1.7"/>
+<path d="M23 1H428" stroke="url(#gold-edge)" stroke-width="1.35" stroke-opacity=".72"/>
+<path d="M368 121H442L451 112V99" fill="none" stroke="#8a6954" stroke-width="1" stroke-opacity=".64"/>
+<rect x="23" y="36" width="66" height="66" rx="16" fill="#091e28" stroke="#8a6954" stroke-width="1.15"/>
+<use href="#icon-recovery" x="34" y="48" width="44" height="44" style="color:#f9c99a"/>
+<text x="111" y="68" class="node">Recovery</text>
+<text x="111" y="110" class="detail">Resume from checkpoints</text>
+</g>
+<g fill="#102b35" stroke-width="2"><circle cx="527" cy="350" r="5" stroke="#85e5dc"/><circle cx="593" cy="350" r="5" stroke="#85e5dc"/><circle cx="827" cy="424" r="5" stroke="#85e5dc"/><circle cx="288" cy="889" r="5" stroke="#85e5dc"/><circle cx="823" cy="889" r="5" stroke="#edb981"/></g>
+</svg>

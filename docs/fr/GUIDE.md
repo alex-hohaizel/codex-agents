@@ -4,6 +4,8 @@ Traitez une tâche précise dans Codex, développez un produit avec les spécial
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+Pour la première session, ouvrez le [démarrage guidé](../../START_HERE.md#install-and-verify). Puis suivez [une demande pendant tout le projet](../technical/END_TO_END.md), du choix de l’équipe à la vérification de la publication. [Ouvrir la carte du parcours](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## Par où commencer
 
 - **Essayez Codex.** [Installez et vérifiez](#install) · [Réalisez une première tâche](#first-task) · [Scénarios illustrés](../../marketing/fr/README.md)
@@ -62,6 +64,8 @@ Pour une décision importante, recueillez plusieurs avis spécialisés à partir
 Conservez le plan du sprint d’origine quand le backlog évolue. Examinez les ajouts et les dépendances avant de modifier le périmètre. Vérifiez les exigences applicables dans le PRD et l’architecture, puis faites relire la nouvelle révision. [Planifier le sprint](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [Relire la spécification](../technical/TICKET_PRODUCT_SPEC.md)
 
 Reprenez une séance d’idéation ou la mise à l’épreuve d’une proposition à partir du compte rendu enregistré. Préparez un brief, une PRFAQ ou des documents distincts de design et d’expérience, avec leurs sources et décisions ouvertes. Vérifiez les compétences et rôles Codex importés avant de les préparer dans un nouveau projet. Pour un ticket GitHub associé, examinez une modification proposée et relisez le résultat avant toute répétition. [Atelier](../technical/WORKSHOP.md) · [Facilitation produit](../technical/PRODUCT_FACILITATION.md) · [Import avec Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [Modifications GitHub](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
+Créez un prototype interactif dans le navigateur à partir de DESIGN et EXPERIENCE révisés, ou reliez brouillons, versions et revues aux sources exactes avec le registre de modèles. Auditez un module BMad et préparez une migration validée dans un nouveau dossier. Pour l’arborescence, rapprochez un effet après avoir vérifié les états local, précédent et distant. [Prototype UX](../technical/UX_PROTOTYPE.md) · [Modèles](../technical/DOCUMENT_TEMPLATES.md) · [Migration BMad](../technical/BMAD_MODULE_MIGRATION.md) · [Arborescence](../technical/TRACKER_SYNC.md) · [Fournisseurs](../technical/TRACKER_PROVIDERS.md)
 
 <a name="context"></a>
 ### Capsules de contexte

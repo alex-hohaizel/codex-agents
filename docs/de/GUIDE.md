@@ -4,6 +4,8 @@ Erledigen Sie eine einzelne Aufgabe mit Codex, entwickeln Sie ein Produkt mit Fa
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+Beginnen Sie mit der [geführten Einrichtung](../../START_HERE.md#install-and-verify). Folgen Sie anschließend [einem Auftrag durch ein vollständiges Projekt](../technical/END_TO_END.md), von der Teamwahl bis zur Prüfung des Release-Nachweises. [Gesamtablauf öffnen](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## Einstieg wählen
 
 - **Codex ausprobieren.** [Installieren und prüfen](#install) · [Erste Aufgabe erledigen](#first-task) · [Abläufe mit Bildbeispielen](../../marketing/de/README.md)
@@ -62,6 +64,8 @@ Holen Sie bei einer wichtigen Entscheidung unterschiedliche Fachpositionen auf B
 Bewahren Sie den ursprünglichen Sprintplan bei Änderungen am Backlog auf. Prüfen Sie vorgeschlagene Ergänzungen und Abhängigkeiten vor einer Änderung des Umfangs. Prüfen Sie die anwendbaren Anforderungen in PRD und Architektur und lassen Sie die neue Fassung erneut durchsehen. [Sprint planen](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [Produktspezifikation prüfen](../technical/TICKET_PRODUCT_SPEC.md)
 
 Setzen Sie ein Brainstorming oder die Prüfung einer Idee anhand des gespeicherten Protokolls in einer neuen Sitzung fort. Erstellen Sie einen quellengebundenen Brief, ein PRFAQ oder getrennte Dokumente für Design und Nutzungserlebnis mit offenen Entscheidungen. Prüfen Sie importierte Codex-Skills und Rollen vor der Bereitstellung im neuen Projekt. Prüfen Sie für ein zugeordnetes GitHub-Issue eine vorgeschlagene Änderung und lesen Sie das Ergebnis vor einer Wiederholung zurück. [Workshop](../technical/WORKSHOP.md) · [Produktmoderation](../technical/PRODUCT_FACILITATION.md) · [Import mit Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub-Änderungen](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
+Erstellen Sie einen interaktiven Browserprototyp aus geprüftem DESIGN und EXPERIENCE oder verknüpfen Sie Entwürfe, Revisionen und Prüfungen im Vorlagenregister mit ihren genauen Quellen. Prüfen Sie BMad-Module und bereiten Sie eine überprüfte Migration in einem neuen Ordner vor. Gleichen Sie für Trackerbäume eine Änderung mit lokalem, vorherigem und externem Zustand ab. [UX-Prototyp](../technical/UX_PROTOTYPE.md) · [Vorlagen](../technical/DOCUMENT_TEMPLATES.md) · [BMad-Migration](../technical/BMAD_MODULE_MIGRATION.md) · [Trackerbaum](../technical/TRACKER_SYNC.md) · [Tracker-Anbieter](../technical/TRACKER_PROVIDERS.md)
 
 <a name="context"></a>
 ### Kontextkapseln

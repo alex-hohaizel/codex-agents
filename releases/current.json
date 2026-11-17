@@ -1,8 +1,8 @@
 {
   "schema_version": "codex-agents.release/1",
   "repository_branch": "main",
-  "repository_version": "1.6.0",
-  "suite_version": "6.3.0",
+  "repository_version": "1.7.0",
+  "suite_version": "6.4.0",
   "release_date": "2026-11-17",
   "release_notes": "releases/README.md",
   "requirements": "governance/requirements.csv",
@@ -41,7 +41,7 @@
     "gamedev-release",
     "gamedev-studio"
   ],
-  "source_manifest_sha256": "1a9cf211db332220d91cbee5f8633f4aa878e7a20f06ced581fff38a8415b6f9",
+  "source_manifest_sha256": "5215e4d81bd72565b893133e0a81c304fc4c9ac2ee5e0db34d1e3d772ecc1c9e",
   "optional_skills": [
     {
       "name": "codex-agents-maintenance",
@@ -52,7 +52,7 @@
     },
     {
       "name": "atelier-orchestrator",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "source": "optional-skills/atelier-orchestrator",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
@@ -76,7 +76,7 @@
     "source": "host-profiles/codex/AGENTS.md"
   },
   "release_stage": "stable",
-  "release_tag": "v1.6.0",
+  "release_tag": "v1.7.0",
   "installation_guide": "docs/INSTALL.md",
   "showcase_locales": [
     "en",

@@ -1,0 +1,227 @@
+{
+  "schema": "atelier.bmad-document-template-catalog/1",
+  "upstream": "https://github.com/bmad-code-org/BMAD-METHOD",
+  "commit": "e435a22574fe55722841086e5566420178b98df3",
+  "license_path": "LICENSE",
+  "license_sha256": "0aa79baf6328b4a1e694ce10a12ffc36d7666554da128dff0e8fcda0fc536a66",
+  "files": [
+    {
+      "scope": "module",
+      "kind": "resource",
+      "path": "skills/core-tools/bmad-facilitate/references/guidance-planning.md",
+      "sha256": "46c79c11a7ecffd8eb33c176589691d25dc572704357a9fb87a4a30a9edac26a",
+      "git_blob_sha1": "2665ce2cae5592fa03a9a2d01661e7b717bff553"
+    },
+    {
+      "scope": "module",
+      "kind": "resource",
+      "path": "skills/core-tools/bmad-facilitate/references/rubric-general.md",
+      "sha256": "0e347afebb423a75b38ffbf263bbe69f445867305b90b27b174c63cdb81918e6",
+      "git_blob_sha1": "2b0fda530694462ce2419abc78ca1eb0619ff2cd"
+    },
+    {
+      "scope": "module",
+      "kind": "resource",
+      "path": "skills/core-tools/bmad-facilitate/references/rubric-planning.md",
+      "sha256": "1b77571c54d14697dfa3e4426c11305e3739108741d798eba3c5e5c4dffba1c7",
+      "git_blob_sha1": "01ec73df3f0c6c786b7fc1a55f0b227f7789affc"
+    },
+    {
+      "scope": "agent",
+      "kind": "resource",
+      "path": "skills/method/bmad-agent-analyst/assets/brief-view.html",
+      "sha256": "8a35be3de711bb17ed36949c14db16956123247bc4995fba650085889cbda3f8",
+      "git_blob_sha1": "2fc8233b1d01f030cc181098c39a153296b6b0ae"
+    },
+    {
+      "scope": "agent",
+      "kind": "resource",
+      "path": "skills/method/bmad-agent-analyst/assets/prfaq-view.html",
+      "sha256": "8db4b27417f4f9b761f7e685ce502ee107ebb75037cd78778aed9cd37140ae96",
+      "git_blob_sha1": "9132e230ee80e28d856eb99fb7735cec69bca766"
+    },
+    {
+      "scope": "agent",
+      "kind": "resource",
+      "path": "skills/method/bmad-agent-analyst/assets/rubric-prfaq.md",
+      "sha256": "c79adbe65223733a153bd804d66f57ed3c950d43cb73e291e488ab4371c68994",
+      "git_blob_sha1": "e145edbe8ccefa3227ec1f7c9ea3ffdf59a50938"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-analyst/assets/template-brd.md",
+      "sha256": "1997642d78e8f0b9587430a480af1320831895ded8e9bdf242141e1f3b544e31",
+      "git_blob_sha1": "377eb73e7cf83de6d5d2e89f80f8210c66b3b425",
+      "template": "brd",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-analyst/assets/template-brief.md",
+      "sha256": "809680ddff6ad43b3a45100c52839f88104a1a3246611e20d49bfba9dcdd8305",
+      "git_blob_sha1": "a230ca1f40dda4d4501fc8d36012388616369e79",
+      "template": "brief",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-analyst/assets/template-prfaq.md",
+      "sha256": "a0d27fced9a6c2b03652c2ac0fb6143a13e9e1e46c83ce37af2a402a37856b61",
+      "git_blob_sha1": "cd746c015b44942f8599b806dcb763c8deef3783",
+      "template": "prfaq",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "resource",
+      "path": "skills/method/bmad-agent-pm/assets/pitch-view.html",
+      "sha256": "9537be6c67251a9fe0a1ff5cb83af224fa5076f2a8813dba873f7ed32b279ee2",
+      "git_blob_sha1": "bc2562e10130faa2bc62253a924930c9c86d6dab"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-agent-spec.md",
+      "sha256": "b6e2e59b7f7f8180fbe516116beb01a2b231898b54ae4860c6bbc7b83e3938cf",
+      "git_blob_sha1": "daea0bfe91b9da518d3a6772823924b29285457b",
+      "template": "agent-spec",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-business-case.md",
+      "sha256": "e0305e278f6db9bfea80cdb415c3090164c7ce87cf529d6711b50c193e2c2801",
+      "git_blob_sha1": "f957ad7ebc564eb32389f3c7b422dc2d743247d2",
+      "template": "business-case",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-charter.md",
+      "sha256": "fd6141fa1be7042c8343fcd9a155d9f97b2c6acfb6730026eaecf14ed2325d86",
+      "git_blob_sha1": "3627bf277f67099b40f2f8ef9938f6f41aacd053",
+      "template": "charter",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-experiment.md",
+      "sha256": "7b16b5313ed636d0efb50909d2fc628b5df1bdcd4881e65a887cb0fc012dca33",
+      "git_blob_sha1": "0dc9d904bbdddb4caf9035a0b4b5eb3c1b3377fe",
+      "template": "experiment",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-launch.md",
+      "sha256": "9032260fbd46b4520fd082343ce8efa31d1a12fbba4b29470be636fae5044e86",
+      "git_blob_sha1": "21a6ba74586d2abbdb8effdd2635c26f9dfe7a09",
+      "template": "launch",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-narrative.md",
+      "sha256": "bc6b83871b2c0975b0c481cdb07d8b6b498e79cb3a5a3b9ab66857ddd18af1e5",
+      "git_blob_sha1": "2ef6667e67cf8029d550f7619208a86c9e5205b2",
+      "template": "narrative",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-opportunity.md",
+      "sha256": "0873b4ed47b1ae34e295fb8a540637c00e4ea21f419ea7e14b118c30f15b298a",
+      "git_blob_sha1": "d31f230101ce0b0f81434d1f11ec9b9205b6d9d2",
+      "template": "opportunity",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-pitch.md",
+      "sha256": "8169587f04c2290f314aa165e8828d1f275a366ba3b0a3236debef3697198159",
+      "git_blob_sha1": "15db0d350e2c3edee8186e3697cef1b3eb78f794",
+      "template": "pitch",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-prd-light.md",
+      "sha256": "f81bc8b579d110503fa52e9fbf53f6bb258118ae116fea0cb8e5fbbfd466e730",
+      "git_blob_sha1": "8df3967342b966fe6d591352051c08d6174bcf9f",
+      "template": "prd-light",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-prd.md",
+      "sha256": "47bfad621d981fcd23726a827e2ff9a505ccd7e6500ecb83110a1ce20518bc94",
+      "git_blob_sha1": "6cea0e7fc05e8290c7f94b6fd0d771afc8f51d92",
+      "template": "prd",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-prototype-plan.md",
+      "sha256": "2d7a867bea6626d3f51bab81b83ae2e14fd3420747ce7e33e2bb3e9a853e5f6e",
+      "git_blob_sha1": "095ffc88ee1e6ff70ad3b11c717a8351d7a11339",
+      "template": "prototype-plan",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "agent",
+      "kind": "template",
+      "path": "skills/method/bmad-agent-pm/assets/template-srs.md",
+      "sha256": "1b80dbeac080ee3a4a90232b45d3bb6fb79258c56ae1e91218a10bc4b81418dd",
+      "git_blob_sha1": "e1e2ff194c8dd7cd8153b1da23581f08bb426fb5",
+      "template": "srs",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "module",
+      "kind": "resource",
+      "path": "skills/method/bmod-method/doc-templates/methods-security.csv",
+      "sha256": "4ae9a4e0eefed6c526de02362c2d08e64e27d4c7f2d6366cb188524163077b68",
+      "git_blob_sha1": "b928b041c17bc486c4060c7d3e6610e9cec22f4a"
+    },
+    {
+      "scope": "module",
+      "kind": "template",
+      "path": "skills/method/bmod-method/doc-templates/template-decision-record.md",
+      "sha256": "6c46ab3bf7281487343bdde8da65e70426f9521c676c01f13a6d56f86a659030",
+      "git_blob_sha1": "4858ef4359bbe6376cc836f849dad0cc0bb61f15",
+      "template": "decision-record",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "module",
+      "kind": "template",
+      "path": "skills/method/bmod-method/doc-templates/template-postmortem.md",
+      "sha256": "f4e78fff08f65e80f30a9065072cfa6f276ecb4548440c1e8b0ff779212c69ec",
+      "git_blob_sha1": "8279c4852f69f674e153ac8ecf0127e2173e2b1d",
+      "template": "postmortem",
+      "version": "1.1.0"
+    },
+    {
+      "scope": "module",
+      "kind": "template",
+      "path": "skills/method/bmod-method/doc-templates/template-security-review.md",
+      "sha256": "73fe82b93052cc685ebd061bba5299f184b2c9789e968beb6be948a547075760",
+      "git_blob_sha1": "c38e54bd07b41e87905dd15404cfb9bc606ed793",
+      "template": "security-review",
+      "version": "1.1.0"
+    }
+  ]
+}

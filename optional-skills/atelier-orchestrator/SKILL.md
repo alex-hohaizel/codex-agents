@@ -2,7 +2,7 @@
 name: atelier-orchestrator
 description: Choose a suitable route for a new task, an existing project, or an agent-system update. Use when the user needs an entry point, coordinated delivery, or help deciding which existing capability to use.
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # Atelier Orchestrator
@@ -51,3 +51,5 @@ Call `prepare` to create a bounded service task and context package. Use `dispat
 ## Verify what the user will receive
 
 Check original acceptance criteria against actual artifacts and the appropriate consumer. Keep source integrity, behavior, craft, runtime or device evidence, independent review and owner acceptance distinct. State the exact scope of verified results, missing access or evidence, uncertain effects and next authorized action. Keep unresolved or deferred work visible in the controlling native record. Do not carry forward an old proof after changing its inputs.
+
+For an interactive source-bound UX walkthrough, registry template, BMad import or tracker tree, use [the workflow extensions](references/workflow-extensions.md). Keep the exact source, native consumer, and provider outcome tied to each handoff.

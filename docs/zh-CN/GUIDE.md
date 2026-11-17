@@ -4,6 +4,8 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+首次使用请打开[分步入门](../../START_HERE.md#install-and-verify)，再[跟随一个请求走完整个项目](../technical/END_TO_END.md)，从选定团队到审核发布证据。 [打开完整流程图](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## 选择起点
 
 - **试用 Codex。** [安装并验证](#install) · [完成第一个任务](#first-task) · [查看图解流程](../../marketing/zh-CN/README.md)
@@ -62,6 +64,8 @@ Codex 提供运行时、工具和权限控制。仓库提供 `AGENTS.md`、技�
 待办清单变更时保留原迭代计划。先核对拟新增的任务及其依赖，再调整范围。检查 PRD 和架构文档是否覆盖所有适用要求，并对新版本重新开展评审。 [规划迭代](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [评审产品规格](../technical/TICKET_PRODUCT_SPEC.md)
 
 根据保存的工作坊记录，在新会话中继续头脑风暴或检验提案。依据来源编写简报、PRFAQ，或分别编写设计和体验文档，并保留待决定事项。先审核导入的 Codex 技能和角色，再在新项目中暂存。对于已映射的 GitHub 议题，先审查拟议变更，再读取实际结果，然后决定是否重试。 [工作坊](../technical/WORKSHOP.md) · [产品引导](../technical/PRODUCT_FACILITATION.md) · [通过 Foundry 导入](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub 写入](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
+根据已审阅的 DESIGN 和 EXPERIENCE 构建交互式浏览器原型，或使用模板注册表将草稿、修订和评审绑定到确切来源。审核 BMad 模块并将已审阅的迁移暂存到新目录。同步任务树前，对照本地、上次观测与远程状态，每次核对一项变更。 [UX 原型](../technical/UX_PROTOTYPE.md) · [模板](../technical/DOCUMENT_TEMPLATES.md) · [BMad 迁移](../technical/BMAD_MODULE_MIGRATION.md) · [任务树](../technical/TRACKER_SYNC.md) · [跟踪器服务商](../technical/TRACKER_PROVIDERS.md)
 
 <a name="context"></a>
 ### 上下文胶囊

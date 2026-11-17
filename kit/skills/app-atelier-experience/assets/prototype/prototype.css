@@ -1,0 +1,50 @@
+*{box-sizing:border-box}
+body{margin:0;background:var(--background);color:var(--ink);font:1rem/1.55 system-ui,-apple-system,BlinkMacSystemFont,sans-serif}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:.18rem solid var(--accent);outline-offset:.22rem}
+::selection{color:var(--onAccent);background:var(--accent)}
+.mast,.shell,.foot{width:min(78rem,100%);margin:auto;padding-inline:clamp(1rem,4vw,4rem)}
+.mast{display:flex;gap:1rem;align-items:center;justify-content:space-between;padding-block:1.35rem;
+ border-bottom:1px solid color-mix(in srgb,var(--ink) 22%,transparent)}
+.identity{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.eyebrow{font:700 .72rem/1.35 ui-monospace,SFMono-Regular,Consolas,monospace;text-transform:uppercase;letter-spacing:.12em}
+.title,.summary,.side p{margin:0}
+.title{font-size:1.1rem;font-weight:700}
+.tag,.state{display:inline-block;padding:.25rem .55rem;border:1px solid currentColor;border-radius:.3rem;font-size:.78rem;font-weight:650}
+.tag{white-space:nowrap}
+.shell{display:grid;grid-template-columns:minmax(10rem,15rem) minmax(0,1fr);gap:clamp(1.1rem,4vw,3.5rem);padding-block:clamp(1.2rem,4vw,4rem)}
+.side{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:1rem}
+.summary{max-width:27ch;line-height:1.45}
+.history{list-style:none;counter-reset:step;margin:0;padding:0;width:100%}
+.history li{counter-increment:step;padding:.34rem .45rem .34rem .6rem;font-size:.86rem;border-left:2px solid color-mix(in srgb,var(--ink) 28%,transparent)}
+.history li:before{content:counter(step,decimal-leading-zero) " ";font:700 .72rem/1 ui-monospace,SFMono-Regular,monospace}
+.history [aria-current]{border-color:var(--accent);font-weight:750;background:color-mix(in srgb,var(--accent) 9%,var(--background))}
+.notice{font-size:.78rem}
+.notice:empty,.error:empty{display:none}
+.panel{grid-column:2;grid-row:1;background:var(--surface);min-width:0;border:1px solid color-mix(in srgb,var(--ink) 22%,transparent);border-radius:.75rem;padding:clamp(1.1rem,4vw,3rem);
+ border-top:.3rem solid var(--accent);box-shadow:0 .6rem 2rem color-mix(in srgb,var(--ink) 12%,transparent)}
+.marker{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+[data-state="pending"] .state,[data-state="conflict"] .state{border-style:dashed}
+[data-state="success"] .state{background:var(--accent);color:var(--onAccent)}
+h1{font-size:clamp(1.8rem,4vw,3.05rem);letter-spacing:-.035em;line-height:1.05;margin:1rem 0 .75rem;overflow-wrap:anywhere}
+.body{max-width:60ch;margin:0 0 1.4rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(12rem,100%),1fr));gap:.55rem;margin:1rem 0}
+.details div{min-width:0;padding:.75rem;background:color-mix(in srgb,var(--ink) 6%,var(--surface));border-radius:.35rem}
+dt{font-size:.75rem;font-weight:750}dd{margin:.18rem 0 0;overflow-wrap:anywhere}
+.field{display:flex;flex-direction:column;gap:.3rem;margin:1rem 0;max-width:32rem}
+.field label{font-weight:650}
+.field input:not([type="checkbox"]),select{width:100%;padding:.5rem .65rem;border:1px solid var(--ink);border-radius:.35rem;background:var(--surface)}
+.field.check label{display:flex;align-items:center;gap:.55rem;padding:.35rem 0;min-height:2.75rem}
+input[type="checkbox"]{width:1.2rem;height:1.2rem;margin:0;accent-color:var(--accent)}
+.error{font-weight:750;border-left:.2rem solid var(--accent);padding-left:.75rem}
+.actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin:1.6rem 0}
+button{min-height:2.75rem;border-radius:.38rem;padding:.42rem .8rem;border:1px solid var(--accent);background:var(--surface);font-weight:650}
+button:hover{box-shadow:inset 0 0 0 1px var(--accent)}
+button.primary{background:var(--accent);color:var(--onAccent)}
+button.quiet{border-color:transparent;text-decoration:underline;text-underline-offset:.2em;background:transparent}
+.sources{border-top:1px solid color-mix(in srgb,var(--ink) 25%,transparent);padding-top:.9rem;font-size:.88rem}
+.sources summary{cursor:pointer;font-weight:700}.sources blockquote{margin:.8rem 0;padding-left:.7rem;border-left:.15rem solid var(--accent)}
+.sources cite{display:block;font-size:.75rem;margin-top:.3rem;overflow-wrap:anywhere}
+.foot{font-size:.78rem;padding-bottom:1.2rem}
+@media(max-width:44rem){.shell{grid-template-columns:minmax(0,1fr)}.panel{grid-column:1}.side{grid-row:2}.history{max-width:23rem}.title{font-size:.95rem}.identity{gap:.15rem;flex-direction:column}.actions button{width:100%}}

@@ -2,7 +2,7 @@
 name: app-atelier-experience
 description: "Design or repair an app brand, UX, visual system, and interactive prototype. Use for Android, iOS, and web experience and tested design handoff."
 metadata:
-  version: "6.3.0"
+  version: "6.4.0"
 ---
 
 # App Atelier Experience
@@ -20,6 +20,8 @@ Define a distinctive brand, hierarchy, typography, iconography, voice and intera
 Design the selected free, trial, limited or paid model. Expose benefit, price, period, limits, renewal, cancel and restore before a purchase. Evaluate combined payments and advertising through the entire journey. Label ads, respect consent and caps, and prevent obstruction or accidental clicks. Show voluntary rewards or ad removal only where the product supports them. Design clear pending, failed, unavailable, expired, refunded and restored states where applicable. A paywall is not evidence of willingness to pay.
 
 ## Prove the representative interaction
+
+For a browser walkthrough whose screens must trace back to accepted DESIGN and EXPERIENCE, use `scripts/ux_prototype.py build` with a reviewed project manifest. Use `verify` after source changes, then test the success and recovery paths in the browser. The downloaded receipt records simulated interaction, not product adoption.
 
 Build a runnable prototype of the critical journey with labeled test data and exact start steps. Verify its main transition, error/recovery and accepted mechanism in the actual consumer. Where relevant, record a narrow touch route, keyboard traversal, visible focus at the required text/zoom scale, readable labels, contrast, long strings, reduced motion and offline or degraded behavior. Specify representative OS/browser/viewport/input settings and use primary platform guidance for constraints. Compare behavior, not just appearance. A render, returned DOM or screenshot does not establish interaction, and a tablet or headless environment does not establish physical-device behavior.
 
