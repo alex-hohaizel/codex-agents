@@ -4,6 +4,8 @@ Use Codex for a focused task, develop a product with specialists, or design a re
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+For a guided first session, open [Start here](../../START_HERE.md#install-and-verify). Then [follow one request through a complete project](../technical/END_TO_END.md), from assembling the team to reviewing its release evidence. [Read the whole system map](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## Choose where to start
 
 - **Try Codex.** [Install and verify](#install) · [Do a first task](#first-task) · [See illustrated workflows](../../marketing/en/README.md)

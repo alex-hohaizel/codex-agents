@@ -4,6 +4,8 @@ Erledigen Sie eine einzelne Aufgabe mit Codex, entwickeln Sie ein Produkt mit Fa
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+Beginnen Sie mit der [geführten Einrichtung](../../START_HERE.md#install-and-verify). Folgen Sie anschließend [einem Auftrag durch ein vollständiges Projekt](../technical/END_TO_END.md), von der Teamwahl bis zur Prüfung des Release-Nachweises. [Gesamtablauf öffnen](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## Einstieg wählen
 
 - **Codex ausprobieren.** [Installieren und prüfen](#install) · [Erste Aufgabe erledigen](#first-task) · [Abläufe mit Bildbeispielen](../../marketing/de/README.md)

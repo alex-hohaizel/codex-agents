@@ -4,6 +4,8 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+首次使用请打开[分步入门](../../START_HERE.md#install-and-verify)，再[跟随一个请求走完整个项目](../technical/END_TO_END.md)，从选定团队到审核发布证据。 [打开完整流程图](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## 选择起点
 
 - **试用 Codex。** [安装并验证](#install) · [完成第一个任务](#first-task) · [查看图解流程](../../marketing/zh-CN/README.md)

@@ -4,6 +4,8 @@ Svolgete un compito mirato con Codex, sviluppate un prodotto con specialisti o p
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+Per la prima sessione, apri la [guida di avvio](../../START_HERE.md#install-and-verify). Poi [segui una richiesta in un progetto completo](../technical/END_TO_END.md), dalla scelta del team alla verifica della pubblicazione. [Apri la mappa del flusso](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## Da dove iniziare
 
 - **Provate Codex.** [Installazione e verifica](#install) · [Primo compito](#first-task) · [Flussi illustrati](../../marketing/it/README.md)

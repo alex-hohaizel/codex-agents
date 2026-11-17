@@ -4,6 +4,8 @@
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+Для першої сесії відкрийте [покроковий старт](FIRST_RUN.md). Потім [пройдіть один запит від ідеї до релізу](../technical/END_TO_END.md): від складу команди до перевірки результату. [Побачити всю схему роботи](../../assets/marketing/release-1.7/workflow-uk.svg)
+
 ## З чого почати
 
 - **Спробуйте Codex.** [Встановлення й перевірка](#install) · [Перша задача](#first-task) · [Ілюстровані сценарії](../../marketing/uk/README.md)

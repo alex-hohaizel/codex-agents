@@ -30,6 +30,11 @@ The [component record](current.json) is the source for these values and the core
   capabilities and observed deployments are tracked separately.
   [Tracker tree](../docs/technical/TRACKER_SYNC.md) · [Provider setup](../docs/technical/TRACKER_PROVIDERS.md)
 
+The new [front page](../README.md) shows the latest workflows and an
+illustrated route from one conversation to specialist work and release
+evidence. [Start with one task](../START_HERE.md) or follow the
+[worked project](../docs/technical/END_TO_END.md).
+
 The release includes these workflow implementations. Check the provider
 and browser notes for tested targets, unsupported operations and the line
 between a verified local case and live provider or device acceptance.

@@ -4,6 +4,8 @@ Resuelve una tarea concreta con Codex, desarrolla un producto con especialistas 
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
+Para la primera sesión, abre el [inicio guiado](../../START_HERE.md#install-and-verify). Luego [sigue una petición durante todo el proyecto](../technical/END_TO_END.md), desde la elección del equipo hasta la revisión de la publicación. [Abre el mapa del flujo](../../assets/marketing/release-1.7/workflow-en.svg)
+
 ## Elige por dónde empezar
 
 - **Prueba Codex.** [Instala y verifica](#install) · [Haz una primera tarea](#first-task) · [Flujos ilustrados](../../marketing/es/README.md)
