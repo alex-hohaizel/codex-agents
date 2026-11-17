@@ -72,10 +72,10 @@ for lang,t in T.items():
         cards=''.join(f'<article class="card"><h3>{e(h)}</h3><p>{e(b)}</p></article>' for h,b in t['cards'])
         steps=''.join(f'<li>{e(x)}</li>' for x in t['steps'])
         faq=''.join(f'<details><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q,a in t['faqrows'])
-        startlink='Start.command' if is_start else f'start-{lang}.html'
+        startlink='Start.command' if is_start else '../../docs/commercial/BUYER_GUIDE'+('.uk' if lang=='uk' else '')+'.md'
         other=('ПОЧАТИ.html' if lang=='en' else 'START_HERE.html') if is_start else ('sales-uk.html' if lang=='en' else 'sales-en.html')
-        image='assets/marketing/current/overview.png' if is_start else '../../../assets/marketing/current/overview.png'
-        docs='docs/commercial/BUYER_GUIDE'+('.uk' if lang=='uk' else '')+'.md' if is_start else '../../../docs/commercial/BUYER_GUIDE'+('.uk' if lang=='uk' else '')+'.md'
+        image='assets/marketing/current/overview.png' if is_start else '../../assets/marketing/current/overview.png'
+        docs='docs/commercial/BUYER_GUIDE'+('.uk' if lang=='uk' else '')+'.md' if is_start else '../../docs/commercial/BUYER_GUIDE'+('.uk' if lang=='uk' else '')+'.md'
         page=f"""<!doctype html><html lang="{lang}"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{logo} — {e(t['setup'] if is_start else t['hero'])}</title><style>{STYLE}</style>
 <main><div class="top"><span>◇ {logo}</span><a href="{other}">{t['locale']}</a></div>
 <div class="eyebrow">{t['tag']}</div><h1>{e(t['setup'] if is_start else t['hero'])}</h1><p class="lede">{e(t['intro'])}</p>

@@ -307,6 +307,17 @@ def audit(package, home, state, plan_path, entitlement=None):
     profile_plan = host.audit(package / 'product', home / '.codex', destination / 'agent-foundry')
     optional = optional_plan(package, destination, legacy)
     blockers = list(core_plan['blockers']) + optional['conflicts']
+    launcher = state / 'Open Codex.command'
+    launcher_text = read(launcher).decode() if launcher.exists() else None
+    launcher_before = digest(launcher_text.encode()) if launcher_text is not None else None
+    if launcher_before is not None:
+        previous = state / 'installed.json'
+        known_launcher = False
+        if previous.exists():
+            old = load(Path(load(previous)['journal']))
+            known_launcher = old.get('launcher') == str(launcher) and old.get('launcher_sha256') == launcher_before
+        if not known_launcher:
+            blockers.append('The generated launcher has unknown changes; preserve them and reconcile before another install.')
     license_record = None
     entitlement_data = None
     if entitlement:
@@ -323,7 +334,8 @@ def audit(package, home, state, plan_path, entitlement=None):
             'edition': metadata.get('edition'), 'home': str(home), 'state': str(state), 'mode': mode,
             'core_plan': str(core_path), 'core_plan_sha256': digest(encoded(core_plan)),
             'profile_plan': str(profile_path), 'profile_plan_sha256': digest(encoded(profile_plan)),
-            'optional': optional, 'entitlement': license_record,
+            'optional': optional, 'entitlement': license_record, 'launcher_before_sha256': launcher_before,
+            'launcher_before': launcher_text,
             'blockers': blockers, 'ready': not blockers, 'created_at': timestamp()}
     operation.mkdir(mode=0o700, parents=True)
     if entitlement_data is not None:
@@ -520,7 +532,7 @@ def launch_arguments(home, product):
     return arguments
 
 
-def make_launcher(home, state, product):
+def make_launcher(home, state, product, expected_before=None):
     flags = launch_arguments(home, product)
     executable = shutil.which('codex')
     if executable is None and (home / '.local/bin/codex').is_file():
@@ -529,6 +541,8 @@ def make_launcher(home, state, product):
     environment = ['HOME=' + str(home), 'CODEX_HOME=' + str(home / '.codex')]
     content = '#!/bin/sh\nset -eu\nexec env ' + ' '.join(shlex.quote(x) for x in environment) + ' ' + shlex.quote(executable) + ' ' + ' '.join(shlex.quote(x) for x in flags) + ' "$@"\n'
     path = state / 'Open Codex.command'
+    before = digest(read(path)) if path.exists() else None
+    require(before in (expected_before, digest(content.encode())), 'Generated launcher changed during setup; preserve it')
     fd, tmp = tempfile.mkstemp(prefix='.codex-launch-', dir=state)
     try:
         with os.fdopen(fd, 'wb') as file:
@@ -551,6 +565,9 @@ def install(plan_path, expected, *, resume=None):
             require(resume is not None and safe(resume) == journal_path or journal['status'] == 'complete',
                     'This operation started already; use install --resume with its journal')
             require(journal['status'] not in ('rolling-back', 'rolled-back', 'uninstalling', 'uninstalled'), 'Cannot install after recovery or uninstall began')
+            if journal['status'] == 'complete':
+                return {'status': 'installed', 'journal': str(journal_path), 'verification': verify(journal_path),
+                        'launcher': journal['launcher'], 'next': 'Open a fresh Codex session through the generated launcher.'}
         else:
             require(resume is None, 'The requested journal does not exist; inspect the audited operation path')
             require(core.comparable(core.audit(package / 'product/kit', home / '.agents/skills', home / '.codex/skills', operation / 'core-backups')) == core.comparable(core.read_json(plan['core_plan'])), 'Core targets changed after audit')
@@ -588,7 +605,7 @@ def install(plan_path, expected, *, resume=None):
                     with os.fdopen(fd, 'wb') as out:
                         out.write(content); out.flush(); os.fsync(out.fileno())
                 journal['retained_entitlement'] = str(destination)
-            journal['launcher'] = make_launcher(home, state, package / 'product')
+            journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'))
             journal['launcher_sha256'] = digest(read(Path(journal['launcher'])))
             journal.update(status='complete', finished_at=timestamp())
             write(journal_path, journal)
@@ -610,6 +627,7 @@ def verify(journal_path):
     core_status = core.verify(package / 'product/kit', home / '.agents/skills', home / '.codex/skills', journal['core_journal'])
     host_status = host.verify_or_rollback(Path(journal['profile_journal']))
     optional = tree(Path(plan['optional']['target'])) == plan['optional']['after']
+    require(digest(read(Path(journal['launcher']))) == journal['launcher_sha256'], 'Generated launcher changed; preserve and reconcile its local edits')
     require(core_status['ready'] and host_status['ok'] and optional, 'Managed files changed; preserve them and create a new audit')
     return {'status': 'verified-files', 'source_commit': plan['source_commit'], 'product_version': plan['product_version'],
             'skills': core_status['verified_skills'], 'orchestrator': optional, 'profile_and_roles': host_status['files'],
@@ -679,6 +697,20 @@ def rollback(journal_path):
         if not journal.get('core_rolled_back'):
             core.rollback(Path(journal['core_journal']))
             journal['core_rolled_back'] = True
+            write(Path(journal_path), journal)
+        if not journal.get('launcher_rolled_back'):
+            launcher = Path(journal['launcher'])
+            prior = plan.get('launcher_before')
+            observed = read(launcher) if launcher.exists() else None
+            prior_hash = digest(prior.encode()) if prior is not None else None
+            require(prior_hash == plan.get('launcher_before_sha256'), 'Launcher backup differs from the approved plan')
+            require((digest(observed) if observed is not None else None) in (journal['launcher_sha256'], prior_hash),
+                    'Generated launcher changed during rollback')
+            if prior is None:
+                launcher.unlink(missing_ok=True)
+            elif observed != prior.encode():
+                host.atomic(launcher, prior, 0o755)
+            journal['launcher_rolled_back'] = True
             write(Path(journal_path), journal)
         journal.update(status='rolled-back', rolled_back_at=timestamp())
         write(Path(journal_path), journal)
@@ -927,6 +959,10 @@ def wizard(package, home, state=None, codex=None, locale='en'):
 
 
 def main(argv=None):
+    if sys.version_info < (3, 9):
+        print(json.dumps({'status': 'blocked', 'reason': 'Python 3.9 or later is required for buyer setup.',
+                          'next': 'Install a supported Python from python.org, then reopen Start.command.'}), file=sys.stderr)
+        return 2
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--package', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--home', type=Path, default=Path.home())

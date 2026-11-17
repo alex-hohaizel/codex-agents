@@ -18,7 +18,7 @@ import zipfile
 sys.dont_write_bytecode = True
 EXCLUDED = {".git","__pycache__",".DS_Store","node_modules","dist",".atelier-local",".pytest_cache","playwright-report","test-results"}
 ROOTS = ("kit","scripts","standards","host-profiles","agent-profiles","optional-skills","templates","releases",
-         "apps","governance","docs","evaluations","marketing","assets","commercial","maintenance-skill",
+         "apps",".github","governance","docs","evaluations","marketing","assets","commercial","maintenance-skill",
          "README.md","START_HERE.md","CHANGELOG.md","RIGHTS.md","AGENTS.md","locales.json")
 PRODUCT = "codex-agent-system"
 
@@ -67,6 +67,8 @@ def paths(root, relative):
 
 def copy_group(root, stage, relative, prefix=""):
     for source in paths(root,relative):
+        if prefix=="product" and source.relative_to(root).parts[:2]==("commercial","site"):
+            continue
         target=stage/prefix/source.relative_to(root)
         target.parent.mkdir(parents=True,exist_ok=True)
         shutil.copyfile(source,target)
@@ -109,7 +111,7 @@ def build(root, output):
             stage.mkdir()
             for name in ROOTS:
                 copy_group(root,stage,name,"product")
-            for name in ("assets/marketing/current","assets/marketing/release-1.7","commercial/site","commercial/media"):
+            for name in ("assets/marketing/current","assets/marketing/release-1.7","commercial/media"):
                 if (root/name).exists():
                     copy_group(root,stage,name)
             # Buyer navigation and the unchanged source manual each keep a complete
@@ -135,6 +137,12 @@ def build(root, output):
                 origin=root/f"commercial/site/start-{locale}.html"
                 need(origin.is_file(),"Buyer landing absent: "+str(origin))
                 shutil.copyfile(origin,stage/filename)
+            for locale,filename,other in (("en","SALES.html","ПРОДУКТ.html"),("uk","ПРОДУКТ.html","SALES.html")):
+                raw=(root/f"commercial/site/sales-{locale}.html").read_text()
+                raw=raw.replace("../../assets/","assets/").replace("../../docs/","docs/")
+                raw=raw.replace("../legal/LICENSE.txt","LICENSE.txt")
+                raw=raw.replace("sales-uk.html" if locale=="en" else "sales-en.html",other)
+                (stage/filename).write_text(raw)
             example=stage/"examples"/"first-task";example.mkdir(parents=True)
             (example/"README.md").write_text("# Cheklist\n\nKeep this note unchanged.\n")
             (example/"notes.txt").write_text("Original buyer work: preserve this file.\n")

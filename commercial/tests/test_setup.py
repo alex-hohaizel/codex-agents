@@ -203,12 +203,16 @@ class BuyerSetupTests(unittest.TestCase):
     def test_local_visual_and_model_selections_are_retained(self):
         skills=self.home/'.agents/skills'
         shutil.copytree(self.package/'product/kit/skills',skills)
-        icon=skills/'app-atelier-build/assets/family-icon-small.png'
-        original=icon.read_bytes()
+        skill=skills/'app-atelier-build'
+        icon=skill/'assets/buyer-icon.png'
         # A different valid supplied icon is a local visual identity, not executable policy.
         other=skills/'gamedev-build/assets/family-icon-small.png'
         icon.write_bytes(other.read_bytes())
-        self.assertNotEqual(icon.read_bytes(),original)
+        large=skill/'assets/buyer-icon-large.png'
+        large.write_bytes((skills/'gamedev-build/assets/family-icon-large.png').read_bytes())
+        ui=skill/'agents/openai.yaml'
+        ui.write_text(ui.read_text().replace('icon_small: ./assets/family-icon-small.png','icon_small: ./assets/buyer-icon.png')
+                      .replace('icon_large: ./assets/family-icon-large.png','icon_large: ./assets/buyer-icon-large.png'))
         preserved=icon.read_bytes()
         _,result=self.installed()
         self.assertEqual(icon.read_bytes(),preserved)
