@@ -15,3 +15,11 @@ Describe the concrete task and what changes for the user.
 ## Validation
 
 Record actual results, artifact hashes and material limitations. Separate repository validation from host discovery and real-task acceptance.
+
+## Commercial impact
+
+For setup, license, delivery, migration or support work, read the canonical
+commercial product contract. Name the affected installed versions and acquired
+rights, required migrations, exact buyer scenario exercised, and changes to
+notices, inventory, localized instructions, claims and recovery. List factual
+platform gaps and owner decisions separately from completed implementation.

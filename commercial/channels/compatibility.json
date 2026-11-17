@@ -1,0 +1,14 @@
+{
+  "schema": "codex-agents.sales-channels/1",
+  "reviewed_on": "2026-11-18",
+  "public_listing_performed": false,
+  "channels": [
+    {"id":"direct","artifact":"full-buyer-archive","status":"local test delivery","limits":["Production merchant, private support contact and trusted public key distribution require owner setup."]},
+    {"id":"appsumo","artifact":"full-buyer-archive","status":"submission dossier draft","limits":["No partner agreement accepted.","Campaign exclusivity and refund terms need review before submission.","Portal product testing and redemption approval unverified."],"sources":["https://help.appsumo.com/article/92-how-do-i-submit-my-product","https://appsumo.com/partner-terms/"]},
+    {"id":"dealify-stackcommerce","artifact":"full-buyer-archive","status":"partner dossier draft","limits":["No campaign or fee agreement accepted.","StackCommerce technical package requirements remain unverified."],"sources":["https://dealify.com/pages/run-a-deal"]},
+    {"id":"agensi","artifact":"one self-contained text skill export","status":"local-format-check","limits":["Full local runtime, directories and native roles are not installed by this export.","Live platform ingestion unverified; no listing submitted."],"sources":["https://www.agensi.io/docs/packaging"]},
+    {"id":"promptbase","artifact":"one SKILL.md","status":"local-format-check","limits":["Narrow coaching demo only.","No ZIP, bundled resources or native installer.","Seller model selection, price limits and manual submission need owner action."],"sources":["https://promptbase.com/help/selling-prompts"]},
+    {"id":"mcp-market","artifact":"dossier plus local skill source","status":"submission draft","limits":["Exact ingestion and purchase update behavior require platform testing.","No external listing or account changes."],"sources":["https://mcpmarket.com/sell"]},
+    {"id":"host-catalogs-product-hunt","artifact":"product dossier and free planning-demo source","status":"launch draft","limits":["No new host integration or publication performed.","Claude Code remains deferred; no compatibility claim."]}
+  ]
+}

@@ -12,6 +12,11 @@ product, or an agent your team can use again.
 <a name="your-first-task"></a>
 <a name="choose-a-path"></a>
 
+The [commercial buyer candidate](docs/commercial/BUYER_GUIDE.md) adds one
+coordinated setup, edition/license records and a prebuilt Mac runtime route.
+It remains a local RC pending seller details, platform gates and sale approval.
+[Українська інструкція](docs/commercial/BUYER_GUIDE.uk.md)
+
 ## Choose where to start
 
 | I want to… | Start here |

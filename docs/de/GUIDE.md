@@ -6,6 +6,8 @@ Erledigen Sie eine einzelne Aufgabe mit Codex, entwickeln Sie ein Produkt mit Fa
 
 Beginnen Sie mit der [geführten Einrichtung](../../START_HERE.md#install-and-verify). Folgen Sie anschließend [einem Auftrag durch ein vollständiges Projekt](../technical/END_TO_END.md), von der Teamwahl bis zur Prüfung des Release-Nachweises. [Gesamtablauf öffnen](../../assets/marketing/release-1.7/workflow-en.svg) · [Dokumentationsübersicht](../INDEX.md)
 
+Der kommerzielle Käuferkandidat bündelt Einrichtung und erworbene Versionsrechte. Lesen Sie [die Käuferanleitung](../commercial/BUYER_GUIDE.md), [Lizenzbedingungen](../commercial/LICENSING.md) und [Laufzeitgrenzen](../commercial/WORKBENCH_RUNTIME.md).
+
 ## Einstieg wählen
 
 - **Codex ausprobieren.** [Installieren und prüfen](#install) · [Erste Aufgabe erledigen](#first-task) · [Abläufe mit Bildbeispielen](../../marketing/de/README.md)

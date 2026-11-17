@@ -1,0 +1,26 @@
+{
+  "schema": "codex-agents.node-runtime-sources/1",
+  "version": "24.22.2",
+  "minimum_macos": "13.5",
+  "official_release": "https://nodejs.org/dist/v24.22.2/",
+  "signed_checksums_sha256": "cbff095ae2d793bc0ffed794e7ef4a6609f7157a0fcb3b051176c09e3320e4a2",
+  "keyring": {
+    "source": "https://raw.githubusercontent.com/nodejs/release-keys/481637f813e912c4aa3622d7964ab426c97b8e8d/gpg/pubring.kbx",
+    "sha256": "610b8d249da3d5733f5a128def2dd0294dbbf5b5713e6ca2529db8db419dee00"
+  },
+  "accepted_signing_fingerprints": [
+    "5BE8A3F6C8A5C01D106C0AD820B1A390B168D356"
+  ],
+  "archives": {
+    "arm64": {
+      "name": "node-v24.22.2-darwin-arm64.tar.gz",
+      "sha256": "aa9549349e47dffaa42dcf95d6e06ade8c4bdafc980979883b88767670df385a"
+    },
+    "x64": {
+      "name": "node-v24.22.2-darwin-x64.tar.gz",
+      "sha256": "d5e336d588c45be0c37dbd52cc29895593009ca4997a77a1fd02815131ed0e52"
+    }
+  },
+  "rights": "Node.js and bundled third-party license text is retained unmodified in notices/Node-LICENSE.txt.",
+  "platform_reference": "https://github.com/nodejs/node/blob/v24.22.2/BUILDING.md#platform-list"
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "codex-agents.commercial-product/1",
+  "product_id": "codex-agent-system",
+  "name": "Codex Agent System",
+  "release_record": "releases/current.json",
+  "core_manifest": "kit/manifest.json",
+  "offer": "commercial/offer.json",
+  "contract": "governance/COMMERCIAL_PRODUCT_CONTRACT.md",
+  "license": "commercial/legal/LICENSE.txt",
+  "host": {
+    "name": "Codex",
+    "tested_cli": "0.166.0",
+    "version_policy": "0.166.x tested; later versions require doctor plus discovery and canary",
+    "prerequisites": [
+      "Python 3.9+",
+      "An authenticated Codex host supporting local skills",
+      "POSIX filesystem with user-write access"
+    ],
+    "accounts": "Buyer supplies Codex/model account and paid external integrations; these are not included"
+  },
+  "platforms": [
+    {
+      "os": "macOS",
+      "architectures": [
+        "arm64"
+      ],
+      "skills": "isolated user-home acceptance required",
+      "panel": "bundled runtime RC; Apple signing/notarization separate",
+      "minimum_os": "13.5 (bundled Node runtime requirement)"
+    },
+    {
+      "os": "macOS",
+      "architectures": [
+        "x86_64"
+      ],
+      "skills": "unverified on actual Intel hardware",
+      "panel": "unverified without actual Intel run"
+    },
+    {
+      "os": "Linux",
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "skills": "POSIX core path; Linux acceptance via CI runner, not this Mac",
+      "panel": "not advertised"
+    },
+    {
+      "os": "Windows",
+      "architectures": [],
+      "skills": "not advertised",
+      "panel": "not advertised"
+    },
+    {
+      "host": "ChatGPT Work",
+      "skills": "existing source-import package retained; host save and first-use acceptance separate",
+      "panel": "not applicable"
+    }
+  ],
+  "recommended_components": {
+    "core": true,
+    "orchestrator": true,
+    "profile": true,
+    "roles": true,
+    "maintenance": false,
+    "workbench": "separate optional artifact"
+  },
+  "buyer_entry": "START_HERE.html",
+  "setup": "setup/setup.py",
+  "state": "user-owned directory outside skill discovery",
+  "lifecycle": [
+    "doctor",
+    "audit",
+    "install",
+    "verify",
+    "discover",
+    "first-task",
+    "rollback",
+    "uninstall"
+  ],
+  "trust": {
+    "artifact": "detached Ed25519 signature over exact release index",
+    "buyer_key": "obtain verifier public key through authenticated seller receipt, independently of archive",
+    "local_rc_key": "test-only private key outside repository; not production issuance"
+  },
+  "data_policy": {
+    "telemetry": "none added by the buyer setup",
+    "purchase": "minimum edition/order and versioned rights; no host credentials or project files",
+    "third_party": "third-party services retain their policies"
+  },
+  "channels": "commercial/channels/compatibility.json",
+  "status": "commercial release candidate; not a public sales offer"
+}

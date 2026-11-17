@@ -1,9 +1,9 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
+  "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
   "default_locale": "en",
-  "repository_version": "1.7.0",
+  "repository_version": "1.8.0-rc.1",
   "guide_editions": 7,
   "translation_editions": 6,
   "campaign_languages": [
@@ -20,8 +20,8 @@
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -38,8 +38,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "a3a13a34b08f1f14c7521c0b84ff82faea462c85b55aac1821e8c6d7bb4cfbb7",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "19a5a0e82f33b4bd71e464d175b7ae6b91d0a8ac98b84de9e0ee18e3155110a7",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -56,8 +56,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "e3f4f5ab05dd5bfb4bf341cee76d8845843deb7bd888792824585f6defcf4696",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "99928414dd8029e0151e45990002453a803775439bc7063e3c4e04fb7587944c",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "e078640cf42e5e85a33f91b594adec70015dbc2b140cb4c42fd3bc6fef72c089",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "7d4f5bc890b57fd3e93f8f8ca3d4147b06ace924875550251919d458cc4c3730",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -92,8 +92,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "41beafa15d15da2a44d8d5e47f4dead249deb041fbe52814a4e0d6e671947fba",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "41482f61da029e81457916e923588226a3aef62ee920f33919d803c75a12bca0",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -110,8 +110,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "992ff462465f39a04ef4a8a6b179edee1684f2c18e1738dbff87c9abe9a157b1",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "9bf0382e96a9f28e87e1f5db982ef012c260bd57f7667cf87e0a2eed7b068324",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -128,8 +128,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "29195d18ccfb17a35ff65ec1e5fc3c93fdd5f224e935a1c6f7f37df05fb8ec15",
-      "sha256": "de9fe0c6d719872c5d0aeb5b126e360231aa73daa56b0c5936d302abf2625689",
+      "source_sha256": "cf28854f6f9adeb9e817f2b6eb296462eafcf0b6a32702d785f3e6d43f5b8115",
+      "sha256": "ec970b12f09c9925df7e24fc9aea7031348a3caa05d4da929666fadfb782ad38",
       "status": "complete",
       "role": "translation",
       "verified_parity": {

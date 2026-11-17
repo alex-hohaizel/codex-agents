@@ -1,0 +1,66 @@
+{
+  "schema": "codex-agents.commercial-offer/1",
+  "product_id": "codex-agent-system",
+  "name": "Codex Agent System",
+  "status": "release-candidate-not-offered-for-sale",
+  "license_version": "1.0.0-rc.1",
+  "support_version": "1.0.0-rc.1",
+  "refund_version": "1.0.0-rc.1",
+  "seller": {
+    "legal_name": null,
+    "registration_or_tax_id": null,
+    "legal_address": null,
+    "jurisdiction": null,
+    "support_contact": null,
+    "privacy_contact": null
+  },
+  "sale_currency": "USD",
+  "editions": {
+    "solo": {
+      "label": "Solo",
+      "price_minor": 4900,
+      "named_seats": 1,
+      "organization_required": false,
+      "multiple_devices_per_named_user": true,
+      "personal_and_client_commercial_projects": true,
+      "use_right": "perpetual-purchased-product-major",
+      "included_updates": "purchased-product-major",
+      "next_major": "separate-offer"
+    },
+    "team": {
+      "label": "Team",
+      "price_minor": 14900,
+      "named_seats": 5,
+      "organization_required": true,
+      "multiple_devices_per_named_user": true,
+      "personal_and_client_commercial_projects": true,
+      "use_right": "perpetual-purchased-product-major",
+      "included_updates": "purchased-product-major",
+      "next_major": "separate-offer",
+      "seat_replacement": "documented-retire-before-assign"
+    }
+  },
+  "support": {
+    "included": ["delivered-documentation", "installation-guidance", "reproducible-package-bug-reports"],
+    "channel": "seller-support-contact-from-purchase-confirmation",
+    "private_data_required": ["order-reference", "product-version", "edition", "diagnostic-summary"],
+    "never_request": ["host-api-keys", "model-access-tokens", "private-project-content"],
+    "response_sla": null,
+    "custom_development_included": false,
+    "third_party_service_support_included": false,
+    "availability": "seller must publish staffed contact and service hours before sale"
+  },
+  "refunds": {
+    "policy": "seller review of duplicate charges, non-delivery, and reproducible incompatibility with advertised requirements; mandatory consumer rights and accepted channel terms prevail",
+    "voluntary_window_days": null,
+    "published_channel_terms_required": true,
+    "automatic_local_revocation": false
+  },
+  "external_costs": ["Codex account and applicable model usage", "third-party APIs", "hosting", "store or signing accounts"],
+  "public_sale_blockers": [
+    "Confirm legal seller identity, address, tax treatment and applicable jurisdiction.",
+    "Supply a working support and privacy contact and publish support hours and refund handling.",
+    "Approve final license, pricing and each channel agreement.",
+    "Verify artifact delivery provenance and supported-platform release gates."
+  ]
+}

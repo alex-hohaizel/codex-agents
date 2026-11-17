@@ -1,14 +1,16 @@
 # Current release
 
-**Codex Agent System v1.7.0** is the repository release. Select this edition in GitHub Releases to download the matching package. The Codex and Work archives carry the same edition and core version.
+**Codex Agent System v1.8.0-rc.1** is the local commercial candidate.
+The latest published stable release remains v1.7.0 until a separately
+authorized release. The following component table identifies this candidate. Review the local buyer artifacts and C01–C28 record before authorizing publication. The Codex and Work archives carry the same edition and core version.
 
 | Component | Version | What the version identifies |
 | --- | --- | --- |
-| Codex Agent System release | 1.7.0 | The repository edition, handbook, showcase, and package downloads |
+| Codex Agent System release | 1.8.0-rc.1 | The repository edition, handbook, showcase, and package downloads |
 | Core and both constructors | 6.4.0 | The 33 bundled skills, including Agent Foundry and Design Specialist Skills |
 | Codex profile and roles | 6.2.0 | The managed production profile and twelve role definitions |
 | Atelier Orchestrator | 1.5.0 | The optional routing and handoff skill |
-| Maintenance | 1.2.1 | The optional repository maintenance skill |
+| Maintenance | 1.3.0 | The optional repository maintenance skill |
 | Agent Atelier for macOS | 0.7.0 | The local workbench and its runtime |
 
 Use the edition number when asking for a download or reporting an issue. Use a component version when checking what is installed or comparing behavior. Components advance when their distributed content changes. The edition can advance with the same runtime or role definitions. Protocol and file format identifiers track data compatibility for their own consumers.

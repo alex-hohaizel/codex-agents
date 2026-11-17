@@ -21,3 +21,14 @@ Copy this checklist into the release task and attach evidence, rather than check
 - [ ] File installation, host discovery, real task smoke and product acceptance reported separately.
 
 Repository checks are evidence about these files. They do not replace domain QA, security review, native-device testing or verification of external effects.
+
+## Commercial candidate checklist
+
+- [ ] Exact clean source commit; product, offer and component descriptors agree.
+- [ ] Complete C01–C28 register with artifact-bound proof or factual blockers.
+- [ ] Buyer install, native first use, update, recovery and ownership-safe uninstall.
+- [ ] Prior user work, skills, role settings, icons and acquired license rights retained.
+- [ ] Reproducible buyer archives, versioned license, notices, signatures and exports.
+- [ ] Actual runtime architecture/schema/signing tested separately from source checks.
+- [ ] EN/UK buyer flow, seven guide links, truthful demo and support disclosures.
+- [ ] Issuance keys/customer data absent; no unauthorized payment or listing actions.

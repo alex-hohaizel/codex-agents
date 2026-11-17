@@ -29,7 +29,7 @@ IGNORED = {".git", "__pycache__", ".pytest_cache", ".venv", ".DS_Store", "node_m
 PACKAGE_ROOTS = ("kit", "AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md",
                  "RIGHTS.md", "locales.json", "maintenance-skill", "docs", "templates",
                  "governance", "releases", "scripts", "marketing", "assets",
-                 "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps")
+                 "commercial", "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps")
 
 
 class TerminationRequested(KeyboardInterrupt):

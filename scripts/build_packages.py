@@ -19,7 +19,7 @@ EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".DS_Store", "node_mod
                   "dist", ".atelier-local", "test-results", "playwright-report"}
 COMMON = ["AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md", "RIGHTS.md", "locales.json", "maintenance-skill",
           "docs", "templates", "governance", "releases", "scripts", "marketing", "assets",
-          "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps"]
+          "commercial", "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps"]
 
 
 def collect(root: Path, relative_roots: list[str]) -> list[Path]:

@@ -6,6 +6,8 @@ Resuelve una tarea concreta con Codex, desarrolla un producto con especialistas 
 
 Para la primera sesión, abre el [inicio guiado](../../START_HERE.md#install-and-verify). Luego [sigue una petición durante todo el proyecto](../technical/END_TO_END.md), desde la elección del equipo hasta la revisión de la publicación. [Abre el mapa del flujo](../../assets/marketing/release-1.7/workflow-en.svg) · [Índice de documentación](../INDEX.md)
 
+El candidato comercial reúne la instalación y los derechos adquiridos de versión. Consulta [la guía](../commercial/BUYER_GUIDE.md), [la licencia](../commercial/LICENSING.md) y [los límites del entorno](../commercial/WORKBENCH_RUNTIME.md).
+
 ## Elige por dónde empezar
 
 - **Prueba Codex.** [Instala y verifica](#install) · [Haz una primera tarea](#first-task) · [Flujos ilustrados](../../marketing/es/README.md)

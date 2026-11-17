@@ -6,6 +6,8 @@ Use Codex for a focused task, develop a product with specialists, or design a re
 
 For a guided first session, open [Start here](../../START_HERE.md#install-and-verify). Then [follow one request through a complete project](../technical/END_TO_END.md), from assembling the team to reviewing its release evidence. [Read the whole system map](../../assets/marketing/release-1.7/workflow-en.svg) · [Documentation index](../INDEX.md)
 
+The commercial buyer candidate has a coordinated setup and acquired-version records. Read [the buyer guide](../commercial/BUYER_GUIDE.md), [license terms](../commercial/LICENSING.md), and [runtime limits](../commercial/WORKBENCH_RUNTIME.md) before selecting that distribution.
+
 ## Choose where to start
 
 - **Try Codex.** [Install and verify](#install) · [Do a first task](#first-task) · [See illustrated workflows](../../marketing/en/README.md)

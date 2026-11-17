@@ -6,6 +6,8 @@
 
 首次使用请打开[分步入门](../../START_HERE.md#install-and-verify)，再[跟随一个请求走完整个项目](../technical/END_TO_END.md)，从选定团队到审核发布证据。 [打开完整流程图](../../assets/marketing/release-1.7/workflow-en.svg) · [文档索引](../INDEX.md)
 
+商业候选包包含统一安装流程和已购版本权益记录。选择前请阅读[买家指南](../commercial/BUYER_GUIDE.md)、[许可](../commercial/LICENSING.md)和[运行环境限制](../commercial/WORKBENCH_RUNTIME.md)。
+
 ## 选择起点
 
 - **试用 Codex。** [安装并验证](#install) · [完成第一个任务](#first-task) · [查看图解流程](../../marketing/zh-CN/README.md)

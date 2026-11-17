@@ -1,0 +1,18 @@
+Third-party scope for the commercial release candidate
+
+This original commercial license does not replace third-party licenses.
+The canonical package builder must include a file-by-file or dependency
+inventory and the exact notices for the runtime actually distributed.
+Preserve the Node.js LICENSE with any Node binary, as well as the notices
+of runtime dependencies such as React, React DOM, Lucide and their bundled
+dependencies. Preserve source and package notices when their original
+files are shipped.
+
+The original showcase has separate provenance records in marketing/campaign.
+That provenance identifies source bytes; final seller approval of distribution
+rights and any model/provider terms remains part of the commercial release gate.
+External user-supplied template/module catalogs are not redistributed by this
+product unless their rights and required notices have been reviewed.
+
+Do not publish a customer bundle while its actual dependency notice inventory
+is incomplete. A list of names alone is not the complete notice obligation.

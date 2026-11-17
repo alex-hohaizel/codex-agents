@@ -6,6 +6,8 @@ Traitez une tâche précise dans Codex, développez un produit avec les spécial
 
 Pour la première session, ouvrez le [démarrage guidé](../../START_HERE.md#install-and-verify). Puis suivez [une demande pendant tout le projet](../technical/END_TO_END.md), du choix de l’équipe à la vérification de la publication. [Ouvrir la carte du parcours](../../assets/marketing/release-1.7/workflow-en.svg) · [Index de la documentation](../INDEX.md)
 
+Le candidat commercial réunit la configuration et les droits de version acquis. Lisez [le guide](../commercial/BUYER_GUIDE.md), [la licence](../commercial/LICENSING.md) et [les limites du runtime](../commercial/WORKBENCH_RUNTIME.md).
+
 ## Par où commencer
 
 - **Essayez Codex.** [Installez et vérifiez](#install) · [Réalisez une première tâche](#first-task) · [Scénarios illustrés](../../marketing/fr/README.md)

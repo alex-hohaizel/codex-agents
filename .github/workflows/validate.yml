@@ -40,6 +40,16 @@ jobs:
           python3 -B -m unittest discover -s kit/skills/chatbot-atelier-director/scripts/tests
           python3 -B -m unittest discover -s kit/skills/gamedev-director/scripts/tests
           python3 -B -m unittest discover -s evaluations/tests
+      - name: Check commercial buyer contract and lifecycle
+        run: |
+          python3 -B scripts/check_commercial.py
+          python3 -B -m unittest discover -s commercial/tests
+          python3 -B scripts/build_commercial.py --output /tmp/agent-system-commercial-rc
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: commercial-release-candidate
+          path: /tmp/agent-system-commercial-rc
+          if-no-files-found: error
       - name: Install tested campaign verification dependencies
         run: python3 -m pip install reportlab==4.4.9 pillow==13.0.0 pypdf==6.21.4
       - name: Build and verify campaign, sources, recovery tests and source bundles

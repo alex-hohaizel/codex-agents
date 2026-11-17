@@ -2,7 +2,7 @@
 name: codex-agents-maintenance
 description: Verify, package, release, or update the Codex Agent System. Use for changes to its skills, roles, constructors, guides, or managed installations, including recovery after an interrupted release.
 metadata:
-  version: "1.2.1"
+  version: "1.3.0"
 ---
 
 # Codex Agent System maintenance
@@ -17,3 +17,5 @@ Use the current canonical repository, its [publication checklist](references/pub
 6. Publish the authorized reviewed sources, requirements, release notes, installation and recovery instructions, guide changes and validated packages to the actual destination. Confirm the source revision remotely. If a write loses its response, reconcile its target before sending again. If publication cannot proceed, preserve the prepared revision and distinguish local verification from remote publication.
 
 Report source integrity, package provenance, installation, fresh discovery, actual task behavior, product adoption and owner acceptance at their actual scopes. The current record identifies the stable release and outstanding gates. This maintenance workflow does not authorize new spending, license or visibility changes, unrelated production actions or unattended updates.
+
+For setup, licensing, delivery, migrations, support or buyer packages, follow the canonical repository commercial product contract. Preserve installed ownership and acquired terms. Test the affected buyer journey and distinguish a local commercial candidate from an authorized public sale.

@@ -6,6 +6,8 @@ Svolgete un compito mirato con Codex, sviluppate un prodotto con specialisti o p
 
 Per la prima sessione, apri la [guida di avvio](../../START_HERE.md#install-and-verify). Poi [segui una richiesta in un progetto completo](../technical/END_TO_END.md), dalla scelta del team alla verifica della pubblicazione. [Apri la mappa del flusso](../../assets/marketing/release-1.7/workflow-en.svg) · [Indice della documentazione](../INDEX.md)
 
+Il candidato commerciale riunisce configurazione e diritti della versione acquistata. Leggi [la guida](../commercial/BUYER_GUIDE.md), [la licenza](../commercial/LICENSING.md) e [i limiti runtime](../commercial/WORKBENCH_RUNTIME.md).
+
 ## Da dove iniziare
 
 - **Provate Codex.** [Installazione e verifica](#install) · [Primo compito](#first-task) · [Flussi illustrati](../../marketing/it/README.md)

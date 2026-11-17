@@ -22,3 +22,12 @@ python3 -B scripts/build_packages.py
 ```
 
 Source builds contain current documentation, executable and test sources, curated skill assets, and technical examples. GitHub Actions supplies the showcase export and source snapshots for the exact checked commit. For published installation downloads, use the files attached to the stable release and their own recorded digest and attestation. For an installed result, keep the updater journal and open a fresh Codex session to confirm discovery and one meaningful invocation.
+
+## Buyer distributions
+
+The [commercial builder](../scripts/build_commercial.py) derives buyer packages
+from [the product descriptor](../commercial/product.json) and the component
+record. The source bundles remain available for their existing workflows.
+The buyer package supplies a local start page, setup, complete runtime resources,
+license and third-party notices. A Mac workbench runtime has its own architecture
+and signing record. See [the buyer guide](../docs/commercial/BUYER_GUIDE.md).
