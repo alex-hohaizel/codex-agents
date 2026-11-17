@@ -114,11 +114,11 @@ def build(root, output):
                     copy_group(root,stage,name)
             # Buyer navigation and the unchanged source manual each keep a complete
             # link closure. Source guides live beside their canonical source roots.
-            for source in paths(root,"docs/commercial"):
-                rel=source.relative_to(root)
+            for source_file in paths(root,"docs/commercial"):
+                rel=source_file.relative_to(root)
                 target=stage/rel
                 target.parent.mkdir(parents=True,exist_ok=True)
-                content=source.read_text(encoding="utf8")
+                content=source_file.read_text(encoding="utf8")
                 content=content.replace("](../../", "](../../product/")
                 target.write_text(content,encoding="utf8")
             for path in paths(root,"commercial/setup"):
