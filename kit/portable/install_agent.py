@@ -201,6 +201,11 @@ def validate_skill(kit, name):
         text = read_bytes(root / "SKILL.md").decode("utf-8")
     except UnicodeError as error:
         raise InstallError("SKILL.md must be UTF-8: " + name) from error
+    validate_skill_text(root, name, text)
+
+
+def validate_skill_text(root, name, text):
+    """Validate captured skill instructions against their own resource root."""
     text = text.lstrip("\ufeff").replace("\r\n", "\n")
     parts = text.split("\n---\n", 1) if text.startswith("---\n") else []
     if len(parts) != 2:

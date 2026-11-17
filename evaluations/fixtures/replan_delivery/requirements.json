@@ -1,0 +1,44 @@
+{
+  "requirements": [
+    {
+      "id": "R-CSV",
+      "owner": "data stewardship",
+      "priority": "must",
+      "text": "Both web and API roster downloads must contain exactly Visit ID, Site, Scheduled at, and Inspector name, encoded as UTF-8 CSV. Inspector mobile must be absent from the header and every record. Preserve district isolation."
+    },
+    {
+      "id": "R-AUDIT",
+      "owner": "data stewardship",
+      "priority": "must",
+      "dependencies": ["R-CSV"],
+      "text": "Each successful download records exactly ACTOR_ID, DISTRICT_ID, ROW_COUNT, UTC_TIMESTAMP and EXPORT_FORMAT_VERSION=roster-csv-v2. Audit metadata never contains the CSV payload. Denied and unavailable downloads produce no success audit row."
+    },
+    {
+      "id": "R-OFF",
+      "owner": "operations",
+      "priority": "must",
+      "dependencies": ["R-CSV"],
+      "text": "When current export is unavailable, both download routes must return 503 without CSV or a success audit row. Remove the legacy fallback. A caller with no district access must still be denied."
+    },
+    {
+      "id": "R-UX",
+      "owner": "product",
+      "priority": "must",
+      "dependencies": ["R-CSV"],
+      "text": "Release follow-up must document the current roster columns and explain district selection. Keep implementation separate from the shared export service."
+    },
+    {
+      "id": "R-ROLLOUT",
+      "owner": "operations",
+      "priority": "must",
+      "dependencies": ["R-AUDIT", "R-OFF"],
+      "text": "Release follow-up must provide an enablement checklist and explain the disabled state so operators can verify no old fallback."
+    },
+    {
+      "id": "R-HELP",
+      "owner": "scheduling",
+      "priority": "must",
+      "text": "Keep unrelated scheduling keyboard help work active in its existing owner scope."
+    }
+  ]
+}

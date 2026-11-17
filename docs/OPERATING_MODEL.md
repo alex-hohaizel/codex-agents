@@ -46,9 +46,23 @@ flowchart LR
     E --> F["Record evidence and the next action"]
 ```
 
-[Orchestrator instructions](../optional-skills/atelier-orchestrator/SKILL.md) · [Agent Foundry](../kit/skills/agent-foundry/SKILL.md) · [Role sources](../agent-profiles/manifest.json)
+[Orchestrator instructions](../optional-skills/atelier-orchestrator/SKILL.md) · [Agent Foundry](../kit/skills/agent-foundry/SKILL.md) · [Role sources](../agent-profiles/manifest.json) · [Team deliberation](../optional-skills/atelier-orchestrator/references/team-deliberation.md)
 
 ## Project context and handoffs
+
+Use the [project ticket tree](technical/TICKET_TREE.md) to inspect selected work,
+prerequisites and declared acceptance evidence. For changed requirements, use the
+[plan change review](technical/TICKET_CHANGE_REVIEW.md) to bind refinements to exact sources and
+report affected work and proof. Use [Codex workflow comparisons](technical/CODEX_COMPARISONS.md)
+to compare independently reviewed runs on a pinned task.
+
+For work that spans sessions, bind each Builder to its own Git worktree
+and preserve the worker's active reservation. Confirm interruption and
+reconcile effects before authorizing continuation. Reconcile an existing
+GitHub tracker through the project's explicit issue map. Apply independent
+QA to the integrated result using checks linked to the current criteria
+and candidate. [Worktree recovery](technical/TICKET_WORKTREES.md) ·
+[GitHub Issues](technical/TICKET_GITHUB.md) · [Candidate evidence](technical/TICKET_QUALITY_GATE.md)
 
 Open the project’s authoritative requirements, identity, decisions, and checkpoint by ID or exact path. Use a capsule to carry a focused projection across a task, session, agent, or environment. Identify the original goal, applicable requirements and musts, source and revision hashes, accepted decisions and supersession, deferred work, allowed effects, output, recovery and next action. Record the gaps alongside the loaded references. A changed dependency invalidates the proof it affects.
 

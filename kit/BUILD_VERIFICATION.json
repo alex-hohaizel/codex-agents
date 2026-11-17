@@ -9,16 +9,16 @@
       "size": 1096
     },
     "manifest.json": {
-      "sha256": "ec54048e487bcb669171821dbc213c994dac2dd383dba43ae20c3fa318e8ac5d",
-      "size": 4569873
+      "sha256": "1a9cf211db332220d91cbee5f8633f4aa878e7a20f06ced581fff38a8415b6f9",
+      "size": 5268464
     },
     "portable/check_generated_inheritance.py": {
       "sha256": "4ad3b0e8c8b2c98c05816326ce02530ab02c5323e6dd83aabd0ab4a7e668aa73",
       "size": 10094
     },
     "portable/install_agent.py": {
-      "sha256": "9697416572e6e3ca111d49e429391b3cb8fae3ed5c3f1f06e67d1efec5854f83",
-      "size": 59469
+      "sha256": "dff63b8f4425a17ac842bfcb8e39daaf4c2e40dcf1bccf901db53c90ceda9501",
+      "size": 59636
     },
     "portable/update_skill_suite.py": {
       "sha256": "b9dacee5a231121ab90027ca415918e63f97bac63a8b5b1912f34a65a2f4c92b",
@@ -29,8 +29,8 @@
       "size": 10573
     },
     "skills/agent-foundry/SKILL.md": {
-      "sha256": "8352e6868c637f1d0773e6bbb1938f26723ced8b137ac1104c9236dcbc9dfd84",
-      "size": 15860
+      "sha256": "b7b29d7ba9cdda078077dfed3a65c572ddd0ea0bc29fc1b7dac98cb6d570da6f",
+      "size": 16544
     },
     "skills/agent-foundry/agents/openai.yaml": {
       "sha256": "8ccde7b466fb5220cfcc82876f15d2db98b1c4f72f0122550e5f17bbfb4bd014",
@@ -284,9 +284,13 @@
       "sha256": "e8e2aecf538e59cedae3d2ad36b10d5262bfb2aa0e936dcde8cd3cd1e5057073",
       "size": 79060
     },
+    "skills/agent-foundry/scripts/import_codex.py": {
+      "sha256": "22bb04586f5958530ef33b99e7cd934db2b125a8a29beef53919c66c8a5b0659",
+      "size": 22413
+    },
     "skills/agent-foundry/scripts/install_agent.py": {
-      "sha256": "9697416572e6e3ca111d49e429391b3cb8fae3ed5c3f1f06e67d1efec5854f83",
-      "size": 59469
+      "sha256": "dff63b8f4425a17ac842bfcb8e39daaf4c2e40dcf1bccf901db53c90ceda9501",
+      "size": 59636
     },
     "skills/agent-foundry/scripts/interaction.py": {
       "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
@@ -319,6 +323,10 @@
     "skills/agent-foundry/scripts/tests/test_foundry_depth.py": {
       "sha256": "2cbb91cf962cd84e49bc6b142eb65d1cb8732c48c9c64af41036b8006b54f1dd",
       "size": 13956
+    },
+    "skills/agent-foundry/scripts/tests/test_import_codex.py": {
+      "sha256": "e77e0cd8f30aa3f4cb7c86500af57a63b99c0b70331ba0a858ed151328776eda",
+      "size": 12924
     },
     "skills/agent-foundry/scripts/tests/test_install_agent.py": {
       "sha256": "1bd62ca2fb5223afc10d0413eb04f40153d82a7054a75635fe4c953e7df5cbe1",
@@ -353,7 +361,7 @@
       "size": 8646
     },
     "skills/app-atelier-build/SKILL.md": {
-      "sha256": "1735e175587df7764947d6442d7a2710a67c06c8e8a4948771f867cafa16004f",
+      "sha256": "67d77fff112604818857075b684a719eb4053eaff214a5aa40deb01bfbe76716",
       "size": 8848
     },
     "skills/app-atelier-build/agents/openai.yaml": {
@@ -593,7 +601,7 @@
       "size": 8646
     },
     "skills/app-atelier-concepts/SKILL.md": {
-      "sha256": "3bc08fd4dd2b5ef90215309da7ac8a3c91149b32f04f264426af1c04d74c140d",
+      "sha256": "3099c266d3075e986cc4e40f78654c0a424419aff24a3b45dc17dc6434a6ee12",
       "size": 7845
     },
     "skills/app-atelier-concepts/agents/openai.yaml": {
@@ -833,7 +841,7 @@
       "size": 8646
     },
     "skills/app-atelier-director/SKILL.md": {
-      "sha256": "e96a382def54e1e5dd4066c4bcd76b67c884d6d5ac56ed6d6509b7ad7ef8b3bd",
+      "sha256": "ce381d6bad9b42e99cc0875333d52c2f77b4d62a6b12c4748cdcd8e55f389113",
       "size": 8588
     },
     "skills/app-atelier-director/agents/openai.yaml": {
@@ -1085,7 +1093,7 @@
       "size": 8646
     },
     "skills/app-atelier-experience/SKILL.md": {
-      "sha256": "45efd28ea1d0d41630c21e56805c03d422acdb5571a61294d43b38658bb11049",
+      "sha256": "fb95e9833df023b8a3a697522dfe487f3616bf2c83efb793f769e488bab2a739",
       "size": 8383
     },
     "skills/app-atelier-experience/agents/openai.yaml": {
@@ -1325,7 +1333,7 @@
       "size": 8646
     },
     "skills/app-atelier-growth/SKILL.md": {
-      "sha256": "3cb16be9eea8f845c17b7e6e09fa16b2dc1ac7498cc10eb3cee1dbb457e4acad",
+      "sha256": "e5a093c65bc2997f89df00a1a12be684e1147a831326372f7219a7716a0ca239",
       "size": 8194
     },
     "skills/app-atelier-growth/agents/openai.yaml": {
@@ -1565,7 +1573,7 @@
       "size": 8646
     },
     "skills/app-atelier-operations/SKILL.md": {
-      "sha256": "ab5c557ee963ac0bd8f0187f74a06702872bb4e7d3c5288d40a46868e3e13a32",
+      "sha256": "4209bd6cf021f2591d216de71646e1cb2ebd584fbb83768421c255b8a0255728",
       "size": 7874
     },
     "skills/app-atelier-operations/agents/openai.yaml": {
@@ -1805,7 +1813,7 @@
       "size": 8646
     },
     "skills/app-atelier-qa/SKILL.md": {
-      "sha256": "a8c1fd5fd1e732330240aaf07ea17cc8f830461a8921945f5ac805cbd85b1376",
+      "sha256": "e3d36227f081ebc930f74bdb32d3c7f12e416eb0cfbf32c5cb14efaa4ff8634a",
       "size": 10889
     },
     "skills/app-atelier-qa/agents/openai.yaml": {
@@ -2045,7 +2053,7 @@
       "size": 8646
     },
     "skills/app-atelier-release/SKILL.md": {
-      "sha256": "5d17629f3c81e734536a2b520960b9757ffb7df9d10d19f675570d7f6197f9ae",
+      "sha256": "a8f5016bbc894de4d3bbe659b7265661c9afe0a0a711ae500099eae92653e524",
       "size": 7853
     },
     "skills/app-atelier-release/agents/openai.yaml": {
@@ -2285,7 +2293,7 @@
       "size": 8646
     },
     "skills/app-atelier-research/SKILL.md": {
-      "sha256": "0fb2ed1891d3a2e26916278f60040a70a7d9bf3bba251cf539e8cdc6fa9cd5eb",
+      "sha256": "76c04950cba5cc8776fc8feabd15c052e4845b6fd26656f1ec0a40b029bc61e0",
       "size": 7951
     },
     "skills/app-atelier-research/agents/openai.yaml": {
@@ -2525,7 +2533,7 @@
       "size": 8646
     },
     "skills/app-atelier-specification/SKILL.md": {
-      "sha256": "b3a5013b62ae0ae8398aaf23324039e2be035e6dda0391d1dfc85fac3ce29d86",
+      "sha256": "21b2934681e03700091adbf32186c3f3204bb198a1b7791e44f6b23a90ccd4b7",
       "size": 9081
     },
     "skills/app-atelier-specification/agents/openai.yaml": {
@@ -2765,7 +2773,7 @@
       "size": 8646
     },
     "skills/app-atelier-support/SKILL.md": {
-      "sha256": "ca0854612e523bb4ccd256b8b4508b93fcba47c4472deff4eed79a854cce811c",
+      "sha256": "abe97331c69cca8579521e26415d9c74058d2b129ac3ba770328be6c6c818dae",
       "size": 9382
     },
     "skills/app-atelier-support/agents/openai.yaml": {
@@ -3005,7 +3013,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-build/SKILL.md": {
-      "sha256": "2314ea156c3591f2fb7a69470d2a384b32eeab80b9f431d7bc96dc70e9367cdd",
+      "sha256": "9236ee0329d9e602d2b1bec5c1849b2a47a90148b7bd201b86d4a2f5c5987ea8",
       "size": 9077
     },
     "skills/chatbot-atelier-build/agents/openai.yaml": {
@@ -3357,7 +3365,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-conversation/SKILL.md": {
-      "sha256": "48e4726394c46f7c7b316dead13ffdeb39f3acb9092b535ad63146ab11b09758",
+      "sha256": "cf31fc15b414ff68dfd6ba320231f007035987a331a989e8b3f88dedafb54046",
       "size": 9188
     },
     "skills/chatbot-atelier-conversation/agents/openai.yaml": {
@@ -3709,7 +3717,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-director/SKILL.md": {
-      "sha256": "0f223fcf0d55d1a4d124841ac5457694fe3716e819c466cdf452dd71c8f0f67b",
+      "sha256": "5c7321326b321435415d531a5f2ece5bd8d9e9298ee5a8464149052381c66544",
       "size": 9108
     },
     "skills/chatbot-atelier-director/agents/openai.yaml": {
@@ -4065,7 +4073,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-integrations/SKILL.md": {
-      "sha256": "e636f420c55cb0c0eb81b3c91531fe9741c12d01431ea59abda5fdb1ab3886c4",
+      "sha256": "4d63e79db65335542bd8c50449fe59ef28bbba7dcfa7b6f9e6c0dae2d6feec43",
       "size": 9604
     },
     "skills/chatbot-atelier-integrations/agents/openai.yaml": {
@@ -4417,7 +4425,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-knowledge/SKILL.md": {
-      "sha256": "9450475ce13af5ede65085b5d8283c96895daffbb4a917e7d23c16de695c9310",
+      "sha256": "1f7ab445ee3f2991a7e4585e4d4cd6230e0bbb77bec3fb7069ee72627e3ec48d",
       "size": 9451
     },
     "skills/chatbot-atelier-knowledge/agents/openai.yaml": {
@@ -4769,7 +4777,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-media/SKILL.md": {
-      "sha256": "42c53d8b2bf881cd7d5444c1b7560689f6e26ec924bd27b7f3a72ee6c58936cf",
+      "sha256": "a35196134ade10c9411b9b7a910622dee30997c0176151fee5a59ad489ebec1f",
       "size": 9205
     },
     "skills/chatbot-atelier-media/agents/openai.yaml": {
@@ -5121,7 +5129,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-operations/SKILL.md": {
-      "sha256": "23bd3681518df04c330c75bdba9b418aab665117d06ef1b2beb33445791277aa",
+      "sha256": "0234cb92324942305c19aa2b3bbe764cd9822c3cdee5d2bc5393c4dc673411ae",
       "size": 9413
     },
     "skills/chatbot-atelier-operations/agents/openai.yaml": {
@@ -5473,7 +5481,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-qa/SKILL.md": {
-      "sha256": "b283ddff6764c0a004507e345d8ab9b832a99b5ace4543d2488c5180eed06a9a",
+      "sha256": "58afcc7d86bb0487fae1eac0a47cdf11ab810ade6111f0de377bbe35c31e8a70",
       "size": 9716
     },
     "skills/chatbot-atelier-qa/agents/openai.yaml": {
@@ -5825,7 +5833,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-release/SKILL.md": {
-      "sha256": "faca7bcf4681799c3dea31555599739378c08ae9c3587c17f0aec993073a5fc2",
+      "sha256": "8b941cf4e1a2f0e9d2f6fc7b8d3413c90b6949a313b49def981d213b9ea705dd",
       "size": 9058
     },
     "skills/chatbot-atelier-release/agents/openai.yaml": {
@@ -6177,7 +6185,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-research/SKILL.md": {
-      "sha256": "e767851785d07f397f9f2582f3810fe3b843fd36ceec5aa8df1e91a3f942d944",
+      "sha256": "d97e8ad7260a420d0fdd3514c291aea170fcf65accd02a9481cfa588e55e870a",
       "size": 8956
     },
     "skills/chatbot-atelier-research/agents/openai.yaml": {
@@ -6529,7 +6537,7 @@
       "size": 8646
     },
     "skills/chatbot-atelier-specification/SKILL.md": {
-      "sha256": "2f97fd0c0a726825cbd481a9feaf29162f2628c29ce6e01db0e58e2c0e9661e7",
+      "sha256": "1061b63e64e220169ad0c418c37a7d71906cdc314a1eea01e992d9c0748dbd51",
       "size": 9434
     },
     "skills/chatbot-atelier-specification/agents/openai.yaml": {
@@ -6885,7 +6893,7 @@
       "size": 19
     },
     "skills/design-specialist-skills/SKILL.md": {
-      "sha256": "002caad7321a84d7c59eded7fca090db869a389893223063fa2a835754bb03cb",
+      "sha256": "9a0674ab8846a116c796dd4ae3f9dddb19a666b71f1f497b0622f4242710aa4f",
       "size": 9185
     },
     "skills/design-specialist-skills/agents/openai.yaml": {
@@ -7141,7 +7149,7 @@
       "size": 8646
     },
     "skills/gamedev-assets/SKILL.md": {
-      "sha256": "beda5bd80f33942f78ac9b7593c40c4886db4161f725a69e705a27686786b7ec",
+      "sha256": "a03972bd4dafe2da01e0c765b89d5b5eec97716202ba8f25810e5be4103deea5",
       "size": 9842
     },
     "skills/gamedev-assets/agents/openai.yaml": {
@@ -7801,7 +7809,7 @@
       "size": 23525
     },
     "skills/gamedev-build/SKILL.md": {
-      "sha256": "bebbf48de99caef6acfee0810edc2c0e998e570c59136dfe0c5359d04e43af94",
+      "sha256": "b55bbd754203ecd3aa01f54f274fc1bdbb5293730158d4e5faaea312d4f877e4",
       "size": 10346
     },
     "skills/gamedev-build/agents/openai.yaml": {
@@ -8433,7 +8441,7 @@
       "size": 23525
     },
     "skills/gamedev-concepts/SKILL.md": {
-      "sha256": "255a9e620ee9ed84fdfa405e399925df11e4730f4c769762c66db22963c5d5b2",
+      "sha256": "702866f85574252ae6b61272f56b92aac950278f617bd4db02d93412dc7bd6e2",
       "size": 11295
     },
     "skills/gamedev-concepts/agents/openai.yaml": {
@@ -9057,7 +9065,7 @@
       "size": 23525
     },
     "skills/gamedev-director/SKILL.md": {
-      "sha256": "c76c517bcd33aee39d36646c327accec80e316d025e20ccddda7f338e1026c09",
+      "sha256": "1ce41588e1b8a5ed78677c9190c8d3810f8c9e5b672f8b0800d89a89fbc8e61f",
       "size": 9854
     },
     "skills/gamedev-director/agents/openai.yaml": {
@@ -9641,7 +9649,7 @@
       "size": 23525
     },
     "skills/gamedev-liveops/SKILL.md": {
-      "sha256": "ad7f98e32ab5aa744919664bee5d0034d0fedab26974ec0b5a986ec7f111faad",
+      "sha256": "c007ffdc0575202e3ab719aa71941c6c6ea0975531175feca9704b24d6a5a67c",
       "size": 9198
     },
     "skills/gamedev-liveops/agents/openai.yaml": {
@@ -10241,7 +10249,7 @@
       "size": 23525
     },
     "skills/gamedev-preproduction/SKILL.md": {
-      "sha256": "5b75450aebbe31bb68d3163ed3c5eafe058a5d18b2e85b91aedec69ec0c2a4fe",
+      "sha256": "bc69197ed7603a0b11c105d431ad40db6a99c20057643d82235d3941615990c2",
       "size": 10635
     },
     "skills/gamedev-preproduction/agents/openai.yaml": {
@@ -10937,7 +10945,7 @@
       "size": 23525
     },
     "skills/gamedev-qa/SKILL.md": {
-      "sha256": "8391b99d62f3e36a7704a9067d17c1404370453d6ebe5736ac14a29ef42f12d4",
+      "sha256": "ca2489755602b0822e60c4ba8f5bc75948b59f7827a0b8e2ce0052623ce18c2e",
       "size": 10049
     },
     "skills/gamedev-qa/agents/openai.yaml": {
@@ -11565,7 +11573,7 @@
       "size": 23525
     },
     "skills/gamedev-release/SKILL.md": {
-      "sha256": "aa6ad3b4bda20dd03555369c33690a155c2f955eb17875b0684d4d8e413be6d4",
+      "sha256": "43cedeb1a51b4801930157eed617a4a069520586fd999c5dd9c029a335435d99",
       "size": 9578
     },
     "skills/gamedev-release/agents/openai.yaml": {
@@ -12169,7 +12177,7 @@
       "size": 23525
     },
     "skills/gamedev-studio/SKILL.md": {
-      "sha256": "18dac400b19c403cf0412ad4ab0fdbe309d164da43b0abd35b2f5b2e68d066ce",
+      "sha256": "e7b1a608f843c2849459681ffa0c2ef0b612a8bffac506137b2492948de4258e",
       "size": 8980
     },
     "skills/gamedev-studio/agents/openai.yaml": {
@@ -12782,8 +12790,8 @@
     }
   },
   "hardware_bound": false,
-  "manifest_sha256": "ec54048e487bcb669171821dbc213c994dac2dd383dba43ae20c3fa318e8ac5d",
-  "release": "6.2.1",
+  "manifest_sha256": "1a9cf211db332220d91cbee5f8633f4aa878e7a20f06ced581fff38a8415b6f9",
+  "release": "6.3.0",
   "schema": "agent-release-integrity/1",
   "scope": "curated-reusable-core-33-skills"
 }

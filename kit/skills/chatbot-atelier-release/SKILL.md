@@ -2,7 +2,7 @@
 name: chatbot-atelier-release
 description: "Prepare and execute an authorized chatbot rollout, migration, or rollback. Use operations for ongoing incidents and monitoring."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # ChatBot Atelier · Release

@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import tempfile
 
 START, END = '<!-- agent-system-quality:start -->', '<!-- agent-system-quality:end -->'
@@ -18,6 +19,15 @@ PREVIOUS_PROFILE_TEMPLATES = (
     ('host-profiles/codex/history/6.1.0-AGENTS.md',
      '244b911f65c49f6302e90155d4ce1ca717dba814a89945d2bcd78e7972f5d589'),
 )
+# A managed role has a byte-pinned flat header and a literal triple-quoted body.
+# Only these bounded selector lines may differ outside that body.
+ROLE_PROMPT_OPEN = re.compile(r'^developer_instructions = """\r?\n$')
+ROLE_PROMPT_CLOSE = re.compile(r'^"""(?:\r?\n)?$')
+ROLE_SELECTOR = re.compile(
+    r"[ \t]*(model|model_reasoning_effort)[ \t]*=[ \t]*(['\"])([A-Za-z0-9][A-Za-z0-9_.:/-]{0,127})\2"
+    r"[ \t]*(?:#[^\x00-\x08\x0a-\x1f\x7f]*)?(?:\r?\n)?"
+)
+ROLE_EFFORTS = {'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'}
 
 
 def require(value, message):
@@ -109,6 +119,34 @@ def prior_profiles(repo, standard_root):
     return blocks, sources
 
 
+def role_without_tuning(text):
+    """Return exact non-selector bytes for the supported flat role format."""
+    if text is None:
+        return None
+    output, selectors = [], set()
+    began_prompt = in_prompt = False
+    for line in text.splitlines(keepends=True):
+        if in_prompt:
+            in_prompt = ROLE_PROMPT_CLOSE.fullmatch(line) is None
+        elif ROLE_PROMPT_OPEN.fullmatch(line):
+            if began_prompt:
+                return None
+            began_prompt = in_prompt = True
+        elif (match := ROLE_SELECTOR.fullmatch(line)) is not None:
+            key, value = match[1], match[3]
+            if key in selectors or (key == 'model_reasoning_effort' and value not in ROLE_EFFORTS):
+                return None
+            selectors.add(key)
+            continue
+        output.append(line)
+    return ''.join(output) if began_prompt and not in_prompt else None
+
+
+def preserves_role_tuning(current, canonical):
+    managed = role_without_tuning(canonical)
+    return managed is not None and role_without_tuning(current) == managed
+
+
 def audit(repo, codex_root, standard_root):
     safe(repo); safe(codex_root); safe(standard_root)
     source = repo / 'host-profiles/codex/AGENTS.md'
@@ -129,12 +167,15 @@ def audit(repo, codex_root, standard_root):
         require(Path(name).name == name and name.startswith('foundry-') and name.endswith('.toml'),
                 'unsafe role file')
         source, target = repo / 'agent-profiles' / name, codex_root / 'agents' / name
-        desired, prior = read(source), read(target)
-        require(sha(desired) == role['sha256'], 'role source drift')
-        require(prior is None or sha(prior) in [role['sha256'], *role['previous_sha256']],
+        canonical, prior = read(source), read(target)
+        require(sha(canonical) == role['sha256'], 'role source drift')
+        before_sha256 = sha(prior)
+        preserve = prior is not None and preserves_role_tuning(prior, canonical)
+        require(prior is None or preserve or before_sha256 in [role['sha256'], *role['previous_sha256']],
                 'unknown customized role; reconcile without overwrite: ' + name)
-        rows.append({'target': str(target), 'before_sha256': sha(prior), 'desired': desired,
-                     'after_sha256': sha(desired), 'source': str(source), 'source_sha256': sha(desired)})
+        desired = prior if preserve else canonical
+        rows.append({'target': str(target), 'before_sha256': before_sha256, 'desired': desired,
+                     'after_sha256': sha(desired), 'source': str(source), 'source_sha256': role['sha256']})
     return {'schema': 'atelier.host-profile-plan/1', 'codex_root': str(codex_root),
             'standard_root': str(standard_root), 'changes': rows, 'installation_performed': False}
 

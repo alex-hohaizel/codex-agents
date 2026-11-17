@@ -2,7 +2,7 @@
 name: chatbot-atelier-media
 description: "Create or repair chatbot media, including images, stickers, motion, voice, music, and delivery. Use conversation for text dialogue alone."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # ChatBot Atelier · Media

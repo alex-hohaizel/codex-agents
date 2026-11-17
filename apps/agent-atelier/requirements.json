@@ -142,5 +142,5 @@
     "local_catalog_evidence": "../../governance/VALIDATION.md",
     "baseline_acceptance_evidence": "../../governance/VALIDATION.md"
   },
-  "version": "0.6.0"
+  "version": "0.7.0"
 }

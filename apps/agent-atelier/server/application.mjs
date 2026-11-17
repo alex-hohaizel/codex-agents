@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import { readFile, mkdir } from "node:fs/promises";
 import { mkdirSync, realpathSync } from "node:fs";
-import { join, resolve, relative } from "node:path";
+import { isAbsolute, join, resolve, relative } from "node:path";
 import { randomUUID } from "node:crypto";
 import { Store } from "./store.mjs";
 import { ProjectAdapter } from "./projects.mjs";
@@ -22,6 +22,7 @@ import {
   LOCALES,
   OPERATIONS,
   SERVICE_VERSION,
+  TERMINAL_JOB_STATES,
 } from "../shared/contracts.mjs";
 import {
   atomicWrite,
@@ -119,6 +120,7 @@ export class Application extends EventEmitter {
       )
         this.store.put("job", job.id, {
           ...job,
+          ...this.#unconfirmedInterruption(job),
           status: "outcome_unknown",
           unknown_reason:
             "Service restarted before a terminal receipt; reconcile the actual thread/turn before retrying",
@@ -166,6 +168,9 @@ export class Application extends EventEmitter {
     if (!job) return;
     const value = this.store.put("job", jobId, {
       ...job,
+      ...(delta.status === "outcome_unknown"
+        ? this.#unconfirmedInterruption(job)
+        : {}),
       ...redact(delta),
     });
     this.event("job.changed", { job: value });
@@ -478,14 +483,23 @@ export class Application extends EventEmitter {
         return this.continueTask(projectId, payload, command.expected_revision);
       case "task.pause": {
         const task = this.task(payload.task_id, projectId);
+        const job = this.activeJobs().find((x) => x.task_id === task.id);
+        const requested = job && this.#pendingInterruption(job);
         this.store.put("task", task.id, {
           ...task,
           status: "paused",
         });
-        const job = this.activeJobs().find((x) => x.task_id === task.id);
-        if (job?.turn_id && job.status !== "outcome_unknown") {
-          this.updateJob(job.id, { status: "pause_pending" });
-          if (!["queued", "dispatching"].includes(job.status))
+        if (job) {
+          const canInterrupt = job.turn_id && job.status !== "outcome_unknown";
+          const defer = ["queued", "dispatching"].includes(job.status);
+          this.updateJob(job.id, {
+            interruption_intent: "pause",
+            ...(canInterrupt ? { status: "pause_pending" } : {}),
+            ...(canInterrupt && defer && !requested
+              ? { interrupt_on_start: this.instanceId }
+              : {}),
+          });
+          if (canInterrupt && !defer && !requested)
             await this.codex.interrupt(job.thread_id, job.turn_id);
         }
         return {
@@ -514,9 +528,13 @@ export class Application extends EventEmitter {
           "Only an active owned turn can be interrupted",
           409,
         );
-        this.updateJob(job.id, { status: "cancel_requested" });
-        if (job.status !== "queued" && job.status !== "dispatching")
-          await this.codex.interrupt(job.thread_id, job.turn_id);
+        const defer = ["queued", "dispatching"].includes(job.status);
+        this.updateJob(job.id, {
+          status: "cancel_requested",
+          interruption_intent: "cancel",
+          ...(defer ? { interrupt_on_start: this.instanceId } : {}),
+        });
+        if (!defer) await this.codex.interrupt(job.thread_id, job.turn_id);
         return { job: this.store.get("job", job.id) };
       }
       case "job.reconcile":
@@ -695,18 +713,25 @@ export class Application extends EventEmitter {
     );
     return job;
   }
-  async checkedThread(projectId, threadId) {
+  async boundThread(projectId, threadId) {
     const project = this.projects.get(projectId);
     const result = await this.codex.readThread(
       text(threadId, "thread_id", 1, 240),
     );
-    const thread = result.thread;
+    const thread = result?.thread;
     fail(
-      thread?.id === threadId && resolve(thread.cwd ?? "") === project.root,
+      thread?.id === threadId &&
+        typeof thread.cwd === "string" &&
+        isAbsolute(thread.cwd) &&
+        resolve(thread.cwd) === project.root,
       "SCOPE_MISMATCH",
       "Thread identity/cwd does not match the explicitly bound project",
       409,
     );
+    return { thread, project };
+  }
+  async checkedThread(projectId, threadId) {
+    const { thread, project } = await this.boundThread(projectId, threadId);
     let execution_context_available = null;
     if (thread.historyMode === "paginated") {
       // The global read-only reader may see history that this isolated
@@ -1211,7 +1236,11 @@ export class Application extends EventEmitter {
         ) {
           this.updateJob(job.id, {
             status: "cancel_requested",
+            interruption_intent: "cancel",
             deadline_reached: true,
+            ...(["queued", "dispatching"].includes(latest.status)
+              ? { interrupt_on_start: this.instanceId }
+              : {}),
           });
           if (latest.status !== "queued" && latest.status !== "dispatching")
             this.codex.interrupt(latest.thread_id, latest.turn_id).catch(() =>
@@ -1268,6 +1297,27 @@ export class Application extends EventEmitter {
     return this.dispatch(projectId, payload, expected, {
       resumeThreadId: last.thread_id ?? undefined,
     });
+  }
+  #unconfirmedInterruption(job) {
+    // Carry forward a known legacy request before replacing the observed phase.
+    const fields = { interrupt_on_start: null };
+    if (!job.interruption_intent && job.status === "pause_pending")
+      fields.interruption_intent = "pause";
+    else if (!job.interruption_intent && job.status === "cancel_requested")
+      fields.interruption_intent = "cancel";
+    return fields;
+  }
+  #pendingInterruption(job) {
+    if (job.interruption_intent === "pause") return "pause_pending";
+    if (job.interruption_intent === "cancel") return "cancel_requested";
+    if (job.status === "pause_pending") return "pause_pending";
+    if (job.status === "cancel_requested" || job.deadline_reached)
+      return "cancel_requested";
+    if (!job.task_id) return null;
+    const task = this.store.get("task", job.task_id);
+    return task?.project_id === job.project_id && task.status === "paused"
+      ? "pause_pending"
+      : null;
   }
   #notification(event) {
     const params = event.params ?? {};
@@ -1331,20 +1381,40 @@ export class Application extends EventEmitter {
     if (event.method === "turn/started") {
       delta.host_dispatch_started = true;
       delta.turn_id = params.turn?.id;
-      delta.status = ["cancel_requested", "pause_pending"].includes(job.status)
-        ? job.status
-        : "running";
-      if (["cancel_requested", "pause_pending"].includes(job.status))
-        queueMicrotask(() =>
-          this.codex.interrupt(job.thread_id, params.turn?.id).catch((error) =>
-            this.updateJob(job.id, {
-              status: "outcome_unknown",
-              unknown_reason:
-                "Requested startup cancellation could not be confirmed",
-              error: publicError(error),
-            }),
-          ),
-        );
+      delta.status = this.#pendingInterruption(job) ?? "running";
+      if (
+        job.status !== "outcome_unknown" &&
+        job.interrupt_on_start === this.instanceId
+      ) {
+        delta.interrupt_on_start = null;
+        queueMicrotask(async () => {
+          if (this.closing) return;
+          const current = this.store.get("job", job.id);
+          if (
+            current?.thread_id !== threadId ||
+            current.turn_id !== eventTurnId ||
+            !["pause_pending", "cancel_requested"].includes(current.status)
+          )
+            return;
+          try {
+            await this.codex.interrupt(threadId, eventTurnId);
+          } catch (error) {
+            if (this.closing) return;
+            const latest = this.store.get("job", job.id);
+            if (
+              latest?.thread_id === threadId &&
+              latest.turn_id === eventTurnId &&
+              ["pause_pending", "cancel_requested"].includes(latest.status)
+            )
+              this.updateJob(job.id, {
+                status: "outcome_unknown",
+                unknown_reason:
+                  "Requested startup cancellation could not be confirmed",
+                error: publicError(error),
+              });
+          }
+        });
+      }
     }
     if (event.method === "item/agentMessage/delta") {
       const output = (job.output_text ?? "") + (params.delta ?? "");
@@ -1375,7 +1445,7 @@ export class Application extends EventEmitter {
         status === "completed"
           ? "completed"
           : status === "interrupted"
-            ? job.status === "pause_pending"
+            ? this.#pendingInterruption(job) === "pause_pending"
               ? "paused"
               : "cancelled"
             : "failed";
@@ -1470,39 +1540,75 @@ export class Application extends EventEmitter {
     };
   }
   async reconcile(job) {
+    if (TERMINAL_JOB_STATES.includes(job.status) || job.status === "paused")
+      return { job };
     fail(
       job.thread_id,
       "HOST_NOT_FOUND",
       "No host thread identity was recorded",
       409,
     );
-    await this.codex.resume(
-      job.thread_id,
-      this.projects.get(job.project_id).root,
+    let hostState = "not_returned";
+    let turnStatus = "not_returned";
+    if (job.turn_id) {
+      try {
+        const { thread } = await this.boundThread(
+          job.project_id,
+          job.thread_id,
+        );
+        hostState = thread.status?.type ?? thread.status ?? "not_returned";
+        const turn = this.codex.readTurn
+          ? await this.codex.readTurn(job.thread_id, job.turn_id)
+          : thread.turns?.find((x) => x.id === job.turn_id);
+        if (turn?.id === job.turn_id)
+          turnStatus = turn.status ?? "not_returned";
+      } catch (error) {
+        if (!(error instanceof ServiceError) || error.code === "SCOPE_MISMATCH")
+          throw error;
+        turnStatus = "history_unconfirmed";
+      }
+    }
+    const current = this.job(job.id, job.project_id);
+    fail(
+      current.thread_id === job.thread_id && current.turn_id === job.turn_id,
+      "SOURCE_DRIFT",
+      "The job's thread/turn changed while reading native history",
+      409,
     );
-    const result = await this.codex.readThread(job.thread_id);
-    const thread = result.thread;
-    const hostState = thread?.status?.type ?? thread?.status;
-    const turns = thread?.turns ?? [];
-    const turn = this.codex.readTurn
-      ? await this.codex.readTurn(job.thread_id, job.turn_id)
-      : (turns.find((x) => x.id === job.turn_id) ?? null);
+    // A live event may have settled this job while the history request was in flight.
+    if (
+      TERMINAL_JOB_STATES.includes(current.status) ||
+      current.status === "paused"
+    )
+      return { job: current };
     let status = "outcome_unknown";
-    if (turn?.status === "completed") status = "completed";
-    else if (turn?.status === "interrupted") status = "cancelled";
-    else if (turn?.status === "failed") status = "failed";
-    else if (hostState === "active") status = "running";
+    const pendingInterruption = this.#pendingInterruption(current);
+    if (turnStatus === "completed") status = "completed";
+    else if (turnStatus === "interrupted")
+      status = pendingInterruption === "pause_pending" ? "paused" : "cancelled";
+    else if (turnStatus === "failed") status = "failed";
+    else if (turnStatus === "inProgress" && hostState === "active")
+      status = pendingInterruption ?? "running";
+    const terminal =
+      TERMINAL_JOB_STATES.includes(status) || status === "paused";
+    if (terminal) {
+      clearTimeout(this.timers.get(job.id));
+      this.timers.delete(job.id);
+    }
     return {
       job: this.updateJob(job.id, {
         status,
         reconciled_at: now(),
         host_observation: {
           status: hostState,
-          turn_status: turn?.status ?? "not_returned",
+          turn_status: turnStatus,
         },
+        ...(terminal ? { host_status: turnStatus, pending_requests: [] } : {}),
         unknown_reason:
           status === "outcome_unknown"
-            ? "No authoritative terminal turn observation returned; do not replay"
+            ? job.turn_id
+              ? "No authoritative exact turn outcome returned; do not replay"
+              : "No exact native turn identity was recorded; do not replay"
             : null,
       }),
     };
@@ -1833,6 +1939,7 @@ export class Application extends EventEmitter {
           if (kind === "job" && ACTIVE_JOB_STATES.includes(record.status))
             return {
               ...record,
+              ...this.#unconfirmedInterruption(record),
               status: "outcome_unknown",
               unknown_reason:
                 "Restored job requires authoritative reconciliation",

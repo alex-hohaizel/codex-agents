@@ -54,7 +54,8 @@ setup_dir="$(mktemp -d)"
     > admission.json
   admitted_kit="$(python3 -c 'import json; print(json.load(open("admission.json"))["kit"])')"
   python3 -B source/kit/portable/update_skill_suite.py audit \
-    --kit "$admitted_kit" --plan "$setup_dir/review-pending-core.json"
+    --kit "$admitted_kit" --plan "$setup_dir/review-pending-core.json" \
+    --backup-root "$setup_dir/core-recovery"
   python3 - admission.json review-pending-core.json "$setup_mode" <<'PY'
 import json, sys
 with open(sys.argv[1], encoding="utf-8") as f:
@@ -92,9 +93,18 @@ Read the audit output before running this block. Check that the plan lists the e
 )
 ```
 
+If apply is interrupted before it prints `core-apply.json`, open the
+`core-recovery` directory chosen during audit and find the journal that
+belongs to the saved `core-plan.json`. Match the journal's embedded plan to
+the saved plan, including the destination and kit. The updater checks this
+binding again. For a matching interrupted operation, use
+`apply --plan "$setup_dir/core-plan.json" --resume "$journal"` and then run
+verification. If the operation cannot be identified from the journal and
+the actual destination, reconcile the installed files before another apply.
+
 ### Profile and roles
 
-The managed profile preserves instructions outside its marked block. The role files install separately. Run the audit first and review its output. If the target differs from your plan, stop and inspect the affected paths.
+The managed profile preserves instructions outside its marked block. The role files install separately. If the installed role instructions and identity match the approved source, the audit preserves valid local model and reasoning selections, including inherited settings. Other unknown changes require reconciliation. Run the audit first and review its output. If the target differs from your plan, stop and inspect the affected paths.
 
 ```bash
 (

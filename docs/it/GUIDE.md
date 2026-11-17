@@ -51,6 +51,18 @@ Codex fornisce runtime, strumenti e autorizzazioni. Il repository contiene `AGEN
 
 Delegate un risultato autonomo o una revisione indipendente. Indicate soggetto, revisione delle fonti, percorsi in ingresso, permessi di scrittura, risultato, limiti, condizioni di arresto e dove restituirlo. Assegnate un solo scrittore allo stato condiviso. Raccogliete il risultato effettivo prima di integrarlo. [Percorsi e subagenti](../OPERATING_MODEL.md#routes-and-subagents)
 
+Se il progetto gestisce il backlog con una proiezione locale dei ticket, prepara, esamina e applica il nuovo piano dopo l’approvazione. Rileggi la ricevuta registrata prima di affidare un ticket pronto a chi lo eseguirà. Verifica di nuovo il passaggio nella sessione Codex che riceve il ticket e conserva il risultato per una revisione indipendente. [Piano approvato e passaggio del lavoro](../technical/TICKET_REPLAN.md)
+
+Per il lavoro in parallelo, assegna worktree Git separati sullo stesso commit. Salva un punto di ripresa quando si interrompe il lavoro, verificalo nella nuova sessione e integra i commit revisionati in un worktree dedicato. [Coordinare i worktree e riprendere](../technical/TICKET_WORKTREES.md)
+
+Confronta le GitHub Issues collegate esplicitamente con la proiezione del progetto. Chiedi a un revisore indipendente di collegare i criteri di accettazione e le verifiche dei rischi alle evidenze del candidato esatto. Se l’esito di un’operazione esterna è incerto, controlla il sistema di destinazione prima di prendere una decisione. [Riconciliare le GitHub Issues](../technical/TICKET_GITHUB.md) · [Verificare le evidenze del candidato](../technical/TICKET_QUALITY_GATE.md)
+
+Per una decisione importante, raccogli posizioni di specialisti diversi sulle stesse evidenze. Chiedi loro di rispondere all’obiezione più rilevante. Il responsabile della decisione sceglie il prossimo passo. [Deliberare in gruppo](../../optional-skills/atelier-orchestrator/references/team-deliberation.md)
+
+Conserva il piano originale dello sprint mentre cambia il backlog. Esamina aggiunte e dipendenze prima di modificare il perimetro. Verifica i requisiti applicabili nel PRD e nell’architettura e fai revisionare la nuova versione. [Pianificare lo sprint](../technical/TICKET_TREE.md#keep-a-sprint-plan-while-the-backlog-changes) · [Revisionare la specifica](../technical/TICKET_PRODUCT_SPEC.md)
+
+Riprendi il brainstorming o la verifica di un’idea in una nuova sessione partendo dal registro salvato. Prepara un brief, un PRFAQ o documenti distinti per design ed esperienza, con fonti e decisioni aperte. Verifica skill e ruoli Codex importati prima di prepararli in un nuovo progetto. Per un issue GitHub associato, esamina una modifica proposta e rileggi l’esito prima di ripeterla. [Workshop](../technical/WORKSHOP.md) · [Facilitazione di prodotto](../technical/PRODUCT_FACILITATION.md) · [Importazione con Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [Modifiche GitHub](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
+
 <a name="context"></a>
 ### Capsule di contesto
 

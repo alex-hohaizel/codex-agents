@@ -41,3 +41,20 @@ python3 -B evaluations/native_canary.py --case p03-consumer \
 ```
 
 The consumer uses the supported preflight, apply and verify commands in a fresh fixture, then opens a read-only Codex turn. Check the native command's JSON output and the captured source read. A successful manifest check, successful preparation or an intermediate review state does not establish a completed canary. Keep raw events, diagnostics, configuration, account details and scratch paths private.
+
+
+## Project replan and Builder delivery
+
+`replan_delivery.py` prepares a disposable Git project containing a runnable
+FieldSlate WSGI app, a historical result and ongoing independent work. The
+`apply` stage checks the proposed plan, exact authorized test decision, write
+and readback, same-operation replay and stale competing decision. The separate
+`builder` and `qa` native stages use fresh Codex sessions. Builder receives
+exact write paths; QA exercises the application through both routes and checks
+the actual returned implementation digest. Use a supported signed-in Codex CLI
+for the native stages. Keep raw session evidence under the selected private
+case directory.
+
+```bash
+python3 -B evaluations/replan_delivery.py --help
+```

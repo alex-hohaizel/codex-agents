@@ -2,7 +2,7 @@
 name: chatbot-atelier-build
 description: "Implement or repair a chatbot runtime from an agreed model. Use integrations for a standalone provider operation and release for rollout."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # ChatBot Atelier · Build

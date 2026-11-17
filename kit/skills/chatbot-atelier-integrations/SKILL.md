@@ -2,7 +2,7 @@
 name: chatbot-atelier-integrations
 description: "Implement chatbot channel adapters, callbacks, scheduled jobs, or external actions. Use build for the whole runtime and release for deployment."
 metadata:
-  version: "6.2.1"
+  version: "6.3.0"
 ---
 
 # ChatBot Atelier · Integrations
