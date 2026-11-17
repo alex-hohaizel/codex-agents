@@ -2,7 +2,7 @@
 name: gamedev-studio
 description: "Create or maintain the studio's identity, accepted artwork, versioned derivatives, lawful usage, and verified account or service readiness for a mobile game."
 metadata:
-  version: "6.3.0"
+  version: "6.4.0"
 ---
 
 # Game Atelier Studio

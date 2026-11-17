@@ -2,7 +2,7 @@
 name: gamedev-build
 description: "Implement or repair the approved native mobile game. Use for gameplay, world and AI, camera/input, media and learning, progression, commerce, save lifecycle, and verifiable Android or iOS builds."
 metadata:
-  version: "6.3.0"
+  version: "6.4.0"
 ---
 
 # Game Atelier Build

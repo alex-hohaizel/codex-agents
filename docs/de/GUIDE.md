@@ -63,6 +63,8 @@ Bewahren Sie den ursprünglichen Sprintplan bei Änderungen am Backlog auf. Prü
 
 Setzen Sie ein Brainstorming oder die Prüfung einer Idee anhand des gespeicherten Protokolls in einer neuen Sitzung fort. Erstellen Sie einen quellengebundenen Brief, ein PRFAQ oder getrennte Dokumente für Design und Nutzungserlebnis mit offenen Entscheidungen. Prüfen Sie importierte Codex-Skills und Rollen vor der Bereitstellung im neuen Projekt. Prüfen Sie für ein zugeordnetes GitHub-Issue eine vorgeschlagene Änderung und lesen Sie das Ergebnis vor einer Wiederholung zurück. [Workshop](../technical/WORKSHOP.md) · [Produktmoderation](../technical/PRODUCT_FACILITATION.md) · [Import mit Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub-Änderungen](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
 
+Erstellen Sie einen interaktiven Browserprototyp aus geprüftem DESIGN und EXPERIENCE oder verknüpfen Sie Entwürfe, Revisionen und Prüfungen im Vorlagenregister mit ihren genauen Quellen. Prüfen Sie BMad-Module und bereiten Sie eine überprüfte Migration in einem neuen Ordner vor. Gleichen Sie für Trackerbäume eine Änderung mit lokalem, vorherigem und externem Zustand ab. [UX-Prototyp](../technical/UX_PROTOTYPE.md) · [Vorlagen](../technical/DOCUMENT_TEMPLATES.md) · [BMad-Migration](../technical/BMAD_MODULE_MIGRATION.md) · [Trackerbaum](../technical/TRACKER_SYNC.md) · [Tracker-Anbieter](../technical/TRACKER_PROVIDERS.md)
+
 <a name="context"></a>
 ### Kontextkapseln
 

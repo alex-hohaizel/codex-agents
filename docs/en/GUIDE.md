@@ -63,6 +63,8 @@ Keep the original sprint plan as the backlog changes. Review proposed additions 
 
 Use an exact workshop record to continue brainstorming or challenge a proposal in a fresh session. Build a source-backed brief, PRFAQ, or separate design and experience documents with unresolved decisions visible. Audit imported Codex skills and roles before staging them in a fresh project. For an explicitly mapped GitHub issue, review one proposed change and read back the result before any repeat. [Workshop](../technical/WORKSHOP.md) · [Product facilitation](../technical/PRODUCT_FACILITATION.md) · [Constructor import](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub writes](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
 
+Build an interactive browser prototype from reviewed DESIGN and EXPERIENCE, or use the template registry to keep drafts, revisions and reviews tied to exact sources. Audit a BMad module and stage a reviewed migration in a fresh directory. For tracker trees, reconcile one effect after checking local, prior and remote state. [UX prototype](../technical/UX_PROTOTYPE.md) · [Templates](../technical/DOCUMENT_TEMPLATES.md) · [BMad migration](../technical/BMAD_MODULE_MIGRATION.md) · [Tracker tree](../technical/TRACKER_SYNC.md) · [Tracker providers](../technical/TRACKER_PROVIDERS.md)
+
 <a name="context"></a>
 ### Context capsules
 

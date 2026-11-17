@@ -2,7 +2,7 @@
 name: gamedev-assets
 description: "Produce or repair the approved editable game art, motion, UI, VFX, sound, and haptics. Use for source-to-engine integration and modality-aware acceptance in the actual gameplay context."
 metadata:
-  version: "6.3.0"
+  version: "6.4.0"
 ---
 
 # Game Atelier Assets

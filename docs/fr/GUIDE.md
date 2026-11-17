@@ -63,6 +63,8 @@ Conservez le plan du sprint d’origine quand le backlog évolue. Examinez les a
 
 Reprenez une séance d’idéation ou la mise à l’épreuve d’une proposition à partir du compte rendu enregistré. Préparez un brief, une PRFAQ ou des documents distincts de design et d’expérience, avec leurs sources et décisions ouvertes. Vérifiez les compétences et rôles Codex importés avant de les préparer dans un nouveau projet. Pour un ticket GitHub associé, examinez une modification proposée et relisez le résultat avant toute répétition. [Atelier](../technical/WORKSHOP.md) · [Facilitation produit](../technical/PRODUCT_FACILITATION.md) · [Import avec Foundry](../technical/CONSTRUCTOR_IMPORT.md) · [Modifications GitHub](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
 
+Créez un prototype interactif dans le navigateur à partir de DESIGN et EXPERIENCE révisés, ou reliez brouillons, versions et revues aux sources exactes avec le registre de modèles. Auditez un module BMad et préparez une migration validée dans un nouveau dossier. Pour l’arborescence, rapprochez un effet après avoir vérifié les états local, précédent et distant. [Prototype UX](../technical/UX_PROTOTYPE.md) · [Modèles](../technical/DOCUMENT_TEMPLATES.md) · [Migration BMad](../technical/BMAD_MODULE_MIGRATION.md) · [Arborescence](../technical/TRACKER_SYNC.md) · [Fournisseurs](../technical/TRACKER_PROVIDERS.md)
+
 <a name="context"></a>
 ### Capsules de contexte
 
