@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare the evidence from one frozen Codex case across four variants.
+"""Review the evidence for one frozen Codex case across declared variants.
 
 This reads local files only. The case binds input and scope files by SHA-256.
 Each run binds a native JSONL trace and adjudication artifacts. Matching evidence
@@ -17,10 +17,11 @@ import re
 import stat
 from uuid import UUID
 
-CASE_SCHEMA = "atelier.codex-comparison/1"
-RUN_SCHEMA = "atelier.codex-comparison-run/1"
-RESULT_SCHEMA = "atelier.codex-comparison-result/1"
-VARIANTS = ("bare-codex", "bmad-stable", "codex-agents-stable", "candidate")
+CASE_SCHEMA = "atelier.codex-comparison/2"
+RUN_SCHEMA = "atelier.codex-comparison-run/2"
+RESULT_SCHEMA = "atelier.codex-comparison-result/2"
+REQUIRED_VARIANTS = ("bare-codex", "product-baseline", "candidate")
+VARIANTS = (*REQUIRED_VARIANTS, "reference")
 BUDGET_KEYS = {"max_wall_ms", "max_input_tokens", "max_output_tokens"}
 USAGE_KEYS = {"input_tokens", "cached_input_tokens", "output_tokens"}
 CASE_KEYS = {
@@ -147,7 +148,9 @@ def read_case(evidence, path):
     unique_ids(case["required_checks"], "required checks")
     unique_ids(case["observers"], "observers")
     unique_ids(case["reviewers"], "reviewers")
-    object_keys(case["variants"], set(VARIANTS), "variants")
+    check(isinstance(case["variants"], dict)
+          and set(REQUIRED_VARIANTS) <= set(case["variants"]) <= set(VARIANTS),
+          "case requires bare Codex, the product baseline and the candidate")
     for value in case["variants"].values():
         digest(value, "variant source")
     evidence.verify(case["input"])
@@ -283,8 +286,9 @@ def assess_run(evidence, case, case_sha, variant, path):
 def compare(root, case_path, receipt_paths):
     evidence = Evidence(root)
     case, case_sha = read_case(evidence, case_path)
+    check(set(receipt_paths) <= set(case["variants"]), "receipt variant is absent from frozen case")
     runs = {variant: assess_run(evidence, case, case_sha, variant, receipt_paths.get(variant))
-            for variant in VARIANTS}
+            for variant in VARIANTS if variant in case["variants"]}
     thread_ids = [row["thread_id"] for row in runs.values() if "thread_id" in row]
     for row in runs.values():
         if "thread_id" in row and thread_ids.count(row["thread_id"]) > 1:

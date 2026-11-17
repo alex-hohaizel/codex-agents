@@ -282,8 +282,8 @@ def apply(case):
     need(inventory(project) == fixture["baseline_inventory"], "Fixture changed before the plan")
     before = native.load_json(project / PROJECTION)
     decision = create_owner_decision(project, REQUEST, DECISION, OPERATION)
-    competitor_path = f"{REVIEW}/competing-decision.json"
-    competitor = create_owner_decision(project, f"{REVIEW}/competing.json", competitor_path, "competing-plan")
+    alternate_path = f"{REVIEW}/competing-decision.json"
+    alternate = create_owner_decision(project, f"{REVIEW}/competing.json", alternate_path, "competing-plan")
     apply_command = store_args(project, "apply", "--request", REQUEST, "--decision", DECISION)
     original = pin(project, PROJECTION)
     wrong = run([*apply_command, "--decision-sha256", "0" * 64], project)
@@ -303,8 +303,8 @@ def apply(case):
     need(replay["status"] == "replayed" and pin(project, PROJECTION) == updated,
          "Duplicate approval changed the projection")
     stale = run(store_args(project, "apply", "--request", f"{REVIEW}/competing.json",
-                           "--decision", competitor_path, "--decision-sha256",
-                           pin(project, competitor_path)["sha256"]), project)
+                           "--decision", alternate_path, "--decision-sha256",
+                           pin(project, alternate_path)["sha256"]), project)
     need(stale.returncode != 0 and pin(project, PROJECTION) == updated, "Stale decision wrote changes")
     check_projection(before, native.load_json(project / PROJECTION))
 
@@ -327,7 +327,7 @@ def apply(case):
              for ref in fixture["baseline_inventory"] if ref != PROJECTION),
          "Planning changed protected inputs")
     report = {"status": "applied-and-ready", "wrong_decision_exit_code": wrong.returncode,
-              "stale_decision_exit_code": stale.returncode, "competing_plan_sha256": competitor["plan_sha256"],
+              "stale_decision_exit_code": stale.returncode, "competing_plan_sha256": alternate["plan_sha256"],
               "applied": applied, "readback": readback, "replay_status": replay["status"],
               "ready": board["board"]["ready"], "blocked": board["board"]["blocked"],
               "handoff": pin(project, HANDOFF), "handoff_verified": verified,

@@ -179,6 +179,38 @@ extends: recovery
         self.assertIn("unsupported element", self.call(*args[:-3], self.plan["plan_sha256"], "--output", "invalid")[2])
         self.assertFalse((self.root / "invalid").exists())
 
+    def test_standalone_library_lists_all_editable_shapes(self):
+        result = self.ok("init-library", "--output", "library")
+        self.assertEqual(result["templates"], 18)
+        plan = {row["template"]: row for row in self.ok("list", "--registry", result["registry"])}
+        self.assertEqual(len(plan), 18)
+        self.assertEqual(plan["pitch"]["meta"]["view"], "slides")
+        self.assertIn("view", plan["prfaq"]["resources"])
+        self.assertIn("methods", plan["security-review"]["resources"])
+        self.assertIn("companions", plan["postmortem"]["hints"])
+        self.assertTrue((self.root / "library/template-decision-record.md").is_file())
+
+    def test_local_catalog_preserves_pins_and_detects_catalog_and_source_drift(self):
+        (self.root / "local").mkdir()
+        template = self.write("local/runbook.md", "---\ntemplate: runbook\nversion: 1.0.0\n---\n\n## Steps\n")
+        notice = self.write("local/NOTICE.txt", "Reviewed library notice")
+        catalog = {
+            "schema": templates.CATALOG,
+            "license_path": "NOTICE.txt", "license_sha256": notice["sha256"],
+            "files": [{"path": "runbook.md", "sha256": template["sha256"], "scope": "library", "kind": "template"}],
+        }
+        self.write("catalog.json", catalog)
+        args = ("upstream-registry", "--upstream", "local", "--catalog", "catalog.json")
+        registry = self.ok(*args)
+        self.write("local-registry.json", registry)
+        self.assertEqual(self.ok("list", "--registry", "local-registry.json")[0]["template"], "runbook")
+        self.write("local/runbook.md", "changed input")
+        self.assertIn("source differs from pinned template catalog", self.call(*args)[2])
+        catalog["files"][0]["path"] = "../base.md"
+        self.write("catalog.json", catalog)
+        self.assertIn("catalog paths must stay within", self.call(*args)[2])
+        self.assertIn("SOURCE_DRIFT: catalog.json", self.call("list", "--registry", "local-registry.json")[2])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -52,4 +52,4 @@ Call `prepare` to create a bounded service task and context package. Use `dispat
 
 Check original acceptance criteria against actual artifacts and the appropriate consumer. Keep source integrity, behavior, craft, runtime or device evidence, independent review and owner acceptance distinct. State the exact scope of verified results, missing access or evidence, uncertain effects and next authorized action. Keep unresolved or deferred work visible in the controlling native record. Do not carry forward an old proof after changing its inputs.
 
-For an interactive source-bound UX walkthrough, registry template, BMad import or tracker tree, use [the workflow extensions](references/workflow-extensions.md). Keep the exact source, native consumer, and provider outcome tied to each handoff.
+For an interactive source-bound UX walkthrough, registry template, module import or tracker tree, use [the workflow extensions](references/workflow-extensions.md). Keep the exact source, native consumer, and provider outcome tied to each handoff.

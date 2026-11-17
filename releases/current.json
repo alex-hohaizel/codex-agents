@@ -41,7 +41,7 @@
     "gamedev-release",
     "gamedev-studio"
   ],
-  "source_manifest_sha256": "5215e4d81bd72565b893133e0a81c304fc4c9ac2ee5e0db34d1e3d772ecc1c9e",
+  "source_manifest_sha256": "0d348884a42f6fce6e23d315f043ba81e9ed0671a8ae58b0910a2442fe38aac7",
   "optional_skills": [
     {
       "name": "codex-agents-maintenance",

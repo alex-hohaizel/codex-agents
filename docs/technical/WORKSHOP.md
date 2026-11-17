@@ -7,16 +7,11 @@ and the evidence that changed the recommendation. Use the
 [team deliberation guide](../../optional-skills/atelier-orchestrator/references/team-deliberation.md)
 when the work benefits from real independent roles.
 
-`scripts/workshop.py` reads the BMad brainstorming and advanced elicitation
-CSV formats used by stable 6.12.4 and the reviewed v7 preview. Supply the
-catalog as a project file and verify its digest from a trusted source. The
-[stable brainstorming catalog](https://github.com/bmad-code-org/BMAD-METHOD/blob/bab9082c3e884e0d72c759bcd1a6d90bcc01be84/src/core-skills/bmad-brainstorming/assets/brain-methods.csv),
-[stable elicitation catalog](https://github.com/bmad-code-org/BMAD-METHOD/blob/bab9082c3e884e0d72c759bcd1a6d90bcc01be84/src/core-skills/bmad-advanced-elicitation/assets/methods.csv),
-and [preview elicitation catalog](https://github.com/bmad-code-org/BMAD-METHOD/blob/e435a22574fe55722841086e5566420178b98df3/skills/core-tools/bmad-advanced-elicitation/assets/methods.csv)
-use their original field names. The catalog view retains the technique,
-category or direction, output format, and the audience or goal metadata
-where supplied. Use `--goal` to narrow the view by a catalog tag or category.
-Omit it to review all techniques suitable for the audience.
+`scripts/workshop.py` reads brainstorming and elicitation CSV catalogs.
+Supply a reviewed project catalog and verify its digest. The catalog view
+retains the technique, category or direction, output format, and any
+audience or goal metadata. Use `--goal` to narrow the view by a tag or
+category. Omit it to review all suitable techniques.
 
 Run the tools from the distribution checkout. In these examples
 `PROJECT` is the workspace root and `CATALOG_SHA` is the reviewed SHA-256.

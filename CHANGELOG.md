@@ -5,7 +5,7 @@ The [component record](releases/current.json) identifies the supported release a
 ## v1.7.0
 
 Added an interactive, source-bound UX walkthrough; a versioned document
-template route; BMad module intake and reviewed migration staging; and a
+template route; module intake and reviewed migration staging; and a
 mapped tracker tree that separates outbound effects, inbound proposals,
 and conflicts. Updated the Codex skill suite and seven-language handbook.
 

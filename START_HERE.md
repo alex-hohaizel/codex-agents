@@ -4,7 +4,7 @@ Already have the skills in Codex? Open a fresh chat in a practice folder
 and run the first task below. New installation? Ask Codex to guide you
 through the official setup and show what each step found. If you work from
 the terminal, follow the exact release procedure and run the canary.
-[Repository home](README.md) · [Illustrated workflows](marketing/README.md)
+[Repository home](README.md) · [Illustrated workflows](marketing/README.md) · [Documentation index](docs/INDEX.md)
 
 ## Install and verify
 

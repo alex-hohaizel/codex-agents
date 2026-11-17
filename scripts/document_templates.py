@@ -17,7 +17,8 @@ REQUEST = "atelier.document-template-request/1"
 DRAFT = "atelier.document-template-draft/1"
 REVIEW = "atelier.document-template-review/1"
 DECISION = "atelier.document-template-review-input/1"
-CATALOG = Path(__file__).with_name("document_templates_catalog.json")
+CATALOG = "atelier.document-template-catalog/1"
+LIBRARY = Path(__file__).with_name("document_templates_catalog.json")
 SCOPES = ("module", "agent", "library", "personal", "team")
 ID = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*")
 DOC_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}")
@@ -161,10 +162,12 @@ def parse_template(raw, path):
 
 def registry(snapshot, path):
     value = read_json(snapshot, path)
-    check_fields(value, {"schema", "layers"}, {"html_view"}, "template registry")
+    check_fields(value, {"schema", "layers"}, {"html_view", "source_pins"}, "template registry")
     context.require(value["schema"] == REGISTRY and value.get("html_view", "offer") in ("offer", "always", "never"),
                     "unsupported template registry")
     layers = value["layers"]
+    if "source_pins" in value:
+        read_sources(snapshot, value["source_pins"])
     context.require(isinstance(layers, list) and 0 < len(layers) <= len(SCOPES), "invalid registry layers")
     entries, resources, origins, seen = [], {}, {}, set()
     for layer in layers:
@@ -308,22 +311,47 @@ def resolve(snapshot, registry_path, template_id):
     return {**plan, "plan_sha256": record_hash(plan)}
 
 
-def catalog_registry(snapshot, upstream):
-    catalog = context.load(CATALOG)
-    notice = (PurePosixPath(upstream) / catalog["license_path"]).as_posix()
-    context.require(context.digest(snapshot.read(notice)) == catalog["license_sha256"],
-                    "upstream checkout must contain the pinned license notice")
-    layers = {"module": [], "agent": []}
+def under_source(upstream, path):
+    context.require(isinstance(path, str), "catalog path must be text")
+    leaf = PurePosixPath(path)
+    context.require(not leaf.is_absolute() and leaf.as_posix() == path and ".." not in leaf.parts
+                    and bool(leaf.parts), "catalog paths must stay within the declared source")
+    return (PurePosixPath(upstream) / leaf).as_posix()
+
+
+def catalog_registry(snapshot, upstream, catalog_path):
+    catalog = read_json(snapshot, catalog_path)
+    schema = catalog.get("schema")
+    context.require(isinstance(schema, str) and (schema == CATALOG or schema.endswith("-document-template-catalog/1")),
+                    "expected a version 1 template catalog")
+    pins = [{"path": catalog_path, "sha256": context.digest(snapshot.read(catalog_path))}]
+    if "license_path" in catalog or "license_sha256" in catalog:
+        notice = under_source(upstream, catalog.get("license_path"))
+        expected = catalog.get("license_sha256")
+        context.require(context.digest(snapshot.read(notice)) == expected, "source notice differs from catalog")
+        pins.append({"path": notice, "sha256": expected})
+    context.require(isinstance(catalog.get("files"), list) and 0 < len(catalog["files"]) <= 200,
+                    "catalog must declare 1 to 200 files")
+    layers = {scope: [] for scope in SCOPES}
+    seen = set()
     for row in catalog["files"]:
-        ref = (PurePosixPath(upstream) / row["path"]).as_posix()
+        context.require(isinstance(row, dict) and {"path", "sha256", "scope", "kind"} <= row.keys(),
+                        "catalog file needs path, SHA-256, scope and kind")
+        ref = under_source(upstream, row["path"])
+        context.require(ref not in seen, f"duplicate catalog path: {ref}")
+        seen.add(ref)
+        context.require(row["scope"] in SCOPES and row["kind"] in ("template", "resource"),
+                        f"invalid catalog scope or kind: {ref}")
         expected = row["sha256"]
         context.require(context.digest(snapshot.read(ref)) == expected,
-                        f"upstream source differs from pinned template catalog: {row['path']}")
+                        f"source differs from pinned template catalog: {row['path']}")
         layers[row["scope"]].append((row["kind"], {"path": ref, "sha256": expected}))
-    return {"schema": REGISTRY, "layers": [
+    context.require(any(kind == "template" for rows in layers.values() for kind, _ in rows),
+                    "expected at least one template in the catalog")
+    return {"schema": REGISTRY, "source_pins": pins, "layers": [
         {"scope": scope, "templates": [pin for kind, pin in pins if kind == "template"],
          "resources": [pin for kind, pin in pins if kind == "resource"]}
-        for scope, pins in layers.items()]}
+        for scope, pins in layers.items() if pins]}
 
 
 def read_sources(snapshot, sources):
@@ -539,12 +567,55 @@ def emit_outputs(root, relative, result, payloads):
     return receipt
 
 
+def init_library(root, relative):
+    library = context.load(LIBRARY)
+    context.require(library.get("schema") == CATALOG, "unsupported starter library")
+    version = library["version"]
+    resources = {name: value.encode("utf-8") for name, value in library["resources"].items()}
+    templates = {}
+    for ident, document in context.records(library, "templates").items():
+        context.require(ID.fullmatch(ident), "invalid starter template ID")
+        metadata = {"template": ident, "version": version, "description": document["description"],
+                    "rubric": "planning-rubric.md", **document.get("metadata", {})}
+        work = document["sections"]
+        if "facilitation_order" not in metadata:
+            metadata["facilitation_order"] = [slug(row["heading"]) + ("?" if row.get("rule") else "")
+                                               for row in work if slug(row["heading"]) != "table-of-contents"]
+        lines = ["---", *[f"{name}: {json.dumps(value, ensure_ascii=False)}"
+                          for name, value in metadata.items()], "---", ""]
+        lines.extend(f"<!-- {key}: {value} -->\n" for key, value in document.get("guidance", {}).items())
+        lines.append("# {title}\n")
+        for row in work:
+            lines.append("## " + row["heading"])
+            hint = (row.get("rule", "") + " " + row.get("prompt", "")).strip()
+            if hint:
+                lines.append(f"<!-- {hint} -->")
+            lines.append("")
+        name = f"template-{ident}.md"
+        raw = "\n".join(lines).encode("utf-8")
+        parse_template(raw, name)
+        templates[name] = raw
+
+    def pins(payloads):
+        return [{"path": (PurePosixPath(relative) / name).as_posix(), "sha256": context.digest(raw)}
+                for name, raw in payloads.items()]
+
+    registry_record = {"schema": REGISTRY, "layers": [{"scope": "module", "templates": pins(templates),
+                                                      "resources": pins(resources)}]}
+    payloads = {**templates, **resources, "registry.json": context.canonical(registry_record) + b"\n"}
+    return emit_outputs(root, relative, {"registry": (PurePosixPath(relative) / "registry.json").as_posix(),
+                                         "templates": len(templates), "library_version": version}, payloads)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     commands = parser.add_subparsers(dest="command", required=True)
     catalog = commands.add_parser("upstream-registry")
     catalog.add_argument("--upstream", required=True)
+    catalog.add_argument("--catalog", required=True, help="project-relative reviewed source catalog JSON")
+    starter = commands.add_parser("init-library")
+    starter.add_argument("--output", required=True, help="new project-relative library directory")
     for command in ("list", "inspect", "progress", "draft", "update", "review"):
         cmd = commands.add_parser(command)
         cmd.add_argument("--registry", required=True)
@@ -567,7 +638,9 @@ def main(argv=None):
         context.require(root.is_dir() and root.resolve() == root, "root must be an existing canonical directory")
         snapshot = tree.Snapshot(root)
         if args.command == "upstream-registry":
-            response = catalog_registry(snapshot, args.upstream)
+            response = catalog_registry(snapshot, args.upstream, args.catalog)
+        elif args.command == "init-library":
+            response = init_library(root, args.output)
         elif args.command == "list":
             entries, _, _ = registry(snapshot, args.registry)
             response = [resolve(snapshot, args.registry, name) for name in sorted(

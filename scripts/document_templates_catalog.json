@@ -1,227 +1,986 @@
 {
-  "schema": "atelier.bmad-document-template-catalog/1",
-  "upstream": "https://github.com/bmad-code-org/BMAD-METHOD",
-  "commit": "e435a22574fe55722841086e5566420178b98df3",
-  "license_path": "LICENSE",
-  "license_sha256": "0aa79baf6328b4a1e694ce10a12ffc36d7666554da128dff0e8fcda0fc536a66",
-  "files": [
+  "schema": "atelier.document-template-catalog/1",
+  "version": "1.0.0",
+  "templates": [
     {
-      "scope": "module",
-      "kind": "resource",
-      "path": "skills/core-tools/bmad-facilitate/references/guidance-planning.md",
-      "sha256": "46c79c11a7ecffd8eb33c176589691d25dc572704357a9fb87a4a30a9edac26a",
-      "git_blob_sha1": "2665ce2cae5592fa03a9a2d01661e7b717bff553"
+      "id": "agent-spec",
+      "description": "Define a bounded implementation for a coding agent.",
+      "sections": [
+        {
+          "heading": "Problem",
+          "prompt": "Name the user problem and the part of the system that changes."
+        },
+        {
+          "heading": "User stories",
+          "prompt": "Describe the actor, intent, expected behavior, and starting state."
+        },
+        {
+          "heading": "Edge cases",
+          "prompt": "Include failures, competing edits, and the behavior to preserve."
+        },
+        {
+          "heading": "Requirements",
+          "prompt": "Give each behavior a durable requirement ID and a check."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Key entities",
+          "prompt": "Name relevant domain records and owners."
+        },
+        {
+          "heading": "Success criteria",
+          "prompt": "Set observed outcomes for a reviewer and list relevant tests."
+        },
+        {
+          "heading": "Out of scope",
+          "prompt": "Keep unaffected behaviors and deferred work explicit."
+        },
+        {
+          "heading": "Assumptions",
+          "prompt": "Record uncertainty, its owner, and what evidence could resolve it."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Implementation context",
+          "prompt": "Pin paths, dependency versions, or actual environment contracts."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Open questions",
+          "prompt": "Separate choices that require user input from safe implementation decisions."
+        }
+      ]
     },
     {
-      "scope": "module",
-      "kind": "resource",
-      "path": "skills/core-tools/bmad-facilitate/references/rubric-general.md",
-      "sha256": "0e347afebb423a75b38ffbf263bbe69f445867305b90b27b174c63cdb81918e6",
-      "git_blob_sha1": "2b0fda530694462ce2419abc78ca1eb0619ff2cd"
+      "id": "brd",
+      "description": "Record what an organization needs and who accepts it.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Summary",
+          "prompt": "State the outcome and the decision this document supports."
+        },
+        {
+          "heading": "Objectives",
+          "prompt": "Name the business change and how to measure it."
+        },
+        {
+          "heading": "Stakeholders",
+          "prompt": "Identify need owners, operators, approvers, and affected groups."
+        },
+        {
+          "heading": "Scope",
+          "prompt": "Define the included work and boundaries."
+        },
+        {
+          "heading": "Current and future process",
+          "prompt": "Show where work starts, how it proceeds, and how it changes."
+        },
+        {
+          "heading": "Business requirements",
+          "prompt": "Use durable IDs for verifiable outcomes without assuming implementation."
+        },
+        {
+          "heading": "Business rules",
+          "prompt": "State policy invariants and sources of authority."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Constraints and assumptions",
+          "prompt": "External conditions restrict delivery. Name the constraint, owner, and evidence."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Cost and benefit",
+          "prompt": "A business owner uses financial consequences to decide. Pin inputs and identify uncertainty."
+        },
+        {
+          "heading": "Traceability",
+          "prompt": "Connect each requirement to a decision, need, or documented obligation."
+        },
+        {
+          "heading": "Open questions",
+          "prompt": "Name responsible owners and deadlines for unresolved items."
+        },
+        {
+          "heading": "Approval",
+          "prompt": "Identify the actual acceptor and recorded acceptance conditions."
+        }
+      ]
     },
     {
-      "scope": "module",
-      "kind": "resource",
-      "path": "skills/core-tools/bmad-facilitate/references/rubric-planning.md",
-      "sha256": "1b77571c54d14697dfa3e4426c11305e3739108741d798eba3c5e5c4dffba1c7",
-      "git_blob_sha1": "01ec73df3f0c6c786b7fc1a55f0b227f7789affc"
+      "id": "brief",
+      "description": "Explain a product opportunity and the decision it needs.",
+      "sections": [
+        {
+          "heading": "Executive summary",
+          "prompt": "Explain the ask and the intended outcome in a short opening."
+        },
+        {
+          "heading": "Problem",
+          "prompt": "Describe who experiences the problem and what evidence establishes it."
+        },
+        {
+          "heading": "Solution",
+          "prompt": "Show the core user mechanism and intended behavior."
+        },
+        {
+          "heading": "What makes it different",
+          "prompt": "Compare relevant alternatives and observed tradeoffs."
+        },
+        {
+          "heading": "Who it serves",
+          "prompt": "Name the initial audience and a situation where it needs help."
+        },
+        {
+          "heading": "Success criteria",
+          "prompt": "Name the measure, baseline, source, and acceptance threshold."
+        },
+        {
+          "heading": "Scope",
+          "prompt": "Keep initial delivery and deferred work visible."
+        },
+        {
+          "rule": "optional.",
+          "heading": "The ask",
+          "prompt": "State the resource or decision needed now."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Vision",
+          "prompt": "Explain the larger direction and what remains uncertain."
+        }
+      ],
+      "metadata": {
+        "paced": true,
+        "html_view": "always",
+        "view": "brief-view.html",
+        "facilitation_order": [
+          "problem",
+          "solution",
+          "what-makes-it-different",
+          "who-it-serves",
+          "success-criteria",
+          "scope",
+          "the-ask?",
+          "vision?",
+          "executive-summary"
+        ]
+      }
     },
     {
-      "scope": "agent",
-      "kind": "resource",
-      "path": "skills/method/bmad-agent-analyst/assets/brief-view.html",
-      "sha256": "8a35be3de711bb17ed36949c14db16956123247bc4995fba650085889cbda3f8",
-      "git_blob_sha1": "2fc8233b1d01f030cc181098c39a153296b6b0ae"
+      "id": "business-case",
+      "description": "Support a funding decision with evidence and alternatives.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Summary",
+          "prompt": "Name the decision, sponsorship, and strongest tradeoff."
+        },
+        {
+          "heading": "Sponsors",
+          "prompt": "Identify the budget owner and accountable delivery roles."
+        },
+        {
+          "heading": "Hypothesis",
+          "prompt": "Explain why the investment could change the target outcome."
+        },
+        {
+          "heading": "Business outcomes",
+          "prompt": "Set outcome measures and dates."
+        },
+        {
+          "heading": "Leading indicators",
+          "prompt": "Name earlier observations and how to collect them."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Background",
+          "prompt": "Explain context necessary to understand the decision."
+        },
+        {
+          "heading": "Scope",
+          "prompt": "Define the investment boundaries and required dependencies."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Nonfunctional requirements",
+          "prompt": "Capture operational thresholds that materially affect cost or return."
+        },
+        {
+          "heading": "Options and costs",
+          "prompt": "Compare using existing systems, building, buying, and deferral as applicable."
+        },
+        {
+          "heading": "Financial model",
+          "prompt": "Name assumptions, ranges, and how uncertain inputs change the outcome."
+        },
+        {
+          "heading": "Delivery and risk",
+          "prompt": "Assign gates, owners, and stop conditions."
+        },
+        {
+          "heading": "Recommendation",
+          "prompt": "State the proposed decision and what could change it."
+        },
+        {
+          "heading": "For requirements",
+          "prompt": "List stable IDs that can be turned into work."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "resource",
-      "path": "skills/method/bmad-agent-analyst/assets/prfaq-view.html",
-      "sha256": "8db4b27417f4f9b761f7e685ce502ee107ebb75037cd78778aed9cd37140ae96",
-      "git_blob_sha1": "9132e230ee80e28d856eb99fb7735cec69bca766"
+      "id": "charter",
+      "description": "Set the mandate and decision structure for a program.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Justification",
+          "prompt": "Explain the shared need behind several workstreams."
+        },
+        {
+          "heading": "Vision",
+          "prompt": "Describe the future state the program enables."
+        },
+        {
+          "heading": "Strategic alignment",
+          "prompt": "Name the organizational objectives it supports."
+        },
+        {
+          "heading": "Benefits",
+          "prompt": "Define target outcomes and accountable benefit owners."
+        },
+        {
+          "heading": "Scope",
+          "prompt": "Show included and excluded domains."
+        },
+        {
+          "heading": "Initiatives",
+          "prompt": "List workstreams and their boundaries or prerequisites."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Rules",
+          "prompt": "Record the invariants that apply across workstreams."
+        },
+        {
+          "heading": "Stakeholders",
+          "prompt": "Name decision makers, delivery leads, and affected participants."
+        },
+        {
+          "heading": "Governance",
+          "prompt": "Explain decisions, escalation, cadence, and change control."
+        },
+        {
+          "heading": "Timeline",
+          "prompt": "Set gates and the conditions for advancing."
+        },
+        {
+          "heading": "Resources and risks",
+          "prompt": "Describe funding, capacity, dependencies, and uncertainties."
+        },
+        {
+          "heading": "Approval",
+          "prompt": "Name the sponsor and evidence of authorization."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "resource",
-      "path": "skills/method/bmad-agent-analyst/assets/rubric-prfaq.md",
-      "sha256": "c79adbe65223733a153bd804d66f57ed3c950d43cb73e291e488ab4371c68994",
-      "git_blob_sha1": "e145edbe8ccefa3227ec1f7c9ea3ffdf59a50938"
+      "id": "decision-record",
+      "description": "Preserve a decision, alternatives, and accepted consequences.",
+      "sections": [
+        {
+          "heading": "Status",
+          "prompt": "State the decision status, its owner, and when it was recorded if supported."
+        },
+        {
+          "heading": "Context",
+          "prompt": "Describe the situation and constraints that required a decision."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Decision drivers",
+          "prompt": "Name the criteria that made options preferable."
+        },
+        {
+          "heading": "Options considered",
+          "prompt": "Give every material option a fair account with gains, costs, and evidence."
+        },
+        {
+          "heading": "Decision",
+          "prompt": "State the chosen action and why it meets the criteria."
+        },
+        {
+          "heading": "Consequences",
+          "prompt": "Describe operating effects, known tradeoffs, and follow-up."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Confirmation",
+          "prompt": "An outcome can be checked. Name the reviewer, evidence, and acceptance condition."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Links",
+          "prompt": "Pin related or superseded decisions for future readers."
+        }
+      ],
+      "metadata": {
+        "paced": true,
+        "facilitation_order": [
+          "context",
+          "decision-drivers?",
+          "options-considered",
+          "decision",
+          "consequences",
+          "confirmation?",
+          "links?",
+          "status"
+        ]
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-analyst/assets/template-brd.md",
-      "sha256": "1997642d78e8f0b9587430a480af1320831895ded8e9bdf242141e1f3b544e31",
-      "git_blob_sha1": "377eb73e7cf83de6d5d2e89f80f8210c66b3b425",
-      "template": "brd",
-      "version": "1.1.0"
+      "id": "experiment",
+      "description": "Set a falsifiable claim and rules for measuring it.",
+      "sections": [
+        {
+          "heading": "Hypothesis",
+          "prompt": "State an observation that would support or falsify an idea."
+        },
+        {
+          "heading": "Test",
+          "prompt": "Describe the intervention, comparison, sample, and capture method."
+        },
+        {
+          "heading": "Thresholds",
+          "prompt": "Set pass, revise, and stop boundaries before running."
+        },
+        {
+          "heading": "Guardrails",
+          "prompt": "Name relevant risks, privacy boundaries, and monitoring checks."
+        },
+        {
+          "heading": "Duration",
+          "prompt": "Identify when the experiment starts and ends."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Result",
+          "prompt": "The test has run. Record the raw evidence, interpretation, and next decision."
+        }
+      ],
+      "metadata": {
+        "paced": true
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-analyst/assets/template-brief.md",
-      "sha256": "809680ddff6ad43b3a45100c52839f88104a1a3246611e20d49bfba9dcdd8305",
-      "git_blob_sha1": "a230ca1f40dda4d4501fc8d36012388616369e79",
-      "template": "brief",
-      "version": "1.1.0"
+      "id": "launch",
+      "description": "Coordinate a limited and measurable product introduction.",
+      "sections": [
+        {
+          "heading": "Roles",
+          "prompt": "Name launch, support, operations, and owner roles."
+        },
+        {
+          "heading": "Objective",
+          "prompt": "Define the intended launch outcome and timing."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Background",
+          "prompt": "Explain the context needed for the launch decision."
+        },
+        {
+          "heading": "Audience",
+          "prompt": "Identify the initial cohort and route to reach it."
+        },
+        {
+          "heading": "Success metrics",
+          "prompt": "State baseline, threshold, owner, and observation window."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Competition",
+          "prompt": "Identify alternatives that influence positioning."
+        },
+        {
+          "heading": "Messaging",
+          "prompt": "State the supported claims and approved communication."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Pricing",
+          "prompt": "Record pricing and access rules when applicable."
+        },
+        {
+          "heading": "Channels and activities",
+          "prompt": "Map announcements, rollout steps, and owner responsibilities."
+        },
+        {
+          "heading": "Readiness",
+          "prompt": "List approvals, validation, support material, and stopping conditions."
+        },
+        {
+          "heading": "Schedule",
+          "prompt": "Pin timing dependencies and escalation windows."
+        },
+        {
+          "heading": "After launch",
+          "prompt": "Define observation, response, recovery, and follow-up."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-analyst/assets/template-prfaq.md",
-      "sha256": "a0d27fced9a6c2b03652c2ac0fb6143a13e9e1e46c83ce37af2a402a37856b61",
-      "git_blob_sha1": "cd746c015b44942f8599b806dcb763c8deef3783",
-      "template": "prfaq",
-      "version": "1.1.0"
+      "id": "narrative",
+      "description": "Present a strategy or annual plan for a leadership decision.",
+      "sections": [
+        {
+          "heading": "Introduction and ask",
+          "prompt": "Name the choice and its decision owner."
+        },
+        {
+          "heading": "Goals",
+          "prompt": "Explain what changes, for whom, and how it is measured."
+        },
+        {
+          "heading": "Tenets",
+          "prompt": "Explain the principles that resolve difficult tradeoffs."
+        },
+        {
+          "heading": "State of the business",
+          "prompt": "Pin facts, measurements, constraints, and evidence gaps."
+        },
+        {
+          "heading": "Lessons learned",
+          "prompt": "Connect earlier results to the next approach."
+        },
+        {
+          "heading": "Strategic priorities",
+          "prompt": "Rank the necessary changes and why they come first."
+        },
+        {
+          "heading": "Resource requests",
+          "prompt": "Identify people, funds, timing, and irreversible commitments."
+        },
+        {
+          "heading": "Alternatives and risks",
+          "prompt": "Compare credible courses and risks."
+        },
+        {
+          "heading": "Execution and milestones",
+          "prompt": "Give owners and conditions for adjusting the plan."
+        },
+        {
+          "heading": "For requirements",
+          "prompt": "Record the stable requirement IDs that follow."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "resource",
-      "path": "skills/method/bmad-agent-pm/assets/pitch-view.html",
-      "sha256": "9537be6c67251a9fe0a1ff5cb83af224fa5076f2a8813dba873f7ed32b279ee2",
-      "git_blob_sha1": "bc2562e10130faa2bc62253a924930c9c86d6dab"
+      "id": "opportunity",
+      "description": "Decide whether a documented need merits investment.",
+      "sections": [
+        {
+          "heading": "Problem",
+          "prompt": "Pin actual user friction or an observed unmet need."
+        },
+        {
+          "heading": "Who has it",
+          "prompt": "Define the affected cohort and circumstances."
+        },
+        {
+          "heading": "How big",
+          "prompt": "Separate observed demand from market assumptions."
+        },
+        {
+          "heading": "Alternatives",
+          "prompt": "Show the current workaround and substitute options."
+        },
+        {
+          "heading": "Why us",
+          "prompt": "Name the evidence that the team can solve this well."
+        },
+        {
+          "heading": "Why now",
+          "prompt": "Explain timing and material constraints."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Getting to market",
+          "prompt": "Identify a testable way to reach the audience."
+        },
+        {
+          "heading": "Success measures",
+          "prompt": "Set the measures of better outcomes."
+        },
+        {
+          "heading": "Critical assumptions",
+          "prompt": "Prioritize uncertainties that could change the decision."
+        },
+        {
+          "heading": "Next test",
+          "prompt": "Propose a bounded way to validate or reject the opportunity."
+        },
+        {
+          "heading": "Decision",
+          "prompt": "State whether to proceed, investigate, or stop and why."
+        }
+      ],
+      "metadata": {
+        "paced": true
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-agent-spec.md",
-      "sha256": "b6e2e59b7f7f8180fbe516116beb01a2b231898b54ae4860c6bbc7b83e3938cf",
-      "git_blob_sha1": "daea0bfe91b9da518d3a6772823924b29285457b",
-      "template": "agent-spec",
-      "version": "1.1.0"
+      "id": "pitch",
+      "description": "Describe a bounded proposal for a fixed delivery cycle.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Problem",
+          "prompt": "Show where the user's current experience breaks."
+        },
+        {
+          "heading": "Appetite",
+          "prompt": "Name the delivery time limit and consequence of missing it."
+        },
+        {
+          "heading": "Solution",
+          "prompt": "Describe the central interaction and enough behavior to hand off."
+        },
+        {
+          "heading": "Rabbit holes",
+          "prompt": "Explain hidden scope, risks, and ways to keep the work bounded."
+        },
+        {
+          "heading": "No-gos",
+          "prompt": "List what the team will defer."
+        }
+      ],
+      "metadata": {
+        "paced": true,
+        "view": "slides",
+        "html_view": "always"
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-business-case.md",
-      "sha256": "e0305e278f6db9bfea80cdb415c3090164c7ce87cf529d6711b50c193e2c2801",
-      "git_blob_sha1": "f957ad7ebc564eb32389f3c7b422dc2d743247d2",
-      "template": "business-case",
-      "version": "1.1.0"
+      "id": "postmortem",
+      "description": "Document an incident, its effects, and verifiable follow-up.",
+      "sections": [
+        {
+          "heading": "Summary",
+          "prompt": "Name the incident and current state without blaming an individual."
+        },
+        {
+          "heading": "Impact",
+          "prompt": "Identify affected users, features, timing, and known scope."
+        },
+        {
+          "heading": "Timeline",
+          "prompt": "Record events using authoritative timestamps where available."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Detection and response",
+          "prompt": "Monitoring or response influenced the outcome. Explain the trigger and actual actions."
+        },
+        {
+          "heading": "Contributing factors",
+          "prompt": "Ground the contributing conditions in evidence and consider interactions."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Lessons",
+          "prompt": "Describe failures and practices that helped."
+        },
+        {
+          "heading": "Action items",
+          "prompt": "Name owners, deadlines, and checks for the corrections."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Communication",
+          "prompt": "Identify who needed updates and how they were reached."
+        }
+      ],
+      "metadata": {
+        "paced": true,
+        "facilitation_order": [
+          "impact",
+          "timeline",
+          "detection-and-response?",
+          "contributing-factors",
+          "lessons?",
+          "action-items",
+          "communication?",
+          "summary"
+        ]
+      },
+      "guidance": {
+        "companions": "When stakeholders require a separate update, prepare `{id}-{slug}-customer-notice.md` with verified impact, current state, and next update."
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-charter.md",
-      "sha256": "fd6141fa1be7042c8343fcd9a155d9f97b2c6acfb6730026eaecf14ed2325d86",
-      "git_blob_sha1": "3627bf277f67099b40f2f8ef9938f6f41aacd053",
-      "template": "charter",
-      "version": "1.1.0"
+      "id": "prd",
+      "description": "Set traceable product behavior and how it will be accepted.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Document purpose",
+          "prompt": "State the decision or delivery goal and useful scope."
+        },
+        {
+          "heading": "Vision",
+          "prompt": "Describe the user outcome and why it matters."
+        },
+        {
+          "heading": "Users and journeys",
+          "prompt": "Give actors, entry points, choices, and expected results."
+        },
+        {
+          "heading": "Glossary",
+          "prompt": "Declare domain terms for consistent requirements and design."
+        },
+        {
+          "heading": "Features and requirements",
+          "prompt": "Assign durable IDs to verifiable behavior and its source."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Rules",
+          "prompt": "Several requirements share an invariant. State the policy and authority."
+        },
+        {
+          "heading": "Non-goals",
+          "prompt": "Protect accepted behavior and list excluded work."
+        },
+        {
+          "heading": "MVP scope",
+          "prompt": "Define what the first useful release includes."
+        },
+        {
+          "heading": "Success metrics",
+          "prompt": "Name measures, baselines, thresholds, and owners."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Quality and constraints",
+          "prompt": "Product-wide requirements affect safety, cost, reliability, or accessibility. Specify thresholds."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Change boundary",
+          "prompt": "An existing system changes. List compatibility constraints and what stays in use."
+        },
+        {
+          "rule": "include when:",
+          "heading": "AI behavior and evaluation",
+          "prompt": "A model participates. Name adverse cases, evaluation data, thresholds, and fallback."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Experience and platform",
+          "prompt": "Interface or device behavior matters. Record journeys, platforms, and accessibility."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Stakeholders, risks and rollout",
+          "prompt": "Release depends on multiple owners. Name gates, decision authority, dates, and verification."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Integrations and operations",
+          "prompt": "The product depends on another system. Give contracts, failures, and operating states."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Data and compliance",
+          "prompt": "Personal information or documented obligations apply. Specify lawful boundaries and affected operations."
+        },
+        {
+          "rule": "include when:",
+          "heading": "API contract and versioning",
+          "prompt": "Consumers depend on a public contract. Define compatibility, deprecation, and evidence."
+        },
+        {
+          "rule": "include when:",
+          "heading": "SLOs and performance budgets",
+          "prompt": "Operators rely on response or availability thresholds. Name how to measure them."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Consumer migration",
+          "prompt": "Existing consumers must move. Map the migration, validation, and recovery."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Developer experience",
+          "prompt": "A developer is an intended user. Provide onboarding and failure messages."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Hardware and deployment",
+          "prompt": "Device or installation requirements affect the product. State target constraints."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Stories",
+          "prompt": "The task needs a small breakdown. Tie stories and checks to requirements."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Decisions",
+          "prompt": "Record material tradeoffs and owners."
+        },
+        {
+          "heading": "Open questions",
+          "prompt": "Name unknowns, people responsible, and the conditions for resolution."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-experiment.md",
-      "sha256": "7b16b5313ed636d0efb50909d2fc628b5df1bdcd4881e65a887cb0fc012dca33",
-      "git_blob_sha1": "0dc9d904bbdddb4caf9035a0b4b5eb3c1b3377fe",
-      "template": "experiment",
-      "version": "1.1.0"
+      "id": "prd-light",
+      "description": "Write the minimum useful product contract for a small change.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Vision",
+          "prompt": "Describe the user problem and expected improvement."
+        },
+        {
+          "heading": "Users and journeys",
+          "prompt": "Name the user, starting point, and important outcome."
+        },
+        {
+          "heading": "Features and requirements",
+          "prompt": "Give durable IDs and checks for the agreed behavior."
+        },
+        {
+          "heading": "Non-goals",
+          "prompt": "State boundary and prior behavior to preserve."
+        },
+        {
+          "heading": "Technical approach",
+          "prompt": "Identify necessary data, dependency, or integration constraints."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Success",
+          "prompt": "Add evidence thresholds when needed."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Open questions",
+          "prompt": "Name remaining decisions and who owns them."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-launch.md",
-      "sha256": "9032260fbd46b4520fd082343ce8efa31d1a12fbba4b29470be636fae5044e86",
-      "git_blob_sha1": "21a6ba74586d2abbdb8effdd2635c26f9dfe7a09",
-      "template": "launch",
-      "version": "1.1.0"
+      "id": "prfaq",
+      "description": "Test a proposed release through customer and internal questions.",
+      "sections": [
+        {
+          "heading": "Press release",
+          "prompt": "State the intended customer outcome and write a reviewable claim grounded in evidence."
+        },
+        {
+          "heading": "Customer FAQ",
+          "prompt": "Answer questions about use, access, value, failure, and recovery."
+        },
+        {
+          "heading": "Internal FAQ",
+          "prompt": "Address feasibility, authorization, cost, support, and unresolved tradeoffs."
+        },
+        {
+          "heading": "Verdict",
+          "prompt": "State whether to proceed and what evidence could alter that decision."
+        }
+      ],
+      "metadata": {
+        "paced": true,
+        "html_view": "always",
+        "view": "prfaq-view.html"
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-narrative.md",
-      "sha256": "bc6b83871b2c0975b0c481cdb07d8b6b498e79cb3a5a3b9ab66857ddd18af1e5",
-      "git_blob_sha1": "2ef6667e67cf8029d550f7619208a86c9e5205b2",
-      "template": "narrative",
-      "version": "1.1.0"
+      "id": "prototype-plan",
+      "description": "Specify an experiment people can interact with and assess.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Ask and goal",
+          "prompt": "Name the prototype question and the decision it serves."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Timebox",
+          "prompt": "Set a limit on effort and the next decision."
+        },
+        {
+          "heading": "Where to build",
+          "prompt": "Name the workspace or environment and boundaries."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Platform and technology",
+          "prompt": "A specific target matters. Name the runtime and accepted devices."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Existing ground truth",
+          "prompt": "The prototype depends on existing behavior. Pin actual examples and constraints."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Options to compare",
+          "prompt": "Multiple approaches are under consideration. State outcomes that distinguish them."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Look and feel",
+          "prompt": "The interaction or visual is under test. Pin references and accessibility needs."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Validation",
+          "prompt": "Name the user's task, checks, testers, and actual medium."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Decisions",
+          "prompt": "Record agreed choices and their sources."
+        },
+        {
+          "heading": "Build",
+          "prompt": "Describe clickable states, behavior, data, and handoff."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Outcome",
+          "prompt": "The prototype has run. Record observed strengths, failures, and the next decision."
+        }
+      ]
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-opportunity.md",
-      "sha256": "0873b4ed47b1ae34e295fb8a540637c00e4ea21f419ea7e14b118c30f15b298a",
-      "git_blob_sha1": "d31f230101ce0b0f81434d1f11ec9b9205b6d9d2",
-      "template": "opportunity",
-      "version": "1.1.0"
+      "id": "security-review",
+      "description": "Review authorized system boundaries, findings, and mitigations.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Scope and system",
+          "prompt": "Record exact scope, authority, methods, and the objects evaluated."
+        },
+        {
+          "heading": "Architecture and data flows",
+          "prompt": "Describe trust boundaries, sensitive data, access, and retention."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Key request flows",
+          "prompt": "A request crosses a sensitive boundary. Record actors and permitted operations."
+        },
+        {
+          "heading": "Findings",
+          "prompt": "State observed risks, evidence, consequence, and bounded corrective action."
+        },
+        {
+          "rule": "optional.",
+          "heading": "Risk decisions",
+          "prompt": "Record accepted risk and owner approval when present."
+        },
+        {
+          "heading": "Remediation plan",
+          "prompt": "Assign corrective work and verification to owners."
+        },
+        {
+          "heading": "Open questions",
+          "prompt": "Preserve missing access, uncertain behavior, and follow-up evidence."
+        }
+      ],
+      "metadata": {
+        "methods": "security-methods.csv"
+      }
     },
     {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-pitch.md",
-      "sha256": "8169587f04c2290f314aa165e8828d1f275a366ba3b0a3236debef3697198159",
-      "git_blob_sha1": "15db0d350e2c3edee8186e3697cef1b3eb78f794",
-      "template": "pitch",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-prd-light.md",
-      "sha256": "f81bc8b579d110503fa52e9fbf53f6bb258118ae116fea0cb8e5fbbfd466e730",
-      "git_blob_sha1": "8df3967342b966fe6d591352051c08d6174bcf9f",
-      "template": "prd-light",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-prd.md",
-      "sha256": "47bfad621d981fcd23726a827e2ff9a505ccd7e6500ecb83110a1ce20518bc94",
-      "git_blob_sha1": "6cea0e7fc05e8290c7f94b6fd0d771afc8f51d92",
-      "template": "prd",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-prototype-plan.md",
-      "sha256": "2d7a867bea6626d3f51bab81b83ae2e14fd3420747ce7e33e2bb3e9a853e5f6e",
-      "git_blob_sha1": "095ffc88ee1e6ff70ad3b11c717a8351d7a11339",
-      "template": "prototype-plan",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "agent",
-      "kind": "template",
-      "path": "skills/method/bmad-agent-pm/assets/template-srs.md",
-      "sha256": "1b80dbeac080ee3a4a90232b45d3bb6fb79258c56ae1e91218a10bc4b81418dd",
-      "git_blob_sha1": "e1e2ff194c8dd7cd8153b1da23581f08bb426fb5",
-      "template": "srs",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "module",
-      "kind": "resource",
-      "path": "skills/method/bmod-method/doc-templates/methods-security.csv",
-      "sha256": "4ae9a4e0eefed6c526de02362c2d08e64e27d4c7f2d6366cb188524163077b68",
-      "git_blob_sha1": "b928b041c17bc486c4060c7d3e6610e9cec22f4a"
-    },
-    {
-      "scope": "module",
-      "kind": "template",
-      "path": "skills/method/bmod-method/doc-templates/template-decision-record.md",
-      "sha256": "6c46ab3bf7281487343bdde8da65e70426f9521c676c01f13a6d56f86a659030",
-      "git_blob_sha1": "4858ef4359bbe6376cc836f849dad0cc0bb61f15",
-      "template": "decision-record",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "module",
-      "kind": "template",
-      "path": "skills/method/bmod-method/doc-templates/template-postmortem.md",
-      "sha256": "f4e78fff08f65e80f30a9065072cfa6f276ecb4548440c1e8b0ff779212c69ec",
-      "git_blob_sha1": "8279c4852f69f674e153ac8ecf0127e2173e2b1d",
-      "template": "postmortem",
-      "version": "1.1.0"
-    },
-    {
-      "scope": "module",
-      "kind": "template",
-      "path": "skills/method/bmod-method/doc-templates/template-security-review.md",
-      "sha256": "73fe82b93052cc685ebd061bba5299f184b2c9789e968beb6be948a547075760",
-      "git_blob_sha1": "c38e54bd07b41e87905dd15404cfb9bc606ed793",
-      "template": "security-review",
-      "version": "1.1.0"
+      "id": "srs",
+      "description": "Specify engineering behavior and verification for a contracted scope.",
+      "sections": [
+        {
+          "heading": "Table of Contents"
+        },
+        {
+          "heading": "Introduction",
+          "prompt": "State purpose, scope, stakeholders, and acceptance context."
+        },
+        {
+          "heading": "Definitions",
+          "prompt": "Explain domain terms and identifiers."
+        },
+        {
+          "heading": "References",
+          "prompt": "Pin governing policies, design decisions, and source requirements."
+        },
+        {
+          "heading": "Overall description",
+          "prompt": "Name the actors, operating assumptions, and system boundaries."
+        },
+        {
+          "heading": "Functional requirements",
+          "prompt": "Give stable IDs to conditions, actions, outcomes, and failure states."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Interface requirements",
+          "prompt": "External systems exchange data. Specify formats, errors, versions, and ownership."
+        },
+        {
+          "heading": "Quality requirements",
+          "prompt": "State measurable reliability, usability, performance, and accessibility thresholds."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Compliance requirements",
+          "prompt": "A documented obligation applies. Name it and give a verification path."
+        },
+        {
+          "rule": "include when:",
+          "heading": "Design constraints",
+          "prompt": "An approved technical or operational choice limits design. Record its source and purpose."
+        },
+        {
+          "heading": "Verification",
+          "prompt": "Map each requirement to evidence and a reviewer."
+        },
+        {
+          "heading": "Open questions",
+          "prompt": "Record unresolved issues, owners, and decisions needed."
+        },
+        {
+          "heading": "Revision history",
+          "prompt": "Record material changes and the affected commitments."
+        }
+      ]
     }
-  ]
+  ],
+  "resources": {
+    "planning-rubric.md": "# Planning document review\n- Check that the title and first section identify the purpose and intended reader.\n- Verify every material claim against a pinned source, named observation, or unresolved assumption.\n- Compare choices using their actual consequences. Keep constraints, conditions and omitted material traceable.\n- Inspect the latest editable document and any separate recipient files. Test the explicit outcome when it can be observed.\n",
+    "security-methods.csv": "method,question\nAccess,Which actors are permitted to perform each operation?\nData,Which records cross a protected boundary and what is retained?\nRecovery,How are partial decisions reconciled and reviewed?\n",
+    "prfaq-view.html": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title data-field=\"title\"></title><style>\nhtml{background:#eef4f3;color:#15313d;font:16px/1.55 system-ui,sans-serif}body{margin:0}\nmain{max-width:850px;margin:auto;padding:clamp(20px,5vw,56px)}\nheader{border-bottom:3px solid #167b7a;padding-bottom:1rem}h1{line-height:1.05;font-size:clamp(2rem,5vw,3.5rem)}\nsection,article{background:#fff;margin:1.2rem 0;padding:1.4rem 1.7rem;border-radius:.5rem;border:1px solid #bed4d3}\nh2{margin-top:0}pre,p{overflow-wrap:anywhere;white-space:pre-wrap}a{color:#075f76}\n</style></head><body><main><header><h1 data-field=\"title\"></h1><p data-field=\"status\"></p></header><article data-section=\"Press release\"></article><section data-section=\"Customer FAQ\"><h2>Customer FAQ</h2><div data-body></div></section><section data-section=\"Internal FAQ\"><h2>Internal FAQ</h2><div data-body></div></section><section data-section=\"Verdict\"><h2>Verdict</h2><div data-body></div></section><section data-rest></section></main></body></html>",
+    "brief-view.html": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title data-field=\"title\"></title><style>\nhtml{background:#eef4f3;color:#15313d;font:16px/1.55 system-ui,sans-serif}body{margin:0}\nmain{max-width:850px;margin:auto;padding:clamp(20px,5vw,56px)}\nheader{border-bottom:3px solid #167b7a;padding-bottom:1rem}h1{line-height:1.05;font-size:clamp(2rem,5vw,3.5rem)}\nsection,article{background:#fff;margin:1.2rem 0;padding:1.4rem 1.7rem;border-radius:.5rem;border:1px solid #bed4d3}\nh2{margin-top:0}pre,p{overflow-wrap:anywhere;white-space:pre-wrap}a{color:#075f76}\n</style></head><body><main><header><h1 data-field=\"title\"></h1><p data-field=\"status\"></p></header><article data-section=\"Executive summary\"></article><section data-section=\"Problem\"><h2>Problem</h2><div data-body></div></section><section data-section=\"Solution\"><h2>Solution</h2><div data-body></div></section><section data-rest></section></main></body></html>"
+  }
 }

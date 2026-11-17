@@ -22,8 +22,8 @@ The [component record](current.json) is the source for these values and the core
   the path and source binding. [UX prototype](../docs/technical/UX_PROTOTYPE.md)
 - Use a reusable template registry with reviewed sources, conditional or repeat
   sections, and companion documents. [Document templates](../docs/technical/DOCUMENT_TEMPLATES.md)
-- Inspect and stage BMad module trees and reviewed migration changes separately
-  from the active project. [Module migration](../docs/technical/BMAD_MODULE_MIGRATION.md)
+- Inspect and stage current and legacy module trees and reviewed migration changes separately
+  from the active project. [Module migration](../docs/technical/MODULE_MIGRATION.md)
 - Compare a local ticket tree against mapped GitHub, Linear, Jira Cloud, Notion
   or Trello objects. Preview outgoing changes, identify incoming changes and
   conflicts, and reconcile lost responses before another effect. Provider
@@ -62,5 +62,5 @@ between a verified local case and live provider or device acceptance.
 Native Codex sessions exercised workshop continuation and staged imports.
 A controlled HTTP target exercised GitHub writes and recovery while live
 GitHub requests verified read and preview behavior. Other providers,
-additional BMad workflows, and target-device runs have their own acceptance
+other optional workflows, and target-device runs have their own acceptance
 work. The release covers the behavior listed here.

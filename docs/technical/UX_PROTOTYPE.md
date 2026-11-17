@@ -65,5 +65,3 @@ restore a new binding before testing again. Keep the original walk and its
 evidence attached to the original bytes. For product adoption, pass the
 reviewed documents, exact artifact, observed receipt, device limits and any
 remaining assumptions to the build and QA owners.
-
-[Upstream comparison: BMad UX and architecture](https://docs.bmad-method.org/plan/design-ux-and-architecture/)

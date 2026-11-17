@@ -53,7 +53,7 @@ flowchart LR
 Use the [project ticket tree](technical/TICKET_TREE.md) to inspect selected work,
 prerequisites and declared acceptance evidence. For changed requirements, use the
 [plan change review](technical/TICKET_CHANGE_REVIEW.md) to bind refinements to exact sources and
-report affected work and proof. Use [Codex workflow comparisons](technical/CODEX_COMPARISONS.md)
+report affected work and proof. Use [reviewed workflow evidence](technical/CODEX_COMPARISONS.md)
 to compare independently reviewed runs on a pinned task.
 
 For work that spans sessions, bind each Builder to its own Git worktree

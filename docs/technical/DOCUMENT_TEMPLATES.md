@@ -117,27 +117,57 @@ Use a reviewed diagram renderer separately when a drawn Mermaid diagram is
 required. Template comments, method catalogs and rubrics guide the review.
 They are input data and do not run scripts.
 
-## Use the pinned BMad Method catalog
+## Start a standalone library
 
-The catalog identifies the 18 Method templates and their associated view,
-guidance, rubric and method assets by SHA-256. It omits their contents.
-Acquire the exact upstream tree in an approved local directory under the
-project. Preserve its MIT license and notices, including with any distributed
-upstream layout or CSS. The pinned source and inventory are available here.
-
-- [Upstream Method template reference](https://docs.bmad-method.org/reference/document-templates/)
-- [Upstream source commit](https://github.com/bmad-code-org/BMAD-METHOD/tree/e435a22574fe55722841086e5566420178b98df3)
-- [Pinned local catalog](../../scripts/document_templates_catalog.json)
+The starter command writes 18 editable templates, a shared review rubric,
+a security-review question catalog, and offline product brief and PRFAQ views.
+The set includes decision records, delivery proposals, experiments, product
+requirements, launch plans, and postmortems. The pitch template uses a slide
+view. The CLI returns the actual registry path and a receipt for every file.
+Choose a fresh library directory under the project.
 
 ```sh
-git clone https://github.com/bmad-code-org/BMAD-METHOD.git "$PROJECT/upstream-bmad"
-git -C "$PROJECT/upstream-bmad" checkout --detach e435a22574fe55722841086e5566420178b98df3
-python3 -B "$TOOL" --root "$PROJECT" upstream-registry --upstream upstream-bmad \
-  > "$PROJECT/templates.json"
-python3 -B "$TOOL" --root "$PROJECT" list --registry templates.json
+python3 -B "$TOOL" --root "$PROJECT" init-library --output document-library
+python3 -B "$TOOL" --root "$PROJECT" list --registry document-library/registry.json
+python3 -B "$TOOL" --root "$PROJECT" inspect --registry document-library/registry.json \
+  --template decision-record
 ```
 
-The catalog covers Method's analyst, PM and module templates. Other modules
-can supply compatible local files through the registry. Use the source
-template's optional sections, decisions, methods and rubric in a real
-document before adopting it.
+Keep the generated files and add changes in a separate registry layer.
+To change a base file, update its version and hash in your project's registry
+and inspect it again before creating a revised document.
+
+## Admit a reviewed source catalog
+
+Templates from a separately obtained local library use the same registry.
+Provide the relative source folder and a project-relative JSON catalog
+with schema `atelier.document-template-catalog/1`. Each `files` entry
+has a source-relative `path`, `sha256`, layer `scope` and `kind` of
+`template` or `resource`. Add `license_path` and `license_sha256` when
+the source notice forms part of the reviewed library. Preserve those notices
+when redistributing material. A catalog's source path must stay under the
+declared folder. Verified catalog and notice bytes are pinned in the result.
+
+```json
+{
+  "schema": "atelier.document-template-catalog/1",
+  "files": [
+    {
+      "path": "runbook.md",
+      "sha256": "REPLACE_WITH_THE_REVIEWED_FILE_SHA256",
+      "scope": "library",
+      "kind": "template"
+    }
+  ]
+}
+```
+
+```sh
+python3 -B "$TOOL" --root "$PROJECT" upstream-registry --upstream reviewed-library \
+  --catalog reviewed-catalog.json > "$PROJECT/external-registry.json"
+python3 -B "$TOOL" --root "$PROJECT" list --registry external-registry.json
+```
+
+The import validates local files and never fetches a source. A previously saved
+version 1 template catalog can be supplied with the same flag. Existing
+project registries, drafts and review inputs keep their original formats.

@@ -4,7 +4,7 @@ Use Codex for a focused task, develop a product with specialists, or design a re
 
 [English](../en/GUIDE.md) · [Українська](../uk/GUIDE.md) · [Deutsch](../de/GUIDE.md) · [Italiano](../it/GUIDE.md) · [Español](../es/GUIDE.md) · [Français](../fr/GUIDE.md) · [简体中文](../zh-CN/GUIDE.md)
 
-For a guided first session, open [Start here](../../START_HERE.md#install-and-verify). Then [follow one request through a complete project](../technical/END_TO_END.md), from assembling the team to reviewing its release evidence. [Read the whole system map](../../assets/marketing/release-1.7/workflow-en.svg)
+For a guided first session, open [Start here](../../START_HERE.md#install-and-verify). Then [follow one request through a complete project](../technical/END_TO_END.md), from assembling the team to reviewing its release evidence. [Read the whole system map](../../assets/marketing/release-1.7/workflow-en.svg) · [Documentation index](../INDEX.md)
 
 ## Choose where to start
 
@@ -65,7 +65,7 @@ Keep the original sprint plan as the backlog changes. Review proposed additions 
 
 Use an exact workshop record to continue brainstorming or challenge a proposal in a fresh session. Build a source-backed brief, PRFAQ, or separate design and experience documents with unresolved decisions visible. Audit imported Codex skills and roles before staging them in a fresh project. For an explicitly mapped GitHub issue, review one proposed change and read back the result before any repeat. [Workshop](../technical/WORKSHOP.md) · [Product facilitation](../technical/PRODUCT_FACILITATION.md) · [Constructor import](../technical/CONSTRUCTOR_IMPORT.md) · [GitHub writes](../technical/TICKET_GITHUB.md#apply-a-reviewed-change-to-a-mapped-issue)
 
-Build an interactive browser prototype from reviewed DESIGN and EXPERIENCE, or use the template registry to keep drafts, revisions and reviews tied to exact sources. Audit a BMad module and stage a reviewed migration in a fresh directory. For tracker trees, reconcile one effect after checking local, prior and remote state. [UX prototype](../technical/UX_PROTOTYPE.md) · [Templates](../technical/DOCUMENT_TEMPLATES.md) · [BMad migration](../technical/BMAD_MODULE_MIGRATION.md) · [Tracker tree](../technical/TRACKER_SYNC.md) · [Tracker providers](../technical/TRACKER_PROVIDERS.md)
+Build an interactive browser prototype from reviewed DESIGN and EXPERIENCE, or use the template registry to keep drafts, revisions and reviews tied to exact sources. Audit an existing module and stage a reviewed migration in a fresh directory. For tracker trees, reconcile one effect after checking local, prior and remote state. [UX prototype](../technical/UX_PROTOTYPE.md) · [Templates](../technical/DOCUMENT_TEMPLATES.md) · [Module migration](../technical/MODULE_MIGRATION.md) · [Tracker tree](../technical/TRACKER_SYNC.md) · [Tracker providers](../technical/TRACKER_PROVIDERS.md)
 
 <a name="context"></a>
 ### Context capsules
