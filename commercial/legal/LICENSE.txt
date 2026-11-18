@@ -1,0 +1,156 @@
+CODEX AGENT SYSTEM COMMERCIAL SOURCE-AVAILABLE LICENSE
+Version 1.0.0-rc.1 — OWNER-REVIEW RELEASE CANDIDATE
+
+Release-candidate status
+This text is prepared under the owner's commercial-product instructions.
+It is not a public offer, an executed customer agreement, or a grant of
+commercial rights to the public repository. Before any public sale the
+seller must confirm its legal contracting capacity, postal address and
+applicable jurisdiction in the purchase confirmation; approve and
+publish the final terms; and complete the release gates. Test receipts
+explicitly say TEST and do not represent a purchase.
+
+1. Parties and controlling records
+The owner supplied the name Oleksandr Hohaizel and the contact email
+aleksandrhohaizel@gmail.com for support and privacy. These are owner-provided
+facts, not independent verification of a legal entity, contracting capacity,
+postal address, country, registration, tax status or governing law.
+"Seller" is the verified legal person identified in the final purchase
+confirmation. "Customer" is the named purchaser there. Until the remaining
+legal facts are confirmed, this candidate cannot be sold under these terms. "Product" means the Seller's
+original Codex Agent System instructions, skills, templates, scripts, roles,
+documentation, and runtime files identified by the delivered manifest.
+Third-party components keep their own licenses and notices. This agreement
+does not restrict rights independently granted by their rights holders.
+
+The purchase confirmation records product ID, purchased product major,
+edition, named-seat count, license/support/refund versions, source commit,
+channel and artifact digest. Retain it with the delivered license. Those
+accepted versions govern the acquired rights; a later offer or update does
+not silently replace them.
+
+2. Grant for the purchased product major
+Upon the valid purchase identified in the confirmation, and subject to these
+terms, Seller grants Customer a non-exclusive, perpetual right to install,
+run and internally modify the purchased product major for the permitted
+named users. It includes releases made available for that same product major.
+An update is not an obligation to upgrade. A new major is a separate offer
+unless the purchase confirmation expressly includes it.
+
+Solo permits one named user on that user's multiple devices. Team permits
+up to five named users of the same organization, each on multiple devices.
+A Team seat may be reassigned after the prior user stops accessing that
+seat's Product copies. Record the retired user reference, replacement user
+reference and effective date. Concurrent access cannot exceed purchased
+seats. Do not share one named seat across unrelated users or organizations.
+Device replacement and movement to a different supported host do not
+require repurchasing the same permitted seat.
+
+3. Customer work, outputs and constructed agents
+Permitted users may use the Product for personal projects and commercial
+work for their organization or its clients. Customer retains its rights in
+its project inputs and original outputs. Seller claims no ownership of
+Customer's code, documents or project solely because the Product was used.
+
+Customer may use the constructors and deliver the Customer-authored agent
+instructions and outputs created for its permitted projects. An output is
+not automatically licensed under the Product's entire license. Customer
+must have rights to any incorporated source, model output, dependency,
+client content and asset; this agreement cannot grant another party's
+rights.
+
+Where a constructed agent needs Product runtime helpers or reference
+resources, Customer may copy only the necessary resources into that
+permitted project, preserve their notices, and allow its licensed named
+users to operate them. These embedded resources remain Product resources;
+they are not relicensed as Customer-original work. A client needing to
+independently operate or receive those resources outside Customer's
+permitted named seats needs its own Product license or a separate written
+distribution grant. Delivering an original output that does not contain
+Product source does not require the client to buy the Product.
+
+4. Source access and limits
+Customer may read, back up and modify supplied original source for its own
+permitted operation. Customer may keep archival and recovery copies and
+supply a confidential minimum reproducible case to Seller for support.
+This grant does not allow selling, publishing, sharing or sublicensing the
+Product or its substantial source, skill library, reference library,
+runtime helpers, package or derivative toolkit as a competing or stand-alone
+distribution. It does not grant trademark, endorsement or marketplace
+resale rights. A separate written grant is needed for redistribution.
+Third-party notices and licenses remain authoritative for their files.
+
+The public source repository allows inspection under applicable platform
+terms. Its visibility does not itself grant this commercial license.
+Previously valid grants and third-party licenses are not revoked or
+retroactively narrowed by these new terms.
+
+5. Use during store outages and updates
+No always-online activation is required by this edition. The delivered
+license, purchase confirmation and installed rights record remain usable
+offline. A temporary marketplace, delivery or update-service outage does
+not terminate the right to operate the acquired major. Update eligibility
+for a later major, current payment/dispute state and the acquired-use grant
+are separate records. Product code never deletes or encrypts Customer
+projects because of a license-status change.
+
+Same-major updates must preserve stable identities, acquired rights,
+accepted configurations and the documented recovery route. Changes to
+storage or host requirements need an explicit migration and reviewable
+compatibility statement. Retain the old usable version and receipt until
+a successful transition. A future terms version requires explicit acceptance
+before it governs new rights; it does not silently reduce past rights.
+
+6. Support and refunds
+The support statement supplied with the purchase confirmation covers
+documentation, installation guidance and reproducible defects in the
+delivered Product. It excludes custom implementation, training engagements,
+third-party subscription costs and third-party availability. No response
+time, 24/7 coverage, outcome guarantee or lifetime human service is promised
+unless the confirmation expressly states it.
+
+Seller reviews duplicate charges, non-delivery and reproducible failure
+against the advertised supported requirements under the recorded refund
+policy and the channel agreement actually accepted for that sale.
+Mandatory consumer protections prevail. This candidate does not invent
+a jurisdiction-specific waiver, automatic withdrawal-right waiver or a
+voluntary numeric refund window. Those details must be completed before
+sale. A payment-provider refund is not implemented by the local test ledger.
+Any resulting license consequences follow the accepted terms and applicable
+law, not an automatic destruction of Customer work.
+
+7. Customer responsibilities and external providers
+Customer supplies its own supported Codex account, model permissions and
+third-party service access and pays their separate fees. Respect source
+rights, privacy, client obligations and external API terms. Keep credentials
+outside delivered source and support bundles. Product compatibility with
+Codex or another named provider does not imply sponsorship, affiliation
+or endorsement by OpenAI or any other provider.
+
+8. Warranty and liability framework
+Except for express written commitments and rights that law does not permit
+to exclude, the Product is supplied as available. It cannot guarantee that
+a model, external service or generated output is correct or fit for every
+purpose. Customer should review consequential changes and keep backups.
+Seller must publish jurisdiction-appropriate warranty and liability language
+before sale. This candidate does not establish a monetary liability cap
+or remove mandatory remedies, fraud liability, or other non-excludable
+rights. No statutory entitlement is waived through this candidate text.
+
+9. Enforcement, disputes and continuity
+A material breach may require Seller to provide notice, identify the breach
+and allow any cure period required by the accepted terms and applicable law.
+No code path in this candidate remotely disables an acquired installation.
+The contracting entity, governing law and dispute procedure must be stated
+in final approved terms before sale. A change in marketplace or fulfillment
+vendor does not change the acquired license scope.
+
+10. Records and privacy
+Use the opaque order reference, product ID/version, edition, seat count and
+recorded terms for support and updates. Do not send model keys or private
+project files. The owner-provided support and privacy contact is
+aleksandrhohaizel@gmail.com. Seller must confirm this channel is operational
+and publish lawful retention/deletion and channel-specific processing
+notices before sale. No support hours or response SLA are established here.
+No customer identities, seller issuance secrets or payment records belong
+in the public repository or generic distribution.

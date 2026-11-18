@@ -6,6 +6,7 @@ import json
 import math
 from pathlib import Path, PurePosixPath
 import re
+import stat
 import sys
 
 MAX_JSON = 4 * 1024 * 1024
@@ -61,8 +62,17 @@ def json_object(raw):
     return result
 
 
+def _linked(path):
+    # This validator is exported under historical self-contained operating
+    # contracts. Keep this tiny native-path check dependency-free so previously
+    # acquired agent packages do not gain a missing sibling dependency.
+    try: info = Path(path).lstat()
+    except FileNotFoundError: return False
+    return stat.S_ISLNK(info.st_mode) or bool(getattr(info, 'st_file_attributes', 0) & 0x400)
+
+
 def load(path):
-    require(path.is_file() and not path.is_symlink(), 'missing/linked JSON input')
+    require(path.is_file() and not _linked(path), 'missing/linked JSON input')
     require(path.stat().st_size <= MAX_JSON, 'JSON input exceeds 4 MiB')
     return json_object(path.read_bytes())
 
@@ -88,10 +98,15 @@ def local(root, value, existing=True):
     pure = PurePosixPath(value)
     require(not pure.is_absolute() and '..' not in pure.parts and '\\' not in value
             and pure.as_posix() == value, 'unsafe relative path: ' + value)
+    if sys.platform == 'win32':
+        reserved = re.compile(r'^(?:CON|PRN|AUX|NUL|CONIN\$|CONOUT\$|COM[1-9¹²³]|LPT[1-9¹²³])(?:\.|$)', re.I)
+        require(all(not any(c in part for c in ':<>"|?*') and not part.endswith((' ', '.'))
+                    and not reserved.match(part) and not any(ord(c) < 32 for c in part)
+                    for part in pure.parts), 'unsafe Windows relative path: ' + value)
     path = root
     for part in pure.parts:
         path = path / part
-        require(not path.is_symlink(), 'linked input/output path rejected')
+        require(not _linked(path), 'linked input/output path rejected')
     if existing:
         require(path.is_file(), 'missing local input: ' + value)
     return path
@@ -229,7 +244,7 @@ def reconcile_decisions(decisions):
 def declared_context(data, root, projection_path, bindings_path=None):
     """Read only one explicit/conventional binding; never scan or create native state."""
     conventional = root / DEFAULT_BINDINGS
-    refs = [DEFAULT_BINDINGS] if conventional.exists() or conventional.is_symlink() else []
+    refs = [DEFAULT_BINDINGS] if conventional.exists() or _linked(conventional) else []
     if bindings_path is not None and bindings_path not in refs:
         refs.append(bindings_path)
     if not refs:
@@ -237,7 +252,7 @@ def declared_context(data, root, projection_path, bindings_path=None):
     require(len(refs) == 1, 'CONTEXT_CONFLICT: multiple context binding manifests')
     ref = refs[0]
     require(root.is_absolute() and root.resolve() == root and
-            not any(x.is_symlink() for x in (root, *root.parents)),
+            not any(_linked(x) for x in (root, *root.parents)),
             'SCOPE_MISMATCH: canonical unlinked root required')
     raw = bound_bytes(root, ref)
     manifest = json_object(raw)
@@ -510,7 +525,7 @@ def main():
     try:
         require(args.root.is_absolute() and args.root.is_dir(), 'absolute existing root required')
         root = args.root
-        require(not any(x.is_symlink() for x in (root, *root.parents)), 'linked root rejected')
+        require(not any(_linked(x) for x in (root, *root.parents)), 'linked root rejected')
         projection_path = local(root, args.input)
         before = digest(projection_path.read_bytes())
         packet = compile_packet(load(projection_path), args.task, root, projection_path,

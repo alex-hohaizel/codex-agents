@@ -6,13 +6,17 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 permissions:
   contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -40,6 +44,19 @@ jobs:
           python3 -B -m unittest discover -s kit/skills/chatbot-atelier-director/scripts/tests
           python3 -B -m unittest discover -s kit/skills/gamedev-director/scripts/tests
           python3 -B -m unittest discover -s evaluations/tests
+      - name: Check commercial buyer contract and lifecycle
+        run: |
+          python3 -B scripts/check_commercial.py
+          python3 -B scripts/check_universal.py
+          python3 -B -m unittest discover -s scripts/tests
+          node --test commercial/tests/gui/web.test.mjs
+          python3 -B -m unittest discover -s commercial/tests
+          python3 -B scripts/build_commercial.py --output /tmp/agent-system-commercial-rc
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: commercial-release-candidate
+          path: /tmp/agent-system-commercial-rc
+          if-no-files-found: error
       - name: Install tested campaign verification dependencies
         run: python3 -m pip install reportlab==4.4.9 pillow==13.0.0 pypdf==6.21.4
       - name: Build and verify campaign, sources, recovery tests and source bundles

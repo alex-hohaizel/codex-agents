@@ -1,0 +1,95 @@
+{
+  "schema": "codex-agents.commercial-product/1",
+  "product_id": "codex-agent-system",
+  "name": "Codex Agent System",
+  "release_record": "releases/current.json",
+  "core_manifest": "kit/manifest.json",
+  "offer": "commercial/offer.json",
+  "contract": "governance/COMMERCIAL_PRODUCT_CONTRACT.md",
+  "license": "commercial/legal/LICENSE.txt",
+  "host": {
+    "name": "Codex",
+    "tested_cli": "0.166.0",
+    "version_policy": "0.166.x tested; later versions require doctor plus discovery and canary",
+    "prerequisites": [
+      "Supported native Codex host and buyer account",
+      "User-write home directory and a modern browser",
+      "Bundled Python3.13 and Node24 in ready packages; manual Python3.9+ only for the advanced source CLI"
+    ],
+    "accounts": "Buyer supplies Codex/model account and paid external integrations; these are not included"
+  },
+  "platforms": [
+    {
+      "os": "Windows",
+      "architectures": [
+        "x64",
+        "arm64"
+      ],
+      "skills": "Full core, optional Orchestrator, profile and roles; exact native package evidence in release CI",
+      "panel": "Included built client and bundled native runtime",
+      "minimum_os": "Windows11 recommended; native Node upstream minimum Windows10/Server2016 subject to vendor lifecycle support",
+      "acceptance": "Six native OS/CPU workflow cases; minimum-version and every-device acceptance are not implied"
+    },
+    {
+      "os": "macOS",
+      "architectures": [
+        "x64",
+        "arm64"
+      ],
+      "skills": "Full core, optional Orchestrator, profile and roles; exact native package evidence in release CI",
+      "panel": "Included built client and bundled native runtime",
+      "minimum_os": "13.5 (Node24 upstream minimum); exact native runners documented",
+      "acceptance": "Six native OS/CPU workflow cases; minimum-version and every-device acceptance are not implied"
+    },
+    {
+      "os": "Linux",
+      "architectures": [
+        "x64",
+        "arm64"
+      ],
+      "skills": "Full core, optional Orchestrator, profile and roles; exact native package evidence in release CI",
+      "panel": "Included built client and bundled native runtime",
+      "minimum_os": "glibc>=2.28, kernel>=4.18, libstdc++ GLIBCXX>=3.4.25; modern desktop browser",
+      "acceptance": "Six native OS/CPU workflow cases; minimum-version and every-device acceptance are not implied"
+    },
+    {
+      "host": "ChatGPT Work",
+      "skills": "Existing source-import package retained; host save and first-use acceptance separate",
+      "panel": "Not a Work-host runtime"
+    }
+  ],
+  "recommended_components": {
+    "core": true,
+    "orchestrator": true,
+    "profile": true,
+    "roles": true,
+    "maintenance": false,
+    "workbench": "optional; included built client and native runtimes in ready packages"
+  },
+  "buyer_entry": "START_HERE.html",
+  "setup": "setup/setup.py",
+  "state": "user-owned directory outside skill discovery",
+  "lifecycle": [
+    "doctor",
+    "audit",
+    "install",
+    "verify",
+    "discover",
+    "first-task",
+    "rollback",
+    "uninstall"
+  ],
+  "trust": {
+    "artifact": "detached Ed25519 signature over exact release index",
+    "buyer_key": "obtain verifier public key through authenticated seller receipt, independently of archive",
+    "local_rc_key": "test-only private key outside repository; not production issuance",
+    "technical_release": "GitHub artifact attestations plus INSTALLER-BUILD.json/INSTALLER-SHA256SUMS; exact main commit"
+  },
+  "data_policy": {
+    "telemetry": "none added by the buyer setup",
+    "purchase": "minimum edition/order and versioned rights; no host credentials or project files",
+    "third_party": "third-party services retain their policies"
+  },
+  "channels": "commercial/channels/compatibility.json",
+  "status": "Published technical distribution; commercial terms remain owner-review draft, no public sale"
+}

@@ -2,7 +2,7 @@
 name: chatbot-atelier-director
 description: "Lead a new chatbot or coordinate changes across several areas of an existing one. For a contained task, use the relevant specialist."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # ChatBot Atelier · Director

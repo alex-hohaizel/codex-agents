@@ -1,0 +1,31 @@
+THIRD-PARTY AND ASSET NOTICES — COMMERCIAL CANDIDATE
+
+Original Agent System instructions, scripts, templates, diagrams and setup
+are covered only by the applicable owner-approved license. This notices
+file does not replace that agreement or grant rights in other material.
+
+Core buyer package:
+- Python and Codex are buyer-provided hosts, not redistributed binaries.
+  Python's and Codex's respective terms remain with those products.
+- Workshop catalogs, imported modules and external project sources are
+  supplied by the operator. Their licenses, attribution and execution
+  boundaries remain their own; this package grants none of those rights.
+- Icons and artwork in the original product use the repository's pinned
+  provenance records. System fonts are referenced by name, not bundled.
+  The seller must confirm authority for original artwork before public sale.
+- Names and URLs of external products identify compatibility and references.
+  They do not imply endorsement, bundled access or a rights grant.
+
+Separate prebuilt Agent Atelier runtime:
+- It includes an exact official Node.js distribution and its full Node
+  license (including embedded third-party notices) in notices/Node-LICENSE.txt.
+- Actual production React, React DOM, scheduler and icon dependencies retain
+  their shipped license files and versions under the runtime's notices.
+- The runtime builder emits an exact dependency and artifact inventory.
+  Read that artifact's own THIRD_PARTY_NOTICES and runtime-manifest.json.
+  These dependencies are not included in the skills-only buyer ZIP.
+
+Commercial RC files and source are not a retroactive relicensing of earlier
+versions or third-party code. Required notices and license texts must travel
+with a derived artifact. Read the actual artifact inventory before asserting
+that a dependency or license is included.

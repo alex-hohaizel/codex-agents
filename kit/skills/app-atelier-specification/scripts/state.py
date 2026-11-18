@@ -4,7 +4,13 @@ import argparse
 import contextlib
 import copy
 import datetime as dt
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import json
 import math
@@ -110,7 +116,7 @@ def normalize_profile(value):
 def no_symlinks(path):
     path=Path(path).absolute()
     for p in [path]+list(path.parents):
-        need(not p.is_symlink(),'symlink forbidden: '+str(p))
+        need(not platform_support.is_link_or_reparse(p),'symlink forbidden: '+str(p))
     return path
 
 def read_json(path):
@@ -132,6 +138,7 @@ def file_sha(path):
 
 def contained(root, name):
     need(isinstance(name,str) and name and '\\' not in name and ':' not in name,'unsafe relative path')
+    if platform_support.WINDOWS:platform_support.safe_relative(name)
     rel=PurePosixPath(name)
     need(not rel.is_absolute() and '..' not in rel.parts and str(rel)==name,'unsafe relative path')
     return no_symlinks(root.joinpath(*rel.parts))
@@ -142,8 +149,9 @@ def atomic(path,obj):
     fd,name=tempfile.mkstemp(prefix='.write-',dir=str(path.parent))
     try:
         with os.fdopen(fd,'wb') as f:
+            if platform_support.WINDOWS: platform_support.fchmod(f.fileno(),0o600)
             f.write(data);f.flush();os.fsync(f.fileno())
-        os.chmod(name,0o600);os.replace(name,path)
+        platform_support.set_mode(name,0o600);os.replace(name,path)
     finally:
         if os.path.exists(name):os.unlink(name)
 
@@ -153,6 +161,7 @@ def locked(root,create=False):
     need(root.is_dir(),'project directory must exist')
     folder=root/'.appatelier';no_symlinks(folder)
     if create:folder.mkdir(mode=0o700,exist_ok=True)
+    if platform_support.WINDOWS:platform_support.make_private(folder)
     need(folder.is_dir(),'project not initialized')
     lock=no_symlinks(folder/'state.lock')
     fd=os.open(str(lock),os.O_CREAT|os.O_RDWR|getattr(os,'O_NOFOLLOW',0),0o600)

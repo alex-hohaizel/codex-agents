@@ -411,10 +411,35 @@ function stableJson(value: unknown): string {
   return JSON.stringify(value) ?? "undefined";
 }
 
+const SESSION_PROOF_KEY = "atelier.session.csrf.v1";
+const sessionSubscribers = new Set<() => void>();
+function storedProof(): string | null {
+  try { return typeof window === "undefined" ? null : window.sessionStorage.getItem(SESSION_PROOF_KEY); }
+  catch { return null; }
+}
+let browserProof = storedProof();
+function rememberProof(value: unknown) {
+  if (typeof value !== "string" || !value || value.length > 256)
+    throw new ApiError("The local session returned an invalid browser proof.", "INVALID_RESPONSE");
+  browserProof = value;
+  try { window.sessionStorage.setItem(SESSION_PROOF_KEY, value); } catch { /* The active tab can still use its in-memory proof. */ }
+  for (const notify of sessionSubscribers) notify();
+}
+function clearProof() {
+  browserProof = null;
+  try { window.sessionStorage.removeItem(SESSION_PROOF_KEY); } catch { /* No persistent proof was available. */ }
+}
+function privateHeaders(initial?: HeadersInit): Headers {
+  const headers = new Headers();
+  if (browserProof) headers.set("X-Atelier-CSRF", browserProof);
+  new Headers(initial).forEach((value, key) => headers.set(key, value));
+  return headers;
+}
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`/api/v1${path}`, {
     credentials: "same-origin",
     ...init,
+    headers: privateHeaders(init?.headers),
   });
   let body: any;
   try {
@@ -463,7 +488,9 @@ async function establishSession(): Promise<unknown> {
   const token = launchToken;
   launchToken = null;
   try {
-    return await request(
+    if (!token && !browserProof)
+      throw new ApiError("Open this browser session with the local launcher.", "LAUNCH_REQUIRED", null, 401);
+    const session = await request<Data>(
       "/session",
       token
         ? {
@@ -473,13 +500,16 @@ async function establishSession(): Promise<unknown> {
           }
         : undefined,
     );
+    rememberProof(session.csrf_token);
+    return session;
   } catch (error) {
     if (
       error instanceof ApiError &&
       (error.status === 401 || error.status === 403)
     ) {
+      clearProof();
       throw new ApiError(
-        "Open this browser session with the Mac launcher.",
+        "Open this browser session with the local launcher.",
         "LAUNCH_REQUIRED",
         { cause: error.code },
         error.status,
@@ -487,6 +517,74 @@ async function establishSession(): Promise<unknown> {
     }
     throw error;
   }
+}
+
+export interface ServiceEvent { type: string; data: string; lastEventId: string; }
+export function subscribeEvents(onEvent: (event: ServiceEvent) => void, options: { onError?: (error: unknown) => void; reconnectMs?: number } = {}) {
+  let closed = false, pausedForAuth = false, running = false;
+  let controller: AbortController | null = null;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let lastEventId = "", delay = options.reconnectMs ?? 1000;
+  const schedule = (milliseconds = delay) => {
+    if (closed) return;
+    clearTimeout(timer); timer = setTimeout(() => void connect(), milliseconds);
+  };
+  const sessionReadyAgain = () => { if (pausedForAuth && !closed) { pausedForAuth = false; schedule(0); } };
+  sessionSubscribers.add(sessionReadyAgain);
+  async function connect() {
+    if (closed || running) return;
+    running = true; controller = new AbortController();
+    let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+    try {
+      await prepareSession();
+      if (closed) return;
+      const headers = privateHeaders({ Accept: "text/event-stream" });
+      if (lastEventId) headers.set("Last-Event-ID", lastEventId);
+      const response = await fetch("/api/v1/events", { credentials: "same-origin", cache: "no-store", headers, signal: controller.signal });
+      if (!response.ok) throw new ApiError("The local event stream is unavailable.", "SESSION_REQUIRED", null, response.status);
+      if (!response.headers.get("content-type")?.startsWith("text/event-stream") || !response.body)
+        throw new ApiError("Invalid local event stream.", "INVALID_RESPONSE");
+      reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "", data: string[] = [], kind = "message", identifier: string | null = null;
+      const line = (value: string) => {
+        if (!value) {
+          if (identifier !== null && Number(identifier) > 0) lastEventId = identifier;
+          if (data.length) onEvent({ type: kind, data: data.join("\n"), lastEventId });
+          data = []; kind = "message"; identifier = null; return;
+        }
+        if (value.startsWith(":")) return;
+        const colon = value.indexOf(":"), field = colon < 0 ? value : value.slice(0, colon);
+        const body = colon < 0 ? "" : value.slice(colon + 1).replace(/^ /, "");
+        if (field === "data") data.push(body);
+        else if (field === "event") kind = body;
+        else if (field === "id" && /^\d+$/.test(body) && Number.isSafeInteger(Number(body))) identifier = body;
+        else if (field === "retry" && /^\d+$/.test(body)) delay = Math.max(250, Math.min(30000, Number(body)));
+      };
+      while (!closed) {
+        const result = await reader.read();
+        if (result.done) break;
+        buffer += decoder.decode(result.value, { stream: true });
+        if (buffer.length + data.join("\n").length > 4 * 1024 * 1024)
+          throw new ApiError("Local event frame exceeds its bound.", "CAPACITY_LIMIT");
+        let ending;
+        while ((ending = buffer.indexOf("\n")) >= 0) {
+          line(buffer.slice(0, ending).replace(/\r$/, "")); buffer = buffer.slice(ending + 1);
+        }
+      }
+    } catch (error) {
+      if (!closed) {
+        if (error instanceof ApiError && (error.status === 401 || error.status === 403)) pausedForAuth = true;
+        options.onError?.(error);
+      }
+    } finally {
+      try { await reader?.cancel(); } catch { /* The fetch may already have been aborted. */ }
+      running = false;
+      if (!closed && !pausedForAuth) schedule();
+    }
+  }
+  void connect();
+  return { close() { closed = true; clearTimeout(timer); controller?.abort(); sessionSubscribers.delete(sessionReadyAgain); } };
 }
 
 function prepareSession(): Promise<unknown> {
@@ -507,15 +605,31 @@ export const api = {
     }
     await prepareSession();
     try {
-      return await request<Bootstrap>("/bootstrap");
+      const result = await request<Bootstrap>("/bootstrap");
+      if (result.csrf_token) rememberProof(result.csrf_token);
+      return result;
     } catch (error) {
-      if (error instanceof ApiError && error.status === 401) {
+      if (error instanceof ApiError && (error.status === 401 || error.status === 403)) {
         sessionReady = null;
         await prepareSession();
         return request<Bootstrap>("/bootstrap");
       }
       throw error;
     }
+  },
+  events: subscribeEvents,
+  async artifactBlob(projectId: string, path: string, signal?: AbortSignal) {
+    const response = await fetch(`/api/v1/projects/${encodeURIComponent(projectId)}/artifact?path=${encodeURIComponent(path)}`, {
+      credentials: "same-origin", headers: privateHeaders(), signal,
+    });
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new ApiError(body.error?.message ?? "The artifact is unavailable.", body.error?.code ?? "ARTIFACT_UNAVAILABLE", body.error?.details, response.status);
+    }
+    const type = response.headers.get("content-type")?.split(";")[0].toLowerCase();
+    if (!type || !["image/png", "image/jpeg", "image/webp", "image/gif", "application/pdf", "audio/mpeg", "audio/wav", "audio/mp4", "video/mp4", "video/webm", "text/plain"].includes(type))
+      throw new ApiError("The artifact returned an unsupported preview type.", "INVALID_RESPONSE");
+    return response.blob();
   },
   workspace: (id: string) =>
     request<Workspace>(`/projects/${encodeURIComponent(id)}/workspace`),

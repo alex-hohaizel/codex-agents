@@ -1,8 +1,9 @@
 import { spawn, execFile } from "node:child_process";
 import { EventEmitter } from "node:events";
-import { mkdir, realpath, access } from "node:fs/promises";
-import { join, resolve, dirname } from "node:path";
+import { mkdir, realpath, readFile, lstat } from "node:fs/promises";
+import { join, resolve, dirname, basename } from "node:path";
 import { promisify } from "node:util";
+import { resolveNativeCommand } from "./platform.mjs";
 import { runtimeEnvironment, shellEnvironmentConfig } from "./environment.mjs";
 import {
   localProfile,
@@ -20,6 +21,7 @@ import {
   now,
   parseStrictJson,
   redact,
+  sha,
   ServiceError,
 } from "./utils.mjs";
 import { SERVICE_VERSION } from "../shared/contracts.mjs";
@@ -35,6 +37,43 @@ const HISTORY_READ_METHODS = new Set([
   "thread/turns/list",
   "thread/items/list",
 ]);
+export async function packagedPythonTerminfoRoots(python) {
+  const bin = dirname(python);
+  if (basename(bin).toLowerCase() !== "bin") return [];
+  const pythonRoot = dirname(bin), runtimeRoot = dirname(pythonRoot);
+  const descriptorPath = join(runtimeRoot, "runtime.json");
+  let info;
+  try { info = await lstat(descriptorPath); }
+  catch (error) { if (error.code === "ENOENT") return []; throw error; }
+  fail(info.isFile() && !info.isSymbolicLink() && info.nlink === 1 && info.size <= 16 * 1024 * 1024,
+    "CAPABILITY_UNVERIFIED", "The selected Python runtime provenance changed", 409);
+  const descriptor = parseStrictJson((await readFile(descriptorPath)).toString("utf8"), 16 * 1024 * 1024);
+  const reference = descriptor.python?.executable;
+  fail(descriptor.schema === "codex-agents.portable-runtime/1" && descriptor.target === process.platform + "-" + process.arch
+    && typeof reference === "string" && reference.startsWith("python/bin/") && !reference.includes("..") && !reference.includes("\\")
+    && descriptor.files?.[reference]?.sha256 === sha(await readFile(python))
+    && await realpath(join(runtimeRoot, reference)) === await realpath(python),
+    "CAPABILITY_UNVERIFIED", "The selected Python does not match its runtime provenance", 409);
+  const directories = descriptor.terminfo_dirs ?? [];
+  fail(Array.isArray(directories) && directories.length <= 30000,
+    "CAPABILITY_UNVERIFIED", "Invalid bundled terminal database provenance", 409);
+  const roots = [];
+  for (const directory of directories) {
+    fail(typeof directory === "string" && /^python\/share\/terminfo(?:-extra(?:[2-9]|[1-9][0-9]+)?)?$/.test(directory)
+      && Object.keys(descriptor.files).some(name => name.startsWith(directory + "/")),
+      "CAPABILITY_UNVERIFIED", "Terminal reads must remain within the selected bundled runtime", 409);
+    const path = join(runtimeRoot, directory);
+    for (let cursor = path; isWithin(pythonRoot, cursor); cursor = dirname(cursor)) {
+      const state = await lstat(cursor);
+      fail(state.isDirectory() && !state.isSymbolicLink(), "CAPABILITY_UNVERIFIED", "Linked terminal database roots are not permitted", 409);
+      if (cursor === pythonRoot) break;
+    }
+    const canonical = await realpath(path);
+    fail(isWithin(pythonRoot, canonical), "CAPABILITY_UNVERIFIED", "Terminal database is outside the selected runtime", 409);
+    roots.push(canonical);
+  }
+  return [...new Set(roots)];
+}
 export class CodexAdapter extends EventEmitter {
   #historyReadOnly;
   #integrationMetadataOnly;
@@ -107,11 +146,13 @@ export class CodexAdapter extends EventEmitter {
       recursive: true,
       mode: 448,
     });
-    let version = "unknown";
+    let version = "unknown", native;
     try {
+      native = await resolveNativeCommand(this.executable);
       version = (
-        await run(this.executable, ["--version"], {
+        await run(native.command, [...native.args, "--version"], {
           timeout: 5e3,
+          windowsHide: true,
           maxBuffer: 4096,
         })
       ).stdout.trim();
@@ -129,30 +170,25 @@ export class CodexAdapter extends EventEmitter {
       );
     }
     const childEnvironment = runtimeEnvironment();
-    let executablePath = this.executable.includes("/")
-      ? resolve(this.executable)
-      : null;
-    if (!executablePath)
-      for (const entry of (childEnvironment.PATH ?? "").split(":")) {
-        const candidate = join(entry, this.executable);
-        try {
-          await access(candidate);
-          executablePath = candidate;
-          break;
-        } catch {}
+    const executableReal = native.command;
+    this.runtimeReadRoots = [...new Set([
+      executableReal, dirname(executableReal), native.source, dirname(native.source),
+    ])];
+    if (childEnvironment.AGENT_SYSTEM_PYTHON) {
+      let python;
+      try { python = await realpath(childEnvironment.AGENT_SYSTEM_PYTHON); }
+      catch { throw new ServiceError("CAPABILITY_UNVERIFIED", "The selected packaged Python runtime is unavailable; reopen the verified package launcher", 409); }
+      const bin = dirname(python);
+      this.runtimeReadRoots.push(python, bin);
+      this.runtimeReadRoots.push(...await packagedPythonTerminfoRoots(python));
+      if (basename(bin).toLowerCase() === "bin") {
+        for (const name of ["lib", "lib64"]) {
+          try { this.runtimeReadRoots.push(await realpath(join(dirname(bin), name))); }
+          catch (error) { if (error.code !== "ENOENT") throw error; }
+        }
       }
-    fail(
-      executablePath,
-      "CAPABILITY_UNVERIFIED",
-      "Cannot locate the supported Codex runtime executable",
-      409,
-    );
-    const executableReal = await realpath(executablePath);
-    this.runtimeReadRoots = [
-      executablePath,
-      executableReal,
-      dirname(executableReal),
-    ];
+      this.runtimeReadRoots = [...new Set(this.runtimeReadRoots)];
+    }
     const externalBoundary = await externalToolDenials(
       this.executable,
       this.dataDir,
@@ -172,6 +208,7 @@ export class CodexAdapter extends EventEmitter {
     const child = this.spawnProcess(
       executableReal,
       [
+        ...native.args,
         "app-server",
         "--stdio",
         ...(this.#historyReadOnly
@@ -189,6 +226,7 @@ export class CodexAdapter extends EventEmitter {
       {
         cwd: this.dataDir,
         stdio: ["pipe", "pipe", "pipe"],
+        windowsHide: true,
         env: childEnvironment,
       },
     );

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Reserve a ready Builder handoff locally and reconcile its observed execution."""
 
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 from contextlib import nullcontext
 import json
@@ -280,6 +286,7 @@ def create_ledger(path, raw, precondition):
     fd, name = tempfile.mkstemp(prefix=".ticket-dispatch-", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as stream:
+            if platform_support.WINDOWS: platform_support.fchmod(stream.fileno(), 0o600)
             stream.write(raw)
             stream.flush()
             os.fsync(stream.fileno())
@@ -288,11 +295,7 @@ def create_ledger(path, raw, precondition):
         os.replace(name, path)
     finally:
         Path(name).unlink(missing_ok=True)
-    directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-    try:
-        os.fsync(directory)
-    finally:
-        os.close(directory)
+    platform_support.sync_dir(path.parent)
 
 
 def commit(root, path, before, ledger, recheck=None):

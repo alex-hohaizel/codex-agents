@@ -27,9 +27,11 @@ SCHEMA = "codex-agents.showcase-pipeline/1"
 LOG_LIMIT = 64 * 1024
 IGNORED = {".git", "__pycache__", ".pytest_cache", ".venv", ".DS_Store", "node_modules", "dist", ".atelier-local", "test-results", "playwright-report"}
 PACKAGE_ROOTS = ("kit", "AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md",
+                 "START_HERE.html", "ПОЧАТИ.html", "Start.command", "Start.sh", "Start.cmd",
+                 "Start-Workbench.command", "Start-Workbench.sh", "Start-Workbench.cmd",
                  "RIGHTS.md", "locales.json", "maintenance-skill", "docs", "templates",
                  "governance", "releases", "scripts", "marketing", "assets",
-                 "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps")
+                 "commercial", "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps")
 
 
 class TerminationRequested(KeyboardInterrupt):

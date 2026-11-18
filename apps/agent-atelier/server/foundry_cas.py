@@ -6,7 +6,6 @@ It never runs a model, shell command or external provider operation.
 """
 import argparse
 from contextlib import contextmanager
-import fcntl
 import hashlib
 import json
 import os
@@ -14,6 +13,24 @@ from pathlib import Path
 import stat
 import sys
 import types
+_support = None
+
+
+def support(expected):
+    path = Path(__file__).with_name('platform_support.py')
+    for entry in (path, *path.parents):
+        info = entry.lstat()
+        if stat.S_ISLNK(info.st_mode) or bool(getattr(info, 'st_file_attributes', 0) & 0x400):
+            raise ValueError('Linked/reparse platform adapter is not permitted')
+    if not path.is_file() or path.stat().st_nlink != 1:
+        raise ValueError('Unlinked regular platform adapter required')
+    raw = path.read_bytes()
+    if not expected or hashlib.sha256(raw).hexdigest() != expected:
+        raise ValueError('Reviewed platform adapter changed')
+    module = types.ModuleType('atelier_platform_support')
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    return module
 
 
 def closure_check(root, operation_dir, expected):
@@ -27,7 +44,7 @@ def closure_check(root, operation_dir, expected):
         relative = path.relative_to(root)
         if any(p in {'tests', '__pycache__'} for p in relative.parts) or path.name.startswith('test_') or path.suffix in {'.pyc', '.pyo'}:
             continue
-        if path.is_symlink():
+        if _support.is_link_or_reparse(path):
             raise ValueError('Linked controller closure entry')
         if path.is_file():
             observed[relative.as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
@@ -42,7 +59,7 @@ def invoke(args, operation_dir):
         raise ValueError('Native invocation was revoked during reconciliation')
     path = Path(args.script).absolute()
     closure_check(path.parent.parent, operation_dir, args.closure_sha256)
-    if path.is_symlink() or not path.is_file():
+    if _support.is_link_or_reparse(path) or not path.is_file():
         raise ValueError('Unlinked trusted controller required')
     source = path.read_bytes()
     if hashlib.sha256(source).hexdigest() != args.script_sha256:
@@ -73,6 +90,7 @@ def invoke(args, operation_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--operation-dir', required=True)
+    parser.add_argument('--platform-support-sha256', required=True)
     parser.add_argument('--inspect', action='store_true')
     parser.add_argument('--revoke', action='store_true')
     parser.add_argument('--script')
@@ -81,15 +99,18 @@ def main():
     parser.add_argument('--expected-state')
     parser.add_argument('native_args', nargs=argparse.REMAINDER)
     args = parser.parse_args()
-    directory = Path(args.operation_dir).absolute()
+    global _support
+    _support = support(args.platform_support_sha256)
+    directory = _support.safe_path(args.operation_dir)
     if directory.is_symlink() or not directory.is_dir():
         raise ValueError('Owned operation directory required')
-    descriptor = os.open(directory / 'operation.lock', os.O_RDWR | os.O_NOFOLLOW)
+    lock_path = _support.safe_path(directory / 'operation.lock')
+    descriptor = os.open(lock_path, os.O_RDWR | getattr(os, "O_NOFOLLOW", 0))
     with os.fdopen(descriptor, 'r+') as lease:
         if not stat.S_ISREG(os.fstat(lease.fileno()).st_mode) or os.fstat(lease.fileno()).st_nlink != 1:
             raise ValueError('Regular owned operation lease required')
         try:
-            fcntl.flock(lease, fcntl.LOCK_EX | (fcntl.LOCK_NB if args.inspect or args.revoke else 0))
+            _support.flock(lease, _support.LOCK_EX | (_support.LOCK_NB if args.inspect or args.revoke else 0))
         except BlockingIOError as error:
             raise ValueError('Previous native writer is still active') from error
         if args.revoke:
@@ -97,11 +118,7 @@ def main():
                 marker.write('Owner confirmed reconciliation; never replay this invocation.\n')
                 marker.flush()
                 os.fsync(marker.fileno())
-            parent = os.open(directory, os.O_RDONLY)
-            try:
-                os.fsync(parent)
-            finally:
-                os.close(parent)
+            _support.sync_dir(directory)
         if args.inspect or args.revoke:
             print(json.dumps({'quiescent': True, 'revoked': (directory / 'revoked').exists()}))
             return 0

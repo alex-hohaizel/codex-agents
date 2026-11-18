@@ -6,10 +6,12 @@ Use Codex for a focused task, develop a product with specialists, or design a re
 
 For a guided first session, open [Start here](../../START_HERE.md#install-and-verify). Then [follow one request through a complete project](../technical/END_TO_END.md), from assembling the team to reviewing its release evidence. [Read the whole system map](../../assets/marketing/release-1.7/workflow-en.svg) · [Documentation index](../INDEX.md)
 
+The commercial buyer candidate has a coordinated setup and acquired-version records. Read [the buyer guide](../commercial/BUYER_GUIDE.md), [license terms](../commercial/LICENSING.md), and [runtime limits](../commercial/WORKBENCH_RUNTIME.md) before selecting that distribution.
+
 ## Choose where to start
 
 - **Try Codex.** [Install and verify](#install) · [Do a first task](#first-task) · [See illustrated workflows](../../marketing/en/README.md)
-- **Develop or run a project.** [Choose a workflow](#workflow) · [Find a skill or role](#catalog) · [Mac workbench](#workbench) · [Operations and recovery](#operations)
+- **Develop or run a project.** [Choose a workflow](#workflow) · [Find a skill or role](#catalog) · [Local workbench](#workbench) · [Operations and recovery](#operations)
 - **Understand the system.** [Harness](#harness) · [Subagents](#subagents) · [Context capsules](#context) · [Models and cost](#models)
 - **Find and verify evidence.** [Retrieval (RAG)](#retrieval) · [Evals](#evals) · [Tools and permissions](#permissions)
 
@@ -17,6 +19,28 @@ For a guided first session, open [Start here](../../START_HERE.md#install-and-ve
 
 <a name="install"></a>
 ## Install and check discovery
+
+### Ready installer for Windows, macOS and Linux
+
+If trusted delivery supplied a purchase confirmation or entitlement JSON, open **Keep your purchase document · optional** and choose that original file before preparing the plan. It stays private outside the package and skill folders. A changed document clears the old plan and approval; prepare and review a new plan. Updates automatically retain the existing purchase record. Document retention does not verify a purchase signature or grant rights. The technical installer also works without a purchase document.
+
+Download the ready **Universal** archive or the matching OS/CPU asset from the [stable Release](https://github.com/alex-hohaizel/codex-agents/releases/latest). Fully extract it, read `START_HERE.html`, then open `Start.cmd` (Windows), `Start.command` (macOS), or `Start.sh` (Linux). The ready package includes Python, Node and the built interface; GitHub's automatic source ZIP is a source route. The wizard interface is English/Ukrainian; this guide covers the same workflow.
+
+Use **Check now → Prepare plan → review destinations/conflicts → approve → Install reviewed plan → Verify files → Check in Codex**. The standard selection includes 33 skills, Orchestrator, the profile and twelve roles. Use your own Codex account for agent execution. **Create practice project → Open folder → Open Codex → Copy prompt** prepares the first exercise; it does not execute a model. Keep the journal. Recovery uses the selected saved operation and exact plan. [Complete installer and recovery guide](../INSTALL.md#recommended-local-browser-installer)
+
+Project Python/venv and Node keep their priority. Use `AGENT_SYSTEM_PYTHON` for the toolkit's helper scripts. Maintenance remains a separate owner tool: use the bundled `product/maintenance-skill` or repository `maintenance-skill` through the supported skill manager, preview its source/target, then verify. Models and external services keep their own accounts and costs.
+
+Personal skill locations follow the native Codex host. `CODEX_HOME` means the Codex home selected for that session; the audit shows the exact resolved destination.
+
+| Installation scope | Skill directory |
+| --- | --- |
+| Windows personal skills | `CODEX_HOME/skills`, normally `<selected-home>/.codex/skills` |
+| macOS / Linux personal skills | `<selected-home>/.agents/skills` (normally `~/.agents/skills`) |
+| Project-local skills on every system | `<project>/.agents/skills` — unchanged |
+
+For an earlier Windows personal installation under `<selected-home>/.agents/skills`, prepare a new audit with the current installer. The reviewed plan identifies the canonical target and retirement of recognized managed legacy copies; supported core icon-only tuning is preserved. Unknown source or policy edits and conflicting copies or icons require reconciliation instead of forced replacement. Do not manually move or delete either tree. Approve the exact migration plan, verify files and fresh Codex discovery, and retain its journal and backups. Rollback uses that original journal to restore the prior locations and owned bytes; already saved journals keep their validated original roots. [Root selection and migration](../INSTALL.md#personal-skill-roots)
+
+### Advanced source route
 
 1. Open the stable release for `alex-hohaizel/codex-agents`. On macOS or Linux, the terminal procedure uses Bash, Python 3.9+, Git, an authenticated GitHub CLI (`gh`), and Codex. For a guided installation, ask Codex to explain each step in English and keep flags and paths exact.
 2. Follow the signed installation. The verifier checks the archive digest and its GitHub attestation against the source commit, workflow, and manifest. Select a fresh install when there is no managed suite, or supply the verified installed version for an existing suite. [Stable release](https://github.com/alex-hohaizel/codex-agents/releases/latest) · [Exact commands](../INSTALL.md#steps)
@@ -101,7 +125,9 @@ python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir
 It fixes the expected typo in a disposable project and checks the other file. Use the native suite for a scoped handoff, an approved constructor passport, or a fresh generated skill consumer. An external product claim requires evidence in its actual environment. [Eval suite, fixtures and receipts](../../evaluations/README.md) · [Validation](../../governance/VALIDATION.md)
 
 <a name="workbench"></a>
-## Work in Agent Atelier on Mac
+## Work in Agent Atelier on Windows, macOS or Linux
+
+Ready assets provide `Start-Workbench.cmd`, `Start-Workbench.command`, and `Start-Workbench.sh` for Windows, macOS and Linux. Open the matching launcher; no npm build is required for the ready interface. Check the release's declared native test coverage separately from runtime availability. The following source-build procedure remains an optional developer route; the project inspection and recovery steps apply to both routes. [Ready workbench and data recovery](../commercial/WORKBENCH_RUNTIME.md)
 
 1. Open the current source and build with the pinned Node.js lockfile. From `apps/agent-atelier/`, run:
 

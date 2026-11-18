@@ -279,11 +279,11 @@ try {
     pass: await evaluate(`!document.querySelector('.demo-strip')`),
   });
   const projects = await evaluate(
-    `fetch('/api/v1/bootstrap').then(r=>r.json()).then(x=>x.projects)`,
+    `fetch('/api/v1/bootstrap',{headers:{'X-Atelier-CSRF':sessionStorage.getItem('atelier.session.csrf.v1')||''}}).then(r=>r.json()).then(x=>x.projects)`,
   );
   if (process.env.ATELIER_TEST_ROOT) {
     const binding = await evaluate(
-      `(async()=>{const b=await fetch('/api/v1/bootstrap').then(r=>r.json());const command=async(operation,payload)=>{let r=await fetch('/api/v1/commands',{method:'POST',headers:{'Content-Type':'application/json','X-Atelier-CSRF':b.csrf_token},body:JSON.stringify({command_id:crypto.randomUUID(),operation,payload})});let body=await r.json();if(!r.ok)throw Error(JSON.stringify(body.error));return body.result;};const root=${JSON.stringify(process.env.ATELIER_TEST_ROOT)};const existing=b.projects.find(p=>p.root===root);if(existing)return existing;const preview=await command('project.preview',{root});const result=await command('project.bind',{preview_id:preview.preview_id,name:'Agent System'});return result.project;})()`,
+      `(async()=>{const b=await fetch('/api/v1/bootstrap',{headers:{'X-Atelier-CSRF':sessionStorage.getItem('atelier.session.csrf.v1')||''}}).then(r=>r.json());const command=async(operation,payload)=>{let r=await fetch('/api/v1/commands',{method:'POST',headers:{'Content-Type':'application/json','X-Atelier-CSRF':b.csrf_token},body:JSON.stringify({command_id:crypto.randomUUID(),operation,payload})});let body=await r.json();if(!r.ok)throw Error(JSON.stringify(body.error));return body.result;};const root=${JSON.stringify(process.env.ATELIER_TEST_ROOT)};const existing=b.projects.find(p=>p.root===root);if(existing)return existing;const preview=await command('project.preview',{root});const result=await command('project.bind',{preview_id:preview.preview_id,name:'Agent System'});return result.project;})()`,
     );
     checks.push({
       name: "Explicit current-repository binding",
@@ -499,7 +499,7 @@ try {
   checks.push({
     name: "Project connects through UI",
     pass: await evaluate(
-      `fetch('/api/v1/bootstrap').then(r=>r.json()).then(x=>x.projects.some(p=>p.root===${JSON.stringify(fixtureRoot)}))`,
+      `fetch('/api/v1/bootstrap',{headers:{'X-Atelier-CSRF':sessionStorage.getItem('atelier.session.csrf.v1')||''}}).then(r=>r.json()).then(x=>x.projects.some(p=>p.root===${JSON.stringify(fixtureRoot)}))`,
     ),
   });
   await waitFor(
@@ -507,7 +507,7 @@ try {
     "The declared fixture next action did not load",
   );
   const fixtureBeforePrepare = await evaluate(
-    `fetch('/api/v1/bootstrap').then(r=>r.json()).then(data=>({projectId:data.projects.find(p=>p.root===${JSON.stringify(fixtureRoot)}).id, jobs:data.jobs.length}))`,
+    `fetch('/api/v1/bootstrap',{headers:{'X-Atelier-CSRF':sessionStorage.getItem('atelier.session.csrf.v1')||''}}).then(r=>r.json()).then(data=>({projectId:data.projects.find(p=>p.root===${JSON.stringify(fixtureRoot)}).id, jobs:data.jobs.length}))`,
   );
   await evaluate(`document.querySelector('.operator-action>.button').click()`);
   await waitFor(
@@ -546,7 +546,7 @@ try {
   checks.push({
     name: "The edited next action and acceptance are saved under the selected project without dispatch",
     pass: await evaluate(
-      `fetch('/api/v1/bootstrap').then(r=>r.json()).then(data=>data.jobs.length===${fixtureBeforePrepare.jobs}&&data.tasks.some(task=>task.project_id===${JSON.stringify(fixtureBeforePrepare.projectId)}&&task.objective===${JSON.stringify(editedObjective)}&&task.acceptance===${JSON.stringify(acceptance)}&&task.scope==='read-only'&&task.status==='prepared'))`,
+      `fetch('/api/v1/bootstrap',{headers:{'X-Atelier-CSRF':sessionStorage.getItem('atelier.session.csrf.v1')||''}}).then(r=>r.json()).then(data=>data.jobs.length===${fixtureBeforePrepare.jobs}&&data.tasks.some(task=>task.project_id===${JSON.stringify(fixtureBeforePrepare.projectId)}&&task.objective===${JSON.stringify(editedObjective)}&&task.acceptance===${JSON.stringify(acceptance)}&&task.scope==='read-only'&&task.status==='prepared'))`,
     ),
   });
   await screenshot("prepared-task-review-1440.png", 1440, 1080);

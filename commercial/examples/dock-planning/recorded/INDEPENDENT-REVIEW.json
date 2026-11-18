@@ -1,0 +1,28 @@
+{
+  "schema": "codex-agents.independent-planning-review/1",
+  "reviewer": "commercial_rights independent agent",
+  "observed_at": "2026-11-18T00:06:20.598958+00:00",
+  "package_source_commit": "ab3000be82d1ed77a58faf301c5d14cabae08fd6",
+  "reviewed_artifact_sha256": {
+    "OWNER_NOTES.md": "aeda2b41de3d8627dc2ff1ed1d990f1f6da7f7672db2a5e5abb54ac41345dfbd",
+    "PRD.md": "6f40964dc0fceddb6705538930143026a6d261e1487fea6169896dad9206c2e7",
+    "ARCHITECTURE.md": "7ec4ecf107a58033d130f1e48121160edf51973c424bbb64fba3accc66677666"
+  },
+  "status": "passed-local-planning-scope",
+  "findings": [],
+  "checks": {
+    "R-101": "Unique slot reservation constraint and concurrent one-winner case QA-101; not conflated with replay identity.",
+    "R-102": "Coordinator-scoped request identity is unique; replay precedes availability and preserves original reference and row count; reused key for another slot gets explicit conflict.",
+    "R-103": "Other coordinator gets SLOT_TAKEN without winner data and can choose another slot with a fresh key.",
+    "literal_trace": "PRD retains all three source lines verbatim and names owner notes; observed source hash matches unchanged original.",
+    "hosting_and_budget": "Both remain owner decisions; document chooses no vendor or model spend.",
+    "builders": "Two distinct future builder scopes for service and client, shared API v1 integration, fixture and proof returns defined.",
+    "qa": "Six future independent QA cases distinguish concurrency, lost reply, UI recovery, identity reuse and access; no execution asserted.",
+    "handoff": "Fresh-session checkpoint retains source hash, current authority, open decisions, next local review and separate future build authorization.",
+    "no_fabricated_execution": "Both artifacts explicitly describe local planning only; runtime QA, owner/release acceptance, provider calls and deployment remain pending or out of scope."
+  },
+  "limits": [
+    "Planning coherence on the exact three Markdown files only.",
+    "This does not prove service behavior, browser behavior, build execution or complete release readiness."
+  ]
+}

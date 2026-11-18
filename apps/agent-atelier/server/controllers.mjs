@@ -7,8 +7,8 @@ import {
   realpath,
   chmod,
 } from "node:fs/promises";
-import { homedir } from "node:os";
 import { resolve, join, relative, isAbsolute } from "node:path";
+import { pythonExecutable, installedPersonalSkillRoot, personalSkillRoots } from "./platform.mjs";
 import { runtimeEnvironment } from "./environment.mjs";
 import {
   atomicWrite,
@@ -216,7 +216,7 @@ function runNative(python, args, input, cwd, timeout) {
     const child = execFile(
       python,
       args,
-      { cwd, env: runtimeEnvironment(), timeout, maxBuffer: 4 * 1024 * 1024 },
+      { cwd, env: runtimeEnvironment(), timeout, maxBuffer: 4 * 1024 * 1024, windowsHide: true },
       (error, stdout, stderr) => resolveResult({ error, stdout, stderr }),
     );
     child.stdin.on("error", () => {});
@@ -231,7 +231,8 @@ export class NativeControllers {
     dataDir,
     projects,
     foundryRoot,
-    python = "python3",
+    personalRoots = personalSkillRoots(),
+    python = pythonExecutable(),
     run = runNative,
     timeoutMs = 30000,
   }) {
@@ -240,7 +241,7 @@ export class NativeControllers {
     this.dataDir = dataDir;
     this.projects = projects;
     this.foundryRoot =
-      foundryRoot ?? resolve(homedir(), ".agents/skills/agent-foundry");
+      foundryRoot ?? resolve(installedPersonalSkillRoot("agent-foundry", { roots: personalRoots }), "agent-foundry");
     this.python = python;
     this.run = run;
     this.timeoutMs = timeoutMs;
@@ -503,6 +504,8 @@ export class NativeControllers {
       "apps/agent-atelier/server/foundry_cas.py",
     );
     const wrapperSha = sha(await readFile(wrapper));
+    const platformSupport = resolve(this.repoRoot, "apps/agent-atelier/server/platform_support.py");
+    const platformSupportSha = sha(await readFile(platformSupport));
     const preview = {
       preview_id: id("controller-preview"),
       project_id: projectId,
@@ -514,6 +517,7 @@ export class NativeControllers {
       native_revision: pin.revision,
       controller_source_sha256: closure.sha256,
       wrapper_sha256: wrapperSha,
+      platform_support_sha256: platformSupportSha,
       record_path: recordSource?.path ?? null,
       record_sha256: recordSource?.sha256 ?? null,
       params,
@@ -554,6 +558,7 @@ export class NativeControllers {
       input: recordSource?.text ?? "",
       closure,
       wrapper,
+      platformSupport,
     });
     return preview;
   }
@@ -628,6 +633,7 @@ export class NativeControllers {
       before_sha256: p.native_state_sha256,
       source_sha256: p.controller_source_sha256,
       wrapper_sha256: p.wrapper_sha256,
+      platform_support_sha256: p.platform_support_sha256,
       phase: "staging",
       operation_guard: 1,
       backup_id: recordId,
@@ -681,6 +687,10 @@ export class NativeControllers {
         409,
       );
       await atomicWrite(wrapper, wrapperBytes);
+      const platformSupportBytes = await readFile(found.platformSupport);
+      fail(sha(platformSupportBytes) === p.platform_support_sha256, "SOURCE_DRIFT", "Reviewed platform adapter changed during staging", 409);
+      await atomicWrite(join(backupDir, "platform_support.py"), platformSupportBytes);
+      await chmod(join(backupDir, "platform_support.py"), 0o400);
       await atomicWrite(
         join(backupDir, "closure.json"),
         JSON.stringify(found.closure.files),
@@ -705,6 +715,8 @@ export class NativeControllers {
       wrapper,
       "--operation-dir",
       backupDir,
+      "--platform-support-sha256",
+      p.platform_support_sha256,
       "--closure-sha256",
       p.controller_source_sha256,
       "--script",
@@ -814,6 +826,7 @@ export class NativeControllers {
         "The recorded lifecycle adapter changed",
         409,
       );
+      if (receipt.platform_support_sha256) fail(sha(await readFile(join(directory, "platform_support.py"))) === receipt.platform_support_sha256, "SOURCE_DRIFT", "Recorded platform adapter changed", 409);
       // A current-state observation alone cannot exclude an orphaned child still
       // waiting on the native lock. Revoke under the same operation flock that
       // the child holds throughout its entire native invocation.
@@ -824,6 +837,7 @@ export class NativeControllers {
           wrapper,
           "--operation-dir",
           directory,
+          ...(receipt.platform_support_sha256 ? ["--platform-support-sha256", receipt.platform_support_sha256] : []),
           payload.confirmed === true ? "--revoke" : "--inspect",
         ],
         "",

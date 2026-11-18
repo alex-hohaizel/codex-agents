@@ -17,3 +17,5 @@ Repository: https://github.com/alex-hohaizel/codex-agents
 - Keep full capability and deferred-work denominators visible; missing device, model, provider, craft or owner evidence stays open.
 - Check generated bundles for all 15 declared resources and seven local reference links. Review existing agents against their declared contract and verify any approved change.
 - Typed schema/helper checks establish only declared structure and pins; never relabel them actual execution, independent review or consent.
+
+Before a commercial candidate, read governance/COMMERCIAL_PRODUCT_CONTRACT.md in the actual repository and inspect the C01–C28 registry. Rebuild exact buyer inventories, legal notices, signatures and channel exports. Keep issuance keys and purchase records private, and obtain applicable release and legal authority.

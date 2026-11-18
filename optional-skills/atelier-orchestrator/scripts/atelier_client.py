@@ -5,6 +5,7 @@ import base64
 import hashlib
 import hmac
 import http.cookiejar
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -15,6 +16,11 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+
+_platform_path = Path(__file__).with_name('platform_support.py')
+_platform_spec = importlib.util.spec_from_file_location('_atelier_client_platform', _platform_path)
+platform_support = importlib.util.module_from_spec(_platform_spec)
+exec(compile(_platform_path.read_bytes(), str(_platform_path), 'exec'), platform_support.__dict__)
 
 
 def strict_json(raw):
@@ -41,8 +47,9 @@ def owner_credentials(data_dir, port):
     def read(name):
         file = root / name
         info = file.lstat()
-        if not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode) or info.st_mode & 0o077 or info.st_uid != os.getuid() or info.st_size > 16 * 1024:
+        if not stat.S_ISREG(info.st_mode) or platform_support.is_link_or_reparse(file) or info.st_size > 16 * 1024:
             raise ValueError('private bounded owner/runtime file required')
+        platform_support.assert_private(file)
         return strict_json(file.read_text(encoding='utf-8'))
     runtime = read('runtime.json')
     owner = read('owner-credentials.json')
@@ -73,10 +80,12 @@ def main():
             raise ValueError('invalid local port')
         base, instance, control_key = owner_credentials(args.data_dir, args.port)
         opener = urllib.request.build_opener(NoRedirect(), urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+        session_proof = None
         def request(path, data=None, csrf=None, control=None):
             headers = {'Origin': base, 'Accept': 'application/json'}
-            if csrf:
-                headers['X-Atelier-CSRF'] = csrf
+            proof = csrf or session_proof
+            if proof:
+                headers['X-Atelier-CSRF'] = proof
             if control:
                 headers['X-Atelier-Control'] = control
             if data is not None:
@@ -95,7 +104,7 @@ def main():
         expected = base64.urlsafe_b64encode(hmac.new(decoded_key, ('atelier.instance.' + instance + '.' + nonce).encode(), hashlib.sha256).digest()).decode().rstrip('=')
         if proof.get('instance_id') != instance or not hmac.compare_digest(str(proof.get('owner_proof', '')), expected):
             raise ValueError('local listener ownership proof failed')
-        request('/api/v1/session', control=control_key)
+        session_proof = request('/api/v1/session', control=control_key)['csrf_token']
         bootstrap = request('/api/v1/bootstrap')
         if args.operation == 'status':
             result = {'version': bootstrap.get('version'), 'capabilities': bootstrap.get('capabilities'),

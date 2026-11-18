@@ -5,9 +5,11 @@ import {
   realpath,
   lstat,
   writeFile,
+  chmod,
 } from "node:fs/promises";
-import { resolve, join, dirname } from "node:path";
-import { homedir } from "node:os";
+import { resolve, join, dirname, basename, relative, sep } from "node:path";
+import { homedir, tmpdir } from "node:os";
+import { assertPrivatePath, securePrivatePath, pythonExecutable, personalSkillRoots, installedPersonalSkillRoot } from "./platform.mjs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import {
@@ -57,15 +59,15 @@ async function plainDirectory(path, owned = false) {
   fail(
     stat.isDirectory() &&
       !stat.isSymbolicLink() &&
-      (await realpath(path)) === path &&
-      (!owned ||
-        ((stat.mode & 0o077) === 0 &&
-          (typeof process.getuid !== "function" ||
-            stat.uid === process.getuid()))),
+      (await realpath(path)) === path,
     "SOURCE_DRIFT",
     "Execution-input directory identity changed; prepare again",
     409,
   );
+  if (owned) {
+    try { await assertPrivatePath(path, { directory: true }); }
+    catch { fail(false, "SOURCE_DRIFT", "Execution-input directory privacy changed; prepare again", 409); }
+  }
 }
 
 async function ownedDirectories(base, relative) {
@@ -79,12 +81,15 @@ async function ownedDirectories(base, relative) {
       409,
     );
     current = join(current, part);
+    let created = false;
     try {
       await mkdir(current, { mode: 0o700 });
+      created = true;
     } catch (error) {
       if (error.code !== "EEXIST") throw error;
     }
-    await plainDirectory(current);
+    if (created) await securePrivatePath(current, { directory: true });
+    await plainDirectory(current, true);
   }
   return current;
 }
@@ -99,7 +104,7 @@ export async function executionInputLocation(
   await plainDirectory(dataDir);
   await plainDirectory(dirname(namespace));
   fail(
-    !/[?*\[\]{}\\\0]/.test(namespace),
+    !/[?*\[\]{}\\\0]/.test(process.platform === "win32" ? namespace.replaceAll("\\", "/") : namespace),
     "CAPABILITY_UNVERIFIED",
     "Execution-input namespace cannot be represented by the supported native permission parser",
     409,
@@ -328,6 +333,7 @@ export async function selectedInputTree(root, { exactManifest = null } = {}) {
 
 async function copyApprovedInput(sourceRoot, targetRoot, manifest) {
   await mkdir(targetRoot, { mode: 0o700 });
+  await securePrivatePath(targetRoot, { directory: true });
   await plainDirectory(targetRoot);
   for (const row of manifest) {
     fail(
@@ -357,6 +363,7 @@ async function copyApprovedInput(sourceRoot, targetRoot, manifest) {
     const parent = row.path.split("/").slice(0, -1).join("/");
     await ownedDirectories(targetRoot, parent);
     await writeFile(destination, bytes, { flag: "wx", mode: 0o400 });
+    await chmod(destination, 0o400);
   }
   await selectedInputTree(targetRoot, { exactManifest: manifest });
 }
@@ -377,10 +384,11 @@ export async function readInstalledSource(root, name) {
   return readSource(root, name + "/SKILL.md");
 }
 export class SkillsManager {
-  constructor({ store, repoRoot, dataDir }) {
+  constructor({ store, repoRoot, dataDir, personalRoots = personalSkillRoots() }) {
     this.store = store;
     this.repoRoot = repoRoot;
     this.dataDir = dataDir;
+    this.personalRoots = personalRoots.map(root => resolve(root));
     this.busy = false;
     this.hostSources = new Map();
   }
@@ -395,11 +403,13 @@ export class SkillsManager {
           /^description:\s*(.+)$/m
             .exec(source.text)?.[1]
             ?.replace(/^"|"$/g, "") ?? "";
-        let installedSource = null,
+        let installedRoot = this.personalRoots[0],
+          installedSource = null,
           installationError = null;
         try {
+          installedRoot = installedPersonalSkillRoot(entry.name, { roots: this.personalRoots });
           installedSource = await readInstalledSource(
-            resolve(homedir(), ".agents/skills"),
+            installedRoot,
             entry.name,
           );
         } catch (error) {
@@ -412,6 +422,8 @@ export class SkillsManager {
           version: skillVersion(source.text),
           source_sha256: source.sha256,
           installed_sha256: installedBytes ? sha(installedBytes) : null,
+          installed_root: installedBytes ? installedRoot : null,
+          installation_root_kind: installedBytes ? (installedRoot === this.personalRoots[0] ? "canonical" : "legacy") : null,
           source_status: "canonical_source_read",
           managed_by: "core-suite",
           update_supported: true,
@@ -541,8 +553,7 @@ export class SkillsManager {
   }
   async adoptHostCatalog(rows, projectRoots = []) {
     const allowed = [
-      resolve(homedir(), ".agents/skills"),
-      resolve(homedir(), ".codex/skills"),
+      ...this.personalRoots,
       resolve(homedir(), ".codex/plugins/cache"),
       ...projectRoots.map((root) => resolve(root, ".agents/skills")),
     ];
@@ -551,10 +562,10 @@ export class SkillsManager {
       if (typeof row.path !== "string" || typeof row.name !== "string")
         continue;
       const path = resolve(row.path);
-      const approvedRoot = allowed.find((root) => path.startsWith(root + "/"));
+      const approvedRoot = allowed.find((root) => path !== root && isWithin(root, path));
       const source_id = "host:" + sha(path).slice(0, 16);
       let source = null;
-      if (approvedRoot && path.endsWith("/SKILL.md"))
+      if (approvedRoot && basename(path) === "SKILL.md")
         try {
           fail(
             (await realpath(approvedRoot)) === approvedRoot,
@@ -564,11 +575,11 @@ export class SkillsManager {
           );
           source = await readSource(
             approvedRoot,
-            path.slice(approvedRoot.length + 1),
+            relative(approvedRoot, path).split(sep).join("/"),
           );
         } catch {}
       const externalDependency =
-        path.startsWith(resolve(homedir(), ".codex/plugins/cache") + "/") ||
+        isWithin(resolve(homedir(), ".codex/plugins/cache"), path) ||
         /mcp__|plugin:\/\/|skills\.read|image_gen|imagegen\.imagegen|cua\.get/.test(
           source?.text ?? "",
         );
@@ -681,17 +692,19 @@ export class SkillsManager {
     } catch (error) {
       if (error.code !== "EEXIST") throw error;
     }
+    if (createdNamespace) await securePrivatePath(location.namespace, { directory: true });
     await plainDirectory(location.namespace, true);
     const namespaceFile = join(location.namespace, "OWNERSHIP.json");
-    if (createdNamespace)
-      await writeFile(namespaceFile, JSON.stringify(location.namespaceOwner), {
-        flag: "wx",
-        mode: 0o400,
-      });
+    if (createdNamespace) {
+      await writeFile(namespaceFile, JSON.stringify(location.namespaceOwner), { flag: "wx", mode: 0o400 });
+      await chmod(namespaceFile, 0o400);
+    }
     await ownerFile(namespaceFile, digest(location.namespaceOwner));
     // Never adopt or overwrite a partial/replaced task namespace.
     await mkdir(location.taskRoot, { mode: 0o700 });
+    await securePrivatePath(location.taskRoot, { directory: true });
     await mkdir(join(location.taskRoot, "skills"), { mode: 0o700 });
+    await securePrivatePath(join(location.taskRoot, "skills"), { directory: true });
     const owner = {
       schema_version: transportSchema,
       data_dir_sha256: sha(resolve(this.dataDir)),
@@ -704,6 +717,7 @@ export class SkillsManager {
       JSON.stringify(owner),
       { flag: "wx", mode: 0o400 },
     );
+    await chmod(join(location.taskRoot, "TASK.json"), 0o400);
     const result = [];
     for (const plan of plans) {
       const archiveRoot = join(
@@ -924,11 +938,15 @@ export class SkillsManager {
     let installed = null,
       installation_error = null;
     try {
+      const installedRoot = this.hostSources.has(name)
+        ? dirname(root)
+        : installedPersonalSkillRoot(name, { roots: this.personalRoots });
       const primary = this.hostSources.has(name)
         ? source
-        : await readInstalledSource(resolve(homedir(), ".agents/skills"), name);
+        : await readInstalledSource(installedRoot, name);
       if (primary)
-        installed = { sha256: primary.sha256, content: redact(primary.text) };
+        installed = { sha256: primary.sha256, content: redact(primary.text), root: installedRoot,
+          root_kind: installedRoot === this.personalRoots[0] ? "canonical" : this.personalRoots.includes(installedRoot) ? "legacy" : "host_source" };
     } catch (error) {
       installation_error = error.code ?? "READ_FAILED";
     }
@@ -954,14 +972,14 @@ export class SkillsManager {
       409,
     );
     try {
-      const result = await run("python3", ["-B", script, ...args], {
+      const result = await run(pythonExecutable(), ["-B", script, ...args], {
         cwd: this.repoRoot,
         timeout,
         maxBuffer: 8 * 1024 * 1024,
         env: {
           ...process.env,
           PYTHONDONTWRITEBYTECODE: "1",
-          TMPDIR: "/private/tmp",
+          TMPDIR: tmpdir(),
         },
       });
       return parseStrictJson(result.stdout, 8 * 1024 * 1024);
@@ -985,13 +1003,10 @@ export class SkillsManager {
   }
   async audit(payload = {}) {
     const destination = resolve(
-      payload.installed_root ?? join(homedir(), ".agents/skills"),
+      payload.installed_root ?? this.personalRoots[0],
     );
     fail(
-      [
-        join(homedir(), ".agents/skills"),
-        join(homedir(), ".codex/skills"),
-      ].includes(destination),
+      this.personalRoots.includes(destination),
       "SCOPE_MISMATCH",
       "Choose one supported personal skill root",
     );
@@ -1008,6 +1023,8 @@ export class SkillsManager {
       join(this.repoRoot, "kit"),
       "--destination",
       destination,
+      "--legacy-root",
+      this.personalRoots.find(root => root !== destination),
       "--plan",
       path,
     ]);
@@ -1111,7 +1128,7 @@ export class SkillsManager {
       );
       args.push("--journal", journal.path);
       const plan = this.store.get("skill-plan", journal.plan_id);
-      if (plan) args.push("--destination", plan.destination);
+      if (plan) args.push("--destination", plan.destination, "--legacy-root", this.personalRoots.find(root => root !== plan.destination));
     }
     return this.#native(args);
   }

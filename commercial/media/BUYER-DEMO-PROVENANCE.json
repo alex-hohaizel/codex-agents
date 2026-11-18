@@ -1,0 +1,15 @@
+{
+  "schema": "codex-agents.demo-provenance/1",
+  "kind": "Actual captured buyer command run in a labeled demonstration viewer",
+  "viewer_is_test_instrumentation": true,
+  "source_commit": "a930d902ba9ab2512cca867a34be33a4ea100e67",
+  "elapsed_seconds": 52.429,
+  "environment": "Apple M1/macOS27.0.1; existing Python3.13 and authenticated Codex0.166.0",
+  "result": "Installed33 core+Orchestrator, fresh34 skill discovery, exact heading repaired and notes preserved",
+  "external_actions": "No payment, deployment, external tracker write or sale",
+  "files": {
+    "Buyer-Install-and-First-Result.mp4": "7148e8cf068dbc366c0e72a5c957065083c3818c5295c8a9568f4f8e03d497bb",
+    "buyer-demo-ready.png": "32b71a56011069aac396234a82899a717d5c1fb4f454a4901fc67dfc7c3552bd",
+    "buyer-demo-result.png": "2de370122558599e3a53efa5cb72c393b360700d3b607c2c2c947746c2611603"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "codex-agents.workbench-screenshots/1",
+  "source_commit": "87dd0001149d214722b59b9d16793337fae5c01e",
+  "runtime_manifest_sha256": "8cbf944079650315d0b3ba213201ce4fcdccc84751b33b62d4abfac4ef3bfcda",
+  "service_version": "0.7.0",
+  "browser": "Chrome headless",
+  "viewport": [
+    1440,
+    1030
+  ],
+  "data": "isolated synthetic project with local authored requirement files",
+  "native_account_connected": false,
+  "observed": "actual bundled runtime served its compiled client and skill catalog",
+  "files": {
+    "workbench-project-en.png": "d431c9ffab68c7278c580594e003a0c0011d349d914d987d04de26e1374864fc",
+    "workbench-skills-en.png": "50af2c9f95d82e18b45ac9aff4fbb752373f538bf415d919dc0142cdd2d567aa",
+    "workbench-project-uk.png": "b709261a63f3ea726ee069ccca3b4ceb69684731c1a5cf1122c238d23587d714"
+  }
+}

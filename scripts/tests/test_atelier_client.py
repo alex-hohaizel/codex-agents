@@ -3,6 +3,7 @@ import base64
 import hashlib
 import hmac
 import http.server
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,8 @@ import threading
 import unittest
 
 CLIENT = Path(__file__).resolve().parents[2] / 'optional-skills/atelier-orchestrator/scripts/atelier_client.py'
+SPEC = importlib.util.spec_from_file_location('sdk_privacy_test', CLIENT)
+client_module = importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(client_module)
 
 class OwnerClientTests(unittest.TestCase):
     def run_fixture(self, valid):
@@ -22,7 +25,7 @@ class OwnerClientTests(unittest.TestCase):
         class Handler(http.server.BaseHTTPRequestHandler):
             def log_message(self, *args): pass
             def do_GET(self):
-                received.append((self.path, self.headers.get('X-Atelier-Control')))
+                received.append((self.path, self.headers.get('X-Atelier-Control'), self.headers.get('X-Atelier-CSRF')))
                 if self.path.startswith('/health?owner_probe='):
                     nonce = self.path.split('=', 1)[1]
                     proof = base64.urlsafe_b64encode(hmac.new(base64.urlsafe_b64decode(key + '='), ('atelier.instance.' + instance + '.' + nonce).encode(), hashlib.sha256).digest()).decode().rstrip('=')
@@ -30,6 +33,8 @@ class OwnerClientTests(unittest.TestCase):
                 elif self.path == '/api/v1/session':
                     body = {'csrf_token': 'fixture'}
                 else:
+                    if self.headers.get('X-Atelier-CSRF') != 'fixture':
+                        self.send_response(403); self.end_headers(); return
                     body = {'version': '0.1.0', 'projects': [], 'jobs': [], 'capabilities': {}}
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
@@ -41,14 +46,14 @@ class OwnerClientTests(unittest.TestCase):
                 root = Path(directory).resolve()
                 runtime = {'origin': 'http://127.0.0.1:' + str(server.server_port), 'port': server.server_port, 'data_dir': str(root), 'instance_id': instance}
                 for name, data in [('runtime.json', runtime), ('owner-credentials.json', {'instance_id': instance, 'control_key': key})]:
-                    file = root / name; file.write_text(json.dumps(data)); file.chmod(0o600)
+                    file = root / name; file.write_text(json.dumps(data)); client_module.platform_support.set_mode(file,0o600)
                 result = subprocess.run([sys.executable, '-B', str(CLIENT), 'status', '--data-dir', str(root), '--port', str(server.server_port)], capture_output=True, text=True, timeout=5)
                 self.assertNotIn(key, result.stdout + result.stderr)
                 self.assertEqual(result.returncode, 0 if valid else 2)
                 self.assertIsNone(received[0][1])
                 if valid:
-                    self.assertEqual(received[1], ('/api/v1/session', key))
-                    self.assertTrue(all(value is None for _, value in received[2:]))
+                    self.assertEqual(received[1], ('/api/v1/session', key, None))
+                    self.assertTrue(all(control is None and proof == 'fixture' for _, control, proof in received[2:]))
                 else:
                     self.assertEqual(len(received), 1)
         finally:

@@ -21,7 +21,7 @@ export const en = {
     "Searches official OpenAI documentation through the OpenAI Docs MCP server.",
   pluginCheck: "Check available connections",
   pluginChecking: "Checking connections…",
-  pluginCheckHelp: "Check which tools Codex can reach from this Mac.",
+  pluginCheckHelp: "Check which tools Codex can reach from this computer.",
   pluginSearch: "Filter connections",
   pluginNoMatches: "No matching connections",
   pluginNoConnections: "No connections were reported",
@@ -321,7 +321,7 @@ export const en = {
   privacyReceipt: "Service privacy receipt",
   cleanupRecovery:
     "Reconcile active or unknown work first. If a preview expired or its targets changed, preview again. Inspect an interrupted cleanup receipt before resuming.",
-  launcherRequired: "Open Agent Atelier with the Mac launcher",
+  launcherRequired: "Open Agent Atelier with the local launcher",
   launcherRequiredBody:
     "The launcher establishes this browser session. Reopen Agent Atelier.command, then use its fresh browser window. An expired link cannot create a session.",
   applicationWorkbench: "Application contracts",
@@ -360,7 +360,7 @@ export const en = {
   chooseNewThread: "Start a new project chat",
   platform: "Operations platform",
   personal: "Personal workspace",
-  local: "Local on your Mac",
+  local: "Local workspace",
   product: "Product",
   products: "Products",
   operations: "Operations",
@@ -786,7 +786,7 @@ export const uk: Record<MessageKey, string> = {
   pluginCheck: "Перевірити підключення",
   pluginChecking: "Перевіряємо підключення…",
   pluginCheckHelp:
-    "Перевірте, до яких інструментів Codex має доступ із цього Mac.",
+    "Перевірте, до яких інструментів Codex має доступ із цього комп’ютера.",
   pluginSearch: "Фільтрувати підключення",
   pluginNoMatches: "Підключень за цим фільтром немає",
   pluginNoConnections: "Codex не повідомив про підключення",
@@ -1087,7 +1087,7 @@ export const uk: Record<MessageKey, string> = {
   privacyReceipt: "Квитанція приватності сервісу",
   cleanupRecovery:
     "Спершу узгодьте активні чи невідомі роботи. Якщо перегляд прострочений або його цілі змінилися, створіть новий. Перед продовженням перевірте квитанцію перерваного очищення.",
-  launcherRequired: "Відкрийте Agent Atelier через Mac launcher",
+  launcherRequired: "Відкрийте Agent Atelier через локальний засіб запуску",
   launcherRequiredBody:
     "Launcher створює сеанс цього браузера. Відкрийте Agent Atelier.command ще раз і скористайтеся новим вікном браузера. Прострочене посилання не може створити сеанс.",
   applicationWorkbench: "Контракти застосунку",
@@ -1124,7 +1124,7 @@ export const uk: Record<MessageKey, string> = {
   chooseNewThread: "Почати новий чат проєкту",
   platform: "Операційна платформа",
   personal: "Особистий простір",
-  local: "Локально на вашому Mac",
+  local: "Локальний простір",
   product: "Продукт",
   products: "Продукти",
   operations: "Операції",

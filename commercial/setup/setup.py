@@ -1,0 +1,1422 @@
+#!/usr/bin/env python3
+"""Install and recover an audited Agent System buyer package without development tools."""
+from __future__ import annotations
+
+import argparse
+from contextlib import contextmanager
+from datetime import datetime, timezone
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path, PurePosixPath
+import platform
+import re
+import queue
+import threading
+import base64
+import shlex
+import shutil
+import socket
+import stat
+import subprocess
+import sys
+import tempfile
+import time
+import uuid
+
+sys.dont_write_bytecode = True
+PLAN = 'codex-agents.buyer-setup-plan/1'
+JOURNAL = 'codex-agents.buyer-setup-journal/1'
+MANIFEST = 'codex-agents.commercial-package/1'
+ORCHESTRATOR = 'atelier-orchestrator'
+HASH = re.compile(r'[0-9a-f]{64}\Z')
+COMMIT = re.compile(r'[0-9a-f]{40}\Z')
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def timestamp():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def pairs(values):
+    result = {}
+    for name, val in values:
+        require(name not in result, 'Duplicate JSON field: ' + name)
+        result[name] = val
+    return result
+
+
+def encoded(value):
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False) + '\n').encode()
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def safe(path):
+    path = Path(os.path.abspath(os.fspath(path)))
+    for ancestor in reversed((path, *path.parents)):
+        try:
+            info = ancestor.lstat()
+        except FileNotFoundError:
+            continue
+        require(not stat.S_ISLNK(info.st_mode) and not getattr(info, 'st_file_attributes', 0) & 0x400,
+                'Linked setup or target path: ' + str(ancestor))
+    return path
+
+
+def inside(root, rel):
+    require(isinstance(rel, str) and rel and '\\' not in rel and '\0' not in rel,
+            'Unsafe package path')
+    platform_support.safe_relative(rel)
+    pure = PurePosixPath(rel)
+    require(not pure.is_absolute() and '..' not in pure.parts and pure.as_posix() == rel,
+            'Unsafe package path')
+    return safe(root / pure)
+
+
+def read(path, limit=32 * 1024 * 1024):
+    path = safe(path)
+    info = path.lstat()
+    require(stat.S_ISREG(info.st_mode) and info.st_size <= limit, 'Unexpected or oversized setup input')
+    with path.open('rb') as source:
+        data = source.read(limit + 1)
+    require(len(data) <= limit, 'Setup input grew beyond its bound')
+    return data
+
+
+def load(path):
+    return json.loads(read(path).decode('utf8'), object_pairs_hook=pairs,
+                      parse_constant=lambda x: (_ for _ in ()).throw(ValueError('Nonfinite JSON')))
+
+
+def sync_dir(path):
+    platform_support.sync_dir(path)
+
+
+def write(path, value, *, exclusive=False):
+    path = safe(path)
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    data = encoded(value)
+    fd, temp = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
+    try:
+        if platform_support.WINDOWS: platform_support.fchmod(fd, 0o600)
+        with os.fdopen(fd, 'wb') as target:
+            target.write(data)
+            target.flush()
+            os.fsync(target.fileno())
+        if exclusive:
+            os.link(temp, path)
+        else:
+            os.replace(temp, path)
+        sync_dir(path.parent)
+    finally:
+        Path(temp).unlink(missing_ok=True)
+
+
+def module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    result = importlib.util.module_from_spec(spec)
+    sys.modules[name] = result
+    spec.loader.exec_module(result)
+    return result
+
+
+def _scanned_member(path, observed, expected):
+    result = platform_support.hash_scanned(path,observed,expected['size'])
+    require(result['size']==expected['size'] and result['sha256']==expected['sha256'],
+            'Package file differs from inventory')
+
+
+def package_info(package):
+    package = platform_support.canonical_directory(safe(package))
+    raw = read(package / 'product-manifest.json')
+    data = json.loads(raw.decode(), object_pairs_hook=pairs)
+    require(data.get('schema') == MANIFEST and data.get('product_id') == 'codex-agent-system',
+            'This is not a supported commercial package')
+    require(COMMIT.fullmatch(str(data.get('source_commit', ''))), 'Package source commit is missing')
+    entries = data.get('files')
+    require(isinstance(entries, dict) and 34 <= len(entries) <= 65000, 'Invalid package file inventory')
+    folded = set()
+    total = 0
+    for relative, entry in entries.items():
+        platform_support.safe_relative(relative)
+        require(isinstance(entry, dict) and set(entry) == {'sha256', 'size', 'mode'}, 'Invalid package file record')
+        require(HASH.fullmatch(str(entry['sha256'])) and type(entry['size']) is int
+                and 0 <= entry['size'] <= 256 * 1024 * 1024 and type(entry['mode']) is int
+                and entry['mode'] in (0o644, 0o755, 0o600), 'Invalid file digest, size or mode')
+        key = relative.casefold()
+        require(key not in folded, 'Package has case-colliding paths')
+        folded.add(key)
+        total += entry['size']
+        require(total <= 4 * 1024 * 1024 * 1024, 'Package exceeds supported size')
+    actual = set()
+    pending = [package]
+    directory_count = file_count = 0
+    while pending:
+        folder = pending.pop()
+        with os.scandir(folder) as children:
+            for child in children:
+                path = Path(child.path)
+                info = path.lstat()
+                require(not stat.S_ISLNK(info.st_mode)
+                        and not getattr(info, 'st_file_attributes', 0) & 0x400,
+                        'Package contains a link or reparse point')
+                require(stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode),
+                        'Package contains a special file')
+                if stat.S_ISDIR(info.st_mode):
+                    directory_count += 1
+                    require(directory_count <= 65000, 'Package directory limit exceeded')
+                    pending.append(path)
+                    continue
+                file_count += 1
+                require(file_count <= 65002, 'Package file limit exceeded')
+                require(info.st_nlink == 1, 'Package contains a hard-linked file')
+                relative = path.relative_to(package).as_posix()
+                if relative in ('product-manifest.json', 'SHA256SUMS'):
+                    continue
+                require(relative in entries, 'Package has missing or unexpected files; extract a clean verified copy')
+                actual.add(relative)
+                _scanned_member(path, info, entries[relative])
+    require(actual == set(entries), 'Package has missing or unexpected files; extract a clean verified copy')
+    require('product/kit/manifest.json' in actual, 'Package core resource is absent')
+    return data, digest(raw)
+
+def paths(home, state=None):
+    home = safe(Path(home).expanduser()).resolve()
+    state = safe(Path(state).expanduser() if state else home / '.local/share/codex-agent-system')
+    if platform_support.WINDOWS:
+        require(not home.is_relative_to(state), 'State must be a dedicated directory, not HOME or its ancestor')
+    destination, legacy = platform_support.personal_skill_roots(home)
+    for root in (destination, legacy):
+        require(not state.is_relative_to(root) and not root.is_relative_to(state),
+                'State and backups must stay outside skill discovery directories')
+    return home, state, destination, legacy
+
+
+def engines(package):
+    product = package / 'product'
+    return (module(product / 'kit/portable/update_skill_suite.py', '_buyer_core_updater'),
+            module(product / 'scripts/install_host_profile.py', '_buyer_host_updater'))
+
+
+def tree(root):
+    root = safe(root)
+    if not root.exists():
+        return None
+    require(root.is_dir(), 'Expected an optional skill directory')
+    result = {}
+    for parent, directories, names in os.walk(root, followlinks=False):
+        for name in directories + names:
+            mode = (Path(parent) / name).lstat().st_mode
+            require(not platform_support.is_link_or_reparse(Path(parent) / name) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
+                    'Linked or special optional skill input')
+        for name in names:
+            path = Path(parent) / name
+            result[path.relative_to(root).as_posix()] = {'sha256': digest(read(path)),
+                 'bytes': path.stat().st_size, 'mode': platform_support.file_mode(path)}
+    return result
+
+
+def optional_plan(package, destination, legacy, migrate_legacy=False):
+    source = package / 'product/optional-skills' / ORCHESTRATOR
+    target = destination / ORCHESTRATOR
+    desired, before = tree(source), tree(target)
+    require(desired and 'SKILL.md' in desired, 'Orchestrator resources are missing')
+    conflicts = []
+    baseline = load(package / 'product/optional-skills/UPDATE_BASELINES.json')
+    known = [row['files'] for row in baseline['skills'][ORCHESTRATOR].values()]
+    if platform_support.WINDOWS:
+        known = [{name: dict(record, mode=platform_support.project_mode(record['mode'])) for name, record in files.items()} for files in known]
+    if before is not None and before != desired and before not in known:
+        conflicts.append('Orchestrator has unknown local changes; reconcile them without overwrite.')
+    retirement=None
+    legacy_before=tree(legacy/ORCHESTRATOR)
+    if legacy_before is not None:
+        if not migrate_legacy:
+            conflicts.append('An Orchestrator also exists in the legacy root; resolve the duplicate first.')
+        elif legacy_before!=desired and legacy_before not in known:
+            conflicts.append('Legacy Orchestrator has unknown local changes; preserve and reconcile it before migration.')
+        elif before is not None and legacy_before not in (before,desired):
+            conflicts.append('The two Orchestrator roots conflict; reconcile them without overwrite.')
+        else:retirement={'target':str(legacy/ORCHESTRATOR),'before':legacy_before}
+    result={'source': str(source), 'target': str(target), 'before': before, 'after': desired,
+            'action': 'noop' if before == desired else 'install', 'conflicts': conflicts}
+    if retirement is not None:result['legacy_retirement']=retirement
+    return result
+
+
+def host_check(codex, home):
+    command = platform_support.codex_command(codex)
+    executable = command[0] if command else None
+    result = {'executable': executable, 'version': None, 'authentication': 'unverified', 'ready': False,
+              'next': 'Install Codex using its official setup, then sign in with your own account.'}
+    if not executable:
+        return result
+    try:
+        env = dict(os.environ, HOME=str(home), CODEX_HOME=str(home / '.codex'))
+        if platform_support.WINDOWS: env['USERPROFILE']=str(home)
+        check = subprocess.run([*command, '--version'], capture_output=True, timeout=10, env=env, text=True)
+        match = re.search(r'codex-cli (\d+)\.(\d+)\.(\d+)', check.stdout)
+        if not match:
+            result['next'] = 'Use a supported Codex CLI; the executable did not return a recognized version.'
+            return result
+        result['version'] = '.'.join(match.groups())
+        if tuple(map(int, match.groups())) < (0, 166, 0):
+            result['next'] = 'Update Codex CLI to 0.166.0 or later, then run doctor again.'
+            return result
+        login = subprocess.run([*command, 'login', 'status'], capture_output=True, timeout=15, env=env, text=True)
+        result['authentication'] = 'signed-in' if login.returncode == 0 else 'sign-in-required'
+        result['ready'] = login.returncode == 0
+        result['next'] = 'Open a fresh Codex session after installation.' if result['ready'] else 'Run codex login using your own account.'
+    except (OSError, subprocess.TimeoutExpired):
+        result['next'] = 'Codex did not respond. Run codex --version and codex login status in your terminal.'
+    return result
+
+
+
+def setup_diagnostic(phase, started=None):
+    if os.environ.get('AGENT_SYSTEM_SETUP_DIAGNOSTICS') == '1':
+        row={'phase':phase}
+        if started is not None:row['seconds']=round(time.monotonic()-started,3)
+        print('agent-system-setup '+json.dumps(row,sort_keys=True),file=sys.stderr,flush=True)
+
+
+def doctor(package, home, state=None, codex=None):
+    home, state, destination, legacy = paths(home, state)
+    started=time.monotonic();setup_diagnostic('package-validation-start')
+    metadata, fingerprint = package_info(package)
+    setup_diagnostic('package-validation-complete',started)
+    system, machine = platform.system(), platform.machine().lower()
+    supported = system in ('Darwin', 'Linux', 'Windows') and machine in ('arm64', 'aarch64', 'x86_64', 'amd64')
+    started=time.monotonic();setup_diagnostic('host-check-start')
+    host = host_check(codex, home)
+    setup_diagnostic('host-check-complete',started)
+    runtime = metadata.get('runtime', {})
+    return {'status': 'ready' if supported and host['ready'] else 'action-required',
+            'product_id': metadata['product_id'], 'product_version': metadata['product_version'],
+            'source_commit': metadata['source_commit'], 'package_manifest_sha256': fingerprint,
+            'platform': {'os': system, 'architecture': machine, 'supported_skills': supported,
+                         'python': platform.python_version()},
+            'components': {'skills': {'ready_for_audit': supported, 'expected': 33},
+                           'orchestrator': {'included': True, 'recommended': True},
+                           'profile_and_roles': {'included': True, 'native_configuration_mutated': False},
+                           'workbench': runtime or {'status': 'separate-artifact', 'next': 'Use the supplied runtime guide.'}},
+            'host': host, 'destination': str(destination), 'state': str(state),
+            'next': host['next'] if not host['ready'] else 'Run audit, inspect its targets, then install the approved plan.'}
+
+
+def retained_package(package, state, fingerprint):
+    """Keep verified sources available when a buyer moves or removes Downloads."""
+    cached = safe(state / 'packages' / fingerprint)
+    require(not state.is_relative_to(package), 'Setup state cannot be inside the received package')
+    if package == cached:
+        return package
+    with locked(state):
+        if cached.exists():
+            require(package_info(cached)[1] == fingerprint, 'Retained package source was changed')
+            return cached
+        cached.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        temporary = cached.parent / ('.staging-' + uuid.uuid4().hex)
+        try:
+            shutil.copytree(package, temporary)
+            require(package_info(temporary)[1] == fingerprint, 'Package changed while retaining recovery sources')
+            os.replace(temporary, cached)
+            sync_dir(cached.parent)
+        finally:
+            if temporary.exists():
+                shutil.rmtree(temporary)
+    return cached
+
+
+
+def inherited_entitlement(home, state, product_id):
+    """Carry an existing exact receipt; never infer or issue acquired rights."""
+    installed=state/'installed.json'
+    if not installed.exists():return None
+    current=load(installed)
+    require(current.get('schema')=='codex-agents.buyer-installation/1', 'Unknown installed rights source; reconcile before updating')
+    journal,prior,_,prior_home,prior_state,_=checked_journal(Path(current['journal']))
+    require(prior_home==home and prior_state==state and prior['product_id']==product_id,
+            'Installed rights source belongs to another home, state or product')
+    require(current['source_commit']==prior['source_commit'] and current['product_version']==prior['product_version'],
+            'Installed rights source identity differs from its journal')
+    require(journal['status'] in ('complete','rolled-back','uninstalled'), 'Installed rights source is unresolved; reconcile before updating')
+    reference=journal.get('retained_entitlement')
+    if reference is None:return None
+    path=safe(Path(reference))
+    match=re.fullmatch(r'([a-f0-9]{64})\.json',path.name)
+    require(path.parent==state/'purchases' and match is not None, 'Retained purchase record is outside managed rights storage')
+    info=path.lstat()
+    require(stat.S_ISREG(info.st_mode) and info.st_nlink==1, 'Retained purchase record must be a private unlinked regular file')
+    platform_support.assert_private(path)
+    expected=match.group(1)
+    require(prior.get('entitlement') and prior['entitlement']['sha256']==expected,
+            'Retained purchase record is not bound to its approved plan')
+    require(digest(read(path,256*1024))==expected, 'Retained purchase record changed; preserve it and reconcile before updating')
+    return path
+
+
+def audit(package, home, state, plan_path, entitlement=None):
+    package = safe(package)
+    metadata, manifest_sha = package_info(package)
+    home, state, destination, legacy = paths(home, state)
+    require(platform.system() in ('Darwin', 'Linux', 'Windows'), 'This setup supports native skills on Windows, macOS and Linux.')
+    package = retained_package(package, state, manifest_sha)
+    core, host = engines(package)
+    plan_path = safe(plan_path)
+    require(not plan_path.exists(), 'Choose a new plan path for this audit')
+    require(not any(plan_path.is_relative_to(p) for p in (package, destination, legacy)), 'Plans must be outside the package and discovery roots')
+    key = uuid.uuid4().hex
+    operation = state / 'operations' / key
+    migrating_root=destination==home/'.codex/skills'
+    core_plan = core.audit(package / 'product/kit', destination, legacy, operation / 'core-backups',retire_known=migrating_root)
+    profile_plan = host.audit(package / 'product', home / '.codex', destination / 'agent-foundry')
+    optional = optional_plan(package, destination, legacy,migrate_legacy=migrating_root)
+    blockers = list(core_plan['blockers']) + optional['conflicts']
+    launcher = launcher_path(state)
+    launcher_text = read(launcher).decode() if launcher.exists() else None
+    launcher_before = digest(launcher_text.encode()) if launcher_text is not None else None
+    if launcher_before is not None:
+        previous = state / 'installed.json'
+        known_launcher = False
+        if previous.exists():
+            old = load(Path(load(previous)['journal']))
+            known_launcher = old.get('launcher') == str(launcher) and old.get('launcher_sha256') == launcher_before
+        if not known_launcher:
+            blockers.append('The generated launcher has unknown changes; preserve them and reconcile before another install.')
+    license_record = None
+    entitlement_data = None
+    if entitlement is None:
+        entitlement = inherited_entitlement(home,state,metadata['product_id'])
+    if entitlement:
+        data = read(safe(entitlement), 256 * 1024)
+        entitlement_data = data
+        license_record = {'source': str(operation / 'entitlement-document.json'), 'sha256': digest(data)}
+        # Entitlement validation belongs to the delivery trust boundary. Preserve exact bytes here.
+    core_path, profile_path = operation / 'core-plan.json', operation / 'host-plan.json'
+    mode = 'fresh' if not core_plan['discovered'] and optional['before'] is None else (
+        'known-current' if all(e['action'] == 'noop' for e in core_plan['entries']) and optional['action'] == 'noop' else
+        'partial' if len(core_plan['discovered']) < 33 else 'update')
+    plan = {'schema': PLAN, 'operation': str(operation), 'package': str(package), 'manifest_sha256': manifest_sha,
+            'source_commit': metadata['source_commit'], 'product_id': metadata['product_id'], 'product_version': metadata['product_version'],
+            'edition': metadata.get('edition'), 'home': str(home), 'state': str(state), 'mode': mode,
+            'core_plan': str(core_path), 'core_plan_sha256': digest(encoded(core_plan)),
+            'profile_plan': str(profile_path), 'profile_plan_sha256': digest(encoded(profile_plan)),
+            'optional': optional, 'entitlement': license_record, 'launcher_before_sha256': launcher_before,
+            'launcher_before': launcher_text,
+            'blockers': blockers, 'ready': not blockers, 'created_at': timestamp()}
+    operation.mkdir(mode=0o700, parents=True)
+    if platform_support.WINDOWS: platform_support.make_private(operation)
+    if entitlement_data is not None:
+        with (operation / 'entitlement-document.json').open('xb') as receipt:
+            receipt.write(entitlement_data)
+            receipt.flush()
+            os.fsync(receipt.fileno())
+        platform_support.set_mode(operation / 'entitlement-document.json', 0o600)
+    write(core_path, core_plan, exclusive=True)
+    write(profile_path, profile_plan, exclusive=True)
+    write(plan_path, plan, exclusive=True)
+    return {'status': 'ready' if plan['ready'] else 'blocked', 'plan': str(plan_path),
+            'plan_sha256': digest(read(plan_path)), 'mode': mode, 'expected_skills': 33,
+            'recommended_orchestrator': True, 'roles': 12, 'destination': str(destination),
+            'journal': str(operation / 'journal.json'), 'blockers': blockers,
+            'preview': {'components': [{'id': e['name'], 'target': e['target'], 'action':e['action']} for e in core_plan['entries']] + [{'id':ORCHESTRATOR,'target':optional['target'],'action':optional['action']},{'id':'profile-and-roles','target':str(home / '.codex'),'action':'merge'}]+([{'id':ORCHESTRATOR+'-legacy','target':optional['legacy_retirement']['target'],'action':'retire'}] if optional.get('legacy_retirement') else []), 'conflicts':blockers, 'preserved_changes':core_plan.get('preserved_visuals',[])},
+            'next': 'Approve the exact plan SHA-256 before install.' if plan['ready'] else 'Preserve changes and resolve the listed conflicts; run a new audit.'}
+
+
+@contextmanager
+def locked(state, home=None):
+    state = safe(state)
+    state.mkdir(parents=True, exist_ok=True, mode=0o700)
+    if platform_support.WINDOWS: platform_support.make_private(state)
+    lock = safe((home / '.agents/.buyer-setup.lock') if home is not None else state / '.setup.lock')
+    lock.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    fd = os.open(lock, os.O_RDWR | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0), 0o600)
+    try:
+        require(stat.S_ISREG(os.fstat(fd).st_mode) and os.fstat(fd).st_nlink == 1, 'Invalid buyer setup lock')
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise ValueError('Another buyer setup process is active. Wait and inspect its journal before another action.')
+        yield
+    finally:
+        os.close(fd)
+
+
+def checked_plan(path, expected):
+    path = safe(path)
+    raw = read(path)
+    require(isinstance(expected, str) and HASH.fullmatch(expected) and digest(raw) == expected,
+            'Approval does not match the exact saved setup plan')
+    plan = json.loads(raw.decode(), object_pairs_hook=pairs)
+    require(plan.get('schema') == PLAN and plan.get('ready') is True and not plan.get('blockers'), 'Setup plan is blocked')
+    package = safe(plan['package'])
+    metadata, fingerprint = package_info(package)
+    require(fingerprint == plan['manifest_sha256'] and metadata['source_commit'] == plan['source_commit'], 'Package changed after audit')
+    home, state, _, _ = paths(plan['home'], plan['state'])
+    operation = safe(plan['operation'])
+    require(operation.parent == state / 'operations' and re.fullmatch('[a-f0-9]{32}', operation.name), 'Setup operation outside owned state')
+    for name in ('core', 'profile'):
+        other = safe(plan[name + '_plan'])
+        expected_name = 'core-plan.json' if name == 'core' else 'host-plan.json'
+        require(other == operation / expected_name and digest(read(other)) == plan[name + '_plan_sha256'], 'Subplan changed after audit')
+    saved_skill_roots(plan,home)
+    return plan, package, home, state, operation
+
+
+def saved_skill_roots(plan,home):
+    """Old and current journals retain their exact approved personal roots."""
+    native=load(Path(plan['core_plan']))
+    destination,legacy=safe(native['destination']),safe(native['legacy_root'])
+    allowed={home/'.agents/skills',home/'.codex/skills'}
+    require(destination!=legacy and {destination,legacy}==allowed,'Core plan exceeds the two allowed personal skill roots')
+    require(safe(plan['optional']['target'])==destination/ORCHESTRATOR,'Optional target differs from approved core destination')
+    retirement=plan['optional'].get('legacy_retirement')
+    if retirement:
+        require(safe(retirement['target'])==legacy/ORCHESTRATOR,'Optional retirement exceeds approved legacy root')
+    return destination,legacy,native
+
+
+def checked_journal(journal_path):
+    journal_path = safe(journal_path)
+    journal = load(journal_path)
+    require(journal.get('schema') == JOURNAL and journal_path == safe(journal['operation']) / 'journal.json', 'Unknown setup journal')
+    plan, package, home, state, operation = checked_plan(Path(journal['plan']), journal['plan_sha256'])
+    require(operation == journal_path.parent and journal['manifest_sha256'] == plan['manifest_sha256'], 'Journal scope mismatch')
+    if 'core_journal' in journal:
+        core, _ = engines(package)
+        native_path = safe(journal['core_journal'])
+        require(native_path.name == 'journal.json' and native_path.parent.parent == operation / 'core-backups',
+                'Core journal outside the composite operation')
+        native = core.load_journal(native_path)[1]
+        require(native['plan'] == core.read_json(plan['core_plan']), 'Core journal belongs to another saved plan')
+    if 'profile_journal' in journal:
+        require(safe(journal['profile_journal']) == operation / 'host-journal.json', 'Host journal outside the composite operation')
+    if 'launcher' in journal:
+        require(safe(journal['launcher']) == launcher_path(state), 'Launcher outside the setup state')
+    if 'uninstall_entries' in journal:
+        require(journal['status'] in ('uninstalling','uninstalled') and isinstance(journal['uninstall_entries'], list),
+                'Unexpected uninstall record')
+        destination,_,_=saved_skill_roots(plan,home)
+        permitted_trees = {str(destination / n) for n in engines(package)[0].NAMES | {ORCHESTRATOR}}
+        permitted_files = {str(home / '.codex/agents' / row['file']) for row in load(package / 'product/agent-profiles/manifest.json')['roles']}
+        permitted_files.add(str(launcher_path(state)))
+        observed = set()
+        for entry in journal['uninstall_entries']:
+            target = str(safe(entry['target']))
+            require(target not in observed, 'Duplicate uninstall target')
+            observed.add(target)
+            valid = (entry['kind'] == 'tree' and target in permitted_trees or
+                     entry['kind'] == 'file' and target in permitted_files or
+                     entry['kind'] == 'profile' and target == str(home / '.codex/AGENTS.md'))
+            require(valid, 'Uninstall journal exceeds managed scope')
+    return journal, plan, package, home, state, operation
+
+
+def core_receipt(core, plan):
+    native = core.read_json(plan['core_plan'])
+    ref = Path(native['backup_root']) / ('plan-' + core.sha(core.encode(native)) + '.json')
+    if ref.exists():
+        path = Path(core.read_json(ref)['journal'])
+        core.load_journal(path)
+        return path
+    lock = Path(native['backup_root']) / '.skill-suite.lock'
+    if lock.exists():
+        row = core.read_json(lock)
+        require(row['plan_sha256'] == core.sha(core.encode(native)), 'Another core operation is unresolved')
+        return Path(row['operation']) / 'journal.json'
+    return None
+
+
+def approved_partial_optional_tree(root,expected):
+    """Only deletion of an approved owned discard may have progressed."""
+    actual=tree(root)
+    require(actual is not None and all(name in expected and row==expected[name] for name,row in actual.items()),
+            'Legacy Orchestrator discard has altered or extra files')
+    allowed={'.'}
+    for name in expected:
+        allowed.update(str(parent) for parent in PurePosixPath(name).parents)
+    for current,directories,_ in os.walk(root,followlinks=False):
+        for name in directories:
+            require((Path(current)/name).relative_to(root).as_posix() in allowed,
+                    'Legacy Orchestrator discard has extra directories')
+
+
+def retire_optional_legacy(plan,operation,journal):
+    item=plan['optional'].get('legacy_retirement')
+    if not item:return
+    target=safe(item['target']);before=item['before']
+    backup=operation/'orchestrator-legacy-before'
+    discarded=safe(target.parent.parent/('.buyer-orchestrator-legacy-old-'+operation.name))
+    phase=journal.get('optional_legacy_phase','pending')
+    if phase=='complete':
+        require(tree(target) is None and tree(discarded) is None,'Legacy Orchestrator reappeared after retirement')
+        return
+    if phase=='pending':
+        require(tree(target)==before,'Legacy Orchestrator changed after audit')
+        if backup.exists() and tree(backup)!=before:
+            # Only this saved pending phase owns an incomplete backup copy.
+            shutil.rmtree(backup)
+        if not backup.exists():shutil.copytree(target,backup)
+        require(tree(backup)==before,'Legacy Orchestrator backup differs')
+        journal['optional_legacy_phase']='prepared';write(operation/'journal.json',journal);phase='prepared'
+    if phase=='prepared':
+        require(tree(backup)==before,'Legacy Orchestrator backup changed')
+        if discarded.exists():
+            require(tree(discarded)==before and tree(target) is None,'Ambiguous legacy Orchestrator retirement')
+        else:
+            require(tree(target)==before,'Legacy Orchestrator changed before retirement')
+            os.replace(target,discarded)
+        journal['optional_legacy_phase']='moved';write(operation/'journal.json',journal);phase='moved'
+    if phase=='moved':
+        require(tree(target) is None and tree(backup)==before,'Legacy Orchestrator retirement changed')
+        if discarded.exists():
+            require(tree(discarded)==before,'Legacy Orchestrator discard changed')
+        journal['optional_legacy_phase']='cleaning';write(operation/'journal.json',journal);phase='cleaning'
+    if phase=='cleaning':
+        require(tree(target) is None and tree(backup)==before,'Legacy Orchestrator retirement changed')
+        if discarded.exists():
+            approved_partial_optional_tree(discarded,before)
+            shutil.rmtree(discarded)
+        journal['optional_legacy_phase']='complete';write(operation/'journal.json',journal)
+
+
+def restore_optional_legacy(plan,operation,journal):
+    item=plan['optional'].get('legacy_retirement')
+    if not item or journal.get('optional_legacy_rolled_back'):return
+    target=safe(item['target']);before=item['before'];backup=operation/'orchestrator-legacy-before'
+    require(tree(backup)==before,'Legacy Orchestrator recovery backup changed')
+    observed=tree(target)
+    require(observed in (None,before),'Legacy Orchestrator contains later work; preserve it before rollback')
+    stage=safe(target.parent.parent/('.buyer-orchestrator-legacy-restore-'+operation.name))
+    if observed is None:
+        if not journal.get('optional_legacy_restore_started'):
+            require(not stage.exists(),'Unknown legacy Orchestrator restore stage')
+            journal['optional_legacy_restore_started']=True;write(operation/'journal.json',journal)
+        if stage.exists() and tree(stage)!=before:shutil.rmtree(stage)
+        if not stage.exists():shutil.copytree(backup,stage)
+        require(tree(stage)==before,'Legacy Orchestrator restore payload differs')
+        target.parent.mkdir(parents=True,exist_ok=True);os.replace(stage,target)
+    require(tree(target)==before,'Legacy Orchestrator recovery readback differs')
+    journal['optional_legacy_rolled_back']=True;write(operation/'journal.json',journal)
+
+
+def apply_optional(plan, operation, journal):
+    item = plan['optional']
+    target, source = Path(item['target']), Path(item['source'])
+    before, after = item['before'], item['after']
+    backup = operation / 'orchestrator-before'
+    phase = journal.get('optional_phase', 'pending')
+    if phase == 'complete':
+        require(tree(target) == after, 'Orchestrator changed since installation')
+        retire_optional_legacy(plan,operation,journal)
+        return
+    if phase == 'pending':
+        require(tree(target) == before, 'Orchestrator changed since audit')
+        if before is not None and item['action'] != 'noop':
+            if backup.exists():
+                require(tree(backup) == before, 'Unknown optional backup')
+            else:
+                shutil.copytree(target, backup)
+        journal['optional_phase'] = 'backed-up'
+        write(operation / 'journal.json', journal)
+        phase = 'backed-up'
+    if phase == 'backed-up':
+        require(tree(target) == before, 'Orchestrator changed before staging')
+        if item['action'] != 'noop':
+            # Destination and state may be on different filesystems. Stage beside target parent but outside discovery.
+            stage = target.parent.parent / ('.buyer-orchestrator-' + operation.name)
+            require(not stage.exists(), 'Unknown external optional staging path; reconcile it first')
+            journal['optional_stage'] = str(stage)
+        journal['optional_phase'] = 'staging'
+        write(operation / 'journal.json', journal)
+        phase = 'staging'
+    if phase == 'staging':
+        require(tree(target) == before, 'Orchestrator changed while preparing its payload')
+        if item['action'] != 'noop':
+            stage = safe(journal['optional_stage'])
+            require(stage == target.parent.parent / ('.buyer-orchestrator-' + operation.name), 'Optional stage ownership changed')
+            if stage.exists():
+                if tree(stage) != after:
+                    # The durable staging phase owns this incomplete copy. Original target is still intact.
+                    shutil.rmtree(stage)
+            if not stage.exists():
+                stage.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copytree(source, stage)
+            require(tree(stage) == after, 'Optional source changed during copy')
+        journal['optional_phase'] = 'prepared'
+        write(operation / 'journal.json', journal)
+        phase = 'prepared'
+    if phase == 'prepared':
+        if item['action'] != 'noop':
+            stage = safe(journal['optional_stage'])
+            old = target.parent.parent / ('.buyer-orchestrator-old-' + operation.name)
+            if old.exists():
+                require(tree(old) == before and not target.exists(), 'Ambiguous optional old move')
+            else:
+                require(tree(target) == before, 'Optional target changed before replacement')
+                if before is not None:
+                    os.replace(target, old)
+            journal['optional_old'] = str(old)
+        journal['optional_phase'] = 'old-moved'
+        write(operation / 'journal.json', journal)
+        phase = 'old-moved'
+    if phase == 'old-moved':
+        if item['action'] != 'noop':
+            stage, old = safe(journal['optional_stage']), safe(journal['optional_old'])
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if target.exists():
+                require(tree(target) == after and not stage.exists(), 'Ambiguous optional install')
+            else:
+                require(tree(stage) == after, 'Optional staged bytes changed')
+                os.replace(stage, target)
+            if old.exists():
+                require(tree(old) == before, 'Optional old bytes changed')
+                shutil.rmtree(old)
+        require(tree(target) == after, 'Optional target verification failed')
+        journal['optional_phase'] = 'complete'
+        write(operation / 'journal.json', journal)
+        retire_optional_legacy(plan,operation,journal)
+
+
+def launch_arguments(home, product):
+    rows = load(product / 'agent-profiles/manifest.json')['roles']
+    arguments = []
+    for role in rows:
+        path = home / '.codex/agents' / role['file']
+        text = read(path).decode()
+        description = re.search(r'^description = (".*")$', text, re.M)
+        require(description is not None, 'Role description is missing')
+        name = role['file'][:-5]
+        arguments += ['-c', 'agents.' + name + '.description=' + description.group(1),
+                      '-c', 'agents.' + name + '.config_file=' + json.dumps(str(path))]
+    return arguments
+
+
+def launcher_path(state):
+    return state / ('Open Codex.cmd' if platform_support.WINDOWS else 'Open Codex.command')
+
+
+def runtime_environment(package):
+    metadata=load(package / 'product-manifest.json')
+    rows=metadata.get('portable_runtimes')
+    if not rows:return {}
+    architecture=platform.machine().lower()
+    architecture='arm64' if architecture in ('arm64','aarch64') else 'x64' if architecture in ('amd64','x86_64','x64') else architecture
+    key=sys.platform+'-'+architecture
+    require(key in rows,'This package has no runtime for '+key)
+    row=rows[key]
+    result={}
+    for field,var in [('python_executable','AGENT_SYSTEM_PYTHON'),('node_executable','AGENT_SYSTEM_NODE')]:
+        reference=row[field]
+        require(reference in metadata['files'],'Runtime executable absent from the exact package inventory')
+        executable=inside(package,reference)
+        require(executable.is_file(),'Bundled runtime executable missing')
+        result[var]=str(executable)
+    # Preserve project/venv interpreters. Our helpers use the explicit variables;
+    # PATH supplies bundled tools only when the host lacks its own interpreter.
+    original_path=os.environ.get('PATH','')
+    python_bin=str(Path(result['AGENT_SYSTEM_PYTHON']).parent)
+    node_bin=str(Path(result['AGENT_SYSTEM_NODE']).parent)
+    bundled_python_dirs={os.path.normcase(os.path.abspath(python_bin))}
+    previous_python=os.environ.get('AGENT_SYSTEM_PYTHON')
+    if previous_python:
+        bundled_python_dirs.add(os.path.normcase(os.path.abspath(str(Path(previous_python).parent))))
+    search_parts=[part for part in original_path.split(os.pathsep)
+                  if os.path.normcase(os.path.abspath(part)) not in bundled_python_dirs]
+    if platform_support.WINDOWS:
+        search_parts=[part for part in search_parts
+                      if 'windowsapps' not in part.replace('\\','/').casefold().split('/')]
+    search_path=os.pathsep.join(search_parts)
+    existing_python=any(shutil.which(name,path=search_path) for name in ('python3','python'))
+    parts=([original_path,python_bin,node_bin] if existing_python
+           else [python_bin,original_path,node_bin])
+    result['PATH']=os.pathsep.join(part for part in parts if part)
+    terminfo=[]
+    for reference in row.get('terminfo_dirs',[]):
+        require(isinstance(reference,str) and reference.startswith('runtimes/'+key+'/python/share/terminfo')
+                and any(name.startswith(reference+'/') for name in metadata['files']),
+                'Terminal database layer absent from the exact package inventory')
+        directory=inside(package,reference)
+        require(directory.is_dir(),'Bundled terminal database layer missing')
+        terminfo.append(str(directory))
+    if terminfo:
+        previous=os.environ.get('TERMINFO_DIRS')
+        result['TERMINFO_DIRS']=os.pathsep.join(([previous] if previous is not None else [])+terminfo+[''])
+    result.update(PYTHONUTF8='1',PYTHONIOENCODING='utf-8',PYTHONDONTWRITEBYTECODE='1')
+    return result
+
+
+def make_launcher(home, state, product, expected_before=None, *, project=None):
+    flags = launch_arguments(home, product)
+    if project is not None:
+        project = safe(project)
+        require(project.parent == state / 'practice' and re.fullmatch(r'[0-9a-f]{32}',project.name), 'Practice launcher outside the owned demo root')
+        flags = ['-C',str(project),*flags]
+    command = platform_support.codex_command()
+    if command is None and (home / '.local/bin/codex').is_file():
+        command = [str(home / '.local/bin/codex')]
+    command = command or ['codex']
+    runtime = runtime_environment(product.parent)
+    if runtime and Path(command[0]).name.lower() in ('node','node.exe') and len(command)>1:
+        command[0]=runtime['AGENT_SYSTEM_NODE']
+    environment = ['HOME=' + str(home), 'CODEX_HOME=' + str(home / '.codex')]
+    if platform_support.WINDOWS:
+        # The batch file contains no user-controlled shell text. PowerShell's
+        # ProcessStartInfo receives an encoded data record and an exact CRT argv
+        # string, avoiding both cmd expansion and PowerShell native-arg stripping.
+        data = {'executable': command[0], 'arguments': subprocess.list2cmdline([*command[1:], *flags]),
+                'environment': {'HOME':str(home), 'USERPROFILE':str(home), 'CODEX_HOME':str(home / '.codex'),
+                                'PYTHONUTF8':'1','PYTHONIOENCODING':'utf-8','PYTHONDONTWRITEBYTECODE':'1',**runtime}}
+        payload = base64.b64encode(encoded(data)).decode('ascii')
+        script = "$t=[IO.File]::ReadAllText($env:AGENT_SYSTEM_LAUNCH_FILE,[Text.Encoding]::UTF8);" + \
+                 "$b=[regex]::Match($t,'(?m)^:AGENT_SYSTEM_LAUNCH_DATA\\r?\\n([A-Za-z0-9+/=]+)').Groups[1].Value;" + \
+                 "$d=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b))|ConvertFrom-Json;" + \
+                 "$s=New-Object Diagnostics.ProcessStartInfo;$s.FileName=$d.executable;$s.Arguments=$d.arguments;$s.UseShellExecute=$false;" + \
+                 "$d.environment.psobject.Properties|ForEach-Object{$s.EnvironmentVariables[$_.Name]=$_.Value};" + \
+                 "$p=[Diagnostics.Process]::Start($s);$p.WaitForExit();exit $p.ExitCode"
+        content = '@echo off\r\nsetlocal DisableDelayedExpansion\r\nset "AGENT_SYSTEM_LAUNCH_FILE=%~f0"\r\npowershell.exe -NoLogo -NoProfile -EncodedCommand ' + base64.b64encode(script.encode('utf-16le')).decode('ascii') + '\r\nexit /b %ERRORLEVEL%\r\n:AGENT_SYSTEM_LAUNCH_DATA\r\n' + payload + '\r\n'
+    else:
+        environment += [name+'='+value for name,value in runtime.items()]
+        content = '#!/bin/sh\nset -eu\nexec env ' + ' '.join(shlex.quote(x) for x in environment) + ' ' + ' '.join(shlex.quote(x) for x in command) + ' ' + ' '.join(shlex.quote(x) for x in flags) + ' "$@"\n'
+    path = (project / launcher_path(state).name) if project is not None else launcher_path(state)
+    before = digest(read(path)) if path.exists() else None
+    require(before in (expected_before, digest(content.encode())), 'Generated launcher changed during setup; preserve it')
+    fd, tmp = tempfile.mkstemp(prefix='.codex-launch-', dir=state)
+    try:
+        with os.fdopen(fd, 'wb') as file:
+            file.write(content.encode()); file.flush(); os.fsync(file.fileno())
+        platform_support.set_mode(tmp, 0o755)
+        os.replace(tmp, path)
+    finally:
+        Path(tmp).unlink(missing_ok=True)
+    return str(path)
+
+
+def install(plan_path, expected, *, resume=None):
+    started=time.monotonic();setup_diagnostic('install-plan-check-start')
+    plan, package, home, state, operation = checked_plan(plan_path, expected)
+    setup_diagnostic('install-plan-check-complete',started)
+    core, host = engines(package)
+    journal_path = operation / 'journal.json'
+    with locked(state, home):
+        if journal_path.exists():
+            journal, saved, *_ = checked_journal(journal_path)
+            require(saved == plan, 'Resume uses a different setup plan')
+            require(resume is not None and safe(resume) == journal_path or journal['status'] == 'complete',
+                    'This operation started already; use install --resume with its journal')
+            require(journal['status'] not in ('rolling-back', 'rolled-back', 'uninstalling', 'uninstalled'), 'Cannot install after recovery or uninstall began')
+            if journal['status'] == 'complete':
+                return {'status': 'installed', 'journal': str(journal_path), 'verification': verify(journal_path),
+                        'launcher': journal['launcher'], 'next': 'Open a fresh Codex session through the generated launcher.'}
+        else:
+            require(resume is None, 'The requested journal does not exist; inspect the audited operation path')
+            destination,legacy,native=saved_skill_roots(plan,home)
+            require(core.comparable(core.audit(package / 'product/kit', destination, legacy, operation / 'core-backups',retire_known=native.get('retire_known_duplicates',False))) == core.comparable(native), 'Core targets changed after audit')
+            require(host.audit(package / 'product', home / '.codex', destination/'agent-foundry') == host.load(Path(plan['profile_plan'])), 'Host target changed after audit')
+            require(optional_plan(package,destination,legacy,migrate_legacy=bool(plan['optional'].get('legacy_retirement'))) == plan['optional'], 'Orchestrator changed after audit')
+            if plan['entitlement']:
+                require(digest(read(Path(plan['entitlement']['source']))) == plan['entitlement']['sha256'], 'Entitlement document changed after audit')
+            journal = {'schema': JOURNAL, 'operation': str(operation), 'plan': str(safe(plan_path)), 'plan_sha256': expected,
+                       'manifest_sha256': plan['manifest_sha256'], 'status': 'installing', 'created_at': timestamp()}
+            write(journal_path, journal, exclusive=True)
+        try:
+            if not journal.get('core_complete'):
+                started=time.monotonic();setup_diagnostic('core-install-start')
+                native_journal = core_receipt(core, plan)
+                if native_journal and native_journal.exists() and core.load_journal(native_journal)[1]['status'] == 'complete':
+                    result = core.apply_plan(Path(plan['core_plan']))
+                else:
+                    result = core.apply_plan(Path(plan['core_plan']), native_journal)
+                setup_diagnostic('core-install-complete',started)
+                journal.update(core_complete=True, core_journal=result['journal'])
+                write(journal_path, journal)
+            if not journal.get('profile_complete'):
+                started=time.monotonic();setup_diagnostic('profile-install-start')
+                home.joinpath('.codex').mkdir(parents=True, exist_ok=True)
+                result = host.apply(Path(plan['profile_plan']), operation / 'host-journal.json')
+                setup_diagnostic('profile-install-complete',started)
+                journal.update(profile_complete=True, profile_journal=result['journal'])
+                write(journal_path, journal)
+            started=time.monotonic();setup_diagnostic('optional-install-start')
+            apply_optional(plan, operation, journal)
+            setup_diagnostic('optional-install-complete',started)
+            if plan['entitlement']:
+                destination = state / 'purchases' / (plan['entitlement']['sha256'] + '.json')
+                destination.parent.mkdir(mode=0o700, exist_ok=True)
+                if platform_support.WINDOWS: platform_support.make_private(destination.parent)
+                content = read(Path(plan['entitlement']['source']))
+                require(digest(content) == plan['entitlement']['sha256'], 'Entitlement changed during installation')
+                if destination.exists():
+                    require(destination.lstat().st_nlink==1, 'Existing purchase record must not have hard links')
+                    platform_support.assert_private(destination)
+                    require(read(destination) == content, 'Existing purchase record disagrees')
+                else:
+                    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+                    with os.fdopen(fd, 'wb') as out:
+                        platform_support.fchmod(out.fileno(),0o600)
+                        out.write(content); out.flush(); os.fsync(out.fileno())
+                journal['retained_entitlement'] = str(destination)
+            journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'))
+            journal['launcher_sha256'] = digest(read(Path(journal['launcher'])))
+            journal.update(status='complete', finished_at=timestamp())
+            write(journal_path, journal)
+            write(state / 'installed.json', {'schema': 'codex-agents.buyer-installation/1', 'journal': str(journal_path),
+                  'source_commit': plan['source_commit'], 'product_version': plan['product_version'], 'edition': plan['edition']})
+            started=time.monotonic();setup_diagnostic('installed-verification-start')
+            report = verify(journal_path)
+            setup_diagnostic('installed-verification-complete',started)
+            return {'status': 'installed', 'journal': str(journal_path), 'verification': report,
+                    'launcher': journal['launcher'], 'next': 'Open the generated Codex launcher, then run discover and your first task.'}
+        except BaseException as exc:
+            journal.update(status='interrupted', error=type(exc).__name__ + ': ' + str(exc))
+            write(journal_path, journal)
+            raise
+
+
+def verify(journal_path):
+    journal, plan, package, home, state, operation = checked_journal(journal_path)
+    require(journal['status'] == 'complete', 'Installation is incomplete; resume its saved plan first')
+    core, host = engines(package)
+    destination,legacy,_=saved_skill_roots(plan,home)
+    core_status = core.verify(package / 'product/kit', destination,legacy,journal['core_journal'])
+    host_status = host.verify_or_rollback(Path(journal['profile_journal']))
+    optional = tree(Path(plan['optional']['target'])) == plan['optional']['after']
+    if plan['optional'].get('legacy_retirement'):
+        optional=optional and tree(Path(plan['optional']['legacy_retirement']['target'])) is None
+    require(digest(read(Path(journal['launcher']))) == journal['launcher_sha256'], 'Generated launcher changed; preserve and reconcile its local edits')
+    require(core_status['ready'] and host_status['ok'] and optional, 'Managed files changed; preserve them and create a new audit')
+    return {'status': 'verified-files', 'source_commit': plan['source_commit'], 'product_version': plan['product_version'],
+            'skills': core_status['verified_skills'], 'orchestrator': optional, 'profile_and_roles': host_status['files'],
+            'icons_preserved': core_status['visual_preservation_verified'], 'host_discovery_verified': False,
+            'behavior_verified': False, 'license_record_retained': journal.get('retained_entitlement')}
+
+
+def rollback(journal_path):
+    journal, plan, package, home, state, operation = checked_journal(journal_path)
+    core, host = engines(package)
+    with locked(state, home):
+        if journal['status'] == 'rolled-back':
+            return {'status': 'rolled-back', 'journal': str(journal_path), 'changed': 0}
+        require(journal['status'] in ('complete', 'rolling-back'), 'Finish or reconcile installation before rollback')
+        # Validate every boundary before starting a multi-component restore.
+        if journal['status'] == 'complete':
+            verify(journal_path)
+            require(tree(Path(plan['optional']['target'])) == plan['optional']['after'], 'Optional source drift')
+            native_operation, native = core.load_journal(Path(journal['core_journal']))
+            for i, (entry, done) in enumerate(zip(native['plan']['entries'], native['states'])):
+                if entry['before'] is not None and core.snapshot(Path(entry['target'])) != entry['before']:
+                    _, backup, _, _ = core.journal_paths(entry, native_operation, i)
+                    require(core.snapshot(backup) == entry['before'], 'Core rollback backup integrity failed')
+            optional_target = Path(plan['optional']['target'])
+            if plan['optional']['before'] is not None and plan['optional']['before'] != plan['optional']['after']:
+                require(tree(operation / 'orchestrator-before') == plan['optional']['before'], 'Optional rollback backup integrity failed')
+            retirement=plan['optional'].get('legacy_retirement')
+            if retirement:
+                require(tree(operation/'orchestrator-legacy-before')==retirement['before'],
+                        'Legacy Orchestrator rollback backup integrity failed')
+                require(tree(Path(retirement['target'])) is None,'Legacy Orchestrator has later work; preserve it before rollback')
+            for suffix in ('restore', 'discard'):
+                require(not (optional_target.parent.parent / ('.buyer-orchestrator-' + suffix + '-' + operation.name)).exists(),
+                        'Unknown optional rollback stage exists; reconcile before restore')
+            journal['status'] = 'rolling-back'
+            write(Path(journal_path), journal)
+        item = plan['optional']
+        target, before = Path(item['target']), item['before']
+        if not journal.get('optional_rolled_back'):
+            actual = tree(target)
+            discarded = safe(target.parent.parent / ('.buyer-orchestrator-discard-' + operation.name))
+            restored = safe(target.parent.parent / ('.buyer-orchestrator-restore-' + operation.name))
+            require(actual in (item['after'], before) or
+                    (actual is None and tree(discarded) == item['after']),
+                    'Orchestrator changed after install; preserve later work')
+            if actual != before:
+                if before is not None:
+                    backup = operation / 'orchestrator-before'
+                    require(tree(backup) == before, 'Orchestrator backup unavailable')
+                    if restored.exists() and tree(restored) != before:
+                        shutil.rmtree(restored)
+                    if not restored.exists():
+                        shutil.copytree(backup, restored)
+                    require(tree(restored) == before, 'Optional restore payload differs from backup')
+                if target.exists():
+                    require(not discarded.exists(), 'Optional discard conflicts with current source')
+                    os.replace(target, discarded)
+                if before is not None:
+                    os.replace(restored, target)
+            require(tree(target) == before, 'Optional rollback read-back failed')
+            if discarded.exists():
+                require(tree(discarded) == item['after'], 'Optional discard differs from installed source')
+                shutil.rmtree(discarded)
+            journal['optional_rolled_back'] = True
+            write(Path(journal_path), journal)
+        restore_optional_legacy(plan,operation,journal)
+        if not journal.get('profile_rolled_back'):
+            profile = Path(journal['profile_journal'])
+            if host.load(profile)['status'] != 'rolled_back':
+                host.verify_or_rollback(profile, True)
+            journal['profile_rolled_back'] = True
+            write(Path(journal_path), journal)
+        if not journal.get('core_rolled_back'):
+            core.rollback(Path(journal['core_journal']))
+            journal['core_rolled_back'] = True
+            write(Path(journal_path), journal)
+        if not journal.get('launcher_rolled_back'):
+            launcher = Path(journal['launcher'])
+            prior = plan.get('launcher_before')
+            observed = read(launcher) if launcher.exists() else None
+            prior_hash = digest(prior.encode()) if prior is not None else None
+            require(prior_hash == plan.get('launcher_before_sha256'), 'Launcher backup differs from the approved plan')
+            require((digest(observed) if observed is not None else None) in (journal['launcher_sha256'], prior_hash),
+                    'Generated launcher changed during rollback')
+            if prior is None:
+                launcher.unlink(missing_ok=True)
+            elif observed != prior.encode():
+                host.atomic(launcher, prior, 0o755)
+            journal['launcher_rolled_back'] = True
+            write(Path(journal_path), journal)
+        journal.update(status='rolled-back', rolled_back_at=timestamp())
+        write(Path(journal_path), journal)
+        return {'status': 'rolled-back', 'journal': str(journal_path), 'purchase_records_preserved': True,
+                'next': 'Open a fresh Codex session and verify the prior workflow.'}
+
+
+def uninstall(journal_path):
+    journal, plan, package, home, state, operation = checked_journal(journal_path)
+    core, host = engines(package)
+    with locked(state, home):
+        if journal['status'] == 'uninstalled':
+            return {'status': 'uninstalled', 'journal': str(journal_path), 'changed': 0}
+        require(journal['status'] in ('complete', 'uninstalling'), 'Reconcile or finish this installation first')
+        if journal['status'] == 'complete':
+            verify(journal_path)
+            candidates = []
+            native = core.load_journal(Path(journal['core_journal']))[1]
+            for entry, done in zip(native['plan']['entries'], native['states']):
+                if entry['action'] != 'retire':
+                    candidates.append({'kind': 'tree', 'target': entry['target'], 'before': core.snapshot(Path(entry['target']))})
+            candidates.append({'kind': 'tree', 'target': plan['optional']['target'], 'before': core.snapshot(Path(plan['optional']['target']))})
+            for row in host.load(Path(journal['profile_journal']))['changes']:
+                if Path(row['target']).name != 'AGENTS.md':
+                    candidates.append({'kind': 'file', 'target': row['target'], 'before': row['desired']})
+            profile = home / '.codex/AGENTS.md'
+            content = host.read(profile)
+            begin, end = content.index(host.START), content.index(host.END) + len(host.END)
+            desired = content[:begin] + content[end:]
+            candidates.append({'kind': 'profile', 'target': str(profile), 'before': content, 'after': desired})
+            launcher = Path(journal['launcher'])
+            require(digest(read(launcher)) == journal['launcher_sha256'], 'Generated launcher changed; preserve local work')
+            candidates.append({'kind': 'file', 'target': str(launcher), 'before': read(launcher).decode()})
+            journal.update(status='uninstalling', uninstall_entries=candidates, uninstall_done=[])
+            write(Path(journal_path), journal)
+        for index, entry in enumerate(journal['uninstall_entries']):
+            if index in journal['uninstall_done']:
+                continue
+            target = safe(entry['target'])
+            stash = operation / 'uninstalled' / str(index)
+            stash.parent.mkdir(parents=True, exist_ok=True)
+            if entry['kind'] == 'tree':
+                observed = core.snapshot(target)
+                if observed is not None:
+                    require(observed == entry['before'], 'Uninstall tree changed; preserve local work')
+                    if stash.exists() and core.snapshot(stash) != entry['before']:
+                        shutil.rmtree(stash)
+                    if not stash.exists():
+                        shutil.copytree(target, stash)
+                    require(core.snapshot(stash) == entry['before'], 'Uninstall backup failed')
+                    shutil.rmtree(target)
+                else:
+                    require(core.snapshot(stash) == entry['before'], 'Uninstall target vanished without owned backup')
+            elif entry['kind'] == 'file':
+                observed = host.read(target)
+                if observed is not None:
+                    require(observed == entry['before'], 'Uninstall role changed; preserve local work')
+                    if stash.exists():
+                        require(stash.read_text(encoding='utf8') == observed, 'Uninstall file backup differs')
+                    else:
+                        host.atomic(stash, observed, 0o600)
+                    target.unlink()
+                else:
+                    require(stash.exists() and stash.read_text(encoding='utf8') == entry['before'], 'Role missing without backup')
+            else:
+                observed = host.read(target)
+                require(observed in (entry['before'], entry['after']), 'Profile changed during uninstall; reconcile first')
+                if observed != entry['after']:
+                    host.atomic(stash, observed, 0o600)
+                    host.atomic(target, entry['after'], 0o644)
+            journal['uninstall_done'].append(index)
+            write(Path(journal_path), journal)
+        journal.update(status='uninstalled', uninstalled_at=timestamp())
+        write(Path(journal_path), journal)
+        return {'status': 'uninstalled', 'journal': str(journal_path), 'removed_managed_entries': len(journal['uninstall_entries']),
+                'projects_preserved': True, 'purchase_records_preserved': True, 'backups': str(operation / 'uninstalled'),
+                'next': 'Keep your purchase record and recovery journal. Other skills and project data remain in place.'}
+
+
+def status(home, state=None):
+    home, state, _, _ = paths(home, state)
+    record = state / 'installed.json'
+    if not record.exists():
+        return {'status': 'not-installed-by-this-setup', 'state': str(state),
+                'next': 'Run doctor and audit. Existing public installations will be inspected, not overwritten blindly.'}
+    data = load(record)
+    journal = load(Path(data['journal']))
+    return {'status': journal['status'], 'product_version': data['product_version'], 'source_commit': data['source_commit'],
+            'journal': data['journal'], 'host_discovery_verified': False,
+            'next': 'Run verify for current on-disk state and discover for a fresh Codex host observation.'}
+
+
+def operations(home, state=None):
+    home, state, *_ = paths(home, state)
+    folder = state / 'operations'
+    rows = []
+    if folder.exists():
+        require(folder.is_dir(), 'Operations store is not a directory')
+        entries = list(folder.iterdir())
+        require(len(entries) <= 2000, 'Too many retained operations; select an exact journal in CLI')
+        for entry in sorted(entries):
+            if not re.fullmatch(r'[0-9a-f]{32}', entry.name):
+                continue
+            journal_path = safe(entry / 'journal.json')
+            if not journal_path.is_file():
+                continue
+            journal, plan, package, recorded_home, recorded_state, operation = checked_journal(journal_path)
+            require(recorded_home == home and recorded_state == state, 'Operation belongs to a different setup home')
+            # Partial phases may have mutated files. Resuming requires the same
+            # exact approved plan; listing never retries or repairs them itself.
+            phase = journal.get('phase') or journal.get('optional_phase') or journal['status']
+            can_resume = journal['status'] in ('installing','interrupted')
+            rows.append({'id':entry.name,'journal':str(journal_path), 'plan':journal['plan'],
+                         'plan_sha256':journal['plan_sha256'], 'status':journal['status'],
+                         'phase':phase, 'can_resume':can_resume, 'resumable':can_resume,
+                         'recovery_action':'install' if can_resume else 'rollback' if journal['status']=='rolling-back' else 'uninstall' if journal['status']=='uninstalling' else None,
+                         'source_commit':plan['source_commit'], 'package_source':str(package)})
+    installed = load(state / 'installed.json') if (state / 'installed.json').exists() else None
+    return {'status':'ready','operations':rows,'installed':installed}
+
+
+def discovery_observation(records, names):
+    """Describe only our declared skills; unrelated host metadata stays out."""
+    actual=[s for row in records.get('data',[]) for s in row.get('skills',[])]
+    rows=[s for s in actual if s.get('name') in names]
+    counts={name:sum(row.get('name')==name for row in rows) for name in sorted(names)}
+    errors=[error for row in records.get('data',[]) for error in row.get('errors',[])]
+    known_errors=[]
+    for error in errors:
+        if not isinstance(error,dict):continue
+        path=str(error.get('path',''))
+        parts=path.replace('\\','/').split('/')
+        if len(parts)<2 or parts[-1].lower()!='skill.md' or parts[-2] not in names:continue
+        public_path='/'.join(parts[-2:])
+        known_errors.append({'skill':parts[-2],'code':str(error.get('code','skill-load-error'))[:80],
+                             'message':str(error.get('message','')).replace(path,public_path)[:320]})
+    summary={'phase':'native-discovery-response','expected_count':len(names),'observed_count':len(rows),
+             'unique_count':sum(count>0 for count in counts.values()),
+             'observed_names':sorted(name for name,count in counts.items() if count),
+             'missing':sorted(name for name,count in counts.items() if not count),
+             'duplicates':{name:count for name,count in counts.items() if count>1},
+             'loader_error_count':len(errors),'known_loader_errors':known_errors[:10]}
+    private={'summary':summary,'declared_rows':[{'name':row.get('name'),'path':row.get('path'),
+              'enabled':row.get('enabled')} for row in rows[:100]]}
+    return rows,summary,private
+
+
+def discover(journal_path, codex=None, cwd=None):
+    journal, plan, package, home, state, operation = checked_journal(journal_path)
+    verify(journal_path)
+    command = platform_support.codex_command(codex)
+    executable = command[0] if command else None
+    require(executable, 'Install Codex or pass its actual --codex path')
+    args = launch_arguments(home, package / 'product')
+    project = safe(cwd or home)
+    require(project.is_dir(), 'Discovery workspace must exist')
+    environment=dict(os.environ, HOME=str(home), CODEX_HOME=str(home / '.codex'), **runtime_environment(package))
+    if platform_support.WINDOWS: environment['USERPROFILE']=str(home)
+    if environment.get('AGENT_SYSTEM_NODE') and Path(command[0]).name.lower() in ('node','node.exe') and len(command)>1:
+        command[0]=environment['AGENT_SYSTEM_NODE']
+    process = subprocess.Popen([*command, *args, 'app-server', '--listen', 'stdio://', '--disable', 'apps',
+                                '--disable', 'hooks', '--disable', 'plugins'], cwd=project,
+                               env=environment,
+                               stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    chunks = queue.Queue(maxsize=256)
+    stopped = threading.Event()
+    def reader():
+        try:
+            while not stopped.is_set():
+                content = os.read(process.stdout.fileno(), 65536)
+                while not stopped.is_set():
+                    try: chunks.put(content, timeout=.1); break
+                    except queue.Full: pass
+                if not content: break
+        except (OSError, ValueError):
+            if not stopped.is_set():
+                try: chunks.put_nowait(b'')
+                except queue.Full: pass
+    reading = threading.Thread(target=reader, daemon=True)
+    reading.start()
+    waiting = b''
+    def send(method, params=None, ident=None):
+        row = {'method': method}
+        if params is not None:
+            row['params'] = params
+        if ident is not None:
+            row['id'] = ident
+        process.stdin.write((json.dumps(row) + '\n').encode()); process.stdin.flush()
+    def receive(ident):
+        nonlocal waiting
+        deadline = time.monotonic() + 20
+        while time.monotonic() < deadline:
+            while b'\n' in waiting:
+                line, waiting = waiting.split(b'\n', 1)
+                row = json.loads(line)
+                if row.get('id') == ident:
+                    require('error' not in row, 'Codex rejected native discovery')
+                    return row['result']
+            try:
+                content = chunks.get(timeout=max(.01, deadline - time.monotonic()))
+            except queue.Empty:
+                break
+            require(content, 'Codex discovery stopped before its receipt')
+            waiting += content
+            require(len(waiting) <= 16 * 1024 * 1024, 'Native discovery output exceeds bound')
+        raise ValueError('Codex discovery timed out; verify the host and authentication')
+    try:
+        send('initialize', {'clientInfo': {'name': 'agent-system-buyer-setup', 'version': '1.0.0'}}, 1)
+        receive(1); send('initialized')
+        send('skills/list', {'cwds': [str(project)], 'forceReload': True}, 2)
+        records = receive(2)
+        names = set(engines(package)[0].NAMES) | {ORCHESTRATOR}
+        rows,summary,private=discovery_observation(records,names)
+        if os.environ.get('AGENT_SYSTEM_SETUP_DIAGNOSTICS')=='1':
+            write(operation/'native-discovery-diagnostic.json',private)
+            print('agent-system-setup '+json.dumps(summary,sort_keys=True),file=sys.stderr,flush=True)
+        require(len(rows) == 34 and {s['name'] for s in rows} == names,
+                'Fresh Codex resolved '+str(len(rows))+' of 34 expected skills; missing: '
+                +', '.join(summary['missing'][:8])+'; duplicates: '+', '.join(summary['duplicates']))
+        destination,_,_=saved_skill_roots(plan,home)
+        for row in rows:
+            require(row['enabled'] and safe(row['path']) == destination / row['name'] / 'SKILL.md',
+                    'Codex resolved another source for ' + row['name'])
+        receipt = {'status': 'native-discovery-verified', 'skills': len(rows), 'source_commit': plan['source_commit'],
+                   'observed_paths': {row['name']: row['path'] for row in rows}, 'roles_explicitly_registered': 12,
+                   'role_execution_verified': False, 'behavior_verified': False,
+                   'next': 'Use the generated Codex launcher and ask Atelier Orchestrator for your first bounded task.'}
+        write(operation / 'native-discovery.json', receipt)
+        return receipt
+    finally:
+        stopped.set()
+        if process.poll() is None:
+            process.terminate()
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            process.kill(); process.wait(timeout=3)
+        reading.join(timeout=1)
+        process.stdout.close(); process.stdin.close()
+
+
+def first_task(locale='en'):
+    prompt = ('Виправ Cheklist на Checklist лише в заголовку README.md. Збережи notes.txt. Прочитай обидва файли до і після правки; покажи результат і перевірку.'
+              if locale == 'uk' else
+              'Correct Cheklist to Checklist only in the README.md heading. Preserve notes.txt. Read both files before and after the edit; show the result and verification.')
+    return {'status': 'ready-to-run', 'prompt': '$atelier-orchestrator\n\n' + prompt,
+            'fixture': {'README.md': '# Cheklist\n', 'notes.txt': 'Preserve this note.\n'},
+            'expected': {'README.md': '# Checklist\n', 'notes.txt': 'Preserve this note.\n'},
+            'next': 'Create these two files in a disposable project; open the generated Codex launcher there and paste the prompt.',
+            'execution_performed': False}
+
+
+def prepare_first_task(package, home, state=None, locale='en'):
+    package = safe(package)
+    package_info(package)
+    home, state, *_ = paths(home, state)
+    description = first_task(locale)
+    with locked(state, home):
+        folder = safe(state / 'practice' / uuid.uuid4().hex)
+        folder.mkdir(parents=True, mode=0o700)
+        if platform_support.WINDOWS: platform_support.make_private(folder)
+        for name, content in description['fixture'].items():
+            target = inside(folder, name)
+            with target.open('xb') as file:
+                file.write(content.encode('utf8')); file.flush(); os.fsync(file.fileno())
+            platform_support.set_mode(target, 0o600)
+        task = folder / 'TASK.txt'
+        with task.open('xb') as file:
+            file.write(description['prompt'].encode('utf8')); file.flush(); os.fsync(file.fileno())
+        platform_support.set_mode(task, 0o600)
+        sync_dir(folder)
+    launcher = None
+    record = state / 'installed.json'
+    if record.exists():
+        active = load(record)
+        journal, _, installed_package, installed_home, installed_state, _ = checked_journal(Path(active['journal']))
+        require(installed_home == home and installed_state == state, 'Installed record belongs to another setup home')
+        if journal['status'] == 'complete':
+            verify(Path(active['journal']))
+            launcher = make_launcher(home,state,installed_package / 'product',project=folder)
+    return dict(description, status='prepared', project=str(folder),
+                launcher=launcher, execution_performed=False,
+                next='Open this disposable project in Codex and paste the supplied prompt. Review the resulting files.')
+
+
+def wizard(package, home, state=None, codex=None, locale='en'):
+    """Human entry for the double-click launcher; exact CLI plans stay available."""
+    require(sys.stdin.isatty(), 'Run setup with a command such as doctor or audit, or open Start.command in a terminal for the guided menu.')
+    home, state, *_ = paths(home, state)
+    uk = locale == 'uk'
+    say = lambda en, ua: print(ua if uk else en)
+    say('Codex Agent System — guided setup', 'Codex Agent System — майстер встановлення')
+    say('33 skills + Atelier Orchestrator + profile and 12 roles. Your projects and other skills stay in place.',
+        '33 навички + Atelier Orchestrator + профіль і 12 ролей. Ваші проєкти та інші навички зберігаються.')
+    say('1 Check prerequisites\n2 Install or update\n3 Verify installed files and fresh discovery\n4 Resume interrupted install\n5 Roll back the latest installation\n6 Uninstall managed files\n7 Show the first task\n0 Exit',
+        '1 Перевірити передумови\n2 Встановити або оновити\n3 Перевірити файли й виявлення у свіжому Codex\n4 Продовжити перерване встановлення\n5 Відкотити останнє встановлення\n6 Видалити керовані файли\n7 Показати першу задачу\n0 Вийти')
+    choice = input('Оберіть дію: ' if uk else 'Choose an action: ').strip()
+    if choice == '0':
+        return {'status': 'cancelled', 'next': 'Keep this package for setup or recovery.'}
+    if choice == '1':
+        return doctor(package, home, state, codex)
+    if choice == '7':
+        return first_task(locale)
+    if choice == '2':
+        diagnostic = doctor(package, home, state, codex)
+        print(encoded(diagnostic).decode())
+        require(diagnostic['platform']['supported_skills'], 'This computer is not in the supported skills platform set')
+        say('The package can be installed offline. Sign in to your own Codex account before the first model task.',
+            'Пакет можна встановити офлайн. Перед першою задачею увійдіть у власний обліковий запис Codex.')
+        planfile = state / 'plans' / (uuid.uuid4().hex + '.json')
+        reviewed = audit(package, home, state, planfile)
+        print(encoded(reviewed).decode())
+        require(reviewed['status'] == 'ready', 'Resolve the audit conflicts before installation')
+        token = 'ВСТАНОВИТИ' if uk else 'INSTALL'
+        say('Review the targets and exact plan shown above. Type INSTALL to apply that plan, or press Enter to stop.',
+            'Перегляньте цільові шляхи й точний план вище. Введіть ВСТАНОВИТИ, щоб застосувати саме його, або Enter для виходу.')
+        if input('> ').strip() != token:
+            return {'status': 'not-applied', 'plan': str(planfile), 'next': 'The audit is retained. Apply its exact SHA-256 when ready.'}
+        return install(planfile, reviewed['plan_sha256'])
+    if choice == '4':
+        candidates = []
+        folder = state / 'operations'
+        entries = sorted(folder.glob('*/journal.json')) if folder.exists() else []
+        require(len(entries) <= 2000, 'Too many retained operations; select the exact journal in CLI recovery')
+        for path in entries:
+            record = load(path)
+            if record.get('status') in ('interrupted', 'installing'):
+                candidates.append((path, record))
+        require(candidates, 'No interrupted buyer installation found. Use the exact journal if you kept state elsewhere.')
+        for number, (path, row) in enumerate(candidates, 1):
+            print(str(number) + '. ' + str(path) + ' — ' + row['created_at'])
+        selection = input('Номер журналу: ' if uk else 'Journal number: ').strip()
+        require(selection.isdigit() and 1 <= int(selection) <= len(candidates), 'Choose one exact retained journal')
+        journal_path, row = candidates[int(selection)-1]
+        checked_journal(journal_path)
+        say('Resume this original plan? Type RESUME.', 'Продовжити початковий план? Введіть RESUME.')
+        if input('> ').strip() != 'RESUME':
+            return {'status': 'not-applied', 'journal': str(journal_path)}
+        return install(Path(row['plan']), row['plan_sha256'], resume=journal_path)
+    latest = state / 'installed.json'
+    require(latest.exists(), 'No completed buyer installation here. Use install, or select your exact journal in the CLI.')
+    journal = Path(load(latest)['journal'])
+    if choice == '3':
+        result = verify(journal)
+        try:
+            result['native_discovery'] = discover(journal, codex, home)
+        except Exception as exc:
+            result['native_discovery'] = {'status': 'unverified', 'reason': str(exc),
+                                           'next': 'Open a fresh Codex with the generated launcher, then check the skill picker.'}
+        return result
+    if choice in ('5', '6'):
+        say('Review the exact journal before continuing: ' + str(journal),
+            'Перегляньте точний журнал перед продовженням: ' + str(journal))
+        token = 'ROLLBACK' if choice == '5' else 'UNINSTALL'
+        say('Type ' + token + ' to continue. Later unknown edits will block this operation.',
+            'Введіть ' + token + ' для продовження. Пізніші невідомі зміни заблокують цю дію.')
+        if input('> ').strip() != token:
+            return {'status': 'not-applied', 'journal': str(journal)}
+        return rollback(journal) if choice == '5' else uninstall(journal)
+    raise ValueError('Choose one of the menu numbers')
+
+
+def main(argv=None):
+    if sys.version_info < (3, 9):
+        print(json.dumps({'status': 'blocked', 'reason': 'Python 3.9 or later is required for buyer setup.',
+                          'next': 'Install a supported Python from python.org, then reopen Start.command.'}), file=sys.stderr)
+        return 2
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--package', type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument('--home', type=Path, default=Path.home())
+    parser.add_argument('--state', type=Path)
+    parser.add_argument('--locale', choices=('en', 'uk'), default='en')
+    parser.add_argument('--codex', help='Actual supported Codex CLI path')
+    parser.add_argument('--json', action='store_true', help='Machine-readable output; human summary otherwise')
+    sub = parser.add_subparsers(dest='command')
+    sub.add_parser('doctor')
+    sub.add_parser('status')
+    sub.add_parser('operations')
+    sub.add_parser('first-task')
+    sub.add_parser('prepare-first-task')
+    p = sub.add_parser('audit'); p.add_argument('--plan', type=Path, required=True); p.add_argument('--entitlement', type=Path)
+    p = sub.add_parser('install'); p.add_argument('--plan', type=Path, required=True); p.add_argument('--approve', required=True); p.add_argument('--resume', type=Path)
+    for name in ('verify', 'rollback', 'uninstall', 'discover'):
+        p = sub.add_parser(name); p.add_argument('--journal', type=Path, required=True)
+        if name == 'discover':
+            p.add_argument('--cwd', type=Path)
+    args = parser.parse_args(argv)
+    try:
+        package = safe(args.package.expanduser().resolve())
+        if args.command is None:
+            result = wizard(package, args.home, args.state, args.codex, args.locale)
+        elif args.command == 'doctor':
+            result = doctor(package, args.home, args.state, args.codex)
+        elif args.command == 'audit':
+            home, state, *_ = paths(args.home, args.state)
+            result = audit(package, home, state, args.plan.expanduser().resolve(), args.entitlement)
+        elif args.command == 'install':
+            result = install(args.plan.expanduser().resolve(), args.approve, resume=args.resume)
+        elif args.command == 'verify':
+            result = verify(args.journal.expanduser().resolve())
+        elif args.command == 'rollback':
+            result = rollback(args.journal.expanduser().resolve())
+        elif args.command == 'uninstall':
+            result = uninstall(args.journal.expanduser().resolve())
+        elif args.command == 'discover':
+            result = discover(args.journal.expanduser().resolve(), args.codex, args.cwd)
+        elif args.command == 'operations':
+            result = operations(args.home, args.state)
+        elif args.command == 'prepare-first-task':
+            result = prepare_first_task(package, args.home, args.state, args.locale)
+        elif args.command == 'first-task':
+            result = first_task(args.locale)
+        else:
+            result = status(args.home, args.state)
+        if args.json:
+            print(encoded(result).decode(), end='')
+        else:
+            title = 'Стан' if args.locale == 'uk' else 'Status'
+            print(title + ': ' + str(result['status']))
+            if 'next' in result:
+                print(('Наступна дія: ' if args.locale == 'uk' else 'Next: ') + result['next'])
+            print(encoded(result).decode(), end='')
+        return 2 if result['status'] in ('blocked', 'action-required') else 0
+    except Exception as exc:
+        message = {'status': 'blocked', 'reason': str(exc),
+                   'next': 'Keep the original package, plan and journal. Resolve the reported mismatch before retrying.'}
+        print(encoded(message).decode(), end='', file=sys.stderr)
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

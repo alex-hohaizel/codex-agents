@@ -10,7 +10,13 @@ help. JSON input files can be '-' for stdin. Exit 0 = recorded/read, 1 = blocked
 import argparse
 import copy
 import datetime as dt
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import json
 import os
@@ -118,12 +124,13 @@ def stage_of(record):
 
 def safe_path(root, name):
     require(isinstance(name, str), "relative path must be text")
+    if platform_support.WINDOWS: platform_support.safe_relative(name)
     pure = PurePosixPath(name)
     require(name and "\\" not in name and ":" not in name and not pure.is_absolute()
             and ".." not in pure.parts and name == pure.as_posix(), "unsafe/noncanonical relative path: " + name)
     target = root.joinpath(*pure.parts)
     require(target.resolve().is_relative_to(root.resolve()), "path escapes root: " + name)
-    require(not any(root.joinpath(*pure.parts[:i]).is_symlink() for i in range(1, len(pure.parts) + 1)), "symlink forbidden: " + name)
+    require(not any(platform_support.is_link_or_reparse(root.joinpath(*pure.parts[:i])) for i in range(1, len(pure.parts) + 1)), "symlink forbidden: " + name)
     return target
 
 
@@ -146,7 +153,7 @@ def suite_lock():
     names = {"scripts/atelier.py", "scripts/pipeline.py", "assets/stage-catalog.json", "references/experience-contract.md"}
     declaration = base / "assets/suite-shared-paths.json"
     if declaration.is_file():
-        require(not declaration.is_symlink(), "shared suite declaration cannot be linked")
+        require(not platform_support.is_link_or_reparse(declaration), "shared suite declaration cannot be linked")
         paths = strict_json_loads(declaration.read_text(encoding="utf-8")).get("paths")
         strings(paths, "shared suite paths")
         require(len(paths) == len(set(paths)), "shared suite paths must be unique")
@@ -176,7 +183,7 @@ def suite_sources():
     return {p.relative_to(base).as_posix(): sha(p) for p in sorted(base.rglob("*"))
             if p.is_file() and p.suffix in {".py", ".md", ".json", ".yaml"}
             and not any(part in {"tests", "__pycache__"} for part in p.relative_to(base).parts)
-            and not p.is_symlink()}
+            and not platform_support.is_link_or_reparse(p)}
 
 
 def canonical_sources(root):
@@ -292,14 +299,15 @@ def load_input(path):
 
 @contextmanager
 def locked(root):
-    require(not root.is_symlink(), "project directory cannot be a symlink")
+    require(not platform_support.is_link_or_reparse(root), "project directory cannot be a symlink")
     root.mkdir(parents=True, exist_ok=True)
     container = root / ".gameatelier"
-    require(not container.is_symlink(), "canonical project directory cannot be a symlink")
+    require(not platform_support.is_link_or_reparse(container), "canonical project directory cannot be a symlink")
     container.mkdir(exist_ok=True)
     home = container / "orchestrator"
-    require(not home.is_symlink(), "runtime directory cannot be a symlink")
+    require(not platform_support.is_link_or_reparse(home), "runtime directory cannot be a symlink")
     home.mkdir(exist_ok=True)
+    if platform_support.WINDOWS: platform_support.make_private(home)
     fd = os.open(home / "lock", os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0), 0o600)
     try:
         fcntl.flock(fd, fcntl.LOCK_EX)
@@ -311,7 +319,7 @@ def locked(root):
 
 def read_state(home, accepted_toolkits=None):
     path = home / "state.json"
-    require(path.is_file() and not path.is_symlink(), "project not initialized or state is a symlink")
+    require(path.is_file() and not platform_support.is_link_or_reparse(path), "project not initialized or state is a symlink")
     state = strict_json_loads(path.read_text(encoding="utf-8"))
     require(state.get("schema_version") == RUNTIME_SCHEMA_VERSION, "unsupported runtime schema; create a current project state from current inputs")
     require(state.get("toolkit_version") in (accepted_toolkits or {TOOLKIT_VERSION}), "unsupported toolkit result; use an explicit supported workflow-upgrade or reconstruct a current state from current inputs")
@@ -334,16 +342,13 @@ def save_state(home, state, command, details):
     state["snapshot_hash"] = digest({k: v for k, v in state.items() if k != "snapshot_hash"})
     fd, name = tempfile.mkstemp(prefix="state-", dir=home)
     try:
-        with os.fdopen(fd, "w", encoding="utf-8") as out:
+        if platform_support.WINDOWS: platform_support.fchmod(fd, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8", newline="") as out:
             out.write(json.dumps(state, ensure_ascii=False, indent=2) + "\n")
             out.flush()
             os.fsync(out.fileno())
         os.replace(name, home / "state.json")
-        directory_fd = os.open(home, os.O_RDONLY)
-        try:
-            os.fsync(directory_fd)
-        finally:
-            os.close(directory_fd)
+        platform_support.sync_dir(home)
     finally:
         if os.path.exists(name):
             os.unlink(name)
@@ -399,11 +404,11 @@ def workflow_upgrade(state, home, root, args):
     refresh(updated, root)
     require(not updated["integrity_errors"], "workflow upgrade blocked by changed/missing approved originals: " + "; ".join(updated["integrity_errors"]))
     backup_dir = home / "backups"
-    require(not backup_dir.is_symlink(), "workflow backup directory cannot be linked")
+    require(not platform_support.is_link_or_reparse(backup_dir), "workflow backup directory cannot be linked")
     backup_dir.mkdir(exist_ok=True)
     backup = backup_dir / ("workflow-" + source_version + "-r" + str(state["revision"]) + "-" + source_hash + ".json")
     if backup.exists():
-        require(not backup.is_symlink() and backup.read_bytes() == source_bytes, "existing workflow backup differs; reconcile before apply")
+        require(not platform_support.is_link_or_reparse(backup) and backup.read_bytes() == source_bytes, "existing workflow backup differs; reconcile before apply")
     else:
         fd = os.open(backup, os.O_CREAT | os.O_EXCL | os.O_WRONLY | getattr(os, "O_NOFOLLOW", 0), 0o600)
         with os.fdopen(fd, "wb") as stream:
@@ -789,7 +794,7 @@ def stop_boundary(state, kind, target):
 def import_source(state, root, source, provenance):
     fields(provenance, "id", "source", "rights", "authority_ref")
     require(re.fullmatch(r"[a-zA-Z0-9_-]{1,80}", provenance["id"]) is not None, "intake id must be a safe slug")
-    require(not source.is_symlink(), "source symlink forbidden")
+    require(not platform_support.is_link_or_reparse(source), "source symlink forbidden")
     require(not source.is_file() or source.stat().st_size <= MAX_BYTES, "source archive exceeds compressed size limit")
     require(not source.resolve().is_relative_to((root / ".gameatelier/orchestrator").resolve()) and not root.resolve().is_relative_to(source.resolve()), "intake source cannot contain or be runtime state")
     archive_sha = sha(source) if source.is_file() else None
@@ -828,11 +833,11 @@ def import_source(state, root, source, provenance):
 def directory_inventory(source):
     files = []
     total = 0
-    require(source.is_dir() and not source.is_symlink(), "source directory required; symlink forbidden")
+    require(source.is_dir() and not platform_support.is_link_or_reparse(source), "source directory required; symlink forbidden")
     for path in sorted(source.rglob("*")):
         relative = path.relative_to(source).as_posix()
         safe_path(source, relative)
-        require(not path.is_symlink(), "symlink forbidden")
+        require(not platform_support.is_link_or_reparse(path), "symlink forbidden")
         if path.is_dir():
             continue
         require(path.is_file(), "nonregular source forbidden")
@@ -1284,7 +1289,7 @@ def dispatch(state, root, args):
         # cache. Import loaders may accept timestamp-valid stale bytecode and may
         # write __pycache__ into an otherwise immutable installed skill tree.
         pipeline_path = SCRIPT_ROOT / "pipeline.py"
-        require(not pipeline_path.is_symlink(), "bundled validator source cannot be a symlink")
+        require(not platform_support.is_link_or_reparse(pipeline_path), "bundled validator source cannot be a symlink")
         pipeline_source = pipeline_path.read_bytes()
         require(hashlib.sha256(pipeline_source).hexdigest() == state["suite_lock"].get("scripts/pipeline.py"), "bundled validator changed after suite preflight")
         module = types.ModuleType("atelier_pipeline")
@@ -1294,7 +1299,7 @@ def dispatch(state, root, args):
         exec(compile(pipeline_source, str(pipeline_path), "exec", dont_inherit=True), module.__dict__)
         if manifest.get("toolkit_version") == TOOLKIT_VERSION and manifest.get("stage") != "studio":
             model_source = SCRIPT_ROOT / "game_model.py"
-            require(model_source.is_file() and not model_source.is_symlink(), "game model checker missing/linked")
+            require(model_source.is_file() and not platform_support.is_link_or_reparse(model_source), "game model checker missing/linked")
             require(sha(model_source) == state["suite_lock"].get("scripts/game_model.py"), "game model checker changed after suite preflight")
         result = module.verify(package, args.require_accepted)
         if result["valid"] and args.require_accepted:

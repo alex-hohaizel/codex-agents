@@ -447,7 +447,6 @@ export default function App() {
     if (demo) return;
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const events = new EventSource("/api/v1/events");
     const update = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
@@ -487,11 +486,7 @@ export default function App() {
         }
       }, 250);
     };
-    events.onmessage = update;
-    events.addEventListener("change", update);
-    events.addEventListener("job", update);
-    events.addEventListener("activity", update);
-    events.addEventListener("update", update);
+    const events = api.events(update);
     const interval = setInterval(() => {
       if (document.visibilityState === "visible") update();
     }, 6000);

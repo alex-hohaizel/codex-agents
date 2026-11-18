@@ -15,7 +15,7 @@ const messages: Record<MessageKey, string> = {
   pluginCheck: "Comprobar conexiones",
   pluginChecking: "Comprobando conexiones…",
   pluginCheckHelp:
-    "Comprueba a qué herramientas puede acceder Codex desde este Mac.",
+    "Comprueba a qué herramientas puede acceder Codex desde este equipo.",
   pluginSearch: "Filtrar conexiones",
   pluginNoMatches: "No hay conexiones que coincidan",
   pluginNoConnections: "Codex no informó de conexiones",
@@ -316,12 +316,12 @@ const messages: Record<MessageKey, string> = {
   privacyReceipt: "Comprobante de privacidad del servicio",
   cleanupRecovery:
     "Concilia primero los trabajos activos o de resultado incierto. Si la vista previa caducó o cambiaron los elementos afectados, genera otra. Revisa el comprobante de una limpieza interrumpida antes de reanudarla.",
-  launcherRequired: "Abre Agent Atelier con el lanzador para Mac",
+  launcherRequired: "Abre Agent Atelier con el lanzador local",
   launcherRequiredBody:
     "El lanzador establece esta sesión del navegador. Vuelve a abrir Agent Atelier.command y usa su nueva ventana del navegador. Un enlace caducado no puede crear una sesión.",
   platform: "Plataforma operativa",
   personal: "Espacio personal",
-  local: "Local en tu Mac",
+  local: "Espacio local",
   product: "Producto",
   products: "Productos",
   operations: "Operaciones",

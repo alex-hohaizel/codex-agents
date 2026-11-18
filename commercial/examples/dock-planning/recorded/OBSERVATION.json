@@ -1,0 +1,15 @@
+{
+  "schema": "codex-agents.buyer-planning-demo/1",
+  "status": "files-produced-and-source-unchanged",
+  "elapsed_seconds": 117.505,
+  "package_source_commit": "ab3000be82d1ed77a58faf301c5d14cabae08fd6",
+  "artifact_pins": {
+    "OWNER_NOTES.md": "aeda2b41de3d8627dc2ff1ed1d990f1f6da7f7672db2a5e5abb54ac41345dfbd",
+    "PRD.md": "6f40964dc0fceddb6705538930143026a6d261e1487fea6169896dad9206c2e7",
+    "ARCHITECTURE.md": "7ec4ecf107a58033d130f1e48121160edf51973c424bbb64fba3accc66677666"
+  },
+  "events_sha256": "1015a4fe90381a6f7a638257b55aaae51e0b02258b6b64b117f1cc6a04523ad0",
+  "entry": "atelier-orchestrator",
+  "specification_skill": "app-atelier-specification",
+  "acceptance": "independent substantive review required"
+}

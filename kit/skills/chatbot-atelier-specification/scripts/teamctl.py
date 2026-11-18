@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Plan and freeze one current chatbot.round/1 record; never executes a role."""
 import argparse
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import json
 import os
@@ -39,7 +45,7 @@ class Record(dict):
 
 def safe_file(path):
     path = Path(os.path.abspath(path))
-    if any(part.is_symlink() for part in (path, *path.parents)):
+    if any(platform_support.is_link_or_reparse(part) for part in (path, *path.parents)):
         raise ValueError('Round path must not traverse symlinks')
     return path
 
@@ -97,18 +103,17 @@ def save(path, value, expected_sha256=None):
         if current is None and expected is not None:
             raise ValueError('Round revision conflict; previously read source is missing')
         fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
-        os.fchmod(fd, stat.S_IMODE(path.stat().st_mode) if current is not None else 0o600)
+        mode = stat.S_IMODE(path.stat().st_mode) if current is not None else 0o600
+        if platform_support.WINDOWS and current is not None and platform_support.private_acl_report(path)['private']:
+            mode = 0o600
+        platform_support.fchmod(fd, mode)
         with os.fdopen(fd, 'wb') as stream:
             stream.write(encoded)
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(temporary, path)
         temporary = None
-        directory_fd = os.open(path.parent, os.O_RDONLY)
-        try:
-            os.fsync(directory_fd)
-        finally:
-            os.close(directory_fd)
+        platform_support.sync_dir(path.parent)
         if isinstance(value, Record):
             value.source_sha256 = hashlib.sha256(encoded).hexdigest()
             value.source_path = path
@@ -163,15 +168,15 @@ def main():
             for cid, item in snapshot['components'].items():
                 ref = plan['components'][cid]['artifact_ref']
                 actual = root / ref
-                if not actual.is_file() or actual.is_symlink() or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != item['sha256']:
+                if not actual.is_file() or platform_support.is_link_or_reparse(actual) or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != item['sha256']:
                     raise ValueError('Input component bytes differ; reconcile current component hash first: ' + cid)
             for identity, item in snapshot['reviewed_outputs'].items():
                 actual = root / item['output_ref']
-                if not actual.is_file() or actual.is_symlink() or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != item['output_sha256']:
+                if not actual.is_file() or platform_support.is_link_or_reparse(actual) or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != item['output_sha256']:
                     raise ValueError('Reviewed authored output bytes differ: ' + identity)
             for ref, expected_hash in snapshot['reviewed_evidence'].items():
                 actual = root / ref
-                if not actual.is_file() or actual.is_symlink() or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != expected_hash:
+                if not actual.is_file() or platform_support.is_link_or_reparse(actual) or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != expected_hash:
                     raise ValueError('Reviewed primary evidence bytes differ: ' + ref)
             run['input_snapshot'] = snapshot
             save(a.file, data)
@@ -180,7 +185,7 @@ def main():
         if a.command == 'hashes':
             def sha(ref):
                 path = root / ref
-                if not path.is_file() or path.is_symlink() or root.resolve() not in path.resolve().parents:
+                if not path.is_file() or platform_support.is_link_or_reparse(path) or root.resolve() not in path.resolve().parents:
                     raise ValueError('Unsafe/missing material: ' + ref)
                 return hashlib.sha256(path.read_bytes()).hexdigest()
             for cid, row in plan['components'].items():

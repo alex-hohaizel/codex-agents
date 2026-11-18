@@ -2,7 +2,7 @@
 name: codex-agents-maintenance
 description: Verify, package, release, or update the Codex Agent System. Use for changes to its skills, roles, constructors, guides, or managed installations, including recovery after an interrupted release.
 metadata:
-  version: "1.2.1"
+  version: "1.4.0"
 ---
 
 # Codex Agent System maintenance
@@ -17,3 +17,16 @@ Use the current canonical repository, its [publication checklist](references/pub
 6. Publish the authorized reviewed sources, requirements, release notes, installation and recovery instructions, guide changes and validated packages to the actual destination. Confirm the source revision remotely. If a write loses its response, reconcile its target before sending again. If publication cannot proceed, preserve the prepared revision and distinguish local verification from remote publication.
 
 Report source integrity, package provenance, installation, fresh discovery, actual task behavior, product adoption and owner acceptance at their actual scopes. The current record identifies the stable release and outstanding gates. This maintenance workflow does not authorize new spending, license or visibility changes, unrelated production actions or unattended updates.
+
+For setup, licensing, delivery, migrations, support or buyer packages, follow the canonical repository commercial product contract. Preserve installed ownership and acquired terms. Test the affected buyer journey and distinguish a local commercial candidate from an authorized public sale.
+
+## Universal installation maintenance
+
+Apply [the universal installation contract](../governance/UNIVERSAL_INSTALLATION.md) to affected changes. Preserve all six
+native Windows/macOS/Linux x64/ARM64 paths, explicit retained Python/Node helpers,
+project environments, full source/resources, private permissions, recovery and
+unknown drift. Ready installers and source archives are separate deliverables.
+The root HTML must survive GitHub source downloads and link to ready assets.
+Require exact-commit native package and real-browser evidence before release;
+keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
+Commercial purchase rights and owner sale gates remain unchanged.

@@ -2,7 +2,7 @@
 name: app-atelier-build
 description: "Implement or repair an accepted app on its target Android, iOS, and web clients. Use for a working slice, integration, build, or implementation regression."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # App Atelier Build

@@ -4,6 +4,16 @@ Start with the checklist repair in a practice folder. Run it from a
 Codex chat, then use the same example to learn how to brief and verify a
 reusable specialist. [First task and copyable request](../START_HERE.md#install-and-verify)
 
+## Start from the ready installer
+
+Use the [ready Universal or matching-platform Release asset](INSTALL.md#recommended-local-browser-installer). Extract it and open `Start.cmd` on Windows, `Start.command` on macOS, or `Start.sh` on Linux. The English/Ukrainian local wizard guides you through **Check → Prepare plan → review and approve → Install → Verify files → Check in Codex**. Its Python, Node and built interface are included. Codex and your own account remain separate prerequisites for actual agent work.
+
+After installation, choose **Create practice project**, inspect it with **Open folder**, and request **Open Codex**. Copy the supplied prompt into that session. The generated launcher registers the installed roles and opens the exact new practice folder. Check that `README.md` becomes `# Checklist` and that `notes.txt` retains its contents. Setup has prepared files; the useful result exists only after your Codex session performs and verifies the task. Preserve a working project/venv interpreter; `AGENT_SYSTEM_PYTHON` identifies the toolkit's own helper interpreter.
+
+If opening a terminal is unavailable on your desktop, open the returned practice folder in your normal Codex client and use the returned launcher instructions. Keep the installer journal for recovery. The conversational and source routes below remain available.
+
+Personal discovery uses `CODEX_HOME/skills` on Windows (normally `<selected-home>/.codex/skills`) and `<selected-home>/.agents/skills` on macOS/Linux. Project-local `<project>/.agents/skills` stays unchanged. If an earlier Windows personal suite is still in the old `.agents/skills` tree, use the current installer’s reviewed migration plan and original rollback journal; do not move or delete it manually. Check the resolved path in a fresh Codex session. [Personal roots and migration](INSTALL.md#personal-skill-roots)
+
 ## Set up with guidance from Codex
 
 If someone already installed the core skills, open a fresh project chat
@@ -81,11 +91,13 @@ the practice folder.
    reports the same unresolved items before giving it more work.
    [Handoff template](../templates/HANDOFF.md)
 
-## Find your project in the Mac workbench
+## Find your project in the local workbench
 
 Use the workbench if you prefer to browse your local Codex projects
-and inspect task inputs and results in a browser. After the documented
-build, double-click `launcher/Agent Atelier.command` on Mac. Refresh the
+and inspect task inputs and results in a browser. Ready distributions provide
+`Start-Workbench.cmd` (Windows), `Start-Workbench.command` (macOS), and `Start-Workbench.sh` (Linux);
+the bundled interface needs no buyer build. For the retained source-build route,
+follow the documented build and use `launcher/Agent Atelier.command` on Mac. Refresh the
 project portfolio, pick your actual folder, and inspect the binding
 preview. Open a source or a saved next action to start preparing a task.
 Review the objective, source references, scope and acceptance checks

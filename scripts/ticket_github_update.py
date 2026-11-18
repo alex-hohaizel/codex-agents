@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Preview, apply once, and read back an authorized change to mapped GitHub issues."""
 
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 from datetime import datetime, timezone
 import http.client
@@ -268,7 +274,7 @@ def load_preview(root, name, sha):
 def ledger_path(root, obj):
     directory = context.local(root, ".atelier", existing=False)
     path = directory / f"github-issues-{obj['repository']['id']}-operations.json"
-    context.require(not path.is_symlink(), "linked GitHub operation ledger")
+    context.require(not platform_support.is_link_or_reparse(path), "linked GitHub operation ledger")
     return path
 
 
@@ -315,11 +321,7 @@ def save_ledger(root, path, before, ledger, obj, recheck=None):
     else:
         path.parent.mkdir(mode=0o700, exist_ok=True)
         # Persist the journal directory itself before sending a provider request.
-        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(fd)
-        finally:
-            os.close(fd)
+        platform_support.sync_dir(root)
         create_ledger(path, data, precondition)
     current, _ = read_ledger(root, path, obj)
     context.require(current == data, "GitHub operation ledger write is unverified")

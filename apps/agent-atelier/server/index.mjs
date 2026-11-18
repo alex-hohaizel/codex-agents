@@ -1,7 +1,7 @@
 import http from "node:http";
 import { readFile, stat, mkdir, realpath } from "node:fs/promises";
 import { resolve, join, dirname, extname } from "node:path";
-import { homedir } from "node:os";
+import { platformStateRoot, securePrivatePath } from "./platform.mjs";
 import { fileURLToPath } from "node:url";
 import { OwnerSession } from "./session.mjs";
 import { Application } from "./application.mjs";
@@ -41,7 +41,7 @@ const mime = {
 };
 export async function createServer({
   dataDir = process.env.ATELIER_DATA_DIR ??
-    join(homedir(), "Library/Application Support/Agent Atelier"),
+    platformStateRoot(),
   repoRoot = resolve(here, "../../.."),
   port = Number(process.env.ATELIER_PORT ?? 4317),
   host = "127.0.0.1",
@@ -56,6 +56,7 @@ export async function createServer({
   );
   dataDir = application?.dataDir ?? dataDir;
   await mkdir(dataDir, { recursive: true, mode: 0o700 });
+  if (process.platform === "win32") await securePrivatePath(dataDir, { directory: true });
   dataDir = await realpath(dataDir);
   const releaseInstance = await acquireInstance(dataDir);
   const app =
@@ -157,8 +158,8 @@ export async function createServer({
         });
       if (url.pathname === "/api/v1/session" && req.method === "GET") {
         fail(
-          authenticated(req) ||
-            ownerSession.controlAuthorized(req.headers["x-atelier-control"]),
+          ownerSession.controlAuthorized(req.headers["x-atelier-control"]) ||
+            (authenticated(req) && ownerSession.csrfAuthorized(req.headers["x-atelier-csrf"])),
           "OWNER_LAUNCH_REQUIRED",
           "Open Agent Atelier through its local launcher",
           401,
@@ -179,23 +180,24 @@ export async function createServer({
         return json(res, 200, { status: "ready", csrf_token: csrf });
       }
       if (url.pathname.startsWith("/api/")) {
+        const trustedRead = req.method === "GET" && ownerSession.controlAuthorized(req.headers["x-atelier-control"]);
         fail(
-          authenticated(req),
+          trustedRead || authenticated(req),
           "SESSION_REQUIRED",
           "Open Agent Atelier in this browser before accessing private data",
           401,
+        );
+        fail(
+          trustedRead || ownerSession.csrfAuthorized(req.headers["x-atelier-csrf"]),
+          "SESSION_REQUIRED",
+          "An origin-scoped browser proof is required for private requests; reopen the local launcher",
+          403,
         );
         if (req.method === "POST") {
           fail(
             req.headers.origin && allowedOrigins.has(req.headers.origin),
             "CROSS_ORIGIN_DENIED",
             "A same-origin command is required",
-            403,
-          );
-          fail(
-            ownerSession.csrfAuthorized(req.headers["x-atelier-csrf"]),
-            "SESSION_REQUIRED",
-            "The session changed; refresh before retrying",
             403,
           );
           const body = await readJson(req);

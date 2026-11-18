@@ -2,7 +2,7 @@
 name: gamedev-preproduction
 description: "Specify a chosen mobile game as one end-to-end production model with actionable GDD/TDD, behavior, catalogs, controls, dependencies, and acceptance cases."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # Game Atelier Preproduction

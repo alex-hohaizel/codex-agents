@@ -15,7 +15,7 @@ const messages: Record<MessageKey, string> = {
   pluginCheck: "Verbindungen prüfen",
   pluginChecking: "Verbindungen werden geprüft…",
   pluginCheckHelp:
-    "Prüfen Sie, auf welche Werkzeuge Codex von diesem Mac zugreifen kann.",
+    "Prüfen Sie, auf welche Werkzeuge Codex von diesem Computer zugreifen kann.",
   pluginSearch: "Verbindungen filtern",
   pluginNoMatches: "Keine passenden Verbindungen",
   pluginNoConnections: "Codex hat keine Verbindungen gemeldet",
@@ -318,12 +318,12 @@ const messages: Record<MessageKey, string> = {
   privacyReceipt: "Datenschutzbeleg des Dienstes",
   cleanupRecovery:
     "Gleiche aktive Arbeiten oder Arbeiten mit ungeklärtem Ausgang zuerst ab. Erstelle die Vorschau erneut, wenn sie abgelaufen ist oder sich ihre Ziele geändert haben. Prüfe den Beleg einer unterbrochenen Bereinigung vor dem Fortsetzen.",
-  launcherRequired: "Agent Atelier mit dem Mac-Launcher öffnen",
+  launcherRequired: "Agent Atelier mit dem lokalen Launcher öffnen",
   launcherRequiredBody:
     "Der Launcher richtet diese Browsersitzung ein. Öffnen Sie Agent Atelier.command erneut und verwenden Sie das neue Browserfenster. Ein abgelaufener Link kann keine Sitzung erstellen.",
   platform: "Betriebsplattform",
   personal: "Persönlicher Arbeitsbereich",
-  local: "Lokal auf deinem Mac",
+  local: "Lokaler Arbeitsbereich",
   product: "Produkt",
   products: "Produkte",
   operations: "Abläufe",

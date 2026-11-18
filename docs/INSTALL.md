@@ -2,11 +2,56 @@
 
 [Repository home](../README.md) · [Your first task](../START_HERE.md#install-and-verify) · [Component versions](../releases/README.md)
 
-Start with the 33 core skills. Add the managed Codex profile and twelve role definitions when you need the provided roles. Atelier Orchestrator, the maintenance skill, and Agent Atelier for Mac have separate controls. [Current component versions](../releases/current.json)
+Start with the 33 core skills. Add the managed Codex profile and twelve role definitions when you need the provided roles. The ready installer includes Atelier Orchestrator, the profile and roles. The maintenance skill and optional Agent Atelier workbench retain separate controls. [Current component versions](../releases/current.json)
+
+## Recommended: local browser installer
+
+1. Open the [latest stable Release](https://github.com/alex-hohaizel/codex-agents/releases/latest) and download its **ready Universal installer**, or the ready asset matching your OS and CPU. The Universal archive carries Windows, macOS and Linux runtimes for x64 and ARM64. Check the release's declared platform minimums and exact native test receipts. GitHub's automatic **Source code** ZIP is source material: its HTML start page directs you to the ready assets; it is not the bundled installer.
+2. Extract the complete ZIP into a normal folder. Open `START_HERE.html` or `ПОЧАТИ.html` for the visual directions, then open the launcher below. The launcher starts a private local browser wizard. Opening HTML alone cannot install files. Keep all folders from the archive together.
+
+   | Your system | Installer | Optional workbench |
+   | --- | --- | --- |
+   | Windows x64 / ARM64 | `Start.cmd` | `Start-Workbench.cmd` |
+   | macOS Intel / Apple Silicon | `Start.command` | `Start-Workbench.command` |
+   | Linux x64 / ARM64 | `Start.sh` | `Start-Workbench.sh` |
+
+   Ready assets include Python, Node and the built interface. No separate Python/Node install, npm build or administrator installation is required for this route. On Linux, a file manager may require **Allow executing file as a program**; the terminal equivalent is `chmod +x Start.sh` followed by `./Start.sh`. macOS extraction tools that drop executable flags may similarly need `chmod +x Start.command`. Follow your OS trust policy and the release's signing status; package checksums do not establish a product code-signing identity.
+3. Choose **Check now**, then **Prepare plan**. Review the component actions, destination folders, existing local changes and exact plan identity. The normal selection is **33 core skills + Atelier Orchestrator + managed profile + twelve roles**. Unknown changes remain conflicts. Check the approval box and choose **Install reviewed plan** only for that reviewed plan.
+4. Choose **Verify files**, then **Check in Codex**. Files, fresh native discovery, account authentication and a completed task are separate observations. Codex must be installed and authenticated with your own account for native use; model/provider charges and project-specific SDKs remain separate.
+5. Choose **Create practice project**. Use **Open folder** to inspect the new files, **Open Codex** to request opening its generated launcher, and **Copy prompt** to paste the task into that Codex session. Compare the repaired heading and preserved note yourself. Preparing/opening the project does not run a model. [First useful task](FIRST_RUN.md)
+
+The wizard is available in English and Ukrainian; the seven language guides explain the same route. Setup keeps its owned plans, retained package and recovery journals under `~/.local/share/codex-agent-system` by default, including on Windows beneath the selected user home. It preserves unrelated skills and project files. Keep that state and your entitlement document when moving or updating a package. **Continue or recover** reads actual journals after a refresh or interruption; explicitly select the checked operation before resume, rollback or uninstall.
+
+If trusted delivery supplied a purchase confirmation or entitlement JSON, open **Keep your purchase document · optional** and choose that original file before preparing the plan. It stays private outside the package and skill folders. A changed document clears the old plan and approval; prepare and review a new plan. Updates automatically retain the existing purchase record. Document retention does not verify a purchase signature or grant rights. The technical installer also works without a purchase document.
+
+The bundled runtime is for Agent System helpers. Generated Codex launchers preserve an existing project/virtual-environment Python and Node in PATH. When no legitimate Python exists, the bundled Python supplies a fallback; Windows Store execution aliases are not treated as a working interpreter. `AGENT_SYSTEM_PYTHON` and `AGENT_SYSTEM_NODE` identify the exact retained toolkit runtimes. Use those variables for toolkit helpers, and the project's declared interpreter for project builds and tests. No global PATH or registry change is made.
+
+For CLI setup without installing Python separately, use the platform's `Start` launcher with `--help` and the documented `doctor`, `audit`, `install`, `verify`, `discover`, `operations`, `prepare-first-task`, `rollback` and `uninstall` commands. It invokes the same engine and approval-bound journals as the wizard. The [buyer guide](commercial/BUYER_GUIDE.md) covers commercial delivery trust and rights; a public technical release does not activate a shop or finalize seller terms.
+
+<a name="personal-skill-roots"></a>
+## Personal skill roots and Windows migration
+
+Personal installation follows the native Codex host selected for the session. The same rule applies to the core suite, Atelier Orchestrator and separately managed personal skills. Review the exact resolved destination before approving an installation.
+
+| Installation scope | Native location |
+| --- | --- |
+| Windows personal skills | `CODEX_HOME/skills`; with the usual selected home, `<selected-home>/.codex/skills` |
+| macOS / Linux personal skills | `<selected-home>/.agents/skills`, normally `~/.agents/skills` |
+| Project-local skills on every OS | `<project>/.agents/skills` — unchanged |
+
+An earlier Windows personal installation may remain under `<selected-home>/.agents/skills`. Open the current installer and prepare a new audit. A recognized managed legacy copy is included as an explicit retirement action in the same reviewed plan as the canonical installation. The plan and journal bind its exact source bytes, approved supported core icon-only tuning and backups. Unknown source, policy or role changes, unsupported content and conflicting copies or icons require reconciliation. Keep foreign skills and existing projects in place. Do not fix discovery by manually moving or deleting the personal or project trees.
+
+Approve only the reviewed migration plan, then verify installed files and fresh native Codex discovery against the canonical paths. Keep the original migration journal and retained package. Rollback restores the prior validated locations, managed bytes, supported core icon overlays and the audited profile/roles and retained purchase record. An old saved journal continues to use its validated saved roots; a changed default does not reinterpret that journal. Inspect any later local changes before recovery. Workbench data has its own backup and schema lifecycle.
+
+The standalone core CLI retains its existing explicit `--destination`, `--legacy-root` and `--retire-known-duplicates` controls. Use its generated audit and exact approval rather than an unreviewed copy operation. The ready setup coordinates recognized migration with the profile and optional Orchestrator; the Bash source examples below remain the macOS/Linux route.
+
+## Advanced source and signed core route
+
+The following procedures remain available for source inspection, separately controlled core/profile installation, and existing administrator automation. They are distinct from the bundled browser installer above.
 
 ## Before
 
-- Open a Codex session with access to the intended local skill directories. On macOS or Linux, the commands below use Bash, Python 3.9+, Git, and an authenticated GitHub CLI (`gh`). The workbench runs locally on Mac with Node.js installed.
+- Open a Codex session with access to the intended local skill directories. On macOS or Linux, the commands below use Bash, Python 3.9+, Git, and an authenticated GitHub CLI (`gh`). A workbench source build additionally uses its documented Node/npm prerequisites; ready workbench assets carry their runtimes.
 - Use the official stable GitHub release and its `CODEX` asset. GitHub’s generic source archive is useful for source inspection and isolated rehearsals. The signed release archive is the input for managed installation. [Stable release](https://github.com/alex-hohaizel/codex-agents/releases/latest)
 - Choose `fresh` for an empty managed core install. Use the verified installed core version for a recognized existing suite. The audit will stop on unknown local changes or ambiguous sources. Keep setup files and journals outside skill-discovery roots.
 
@@ -130,7 +175,7 @@ The managed profile preserves instructions outside its marked block. The role fi
 
 - Orchestrator and maintenance can be installed individually from their directories in the admitted bundle. In Agent Atelier, open the skill catalog, select **Review this skill update**, inspect the exact files and target, then apply and verify. The same interface handles a fresh optional installation. Follow it with a fresh Codex session.
 - For Codex without the panel, install each complete optional source in the personal skills location your host discovers using its supported skill management. Point the manager at `optional-skills/atelier-orchestrator` or `maintenance-skill` in the admitted bundle. For a manual first installation, copy the entire folder to a new personal skill directory only after checking the canonical and alternate locations for duplicate names. Confirm that the directory contains `SKILL.md`, `agents/openai.yaml`, and the required relative resources. Use the existing manager’s plan and journal for an installed source.
-- For the local Mac workbench, use the [Agent Atelier build and launch guide](../apps/agent-atelier/README.md#build-and-launch). For ChatGPT Work, use the host’s supported personal-skill interface and the [package guide](../governance/PACKAGES.md). Check what the native host actually saved and loaded.
+- For the ready Windows/macOS/Linux workbench, use the platform `Start-Workbench` file and [runtime guide](commercial/WORKBENCH_RUNTIME.md). The [source build and launch guide](../apps/agent-atelier/README.md#build-and-launch) remains available. For ChatGPT Work, use the host’s supported personal-skill interface and the [package guide](../governance/PACKAGES.md). Check what the native host actually saved and loaded.
 
 ## Verify
 

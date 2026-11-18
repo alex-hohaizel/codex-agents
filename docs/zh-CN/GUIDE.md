@@ -6,10 +6,12 @@
 
 首次使用请打开[分步入门](../../START_HERE.md#install-and-verify)，再[跟随一个请求走完整个项目](../technical/END_TO_END.md)，从选定团队到审核发布证据。 [打开完整流程图](../../assets/marketing/release-1.7/workflow-en.svg) · [文档索引](../INDEX.md)
 
+商业候选包包含统一安装流程和已购版本权益记录。选择前请阅读[买家指南](../commercial/BUYER_GUIDE.md)、[许可](../commercial/LICENSING.md)和[运行环境限制](../commercial/WORKBENCH_RUNTIME.md)。
+
 ## 选择起点
 
 - **试用 Codex。** [安装并验证](#install) · [完成第一个任务](#first-task) · [查看图解流程](../../marketing/zh-CN/README.md)
-- **开发或运营项目。** [选择工作流](#workflow) · [查找技能或角色](#catalog) · [Mac 工作台](#workbench) · [运维与恢复](#operations)
+- **开发或运营项目。** [选择工作流](#workflow) · [查找技能或角色](#catalog) · [本地工作台](#workbench) · [运维与恢复](#operations)
 - **了解系统如何工作。** [Harness 运行框架](#harness) · [子智能体](#subagents) · [上下文胶囊](#context) · [模型与成本](#models)
 - **寻找和验证证据。** [知识检索（RAG）](#retrieval) · [评估（evals）](#evals) · [工具与权限](#permissions)
 
@@ -17,6 +19,28 @@
 
 <a name="install"></a>
 ## 安装并确认技能可用
+
+### 适用于 Windows、macOS 和 Linux 的现成安装包
+
+如果可信交付提供了购买确认或 entitlement JSON，请在生成计划前展开 **Keep your purchase document · optional** 并选择原始文件。文件会私密保存在软件包和技能目录之外。更换文件会清除旧计划及批准，之后需要重新生成并检查计划。更新会自动保留已有购买记录。保存文件不会验证购买签名或授予权利。技术版安装程序也可在没有购买文件的情况下使用。
+
+从[稳定发行版](https://github.com/alex-hohaizel/codex-agents/releases/latest)下载现成的 **Universal** 归档或与你的系统、CPU 对应的包。完整解压，阅读 `START_HERE.html`，然后在 Windows 打开 `Start.cmd`、macOS 打开 `Start.command`、Linux 打开 `Start.sh`。包中已包含 Python、Node 和构建后的界面，无须另行安装这些运行时。GitHub 自动生成的源码 ZIP 属于开发者流程。安装向导提供英语和乌克兰语；本手册用简体中文解释同一流程。
+
+依次选择 **Check now → Prepare plan**，核对目标与冲突，批准准确的计划，再选择 **Install reviewed plan → Verify files → Check in Codex**。默认安装包含 33 项技能、Orchestrator、配置和十二个角色。实际使用代理需要你自己的 Codex 账户。**Create practice project → Open folder → Open Codex → Copy prompt** 只准备第一个练习，不会执行模型。保留日志；恢复时使用所选操作及原来的计划。[完整安装与恢复](../INSTALL.md#recommended-local-browser-installer)
+
+项目自己的 Python/venv 与 Node 保持优先级。工具包辅助脚本使用 `AGENT_SYSTEM_PYTHON` 指定的解释器。Maintenance 仍是所有者单独使用的工具：通过受支持的技能管理器安装包内 `product/maintenance-skill` 或仓库的 `maintenance-skill`，先预览来源和目标，再验证结果。模型和外部服务使用各自账户并单独计费。
+
+个人技能的位置遵循原生 Codex 宿主。`CODEX_HOME` 表示该会话选择的 Codex 主目录；审查计划会显示解析后的准确目标。
+
+| 安装范围 | 技能目录 |
+| --- | --- |
+| Windows 个人技能 | `CODEX_HOME/skills`，通常为 `<selected-home>/.codex/skills` |
+| macOS / Linux 个人技能 | `<selected-home>/.agents/skills`（通常为 `~/.agents/skills`） |
+| 所有系统的项目本地技能 | `<project>/.agents/skills` — 保持不变 |
+
+如果以前在 Windows 的 `<selected-home>/.agents/skills` 安装过个人技能，请用当前安装器重新生成审查计划。计划会列出规范目标及已识别、受管理旧副本的退役步骤；核心技能受支持的仅图标自定义会被保留。未知源码或策略修改、冲突副本或图标必须先核对，不会强制覆盖。请勿手动移动或删除这些目录。批准准确的迁移计划后，验证文件并在新的 Codex 会话中确认发现结果，保留日志和备份。使用原始日志回滚可恢复先前位置和受管理字节；已经保存的日志仍使用其经过验证的原始根目录。[根目录选择与迁移](../INSTALL.md#personal-skill-roots)
+
+### 从源码安装的进阶流程
 
 1. 打开 `alex-hohaizel/codex-agents` 的稳定发行版。macOS 或 Linux 上的终端步骤需要 Bash、Python 3.9+、Git、已登录的 GitHub CLI（`gh`）和 Codex。需要引导时，可以请 Codex 用简体中文说明每一步，并保留准确的选项和路径。
 2. 按带来源证明的流程安装。验签工具根据源码提交、工作流与清单验证归档摘要和 GitHub 来源证明。尚未安装受管理的核心套件时选择全新安装，已有套件时提供经确认的已安装版本。[稳定发行版](https://github.com/alex-hohaizel/codex-agents/releases/latest) · [完整命令](../INSTALL.md#steps)
@@ -101,7 +125,9 @@ python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir
 该测试会在临时项目中修正指定的错字，并检查另一文件。测试集还涵盖限定范围的交接、已批准的智能体方案以及新生成技能的第一次调用。关于外部产品的结论需要来自其实际运行环境的证据。[评估、输入和回执](../../evaluations/README.md) · [验证](../../governance/VALIDATION.md)
 
 <a name="workbench"></a>
-## 在 Mac 上使用 Agent Atelier
+## 在 Windows、macOS 或 Linux 上使用 Agent Atelier
+
+现成包提供 Windows 的 `Start-Workbench.cmd`、macOS 的 `Start-Workbench.command` 和 Linux 的 `Start-Workbench.sh`。打开对应启动器即可使用构建后的界面，无须运行 npm 构建。运行时可用性与发行版实际原生测试证明应分开核对。以下源码构建步骤保留为可选开发者流程；后续项目操作与恢复步骤适用于两种流程。[现成工作台与数据恢复](../commercial/WORKBENCH_RUNTIME.md)
 
 1. 打开当前源码，按 Node.js 锁文件构建。在 `apps/agent-atelier/` 中运行：
 

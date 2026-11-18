@@ -7,10 +7,22 @@ workflow that fits, bring in the specialists you need, and keep the sources,
 decisions, and next action with the project. Use it for one task, a whole
 product, or an agent your team can use again.
 
-**[Start in Codex](START_HERE.md)** · **[Install or update](docs/INSTALL.md)** · **[See the workflow](#one-entry-from-idea-to-release)** · **[Browse all documentation](docs/INDEX.md)** · [Почати українською](docs/uk/FIRST_RUN.md)
+**[Download Universal installer](https://github.com/alex-hohaizel/codex-agents/releases/download/v1.8.0/Agent-System-1.8.0-Universal.zip)** · **[Open the installer page](START_HERE.html)** · **[Start in Codex](START_HERE.md)** · **[Install or update](docs/INSTALL.md)** · **[See the workflow](#one-entry-from-idea-to-release)** · **[Browse all documentation](docs/INDEX.md)** · [Почати українською](docs/uk/FIRST_RUN.md)
 
 <a name="your-first-task"></a>
 <a name="choose-a-path"></a>
+
+**Windows · macOS · Linux — x64 and ARM64.** Download the ready **Universal**
+ZIP from [Releases](https://github.com/alex-hohaizel/codex-agents/releases/latest),
+extract it, and open `START_HERE.html`. Start `Start.cmd` on Windows,
+`Start.command` on macOS, or `Start.sh` on Linux. The browser wizard previews
+changes, installs the selected components, verifies Codex discovery and prepares
+your first task. Python and Node are included; Codex and your account are separate.
+[Full setup, update and recovery](docs/INSTALL.md) · [Українська](ПОЧАТИ.html)
+
+The separate [commercial dossier](docs/commercial/BUYER_GUIDE.md) preserves draft
+edition, license and delivery records. This technical release does not launch
+public sales or finalize legal terms.
 
 ## Choose where to start
 
@@ -19,7 +31,7 @@ product, or an agent your team can use again.
 | **Try one task** | [Guided start](START_HERE.md#install-and-verify) for a small, observable result in a fresh Codex chat. [Exact setup commands](docs/INSTALL.md) are available if you prefer the terminal. |
 | **Run a project from one conversation** | Start with the optional `$atelier-orchestrator`, or call a [product director](docs/CAPABILITIES.md#product-families) for an app, chatbot, or game. [Follow a complete example](docs/technical/END_TO_END.md). |
 | **Build a reusable specialist** | Start with `$agent-foundry` for an agent or `$design-specialist-skills` for a specialist skill family. [Constructors and roles](docs/CAPABILITIES.md#constructors-and-roles) |
-| **Work in a visual interface on Mac** | [Build and launch Agent Atelier](apps/agent-atelier/README.md#build-and-launch) to browse local Codex projects, prepare tasks, and inspect evidence in a browser. |
+| **Work in a visual interface on Windows, macOS or Linux** | [Open the bundled Agent Atelier](docs/commercial/WORKBENCH_RUNTIME.md) to browse local Codex projects, prepare tasks, and inspect evidence in a browser. |
 
 <a name="one-entry-from-idea-to-release"></a>
 
@@ -61,7 +73,7 @@ product, or an agent your team can use again.
 | --- | --- |
 | **Getting started** | [First task in Codex](START_HERE.md) · [Deeper guided setup](docs/FIRST_RUN.md) · [Installation, verification, and rollback](docs/INSTALL.md) |
 | **How the system fits together** | [Worked project](docs/technical/END_TO_END.md) · [Operating model](docs/OPERATING_MODEL.md) · [All skills and roles](docs/CAPABILITIES.md#all-skills-and-roles) |
-| **Product families** | [App Atelier](docs/CAPABILITIES.md#product-families) · [ChatBot Atelier](docs/CAPABILITIES.md#product-families) · [Game Atelier](docs/CAPABILITIES.md#product-families) · [Agent Atelier for macOS](apps/agent-atelier/README.md) |
+| **Product families** | [App Atelier](docs/CAPABILITIES.md#product-families) · [ChatBot Atelier](docs/CAPABILITIES.md#product-families) · [Game Atelier](docs/CAPABILITIES.md#product-families) · [Agent Atelier for Windows, macOS and Linux](apps/agent-atelier/README.md) |
 | **All procedures and reference** | [Documentation index](docs/INDEX.md) · [Release and component versions](releases/README.md) · [Stable downloads](https://github.com/alex-hohaizel/codex-agents/releases/latest) |
 | **Localized guides** | [English](docs/en/GUIDE.md) · [Українська](docs/uk/GUIDE.md) · [Deutsch](docs/de/GUIDE.md) · [Italiano](docs/it/GUIDE.md) · [Español](docs/es/GUIDE.md) · [Français](docs/fr/GUIDE.md) · [简体中文](docs/zh-CN/GUIDE.md) · [Another language](START_HERE.md#use-another-language) |
 

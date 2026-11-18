@@ -1,5 +1,6 @@
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { homedir } from "node:os";
+import { resolveNativeCommand } from "./platform.mjs";
 import { lstat, readdir, realpath } from "node:fs/promises";
 import { runtimeEnvironment } from "./environment.mjs";
 import { execFile } from "node:child_process";
@@ -28,8 +29,10 @@ export const NATIVE_AUTHORITY_NAMES = Object.freeze([
 ]);
 const nativeNames = new Set(NATIVE_AUTHORITY_NAMES);
 const globCharacters = /[\\*?\[\]{}]/;
+const nativePath = (path) => process.platform === "win32" ? path.replaceAll("\\", "/") : path;
+const absoluteGlob = (path) => globCharacters.test(nativePath(path));
 const escapeLiteral = (path) =>
-  path.replace(/[\\*?\[\]{}]/g, (character) => "\\" + character);
+  nativePath(path).replace(/[\\*?\[\]{}]/g, (character) => "\\" + character);
 const nativePattern = (name) =>
   name.replace(
     /[a-z]/g,
@@ -55,7 +58,7 @@ export async function codexMemoryDenyRoots(
     typeof path === "string" &&
     isAbsolute(path) &&
     !path.includes("\0") &&
-    !globCharacters.test(path);
+    !absoluteGlob(path);
   fail(
     supported(codexHome),
     "CAPABILITY_UNVERIFIED",
@@ -217,7 +220,7 @@ export async function nativeAuthoritySnapshot(
         );
         const path = relative(root, target).replaceAll("\\", "/");
         fail(
-          !globCharacters.test(path),
+          !absoluteGlob(path),
           "CAPABILITY_UNVERIFIED",
           "A native authority read path contains unsupported literal glob metacharacters; choose a narrower write directory",
           409,
@@ -331,8 +334,7 @@ export function localProfile(
       ":slash_tmp": "deny",
       ":tmpdir": "deny",
       ":workspace_roots": workspace,
-      "/opt/homebrew": "read",
-      "/Library/Developer/CommandLineTools": "read",
+      ...(process.platform === "darwin" ? { "/opt/homebrew": "read", "/Library/Developer/CommandLineTools": "read" } : {}),
       [resolve(homedir(), ".agents/skills")]: "read",
       [resolve(homedir(), ".codex/skills")]: "read",
       [dirname(process.execPath)]: "read",
@@ -360,9 +362,10 @@ export function profileOverrides(profileName, profile) {
   ];
 }
 export async function externalToolDenials(executable, cwd) {
+  const native = await resolveNativeCommand(executable);
   let entries;
   try {
-    const result = await run(executable, ["mcp", "list", "--json"], {
+    const result = await run(native.command, [...native.args, "mcp", "list", "--json"], {
       cwd,
       env: runtimeEnvironment(),
       timeout: 8000,
@@ -397,8 +400,10 @@ export async function externalToolDenials(executable, cwd) {
     );
     if (row.enabled === true) {
       overrides[`mcp_servers.${row.name}.enabled`] = false;
-      if (row.transport?.type === "stdio")
-        overrides[`mcp_servers.${row.name}.command`] = "/usr/bin/false";
+      if (row.transport?.type === "stdio") {
+        overrides[`mcp_servers.${row.name}.command`] = process.platform === "win32" ? process.execPath : "/usr/bin/false";
+        if (process.platform === "win32") overrides[`mcp_servers.${row.name}.args`] = ["-e", "process.exit(1)"];
+      }
       else if (row.transport?.type === "streamable_http")
         overrides[`mcp_servers.${row.name}.url`] =
           "http://127.0.0.1:9/disabled";
@@ -413,8 +418,9 @@ export async function externalToolDenials(executable, cwd) {
   let effective;
   try {
     const checked = await run(
-      executable,
+      native.command,
       [
+        ...native.args,
         ...overridesToArgv(overrides).flatMap((value) => ["-c", value]),
         "mcp",
         "list",
@@ -446,6 +452,6 @@ export async function externalToolDenials(executable, cwd) {
 export function overridesToArgv(overrides) {
   return Object.entries(overrides).map(
     ([key, value]) =>
-      `${key}=${typeof value === "string" ? JSON.stringify(value) : String(value)}`,
+      `${key}=${typeof value === "string" || Array.isArray(value) ? JSON.stringify(value) : String(value)}`,
   );
 }

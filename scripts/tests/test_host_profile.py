@@ -49,7 +49,7 @@ class HostProfileTests(unittest.TestCase):
         installed = H.read(self.instructions)
         self.assertTrue(installed.startswith('Owner prefix.\r\n\r\n'))
         self.assertTrue(installed.endswith('\r\n\r\nOwner suffix.\r\n'))
-        self.assertIn('production profile 6.2.0', installed)
+        self.assertIn('production profile 6.3.0', installed)
         self.assertNotIn('production profile 6.0.0', installed)
         H.verify_or_rollback(self.journal, rollback=True)
         self.assertEqual(self.instructions.read_bytes(), before.encode('utf-8'))
@@ -67,6 +67,25 @@ class HostProfileTests(unittest.TestCase):
         self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
         H.verify_or_rollback(self.journal, rollback=True)
         self.assertEqual(H.read(self.instructions), before)
+
+    def test_installed_62_upgrades_exactly_and_preserves_unknown_drift(self):
+        relative,expected=H.PREVIOUS_PROFILE_TEMPLATES[2]
+        template=H.read(ROOT/relative)
+        self.assertEqual(H.sha(template),expected)
+        before='Owner prefix.\n'+template.replace('{{STANDARD_ROOT}}',str(self.standard))+'Owner suffix.\n'
+        self.instructions.write_bytes(before.encode('utf8'))
+        self.make_plan();H.apply(self.plan,self.journal)
+        installed=H.read(self.instructions)
+        self.assertIn('production profile 6.3.0',installed)
+        self.assertIn('AGENT_SYSTEM_PYTHON',installed)
+        self.assertIn('preserve a working project PATH',installed)
+        H.verify_or_rollback(self.journal,rollback=True)
+        self.assertEqual(self.instructions.read_bytes(),before.encode('utf8'))
+        drift=before.replace('production profile 6.2.0','production profile 6.2.0\nCustom owner instruction.')
+        self.instructions.write_bytes(drift.encode('utf8'))
+        with self.assertRaisesRegex(ValueError,'unknown customized managed profile'):
+            H.audit(ROOT,self.codex,self.standard)
+        self.assertEqual(self.instructions.read_bytes(),drift.encode('utf8'))
 
     def test_unknown_change_inside_managed_block_is_not_overwritten(self):
         customized = self.old_profile().replace(H.END, 'Keep this owner policy.\n' + H.END)

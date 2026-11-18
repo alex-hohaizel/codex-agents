@@ -6,6 +6,12 @@ AGENTS.md, plugins or product data are touched. Requires exclusive control of
 the chosen source/target ancestor directories; not a sandbox against a hostile
 same-user process changing ancestors between checks.
 """
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 import datetime
 import hashlib
@@ -88,12 +94,13 @@ def safe_path(value):
     path = Path(os.path.abspath(os.fspath(value)))
     for part in reversed((path,) + tuple(path.parents)):
         try:
-            mode = part.lstat().st_mode
+            info = part.lstat()
         except FileNotFoundError:
             continue
-        require(not stat.S_ISLNK(mode), 'Symlink is not permitted: ' + str(part))
+        require(not stat.S_ISLNK(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400,
+                'Symlink/reparse point is not permitted: ' + str(part))
         if part != path:
-            require(stat.S_ISDIR(mode), 'Non-directory ancestor: ' + str(part))
+            require(stat.S_ISDIR(info.st_mode), 'Non-directory ancestor: ' + str(part))
     return path
 
 
@@ -129,8 +136,8 @@ def atomic_json(path, value, exclusive=False):
     temporary = path.with_name('.' + path.name + '.' + uuid.uuid4().hex + '.tmp')
     try:
         with temporary.open('xb') as stream:
+            platform_support.fchmod(stream.fileno(), 0o600)
             stream.write(encode(value)); stream.flush(); os.fsync(stream.fileno())
-        os.chmod(temporary, 0o600)
         require(not exclusive or not path.exists(), 'Output appeared: ' + str(path))
         os.replace(temporary, path)
     finally:
@@ -141,6 +148,10 @@ def atomic_json(path, value, exclusive=False):
 def relative_file(value):
     require(isinstance(value, str) and value and '\\' not in value and '\x00' not in value,
             'Invalid manifest file path')
+    try:
+        platform_support.safe_relative(value)
+    except ValueError as error:
+        raise SuiteError(str(error)) from error
     path = PurePosixPath(value)
     require(not path.is_absolute() and all(x not in ('', '.', '..') for x in value.split('/')),
             'Unsafe manifest path: ' + value)
@@ -160,7 +171,7 @@ def mode_of(path):
     mode = path.lstat().st_mode
     require(not mode & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX),
             'Special permission bits are not supported: ' + str(path))
-    return stat.S_IMODE(mode)
+    return platform_support.file_mode(path)
 
 
 def logical_sha(files):
@@ -173,21 +184,29 @@ def snapshot(root):
     if not root.exists():
         return None
     require(root.is_dir(), 'Expected skill directory: ' + str(root))
-    files, directories = {}, {'.': mode_of(root)}
+    try:root = platform_support.canonical_directory(root)
+    except ValueError as error:raise SuiteError(str(error)) from error
+    def recorded_mode(info):
+        require(not info.st_mode & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX),
+                'Special permission bits are not supported')
+        return platform_support.project_mode(stat.S_IMODE(info.st_mode),stat.S_ISDIR(info.st_mode))
+    files, directories = {}, {'.':recorded_mode(root.lstat())}
     for current, dirs, names in os.walk(root, followlinks=False):
+        observed={}
         for name in dirs + names:
-            p = Path(current) / name
-            mode = p.lstat().st_mode
-            require(not stat.S_ISLNK(mode) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
-                    'Link or special file in tree: ' + str(p))
-        for name in dirs:
-            p = Path(current) / name
-            directories[p.relative_to(root).as_posix()] = mode_of(p)
+            path = Path(current) / name
+            info = path.lstat()
+            require(not stat.S_ISLNK(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400
+                    and (stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode)),
+                    'Link or special file in tree: ' + str(path))
+            observed[name]=info
+            if name in dirs:directories[path.relative_to(root).as_posix()]=recorded_mode(info)
         for name in names:
-            p = Path(current) / name
-            data = read_bytes(p)
-            files[p.relative_to(root).as_posix()] = {'sha256': sha(data), 'size': len(data), 'mode': mode_of(p)}
-    return {'files': files, 'directories': directories, 'tree_sha256': logical_sha(files)}
+            path = Path(current) / name
+            try:record=platform_support.hash_scanned(path,observed[name],MAX_FILE)
+            except ValueError as error:raise SuiteError(str(error)) from error
+            files[path.relative_to(root).as_posix()]={**record,'mode':recorded_mode(observed[name])}
+    return {'files':files,'directories':directories,'tree_sha256':logical_sha(files)}
 
 
 def declared_name(root):
@@ -450,7 +469,7 @@ def discover(root, kind):
         if child.name.startswith('.'):
             continue
         # Never follow an unknown directory symlink to discover its name.
-        if child.is_symlink():
+        if platform_support.is_link_or_reparse(child):
             raise SuiteError('Uninspected symlink in skill-discovery root; reconcile independently: ' + str(child))
         if not child.is_dir() or not (child / 'SKILL.md').exists():
             continue
@@ -470,8 +489,16 @@ def known(row, state, ui_text=None, preserve_visual=False):
     return exact or (preserve_visual and recognized_with_visual(row, state, ui_text))
 
 
+def files_match(actual, expected):
+    # Keep canonical Git/ZIP modes in manifests/plans. Compare their explicit
+    # native projection only on Windows, where NTFS has no executable bit.
+    def projected(rows):
+        return {k: dict(v, mode=platform_support.project_mode(v['mode'])) for k,v in rows.items()}
+    return projected(actual) == projected(expected)
+
+
 def desired_matches(row, state):
-    return state is not None and {k: v for k, v in state['files'].items() if not volatile(k)} == row['files']
+    return state is not None and files_match({k:v for k,v in state['files'].items() if not volatile(k)}, row['files'])
 
 
 def audit(kit, destination, legacy_root, backup_root, projects=(), retire_known=False):
@@ -488,7 +515,17 @@ def audit(kit, destination, legacy_root, backup_root, projects=(), retire_known=
         target = destination / name
         before = snapshot(target)
         ui_text = read_bytes(target / UI_PATH).decode('utf-8') if before is not None and UI_PATH in before['files'] else None
-        overlay = make_visual_overlay(row, before, ui_text, preserve_visual)
+        migration = None
+        visual_before = before
+        if before is None and retire_known:
+            candidates=[record for record in discovered if record['name']==name and record['kind']=='legacy']
+            if len(candidates)==1:
+                candidate=candidates[0]
+                candidate_ui=read_bytes(Path(candidate['path'])/UI_PATH).decode('utf8') if UI_PATH in candidate['snapshot']['files'] else None
+                if known(row,candidate['snapshot'],candidate_ui,preserve_visual):
+                    migration={'target':candidate['path'],'snapshot':candidate['snapshot']}
+                    visual_before,ui_text=candidate['snapshot'],candidate_ui
+        overlay = make_visual_overlay(row, visual_before, ui_text, preserve_visual)
         desired = effective_files(row, overlay)
         if before is not None:
             try:
@@ -503,6 +540,7 @@ def audit(kit, destination, legacy_root, backup_root, projects=(), retire_known=
         entries.append({'name': name, 'action': action, 'target': str(target), 'before': before,
                         'desired_files': desired, 'desired_tree_sha256': logical_sha(desired),
                         'visual_preservation': overlay})
+        if migration is not None:entries[-1]['migration_source']=migration
     for record in discovered:
         if record['path'] == str(destination / record['name']):
             continue
@@ -573,7 +611,7 @@ def create_payload(kit, name, target, files):
     if target.exists():
         remove_tree(target)
     target.mkdir(parents=True, mode=0o755)
-    os.chmod(target, 0o755)
+    platform_support.set_mode(target, 0o755)
     for relative, record in sorted(files.items()):
         data = read_bytes(kit / 'skills' / name / relative)
         require(len(data) == record['size'] and sha(data) == record['sha256'], 'Kit changed during preparation: ' + name + '/' + relative)
@@ -581,15 +619,15 @@ def create_payload(kit, name, target, files):
         out.parent.mkdir(parents=True, exist_ok=True)
         with out.open('xb') as stream:
             stream.write(data); stream.flush(); os.fsync(stream.fileno())
-        os.chmod(out, record['mode'])
-    require(snapshot(target)['files'] == files, 'Prepared skill differs from manifest: ' + name)
+        platform_support.set_mode(out, record['mode'])
+    require(files_match(snapshot(target)['files'], files), 'Prepared skill differs from manifest: ' + name)
 
 
 def create_preserved_payload(kit, row, target, entry, backup):
     """Preserve only audited image bytes from a fully verified private backup."""
     create_payload(kit, entry['name'], target, row['files'])
     overlay = entry['visual_preservation']
-    require(snapshot(backup) == entry['before'], 'Visual preservation backup changed')
+    require(snapshot(backup) == entry.get('migration_source',{}).get('snapshot',entry['before']), 'Visual preservation backup changed')
     for relative, record in overlay['files'].items():
         data = read_bytes(backup / relative)
         require(len(data) == record['size'] and sha(data) == record['sha256'], 'Preserved icon changed: ' + relative)
@@ -597,12 +635,12 @@ def create_preserved_payload(kit, row, target, entry, backup):
         output.parent.mkdir(parents=True, exist_ok=True)
         with output.open('wb') as stream:
             stream.write(data); stream.flush(); os.fsync(stream.fileno())
-        os.chmod(output, record['mode'])
+        platform_support.set_mode(output, record['mode'])
     output = safe_path(target / UI_PATH)
     with output.open('wb') as stream:
         stream.write(overlay['effective_ui_yaml'].encode('utf-8')); stream.flush(); os.fsync(stream.fileno())
-    os.chmod(output, entry['desired_files'][UI_PATH]['mode'])
-    require(snapshot(target)['files'] == entry['desired_files'], 'Preserved payload differs from audited effective manifest')
+    platform_support.set_mode(output, entry['desired_files'][UI_PATH]['mode'])
+    require(files_match(snapshot(target)['files'], entry['desired_files']), 'Preserved payload differs from audited effective manifest')
 
 
 def journal_paths(entry, operation, index):
@@ -641,7 +679,19 @@ def bind_plan_manifest(plan, manifest, skills):
         ui_text = overlay.get('original_ui_yaml') if isinstance(overlay, dict) else entry.get('predecessor_ui_yaml')
         preserve_visual = manifest.get('visual_identity_policy') == VISUAL_POLICY
         if entry['action'] in ('noop', 'install'):
-            expected_overlay = make_visual_overlay(row, before, ui_text, preserve_visual)
+            visual_before=before
+            migration=entry.get('migration_source')
+            if migration is not None:
+                require(before is None and isinstance(migration,dict)
+                        and safe_path(migration['target']).parent==safe_path(plan['legacy_root'])
+                        and safe_path(migration['target']).name not in ('.system','plugins'),
+                        'Migration source is outside the approved legacy root')
+                retiring=[r for r in plan['entries'] if r['action']=='retire' and r['target']==migration['target']]
+                visual_before=migration.get('snapshot')
+                require(len(retiring)==1 and retiring[0]['name']==entry['name'] and retiring[0]['before']==visual_before
+                        and known(row,visual_before,ui_text,preserve_visual),
+                        'Migration visual source is not an exact known retirement')
+            expected_overlay = make_visual_overlay(row, visual_before, ui_text, preserve_visual)
             require(overlay == expected_overlay, 'Plan visual overlay differs from byte-bound predecessor: ' + entry['name'])
             desired = effective_files(row, expected_overlay)
             require(entry.get('desired_files') == desired
@@ -670,16 +720,14 @@ def acquire_lock(backup_root, operation, plan_hash, resume=False):
                 'Another update lock exists; inspect its journal, do not bypass it')
         require(old.get('hostname') == socket.gethostname() and type(old.get('pid')) is int, 'Cannot prove stale lock ownership on this host')
         try:
-            os.kill(old['pid'], 0)
-        except ProcessLookupError:
-            pass
-        except PermissionError as error:
+            alive = platform_support.process_alive(old['pid'])
+        except OSError as error:
             raise SuiteError('Cannot establish lock process status') from error
-        else:
-            raise SuiteError('Update lock process is still alive')
+        require(not alive, 'Update lock process is still alive')
         lock.unlink()
     fd = os.open(lock, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600)
     try:
+        if platform_support.WINDOWS: platform_support.fchmod(fd, 0o600)
         data = encode({'operation': str(operation), 'plan_sha256': plan_hash, 'pid': os.getpid(), 'hostname': socket.gethostname()})
         os.write(fd, data); os.fsync(fd)
     finally:
@@ -689,6 +737,12 @@ def acquire_lock(backup_root, operation, plan_hash, resume=False):
 
 def save_journal(operation, journal):
     atomic_json(operation / 'journal.json', journal)
+    if os.environ.get('AGENT_SYSTEM_SETUP_DIAGNOSTICS') == '1':
+        states=journal.get('states',[])
+        active=next((row.get('phase') for row in states if row.get('phase')!='complete'),None)
+        print('agent-system-core '+json.dumps({'status':journal.get('status'),
+              'completed':sum(row.get('phase')=='complete' for row in states),
+              'total':len(states),'next_phase':active},sort_keys=True),file=sys.stderr,flush=True)
 
 
 def load_journal(path):
@@ -725,7 +779,7 @@ def recover_orphan_initialization(plan_path, journal_path):
         require(operation.is_dir(), 'Initialization operation is not a directory')
         for p in operation.iterdir():
             require(re.fullmatch(r'\.journal\.json\.[0-9a-f]{32}\.tmp', p.name)
-                    and stat.S_ISREG(p.lstat().st_mode) and not p.is_symlink(),
+                    and stat.S_ISREG(p.lstat().st_mode) and not platform_support.is_link_or_reparse(p),
                     'Missing journal has unexpected operation contents; reconcile manually')
     for root in (Path(plan['destination']), Path(plan['legacy_root'])):
         require(not (root.parent / ('.skill-suite-' + operation.name)).exists(),
@@ -778,6 +832,7 @@ def apply_plan(path, resume=None):
     try:
         if not resume or recovered_initialization:
             operation.mkdir(mode=0o700, exist_ok=recovered_initialization)
+            if platform_support.WINDOWS: platform_support.make_private(operation)
             save_journal(operation, journal)
         consumed = backup_root / ('plan-' + journal['plan_sha256'] + '.json')
         if consumed.exists():
@@ -807,6 +862,13 @@ def apply_plan(path, resume=None):
                             copy_tree(target, backup, before)
                     else:
                         copy_tree(target, backup, before)
+                migration=entry.get('migration_source')
+                if migration is not None and entry.get('visual_preservation') is not None:
+                    original=safe_path(migration['target']);visual_backup=backup.parent/('visual-'+str(index))
+                    require(snapshot(original)==migration['snapshot'],'Legacy visual source changed before migration')
+                    visual_backup.parent.mkdir(parents=True,exist_ok=True)
+                    if visual_backup.exists() and snapshot(visual_backup)!=migration['snapshot']:remove_tree(visual_backup)
+                    if not visual_backup.exists():copy_tree(original,visual_backup,migration['snapshot'])
                 state['phase'] = 'backed_up'; save_journal(operation, journal)
             if state['phase'] == 'backed_up':
                 require(snapshot(target) == before, 'Target changed during backup: ' + str(target))
@@ -817,7 +879,8 @@ def apply_plan(path, resume=None):
                             'Target and outside-discovery staging must share a filesystem')
                 if entry['action'] == 'install':
                     if entry.get('visual_preservation') is not None:
-                        create_preserved_payload(kit, skills[entry['name']], prepared, entry, backup)
+                        visual_backup=backup.parent/('visual-'+str(index)) if entry.get('migration_source') else backup
+                        create_preserved_payload(kit, skills[entry['name']], prepared, entry, visual_backup)
                     else:
                         create_payload(kit, entry['name'], prepared, entry['desired_files'])
                     state['expected_after'] = snapshot(prepared)
@@ -1005,8 +1068,8 @@ def main(argv=None):
     for command in ('audit', 'verify'):
         p = sub.add_parser(command)
         p.add_argument('--kit', type=Path, required=True)
-        p.add_argument('--destination', type=Path, default=Path.home() / '.agents/skills')
-        p.add_argument('--legacy-root', type=Path, default=Path.home() / '.codex/skills')
+        p.add_argument('--destination', type=Path)
+        p.add_argument('--legacy-root', type=Path)
         if command == 'audit':
             p.add_argument('--plan', type=Path)
             p.add_argument('--backup-root', type=Path, default=Path.home() / 'Codex_Skill_Backups')
@@ -1017,6 +1080,13 @@ def main(argv=None):
     p = sub.add_parser('apply'); p.add_argument('--plan', type=Path, required=True); p.add_argument('--resume', type=Path)
     p = sub.add_parser('rollback'); p.add_argument('--journal', type=Path, required=True)
     args = parser.parse_args(argv)
+    if args.command in ('audit','verify'):
+        if args.command=='verify' and args.journal:
+            _,saved=load_journal(args.journal)
+            default_destination,default_legacy=Path(saved['plan']['destination']),Path(saved['plan']['legacy_root'])
+        else:default_destination,default_legacy=platform_support.personal_skill_roots(Path.home())
+        args.destination=args.destination if args.destination is not None else default_destination
+        args.legacy_root=args.legacy_root if args.legacy_root is not None else default_legacy
     if args.command == 'audit':
         result = audit(args.kit, args.destination, args.legacy_root, args.backup_root, args.project_root, args.retire_known_duplicates)
         if args.plan:

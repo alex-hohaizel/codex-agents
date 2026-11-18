@@ -3,7 +3,7 @@ import { readFile, mkdir, lstat, realpath } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { homedir } from "node:os";
+import { platformStateRoot, securePrivatePath, assertPrivatePath } from "../server/platform.mjs";
 import { randomBytes } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
 import { runtimeEnvironment } from "../server/environment.mjs";
@@ -18,7 +18,7 @@ const value = (name) => {
 let dataDir = resolve(
   value("--data-dir") ??
     process.env.ATELIER_DATA_DIR ??
-    join(homedir(), "Library/Application Support/Agent Atelier"),
+    platformStateRoot(),
 );
 try {
   dataDir = await realpath(dataDir);
@@ -87,8 +87,9 @@ async function health(origin, expectedInstance) {
 async function ownerKey(expectedInstance) {
   const path = join(dataDir, "owner-credentials.json");
   const info = await lstat(path);
-  if (!info.isFile() || info.isSymbolicLink() || (info.mode & 0o077) !== 0)
+  if (!info.isFile() || info.isSymbolicLink())
     throw new Error("Owner credentials must be a private regular file");
+  await assertPrivatePath(path);
   const key = JSON.parse(await readFile(path, "utf8"));
   if (
     key.instance_id !== expectedInstance ||
@@ -121,22 +122,13 @@ async function launchUrl(current) {
   );
 }
 async function openBrowser(url) {
-  if (process.platform === "darwin")
-    spawn("open", [url], {
-      stdio: "ignore",
-      detached: true,
-    }).unref();
-  else if (process.platform === "win32")
-    spawn("cmd", ["/c", "start", "", url], {
-      stdio: "ignore",
-      detached: true,
-    }).unref();
-  else
-    spawn("xdg-open", [url], {
-      stdio: "ignore",
-      detached: true,
-    }).unref();
+  const command = process.platform === "darwin" ? "open" : process.platform === "win32" ? "cmd" : "xdg-open";
+  const argv = process.platform === "win32" ? ["/d", "/c", "start", "", url] : [url];
+  const browser = spawn(command, argv, { stdio: "ignore", detached: true, windowsHide: true });
+  browser.once("error", () => print({ browser_opened: false, next: "The service is running. Reopen the local launcher from a graphical desktop with a configured default browser." }));
+  browser.unref();
 }
+
 async function authenticated(current, path, body) {
   const origin = current.origin;
   const controlKey = await verifiedOwnerKey(current);
@@ -152,10 +144,10 @@ async function authenticated(current, path, body) {
     method: body ? "POST" : "GET",
     headers: {
       cookie,
+      "X-Atelier-CSRF": token,
       ...(body
         ? {
             "Content-Type": "application/json",
-            "X-Atelier-CSRF": token,
             Origin: origin,
           }
         : {}),
@@ -200,6 +192,7 @@ try {
       recursive: true,
       mode: 448,
     });
+    if (process.platform === "win32") await securePrivatePath(dataDir, { directory: true });
     dataDir = await realpath(dataDir);
     const child = spawn(
       process.execPath,
@@ -213,6 +206,7 @@ try {
       {
         cwd: appRoot,
         detached: true,
+        windowsHide: true,
         stdio: "ignore",
         env: {
           ...runtimeEnvironment(process.env, { service: true }),

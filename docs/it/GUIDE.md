@@ -6,10 +6,12 @@ Svolgete un compito mirato con Codex, sviluppate un prodotto con specialisti o p
 
 Per la prima sessione, apri la [guida di avvio](../../START_HERE.md#install-and-verify). Poi [segui una richiesta in un progetto completo](../technical/END_TO_END.md), dalla scelta del team alla verifica della pubblicazione. [Apri la mappa del flusso](../../assets/marketing/release-1.7/workflow-en.svg) · [Indice della documentazione](../INDEX.md)
 
+Il candidato commerciale riunisce configurazione e diritti della versione acquistata. Leggi [la guida](../commercial/BUYER_GUIDE.md), [la licenza](../commercial/LICENSING.md) e [i limiti runtime](../commercial/WORKBENCH_RUNTIME.md).
+
 ## Da dove iniziare
 
 - **Provate Codex.** [Installazione e verifica](#install) · [Primo compito](#first-task) · [Flussi illustrati](../../marketing/it/README.md)
-- **Sviluppate o gestite un progetto.** [Scegliete un flusso di lavoro](#workflow) · [Trovate una skill o un ruolo](#catalog) · [Pannello per Mac](#workbench) · [Operazioni e ripristino](#operations)
+- **Sviluppate o gestite un progetto.** [Scegliete un flusso di lavoro](#workflow) · [Trovate una skill o un ruolo](#catalog) · [Pannello locale](#workbench) · [Operazioni e ripristino](#operations)
 - **Capite come funziona il sistema.** [Harness](#harness) · [Subagenti](#subagents) · [Capsule di contesto](#context) · [Modelli e costi](#models)
 - **Trovate e verificate le evidenze.** [Ricerca documentale (RAG)](#retrieval) · [Valutazioni (evals)](#evals) · [Strumenti e autorizzazioni](#permissions)
 
@@ -17,6 +19,28 @@ Per la prima sessione, apri la [guida di avvio](../../START_HERE.md#install-and-
 
 <a name="install"></a>
 ## Installare e verificare il rilevamento
+
+### Programma di installazione pronto per Windows, macOS e Linux
+
+Se la consegna attendibile include una conferma di acquisto o un entitlement JSON, apri **Keep your purchase document · optional** e scegli il file originale prima del piano. Rimane privato, fuori dal pacchetto e dalle cartelle delle skill. Un nuovo documento annulla il piano e il consenso precedenti: prepara e controlla un nuovo piano. Gli aggiornamenti conservano automaticamente il documento esistente. La conservazione non verifica la firma di acquisto e non concede diritti. Il programma di installazione tecnico funziona anche senza documento.
+
+Scaricate l'archivio **Universal** pronto o il pacchetto per il vostro sistema e processore dalla [versione stabile](https://github.com/alex-hohaizel/codex-agents/releases/latest). Estraetelo completamente, leggete `START_HERE.html`, poi aprite `Start.cmd` su Windows, `Start.command` su macOS o `Start.sh` su Linux. Python, Node e l'interfaccia compilata sono inclusi. Lo ZIP automatico del codice sorgente GitHub segue il percorso per sviluppatori. L'assistente è in inglese e ucraino; questa guida descrive lo stesso flusso in italiano.
+
+Usate **Check now → Prepare plan**, controllate destinazioni e conflitti, approvate il piano esatto, quindi **Install reviewed plan → Verify files → Check in Codex**. La selezione standard comprende 33 skill, Orchestrator, profilo e dodici ruoli. Usate il vostro account Codex. **Create practice project → Open folder → Open Codex → Copy prompt** prepara l'esercizio iniziale senza eseguire un modello. Conservate il journal: il recupero usa l'operazione selezionata e lo stesso piano. [Installazione e recupero](../INSTALL.md#recommended-local-browser-installer)
+
+Python/venv e Node del progetto mantengono la priorità. Usate `AGENT_SYSTEM_PYTHON` per gli script del toolkit. Maintenance resta uno strumento separato del proprietario: usate `product/maintenance-skill` del pacchetto o `maintenance-skill` del repository con il gestore supportato, controllate fonte e destinazione e verificate. Modelli e servizi esterni hanno account e costi propri.
+
+Il percorso delle skill personali segue l'host Codex nativo. `CODEX_HOME` indica la directory Codex scelta per quella sessione; l'audit mostra la destinazione risolta esatta.
+
+| Ambito di installazione | Directory delle skill |
+| --- | --- |
+| Skill personali su Windows | `CODEX_HOME/skills`, normalmente `<selected-home>/.codex/skills` |
+| Skill personali su macOS / Linux | `<selected-home>/.agents/skills` (normalmente `~/.agents/skills`) |
+| Skill locali del progetto su ogni sistema | `<project>/.agents/skills` — invariata |
+
+Per una precedente installazione personale Windows in `<selected-home>/.agents/skills`, preparate un nuovo audit con l'installer corrente. Il piano esaminato identifica la destinazione canonica e il ritiro delle copie precedenti riconosciute e gestite; le personalizzazioni supportate delle sole icone delle skill principali vengono conservate. Modifiche sconosciute alle fonti o alle regole e copie o icone in conflitto richiedono una riconciliazione, senza sostituzione forzata. Non spostate né cancellate manualmente queste directory. Approvate il piano esatto, verificate file e rilevamento in una nuova sessione Codex e conservate registro e backup. Il rollback con il registro originale ripristina percorsi e byte gestiti precedenti; i registri già salvati mantengono le proprie radici originali verificate. [Scelta della destinazione e migrazione](../INSTALL.md#personal-skill-roots)
+
+### Percorso avanzato dai sorgenti
 
 1. Aprite la versione stabile di `alex-hohaizel/codex-agents`. La procedura da terminale su macOS o Linux usa Bash, Python 3.9+, Git, GitHub CLI (`gh`) con accesso autenticato e Codex. Per un’installazione guidata, chiedete a Codex di spiegare ogni passo in italiano e conservare opzioni e percorsi esatti.
 2. Seguite l’installazione con attestazione. Lo strumento confronta l’impronta dell’archivio e l’attestazione GitHub con commit, workflow e manifesto delle fonti. Selezionate la prima installazione in assenza della suite gestita oppure fornite la versione installata che avete verificato. [Versione stabile](https://github.com/alex-hohaizel/codex-agents/releases/latest) · [Comandi esatti](../INSTALL.md#steps)
@@ -101,7 +125,9 @@ python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir
 Il test corregge il refuso previsto in un progetto usa e getta e verifica l’altro file. La suite copre il passaggio di una consegna limitata, il passaporto approvato e il primo uso di una skill generata. Per affermazioni su un prodotto esterno raccogliete evidenze nel suo ambiente. [Suite, fixture e ricevute](../../evaluations/README.md) · [Validazione](../../governance/VALIDATION.md)
 
 <a name="workbench"></a>
-## Usare Agent Atelier su Mac
+## Usare Agent Atelier su Windows, macOS o Linux
+
+I pacchetti pronti forniscono `Start-Workbench.cmd`, `Start-Workbench.command` e `Start-Workbench.sh` per Windows, macOS e Linux. Aprite il launcher corrispondente; l'interfaccia pronta non richiede una compilazione npm. Verificate le prove native del rilascio separatamente dalla presenza del runtime. La compilazione seguente resta un'opzione per sviluppatori; le operazioni sui progetti e il recupero valgono per entrambi i percorsi. [Runtime pronto e recupero dati](../commercial/WORKBENCH_RUNTIME.md)
 
 1. Aprite le fonti correnti e compilate con il lockfile Node.js. Da `apps/agent-atelier/` eseguite:
 

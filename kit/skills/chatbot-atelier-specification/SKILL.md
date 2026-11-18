@@ -2,7 +2,7 @@
 name: chatbot-atelier-specification
 description: "Specify a chatbot's state, permissions, actions, events, and failure semantics. Use build to implement an agreed contract."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # ChatBot Atelier · Specification

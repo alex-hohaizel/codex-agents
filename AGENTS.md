@@ -17,3 +17,23 @@ Use this file as an entry point. Read the sources and checks affected by the tas
 | Change the campaign | [Active campaign](marketing/CURRENT_CAMPAIGN.json) and its linked README. Preserve product identity, same-language captions, and accessible public navigation. Run the campaign's build and validation from the owning directory for artwork or delivery changes. |
 
 An approved release includes affected sources, version and evidence records, translations, actual packages, installation and recovery as applicable. Use the active branch (`main` unless the owner specifies another) and verify GitHub read-back. Repository publication, local adoption and any action on a product each have their own scope. The owner retains decisions about visibility, licensing, spending and production deployments.
+
+## Commercial release candidates
+
+Preserve installed customer rights, data and compatible entry points. Read the
+[commercial product contract](governance/COMMERCIAL_PRODUCT_CONTRACT.md) for
+changes to setup, packaging, editions, licenses, delivery, migrations or support.
+Use the canonical descriptors and existing component versions; keep buyer
+and source packages derived from the same commit. Verify the affected normal
+buyer path and current artifact receipts. A commercial RC, valid signature
+and local demo do not authorize a public sale, new spending or legal publication.
+
+## Universal installer contract
+
+For setup, platform, runtime, packaging and release changes, apply
+[Universal installation](governance/UNIVERSAL_INSTALLATION.md). Preserve all six
+native targets and the ordinary browser buyer journey. Keep vendor input locks,
+full inventories, source commit bindings, actual native evidence, source ZIP HTML,
+localized guidance and public ready assets consistent. Preserve project runtimes,
+private state, unknown local drift and existing acquired rights. Never substitute
+a source-only ZIP for a ready installer or rebind old evidence to changed bytes.
