@@ -303,6 +303,7 @@ def broker(args, win):
     OWNED_OUTPUT = None
     package, output, python = (ordinary(value).resolve() for value in (args.package, args.output, args.python))
     manifest, tools, target = selected_runtime(package, python)
+    require(not output.is_relative_to(package) and not package.is_relative_to(output), 'Keep probe output outside the immutable received package')
     require(not output.exists(), 'Choose a NEW private standard-user proof directory')
     output.mkdir(parents=True, mode=0o700)
     OWNED_OUTPUT = output
