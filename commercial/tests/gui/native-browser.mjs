@@ -216,9 +216,16 @@ try {
   const displayedPrompt=await evaluate('document.getElementById("practice-prompt").value');assert.ok(displayedPrompt.endsWith(practice.prompt));assert.ok(displayedPrompt.includes(practice.project));
   try{await call('Browser.grantPermissions',{origin:url.origin,permissions:['clipboardReadWrite','clipboardSanitizedWrite']})}catch{}
   await click('copy-prompt');await until(()=>evaluate('document.getElementById("copy-status").textContent'),'copy prompt result');
-  const copyStatus=await evaluate('document.getElementById("copy-status").textContent');let clipboardVerified=false;
-  if(copyStatus==='Prompt copied'){assert.equal(await evaluate('navigator.clipboard.readText()'),displayedPrompt);clipboardVerified=true;}else assert.equal(copyStatus,'Select and copy the prompt below.');
-  report.practice={project:practice.project,fixture,task_sha256:digest(Buffer.from(practice.prompt)),launcher_sha256:digest(launcher),launcher_button_enabled:true,clipboard_verified:clipboardVerified,copy_status:copyStatus,model_execution:false};
+  const copyStatus=await evaluate('document.getElementById("copy-status").textContent');let clipboardVerified=false,clipboardNewlines=null;
+  if(copyStatus==='Prompt copied'){
+    const copied=await evaluate('navigator.clipboard.readText()');
+    // Windows' native clipboard represents newlines as CRLF. Compare the
+    // complete Unicode prompt after only that native round trip; task files,
+    // package/source bytes and all other whitespace remain exact checks.
+    assert.equal(platform()==='win32'?copied.replaceAll('\r\n','\n'):copied,displayedPrompt);
+    clipboardNewlines=copied.includes('\r\n')?'CRLF':'LF';clipboardVerified=true;
+  }else assert.equal(copyStatus,'Select and copy the prompt below.');
+  report.practice={project:practice.project,fixture,task_sha256:digest(Buffer.from(practice.prompt)),launcher_sha256:digest(launcher),launcher_button_enabled:true,clipboard_verified:clipboardVerified,clipboard_newlines:clipboardNewlines,copy_status:copyStatus,model_execution:false};
   await evaluate('document.getElementById("begin").scrollIntoView({block:"start",behavior:"instant"})');await screenshot('GUI-DESKTOP-FIRST-TASK.png');
   await evaluate('document.getElementById("locale").value="uk";document.getElementById("locale").dispatchEvent(new Event("change"))');
   await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('window.scrollTo(0,0)');
