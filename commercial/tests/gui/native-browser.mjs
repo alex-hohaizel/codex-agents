@@ -66,9 +66,13 @@ async function click(id) {
   const encoded = JSON.stringify(id);
   await until(() => evaluate(`Boolean(document.getElementById(${encoded}) && !document.getElementById(${encoded}).disabled && !document.getElementById(${encoded}).hidden)`), 'enabled visible ' + id);
   await evaluate(`document.getElementById(${encoded}).scrollIntoView({block:'center',behavior:'instant'})`);
+  // Hit testing must follow a painted scroll position, including the narrow
+  // emulated viewport on slower native runners. Do not replay a missed click.
+  await evaluate('new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)))');
   const point = await evaluate(`(()=>{const e=document.getElementById(${encoded}),r=e.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;return {x,y,width:r.width,height:r.height,unobscured:e===document.elementFromPoint(x,y)||e.contains(document.elementFromPoint(x,y))}})()`);
   assert.ok(point.width > 0 && point.height > 0 && point.unobscured, 'Button is obscured or unrendered: ' + id);
   const coordinates = {x:point.x,y:point.y,button:'left',clickCount:1};
+  await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y});
   await call('Input.dispatchMouseEvent',{type:'mousePressed',...coordinates});
   await call('Input.dispatchMouseEvent',{type:'mouseReleased',...coordinates});
 }
@@ -261,7 +265,10 @@ try {
   const mobile=await evaluate('({lang:document.documentElement.lang,width:innerWidth,scrollWidth:document.documentElement.scrollWidth,heading:document.querySelector("h1").textContent,hash:location.hash})');assert.equal(mobile.lang,'uk');assert.equal(mobile.width,390,'The mobile layout viewport expanded beyond the requested 390px.');assert.ok(mobile.scrollWidth<=391,'Horizontal overflow at 390px.');assert.equal(mobile.hash,'','One-use launch token was retained in URL.');assert.match(mobile.heading,/встановлення/);
   await screenshot('GUI-MOBILE-UK.png');report.mobile={...mobile,no_horizontal_overflow:true,token_removed:true};
   report.final_receipts=(await snapshot()).results;report.status='passed';report.finished_at=new Date().toISOString();
-  await click('shutdown-button');await until(()=>evaluate('document.getElementById("result-banner").textContent.includes("Майстер") || document.getElementById("result-banner").textContent.includes("майстер")'),'explicit safe local shutdown');report.setup_shutdown_requested=true;
+  await evaluate("window.__setupShutdownPointerSeen=false;document.getElementById('shutdown-button').addEventListener('click',event=>{window.__setupShutdownPointerSeen=event.isTrusted},{capture:true,once:true})");
+  await click('shutdown-button');
+  await until(()=>evaluate('window.__setupShutdownPointerSeen===true'),'trusted shutdown pointer delivery',5000);report.shutdown_pointer_received=true;
+  await until(()=>evaluate('document.getElementById("result-banner").textContent.includes("Майстер") || document.getElementById("result-banner").textContent.includes("майстер")'),'explicit safe local shutdown',15000);report.setup_shutdown_requested=true;
 } catch(error) {
   if(browserClosed&&browserExit!==undefined)await Promise.race([browserClosed,pause(1000)]);
   report.status='failed';report.reason=redact(error.message);report.finished_at=new Date().toISOString();
