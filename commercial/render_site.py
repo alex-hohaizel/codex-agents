@@ -10,7 +10,7 @@ STYLE="""*{box-sizing:border-box}body{margin:0;background:#081b24;color:#e6f6f6;
 T={
 'en':{'tag':'AI TEAM · BUILT FOR CODEX','hero':'One goal. A complete way to deliver.',
 'intro':'Plan the work. Bring in the right specialists. Check the result. Pick up where you left off — with sources, decisions and recovery in one local toolkit.',
-'candidate':'Commercial release candidate. No payment is collected here. Seller details, support contact and public sales approval are still required.',
+'candidate':'Commercial release candidate. No payment is collected here. Remaining legal seller facts, support hours and public sales approval are still required.',
 'start':'Open your buyer package','more':'Read the full product guide','setup':'Get to your first useful result',
 'steps':['Receive the correct archive, purchase document and trusted signature receipt. Verify and stage the package.',
 'Open START_HERE.html. Run Start.command; the local setup checks Python and Codex, shows components and target folders, and reports conflicts.',
@@ -29,12 +29,12 @@ T={
 ('What is actually supported?','The RC is exercised on the named local environment. Intel/M1 hardware, Linux and notarization have separate acceptance records. See system requirements and the RC report before buying.'),
 ('Can I use outputs commercially?','Yes, under the edition and lawful source rights. Original toolkit resources copied into generated agents retain their terms. The whole package is not granted for resale.'),
 ('What happens if the store is offline?','Keep your acquired version, license document, package and backups. An unavailable store does not disable local rights or modify your projects.'),
-('How do I get help or a refund?','Use the seller contact from a final purchase confirmation. Documentation and reproducible package bug help are included; no response SLA is promised. Seller facts and channel refund terms must be completed before sale.')],
+('How do I get help or a refund?',f"The owner-provided support/privacy contact is {OFFER['seller']['legal_name']}: {OFFER['seller']['support_contact']}. Documentation and reproducible package bug help are included; no response SLA is promised. The working channel, support hours, remaining seller facts and refund terms must be confirmed before sale.")],
 'trust':'Verification and recovery','draft':'Local candidate · factual checks precede public claims',
 'license':'License & support','docs':'Installation and recovery','first':'First task','locale':'Українська'},
 'uk':{'tag':'AI-КОМАНДА · СУМІСНА З CODEX','hero':'Одна мета. Цілісний шлях до результату.',
 'intro':'Сплануйте роботу. Залучіть потрібних спеціалістів. Перевірте результат. Продовжуйте з того самого місця — зі джерелами, рішеннями й відновленням в одному локальному комплекті.',
-'candidate':'Комерційний release candidate. Ця сторінка не приймає оплату. Реквізити продавця, канал підтримки й дозвіл на публічні продажі ще потрібні.',
+'candidate':'Комерційний release candidate. Ця сторінка не приймає оплату. Решта юридичних реквізитів продавця, години підтримки й дозвіл на публічні продажі ще потрібні.',
 'start':'Відкрити покупецький комплект','more':'Повний посібник продукту','setup':'До першого корисного результату',
 'steps':['Отримайте відповідний архів, документ придбання та довірену квитанцію підпису. Перевірте й підготуйте пакет.',
 'Відкрийте ПОЧАТИ.html. Запустіть Start.command: setup перевіряє Python і Codex, показує компоненти, цілі та конфлікти.',
@@ -53,7 +53,7 @@ T={
 ('Що фактично підтримується?','RC перевіряється в названому локальному середовищі. Intel/M1, Linux і notarization мають окремі записи приймання. Звірте системні вимоги й RC-звіт.'),
 ('Чи можна продавати результати?','Так, у межах редакції та прав на вихідні матеріали. Скопійовані ресурси самого комплекту зберігають свої умови; весь комплект не надається для перепродажу.'),
 ('А якщо магазин недоступний?','Збережіть придбану версію, ліцензійний документ, пакет і резервні копії. Недоступний магазин не вимикає локальних прав і не змінює ваші проєкти.'),
-('Як отримати підтримку чи повернення?','Звертайтеся за каналом продавця в остаточному підтвердженні покупки. Документація та допомога з відтворюваними помилками включені; гарантованого часу відповіді немає. До продажу потрібні реквізити й умови каналу.')],
+('Як отримати підтримку чи повернення?',f"Власник надав контакт підтримки й приватності: {OFFER['seller']['legal_name']}, {OFFER['seller']['support_contact']}. Документація та допомога з відтворюваними помилками включені; гарантованого часу відповіді немає. Роботу каналу, години, решту юридичних реквізитів і умови повернення ще треба підтвердити.")],
 'trust':'Перевірка та відновлення','draft':'Локальний кандидат · фактичні перевірки перед публічними обіцянками',
 'license':'Ліцензія й підтримка','docs':'Установка та відновлення','first':'Перша задача','locale':'English'}
 }
@@ -97,5 +97,5 @@ for lang,t in T.items():
 </div>
 <video style="width:100%;margin-top:24px" controls preload="metadata" poster="{'commercial/media/' if is_start else '../media/'}buyer-demo-result.png"><source src="{'commercial/media/' if is_start else '../media/'}Buyer-Install-and-First-Result.mp4" type="video/mp4"></video>
 
-<div class="foot"><strong>{e(t['draft'])}</strong><p class="muted">{e(RELEASE['repository_version'])} · {e(OFFER['license_version'])} · Codex compatibility does not imply OpenAI endorsement.</p></div></main></html>"""
+<div class="foot"><strong>{e(t['draft'])}</strong><p>{e(OFFER['seller']['legal_name'])} · <a href="mailto:{e(OFFER['seller']['support_contact'])}">{e(OFFER['seller']['support_contact'])}</a></p><p class="muted">{e(RELEASE['repository_version'])} · {e(OFFER['license_version'])} · Codex compatibility does not imply OpenAI endorsement.</p></div></main></html>"""
         (ROOT/f'commercial/site/{kind}-{lang}.html').write_text(page)

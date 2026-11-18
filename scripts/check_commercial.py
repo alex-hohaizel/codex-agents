@@ -28,6 +28,15 @@ def check(root):
             s=r['source']
             require(s['text']==original[s['line']-1],r['id']+': broken literal contract link')
             require(r.get('implementation') and r.get('verification'),r['id']+': missing implementation or verification route')
+            require(r.get('baseline_state') and r.get('current_state') and r.get('required_change'),
+                    r['id']+': missing baseline/current state or required change')
+            require(r.get('acceptance_routes') and all(x in found for x in r['acceptance_routes']),
+                    r['id']+': missing valid acceptance routes')
+            for rel in r['implementation']:
+                require((root/rel).exists(),r['id']+': missing implementation target '+rel)
+        evidence_contract=registry.get('release_evidence_contract',{})
+        require({'source_commit','artifact_sha256','observed_result','limitations'}<=set(evidence_contract.get('required',[])),
+                'Missing artifact-bound acceptance evidence contract')
         require(product['product_id']==offer['product_id']=='codex-agent-system','Product ID mismatch')
         require(product['release_record']=='releases/current.json','Commercial version must derive from existing release record')
         require(offer['editions']['solo']['price_minor']==4900 and offer['editions']['team']['price_minor']==14900,'Owner draft price assumptions changed')

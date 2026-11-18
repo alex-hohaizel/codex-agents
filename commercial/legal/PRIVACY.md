@@ -8,7 +8,10 @@ is required for its controlled demonstration. Local redemption codes are
 bearer access secrets: keep them in private files and never in command history,
 screenshots, public source, or logs.
 
-Before real sales, the verified seller must publish a privacy contact,
+The owner supplied the name **Oleksandr Hohaizel** and privacy contact
+**aleksandrhohaizel@gmail.com**. The email is not a postal address or evidence
+of country, legal capacity or controller registration. Before real sales,
+the seller must confirm the contact is operational and publish the
 applicable legal basis, actual processors, retention/deletion periods,
 tax-record obligations, and channel-specific disclosures. The test service
 does not prove a production privacy program or buyer identity. Purchase

@@ -57,12 +57,18 @@ class FulfillmentTests(unittest.TestCase):
         self.assertEqual(self.connection.execute("SELECT opened_count FROM deliveries").fetchone()[0], 2)
 
     def test_existing_order_cannot_change_price_or_scope(self):
+        original_seller = copy.deepcopy(self.offer["seller"])
         first, _ = self.issue()
         self.offer["editions"]["solo"]["price_minor"] = 9999
         with self.assertRaisesRegex(ValueError, "another immutable purchase"):
             self.issue()
+        self.offer["editions"]["solo"]["price_minor"] = 4900
+        self.offer["seller"]["support_contact"] = "changed-contact@example.invalid"
+        with self.assertRaisesRegex(ValueError, "another immutable purchase"):
+            self.issue()
         stored = json.loads(self.connection.execute("SELECT entitlement FROM orders").fetchone()[0])
         self.assertEqual(first, stored)
+        self.assertEqual(stored["seller"], original_seller)
 
     def test_offline_rights_separate_acquired_major_and_new_version(self):
         entitlement, _ = self.issue()

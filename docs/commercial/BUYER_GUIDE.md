@@ -64,8 +64,11 @@ procedure: do not roll back a binary over newer data without a compatible backup
 
 Use the diagnostics in a support report, with product and component versions,
 platform, order reference and the failing step. Do not send Codex credentials,
-API tokens, your private projects or full chat history. The private commercial
-support address is an owner-supplied prerequisite before public sale; generic
-non-sensitive source bugs can use the public repository issue tracker.
+API tokens, your private projects or full chat history. The owner-provided
+support/privacy contact is **Oleksandr Hohaizel**, **aleksandrhohaizel@gmail.com**.
+This email is not a postal address or proof of legal status. The contact must
+be confirmed operational; staffed hours and remaining legal seller facts
+still require completion before public sale. Generic non-sensitive source
+bugs can use the public repository issue tracker.
 
 A full RC buyer archive also contains `runtime/` with the ready-built Mac architecture packages. Extract the matching architecture and open Launch.command following the runtime guide. Intel execution and product signing/notarization retain separate open gates. Linux buyers use only the skills path; no Linux GUI is advertised.

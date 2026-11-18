@@ -258,6 +258,9 @@ def issue(connection, offer, catalog, *, edition, artifact_name, order_id, buyer
             "issued_at": now, "channel": "isolated-local-test",
             "authenticity": "verify-original-trusted-delivery-and-purchase-confirmation; not signed or DRM"
         }
+        # Return the same detached JSON snapshot that is persisted. In-memory
+        # caller edits to the current offer must not mutate an issued receipt.
+        entitlement = parse(encode(entitlement))
         code = "AS-" + secrets.token_urlsafe(32)
         connection.execute("INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?)",
                            (order_id, code, digest(code.encode()), request_sha,

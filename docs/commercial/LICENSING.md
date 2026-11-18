@@ -3,8 +3,12 @@
 The commercial candidate uses one configurable offer, one versioned original
 license, and a separate record for each test order. This is an owner-review
 release candidate. It is neither an actual sale nor a new public license grant.
-The final legal seller, private support contact, jurisdiction-specific terms,
-refund process and channel agreement must be approved before public sale.
+The owner supplied the name **Oleksandr Hohaizel** and the support/privacy
+contact **aleksandrhohaizel@gmail.com**. These are owner-provided facts. The
+email is not a postal address and does not establish a legal entity, country,
+tax treatment or jurisdiction. Before public sale, confirm legal contracting
+capacity and address, an operational support/privacy channel and staffed
+hours, jurisdiction-specific terms, refund process and channel agreement.
 
 ## Offer and acquired rights
 

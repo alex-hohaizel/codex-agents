@@ -5,15 +5,19 @@ Release-candidate status
 This text is prepared under the owner's commercial-product instructions.
 It is not a public offer, an executed customer agreement, or a grant of
 commercial rights to the public repository. Before any public sale the
-seller must identify its legal contracting entity, address, applicable
-jurisdiction and support contact in the purchase confirmation; approve and
+seller must confirm its legal contracting capacity, postal address and
+applicable jurisdiction in the purchase confirmation; approve and
 publish the final terms; and complete the release gates. Test receipts
 explicitly say TEST and do not represent a purchase.
 
 1. Parties and controlling records
-"Seller" is the verified legal entity identified in the purchase confirmation.
-"Customer" is the named purchaser there. Until those facts are supplied, this
-candidate cannot be sold under these terms. "Product" means the Seller's
+The owner supplied the name Oleksandr Hohaizel and the contact email
+aleksandrhohaizel@gmail.com for support and privacy. These are owner-provided
+facts, not independent verification of a legal entity, contracting capacity,
+postal address, country, registration, tax status or governing law.
+"Seller" is the verified legal person identified in the final purchase
+confirmation. "Customer" is the named purchaser there. Until the remaining
+legal facts are confirmed, this candidate cannot be sold under these terms. "Product" means the Seller's
 original Codex Agent System instructions, skills, templates, scripts, roles,
 documentation, and runtime files identified by the delivered manifest.
 Third-party components keep their own licenses and notices. This agreement
@@ -144,7 +148,9 @@ vendor does not change the acquired license scope.
 10. Records and privacy
 Use the opaque order reference, product ID/version, edition, seat count and
 recorded terms for support and updates. Do not send model keys or private
-project files. Seller must supply its privacy contact, lawful retention and
-deletion policy and any channel-specific processing notice before sale.
+project files. The owner-provided support and privacy contact is
+aleksandrhohaizel@gmail.com. Seller must confirm this channel is operational
+and publish lawful retention/deletion and channel-specific processing
+notices before sale. No support hours or response SLA are established here.
 No customer identities, seller issuance secrets or payment records belong
 in the public repository or generic distribution.

@@ -1,7 +1,10 @@
 # Refund policy draft — 1.0.0-rc.1
 
 Not offered for sale. The legal seller and each accepted channel agreement
-must define the final process before launch. Record the policy version on
+must define the final process before launch. The owner-provided contact is
+**Oleksandr Hohaizel**, **aleksandrhohaizel@gmail.com**; this is not a verified
+merchant status or a postal address. The working contact, refund process and
+applicable seller facts still require confirmation. Record the policy version on
 the order. Mandatory consumer rights override conflicting voluntary terms.
 
 Prepare support review for duplicate charges, non-delivery, and reproducible

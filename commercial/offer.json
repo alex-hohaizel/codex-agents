@@ -7,12 +7,13 @@
   "support_version": "1.0.0-rc.1",
   "refund_version": "1.0.0-rc.1",
   "seller": {
-    "legal_name": null,
+    "legal_name": "Oleksandr Hohaizel",
     "registration_or_tax_id": null,
     "legal_address": null,
     "jurisdiction": null,
-    "support_contact": null,
-    "privacy_contact": null
+    "support_contact": "aleksandrhohaizel@gmail.com",
+    "privacy_contact": "aleksandrhohaizel@gmail.com",
+    "identity_status": "owner-supplied-name-and-email-not-independently-verified"
   },
   "sale_currency": "USD",
   "editions": {
@@ -41,14 +42,27 @@
     }
   },
   "support": {
-    "included": ["delivered-documentation", "installation-guidance", "reproducible-package-bug-reports"],
+    "included": [
+      "delivered-documentation",
+      "installation-guidance",
+      "reproducible-package-bug-reports"
+    ],
     "channel": "seller-support-contact-from-purchase-confirmation",
-    "private_data_required": ["order-reference", "product-version", "edition", "diagnostic-summary"],
-    "never_request": ["host-api-keys", "model-access-tokens", "private-project-content"],
+    "private_data_required": [
+      "order-reference",
+      "product-version",
+      "edition",
+      "diagnostic-summary"
+    ],
+    "never_request": [
+      "host-api-keys",
+      "model-access-tokens",
+      "private-project-content"
+    ],
     "response_sla": null,
     "custom_development_included": false,
     "third_party_service_support_included": false,
-    "availability": "seller must publish staffed contact and service hours before sale"
+    "availability": "Owner supplied the support email; staffed hours, languages and response expectations remain to be confirmed before sale."
   },
   "refunds": {
     "policy": "seller review of duplicate charges, non-delivery, and reproducible incompatibility with advertised requirements; mandatory consumer rights and accepted channel terms prevail",
@@ -56,10 +70,15 @@
     "published_channel_terms_required": true,
     "automatic_local_revocation": false
   },
-  "external_costs": ["Codex account and applicable model usage", "third-party APIs", "hosting", "store or signing accounts"],
+  "external_costs": [
+    "Codex account and applicable model usage",
+    "third-party APIs",
+    "hosting",
+    "store or signing accounts"
+  ],
   "public_sale_blockers": [
-    "Confirm legal seller identity, address, tax treatment and applicable jurisdiction.",
-    "Supply a working support and privacy contact and publish support hours and refund handling.",
+    "Confirm legal seller capacity and authority, postal address, tax treatment and applicable jurisdiction; owner-supplied name and email do not establish these facts.",
+    "Confirm the supplied support/privacy email is operational and publish support hours, languages, privacy disclosures and refund handling.",
     "Approve final license, pricing and each channel agreement.",
     "Verify artifact delivery provenance and supported-platform release gates."
   ]

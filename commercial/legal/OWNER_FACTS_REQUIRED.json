@@ -1,11 +1,18 @@
 {
   "schema": "codex-agents.legal-release-blockers/1",
   "status": "owner-review-required-before-public-sale",
-  "confirmed_identity": "GitHub repository owner alex-hohaizel; not a verified legal seller",
+  "confirmed_identity": {
+    "repository_owner": "alex-hohaizel",
+    "owner_supplied_name": "Oleksandr Hohaizel",
+    "support_contact": "aleksandrhohaizel@gmail.com",
+    "privacy_contact": "aleksandrhohaizel@gmail.com",
+    "verification_status": "owner-supplied-not-independently-verified",
+    "postal_address_supplied": false
+  },
   "required": [
-    "Legal seller and copyright-holder names and authority to license original components",
-    "Seller legal address, jurisdiction and registration/tax information as applicable",
-    "Private support and privacy contacts and actual support hours",
+    "Confirm legal contracting capacity, copyright-holder identity and authority to license original components; the owner supplied a name, not registration evidence",
+    "Seller postal/legal address, jurisdiction and registration/tax information as applicable; an email address is not a postal address",
+    "Verify the supplied support/privacy email is operational; publish actual support hours, served languages and privacy disclosures",
     "Final warranty, liability, dispute, mandatory-consumer-rights and refund policy review",
     "Approval of final offer, prices and any marketplace agreement",
     "Confirmation of provenance/rights for original artwork and all distributed dependencies"

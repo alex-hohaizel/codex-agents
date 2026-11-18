@@ -1,8 +1,12 @@
 # Support statement — 1.0.0-rc.1
 
-Owner-review draft. Before sale, the verified seller must add a working
-private support contact, staffed hours, languages actually served, and the
-response expectations it can meet. A public repository issue can report an
+Owner-review draft. The owner supplied the name **Oleksandr Hohaizel** and
+the support contact **aleksandrhohaizel@gmail.com**. This email is not a postal
+address or proof of legal contracting capacity. Before sale, the seller must
+confirm this contact is operational and publish staffed hours, languages
+actually served, and response expectations it can meet. No message has been
+sent or support service availability verified by this candidate. A public
+repository issue can report an
 installation bug without personal details; it is not the private purchase
 support channel and carries no response SLA.
 
