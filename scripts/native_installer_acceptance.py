@@ -196,7 +196,7 @@ class Acceptance:
             (self.logs / ('%03d-' % self.counter + re.sub(r'[^a-zA-Z0-9_-]', '-', name) + '.json')).write_bytes(encoded(receipt))
             raise
         receipt = {'name': name, 'argv': [str(value) for value in argv], 'returncode': result.returncode,
-                   'seconds': round(time.monotonic() - start, 3),
+                   'seconds': round(time.monotonic() - start, 3), 'timeout_seconds': timeout,
                    'stdout': result.stdout.decode('utf8', errors='replace'),
                    'stderr': result.stderr.decode('utf8', errors='replace')}
         (self.logs / ('%03d-' % self.counter + re.sub(r'[^a-zA-Z0-9_-]', '-', name) + '.json')).write_bytes(encoded(receipt))
@@ -773,7 +773,11 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         plan = self.output / 'published predecessor upgrade plan.json'
         audit = self.setup('audit', '--plan', plan)
         require(audit['status'] == 'ready' and audit['mode'] == 'update', 'Published6.4 predecessor is not a supported complete update')
-        installed = self.setup('install', '--plan', plan, '--approve', audit['plan_sha256'])
+        # This Windows case migrates66 core actions and verifies the complete
+        # six-runtime Universal inventory after writing. Keep time for that
+        # final verification; all ordinary command budgets remain unchanged.
+        upgrade_timeout = 300 if WINDOWS and self.manifest.get('distribution', {}).get('kind') == 'universal' else 180
+        installed = self.setup('install', '--plan', plan, '--approve', audit['plan_sha256'], timeout=upgrade_timeout)
         verified = self.setup('verify', '--journal', installed['journal'])
         require(verified['skills'] == 33 and verified['orchestrator'] and verified['source_commit'] == self.manifest['source_commit'], 'Predecessor upgrade did not verify the complete new product')
         if WINDOWS:
@@ -801,6 +805,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         require(len(list((self.state / 'packages').iterdir())) == 1, 'Predecessor test duplicated the full current package cache')
         self.record('published6-4-complete-upgrade-and-exact-rollback', {
             'predecessor_commit': PUBLISHED_PREDECESSOR, 'core_skills': 33, 'roles': 12,
+            'upgrade_command_timeout_seconds': upgrade_timeout,
             'predecessor_files': len(predecessor), 'orchestrator': True, 'owner_tuning_preserved': True,
             'foreign_skill_and_project_preserved': True, 'retained_full_packages': 1,
             'previous_personal_root': str(skills), 'current_personal_root': str(self.skills_root),
