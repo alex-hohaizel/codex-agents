@@ -99,6 +99,7 @@ class Windows:
             (self.k, 'LocalFree', [W.LPVOID], W.LPVOID),
             (self.k, 'WaitForSingleObject', [W.HANDLE, W.DWORD], W.DWORD),
             (self.k, 'GetExitCodeProcess', [W.HANDLE, ctypes.POINTER(W.DWORD)], W.BOOL),
+            (self.k, 'CreateFileW', [W.LPCWSTR, W.DWORD, W.DWORD, W.LPVOID, W.DWORD, W.DWORD, W.HANDLE], W.HANDLE),
             (self.a, 'OpenProcessToken', [W.HANDLE, W.DWORD, ctypes.POINTER(W.HANDLE)], W.BOOL),
             (self.a, 'GetTokenInformation', [W.HANDLE, W.DWORD, W.LPVOID, W.DWORD, ctypes.POINTER(W.DWORD)], W.BOOL),
             (self.a, 'SetTokenInformation', [W.HANDLE, W.DWORD, W.LPVOID, W.DWORD], W.BOOL),
@@ -108,6 +109,9 @@ class Windows:
             (self.a, 'CheckTokenMembership', [W.HANDLE, W.LPVOID, ctypes.POINTER(W.BOOL)], W.BOOL),
             (self.a, 'LookupPrivilegeNameW', [W.LPCWSTR, ctypes.POINTER(LUID), W.LPWSTR, ctypes.POINTER(W.DWORD)], W.BOOL),
             (self.a, 'CreateRestrictedToken', [W.HANDLE, W.DWORD, W.DWORD, ctypes.POINTER(SIDAttributes), W.DWORD, W.LPVOID, W.DWORD, W.LPVOID, ctypes.POINTER(W.HANDLE)], W.BOOL),
+            (self.a, 'DuplicateToken', [W.HANDLE, W.DWORD, ctypes.POINTER(W.HANDLE)], W.BOOL),
+            (self.a, 'ImpersonateLoggedOnUser', [W.HANDLE], W.BOOL),
+            (self.a, 'RevertToSelf', [], W.BOOL),
             (self.a, 'ConvertStringSecurityDescriptorToSecurityDescriptorW', [W.LPCWSTR, W.DWORD, ctypes.POINTER(W.LPVOID), ctypes.POINTER(W.DWORD)], W.BOOL),
             (self.a, 'GetSecurityDescriptorDacl', [W.LPVOID, ctypes.POINTER(W.BOOL), ctypes.POINTER(W.LPVOID), ctypes.POINTER(W.BOOL)], W.BOOL),
             (self.a, 'CreateProcessAsUserW', [W.HANDLE, W.LPCWSTR, W.LPWSTR, W.LPVOID, W.LPVOID, W.BOOL, W.DWORD, W.LPVOID, W.LPCWSTR, ctypes.POINTER(StartupInfo), ctypes.POINTER(ProcessInfo)], W.BOOL),
@@ -255,6 +259,38 @@ def completed_child_observation(destination, code, source_commit=None):
     return json.loads(destination.read_text(encoding='utf8'))
 
 
+def restricted_read_access(win, token, targets):
+    """Observe file read/execute access without modifying any target or ACL."""
+    duplicate = W.HANDLE()
+    win.ok(win.a.DuplicateToken(token, 2, ctypes.byref(duplicate)), 'DuplicateToken diagnostic')
+    impersonating = False
+    results = []
+    try:
+        win.ok(win.a.ImpersonateLoggedOnUser(duplicate), 'ImpersonateLoggedOnUser diagnostic')
+        impersonating = True
+        for name, path, executable, directory in targets:
+            access = 0x100000 | 0x80 | 1 | (0x20 if executable else 0)
+            handle = win.k.CreateFileW(str(path), access, 7, None, 3,
+                                      0x02000000 if directory else 0x80, None)
+            invalid = ctypes.c_void_p(-1).value
+            if handle is None or handle == invalid:
+                code = ctypes.get_last_error()
+                results.append({'target': name, 'access': 'read-execute' if executable else 'read',
+                                'opened': False, 'windows_error': code, 'message': ctypes.FormatError(code)})
+            else:
+                try:
+                    results.append({'target': name, 'access': 'read-execute' if executable else 'read', 'opened': True})
+                finally:
+                    win.k.CloseHandle(handle)
+        return results
+    finally:
+        try:
+            if impersonating:
+                win.ok(win.a.RevertToSelf(), 'RevertToSelf diagnostic')
+        finally:
+            win.k.CloseHandle(duplicate)
+
+
 def child(args, win):
     package, output, python = (ordinary(value).resolve() for value in (args.package, args.output, args.python))
     ownership = json.loads((output / 'PROBE-OWNERSHIP.json').read_text(encoding='utf8'))
@@ -349,6 +385,16 @@ def broker(args, win):
     write(output / 'PROBE-OWNERSHIP.json', {'schema':'codex-agents.standard-user-probe-owner/1', 'broker_pid':os.getpid()})
     temporary = output / 'temporary'
     temporary.mkdir()
+    environment = child_environment(output / 'standard buyer HOME', temporary, package, tools)
+    control = subprocess.run([str(python), '-I', '-X', 'utf8', '-B', '--version'], env=environment,
+                             cwd=output, capture_output=True, timeout=15)
+    diagnostics = {'schema': 'codex-agents.windows-sdk-diagnostics/1', 'source_commit': manifest['source_commit'],
+                   'clean_environment_parent': {'exit_code': control.returncode,
+                       'exit_code_hex': '0x' + format(control.returncode & 0xffffffff, '08X'),
+                       'stdout': control.stdout.decode('utf8', errors='replace')[:2048],
+                       'stderr': control.stderr.decode('utf8', errors='replace')[:2048]},
+                   'acl_changed': False, 'parent_path_added': False, 'native_acceptance': False}
+    write(output / 'SDK-DIAGNOSTICS.json', diagnostics)
     parent = win.identity()
     original = restricted = admin_sid = medium_sid = security = desktop = None
     process = ProcessInfo()
@@ -372,6 +418,16 @@ def broker(args, win):
         win.ok(win.a.GetSecurityDescriptorDacl(security, ctypes.byref(present), ctypes.byref(dacl), ctypes.byref(defaulted)), 'Read private default DACL')
         require(present.value and dacl.value, 'Private default DACL is missing')
         win.ok(win.a.SetTokenInformation(restricted, 6, ctypes.byref(dacl), ctypes.sizeof(dacl)), 'SetTokenInformation user default DACL')
+        python_root = python.parent
+        targets = [('python-executable', python, True, False),
+                   ('python-runtime-dll', python_root / 'python313.dll', True, False),
+                   ('vc-runtime-dll', python_root / 'vcruntime140.dll', True, False),
+                   ('vc-runtime-extra-dll', python_root / 'vcruntime140_1.dll', True, False),
+                   ('probe-source', Path(__file__).resolve(), False, False),
+                   ('owned-output', output, False, True),
+                   ('owned-output-marker', output / 'PROBE-OWNERSHIP.json', False, False)]
+        diagnostics['restricted_input_access'] = restricted_read_access(win, restricted, targets)
+        write(output / 'SDK-DIAGNOSTICS.json', diagnostics)
         attributes = SecurityAttributes(ctypes.sizeof(SecurityAttributes), security, False)
         desktop_name = 'AgentInstallerProbe_' + uuid.uuid4().hex
         previous = win.u.GetThreadDesktop(win.k.GetCurrentThreadId())
@@ -383,7 +439,6 @@ def broker(args, win):
         if args.identity_only:
             argv.append('--identity-only')
         command = ctypes.create_unicode_buffer(subprocess.list2cmdline(argv))
-        environment = child_environment(output / 'standard buyer HOME', temporary, package, tools)
         block = ctypes.create_unicode_buffer('\0'.join(key+'='+value for key, value in sorted(environment.items()))+'\0\0')
         win.ok(win.a.CreateProcessAsUserW(restricted, str(python), command, None, None, False, 0x400 | 0x08000000, block, str(output), ctypes.byref(startup), ctypes.byref(process)), 'CreateProcessAsUserW')
         deadline = time.monotonic()+args.timeout_seconds
@@ -407,6 +462,7 @@ def broker(args, win):
         win.ok(win.k.GetExitCodeProcess(process.hProcess, ctypes.byref(code)), 'GetExitCodeProcess')
         destination = output / 'STANDARD-USER-OBSERVATION.json'
         report = completed_child_observation(destination, code.value, manifest['source_commit'])
+        report['sdk_diagnostics'] = diagnostics
         report['parent'] = parent
         report['broker'] = {'method':'CreateRestrictedToken + medium integrity + private desktop + CreateProcessAsUserW', 'child_exit_code':code.value, 'new_account_created':False, 'account_credentials_used':False}
         write(destination, report)
@@ -448,6 +504,9 @@ def main():
         report = {'schema':SCHEMA, 'status':'blocked', 'lifecycle_verified':False, 'reason':str(error), 'error_type':type(error).__name__, 'model_execution':False,
                   'next':'Run on a native Windows runner with token creation rights; retain the private child journal and SDK error. No acceptance is inferred.'}
         if OWNED_OUTPUT == args.output.resolve() and not args.child:
+            diagnostics_path = args.output / 'SDK-DIAGNOSTICS.json'
+            if diagnostics_path.exists():
+                report['sdk_diagnostics'] = json.loads(diagnostics_path.read_text(encoding='utf8'))
             exit_path = args.output / 'CHILD-EXIT.json'
             if exit_path.exists():
                 report['child_exit'] = json.loads(exit_path.read_text(encoding='utf8'))

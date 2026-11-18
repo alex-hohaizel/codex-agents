@@ -94,5 +94,24 @@ class ChildExitObservationTests(unittest.TestCase):
             self.assertEqual(path.read_bytes(), original)
 
 
+class ImpersonationDiagnosticTests(unittest.TestCase):
+    def test_reverts_and_closes_token_when_read_observation_raises(self):
+        events=[]
+        def duplicated(token, level, output):
+            self.assertEqual(level,2)
+            ctypes.cast(output,ctypes.POINTER(probe.W.HANDLE)).contents.value=123
+            return True
+        def failed_open(*_):
+            events.append('open');raise OSError('Actual read observation failed')
+        win=SimpleNamespace(a=SimpleNamespace(DuplicateToken=duplicated,
+            ImpersonateLoggedOnUser=lambda *_:events.append('impersonate') or True,
+            RevertToSelf=lambda:events.append('revert') or True),
+            k=SimpleNamespace(CreateFileW=failed_open,CloseHandle=lambda *_:events.append('close')),
+            ok=lambda result,_:self.assertTrue(result))
+        with self.assertRaises(OSError):
+            probe.restricted_read_access(win,None,[('exact-input',Path('readonly.dll'),True,False)])
+        self.assertEqual(events,['impersonate','open','revert','close'])
+
+
 if __name__ == '__main__':
     unittest.main()
