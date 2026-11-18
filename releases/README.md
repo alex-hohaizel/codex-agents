@@ -33,6 +33,8 @@ The [component record](current.json) is the source for these values and the core
   icon tuning, acquired rights and recovery at each journal's original paths.
 - Native package acceptance covers actual interruption, writer exclusion, existing
   work, discovery, real browser controls and workbench backup/schema recovery.
+- A completed rollback retains the checked identity of the preceding launcher,
+  allowing a new reviewed update while continuing to block unknown local edits.
 - `START_HERE.html` and its Ukrainian entry are visible in source downloads too.
 - Private installer/workbench reads use origin-scoped authorization; refresh,
   live events and artifact previews retain the protected buyer workflow.

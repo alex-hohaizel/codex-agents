@@ -155,6 +155,8 @@ Before a tool write, verify operation, target, authorization, cost, limits and r
 
 Use the stable asset and exact plan for component updates. Keep journals and existing state. After an interruption, inspect the actual target before resuming. Roll back the core, profile, or optional kit using its own verified journal. Back up the workbench’s database and service-owned files with the documented procedure. Restart on the owned data directory and check the project inventory and a scoped task. Live product data, native chat and account state have their own owners and recovery rules. [Install and recovery](../INSTALL.md#rollback) · [Resumable work](../../governance/RESUMABLE_WORK.md)
 
+After a completed rollback, use the current installer to prepare a new plan before installing again. Keep the original plan and recovery journal so setup can recognize the restored launcher and retained rights. Later local launcher edits remain a conflict; do not delete installation records to bypass the check.
+
 <a name="catalog"></a>
 ## Choose a skill or product family
 

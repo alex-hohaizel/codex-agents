@@ -337,6 +337,114 @@ m.install(Path(sys.argv[2]),sys.argv[3])
         self.assertEqual(explicit_plan['entitlement']['sha256'],setup.digest(replacement.read_bytes()))
         self.assertEqual(original.read_bytes(),raw+b'Unknown owner change.\n')
 
+    def rolled_back_distinct_launcher(self):
+        """Recognized predecessor uses another retained package/launcher path.
+
+        This controller fixture reproduces the exact launcher transition found
+        with the immutable8b buyer package; native old8b acceptance stays separate.
+        """
+        prior_package=self.root/'recognized prior package'
+        shutil.copytree(self.package,prior_package)
+        metadata=setup.load(prior_package/'product-manifest.json')
+        metadata['source_commit']='8b78dd38690e44a08099a76255c89cbf06f2bf08'
+        (prior_package/'product-manifest.json').write_bytes(setup.encoded(metadata))
+        rights=self.root/'original prior rights.json'
+        rights.write_bytes(b'{"mode":"test-not-a-purchase","edition":"solo","major":1}\n')
+        first=self.root/'prior install plan.json'
+        audited=setup.audit(prior_package,self.home,self.state,first,rights)
+        prior=setup.install(first,audited['plan_sha256'])
+        launcher=Path(prior['launcher']);before=launcher.read_bytes()
+        foreign=self.home/'customer-project.txt';foreign.write_bytes(b'Preserve this customer project.\n')
+        role=self.home/'.codex/agents/foundry-qa.toml'
+        role.write_text('model = "customer-model"\n'+role.read_text(encoding='utf8'),encoding='utf8')
+        tuned=role.read_bytes()
+        current=self.root/'current upgrade plan.json'
+        audited=setup.audit(self.package,self.home,self.state,current)
+        self.assertEqual(audited['status'],'ready',audited)
+        # A ready native package adds an explicit bundled runtime environment;
+        # the source-only fixture has no vendor runtimes. Use this existing
+        # environment seam to produce the same meaningful launcher transition
+        # without inventing a native binary or executing a fixture runtime.
+        with patch.object(setup,'runtime_environment',return_value={'AGENT_SYSTEM_PYTHON':sys.executable}):
+            upgraded=setup.install(current,audited['plan_sha256'])
+        self.assertNotEqual(launcher.read_bytes(),before)
+        journal=Path(upgraded['journal'])
+        self.assertEqual(setup.rollback(journal)['status'],'rolled-back')
+        self.assertEqual(launcher.read_bytes(),before)
+        self.assertEqual(role.read_bytes(),tuned)
+        self.assertEqual(foreign.read_bytes(),b'Preserve this customer project.\n')
+        return launcher,journal,setup.load(current),Path(prior['verification']['license_record_retained'])
+
+    def test_upgrade_rollback_allows_current_reaudit_and_reinstall_with_original_rights(self):
+        launcher,journal,prior,rights=self.rolled_back_distinct_launcher()
+        original_rights=rights.read_bytes()
+        plan=self.root/'after rollback plan.json'
+        audited=setup.audit(self.package,self.home,self.state,plan)
+        self.assertEqual(audited['status'],'ready',audited)
+        self.assertEqual(setup.load(plan)['launcher_before_sha256'],setup.digest(launcher.read_bytes()))
+        self.assertEqual(setup.load(plan)['entitlement']['sha256'],setup.digest(original_rights))
+        self.assertEqual(setup.load(self.state/'installed.json')['journal'],str(journal))
+        installed=setup.install(plan,audited['plan_sha256'])
+        self.assertEqual(setup.verify(Path(installed['journal']))['skills'],33)
+        self.assertEqual(rights.read_bytes(),original_rights)
+
+    def test_rollback_launcher_drift_is_preserved_and_blocks_current_reaudit(self):
+        launcher,journal,prior,rights=self.rolled_back_distinct_launcher()
+        changed=launcher.read_bytes()+b'\n# Customer changed the restored launcher.\n'
+        launcher.write_bytes(changed)
+        audited=setup.audit(self.package,self.home,self.state,self.root/'drift after rollback plan.json')
+        self.assertEqual(audited['status'],'blocked')
+        self.assertIn('generated launcher',' '.join(audited['blockers']))
+        self.assertEqual(launcher.read_bytes(),changed)
+
+    def test_rollback_record_must_have_checked_plan_scope_and_finished_recovery(self):
+        launcher,journal,prior,rights=self.rolled_back_distinct_launcher()
+        original=setup.load(journal)
+        for field in ('optional_rolled_back','profile_rolled_back','core_rolled_back','launcher_rolled_back'):
+            with self.subTest(incomplete=field):
+                changed=dict(original);changed[field]=False;setup.write(journal,changed)
+                audited=setup.audit(self.package,self.home,self.state,self.root/(field+'-incomplete.json'))
+                self.assertEqual(audited['status'],'blocked')
+        setup.write(journal,original)
+        unresolved=dict(original);unresolved['status']='rolling-back';setup.write(journal,unresolved)
+        with self.assertRaisesRegex(ValueError,'unresolved'):
+            setup.audit(self.package,self.home,self.state,self.root/'unresolved rollback plan.json')
+        setup.write(journal,original)
+        checked=setup.checked_journal(journal)
+        changed_status=dict(checked[0]);changed_status['status']='complete'
+        with patch.object(setup,'checked_journal',return_value=(changed_status,*checked[1:])):
+            audited=setup.audit(self.package,self.home,self.state,self.root/'changed checked status.json')
+            self.assertEqual(audited['status'],'blocked')
+        for label,other_home,other_state in (('home',self.root/'another home',self.state),
+                                            ('state',self.home,self.root/'another state')):
+            with self.subTest(foreign_scope=label):
+                foreign=(*checked[:3],other_home,other_state,checked[5])
+                with patch.object(setup,'checked_journal',return_value=foreign):
+                    with self.assertRaisesRegex(ValueError,'another installation'):
+                        setup.audit(self.package,self.home,self.state,self.root/(label+'-foreign-scope.json'))
+        saved=Path(original['plan']);raw=saved.read_bytes()
+        altered=setup.load(saved);altered['launcher_before_sha256']='0'*64
+        setup.write(saved,altered)
+        with self.assertRaisesRegex(ValueError,'Approval does not match'):
+            setup.audit(self.package,self.home,self.state,self.root/'tampered prior plan.json')
+        saved.write_bytes(raw)
+        record=setup.load(self.state/'installed.json')
+        altered_record=dict(record);altered_record['source_commit']='f'*40
+        setup.write(self.state/'installed.json',altered_record)
+        with self.assertRaisesRegex(ValueError,'another installation'):
+            setup.audit(self.package,self.home,self.state,self.root/'foreign installed identity.json')
+        setup.write(self.state/'installed.json',record)
+
+    def test_rollback_with_no_prior_launcher_does_not_adopt_an_unknown_launcher(self):
+        _,installed=self.installed()
+        journal=Path(installed['journal'])
+        self.assertEqual(setup.rollback(journal)['status'],'rolled-back')
+        launcher=Path(installed['launcher']);self.assertFalse(launcher.exists())
+        launcher.write_bytes(b'#!/bin/sh\n# Unknown owner launcher after uninstall.\n')
+        audited=setup.audit(self.package,self.home,self.state,self.root/'unknown after clean rollback.json')
+        self.assertEqual(audited['status'],'blocked')
+        self.assertEqual(launcher.read_bytes(),b'#!/bin/sh\n# Unknown owner launcher after uninstall.\n')
+
     def test_existing_public_install_and_tuning_are_preserved(self):
         skills=self.home/'.agents/skills'
         shutil.copytree(self.package/'product/kit/skills',skills)

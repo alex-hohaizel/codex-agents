@@ -155,6 +155,8 @@ Prüfen Sie vor einem schreibenden Werkzeugaufruf Operation, Ziel, Berechtigung,
 
 Verwenden Sie für Updates das stabile Archiv und den exakten Plan. Bewahren Sie Journale und vorhandene Daten auf. Nach einer Unterbrechung prüfen Sie zuerst das tatsächliche Ziel. Setzen Sie Kern, Profil oder optionalen Skill mit deren jeweiligem Journal zurück. Sichern Sie Datenbank und Dateien der Oberfläche nach der beschriebenen Prozedur. Starten Sie sie im eigenen Datenordner und prüfen Sie Projektbestand und eine begrenzte Aufgabe. Produktdaten, native Chats und Konten haben eigene Verantwortliche und Wiederherstellungsschritte. [Installation und Wiederherstellung](../INSTALL.md#rollback) · [Arbeit fortsetzen](../../governance/RESUMABLE_WORK.md)
 
+Nach einem abgeschlossenen Rollback erstellen Sie mit dem aktuellen Installer einen neuen Plan, bevor Sie erneut installieren. Bewahren Sie den ursprünglichen Plan und das Wiederherstellungsjournal auf: Damit erkennt Setup den wiederhergestellten Starter und die erhaltenen Nutzungsrechte. Spätere lokale Änderungen am Starter bleiben ein Konflikt; löschen Sie keine Installationsaufzeichnungen, um die Prüfung zu umgehen.
+
 <a name="catalog"></a>
 ## Skill oder Produktfamilie auswählen
 
