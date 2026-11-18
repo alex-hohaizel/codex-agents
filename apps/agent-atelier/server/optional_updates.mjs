@@ -8,7 +8,6 @@ import {
   cp,
 } from "node:fs/promises";
 import { resolve, join, dirname, relative } from "node:path";
-import { homedir } from "node:os";
 import {
   atomicWrite,
   digest,
@@ -21,6 +20,7 @@ import {
   text,
 } from "./utils.mjs";
 import { skillVersion } from "./skill_version.mjs";
+import { personalSkillRoots } from "./platform.mjs";
 
 const SOURCES = {
   "atelier-orchestrator": "optional-skills/atelier-orchestrator",
@@ -173,12 +173,14 @@ export class OptionalUpdates {
     store,
     repoRoot,
     dataDir,
-    installedRoot = resolve(homedir(), ".agents/skills"),
+    installedRoot = personalSkillRoots()[0],
+    personalRoots = personalSkillRoots(),
   }) {
     this.store = store;
     this.repoRoot = repoRoot;
     this.dataDir = dataDir;
     this.installedRoot = installedRoot;
+    this.personalRoots = personalRoots.map(root => resolve(root));
     this.previews = new Map();
     this.busy = false;
     for (const row of store.list("optional-update"))
@@ -219,10 +221,10 @@ export class OptionalUpdates {
     );
     if (
       !Object.keys(before).length &&
-      this.installedRoot === resolve(homedir(), ".agents/skills")
+      this.personalRoots.includes(resolve(this.installedRoot))
     )
       fail(
-        !(await exists(resolve(homedir(), ".codex/skills", name))),
+        !(await Promise.all(this.personalRoots.filter(root => root !== resolve(this.installedRoot)).map(root => exists(resolve(root, name))))).some(Boolean),
         "SOURCE_DRIFT",
         "A legacy installed source exists; resolve it before creating a duplicate",
         409,

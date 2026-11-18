@@ -22,6 +22,8 @@ Apple Silicon Mac не доводить роботу на M1 та Intel. Див�
 `~/Library/Application Support/Codex Agent System/Agent Atelier`. Попередній
 стан Agent Atelier та проєкти автоматично не мігруються.
 
+Цей збережений Mac-runtime використовує особисті навички в `<selected-home>/.agents/skills`. Поточний Universal-установник для Windows використовує `CODEX_HOME/skills` (типово `<selected-home>/.codex/skills`), а в macOS/Linux — той самий особистий корінь `.agents/skills`. Проєктний шлях `<project>/.agents/skills` не змінюється. Розпізнане старе особисте дерево Windows мігрує лише за переглянутим планом setup і точним журналом; невідомі правки чи конфліктні дублікати потребують перевірки. Збережіть журнал для повернення початкових шляхів навичок; дані runtime відновлюються окремо.
+
 Розширені команди з розпакованої папки:
 
 ```sh

@@ -26,6 +26,22 @@ imports, optional workbench and advanced recovery paths.
 
 ## Native compatibility and safety
 
+Use the host's supported personal discovery roots. Windows installs into the
+launcher's `CODEX_HOME/skills` (`<selected home>/.codex/skills`); macOS and Linux
+use `<selected home>/.agents/skills`. Project-local `.agents/skills` remains a
+project source on every system. Codex0.166 Windows resolves the global `.agents`
+root through the Windows known profile folder, so changing `HOME`/`USERPROFILE`
+alone cannot register a selected custom personal home. A process-local
+app-server extra-root request does not configure an interactive Codex launcher.
+
+Preserve both existing personal roots in source lookup. Migrate a recognized
+previous managed tree only through the reviewed plan and journal, including
+Orchestrator retirement and exact rollback. Unknown changes and duplicate
+sources block mutation. Read saved roots from their validated historical plan;
+never reinterpret an older journal using the new platform default. Preserve the
+existing single buyer lock across root changes. Do not create junction aliases
+or copy into an unrelated system profile to simulate successful discovery.
+
 Use actual Windows locking and private ACLs, non-destructive process queries,
 UTF-8/LF byte preservation, junction/reparse guards and valid Windows names.
 Keep existing POSIX permissions/ownership guarantees. Vendor runtimes are pinned

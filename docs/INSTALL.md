@@ -26,6 +26,23 @@ The bundled runtime is for Agent System helpers. Generated Codex launchers prese
 
 For CLI setup without installing Python separately, use the platform's `Start` launcher with `--help` and the documented `doctor`, `audit`, `install`, `verify`, `discover`, `operations`, `prepare-first-task`, `rollback` and `uninstall` commands. It invokes the same engine and approval-bound journals as the wizard. The [buyer guide](commercial/BUYER_GUIDE.md) covers commercial delivery trust and rights; a public technical release does not activate a shop or finalize seller terms.
 
+<a name="personal-skill-roots"></a>
+## Personal skill roots and Windows migration
+
+Personal installation follows the native Codex host selected for the session. The same rule applies to the core suite, Atelier Orchestrator and separately managed personal skills. Review the exact resolved destination before approving an installation.
+
+| Installation scope | Native location |
+| --- | --- |
+| Windows personal skills | `CODEX_HOME/skills`; with the usual selected home, `<selected-home>/.codex/skills` |
+| macOS / Linux personal skills | `<selected-home>/.agents/skills`, normally `~/.agents/skills` |
+| Project-local skills on every OS | `<project>/.agents/skills` — unchanged |
+
+An earlier Windows personal installation may remain under `<selected-home>/.agents/skills`. Open the current installer and prepare a new audit. A recognized managed legacy copy is included as an explicit retirement action in the same reviewed plan as the canonical installation. The plan and journal bind its exact source bytes, approved supported core icon-only tuning and backups. Unknown source, policy or role changes, unsupported content and conflicting copies or icons require reconciliation. Keep foreign skills and existing projects in place. Do not fix discovery by manually moving or deleting the personal or project trees.
+
+Approve only the reviewed migration plan, then verify installed files and fresh native Codex discovery against the canonical paths. Keep the original migration journal and retained package. Rollback restores the prior validated locations, managed bytes, supported core icon overlays and the audited profile/roles and retained purchase record. An old saved journal continues to use its validated saved roots; a changed default does not reinterpret that journal. Inspect any later local changes before recovery. Workbench data has its own backup and schema lifecycle.
+
+The standalone core CLI retains its existing explicit `--destination`, `--legacy-root` and `--retire-known-duplicates` controls. Use its generated audit and exact approval rather than an unreviewed copy operation. The ready setup coordinates recognized migration with the profile and optional Orchestrator; the Bash source examples below remain the macOS/Linux route.
+
 ## Advanced source and signed core route
 
 The following procedures remain available for source inspection, separately controlled core/profile installation, and existing administrator automation. They are distinct from the bundled browser installer above.

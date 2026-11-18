@@ -15,6 +15,11 @@ platform=importlib.util.module_from_spec(spec);spec.loader.exec_module(platform)
 
 
 class PlatformSupportTests(unittest.TestCase):
+    def test_personal_root_policy_preserves_posix_and_uses_native_windows_codex_home(self):
+        home=Path('/selected/buyer')
+        self.assertEqual(platform.personal_skill_roots(home,False),(home/'.agents/skills',home/'.codex/skills'))
+        self.assertEqual(platform.personal_skill_roots(home,True),(home/'.codex/skills',home/'.agents/skills'))
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory(prefix='agent-platform-')
         self.addCleanup(self.tmp.cleanup)

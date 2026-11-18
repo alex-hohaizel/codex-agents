@@ -28,6 +28,16 @@ Choisissez **Check now → Prepare plan**, vérifiez les cibles et conflits, app
 
 Python/venv et Node du projet conservent leur priorité. Utilisez `AGENT_SYSTEM_PYTHON` pour les scripts du toolkit. Maintenance reste un outil séparé du propriétaire : installez `product/maintenance-skill` du paquet ou `maintenance-skill` du dépôt via le gestionnaire compatible, vérifiez source et cible, puis le résultat. Modèles et services externes ont leurs propres comptes et coûts.
 
+L'emplacement des compétences personnelles suit l'hôte Codex natif. `CODEX_HOME` désigne le répertoire Codex choisi pour cette session ; l'audit indique la destination exacte résolue.
+
+| Portée de l'installation | Répertoire des compétences |
+| --- | --- |
+| Compétences personnelles sous Windows | `CODEX_HOME/skills`, normalement `<selected-home>/.codex/skills` |
+| Compétences personnelles sous macOS / Linux | `<selected-home>/.agents/skills` (normalement `~/.agents/skills`) |
+| Compétences locales au projet sur tous les systèmes | `<project>/.agents/skills` — inchangé |
+
+Pour une ancienne installation personnelle Windows dans `<selected-home>/.agents/skills`, préparez un nouvel audit avec l'installateur actuel. Le plan révisé identifie la destination canonique et le retrait des anciennes copies reconnues et gérées ; les personnalisations des compétences principales prises en charge portant uniquement sur les icônes sont conservées. Les modifications inconnues des sources ou règles ainsi que les copies ou icônes contradictoires demandent une réconciliation, sans remplacement forcé. Ne déplacez ni ne supprimez manuellement ces arborescences. Approuvez le plan exact, vérifiez les fichiers et leur détection dans une nouvelle session Codex, puis conservez journal et sauvegardes. Le rollback fondé sur le journal original restaure les anciens emplacements et octets gérés ; les journaux déjà enregistrés conservent leurs racines originales vérifiées. [Choix de racine et migration](../INSTALL.md#personal-skill-roots)
+
 ### Parcours avancé depuis les sources
 
 1. Ouvrez la version stable de `alex-hohaizel/codex-agents`. La procédure en terminal sur macOS ou Linux utilise Bash, Python 3.9+, Git, GitHub CLI (`gh`) avec une session authentifiée et Codex. Pour une installation guidée, demandez à Codex d’expliquer chaque étape en français en conservant les options et chemins exacts.

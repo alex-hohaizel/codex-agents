@@ -233,6 +233,7 @@ class Acceptance:
         self.python = self.package / tools['python_executable']
         self.home = self.output / 'Покупець native & test HOME'
         self.home.mkdir(mode=0o700)
+        self.skills_root = self.home / ('.codex/skills' if WINDOWS else '.agents/skills')
         self.state = self.home / '.local/share/codex-agent-system'
         # Explicitly isolated HOME/CODEX_HOME; preserve only host prerequisites.
         self.env = {(key.upper() if os.name == 'nt' else key): value for key, value in os.environ.items() if key.upper() in {
@@ -349,6 +350,8 @@ class Acceptance:
         self.plan = self.output / 'approved plan.json'
         audit = self.setup('audit', '--plan', self.plan)
         require(audit['status'] == 'ready' and audit['mode'] == 'fresh', 'Fresh audit was not ready')
+        require(Path(audit['destination']) == self.skills_root,
+                'Fresh audit did not select the documented native personal skill root')
         self.approval = audit['plan_sha256']
         self.journal = Path(audit['journal'])
         self.record('buyer-doctor-and-exact-audit', {'doctor_status': doctor['status'], 'plan_sha256': self.approval})
@@ -461,7 +464,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         while process.poll() is None and time.monotonic() < deadline:
             try:
                 current = load(self.journal)
-                installed_before_termination = [name for name in names if (self.home / '.agents/skills' / name / 'SKILL.md').is_file()]
+                installed_before_termination = [name for name in names if (self.skills_root / name / 'SKILL.md').is_file()]
                 if current.get('status') == 'installing' and installed_before_termination:
                     observed = current
                     process.kill()  # SIGKILL on POSIX; TerminateProcess on Windows.
@@ -482,7 +485,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         self.record('actual-install-process-termination-retains-recovery-journal', {'termination': 'TerminateProcess' if os.name == 'nt' else 'SIGKILL', 'journal_status': load(self.journal)['status'], 'managed_skills_visible_before_termination': installed_before_termination})
 
     def controllers(self):
-        skills = self.home / '.agents/skills'
+        skills = self.skills_root
         # Execute every installed native platform controller's CLI parser using
         # the included interpreter, including all separately shipped copies.
         tested = []
@@ -639,7 +642,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
     def recover_and_uninstall(self):
         rolled = self.setup('rollback', '--journal', self.journal)
         require(rolled['status'] == 'rolled-back', 'Rollback did not complete')
-        require(not (self.home / '.agents/skills/agent-foundry').exists(), 'Rollback retained a newly installed managed skill')
+        require(not (self.skills_root / 'agent-foundry').exists(), 'Rollback retained a newly installed managed skill')
         self.preserve('rollback-restores-customer-work', restored_profile=True)
         plan = self.output / 'reinstallation plan.json'
         audit = self.setup('audit', '--plan', plan)
@@ -649,11 +652,11 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         current = self.setup('audit', '--plan', self.output / 'known current plan.json')
         require(current['mode'] == 'known-current' and current['status'] == 'ready', 'Repeated current-version audit is not stable')
         # Unknown user changes must block before any managed entry is deleted.
-        source = self.home / '.agents/skills/app-atelier-build/SKILL.md'
+        source = self.skills_root / 'app-atelier-build/SKILL.md'
         original = source.read_bytes()
         source.write_bytes(original + b'\nCustomer local refinement.\n')
         blocked = self.setup('uninstall', '--journal', journal, expected=(2,))
-        require(blocked['status'] == 'blocked' and (self.home / '.agents/skills/agent-foundry/SKILL.md').exists(), 'Uninstall did not preserve a locally modified managed suite')
+        require(blocked['status'] == 'blocked' and (self.skills_root / 'agent-foundry/SKILL.md').exists(), 'Uninstall did not preserve a locally modified managed suite')
         source.write_bytes(original)
         result = self.setup('uninstall', '--journal', journal)
         require(result['status'] == 'uninstalled', 'Uninstall did not complete')
@@ -687,6 +690,9 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         require(len(baseline['skills']) == 33 and len(roles) == 12, 'Published predecessor does not have the expected complete product')
         names = {row['name'] for row in baseline['skills']}
         skills = self.home / '.agents/skills'
+        # The real published predecessor used .agents on every host. Windows
+        # must migrate this exact tree to its supported CODEX_HOME/skills root;
+        # rollback must restore the old root, not reinterpret the old journal.
         require(not any((skills / name).exists() for name in names | {'atelier-orchestrator'}), 'Stage predecessor only after the managed uninstall has completed')
         require('agent-system-quality:start' not in self.profile.read_text(encoding='utf8'), 'An unexpected managed profile is still installed')
         require(all(not (self.home / '.codex/agents' / row['file']).exists() for row in roles), 'Predecessor staging must not overwrite a role')
@@ -755,12 +761,19 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         installed = self.setup('install', '--plan', plan, '--approve', audit['plan_sha256'])
         verified = self.setup('verify', '--journal', installed['journal'])
         require(verified['skills'] == 33 and verified['orchestrator'] and verified['source_commit'] == self.manifest['source_commit'], 'Predecessor upgrade did not verify the complete new product')
+        if WINDOWS:
+            require(all(not (skills / name).exists() and (self.skills_root / name / 'SKILL.md').is_file()
+                        for name in names | {'atelier-orchestrator'}),
+                    'Windows predecessor migration left duplicate or missing managed sources')
         for value in (b'model = "native-upgrade-owner-choice"', b'model_reasoning_effort = "high"'):
             require(value in self.role.read_bytes(), 'Upgrade dropped supported owner role tuning')
         for path, expected in before_customer.items():
             require(digest(path) == expected, 'Upgrade changed unrelated customer work')
         rolled = self.setup('rollback', '--journal', installed['journal'])
         require(rolled['status'] == 'rolled-back', 'Published-predecessor rollback did not complete')
+        if WINDOWS:
+            require(all(not (self.skills_root / name).exists() for name in names | {'atelier-orchestrator'}),
+                    'Windows migration rollback retained a new-root managed source')
         roots = [skills / name for name in names | {'atelier-orchestrator'}]
         restored_files = {path.relative_to(self.home).as_posix() for root in roots for path in root.rglob('*') if path.is_file()}
         restored_files |= {str((Path('.codex/agents') / row['file']).as_posix()) for row in roles} | {'.codex/AGENTS.md'}
@@ -775,6 +788,8 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
             'predecessor_commit': PUBLISHED_PREDECESSOR, 'core_skills': 33, 'roles': 12,
             'predecessor_files': len(predecessor), 'orchestrator': True, 'owner_tuning_preserved': True,
             'foreign_skill_and_project_preserved': True, 'retained_full_packages': 1,
+            'previous_personal_root': str(skills), 'current_personal_root': str(self.skills_root),
+            'cross_root_migration_and_rollback': WINDOWS,
             'old_controllers_executed': False, 'current_portable_buyer_engines_executed': True})
 
     def immutable_received_package(self):

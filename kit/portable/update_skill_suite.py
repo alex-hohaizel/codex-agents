@@ -515,7 +515,17 @@ def audit(kit, destination, legacy_root, backup_root, projects=(), retire_known=
         target = destination / name
         before = snapshot(target)
         ui_text = read_bytes(target / UI_PATH).decode('utf-8') if before is not None and UI_PATH in before['files'] else None
-        overlay = make_visual_overlay(row, before, ui_text, preserve_visual)
+        migration = None
+        visual_before = before
+        if before is None and retire_known:
+            candidates=[record for record in discovered if record['name']==name and record['kind']=='legacy']
+            if len(candidates)==1:
+                candidate=candidates[0]
+                candidate_ui=read_bytes(Path(candidate['path'])/UI_PATH).decode('utf8') if UI_PATH in candidate['snapshot']['files'] else None
+                if known(row,candidate['snapshot'],candidate_ui,preserve_visual):
+                    migration={'target':candidate['path'],'snapshot':candidate['snapshot']}
+                    visual_before,ui_text=candidate['snapshot'],candidate_ui
+        overlay = make_visual_overlay(row, visual_before, ui_text, preserve_visual)
         desired = effective_files(row, overlay)
         if before is not None:
             try:
@@ -530,6 +540,7 @@ def audit(kit, destination, legacy_root, backup_root, projects=(), retire_known=
         entries.append({'name': name, 'action': action, 'target': str(target), 'before': before,
                         'desired_files': desired, 'desired_tree_sha256': logical_sha(desired),
                         'visual_preservation': overlay})
+        if migration is not None:entries[-1]['migration_source']=migration
     for record in discovered:
         if record['path'] == str(destination / record['name']):
             continue
@@ -616,7 +627,7 @@ def create_preserved_payload(kit, row, target, entry, backup):
     """Preserve only audited image bytes from a fully verified private backup."""
     create_payload(kit, entry['name'], target, row['files'])
     overlay = entry['visual_preservation']
-    require(snapshot(backup) == entry['before'], 'Visual preservation backup changed')
+    require(snapshot(backup) == entry.get('migration_source',{}).get('snapshot',entry['before']), 'Visual preservation backup changed')
     for relative, record in overlay['files'].items():
         data = read_bytes(backup / relative)
         require(len(data) == record['size'] and sha(data) == record['sha256'], 'Preserved icon changed: ' + relative)
@@ -668,7 +679,18 @@ def bind_plan_manifest(plan, manifest, skills):
         ui_text = overlay.get('original_ui_yaml') if isinstance(overlay, dict) else entry.get('predecessor_ui_yaml')
         preserve_visual = manifest.get('visual_identity_policy') == VISUAL_POLICY
         if entry['action'] in ('noop', 'install'):
-            expected_overlay = make_visual_overlay(row, before, ui_text, preserve_visual)
+            visual_before=before
+            migration=entry.get('migration_source')
+            if migration is not None:
+                require(before is None and isinstance(migration,dict)
+                        and safe_path(migration['target'])==safe_path(plan['legacy_root'])/entry['name'],
+                        'Migration source is outside the approved legacy root')
+                retiring=[r for r in plan['entries'] if r['action']=='retire' and r['target']==migration['target']]
+                visual_before=migration.get('snapshot')
+                require(len(retiring)==1 and retiring[0]['before']==visual_before
+                        and known(row,visual_before,ui_text,preserve_visual),
+                        'Migration visual source is not an exact known retirement')
+            expected_overlay = make_visual_overlay(row, visual_before, ui_text, preserve_visual)
             require(overlay == expected_overlay, 'Plan visual overlay differs from byte-bound predecessor: ' + entry['name'])
             desired = effective_files(row, expected_overlay)
             require(entry.get('desired_files') == desired
@@ -839,6 +861,13 @@ def apply_plan(path, resume=None):
                             copy_tree(target, backup, before)
                     else:
                         copy_tree(target, backup, before)
+                migration=entry.get('migration_source')
+                if migration is not None and entry.get('visual_preservation') is not None:
+                    original=safe_path(migration['target']);visual_backup=backup.parent/('visual-'+str(index))
+                    require(snapshot(original)==migration['snapshot'],'Legacy visual source changed before migration')
+                    visual_backup.parent.mkdir(parents=True,exist_ok=True)
+                    if visual_backup.exists() and snapshot(visual_backup)!=migration['snapshot']:remove_tree(visual_backup)
+                    if not visual_backup.exists():copy_tree(original,visual_backup,migration['snapshot'])
                 state['phase'] = 'backed_up'; save_journal(operation, journal)
             if state['phase'] == 'backed_up':
                 require(snapshot(target) == before, 'Target changed during backup: ' + str(target))
@@ -849,7 +878,8 @@ def apply_plan(path, resume=None):
                             'Target and outside-discovery staging must share a filesystem')
                 if entry['action'] == 'install':
                     if entry.get('visual_preservation') is not None:
-                        create_preserved_payload(kit, skills[entry['name']], prepared, entry, backup)
+                        visual_backup=backup.parent/('visual-'+str(index)) if entry.get('migration_source') else backup
+                        create_preserved_payload(kit, skills[entry['name']], prepared, entry, visual_backup)
                     else:
                         create_payload(kit, entry['name'], prepared, entry['desired_files'])
                     state['expected_after'] = snapshot(prepared)
@@ -1037,8 +1067,8 @@ def main(argv=None):
     for command in ('audit', 'verify'):
         p = sub.add_parser(command)
         p.add_argument('--kit', type=Path, required=True)
-        p.add_argument('--destination', type=Path, default=Path.home() / '.agents/skills')
-        p.add_argument('--legacy-root', type=Path, default=Path.home() / '.codex/skills')
+        p.add_argument('--destination', type=Path)
+        p.add_argument('--legacy-root', type=Path)
         if command == 'audit':
             p.add_argument('--plan', type=Path)
             p.add_argument('--backup-root', type=Path, default=Path.home() / 'Codex_Skill_Backups')
@@ -1049,6 +1079,13 @@ def main(argv=None):
     p = sub.add_parser('apply'); p.add_argument('--plan', type=Path, required=True); p.add_argument('--resume', type=Path)
     p = sub.add_parser('rollback'); p.add_argument('--journal', type=Path, required=True)
     args = parser.parse_args(argv)
+    if args.command in ('audit','verify'):
+        if args.command=='verify' and args.journal:
+            _,saved=load_journal(args.journal)
+            default_destination,default_legacy=Path(saved['plan']['destination']),Path(saved['plan']['legacy_root'])
+        else:default_destination,default_legacy=platform_support.personal_skill_roots(Path.home())
+        args.destination=args.destination if args.destination is not None else default_destination
+        args.legacy_root=args.legacy_root if args.legacy_root is not None else default_legacy
     if args.command == 'audit':
         result = audit(args.kit, args.destination, args.legacy_root, args.backup_root, args.project_root, args.retire_known_duplicates)
         if args.plan:

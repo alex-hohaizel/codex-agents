@@ -208,6 +208,18 @@ class SuiteUpdateTests(unittest.TestCase):
         U.rollback(journal)
         self.assertEqual(U.snapshot(legacy_target), original)
 
+    def test_verify_cli_uses_validated_old_journal_roots_after_platform_default_changes(self):
+        journal=self.apply()
+        changed_default=(self.legacy,self.dest)
+        with mock.patch.object(U.platform_support,'personal_skill_roots',return_value=changed_default):
+            stream=io.StringIO()
+            with contextlib.redirect_stdout(stream):
+                self.assertEqual(U.main(['verify','--kit',str(self.kit),'--journal',str(journal)]),0)
+            self.assertTrue(json.loads(stream.getvalue())['ready'])
+            with self.assertRaisesRegex(U.SuiteError,'another kit or destination'):
+                U.main(['verify','--kit',str(self.kit),'--journal',str(journal),
+                        '--destination',str(self.legacy)])
+
     def test_project_duplicate_never_retired(self):
         project = self.base / 'product'
         target, original = self.make_old(root=project / '.agents/skills')
@@ -437,6 +449,31 @@ class VisualIdentityTests(unittest.TestCase):
         self.assertTrue(plain['canonical_core_verified'])
         U.rollback(journal)
         self.assertEqual(U.snapshot(target), original)
+
+    def test_known_legacy_root_migration_preserves_custom_icons_and_rolls_back_exact_location(self):
+        old=self.visual_old();original=self.customize(old)
+        self.dest,self.legacy=self.legacy,self.dest
+        plan=self.plan(retire=True)
+        self.assertTrue(plan['ready'],plan['blockers'])
+        entry=next(row for row in plan['entries'] if row['name']=='agent-foundry' and row['action']=='install')
+        self.assertEqual(entry['migration_source']['target'],str(old))
+        journal=Path(U.apply_plan(self.plan_path)['journal'])
+        self.assertFalse(old.exists())
+        current=self.dest/'agent-foundry'
+        self.assertEqual((current/'assets/local-icon.svg').read_bytes(),b'<svg>OWNER IDENTITY - keep exact bytes</svg>')
+        self.assertTrue(U.verify(self.kit,self.dest,self.legacy,journal)['ready'])
+        U.rollback(journal)
+        self.assertEqual(U.snapshot(old),original)
+        self.assertFalse(current.exists())
+
+    def test_legacy_icon_change_after_root_migration_audit_blocks_before_target_creation(self):
+        old=self.visual_old();self.customize(old)
+        self.dest,self.legacy=self.legacy,self.dest
+        self.assertTrue(self.plan(retire=True)['ready'])
+        (old/'assets/local-icon.svg').write_bytes(b'Later accepted owner work')
+        with self.assertRaises(U.SuiteError):U.apply_plan(self.plan_path)
+        self.assertFalse((self.dest/'agent-foundry').exists())
+        self.assertEqual((old/'assets/local-icon.svg').read_bytes(),b'Later accepted owner work')
 
     def test_custom_icon_same_path_and_shared_small_large_alias_preserved(self):
         target = self.visual_old(); self.customize(target, 'assets/icon.svg')

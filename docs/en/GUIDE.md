@@ -28,6 +28,16 @@ Use **Check now → Prepare plan → review destinations/conflicts → approve �
 
 Project Python/venv and Node keep their priority. Use `AGENT_SYSTEM_PYTHON` for the toolkit's helper scripts. Maintenance remains a separate owner tool: use the bundled `product/maintenance-skill` or repository `maintenance-skill` through the supported skill manager, preview its source/target, then verify. Models and external services keep their own accounts and costs.
 
+Personal skill locations follow the native Codex host. `CODEX_HOME` means the Codex home selected for that session; the audit shows the exact resolved destination.
+
+| Installation scope | Skill directory |
+| --- | --- |
+| Windows personal skills | `CODEX_HOME/skills`, normally `<selected-home>/.codex/skills` |
+| macOS / Linux personal skills | `<selected-home>/.agents/skills` (normally `~/.agents/skills`) |
+| Project-local skills on every system | `<project>/.agents/skills` — unchanged |
+
+For an earlier Windows personal installation under `<selected-home>/.agents/skills`, prepare a new audit with the current installer. The reviewed plan identifies the canonical target and retirement of recognized managed legacy copies; supported core icon-only tuning is preserved. Unknown source or policy edits and conflicting copies or icons require reconciliation instead of forced replacement. Do not manually move or delete either tree. Approve the exact migration plan, verify files and fresh Codex discovery, and retain its journal and backups. Rollback uses that original journal to restore the prior locations and owned bytes; already saved journals keep their validated original roots. [Root selection and migration](../INSTALL.md#personal-skill-roots)
+
 ### Advanced source route
 
 1. Open the stable release for `alex-hohaizel/codex-agents`. On macOS or Linux, the terminal procedure uses Bash, Python 3.9+, Git, an authenticated GitHub CLI (`gh`), and Codex. For a guided installation, ask Codex to explain each step in English and keep flags and paths exact.

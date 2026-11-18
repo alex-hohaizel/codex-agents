@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join, win32 } from "node:path";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { platformStateRoot, securePrivatePath, assertPrivatePath, resolveNativeCommand, isPortableAbsolutePath, absolutePathPrefixes, logicalMode, portablePathIdentity, portablePathWithin } from "../../server/platform.mjs";
+import { platformStateRoot, securePrivatePath, assertPrivatePath, resolveNativeCommand, isPortableAbsolutePath, absolutePathPrefixes, logicalMode, portablePathIdentity, portablePathWithin, personalSkillRoots, installedPersonalSkillRoot } from "../../server/platform.mjs";
 import { runtimeEnvironment } from "../../server/environment.mjs";
 import { atomicWrite, isWithin } from "../../server/utils.mjs";
 import { overridesToArgv } from "../../server/permissions.mjs";
@@ -17,6 +17,20 @@ test("native platform storage preserves existing Mac identity and uses user-owne
   assert.equal(platformStateRoot({platform:"win32",home:"C:\\Users\\Reader",env:{LOCALAPPDATA:"D:\\Private Data"}}), "D:\\Private Data\\Agent Atelier");
   assert.equal(platformStateRoot({platform:"linux",home:"/home/reader",env:{XDG_DATA_HOME:"/mnt/data"},product:true}), "/mnt/data/codex-agent-system/agent-atelier");
   assert.equal(platformStateRoot({platform:"linux",home:"/home/reader",env:{XDG_DATA_HOME:"relative"}}), "/home/reader/.local/share/agent-atelier");
+});
+
+test("personal Windows roots use CODEX_HOME compatibility while POSIX and existing legacy reads remain intact", async t => {
+  assert.deepEqual(personalSkillRoots({platform:"win32",home:"D:\\Buyer Home"}),["D:\\Buyer Home\\.codex\\skills","D:\\Buyer Home\\.agents\\skills"]);
+  assert.deepEqual(personalSkillRoots({platform:"darwin",home:"/Users/buyer"}),["/Users/buyer/.agents/skills","/Users/buyer/.codex/skills"]);
+  assert.deepEqual(personalSkillRoots({platform:"linux",home:"/home/buyer"}),["/home/buyer/.agents/skills","/home/buyer/.codex/skills"]);
+  const root=await fixture(t),canonical=join(root,"canonical"),legacy=join(root,"legacy"),name="owned-skill";
+  await mkdir(join(legacy,name),{recursive:true});await writeFile(join(legacy,name,"SKILL.md"),"Preserve old installed bytes");
+  assert.equal(installedPersonalSkillRoot(name,{roots:[canonical,legacy]}),legacy);
+  await mkdir(join(canonical,name),{recursive:true});await writeFile(join(canonical,name,"SKILL.md"),"Current canonical bytes");
+  assert.equal(installedPersonalSkillRoot(name,{roots:[canonical,legacy]}),canonical);
+  await rm(join(canonical,name),{recursive:true});await writeFile(join(canonical,name),"Unrecognized canonical path");
+  assert.equal(installedPersonalSkillRoot(name,{roots:[canonical,legacy]}),canonical);
+  assert.equal(await readFile(join(legacy,name,"SKILL.md"),"utf8"),"Preserve old installed bytes");
 });
 
 test("Windows native runtime metadata is retained without passing ambient secrets or Python import overrides", () => {

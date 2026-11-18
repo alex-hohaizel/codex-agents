@@ -66,6 +66,17 @@ def safe_path(path):
     return path
 
 
+def personal_skill_roots(home, windows=None):
+    """Native CLI personal root and the other recognized historical root.
+
+    Windows Codex uses the OS KnownFolder for ~/.agents, but honors CODEX_HOME
+    for its supported skills root. Project-local .agents/skills is unchanged.
+    """
+    home=Path(home)
+    agents, codex=home/'.agents/skills',home/'.codex/skills'
+    return (codex,agents) if (WINDOWS if windows is None else windows) else (agents,codex)
+
+
 def _need(value, message):
     if not value: raise ValueError(message)
 

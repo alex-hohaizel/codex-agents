@@ -7,9 +7,8 @@ import {
   realpath,
   chmod,
 } from "node:fs/promises";
-import { homedir } from "node:os";
 import { resolve, join, relative, isAbsolute } from "node:path";
-import { pythonExecutable } from "./platform.mjs";
+import { pythonExecutable, installedPersonalSkillRoot, personalSkillRoots } from "./platform.mjs";
 import { runtimeEnvironment } from "./environment.mjs";
 import {
   atomicWrite,
@@ -232,6 +231,7 @@ export class NativeControllers {
     dataDir,
     projects,
     foundryRoot,
+    personalRoots = personalSkillRoots(),
     python = pythonExecutable(),
     run = runNative,
     timeoutMs = 30000,
@@ -241,7 +241,7 @@ export class NativeControllers {
     this.dataDir = dataDir;
     this.projects = projects;
     this.foundryRoot =
-      foundryRoot ?? resolve(homedir(), ".agents/skills/agent-foundry");
+      foundryRoot ?? resolve(installedPersonalSkillRoot("agent-foundry", { roots: personalRoots }), "agent-foundry");
     this.python = python;
     this.run = run;
     this.timeoutMs = timeoutMs;

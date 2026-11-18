@@ -9,6 +9,15 @@ the same local browser wizard through `Start.cmd`, `Start.command` or `Start.sh`
 It contains its own native Python and Node. A Codex account, browser and any
 domain SDKs/services used by a project remain separate.
 
+Personal skills use `<selected home>/.codex/skills` on Windows and
+`<selected home>/.agents/skills` on macOS/Linux. The Windows launcher sets
+`CODEX_HOME` to that selected home's `.codex` directory, so the official Codex
+personal-root contract works in both its app server and interactive CLI.
+Project-local `.agents/skills` stays project-local on every platform.
+The reviewed updater recognizes the previous personal root, preserves unknown
+changes, journals retirement of known core/Orchestrator sources and can restore
+their original paths. Historical journals keep their original approved roots.
+
 ## One implementation and compatible entry points
 
 `commercial/setup/web.mjs` serves only loopback and translates authenticated

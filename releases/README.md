@@ -28,6 +28,9 @@ The [component record](current.json) is the source for these values and the core
   Node24, PyYAML, complete source resources and the compiled workbench client.
 - Windows has actual byte locking, private ACLs, process queries and path guards;
   existing POSIX protections and project environments are preserved.
+- Windows personal skills use the supported `CODEX_HOME/skills` root. Reviewed
+  migration preserves known previous core/Orchestrator sources, supported core
+  icon tuning, acquired rights and recovery at each journal's original paths.
 - Native package acceptance covers actual interruption, writer exclusion, existing
   work, discovery, real browser controls and workbench backup/schema recovery.
 - `START_HERE.html` and its Ukrainian entry are visible in source downloads too.

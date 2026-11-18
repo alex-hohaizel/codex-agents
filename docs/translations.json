@@ -1,7 +1,7 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
+  "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
   "default_locale": "en",
   "repository_version": "1.8.0",
   "guide_editions": 7,
@@ -20,8 +20,8 @@
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -38,8 +38,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "aa2dd9f7ed8defe91465fb26c0454773479638f1d1170e4b6712dc7d3e3e9947",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "93c8dda7003e425f17e39148515edcbcb7affbe9b7c9a6e849a498451ca44bc0",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -56,8 +56,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "e4a03ceb4891323fbb798fc5724f383edadd9697bd8c748837256d7ed656754b",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "ea47b441f9217ce28c65069ee9ddc47a171776c83c928bec2b19ff52b42db080",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "8ca7f35c0691f5a5b95bef9bc410379f064b458fd4c5dec0c48661f14721e6b2",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "205a25c74ff777089ed03566bc936fe831485586c78c281069664460cf722fd3",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -92,8 +92,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "7a042299f96e4a67f643b667445af0c4d96b05c3fca33ff769aa2a1a703ed8c9",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "19241c9667e77a78a03b1d2b25d3df5f6f11210fab42d7b76c67cd7f7b06b375",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -110,8 +110,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "94a9382e73320a75ac67269ea138fda016755977cb32d00cb02f5e4bf927a958",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "bef1fa0c5791c0f436a16d955c382112fe4c21b896fb2733a5de4a9116a5ae01",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -128,8 +128,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "19f8be6a0d1f0eb0dd000bbb2024ed9eda9f43fe906201556ca543aa22013118",
-      "sha256": "6d2af93604927a6f0ef6ab935d3a519f227b70a5b85c47f0909a419f9357c9ad",
+      "source_sha256": "fea8c797725b0c4d2ba4d1219c9a17cf67719c28c03bf63aa2023ee0c1c9731e",
+      "sha256": "9895e17e155ce2deec1945ea27474a1dc26d2ce48c1c0ea1aba4a5f80b37ca0a",
       "status": "complete",
       "role": "translation",
       "verified_parity": {

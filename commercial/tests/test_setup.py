@@ -52,6 +52,105 @@ def package_fixture(root):
     return root
 
 
+class DiscoveryObservationTests(unittest.TestCase):
+    def test_saved_roots_reject_any_location_outside_the_two_exact_personal_roots(self):
+        home=Path('/selected/buyer')
+        plan={'core_plan':'unused','optional':{'target':str(home/'.codex/skills/atelier-orchestrator')}}
+        with patch.object(setup,'load',return_value={'destination':str(home/'other/skills'),
+                                                   'legacy_root':str(home/'.agents/skills')}):
+            with self.assertRaisesRegex(ValueError,'two allowed personal'):
+                setup.saved_skill_roots(plan,home)
+
+    def test_cardinality_diagnostics_distinguish_missing_duplicates_and_known_parse_errors(self):
+        expected={'managed-a','managed-b','managed-c'}
+        path='/isolated/buyer/.agents/skills/managed-b/SKILL.md'
+        records={'data':[{'skills':[{'name':'managed-a','path':'/first/managed-a/SKILL.md','enabled':True},
+            {'name':'managed-a','path':'/second/managed-a/SKILL.md','enabled':True},
+            {'name':'private-custom','path':'PRIVATE-UNKNOWN-PATH','description':'PRIVATE-CONTENT'}],
+            'errors':[{'path':path,'message':'Invalid frontmatter: '+path},
+                      {'path':'/private/custom/SKILL.md','message':'PRIVATE-ERROR-CONTENT'}]}]}
+        rows,summary,private=setup.discovery_observation(records,expected)
+        self.assertEqual(len(rows),2)
+        self.assertEqual(summary['expected_count'],3)
+        self.assertEqual(summary['unique_count'],1)
+        self.assertEqual(summary['missing'],['managed-b','managed-c'])
+        self.assertEqual(summary['duplicates'],{'managed-a':2})
+        self.assertEqual(summary['loader_error_count'],2)
+        self.assertEqual(summary['known_loader_errors'],[{'skill':'managed-b','code':'skill-load-error',
+            'message':'Invalid frontmatter: managed-b/SKILL.md'}])
+        self.assertNotIn('PRIVATE-',json.dumps(private))
+        self.assertNotIn('/isolated/buyer',json.dumps(summary))
+        self.assertEqual(private['declared_rows'][0]['path'],'/first/managed-a/SKILL.md')
+
+    def test_zero_native_skills_is_reported_without_adopting_unrelated_sources(self):
+        rows,summary,private=setup.discovery_observation({'data':[{'skills':[],'errors':[]}]},{'managed'})
+        self.assertEqual(rows,[])
+        self.assertEqual(summary['observed_count'],0)
+        self.assertEqual(summary['missing'],['managed'])
+        self.assertEqual(private['declared_rows'],[])
+
+
+class OptionalLegacyRecoveryTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory(prefix='optional-legacy-recovery-');self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name).resolve()
+        self.legacy=self.root/'home/.agents/skills/atelier-orchestrator';self.legacy.mkdir(parents=True)
+        (self.legacy/'SKILL.md').write_bytes(b'Known managed skill.\n')
+        (self.legacy/'resource.txt').write_bytes(b'Known managed resource.\n')
+        self.operation=self.root/'state/operations'/('a'*32);self.operation.mkdir(parents=True)
+        self.before=setup.tree(self.legacy)
+        self.plan={'optional':{'legacy_retirement':{'target':str(self.legacy),'before':self.before}}}
+        self.journal={}
+        self.discard=self.legacy.parent.parent/('.buyer-orchestrator-legacy-old-'+self.operation.name)
+
+    def interrupted_cleanup(self):
+        real=setup.shutil.rmtree;fired=[False]
+        def partial(path,*args,**kwargs):
+            if Path(path)==self.discard and not fired[0]:
+                fired[0]=True;(self.discard/'SKILL.md').unlink()
+                raise InterruptedError('Actual cleanup interruption after one unlink')
+            return real(path,*args,**kwargs)
+        with patch.object(setup.shutil,'rmtree',side_effect=partial):
+            with self.assertRaises(InterruptedError):setup.retire_optional_legacy(self.plan,self.operation,self.journal)
+        self.journal=setup.load(self.operation/'journal.json')
+        self.assertEqual(self.journal['optional_legacy_phase'],'cleaning')
+        self.assertEqual(setup.tree(self.operation/'orchestrator-legacy-before'),self.before)
+
+    def test_owned_partial_cleanup_resumes_with_full_original_recovery_backup(self):
+        self.interrupted_cleanup()
+        setup.retire_optional_legacy(self.plan,self.operation,self.journal)
+        self.assertEqual(self.journal['optional_legacy_phase'],'complete')
+        self.assertFalse(self.discard.exists())
+        setup.restore_optional_legacy(self.plan,self.operation,self.journal)
+        self.assertEqual(setup.tree(self.legacy),self.before)
+
+    def test_unknown_extra_file_is_preserved_and_blocks_cleanup_resume(self):
+        self.interrupted_cleanup();extra=self.discard/'new-owner-work.txt';extra.write_bytes(b'New owner work')
+        with self.assertRaisesRegex(ValueError,'altered or extra'):
+            setup.retire_optional_legacy(self.plan,self.operation,self.journal)
+        self.assertEqual(extra.read_bytes(),b'New owner work')
+
+    def test_altered_remaining_file_is_preserved_and_blocks_cleanup_resume(self):
+        self.interrupted_cleanup();changed=self.discard/'resource.txt';changed.write_bytes(b'Changed accepted content')
+        with self.assertRaisesRegex(ValueError,'altered or extra'):
+            setup.retire_optional_legacy(self.plan,self.operation,self.journal)
+        self.assertEqual(changed.read_bytes(),b'Changed accepted content')
+
+    def test_unknown_empty_directory_also_blocks_cleanup_resume(self):
+        self.interrupted_cleanup();extra=self.discard/'new-owner-folder';extra.mkdir()
+        with self.assertRaisesRegex(ValueError,'extra directories'):
+            setup.retire_optional_legacy(self.plan,self.operation,self.journal)
+        self.assertTrue(extra.is_dir())
+
+    @unittest.skipIf(os.name=='nt','POSIX link injection; native Windows junction boundary covered separately')
+    def test_link_in_partial_discard_is_not_followed_or_removed(self):
+        self.interrupted_cleanup();outside=self.root/'outside';outside.write_bytes(b'Preserve outside bytes')
+        (self.discard/'untrusted-link').symlink_to(outside)
+        with self.assertRaises(ValueError):setup.retire_optional_legacy(self.plan,self.operation,self.journal)
+        self.assertEqual(outside.read_bytes(),b'Preserve outside bytes')
+        self.assertTrue((self.discard/'untrusted-link').is_symlink())
+
+
 class BuyerSetupTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -81,6 +180,73 @@ class BuyerSetupTests(unittest.TestCase):
         result=setup.install(self.plan,plan['plan_sha256'])
         self.assertEqual(result['status'],'installed')
         return plan,result
+
+    def test_windows_root_migration_resumes_orchestrator_retirement_and_restores_old_journal_rights_and_icons(self):
+        oldroot=self.home/'.agents/skills'
+        shutil.copytree(self.package/'product/kit/skills',oldroot)
+        icon=oldroot/'agent-foundry/assets/owner-root-icon.svg'
+        icon.write_bytes(b'<svg>Accepted owner icon across root migration</svg>')
+        ui=oldroot/'agent-foundry/agents/openai.yaml'
+        raw=ui.read_text(encoding='utf8')
+        raw=raw.replace('./assets/family-icon-small.png','./assets/owner-root-icon.svg').replace('./assets/family-icon-large.png','./assets/owner-root-icon.svg')
+        ui.write_text(raw,encoding='utf8')
+        foreign=oldroot/'owner-notes/notes.txt';foreign.parent.mkdir();foreign.write_bytes(b'Preserve owner notes.\n')
+        entitlement=self.root/'original-acquired-rights.json';entitlement.write_bytes(b'{"mode":"test-not-a-purchase","edition":"solo","major":1}\n')
+        _,prior=self.installed(entitlement)
+        old_journal=Path(prior['journal']);old_profile=(self.home/'.codex/AGENTS.md').read_bytes()
+        old_icon=icon.read_bytes();receipt=Path(prior['verification']['license_record_retained'])
+        expected_receipt=receipt.read_bytes()
+        original_selector=setup.platform_support.personal_skill_roots
+        roots=lambda home:original_selector(home,windows=True)
+        with patch.object(setup.platform_support,'personal_skill_roots',side_effect=roots):
+            self.assertEqual(setup.verify(old_journal)['skills'],33)
+            migration=self.root/'native-root-migration-plan.json'
+            audit=setup.audit(self.package,self.home,self.state,migration)
+            self.assertEqual(audit['status'],'ready',audit)
+            saved=setup.load(migration)
+            self.assertEqual(saved['optional']['legacy_retirement']['target'],str(oldroot/'atelier-orchestrator'))
+            self.assertTrue(any(row['action']=='retire' for row in audit['preview']['components']))
+            real_replace=setup.os.replace
+            interrupted=[False]
+            def stop_after_legacy_rename(source,destination):
+                result=real_replace(source,destination)
+                if Path(source)==oldroot/'atelier-orchestrator' and not interrupted[0]:
+                    interrupted[0]=True
+                    raise InterruptedError('Actual stop after optional legacy rename')
+                return result
+            with patch.object(setup.os,'replace',side_effect=stop_after_legacy_rename):
+                with self.assertRaises(InterruptedError):setup.install(migration,audit['plan_sha256'])
+            journal=Path(audit['journal'])
+            self.assertEqual(setup.load(journal)['optional_legacy_phase'],'prepared')
+            result=setup.install(migration,audit['plan_sha256'],resume=journal)
+            current=self.home/'.codex/skills'
+            self.assertEqual((current/'agent-foundry/assets/owner-root-icon.svg').read_bytes(),old_icon)
+            self.assertFalse((oldroot/'agent-foundry').exists())
+            self.assertFalse((oldroot/'atelier-orchestrator').exists())
+            self.assertEqual(result['verification']['license_record_retained'],str(receipt))
+            self.assertEqual(receipt.read_bytes(),expected_receipt)
+            self.assertEqual(setup.verify(journal)['skills'],33)
+            self.assertEqual(setup.rollback(journal)['status'],'rolled-back')
+            self.assertFalse((current/'agent-foundry').exists())
+            self.assertFalse((current/'atelier-orchestrator').exists())
+            self.assertEqual(icon.read_bytes(),old_icon)
+            self.assertTrue((oldroot/'atelier-orchestrator/SKILL.md').is_file())
+            self.assertEqual((self.home/'.codex/AGENTS.md').read_bytes(),old_profile)
+            self.assertEqual(foreign.read_bytes(),b'Preserve owner notes.\n')
+            self.assertEqual(receipt.read_bytes(),expected_receipt)
+            self.assertEqual(setup.verify(old_journal)['skills'],33)
+
+    def test_windows_root_migration_blocks_unknown_legacy_orchestrator_before_install(self):
+        _,prior=self.installed()
+        legacy=self.home/'.agents/skills/atelier-orchestrator/SKILL.md'
+        legacy.write_bytes(legacy.read_bytes()+b'Accepted owner policy changes.\n')
+        preserved=legacy.read_bytes();selector=setup.platform_support.personal_skill_roots
+        with patch.object(setup.platform_support,'personal_skill_roots',side_effect=lambda home:selector(home,windows=True)):
+            result=setup.audit(self.package,self.home,self.state,self.root/'blocked-migration.json')
+            self.assertEqual(result['status'],'blocked')
+            self.assertTrue(any('Legacy Orchestrator has unknown' in row for row in result['blockers']))
+        self.assertEqual(legacy.read_bytes(),preserved)
+        self.assertFalse((self.home/'.codex/skills/agent-foundry').exists())
 
     def test_operations_lists_real_interrupted_first_install_and_its_approved_plan(self):
         plan=self.audited()

@@ -13,5 +13,14 @@
     {"id":"U08","need":"Persistent platform, customer and commercial governance","baseline_state":"Commercial RC C01–C28 contract exists","implementation":["AGENTS.md","governance/UNIVERSAL_INSTALLATION.md","governance/UPDATE_CONTRACT.md","governance/VALIDATION.md","maintenance-skill/SKILL.md"],"verify":"CI source contracts, exact old-profile/core baselines, independent review; immutable contract hash and draft offer remain unchanged","commercial_criteria":["C15","C16","C18","C20","C21","C24","C25","C28"]}
   ],
   "evidence_rule": "Implementation is not acceptance; native/browser observations must identify exact archive SHA and source commit. Historical model/demo/delivery proofs remain bound to their original bytes.",
+  "personal_root_contract": {
+    "windows": "The generated launcher's CODEX_HOME/skills at selectedHome/.codex/skills; official interactive and app-server discovery",
+    "macOS_linux": "selectedHome/.agents/skills",
+    "project_local": ".agents/skills remains project-local on every platform",
+    "preservation": "Recognized previous-root core and Orchestrator migration is explicitly planned, journaled and reversible. Unknown changes and duplicate sources block mutation; old plans retain their approved roots and the existing shared buyer lock.",
+    "affected_requirements": ["U01", "U03", "U05", "U07", "U08"],
+    "commercial_criteria": ["C03", "C06", "C08", "C09", "C10", "C11", "C12", "C13", "C14", "C25", "C26"],
+    "evidence": "Fresh native Windows Codex discovery using the shipped launcher configuration and the official shared interactive/app-server personal root, exact public predecessor migration and rollback, legacy journal recovery, workbench source access, both target architectures and exact Universal ZIP. Process-local root registration alone is insufficient; completed model tasks retain their own platform and artifact scope."
+  },
   "remaining_external_gates": "No public sale, payment activation, legal finalization, platform signing/notarization or new spending is authorized by technical publication."
 }

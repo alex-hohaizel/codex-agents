@@ -16,6 +16,8 @@ dependency retain their complete upstream notices under `notices/`.
 
 Use the ready Universal or matching-platform asset attached to the exact Release. The Universal package carries Windows x64/ARM64, macOS x64/ARM64 and Linux x64/ARM64. `START_HERE.html` explains the download and `Start.cmd`, `Start.command` or `Start.sh` opens the local installer. For the workbench, open `Start-Workbench.cmd` on Windows, `Start-Workbench.command` on macOS, or `Start-Workbench.sh` on Linux. Match the release's supported OS minimums, architecture and native receipts before treating your target as tested.
 
+The workbench’s personal-skill actions follow native host roots: Windows `CODEX_HOME/skills`, normally `<selected-home>/.codex/skills`; macOS/Linux `<selected-home>/.agents/skills`. A project’s `<project>/.agents/skills` remains a separate unchanged scope. These are skill directories, not workbench database or installer-state locations. For a known earlier Windows personal `.agents/skills` installation, use the ready setup’s audited canonical installation and explicit legacy retirement, not a manual folder move. Unknown edits or conflicting duplicates require review; retain the migration journal and backups for restoration to their original roots. [Personal roots and migration](../INSTALL.md#personal-skill-roots)
+
 The technical distribution does not claim product-level Authenticode, Developer ID signing or notarization from a vendor runtime signature. Actual native execution, browser acceptance and completed model work remain separate receipts. The original Mac standalone packaging route is retained below:
 
 | Legacy standalone target | Runtime | Declared boundary |

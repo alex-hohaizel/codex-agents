@@ -7,9 +7,9 @@ import {
   writeFile,
   chmod,
 } from "node:fs/promises";
-import { resolve, join, dirname } from "node:path";
+import { resolve, join, dirname, basename, relative, sep } from "node:path";
 import { homedir, tmpdir } from "node:os";
-import { assertPrivatePath, securePrivatePath, pythonExecutable } from "./platform.mjs";
+import { assertPrivatePath, securePrivatePath, pythonExecutable, personalSkillRoots, installedPersonalSkillRoot } from "./platform.mjs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import {
@@ -384,10 +384,11 @@ export async function readInstalledSource(root, name) {
   return readSource(root, name + "/SKILL.md");
 }
 export class SkillsManager {
-  constructor({ store, repoRoot, dataDir }) {
+  constructor({ store, repoRoot, dataDir, personalRoots = personalSkillRoots() }) {
     this.store = store;
     this.repoRoot = repoRoot;
     this.dataDir = dataDir;
+    this.personalRoots = personalRoots.map(root => resolve(root));
     this.busy = false;
     this.hostSources = new Map();
   }
@@ -402,11 +403,13 @@ export class SkillsManager {
           /^description:\s*(.+)$/m
             .exec(source.text)?.[1]
             ?.replace(/^"|"$/g, "") ?? "";
-        let installedSource = null,
+        let installedRoot = this.personalRoots[0],
+          installedSource = null,
           installationError = null;
         try {
+          installedRoot = installedPersonalSkillRoot(entry.name, { roots: this.personalRoots });
           installedSource = await readInstalledSource(
-            resolve(homedir(), ".agents/skills"),
+            installedRoot,
             entry.name,
           );
         } catch (error) {
@@ -419,6 +422,8 @@ export class SkillsManager {
           version: skillVersion(source.text),
           source_sha256: source.sha256,
           installed_sha256: installedBytes ? sha(installedBytes) : null,
+          installed_root: installedBytes ? installedRoot : null,
+          installation_root_kind: installedBytes ? (installedRoot === this.personalRoots[0] ? "canonical" : "legacy") : null,
           source_status: "canonical_source_read",
           managed_by: "core-suite",
           update_supported: true,
@@ -548,8 +553,7 @@ export class SkillsManager {
   }
   async adoptHostCatalog(rows, projectRoots = []) {
     const allowed = [
-      resolve(homedir(), ".agents/skills"),
-      resolve(homedir(), ".codex/skills"),
+      ...this.personalRoots,
       resolve(homedir(), ".codex/plugins/cache"),
       ...projectRoots.map((root) => resolve(root, ".agents/skills")),
     ];
@@ -558,10 +562,10 @@ export class SkillsManager {
       if (typeof row.path !== "string" || typeof row.name !== "string")
         continue;
       const path = resolve(row.path);
-      const approvedRoot = allowed.find((root) => path.startsWith(root + "/"));
+      const approvedRoot = allowed.find((root) => path !== root && isWithin(root, path));
       const source_id = "host:" + sha(path).slice(0, 16);
       let source = null;
-      if (approvedRoot && path.endsWith("/SKILL.md"))
+      if (approvedRoot && basename(path) === "SKILL.md")
         try {
           fail(
             (await realpath(approvedRoot)) === approvedRoot,
@@ -571,11 +575,11 @@ export class SkillsManager {
           );
           source = await readSource(
             approvedRoot,
-            path.slice(approvedRoot.length + 1),
+            relative(approvedRoot, path).split(sep).join("/"),
           );
         } catch {}
       const externalDependency =
-        path.startsWith(resolve(homedir(), ".codex/plugins/cache") + "/") ||
+        isWithin(resolve(homedir(), ".codex/plugins/cache"), path) ||
         /mcp__|plugin:\/\/|skills\.read|image_gen|imagegen\.imagegen|cua\.get/.test(
           source?.text ?? "",
         );
@@ -934,11 +938,15 @@ export class SkillsManager {
     let installed = null,
       installation_error = null;
     try {
+      const installedRoot = this.hostSources.has(name)
+        ? dirname(root)
+        : installedPersonalSkillRoot(name, { roots: this.personalRoots });
       const primary = this.hostSources.has(name)
         ? source
-        : await readInstalledSource(resolve(homedir(), ".agents/skills"), name);
+        : await readInstalledSource(installedRoot, name);
       if (primary)
-        installed = { sha256: primary.sha256, content: redact(primary.text) };
+        installed = { sha256: primary.sha256, content: redact(primary.text), root: installedRoot,
+          root_kind: installedRoot === this.personalRoots[0] ? "canonical" : this.personalRoots.includes(installedRoot) ? "legacy" : "host_source" };
     } catch (error) {
       installation_error = error.code ?? "READ_FAILED";
     }
@@ -995,13 +1003,10 @@ export class SkillsManager {
   }
   async audit(payload = {}) {
     const destination = resolve(
-      payload.installed_root ?? join(homedir(), ".agents/skills"),
+      payload.installed_root ?? this.personalRoots[0],
     );
     fail(
-      [
-        join(homedir(), ".agents/skills"),
-        join(homedir(), ".codex/skills"),
-      ].includes(destination),
+      this.personalRoots.includes(destination),
       "SCOPE_MISMATCH",
       "Choose one supported personal skill root",
     );
@@ -1018,6 +1023,8 @@ export class SkillsManager {
       join(this.repoRoot, "kit"),
       "--destination",
       destination,
+      "--legacy-root",
+      this.personalRoots.find(root => root !== destination),
       "--plan",
       path,
     ]);
@@ -1121,7 +1128,7 @@ export class SkillsManager {
       );
       args.push("--journal", journal.path);
       const plan = this.store.get("skill-plan", journal.plan_id);
-      if (plan) args.push("--destination", plan.destination);
+      if (plan) args.push("--destination", plan.destination, "--legacy-root", this.personalRoots.find(root => root !== plan.destination));
     }
     return this.#native(args);
   }

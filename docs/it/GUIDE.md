@@ -28,6 +28,16 @@ Usate **Check now → Prepare plan**, controllate destinazioni e conflitti, appr
 
 Python/venv e Node del progetto mantengono la priorità. Usate `AGENT_SYSTEM_PYTHON` per gli script del toolkit. Maintenance resta uno strumento separato del proprietario: usate `product/maintenance-skill` del pacchetto o `maintenance-skill` del repository con il gestore supportato, controllate fonte e destinazione e verificate. Modelli e servizi esterni hanno account e costi propri.
 
+Il percorso delle skill personali segue l'host Codex nativo. `CODEX_HOME` indica la directory Codex scelta per quella sessione; l'audit mostra la destinazione risolta esatta.
+
+| Ambito di installazione | Directory delle skill |
+| --- | --- |
+| Skill personali su Windows | `CODEX_HOME/skills`, normalmente `<selected-home>/.codex/skills` |
+| Skill personali su macOS / Linux | `<selected-home>/.agents/skills` (normalmente `~/.agents/skills`) |
+| Skill locali del progetto su ogni sistema | `<project>/.agents/skills` — invariata |
+
+Per una precedente installazione personale Windows in `<selected-home>/.agents/skills`, preparate un nuovo audit con l'installer corrente. Il piano esaminato identifica la destinazione canonica e il ritiro delle copie precedenti riconosciute e gestite; le personalizzazioni supportate delle sole icone delle skill principali vengono conservate. Modifiche sconosciute alle fonti o alle regole e copie o icone in conflitto richiedono una riconciliazione, senza sostituzione forzata. Non spostate né cancellate manualmente queste directory. Approvate il piano esatto, verificate file e rilevamento in una nuova sessione Codex e conservate registro e backup. Il rollback con il registro originale ripristina percorsi e byte gestiti precedenti; i registri già salvati mantengono le proprie radici originali verificate. [Scelta della destinazione e migrazione](../INSTALL.md#personal-skill-roots)
+
 ### Percorso avanzato dai sorgenti
 
 1. Aprite la versione stabile di `alex-hohaizel/codex-agents`. La procedura da terminale su macOS o Linux usa Bash, Python 3.9+, Git, GitHub CLI (`gh`) con accesso autenticato e Codex. Per un’installazione guidata, chiedete a Codex di spiegare ogni passo in italiano e conservare opzioni e percorsi esatti.

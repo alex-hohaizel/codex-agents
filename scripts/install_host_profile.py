@@ -158,6 +158,15 @@ def audit(repo, codex_root, standard_root):
     require(template is not None, 'managed profile source missing')
     block = template.replace('{{STANDARD_ROOT}}', str(standard_root))
     prior_blocks, compatibility_sources = prior_profiles(repo, standard_root)
+    home=codex_root.parent
+    personal={home/'.agents/skills/agent-foundry',home/'.codex/skills/agent-foundry'}
+    if codex_root==home/'.codex' and standard_root in personal:
+        # A root migration may render the same reviewed template at the other
+        # exact personal root. Unknown instructions and arbitrary roots stay out.
+        alternate=next(path for path in personal if path!=standard_root)
+        prior_blocks.append(template.replace('{{STANDARD_ROOT}}',str(alternate)).strip())
+        alternate_prior,_=prior_profiles(repo,alternate)
+        prior_blocks.extend(alternate_prior)
     target = codex_root / 'AGENTS.md'
     prior = read(target)
     desired = merge(prior, block, prior_blocks)
@@ -290,7 +299,7 @@ def main():
     p.add_argument('operation', choices=['audit', 'apply', 'verify', 'rollback'])
     p.add_argument('--repo', type=Path, default=REPO)
     p.add_argument('--codex-root', type=Path, default=Path.home() / '.codex')
-    p.add_argument('--standard-root', type=Path, default=Path.home() / '.agents/skills/agent-foundry')
+    p.add_argument('--standard-root', type=Path, default=platform_support.personal_skill_roots(Path.home())[0] / 'agent-foundry')
     p.add_argument('--plan', type=Path)
     p.add_argument('--journal', type=Path)
     args = p.parse_args()

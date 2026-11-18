@@ -3,6 +3,7 @@
  * protected DACL, provided by the same reviewed Python adapter as the updater.
  */
 import { lstat, realpath, chmod, open, readFile } from "node:fs/promises";
+import { lstatSync } from "node:fs";
 import { join, dirname, resolve, delimiter, isAbsolute, win32, posix } from "node:path";
 import { homedir } from "node:os";
 import { execFile } from "node:child_process";
@@ -11,6 +12,34 @@ import { fileURLToPath } from "node:url";
 import { runtimeEnvironment } from "./environment.mjs";
 const run = promisify(execFile);
 const here = dirname(fileURLToPath(import.meta.url));
+
+/** Codex on Windows resolves personal .agents roots through the OS profile API.
+ * CODEX_HOME/skills is the supported user root for an explicitly selected home.
+ * Project-local .agents/skills remains independent of this personal-root policy.
+ */
+export function personalSkillRoots({ platform = process.platform, home = homedir() } = {}) {
+  const paths = platform === "win32" ? win32 : posix;
+  const agents = paths.resolve(home, ".agents", "skills");
+  const codex = paths.resolve(home, ".codex", "skills");
+  return platform === "win32" ? [codex, agents] : [agents, codex];
+}
+
+/** Read selection only: update/audit defaults still use the canonical root.
+ * Presence never bypasses the caller's source identity or reparse checks.
+ * A present but invalid canonical source is not replaced by a legacy fallback.
+ */
+export function installedPersonalSkillRoot(name, { roots = personalSkillRoots() } = {}) {
+  if (!/^[a-z0-9][a-z0-9-]{1,100}$/.test(name)) throw new Error("Invalid stable personal skill name");
+  for (const root of roots) {
+    try { lstatSync(join(root, name, "SKILL.md")); return root; }
+    catch (error) {
+      // An invalid or unreadable path blocks fallback. Let the source reader
+      // report that failure without disabling unrelated workbench features.
+      if (error.code !== "ENOENT") return root;
+    }
+  }
+  return roots[0];
+}
 
 export function platformStateRoot({ platform = process.platform, env = process.env, home = homedir(), product = false } = {}) {
   if (platform === "win32")

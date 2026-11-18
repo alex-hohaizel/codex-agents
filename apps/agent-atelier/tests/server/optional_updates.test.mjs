@@ -116,6 +116,16 @@ const exact = (p) => ({
   confirmed: true,
 });
 
+test("optional updates refuse duplicate creation in either canonical or legacy personal root", async t => {
+  const f=await fixture(t),freshRoot=join(f.dataDir,"fresh-personal-root");
+  for(const roots of [[freshRoot,f.installedRoot],[f.installedRoot,freshRoot]]){
+    const manager=new OptionalUpdates({store:f.store,repoRoot:f.repoRoot,dataDir:f.dataDir,installedRoot:freshRoot,personalRoots:roots});
+    await assert.rejects(manager.preview({name:"atelier-orchestrator"}),error=>error.code==="SOURCE_DRIFT");
+    assert.deepEqual(await pins(f.target),f.before);
+  }
+  assert.equal(existsSync(join(freshRoot,"atelier-orchestrator")),false);
+});
+
 test("rollback preserves a later deletion of an existing managed file", async (t) => {
   const f = await fixture(t),
     p = await f.manager.preview({ name: "atelier-orchestrator" });

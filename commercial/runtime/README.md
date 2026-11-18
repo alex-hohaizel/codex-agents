@@ -21,6 +21,8 @@ The default state is separate from the runtime under
 `~/Library/Application Support/Codex Agent System/Agent Atelier`. Existing
 Agent Atelier data and other projects are not automatically adopted.
 
+This retained Mac runtime uses personal skills under `<selected-home>/.agents/skills`. The current Universal installer uses Windows `CODEX_HOME/skills` (normally `<selected-home>/.codex/skills`) and the same `.agents/skills` personal root on macOS/Linux. Project-local `<project>/.agents/skills` is unchanged. A known old Windows personal tree is migrated only through the reviewed setup plan and exact journal; unknown changes or duplicate conflicts require review. Keep that journal for rollback to the original skill locations; runtime data recovery remains separate.
+
 Advanced controls from the extracted directory:
 
 ```sh

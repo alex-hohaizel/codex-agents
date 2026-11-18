@@ -103,7 +103,7 @@ async function browserExecutable() {
   throw Error('A Chromium browser is unavailable. Install test-only Chromium and pass --browser with its executable path.');
 }
 async function installedBytes(pkg, state, discovery, install) {
-  const home = state.home, managed = join(home,'.agents','skills');
+  const home = state.home, managed = join(home,platform()==='win32'?'.codex':'.agents','skills');
   const core = JSON.parse((await boundedFile(join(pkg,'product/kit/manifest.json'),64*1024*1024)).toString('utf8'));
   assert.equal(core.skills.length,33,'Expected all 33 core skills.');
   const manifest = JSON.parse((await boundedFile(join(pkg,'product-manifest.json'))).toString('utf8'));

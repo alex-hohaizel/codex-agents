@@ -200,8 +200,7 @@ def paths(home, state=None):
     state = safe(Path(state).expanduser() if state else home / '.local/share/codex-agent-system')
     if platform_support.WINDOWS:
         require(not home.is_relative_to(state), 'State must be a dedicated directory, not HOME or its ancestor')
-    destination = home / '.agents/skills'
-    legacy = home / '.codex/skills'
+    destination, legacy = platform_support.personal_skill_roots(home)
     for root in (destination, legacy):
         require(not state.is_relative_to(root) and not root.is_relative_to(state),
                 'State and backups must stay outside skill discovery directories')
@@ -232,7 +231,7 @@ def tree(root):
     return result
 
 
-def optional_plan(package, destination, legacy):
+def optional_plan(package, destination, legacy, migrate_legacy=False):
     source = package / 'product/optional-skills' / ORCHESTRATOR
     target = destination / ORCHESTRATOR
     desired, before = tree(source), tree(target)
@@ -244,10 +243,20 @@ def optional_plan(package, destination, legacy):
         known = [{name: dict(record, mode=platform_support.project_mode(record['mode'])) for name, record in files.items()} for files in known]
     if before is not None and before != desired and before not in known:
         conflicts.append('Orchestrator has unknown local changes; reconcile them without overwrite.')
-    if (legacy / ORCHESTRATOR).exists():
-        conflicts.append('An Orchestrator also exists in the legacy root; resolve the duplicate first.')
-    return {'source': str(source), 'target': str(target), 'before': before, 'after': desired,
+    retirement=None
+    legacy_before=tree(legacy/ORCHESTRATOR)
+    if legacy_before is not None:
+        if not migrate_legacy:
+            conflicts.append('An Orchestrator also exists in the legacy root; resolve the duplicate first.')
+        elif legacy_before!=desired and legacy_before not in known:
+            conflicts.append('Legacy Orchestrator has unknown local changes; preserve and reconcile it before migration.')
+        elif before is not None and legacy_before not in (before,desired):
+            conflicts.append('The two Orchestrator roots conflict; reconcile them without overwrite.')
+        else:retirement={'target':str(legacy/ORCHESTRATOR),'before':legacy_before}
+    result={'source': str(source), 'target': str(target), 'before': before, 'after': desired,
             'action': 'noop' if before == desired else 'install', 'conflicts': conflicts}
+    if retirement is not None:result['legacy_retirement']=retirement
+    return result
 
 
 def host_check(codex, home):
@@ -373,9 +382,10 @@ def audit(package, home, state, plan_path, entitlement=None):
     require(not any(plan_path.is_relative_to(p) for p in (package, destination, legacy)), 'Plans must be outside the package and discovery roots')
     key = uuid.uuid4().hex
     operation = state / 'operations' / key
-    core_plan = core.audit(package / 'product/kit', destination, legacy, operation / 'core-backups')
+    migrating_root=destination==home/'.codex/skills'
+    core_plan = core.audit(package / 'product/kit', destination, legacy, operation / 'core-backups',retire_known=migrating_root)
     profile_plan = host.audit(package / 'product', home / '.codex', destination / 'agent-foundry')
-    optional = optional_plan(package, destination, legacy)
+    optional = optional_plan(package, destination, legacy,migrate_legacy=migrating_root)
     blockers = list(core_plan['blockers']) + optional['conflicts']
     launcher = launcher_path(state)
     launcher_text = read(launcher).decode() if launcher.exists() else None
@@ -424,7 +434,7 @@ def audit(package, home, state, plan_path, entitlement=None):
             'plan_sha256': digest(read(plan_path)), 'mode': mode, 'expected_skills': 33,
             'recommended_orchestrator': True, 'roles': 12, 'destination': str(destination),
             'journal': str(operation / 'journal.json'), 'blockers': blockers,
-            'preview': {'components': [{'id': e['name'], 'target': e['target'], 'action':e['action']} for e in core_plan['entries']] + [{'id':ORCHESTRATOR,'target':optional['target'],'action':optional['action']},{'id':'profile-and-roles','target':str(home / '.codex'),'action':'merge'}], 'conflicts':blockers, 'preserved_changes':core_plan.get('preserved_visuals',[])},
+            'preview': {'components': [{'id': e['name'], 'target': e['target'], 'action':e['action']} for e in core_plan['entries']] + [{'id':ORCHESTRATOR,'target':optional['target'],'action':optional['action']},{'id':'profile-and-roles','target':str(home / '.codex'),'action':'merge'}]+([{'id':ORCHESTRATOR+'-legacy','target':optional['legacy_retirement']['target'],'action':'retire'}] if optional.get('legacy_retirement') else []), 'conflicts':blockers, 'preserved_changes':core_plan.get('preserved_visuals',[])},
             'next': 'Approve the exact plan SHA-256 before install.' if plan['ready'] else 'Preserve changes and resolve the listed conflicts; run a new audit.'}
 
 
@@ -464,7 +474,21 @@ def checked_plan(path, expected):
         other = safe(plan[name + '_plan'])
         expected_name = 'core-plan.json' if name == 'core' else 'host-plan.json'
         require(other == operation / expected_name and digest(read(other)) == plan[name + '_plan_sha256'], 'Subplan changed after audit')
+    saved_skill_roots(plan,home)
     return plan, package, home, state, operation
+
+
+def saved_skill_roots(plan,home):
+    """Old and current journals retain their exact approved personal roots."""
+    native=load(Path(plan['core_plan']))
+    destination,legacy=safe(native['destination']),safe(native['legacy_root'])
+    allowed={home/'.agents/skills',home/'.codex/skills'}
+    require(destination!=legacy and {destination,legacy}==allowed,'Core plan exceeds the two allowed personal skill roots')
+    require(safe(plan['optional']['target'])==destination/ORCHESTRATOR,'Optional target differs from approved core destination')
+    retirement=plan['optional'].get('legacy_retirement')
+    if retirement:
+        require(safe(retirement['target'])==legacy/ORCHESTRATOR,'Optional retirement exceeds approved legacy root')
+    return destination,legacy,native
 
 
 def checked_journal(journal_path):
@@ -487,7 +511,8 @@ def checked_journal(journal_path):
     if 'uninstall_entries' in journal:
         require(journal['status'] in ('uninstalling','uninstalled') and isinstance(journal['uninstall_entries'], list),
                 'Unexpected uninstall record')
-        permitted_trees = {str(home / '.agents/skills' / n) for n in engines(package)[0].NAMES | {ORCHESTRATOR}}
+        destination,_,_=saved_skill_roots(plan,home)
+        permitted_trees = {str(destination / n) for n in engines(package)[0].NAMES | {ORCHESTRATOR}}
         permitted_files = {str(home / '.codex/agents' / row['file']) for row in load(package / 'product/agent-profiles/manifest.json')['roles']}
         permitted_files.add(str(launcher_path(state)))
         observed = set()
@@ -517,6 +542,79 @@ def core_receipt(core, plan):
     return None
 
 
+def approved_partial_optional_tree(root,expected):
+    """Only deletion of an approved owned discard may have progressed."""
+    actual=tree(root)
+    require(actual is not None and all(name in expected and row==expected[name] for name,row in actual.items()),
+            'Legacy Orchestrator discard has altered or extra files')
+    allowed={'.'}
+    for name in expected:
+        allowed.update(str(parent) for parent in PurePosixPath(name).parents)
+    for current,directories,_ in os.walk(root,followlinks=False):
+        for name in directories:
+            require((Path(current)/name).relative_to(root).as_posix() in allowed,
+                    'Legacy Orchestrator discard has extra directories')
+
+
+def retire_optional_legacy(plan,operation,journal):
+    item=plan['optional'].get('legacy_retirement')
+    if not item:return
+    target=safe(item['target']);before=item['before']
+    backup=operation/'orchestrator-legacy-before'
+    discarded=safe(target.parent.parent/('.buyer-orchestrator-legacy-old-'+operation.name))
+    phase=journal.get('optional_legacy_phase','pending')
+    if phase=='complete':
+        require(tree(target) is None and tree(discarded) is None,'Legacy Orchestrator reappeared after retirement')
+        return
+    if phase=='pending':
+        require(tree(target)==before,'Legacy Orchestrator changed after audit')
+        if backup.exists() and tree(backup)!=before:
+            # Only this saved pending phase owns an incomplete backup copy.
+            shutil.rmtree(backup)
+        if not backup.exists():shutil.copytree(target,backup)
+        require(tree(backup)==before,'Legacy Orchestrator backup differs')
+        journal['optional_legacy_phase']='prepared';write(operation/'journal.json',journal);phase='prepared'
+    if phase=='prepared':
+        require(tree(backup)==before,'Legacy Orchestrator backup changed')
+        if discarded.exists():
+            require(tree(discarded)==before and tree(target) is None,'Ambiguous legacy Orchestrator retirement')
+        else:
+            require(tree(target)==before,'Legacy Orchestrator changed before retirement')
+            os.replace(target,discarded)
+        journal['optional_legacy_phase']='moved';write(operation/'journal.json',journal);phase='moved'
+    if phase=='moved':
+        require(tree(target) is None and tree(backup)==before,'Legacy Orchestrator retirement changed')
+        if discarded.exists():
+            require(tree(discarded)==before,'Legacy Orchestrator discard changed')
+        journal['optional_legacy_phase']='cleaning';write(operation/'journal.json',journal);phase='cleaning'
+    if phase=='cleaning':
+        require(tree(target) is None and tree(backup)==before,'Legacy Orchestrator retirement changed')
+        if discarded.exists():
+            approved_partial_optional_tree(discarded,before)
+            shutil.rmtree(discarded)
+        journal['optional_legacy_phase']='complete';write(operation/'journal.json',journal)
+
+
+def restore_optional_legacy(plan,operation,journal):
+    item=plan['optional'].get('legacy_retirement')
+    if not item or journal.get('optional_legacy_rolled_back'):return
+    target=safe(item['target']);before=item['before'];backup=operation/'orchestrator-legacy-before'
+    require(tree(backup)==before,'Legacy Orchestrator recovery backup changed')
+    observed=tree(target)
+    require(observed in (None,before),'Legacy Orchestrator contains later work; preserve it before rollback')
+    stage=safe(target.parent.parent/('.buyer-orchestrator-legacy-restore-'+operation.name))
+    if observed is None:
+        if not journal.get('optional_legacy_restore_started'):
+            require(not stage.exists(),'Unknown legacy Orchestrator restore stage')
+            journal['optional_legacy_restore_started']=True;write(operation/'journal.json',journal)
+        if stage.exists() and tree(stage)!=before:shutil.rmtree(stage)
+        if not stage.exists():shutil.copytree(backup,stage)
+        require(tree(stage)==before,'Legacy Orchestrator restore payload differs')
+        target.parent.mkdir(parents=True,exist_ok=True);os.replace(stage,target)
+    require(tree(target)==before,'Legacy Orchestrator recovery readback differs')
+    journal['optional_legacy_rolled_back']=True;write(operation/'journal.json',journal)
+
+
 def apply_optional(plan, operation, journal):
     item = plan['optional']
     target, source = Path(item['target']), Path(item['source'])
@@ -525,6 +623,7 @@ def apply_optional(plan, operation, journal):
     phase = journal.get('optional_phase', 'pending')
     if phase == 'complete':
         require(tree(target) == after, 'Orchestrator changed since installation')
+        retire_optional_legacy(plan,operation,journal)
         return
     if phase == 'pending':
         require(tree(target) == before, 'Orchestrator changed since audit')
@@ -591,6 +690,7 @@ def apply_optional(plan, operation, journal):
         require(tree(target) == after, 'Optional target verification failed')
         journal['optional_phase'] = 'complete'
         write(operation / 'journal.json', journal)
+        retire_optional_legacy(plan,operation,journal)
 
 
 def launch_arguments(home, product):
@@ -725,9 +825,10 @@ def install(plan_path, expected, *, resume=None):
                         'launcher': journal['launcher'], 'next': 'Open a fresh Codex session through the generated launcher.'}
         else:
             require(resume is None, 'The requested journal does not exist; inspect the audited operation path')
-            require(core.comparable(core.audit(package / 'product/kit', home / '.agents/skills', home / '.codex/skills', operation / 'core-backups')) == core.comparable(core.read_json(plan['core_plan'])), 'Core targets changed after audit')
-            require(host.audit(package / 'product', home / '.codex', home / '.agents/skills/agent-foundry') == host.load(Path(plan['profile_plan'])), 'Host target changed after audit')
-            require(optional_plan(package, home / '.agents/skills', home / '.codex/skills') == plan['optional'], 'Orchestrator changed after audit')
+            destination,legacy,native=saved_skill_roots(plan,home)
+            require(core.comparable(core.audit(package / 'product/kit', destination, legacy, operation / 'core-backups',retire_known=native.get('retire_known_duplicates',False))) == core.comparable(native), 'Core targets changed after audit')
+            require(host.audit(package / 'product', home / '.codex', destination/'agent-foundry') == host.load(Path(plan['profile_plan'])), 'Host target changed after audit')
+            require(optional_plan(package,destination,legacy,migrate_legacy=bool(plan['optional'].get('legacy_retirement'))) == plan['optional'], 'Orchestrator changed after audit')
             if plan['entitlement']:
                 require(digest(read(Path(plan['entitlement']['source']))) == plan['entitlement']['sha256'], 'Entitlement document changed after audit')
             journal = {'schema': JOURNAL, 'operation': str(operation), 'plan': str(safe(plan_path)), 'plan_sha256': expected,
@@ -791,9 +892,12 @@ def verify(journal_path):
     journal, plan, package, home, state, operation = checked_journal(journal_path)
     require(journal['status'] == 'complete', 'Installation is incomplete; resume its saved plan first')
     core, host = engines(package)
-    core_status = core.verify(package / 'product/kit', home / '.agents/skills', home / '.codex/skills', journal['core_journal'])
+    destination,legacy,_=saved_skill_roots(plan,home)
+    core_status = core.verify(package / 'product/kit', destination,legacy,journal['core_journal'])
     host_status = host.verify_or_rollback(Path(journal['profile_journal']))
     optional = tree(Path(plan['optional']['target'])) == plan['optional']['after']
+    if plan['optional'].get('legacy_retirement'):
+        optional=optional and tree(Path(plan['optional']['legacy_retirement']['target'])) is None
     require(digest(read(Path(journal['launcher']))) == journal['launcher_sha256'], 'Generated launcher changed; preserve and reconcile its local edits')
     require(core_status['ready'] and host_status['ok'] and optional, 'Managed files changed; preserve them and create a new audit')
     return {'status': 'verified-files', 'source_commit': plan['source_commit'], 'product_version': plan['product_version'],
@@ -821,6 +925,11 @@ def rollback(journal_path):
             optional_target = Path(plan['optional']['target'])
             if plan['optional']['before'] is not None and plan['optional']['before'] != plan['optional']['after']:
                 require(tree(operation / 'orchestrator-before') == plan['optional']['before'], 'Optional rollback backup integrity failed')
+            retirement=plan['optional'].get('legacy_retirement')
+            if retirement:
+                require(tree(operation/'orchestrator-legacy-before')==retirement['before'],
+                        'Legacy Orchestrator rollback backup integrity failed')
+                require(tree(Path(retirement['target'])) is None,'Legacy Orchestrator has later work; preserve it before rollback')
             for suffix in ('restore', 'discard'):
                 require(not (optional_target.parent.parent / ('.buyer-orchestrator-' + suffix + '-' + operation.name)).exists(),
                         'Unknown optional rollback stage exists; reconcile before restore')
@@ -855,6 +964,7 @@ def rollback(journal_path):
                 shutil.rmtree(discarded)
             journal['optional_rolled_back'] = True
             write(Path(journal_path), journal)
+        restore_optional_legacy(plan,operation,journal)
         if not journal.get('profile_rolled_back'):
             profile = Path(journal['profile_journal'])
             if host.load(profile)['status'] != 'rolled_back':
@@ -999,6 +1109,32 @@ def operations(home, state=None):
     return {'status':'ready','operations':rows,'installed':installed}
 
 
+def discovery_observation(records, names):
+    """Describe only our declared skills; unrelated host metadata stays out."""
+    actual=[s for row in records.get('data',[]) for s in row.get('skills',[])]
+    rows=[s for s in actual if s.get('name') in names]
+    counts={name:sum(row.get('name')==name for row in rows) for name in sorted(names)}
+    errors=[error for row in records.get('data',[]) for error in row.get('errors',[])]
+    known_errors=[]
+    for error in errors:
+        if not isinstance(error,dict):continue
+        path=str(error.get('path',''))
+        parts=path.replace('\\','/').split('/')
+        if len(parts)<2 or parts[-1].lower()!='skill.md' or parts[-2] not in names:continue
+        public_path='/'.join(parts[-2:])
+        known_errors.append({'skill':parts[-2],'code':str(error.get('code','skill-load-error'))[:80],
+                             'message':str(error.get('message','')).replace(path,public_path)[:320]})
+    summary={'phase':'native-discovery-response','expected_count':len(names),'observed_count':len(rows),
+             'unique_count':sum(count>0 for count in counts.values()),
+             'observed_names':sorted(name for name,count in counts.items() if count),
+             'missing':sorted(name for name,count in counts.items() if not count),
+             'duplicates':{name:count for name,count in counts.items() if count>1},
+             'loader_error_count':len(errors),'known_loader_errors':known_errors[:10]}
+    private={'summary':summary,'declared_rows':[{'name':row.get('name'),'path':row.get('path'),
+              'enabled':row.get('enabled')} for row in rows[:100]]}
+    return rows,summary,private
+
+
 def discover(journal_path, codex=None, cwd=None):
     journal, plan, package, home, state, operation = checked_journal(journal_path)
     verify(journal_path)
@@ -1063,12 +1199,17 @@ def discover(journal_path, codex=None, cwd=None):
         receive(1); send('initialized')
         send('skills/list', {'cwds': [str(project)], 'forceReload': True}, 2)
         records = receive(2)
-        actual = [s for row in records['data'] for s in row['skills']]
         names = set(engines(package)[0].NAMES) | {ORCHESTRATOR}
-        rows = [s for s in actual if s['name'] in names]
-        require(len(rows) == 34 and {s['name'] for s in rows} == names, 'Fresh Codex did not resolve one of each installed skill')
+        rows,summary,private=discovery_observation(records,names)
+        if os.environ.get('AGENT_SYSTEM_SETUP_DIAGNOSTICS')=='1':
+            write(operation/'native-discovery-diagnostic.json',private)
+            print('agent-system-setup '+json.dumps(summary,sort_keys=True),file=sys.stderr,flush=True)
+        require(len(rows) == 34 and {s['name'] for s in rows} == names,
+                'Fresh Codex resolved '+str(len(rows))+' of 34 expected skills; missing: '
+                +', '.join(summary['missing'][:8])+'; duplicates: '+', '.join(summary['duplicates']))
+        destination,_,_=saved_skill_roots(plan,home)
         for row in rows:
-            require(row['enabled'] and safe(row['path']) == home / '.agents/skills' / row['name'] / 'SKILL.md',
+            require(row['enabled'] and safe(row['path']) == destination / row['name'] / 'SKILL.md',
                     'Codex resolved another source for ' + row['name'])
         receipt = {'status': 'native-discovery-verified', 'skills': len(rows), 'source_commit': plan['source_commit'],
                    'observed_paths': {row['name']: row['path'] for row in rows}, 'roles_explicitly_registered': 12,

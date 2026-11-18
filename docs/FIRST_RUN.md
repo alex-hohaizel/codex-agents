@@ -12,6 +12,8 @@ After installation, choose **Create practice project**, inspect it with **Open f
 
 If opening a terminal is unavailable on your desktop, open the returned practice folder in your normal Codex client and use the returned launcher instructions. Keep the installer journal for recovery. The conversational and source routes below remain available.
 
+Personal discovery uses `CODEX_HOME/skills` on Windows (normally `<selected-home>/.codex/skills`) and `<selected-home>/.agents/skills` on macOS/Linux. Project-local `<project>/.agents/skills` stays unchanged. If an earlier Windows personal suite is still in the old `.agents/skills` tree, use the current installer’s reviewed migration plan and original rollback journal; do not move or delete it manually. Check the resolved path in a fresh Codex session. [Personal roots and migration](INSTALL.md#personal-skill-roots)
+
 ## Set up with guidance from Codex
 
 If someone already installed the core skills, open a fresh project chat

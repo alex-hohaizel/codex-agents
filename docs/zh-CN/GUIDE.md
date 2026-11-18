@@ -28,6 +28,16 @@
 
 项目自己的 Python/venv 与 Node 保持优先级。工具包辅助脚本使用 `AGENT_SYSTEM_PYTHON` 指定的解释器。Maintenance 仍是所有者单独使用的工具：通过受支持的技能管理器安装包内 `product/maintenance-skill` 或仓库的 `maintenance-skill`，先预览来源和目标，再验证结果。模型和外部服务使用各自账户并单独计费。
 
+个人技能的位置遵循原生 Codex 宿主。`CODEX_HOME` 表示该会话选择的 Codex 主目录；审查计划会显示解析后的准确目标。
+
+| 安装范围 | 技能目录 |
+| --- | --- |
+| Windows 个人技能 | `CODEX_HOME/skills`，通常为 `<selected-home>/.codex/skills` |
+| macOS / Linux 个人技能 | `<selected-home>/.agents/skills`（通常为 `~/.agents/skills`） |
+| 所有系统的项目本地技能 | `<project>/.agents/skills` — 保持不变 |
+
+如果以前在 Windows 的 `<selected-home>/.agents/skills` 安装过个人技能，请用当前安装器重新生成审查计划。计划会列出规范目标及已识别、受管理旧副本的退役步骤；核心技能受支持的仅图标自定义会被保留。未知源码或策略修改、冲突副本或图标必须先核对，不会强制覆盖。请勿手动移动或删除这些目录。批准准确的迁移计划后，验证文件并在新的 Codex 会话中确认发现结果，保留日志和备份。使用原始日志回滚可恢复先前位置和受管理字节；已经保存的日志仍使用其经过验证的原始根目录。[根目录选择与迁移](../INSTALL.md#personal-skill-roots)
+
 ### 从源码安装的进阶流程
 
 1. 打开 `alex-hohaizel/codex-agents` 的稳定发行版。macOS 或 Linux 上的终端步骤需要 Bash、Python 3.9+、Git、已登录的 GitHub CLI（`gh`）和 Codex。需要引导时，可以请 Codex 用简体中文说明每一步，并保留准确的选项和路径。

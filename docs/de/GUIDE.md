@@ -28,6 +28,16 @@ Wählen Sie **Check now → Prepare plan**, prüfen Sie Ziele und Konflikte, gen
 
 Projekt-Python/venv und Node behalten ihren Vorrang. Nutzen Sie `AGENT_SYSTEM_PYTHON` für Hilfsskripte des Toolkits. Maintenance bleibt ein separates Eigentümerwerkzeug: installieren Sie `product/maintenance-skill` aus dem Paket oder `maintenance-skill` aus dem Repository über den unterstützten Skill-Manager, prüfen Sie Quelle und Ziel und verifizieren Sie das Ergebnis. Modelle und externe Dienste haben eigene Konten und Kosten.
 
+Der persönliche Skill-Ordner richtet sich nach dem nativen Codex-Host. `CODEX_HOME` bezeichnet das für diese Sitzung ausgewählte Codex-Verzeichnis; der Prüfplan zeigt das genaue aufgelöste Ziel.
+
+| Installationsumfang | Skill-Verzeichnis |
+| --- | --- |
+| Persönliche Skills unter Windows | `CODEX_HOME/skills`, normalerweise `<selected-home>/.codex/skills` |
+| Persönliche Skills unter macOS / Linux | `<selected-home>/.agents/skills` (normalerweise `~/.agents/skills`) |
+| Projektlokale Skills auf allen Systemen | `<project>/.agents/skills` — unverändert |
+
+Für eine frühere persönliche Windows-Installation unter `<selected-home>/.agents/skills` erstellen Sie mit dem aktuellen Installer einen neuen Prüfplan. Er nennt das kanonische Ziel und die Stilllegung erkannter verwalteter Altkopien; unterstützte reine Symbolanpassungen der Kern-Skills bleiben erhalten. Unbekannte Quell- oder Richtlinienänderungen sowie widersprüchliche Kopien oder Symbole müssen geklärt werden; sie werden nicht erzwungen ersetzt. Verschieben oder löschen Sie die Verzeichnisse nicht manuell. Genehmigen Sie den genauen Migrationsplan, prüfen Sie Dateien und Erkennung in einer neuen Codex-Sitzung und bewahren Sie Journal und Sicherungen auf. Ein Rollback mit dem ursprünglichen Journal stellt frühere Orte und verwaltete Bytes wieder her; bereits gespeicherte Journale behalten ihre geprüften ursprünglichen Wurzeln. [Zielauswahl und Migration](../INSTALL.md#personal-skill-roots)
+
 ### Erweiterter Quellweg
 
 1. Öffnen Sie die stabile Veröffentlichung von `alex-hohaizel/codex-agents`. Das Terminalverfahren unter macOS oder Linux verwendet Bash, Python 3.9+, Git, eine angemeldete GitHub CLI (`gh`) und Codex. Für eine begleitete Installation kann Codex jeden Schritt auf Deutsch erklären und exakte Optionen und Pfade beibehalten.

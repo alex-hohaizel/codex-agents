@@ -351,7 +351,8 @@ def child(args, win):
         rolled = command('rollback', '--journal', installed['journal'])
         require(rolled['status'] == 'rolled-back', 'Standard-user rollback is incomplete')
         require(all(sha(path) == pin for path, pin in preserved.items()) and instructions.read_text(encoding='utf8') == personal, 'Standard-user rollback lost accepted work')
-        require(not (home / '.agents/skills/agent-foundry').exists(), 'Rollback retained a newly installed managed skill')
+        require(not any((home / root / 'agent-foundry').exists() for root in ('.agents/skills','.codex/skills')),
+                'Rollback retained a newly installed managed skill')
         report['child_after'] = win.identity()
         require(report['child_after']['is_user_an_admin'] is False and report['child_after']['integrity_sid'] == 'S-1-16-8192', 'Child rights changed during the probe')
         report.update(status='passed', lifecycle_verified=True, preserved_project_files=True, privilege_elevation_performed=False,
