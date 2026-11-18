@@ -243,6 +243,18 @@ def child_environment(home, temporary, package, tools):
     return env
 
 
+def completed_child_observation(destination, code, source_commit=None):
+    """Keep a failed child's actual exit status when no Python receipt exists."""
+    write(destination.with_name('CHILD-EXIT.json'), {
+        'schema': 'codex-agents.windows-child-exit/1', 'phase': 'child-process-completed',
+        'source_commit': source_commit, 'exit_code': code, 'exit_code_hex': '0x' + format(code, '08X'),
+        'observation_exists': destination.is_file(), 'native_acceptance': False})
+    if not destination.is_file():
+        raise RuntimeError('Restricted child exited before writing its observation: exit_code='
+                           + str(code) + ' (0x' + format(code, '08X') + ')')
+    return json.loads(destination.read_text(encoding='utf8'))
+
+
 def child(args, win):
     package, output, python = (ordinary(value).resolve() for value in (args.package, args.output, args.python))
     ownership = json.loads((output / 'PROBE-OWNERSHIP.json').read_text(encoding='utf8'))
@@ -394,7 +406,7 @@ def broker(args, win):
         code = W.DWORD()
         win.ok(win.k.GetExitCodeProcess(process.hProcess, ctypes.byref(code)), 'GetExitCodeProcess')
         destination = output / 'STANDARD-USER-OBSERVATION.json'
-        report = json.loads(destination.read_text(encoding='utf8'))
+        report = completed_child_observation(destination, code.value, manifest['source_commit'])
         report['parent'] = parent
         report['broker'] = {'method':'CreateRestrictedToken + medium integrity + private desktop + CreateProcessAsUserW', 'child_exit_code':code.value, 'new_account_created':False, 'account_credentials_used':False}
         write(destination, report)
@@ -436,6 +448,9 @@ def main():
         report = {'schema':SCHEMA, 'status':'blocked', 'lifecycle_verified':False, 'reason':str(error), 'error_type':type(error).__name__, 'model_execution':False,
                   'next':'Run on a native Windows runner with token creation rights; retain the private child journal and SDK error. No acceptance is inferred.'}
         if OWNED_OUTPUT == args.output.resolve() and not args.child:
+            exit_path = args.output / 'CHILD-EXIT.json'
+            if exit_path.exists():
+                report['child_exit'] = json.loads(exit_path.read_text(encoding='utf8'))
             destination = args.output / 'STANDARD-USER-OBSERVATION.json'
             if destination.exists():
                 previous = json.loads(destination.read_text(encoding='utf8'))

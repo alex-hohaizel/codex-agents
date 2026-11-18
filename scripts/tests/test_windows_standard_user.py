@@ -4,6 +4,8 @@ import importlib.util
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
+import tempfile
+import json
 
 SOURCE = Path(__file__).resolve().parents[1] / 'native_windows_standard_user.py'
 SPEC = importlib.util.spec_from_file_location('standard_user_scalar_probe', SOURCE)
@@ -68,6 +70,28 @@ class TokenScalarBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'scalar class'):
             win.token_boolean(None, 99)
         self.assertEqual(calls, [])
+
+
+class ChildExitObservationTests(unittest.TestCase):
+    def test_missing_receipt_preserves_native_startup_exit_code(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'missing-observation.json'
+            with self.assertRaisesRegex(RuntimeError, r'exit_code=3221225794 \(0xC0000142\)'):
+                probe.completed_child_observation(path, 0xC0000142, 'a' * 40)
+            self.assertFalse(path.exists())
+            diagnostic = json.loads(path.with_name('CHILD-EXIT.json').read_text())
+            self.assertEqual(diagnostic['exit_code'], 3221225794)
+            self.assertEqual(diagnostic['exit_code_hex'], '0xC0000142')
+            self.assertEqual(diagnostic['source_commit'], 'a' * 40)
+            self.assertFalse(diagnostic['native_acceptance'])
+
+    def test_actual_observation_remains_authoritative_and_is_not_rewritten(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'observation.json'
+            original = json.dumps({'status': 'blocked', 'reason': 'Actual child failure.'}).encode()
+            path.write_bytes(original)
+            self.assertEqual(probe.completed_child_observation(path, 1)['status'], 'blocked')
+            self.assertEqual(path.read_bytes(), original)
 
 
 if __name__ == '__main__':
