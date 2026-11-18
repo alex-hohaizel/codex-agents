@@ -32,6 +32,7 @@ import zipfile
 
 sys.dont_write_bytecode = True
 PUBLISHED_PREDECESSOR = '6eda958692eda18d0c3727e6452a970b5058532e'
+WINDOWS = os.name == 'nt'
 
 
 def require(condition, message):
@@ -53,6 +54,25 @@ def encoded(value):
 
 def load(path):
     return json.loads(Path(path).read_text(encoding='utf8'))
+
+
+def private_output(path):
+    """Protect the native fixture before creating any inherited child DACLs."""
+    path.mkdir(parents=True, mode=0o700)
+    if WINDOWS:
+        # Trusted test-harness source, independent of the as-yet-unread buyer ZIP.
+        source = Path(__file__).with_name('platform_support.py')
+        spec = importlib.util.spec_from_file_location('native_fixture_platform', source)
+        boundary = importlib.util.module_from_spec(spec)
+        exec(compile(source.read_bytes(), str(source), 'exec'), boundary.__dict__)
+        boundary.make_private(path)
+
+
+def extraction_directory_mode():
+    # Python3.13 Windows mkdir0700 creates a protected OWNER/Administrators DACL.
+    # Payload dirs inherit the already private current-SID root instead.
+    # https://docs.python.org/3.13/library/os.html#os.mkdir
+    return 0o755 if WINDOWS else 0o700
 
 
 def without_setup_diagnostics(value):
@@ -83,7 +103,8 @@ def native_target():
 
 def extract(archive, destination):
     """Keep archive traversal, aliases and links out of the native test workspace."""
-    destination.mkdir(mode=0o700)
+    directory_mode = extraction_directory_mode()
+    destination.mkdir(mode=directory_mode)
     observed = set()
     total = 0
     with zipfile.ZipFile(archive) as package:
@@ -102,12 +123,12 @@ def extract(archive, destination):
                     'Linked or special ready archive member')
             target = destination.joinpath(*path.parts)
             if item.is_dir():
-                target.mkdir(parents=True, exist_ok=True, mode=0o700)
+                target.mkdir(parents=True, exist_ok=True, mode=directory_mode)
                 continue
             total += item.file_size
             require(item.file_size <= 256 * 1024 * 1024 and total <= 4 * 1024 * 1024 * 1024,
                     'Ready archive expands beyond its bound')
-            target.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+            target.parent.mkdir(parents=True, exist_ok=True, mode=directory_mode)
             with package.open(item) as source, target.open('xb') as output:
                 shutil.copyfileobj(source, output, 128 * 1024)
             target.chmod(0o755 if mode & 0o111 else 0o644)
@@ -123,7 +144,7 @@ class Acceptance:
         self.output = output.resolve()
         require(self.archive.is_file(), 'Ready archive is missing')
         require(not self.output.exists(), 'Choose a NEW private acceptance output directory')
-        self.output.mkdir(parents=True, mode=0o700)
+        private_output(self.output)
         self.logs = self.output / 'commands'
         self.logs.mkdir(mode=0o700)
         self.target = native_target()

@@ -7,6 +7,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+import zipfile
+import stat
 
 SOURCE = Path(__file__).resolve().parents[1] / 'native_installer_acceptance.py'
 SPEC = importlib.util.spec_from_file_location('acceptance_timeout_under_test', SOURCE)
@@ -43,6 +46,40 @@ class NativeTimeoutReceipt(unittest.TestCase):
             self.assertEqual(report['status'], 'timeout')
             self.assertIn('buyer-phase-started', report['stdout'])
             self.assertIn('package-scan-complete', report['stderr'])
+
+
+class NativeFixtureInheritance(unittest.TestCase):
+    def test_output_privacy_runs_before_any_fixture_children(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive=Path(directory)/'received.zip';archive.write_bytes(b'not extracted by constructor')
+            output=Path(directory)/'new owned output';observed=[]
+            actual=acceptance.private_output
+            def protected(path):
+                actual(path)
+                self.assertEqual(list(path.iterdir()),[])
+                observed.append(path)
+            with patch.object(acceptance,'private_output',protected):
+                acceptance.Acceptance(archive,output)
+            self.assertEqual(observed,[output.resolve()])
+            self.assertTrue((output/'commands').is_dir())
+
+    def test_windows_payload_dirs_inherit_and_posix_payload_dirs_stay_private(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);archive=root/'received.zip'
+            with zipfile.ZipFile(archive,'w') as z:
+                z.writestr('buyer/product-manifest.json',b'{}')
+                z.writestr('buyer/deep/payload.txt',b'Exact received bytes.\n')
+            with patch.object(acceptance,'WINDOWS',True):
+                self.assertEqual(acceptance.extraction_directory_mode(),0o755)
+                package=acceptance.extract(archive,root/'windows fixture')
+            self.assertEqual((package/'deep/payload.txt').read_bytes(),b'Exact received bytes.\n')
+            if os.name!='nt':
+                self.assertEqual(stat.S_IMODE((package/'deep').stat().st_mode),0o755)
+            with patch.object(acceptance,'WINDOWS',False):
+                self.assertEqual(acceptance.extraction_directory_mode(),0o700)
+                package=acceptance.extract(archive,root/'posix fixture')
+            if os.name!='nt':
+                self.assertEqual(stat.S_IMODE((package/'deep').stat().st_mode),0o700)
 
 
 if __name__ == '__main__':
