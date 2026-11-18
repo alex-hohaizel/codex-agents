@@ -183,6 +183,22 @@ def environment(home, node, python):
     return result
 
 
+def browser_environment(env):
+    """Only the spawned browser restores real OS known-folder metadata.
+
+    The driver, installer and workbench fixture retain synthetic buyer paths.
+    No account/profile data or ambient credential environment is copied.
+    """
+    result = dict(env)
+    if os.name == 'nt':
+        keys = {'HOME', 'USERPROFILE', 'APPDATA', 'LOCALAPPDATA'}
+        folders = {key.upper(): value for key, value in os.environ.items() if key.upper() in keys}
+        require(all(folders.get(key) for key in keys - {'HOME'}), 'Windows browser system folder metadata is unavailable')
+        folders.setdefault('HOME', folders['USERPROFILE'])
+        result['AGENT_SYSTEM_TEST_BROWSER_SYSTEM_ENV'] = json.dumps(folders)
+    return result
+
+
 def sanitize(value):
     if isinstance(value, dict):
         return {key: ('[REDACTED]' if key.lower() in {'control_key', 'csrf_token', 'launch_token', 'session',
@@ -267,7 +283,7 @@ def check(archive, output, codex, browser):
             subprocess.run([str(node), str(REPO / 'apps/agent-atelier/tests/client/browser-privacy.mjs'),
                             '--output', str(output / 'browser-preflight'), '--browser', str(browser),
                             '--python', sys.executable],
-                           env=environment(home, node, Path(sys.executable)), cwd=REPO, check=True)
+                           env=browser_environment(environment(home, node, Path(sys.executable))), cwd=REPO, check=True)
         subprocess.run([sys.executable, '-B', str(REPO / 'scripts/native_installer_acceptance.py'),
                         '--archive', str(archive), '--output', str(backend), '--codex', str(codex)], check=True)
         report = json.loads((backend / 'native-acceptance.json').read_text(encoding='utf8'))
@@ -314,7 +330,7 @@ def check(archive, output, codex, browser):
                 '--expect-codex-version', '0.166.0', '--timeout-seconds', '600']
             if sys.platform == 'linux':
                 browser_command.append('--allow-no-sandbox')
-            subprocess.run(browser_command, env=env, cwd=REPO, check=True)
+            subprocess.run(browser_command, env=browser_environment(env), cwd=REPO, check=True)
             require(engine.wait(timeout=20) == 0, 'GUI did not exit after the browser shutdown button')
         observed = json.loads((output / 'gui-proof/BROWSER-OBSERVATION.json').read_text(encoding='utf8'))
         validate_pair(report, observed, source, sha(archive))
@@ -324,7 +340,7 @@ def check(archive, output, codex, browser):
             workbench_command.append('--allow-no-sandbox')
             if report['native']['target'] == 'linux-arm64':
                 workbench_command.append('--allow-missing-h264')
-        subprocess.run(workbench_command, env=env, cwd=package, check=True)
+        subprocess.run(workbench_command, env=browser_environment(env), cwd=package, check=True)
         privacy = json.loads((output / 'workbench-proof/WORKBENCH-BROWSER-PRIVACY.json').read_text(encoding='utf8'))
         require(privacy['status'] == 'passed' and privacy['source']['source_commit'] == source
                 and privacy['source']['package_manifest_sha256'] == report['package_manifest_sha256'],

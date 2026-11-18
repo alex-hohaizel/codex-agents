@@ -11,6 +11,7 @@ import { dirname, join, resolve, relative, sep, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { platform, arch } from 'node:os';
 import { securePrivatePath, assertPrivatePath, resolveNativeCommand } from '../../../apps/agent-atelier/server/platform.mjs';
+import { browserEnvironment } from '../../../apps/agent-atelier/tests/client/browser-environment.mjs';
 
 const args = Object.create(null);
 for (let i = 2; i < process.argv.length; i++) {
@@ -169,7 +170,7 @@ try {
   browserPhase='browser-spawn';
   report.browser.test_profile_policy='Fresh disposable profile; basic password store, mock keychain, breakpad disabled; no user profile or account is copied.';
   report.browser.windows_deelevation_policy=platform()==='win32'?'Disabled only for this owned CI browser child; renderer sandbox unchanged.':'Not applicable to this operating system.';
-  browser=spawn(executable,flags,{stdio:['ignore','ignore','pipe'],shell:false,windowsHide:true,detached:platform()!=='win32'});
+  browser=spawn(executable,flags,{stdio:['ignore','ignore','pipe'],shell:false,windowsHide:true,detached:platform()!=='win32',env:browserEnvironment()});
   browserClosed=new Promise(ok=>browser.once('close',()=>{browserDidClose=true;ok()}));
   browser.stderr.setEncoding('utf8');browser.stderr.on('data',chunk=>{browserDiagnostics=(browserDiagnostics+chunk).slice(-16000)});
   browser.once('error',error=>{browserDiagnostics=(browserDiagnostics+'\n'+error.message).slice(-16000);browserExit='spawn-error'});browser.once('exit',(code,signal)=>{browserExitCode=code;browserExitSignal=signal;browserExit=code??'signal'});

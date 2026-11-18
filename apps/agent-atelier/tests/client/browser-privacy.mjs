@@ -13,6 +13,7 @@ import {tmpdir} from 'node:os';
 import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {stripTypeScriptTypes} from 'node:module';
+import {browserEnvironment} from './browser-environment.mjs';
 
 const flags={};
 for(let i=2;i<process.argv.length;i++){
@@ -112,7 +113,7 @@ try{
   profile=join(root,'browser-profile');await mkdir(profile,{mode:0o700});await securePrivatePath(profile,{directory:true});
   // Match Microsoft's Edge debugger policy on noninteractive Windows runners:
   // no shell token is available for optional de-elevation. Sandbox stays on.
-  browser=spawn(resolve(flags['--browser']),['--headless=new','--disable-gpu','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-extensions','--disable-dev-shm-usage','--password-store=basic','--use-mock-keychain','--disable-breakpad','--edge-skip-compat-layer-relaunch',...(process.platform==='win32'?['--do-not-de-elevate']:[]),'--autoplay-policy=no-user-gesture-required','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',`--user-data-dir=${profile}`,...(flags['--allow-no-sandbox']?['--no-sandbox']:[]),'about:blank'],{stdio:['ignore','ignore','pipe'],detached:process.platform!=='win32',windowsHide:true,shell:false});
+  browser=spawn(resolve(flags['--browser']),['--headless=new','--disable-gpu','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-extensions','--disable-dev-shm-usage','--password-store=basic','--use-mock-keychain','--disable-breakpad','--edge-skip-compat-layer-relaunch',...(process.platform==='win32'?['--do-not-de-elevate']:[]),'--autoplay-policy=no-user-gesture-required','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',`--user-data-dir=${profile}`,...(flags['--allow-no-sandbox']?['--no-sandbox']:[]),'about:blank'],{stdio:['ignore','ignore','pipe'],detached:process.platform!=='win32',windowsHide:true,shell:false,env:browserEnvironment()});
   browserClosed=new Promise(ok=>browser.once('close',ok));
   browser.stderr.setEncoding('utf8');browser.stderr.on('data',chunk=>{browserDiagnostics=(browserDiagnostics+chunk).slice(-8000)});
   browser.once('exit',code=>{browserExit=code??'signal'});browser.once('error',error=>{browserExit=error.code||'spawn-error'});
