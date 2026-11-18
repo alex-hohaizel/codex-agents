@@ -200,6 +200,7 @@ def collect(output):
     public = output / 'public-proof'
     public.mkdir(exist_ok=True)
     selected = [output / 'backend/native-acceptance.json',
+                output / 'browser-preflight/WORKBENCH-BROWSER-PRIVACY.json',
                 output / 'gui-proof/BROWSER-OBSERVATION.json', output / 'gui-proof/BROWSER-FAILURE.json',
                 output / 'NATIVE-CI.json', output / 'GUI-RECONCILIATION-REQUIRED.json',
                 output / 'standard-user/STANDARD-USER-OBSERVATION.json',
@@ -256,6 +257,17 @@ def check(archive, output, codex, browser):
     engine = None
     status = 1
     try:
+        if os.name == 'nt':
+            # Detect the actual CI browser/session problem before the lengthy
+            # received-package lifecycle. The final package GUI and transport
+            # checks below still run independently and remain mandatory.
+            home = output / 'browser-preflight-home'
+            home.mkdir(mode=0o700)
+            node = Path(npm_command()[0])
+            subprocess.run([str(node), str(REPO / 'apps/agent-atelier/tests/client/browser-privacy.mjs'),
+                            '--output', str(output / 'browser-preflight'), '--browser', str(browser),
+                            '--python', sys.executable],
+                           env=environment(home, node, Path(sys.executable)), cwd=REPO, check=True)
         subprocess.run([sys.executable, '-B', str(REPO / 'scripts/native_installer_acceptance.py'),
                         '--archive', str(archive), '--output', str(backend), '--codex', str(codex)], check=True)
         report = json.loads((backend / 'native-acceptance.json').read_text(encoding='utf8'))

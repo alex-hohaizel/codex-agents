@@ -162,8 +162,13 @@ try {
   const executable=await browserExecutable();report.browser={executable,sandbox:args['--allow-no-sandbox']?'Disabled by explicit --allow-no-sandbox for this isolated Linux test browser; product browser launch and server guards are unchanged.':'Default browser policy: no sandbox disabling flag is supplied; effective sandbox internals are not independently inspected.'};
   const flags=['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-default-apps','--disable-dev-shm-usage','--disable-breakpad','--password-store=basic','--use-mock-keychain','--edge-skip-compat-layer-relaunch','--lang=en-US','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0','--user-data-dir='+profile];
   if (args['--allow-no-sandbox'])flags.push('--no-sandbox');
+  // Hosted Windows automation has no interactive shell token for Edge's
+  // optional de-elevation. This is Microsoft's Edge debugger launch policy;
+  // it preserves the browser sandbox and applies only to this test child.
+  if (platform()==='win32')flags.push('--do-not-de-elevate');
   browserPhase='browser-spawn';
   report.browser.test_profile_policy='Fresh disposable profile; basic password store, mock keychain, breakpad disabled; no user profile or account is copied.';
+  report.browser.windows_deelevation_policy=platform()==='win32'?'Disabled only for this owned CI browser child; renderer sandbox unchanged.':'Not applicable to this operating system.';
   browser=spawn(executable,flags,{stdio:['ignore','ignore','pipe'],shell:false,windowsHide:true,detached:platform()!=='win32'});
   browserClosed=new Promise(ok=>browser.once('close',()=>{browserDidClose=true;ok()}));
   browser.stderr.setEncoding('utf8');browser.stderr.on('data',chunk=>{browserDiagnostics=(browserDiagnostics+chunk).slice(-16000)});
