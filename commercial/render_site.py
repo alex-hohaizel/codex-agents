@@ -88,5 +88,14 @@ for lang,t in T.items():
 <h2>{e(t['trust'])}</h2><p>{e('Keep the original package and the exact setup journal. Verify the source and read back unknown outcomes before retrying.' if lang=='en' else 'Збережіть початковий пакет і точний журнал setup. Перевірте джерело та перечитайте невизначений результат перед повтором.')}</p>
 <img src="{image}" alt="{e('Illustrative product workflows; not a live screenshot' if lang=='en' else 'Ілюстрація можливих продуктових сценаріїв; не знімок живого застосунку')}">
 <p class="muted">{e('Original product illustration. Actual installation and task evidence are delivered with the candidate report.' if lang=='en' else 'Оригінальна продуктова ілюстрація. Фактичні докази установки й задач надаються зі звітом кандидата.')}</p>
+<h2>{'See the actual candidate' if lang=='en' else 'Фактична робота кандидата'}</h2>
+<p>{'Real workbench screenshots with isolated test data. The video records actual setup, discovery and the first task in a labeled test viewer; the viewer is demonstration instrumentation, not the product interface.' if lang=='en' else 'Реальні знімки панелі з ізольованими тестовими даними. Відео показує виконання setup, виявлення навичок і першу задачу в позначеному тестовому вікні; це інструмент демонстрації, а не інтерфейс продукту.'}</p>
+<div class="grid">
+<img src="{'commercial/media/' if is_start else '../media/'}workbench-project-en.png" alt="Actual Agent Atelier: isolated project">
+<img src="{'commercial/media/' if is_start else '../media/'}workbench-project-uk.png" alt="Фактичний Agent Atelier: пробний проєкт">
+<img src="{'commercial/media/' if is_start else '../media/'}workbench-skills-en.png" alt="Actual skill catalog">
+</div>
+<video style="width:100%;margin-top:24px" controls preload="metadata" poster="{'commercial/media/' if is_start else '../media/'}buyer-demo-result.png"><source src="{'commercial/media/' if is_start else '../media/'}Buyer-Install-and-First-Result.mp4" type="video/mp4"></video>
+
 <div class="foot"><strong>{e(t['draft'])}</strong><p class="muted">{e(RELEASE['repository_version'])} · {e(OFFER['license_version'])} · Codex compatibility does not imply OpenAI endorsement.</p></div></main></html>"""
         (ROOT/f'commercial/site/{kind}-{lang}.html').write_text(page)

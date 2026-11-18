@@ -94,13 +94,34 @@ def zip_tree(stage, output):
             archive.writestr(info,p.read_bytes(),compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
 
 
-def build(root, output):
+def runtime_inputs(artifacts, source, version):
+    selected=[]
+    seen=set()
+    for artifact in artifacts:
+        need(artifact.is_file() and not artifact.is_symlink(),"Runtime artifact must be a regular file")
+        with zipfile.ZipFile(artifact) as archive:
+            matches=[n for n in archive.namelist() if n.endswith("/runtime-manifest.json")]
+            need(len(matches)==1,"Expected one runtime descriptor")
+            info=archive.getinfo(matches[0]);need(info.file_size<=4*1024*1024,"Oversized runtime descriptor")
+            data=json.loads(archive.read(matches[0]))
+        need(data["schema"]=="codex-agents.workbench-runtime/1" and data["source_commit"]==source
+             and data["product_version"]==version and data["source_clean"],"Runtime does not match the clean buyer source")
+        arch=data["platform"]["arch"]
+        need(arch not in seen and arch in ("arm64","x64"),"Unknown or duplicate runtime architecture")
+        seen.add(arch)
+        selected.append({"path":artifact,"name":artifact.name,"sha256":digest(artifact),"size":artifact.stat().st_size,
+                         "arch":arch,"signing":data["developer_id_signature"],"notarization":data["notarization"]})
+    return selected
+
+
+def build(root, output, runtime_artifacts=()):
     root=root.resolve(strict=True);output=output.resolve()
     need(not output.is_relative_to(root),"Output must be outside source checkout")
     source=capture(root)
     descriptor=read(root/"commercial/product.json");release=read(root/descriptor["release_record"])
     offer=read(root/descriptor["offer"])
     version=release["repository_version"]
+    runtime=runtime_inputs(runtime_artifacts,source,version)
     need(release.get("release_stage")=="candidate","This builder prepares a local commercial release candidate")
     need(descriptor["product_id"]==offer["product_id"]==PRODUCT,"Product scope mismatch")
     output.mkdir(parents=True,exist_ok=True)
@@ -141,6 +162,7 @@ def build(root, output):
                 raw=(root/f"commercial/site/sales-{locale}.html").read_text()
                 raw=raw.replace("../../assets/","assets/").replace("../../docs/","docs/")
                 raw=raw.replace("../legal/LICENSE.txt","LICENSE.txt")
+                raw=raw.replace("../media/","commercial/media/")
                 raw=raw.replace("sales-uk.html" if locale=="en" else "sales-en.html",other)
                 (stage/filename).write_text(raw)
             example=stage/"examples"/"first-task";example.mkdir(parents=True)
@@ -157,11 +179,19 @@ fi
 exec python3 -B "$folder/setup/setup.py" --package "$folder" "$@"
 """
             (stage/"Start.command").write_text(launcher);(stage/"Start.command").chmod(0o755)
+            for item in runtime:
+                folder=stage/"runtime";folder.mkdir(exist_ok=True)
+                shutil.copyfile(item["path"],folder/item["name"])
+                need(digest(folder/item["name"])==item["sha256"],"Runtime changed during staging")
+            if runtime:
+                (stage/"runtime"/"README.md").write_text("# Included Mac workbench candidates\n\nExtract the archive matching your Mac. Open Launch.command in its extracted folder. These artifacts bundle Node and the built client; no npm build is required. Product signing/notarization and Intel execution remain separate RC gates. [Runtime guide](../docs/commercial/WORKBENCH_RUNTIME.md)\n")
             m={"schema":"codex-agents.commercial-package/1","product_id":PRODUCT,"product_version":version,
                "source_commit":source,"edition":edition,"license_version":offer["license_version"],
                "components":{"core":release["suite_version"],"orchestrator":next(s["version"] for s in release["optional_skills"] if s["name"]=="atelier-orchestrator"),
                   "profile":release["host_profile"]["version"],"roles":release["role_profiles"]["version"]},
                "entry_point":"START_HERE.html","recommended_setup":"Start.command",
+               "runtime":{"status":"included-architecture-archives" if runtime else "separate-optional-artifact",
+                          "artifacts":[{k:v for k,v in item.items() if k!="path"} for item in runtime]},
                "build_trust":"Obtain the separately signed release index and public key through trusted seller delivery.",
                "files":manifest_files(stage)}
             (stage/"product-manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
@@ -209,8 +239,9 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root",type=Path,default=Path(__file__).resolve().parents[1])
     p.add_argument("--output",type=Path,required=True)
+    p.add_argument("--runtime-artifact",type=Path,action="append",default=[],help="Exact clean runtime ZIP from this source; repeat per architecture")
     a=p.parse_args()
-    try: print(json.dumps(build(a.root,a.output),indent=2));return 0
+    try: print(json.dumps(build(a.root,a.output,a.runtime_artifact),indent=2));return 0
     except (ValueError,OSError,KeyError,subprocess.SubprocessError) as e:
         print(json.dumps({"status":"blocked","reason":str(e)}),file=sys.stderr);return 2
 

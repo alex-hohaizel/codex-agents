@@ -31,3 +31,5 @@ record. The source bundles remain available for their existing workflows.
 The buyer package supplies a local start page, setup, complete runtime resources,
 license and third-party notices. A Mac workbench runtime has its own architecture
 and signing record. See [the buyer guide](../docs/commercial/BUYER_GUIDE.md).
+
+Use repeated `--runtime-artifact` arguments on the commercial builder to include the exact clean-source Mac archives in one buyer delivery. Runtime source/architecture pins must match the buyer package. A skills-only CI archive explicitly records that its optional runtime is separate.

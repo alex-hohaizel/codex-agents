@@ -67,3 +67,5 @@ platform, order reference and the failing step. Do not send Codex credentials,
 API tokens, your private projects or full chat history. The private commercial
 support address is an owner-supplied prerequisite before public sale; generic
 non-sensitive source bugs can use the public repository issue tracker.
+
+A full RC buyer archive also contains `runtime/` with the ready-built Mac architecture packages. Extract the matching architecture and open Launch.command following the runtime guide. Intel execution and product signing/notarization retain separate open gates. Linux buyers use only the skills path; no Linux GUI is advertised.

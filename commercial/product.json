@@ -63,7 +63,7 @@
     "profile": true,
     "roles": true,
     "maintenance": false,
-    "workbench": "separate optional artifact"
+    "workbench": "optional bundled architecture archives when selected by canonical build"
   },
   "buyer_entry": "START_HERE.html",
   "setup": "setup/setup.py",
