@@ -64,17 +64,27 @@ async function evaluate(expression) {
 async function snapshot() { return evaluate("fetch('/api/state',{cache:'no-store',headers:{'X-Setup-Csrf':sessionStorage.getItem('codex-agent-system-setup-csrf')||''}}).then(async response=>{if(!response.ok)throw Error('State HTTP '+response.status);return response.json()})"); }
 async function click(id) {
   const encoded = JSON.stringify(id);
+  const stage = value => { report.pointer_action = {target:id,stage:value}; };
+  stage('wait-enabled');
   await until(() => evaluate(`Boolean(document.getElementById(${encoded}) && !document.getElementById(${encoded}).disabled && !document.getElementById(${encoded}).hidden)`), 'enabled visible ' + id);
+  stage('scroll');
   await evaluate(`document.getElementById(${encoded}).scrollIntoView({block:'center',behavior:'instant'})`);
   // Hit testing must follow a painted scroll position, including the narrow
-  // emulated viewport on slower native runners. Do not replay a missed click.
-  await evaluate('new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)))');
+  // emulated viewport. A compositor capture also works when animation frames
+  // are suspended in a background tab. Do not replay a missed click.
+  stage('capture-rendered-frame');
+  await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:true});
+  stage('hit-test');
   const point = await evaluate(`(()=>{const e=document.getElementById(${encoded}),r=e.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;return {x,y,width:r.width,height:r.height,unobscured:e===document.elementFromPoint(x,y)||e.contains(document.elementFromPoint(x,y))}})()`);
   assert.ok(point.width > 0 && point.height > 0 && point.unobscured, 'Button is obscured or unrendered: ' + id);
   const coordinates = {x:point.x,y:point.y,button:'left',clickCount:1};
+  stage('move-pointer');
   await call('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y});
+  stage('press-pointer');
   await call('Input.dispatchMouseEvent',{type:'mousePressed',...coordinates});
+  stage('release-pointer');
   await call('Input.dispatchMouseEvent',{type:'mouseReleased',...coordinates});
+  stage('pointer-dispatched');
 }
 async function buttonJob(id, action, expectedStatus) {
   await until(async () => !(await snapshot()).active_job, 'idle installer before ' + action);
