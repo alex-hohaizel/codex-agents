@@ -57,3 +57,10 @@ information needed for delivery/support. Disclose host/model/API costs,
 untested platforms, channel limitations and any external publication blockers.
 Update current instructions, localization, manifests, support materials,
 release checklist and maintenance guidance with each affected workflow.
+
+The recommended browser setup must retain a buyer-selected original purchase
+confirmation or entitlement document through the existing audit and journal,
+without requiring a separate CLI step. Keep it private outside packages and
+discovery. Changing the selected document invalidates pending plans and approval;
+updates preserve existing acquired records. Structure and local SHA validation
+do not establish purchase authenticity or grant new rights.

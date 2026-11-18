@@ -70,7 +70,9 @@ class NativeCIGuards(unittest.TestCase):
         source, archive, manifest = 'a' * 40, 'b' * 64, 'c' * 64
         backend = {'status': 'passed', 'source_clean': True, 'source_commit': source,
                    'archive_sha256': archive, 'package_manifest_sha256': manifest}
-        browser = {'status': 'passed', 'package': {'source_commit': source, 'manifest_sha256': manifest}}
+        browser = {'status': 'passed', 'package': {'source_commit': source, 'manifest_sha256': manifest},
+                   'purchase_document': {'retained_bytes_verified': True, 'old_plan_rejected': True,
+                     'selection_clears_approved_plan': True, 'sha256': 'd' * 64}}
         ci.validate_pair(backend, browser, source, archive)
         for key, wrong in [('status', 'failed'), ('source_clean', False), ('source_clean', 'true'),
                            ('source_commit', 'd' * 40), ('archive_sha256', 'd' * 64)]:
@@ -81,6 +83,15 @@ class NativeCIGuards(unittest.TestCase):
             changed = copy.deepcopy(browser); changed['package'][key] = wrong
             with self.subTest(browser_field=key), self.assertRaises(ValueError):
                 ci.validate_pair(backend, changed, source, archive)
+
+    def test_browser_document_proof_cannot_be_omitted_or_replaced_by_an_unbound_declaration(self):
+        backend = {'status': 'passed', 'source_clean': True, 'source_commit': 'a' * 40,
+                   'archive_sha256': 'b' * 64, 'package_manifest_sha256': 'c' * 64}
+        browser = {'status': 'passed', 'package': {'source_commit': 'a' * 40, 'manifest_sha256': 'c' * 64}}
+        for document in ({}, {'retained_bytes_verified': True}, {'retained_bytes_verified': True,
+                         'old_plan_rejected': True, 'selection_clears_approved_plan': True, 'sha256': 'invalid'}):
+            with self.subTest(document=document), self.assertRaisesRegex(ValueError, 'purchase-document'):
+                ci.validate_pair(backend, dict(browser, purchase_document=document), 'a' * 40, 'b' * 64)
 
     def test_public_proof_redaction_removes_authentication_but_keeps_artifact_identity(self):
         result = ci.sanitize({'archive_sha256': 'a' * 64, 'control_key': 'never publish',

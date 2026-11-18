@@ -319,6 +319,8 @@ jobs:
               proof = json.loads(path.read_text(encoding='utf8'))
               if proof['status'] != 'passed' or proof['source_commit'] != os.environ['GITHUB_SHA'] or proof['backend_and_real_browser'] is not True:
                   raise SystemExit('A native acceptance receipt is not passed or belongs to another source')
+              if proof.get('purchase_document_gui_verified') is not True or proof.get('purchase_document_inherited_without_reimport') is not True:
+                  raise SystemExit('Browser purchase-document retention and fresh-session inheritance are required')
               if proof.get('workbench_browser_transport_verified') is not True:
                   raise SystemExit('Workbench private read/live-event/media browser proof is missing')
               if proof['target'].startswith('win32-') and proof.get('windows_restricted_non_admin_verified') is not True:

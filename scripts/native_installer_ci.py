@@ -219,6 +219,7 @@ def collect(output):
                 output / 'browser-preflight/WORKBENCH-BROWSER-PRIVACY.json',
                 output / 'gui-proof/BROWSER-OBSERVATION.json', output / 'gui-proof/BROWSER-FAILURE.json',
                 output / 'NATIVE-CI.json', output / 'GUI-RECONCILIATION-REQUIRED.json',
+                output / 'GUI-PURCHASE-INHERITANCE.json',
                 output / 'standard-user/STANDARD-USER-OBSERVATION.json',
                 output / 'backend/windows-token-preflight/STANDARD-USER-OBSERVATION.json',
                 output / 'workbench-proof/WORKBENCH-BROWSER-PRIVACY.json']
@@ -264,6 +265,11 @@ def validate_pair(report, observed, source, archive_sha256):
     require(observed.get('status') == 'passed' and observed.get('package', {}).get('source_commit') == source
             and observed.get('package', {}).get('manifest_sha256') == report['package_manifest_sha256'],
             'Browser evidence belongs to different package bytes or is incomplete')
+    document = observed.get('purchase_document', {})
+    require(document.get('retained_bytes_verified') is True and document.get('old_plan_rejected') is True
+            and document.get('selection_clears_approved_plan') is True
+            and re.fullmatch('[a-f0-9]{64}', document.get('sha256', '')),
+            'The ordinary browser purchase-document journey is incomplete')
 
 
 def check(archive, output, codex, browser):
@@ -334,6 +340,20 @@ def check(archive, output, codex, browser):
             require(engine.wait(timeout=20) == 0, 'GUI did not exit after the browser shutdown button')
         observed = json.loads((output / 'gui-proof/BROWSER-OBSERVATION.json').read_text(encoding='utf8'))
         validate_pair(report, observed, source, sha(archive))
+        inherited_plan = gui / 'after-browser-plan.json'
+        result = subprocess.run([str(python), '-I', '-X', 'utf8', '-B', str(package / 'setup/setup.py'),
+            '--package', str(package), '--home', str(home), '--state', str(state), '--json',
+            'audit', '--plan', str(inherited_plan)], env=env, cwd=package, capture_output=True, text=True, encoding='utf8', timeout=180, check=True)
+        inherited = json.loads(result.stdout)
+        original_sha = observed['purchase_document']['sha256']
+        retained = json.loads(inherited_plan.read_text(encoding='utf8'))['entitlement']
+        require(inherited['status'] == 'ready' and inherited['mode'] == 'known-current'
+                and retained['sha256'] == original_sha and sha(Path(retained['source'])) == original_sha,
+                'New setup session did not inherit the exact browser-selected purchase document')
+        write(output / 'GUI-PURCHASE-INHERITANCE.json', {'schema': 'codex-agents.gui-purchase-inheritance/1',
+            'status': 'passed', 'source_commit': source, 'archive_sha256': report['archive_sha256'],
+            'original_document_sha256': original_sha, 'after_browser_shutdown': True, 'entitlement_argument_supplied': False,
+            'scope': 'Fresh local same-source audit retains the exact original browser-selected document; no purchase or store availability is claimed.'})
         workbench_command = [str(node), str(package / 'product/apps/agent-atelier/tests/client/browser-privacy.mjs'),
             '--package', str(package), '--output', str(output / 'workbench-proof'), '--browser', str(browser), '--python', str(python)]
         if sys.platform == 'linux':
@@ -351,6 +371,7 @@ def check(archive, output, codex, browser):
             'browser_driver_sha256': observed['driver_sha256'], 'backend_and_real_browser': True,
             'windows_restricted_non_admin_verified': standard_user_verified,
             'workbench_browser_transport_verified': True,
+            'purchase_document_gui_verified': True, 'purchase_document_inherited_without_reimport': True,
             'environment_limits': privacy.get('limitations', []),
             'codex_executable_sha256': sha(codex)})
         status = 0

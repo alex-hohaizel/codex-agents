@@ -110,12 +110,15 @@ def verify_native_proofs(path, expected, pairs):
             need(ci.get('status') == 'passed' and ci.get('source_commit') == expected
                  and ci.get('backend_and_real_browser') is True
                  and ci.get('workbench_browser_transport_verified') is True
+                 and ci.get('purchase_document_gui_verified') is True
+                 and ci.get('purchase_document_inherited_without_reimport') is True
                  and pair in pairs and pair not in observed, 'Invalid, duplicate, or foreign native acceptance')
             if ci['target'].startswith('win32-'):
                 need(ci.get('windows_restricted_non_admin_verified') is True, 'Windows non-admin proof is missing')
             backend = proof_record(archive, prefix + 'backend/native-acceptance.json')
             gui = proof_record(archive, prefix + 'gui-proof/BROWSER-OBSERVATION.json')
             workbench = proof_record(archive, prefix + 'workbench-proof/WORKBENCH-BROWSER-PRIVACY.json')
+            purchase = proof_record(archive, prefix + 'GUI-PURCHASE-INHERITANCE.json')
             need(backend.get('status') == 'passed' and backend.get('source_clean') is True
                  and backend.get('source_commit') == expected and backend.get('archive_sha256') == pair[0]
                  and backend.get('native', {}).get('target') == pair[1], 'Backend proof binding differs')
@@ -125,6 +128,15 @@ def verify_native_proofs(path, expected, pairs):
                  and gui.get('browser_cleanup', {}).get('root_exit_observed') is True
                  and gui['browser_cleanup'].get('profile_removed') is True,
                  'Installer browser proof binding or cleanup differs')
+            document = gui.get('purchase_document', {})
+            need(document.get('retained_bytes_verified') is True and document.get('old_plan_rejected') is True
+                 and document.get('selection_clears_approved_plan') is True
+                 and re.fullmatch('[a-f0-9]{64}', document.get('sha256', ''))
+                 and purchase.get('status') == 'passed' and purchase.get('source_commit') == expected
+                 and purchase.get('archive_sha256') == pair[0]
+                 and purchase.get('original_document_sha256') == document['sha256']
+                 and purchase.get('after_browser_shutdown') is True and purchase.get('entitlement_argument_supplied') is False,
+                 'Browser purchase document was not retained and inherited by a fresh setup session')
             need(workbench.get('status') == 'passed' and workbench.get('source', {}).get('source_commit') == expected
                  and workbench['source'].get('package_manifest_sha256') == manifest
                  and workbench.get('browser_cleanup', {}).get('parent_exit_observed') is True

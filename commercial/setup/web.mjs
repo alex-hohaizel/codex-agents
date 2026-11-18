@@ -10,6 +10,9 @@ import { readFile, mkdir, open, rename, lstat, realpath } from 'node:fs/promises
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const HASH = /^[a-f0-9]{64}$/;
+const PURCHASE_MAX = 256 * 1024;
+const PURCHASE_BODY_MAX = 4 * Math.ceil(PURCHASE_MAX / 3) + 128;
+const PRODUCT_VERSION = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[A-Za-z0-9.-]+)?$/;
 const MUTATIONS = new Set(['install', 'resume', 'rollback', 'uninstall']);
 const ACTIONS = new Set(['doctor', 'audit', 'install', 'verify', 'discover', 'resume', 'rollback', 'uninstall', 'first-task', 'practice', 'open-practice', 'open-codex', 'refresh', 'shutdown']);
 const below = (root, path) => { const tail = relative(root, resolve(path)); return tail !== '' && tail !== '..' && !tail.startsWith('..' + sep) && !isAbsolute(tail); };
@@ -42,12 +45,12 @@ async function dependencies(packageRoot) {
   return { OwnerSession, launchToken, parseStrictJson, platformTools };
 }
 
-async function jsonBody(req, parseStrictJson) {
+async function jsonBody(req, parseStrictJson, max = 32 * 1024) {
   requireThat((req.headers['content-type'] || '').split(';')[0].trim().toLowerCase() === 'application/json', 'JSON_REQUIRED', 'Send a JSON command.', 415);
-  requireThat(!req.headers['content-length'] || Number(req.headers['content-length']) <= 32 * 1024, 'BODY_TOO_LARGE', 'The command is too large.', 413);
+  requireThat(!req.headers['content-length'] || Number(req.headers['content-length']) <= max, 'BODY_TOO_LARGE', 'The command is too large.', 413);
   let length = 0; const chunks = [];
-  for await (const chunk of req) { length += chunk.length; requireThat(length <= 32 * 1024, 'BODY_TOO_LARGE', 'The command is too large.', 413); chunks.push(chunk); }
-  const body = parseStrictJson(Buffer.concat(chunks).toString('utf8'), 32 * 1024);
+  for await (const chunk of req) { length += chunk.length; requireThat(length <= max, 'BODY_TOO_LARGE', 'The command is too large.', 413); chunks.push(chunk); }
+  const body = parseStrictJson(Buffer.concat(chunks).toString('utf8'), max);
   requireThat(body && typeof body === 'object' && !Array.isArray(body), 'INVALID_COMMAND', 'Expected one command object.');
   return body;
 }
@@ -73,16 +76,82 @@ export async function start(options = {}) {
   const operationKeys = new Map();
   const jobs = new Map(); const results = Object.create(null);
   let activeJob = null, stopping = false, origin, cookieName;
+  let purchaseDocument = null;
   const instanceId = randomUUID();
   let product;
   try {
     const manifest = parseStrictJson((await regularFile(join(packageRoot, 'product-manifest.json'), 16 * 1024 * 1024)).toString('utf8'), 16 * 1024 * 1024);
-    product = { name: 'Codex Agent System', version: manifest.product_version, source_commit: manifest.source_commit, edition: manifest.edition, received_manifest: true };
+    product = { name: 'Codex Agent System', product_id: manifest.product_id, version: manifest.product_version, source_commit: manifest.source_commit, edition: manifest.edition, received_manifest: true };
   } catch (error) { product = { name: 'Codex Agent System', received_manifest: false }; }
   const commandArgs = (command, extra = [], locale = 'en') => [
     '-I', '-X', 'utf8', '-B', setupScript, '--package', packageRoot, '--home', home, '--state', state,
     '--locale', locale, '--json', ...(options.codexPath ? ['--codex', options.codexPath] : []), command, ...extra,
   ];
+
+  function purchaseSummary(bytes) {
+    let document;
+    try { document = parseStrictJson(new TextDecoder('utf-8', { fatal: true }).decode(bytes), PURCHASE_MAX); }
+    catch { requireThat(false, 'INVALID_PURCHASE_DOCUMENT', 'Choose an original UTF-8 JSON purchase document from your trusted delivery.'); }
+    const object = value => value && typeof value === 'object' && !Array.isArray(value);
+    requireThat(object(document), 'INVALID_PURCHASE_DOCUMENT', 'Expected an original purchase document object.');
+    let entitlement = document;
+    if (document.schema === 'codex-agents.purchase-confirmation/1') {
+      entitlement = document.entitlement;
+      requireThat(object(entitlement) && document.mode === entitlement.mode, 'INVALID_PURCHASE_DOCUMENT', 'The confirmation and its purchase document do not agree.');
+    }
+    requireThat(object(entitlement) && entitlement.schema === 'codex-agents.purchase-entitlement/1' &&
+      ['test-not-a-purchase', 'purchased'].includes(entitlement.mode), 'INVALID_PURCHASE_DOCUMENT', 'This purchase document format is not supported.');
+    requireThat(entitlement.product_id === 'codex-agent-system' && product.product_id === entitlement.product_id,
+      'WRONG_PURCHASE_PRODUCT', 'The purchase document belongs to another product.');
+    requireThat(['solo', 'team'].includes(entitlement.edition) && entitlement.named_seats === ({ solo: 1, team: 5 })[entitlement.edition] &&
+      (product.edition === 'unassigned' || product.edition === entitlement.edition), 'WRONG_PURCHASE_EDITION', 'Choose the purchase document for this package edition.');
+    const purchased = typeof entitlement.purchased_version === 'string' && PRODUCT_VERSION.exec(entitlement.purchased_version);
+    const current = typeof product.version === 'string' && PRODUCT_VERSION.exec(product.version);
+    requireThat(Number.isSafeInteger(entitlement.purchased_product_major) && entitlement.purchased_product_major >= 0 && purchased && current &&
+      Number(purchased[1]) === entitlement.purchased_product_major && Number(current[1]) === entitlement.purchased_product_major,
+      'WRONG_PURCHASE_MAJOR', 'This document does not cover the package product major. Keep your original document and use the purchased version.');
+    requireThat(typeof entitlement.order_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/.test(entitlement.order_id) &&
+      entitlement.acquired_use === 'perpetual-purchased-product-major' && entitlement.included_updates === 'purchased-product-major',
+      'INVALID_PURCHASE_DOCUMENT', 'The recorded purchase rights are not supported.');
+    return { status: 'document-ready', sha256: sha(bytes), edition: entitlement.edition, purchased_product_major: entitlement.purchased_product_major };
+  }
+  async function checkedPurchaseDocument() {
+    if (!purchaseDocument) return options.entitlementPath ? resolve(options.entitlementPath) : null;
+    try {
+      await safeDirectory(dirname(purchaseDocument.path));
+      await platformTools.assertPrivatePath(dirname(purchaseDocument.path), { directory: true, pythonPath });
+      await platformTools.assertPrivatePath(purchaseDocument.path, { pythonPath });
+      requireThat(sha(await regularFile(purchaseDocument.path, PURCHASE_MAX)) === purchaseDocument.summary.sha256,
+        'PURCHASE_DOCUMENT_CHANGED', 'The selected purchase document changed. Preserve it and select the original document again.', 409);
+    } catch { requireThat(false, 'PURCHASE_DOCUMENT_CHANGED', 'The selected purchase document changed or is unavailable. Preserve it and select the original document again.', 409); }
+    return purchaseDocument.path;
+  }
+  async function keepPurchaseDocument(body) {
+    requireThat(Object.keys(body).length === 1 && typeof body.document_base64 === 'string', 'INVALID_PURCHASE_DOCUMENT', 'Send only the selected purchase document bytes.');
+    const encoded = body.document_base64;
+    requireThat(encoded.length > 0 && encoded.length <= 4 * Math.ceil(PURCHASE_MAX / 3) &&
+      /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(encoded),
+      'INVALID_PURCHASE_DOCUMENT', 'The selected document encoding is invalid or too large.');
+    const bytes = Buffer.from(encoded, 'base64');
+    requireThat(bytes.length > 0 && bytes.length <= PURCHASE_MAX && bytes.toString('base64') === encoded,
+      'INVALID_PURCHASE_DOCUMENT', 'The selected document encoding is invalid or too large.');
+    const summary = purchaseSummary(bytes);
+    const directory = join(uiState, 'purchase-documents');
+    requireThat(![packageRoot, join(home, '.agents', 'skills'), join(home, '.codex', 'skills')].some(root => directory === root || below(root, directory)),
+      'INVALID_PURCHASE_STORAGE', 'Purchase documents must stay outside the package and skill discovery folders.');
+    await safeDirectory(directory); await mkdir(directory, { recursive: true, mode: 0o700 }); await secure(directory, true);
+    // Each explicit selection gets its own record. A kill during this write
+    // can leave an inactive partial record; selecting the original again can
+    // recover without overwriting or reusing that unknown file.
+    const path = join(directory, summary.sha256 + '-' + randomUUID() + '.json');
+    const file = await open(path, 'wx', 0o600);
+    try { await secure(path); await file.writeFile(bytes); await file.sync(); } finally { await file.close(); }
+    await platformTools.syncDirectory(directory);
+    await platformTools.assertPrivatePath(path, { pythonPath });
+    requireThat((await regularFile(path, PURCHASE_MAX)).equals(bytes), 'PURCHASE_DOCUMENT_CHANGED', 'An existing purchase document changed. Preserve it and reconcile the original record.', 409);
+    purchaseDocument = { path, summary };
+    return summary;
+  }
 
   function run(command, extra, job, locale) {
     return new Promise(resolveJob => {
@@ -137,14 +206,20 @@ export async function start(options = {}) {
     if (body.action === 'audit') {
       requireThat(plans.size < 64, 'PLAN_LIMIT', 'Reopen setup before creating more audit plans.', 429);
       const id = randomUUID(), plan = join(plansDirectory, id + '.json');
-      const extra = ['--plan', plan, ...(options.entitlementPath ? ['--entitlement', resolve(options.entitlementPath)] : [])];
+      const entitlement = await checkedPurchaseDocument();
+      const extra = ['--plan', plan, ...(entitlement ? ['--entitlement', entitlement] : [])];
       const receipt = await run('audit', extra, job, locale);
       if (receipt.plan_sha256) {
         requireThat(HASH.test(receipt.plan_sha256) && resolve(receipt.plan) === plan, 'INVALID_PLAN', 'The setup engine returned an unexpected audit identity.');
         const bytes = await regularFile(plan, 16 * 1024 * 1024);
         requireThat(sha(bytes) === receipt.plan_sha256, 'PLAN_CHANGED', 'The audited plan changed. Run a new audit.', 409);
         const document = parseStrictJson(bytes.toString('utf8'), 16 * 1024 * 1024);
-        plans.set(id, { path: plan, sha256: receipt.plan_sha256, ready: document.ready === true, journal: receipt.journal });
+        if (purchaseDocument) {
+          await checkedPurchaseDocument();
+          requireThat(document.entitlement?.sha256 === purchaseDocument.summary.sha256,
+            'PURCHASE_DOCUMENT_CHANGED', 'The audited purchase document differs from the selected original. Prepare a new plan.', 409);
+        }
+        plans.set(id, { path: plan, sha256: receipt.plan_sha256, ready: document.ready === true, journal: receipt.journal, purchase_sha256: purchaseDocument?.summary.sha256 ?? null });
         const preview = receipt.preview || { components: [
           { id: 'skills', target: receipt.destination, action: document.mode },
           { id: 'orchestrator', target: document.optional?.destination || document.optional?.target, action: document.optional?.action },
@@ -158,6 +233,8 @@ export async function start(options = {}) {
     if (body.action === 'install') {
       for (const key of ['install','resume','verify','discover']) delete results[key];
       const plan = plans.get(body.plan_id); requireThat(plan && plan.ready, 'UNKNOWN_PLAN', 'Run and review a ready audit in this window before installing.', 409);
+      requireThat(plan.purchase_sha256 === (purchaseDocument?.summary.sha256 ?? null), 'PURCHASE_DOCUMENT_CHANGED', 'Prepare a new plan after selecting a purchase document.', 409);
+      await checkedPurchaseDocument();
       requireThat(sha(await regularFile(plan.path, 16 * 1024 * 1024)) === plan.sha256, 'PLAN_CHANGED', 'The audited plan changed. Run a new audit.', 409);
       const receipt = await run('install', ['--plan', plan.path, '--approve', plan.sha256], job, locale);
       results.install = receipt; await refreshOperations(job, locale); return receipt;
@@ -233,7 +310,7 @@ export async function start(options = {}) {
     }
     const receipt = await run(body.action, [], job, locale); results[body.action] = receipt; return receipt;
   }
-  const view = () => ({ status: activeJob ? 'running' : 'ready', instance_id: instanceId, product, home, state, results,
+  const view = () => ({ status: activeJob ? 'running' : 'ready', instance_id: instanceId, product, home, state, results, purchase_document: purchaseDocument?.summary ?? null,
     plans: [...plans].map(([id, row]) => ({ id, ready: row.ready, sha256: row.sha256 })),
     operations: [...operations.values()].map(({ plan, journal, ...row }) => ({ ...row, journal_display: journal })),
     active_job: activeJob ? jobs.get(activeJob) : null, jobs: [...jobs.values()].slice(-20),
@@ -268,6 +345,22 @@ export async function start(options = {}) {
       if (req.method === 'GET') requireThat(session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Reopen or refresh this authorized installer window.', 403);
       if (url.pathname === '/api/session' && req.method === 'GET') return json(res, 200, { status: 'ready', csrf_token: session.csrf });
       if (url.pathname === '/api/state' && req.method === 'GET') return json(res, 200, view());
+      if (url.pathname === '/api/purchase-document' && req.method === 'POST') {
+        requireThat(req.headers.origin === origin && session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Refresh this local installer before selecting a document.', 403);
+        requireThat(!activeJob, 'OPERATION_RUNNING', 'Wait for the current operation to finish before selecting a document.', 409);
+        const id = randomUUID(), job = { id, action: 'purchase-document', status: 'running', started_at: new Date().toISOString(), phase: 'purchase-document' };
+        jobs.set(id, job); while (jobs.size > 40) jobs.delete(jobs.keys().next().value); activeJob = id;
+        plans.clear(); delete results.audit;
+        try {
+          const body = await jsonBody(req, parseStrictJson, PURCHASE_BODY_MAX);
+          const result = await keepPurchaseDocument(body); job.result = result; job.status = 'completed'; return json(res, 200, result);
+        } catch (error) {
+          const safeError = Object.assign(new Error(error.code === 'BODY_TOO_LARGE' ? 'The selected document is too large.' :
+            ['INVALID_PURCHASE_DOCUMENT','WRONG_PURCHASE_PRODUCT','WRONG_PURCHASE_EDITION','WRONG_PURCHASE_MAJOR','PURCHASE_DOCUMENT_CHANGED','INVALID_PURCHASE_STORAGE'].includes(error.code) ? error.message : 'The purchase document could not be retained. Preserve the original and try a new audit.'),
+          { code: error.code === 'BODY_TOO_LARGE' ? error.code : ['INVALID_PURCHASE_DOCUMENT','WRONG_PURCHASE_PRODUCT','WRONG_PURCHASE_EDITION','WRONG_PURCHASE_MAJOR','PURCHASE_DOCUMENT_CHANGED','INVALID_PURCHASE_STORAGE'].includes(error.code) ? error.code : 'INVALID_PURCHASE_DOCUMENT', status: error.status || 400 });
+          job.result = publicError(safeError); job.status = 'blocked'; throw safeError;
+        } finally { job.finished_at = new Date().toISOString(); activeJob = null; }
+      }
       requireThat(url.pathname === '/api/action' && req.method === 'POST', 'NOT_FOUND', 'Unknown installer route.', 404);
       requireThat(req.headers.origin === origin && session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Refresh this local installer before sending a command.', 403);
       const body = await jsonBody(req, parseStrictJson);

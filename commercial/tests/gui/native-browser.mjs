@@ -17,7 +17,7 @@ const args = Object.create(null);
 for (let i = 2; i < process.argv.length; i++) {
   const flag = process.argv[i];
   if (flag === '--allow-no-sandbox') { assert.equal(args[flag],undefined,'Duplicate browser-proof argument.'); args[flag]=true; continue; }
-  assert.ok(['--ready-file','--browser','--output','--python','--timeout-seconds','--expect-codex-version'].includes(flag) && i + 1 < process.argv.length, 'Unknown or incomplete browser-proof argument.');
+  assert.ok(['--ready-file','--browser','--output','--python','--timeout-seconds','--expect-codex-version','--purchase-document'].includes(flag) && i + 1 < process.argv.length, 'Unknown or incomplete browser-proof argument.');
   assert.equal(args[flag], undefined, 'Duplicate browser-proof argument.');
   args[flag] = process.argv[++i];
 }
@@ -167,6 +167,7 @@ try {
   // optional de-elevation. This is Microsoft's Edge debugger launch policy;
   // it preserves the browser sandbox and applies only to this test child.
   if (platform()==='win32')flags.push('--do-not-de-elevate');
+  flags.push('about:blank');
   browserPhase='browser-spawn';
   report.browser.test_profile_policy='Fresh disposable profile; basic password store, mock keychain, breakpad disabled; no user profile or account is copied.';
   report.browser.windows_deelevation_policy=platform()==='win32'?'Disabled only for this owned CI browser child; renderer sandbox unchanged.':'Not applicable to this operating system.';
@@ -177,7 +178,14 @@ try {
   browserPhase='debug-endpoint';
   const port=await until(async()=>Number((await readFile(join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0]),'Chromium debug endpoint',Math.min(deadlineMs,30000));
   browserPhase='debug-discovery';
-  const tab=await(await fetch('http://127.0.0.1:'+port+'/json/new?about:blank',{method:'PUT',signal:AbortSignal.timeout(5000)})).json();
+  // Use the fresh browser's explicit blank page. Creating a second page could
+  // time out after the effect on a busy native runner. Read-only readiness is
+  // bounded and can be observed again without duplicating a browser action.
+  const tab=await until(async()=>{
+    const response=await fetch('http://127.0.0.1:'+port+'/json/list',{signal:AbortSignal.timeout(5000)});
+    assert.equal(response.ok,true,'Chromium page listing failed.');
+    return (await response.json()).find(page=>page.type==='page'&&page.url==='about:blank');
+  },'owned blank browser page',30000);
   browserPhase='websocket-connection';
   socket=new WebSocket(tab.webSocketDebuggerUrl);await new Promise((ok,fail)=>{const timer=setTimeout(()=>fail(Error('Chromium protocol connection timed out.')),5000);socket.onopen=()=>{clearTimeout(timer);ok()};socket.onerror=()=>{clearTimeout(timer);fail(Error('Chromium protocol connection failed.'))}});
   socket.onmessage=({data})=>{const row=JSON.parse(data),item=pending.get(row.id);if(item){pending.delete(row.id);row.error?item.fail(row.error):item.ok(row.result)}};
@@ -197,13 +205,34 @@ try {
   await evaluate('document.getElementById("locale").value="en";document.getElementById("locale").dispatchEvent(new Event("change"))');
   const doctor=await buttonJob('check-button','doctor');assert.equal(doctor.source_commit,manifest.source_commit);assert.equal(doctor.platform.supported_skills,true);assert.equal(doctor.host.version,args['--expect-codex-version']||'0.166.0','This proof requires the pinned real Codex host.');
   await evaluate('window.scrollTo(0,0)');await screenshot('GUI-DESKTOP-CHECK.png');
-  const audit=await buttonJob('audit-button','audit','ready');assert.equal(audit.expected_skills,33);assert.equal(audit.roles,12);assert.equal(audit.preview.components.length,35);assert.equal(audit.preview.conflicts.length,0);
+  let audit=await buttonJob('audit-button','audit','ready');assert.equal(audit.expected_skills,33);assert.equal(audit.roles,12);assert.equal(audit.preview.components.length,35);assert.equal(audit.preview.conflicts.length,0);
   await until(()=>evaluate('!document.getElementById("install-approval").disabled'),'explicit approval control');
   assert.equal(await evaluate('document.getElementById("install-approval").checked'),false);assert.equal(await evaluate('document.getElementById("install-button").disabled'),true);
   await click('install-approval');assert.equal(await evaluate('document.getElementById("install-approval").checked'),true);
   report.steps.push({action:'explicit-approval',interaction:'Chromium pointer click on unchecked approval checkbox',plan_sha256:audit.plan_sha256});
+  const previousPlan=audit.plan_id;
+  let purchaseFile=args['--purchase-document']?resolve(args['--purchase-document']):join(output,'SYNTHETIC-NOT-A-PURCHASE.json');
+  if(!args['--purchase-document']){
+    const entitlement={schema:'codex-agents.purchase-entitlement/1',mode:'test-not-a-purchase',product_id:manifest.product_id,order_id:'native-gui-test',edition:manifest.edition==='team'?'team':'solo',named_seats:manifest.edition==='team'?5:1,purchased_product_major:Number(manifest.product_version.split('.')[0]),purchased_version:manifest.product_version,acquired_use:'perpetual-purchased-product-major',included_updates:'purchased-product-major'};
+    const document={schema:'codex-agents.purchase-confirmation/1',mode:'test-not-a-purchase',entitlement,payment_processed:false,external_channel_integrated:false};
+    await writeFile(purchaseFile,JSON.stringify(document,null,2)+'\n',{flag:'wx',mode:0o600});await securePrivatePath(purchaseFile,{pythonPath});
+  }
+  const purchaseBytes=await boundedFile(purchaseFile,256*1024),purchaseSha=digest(purchaseBytes);
+  await click('purchase-document-toggle');
+  const dom=await call('DOM.getDocument',{depth:0}),input=await call('DOM.querySelector',{nodeId:dom.root.nodeId,selector:'#purchase-document-file'});assert.ok(input.nodeId);
+  await call('DOM.setFileInputFiles',{nodeId:input.nodeId,files:[purchaseFile]});
+  await until(async()=>(await snapshot()).purchase_document?.sha256===purchaseSha,'selected purchase document preserved for next plan');
+  await until(()=>evaluate('!document.getElementById("install-approval").checked && document.getElementById("install-button").disabled'),'changed document clears prior approval');
+  const changed=await snapshot();assert.equal(changed.results.audit,undefined);
+  const stale=await evaluate(`fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Setup-Csrf':sessionStorage.getItem('codex-agent-system-setup-csrf')},body:JSON.stringify({action:'install',locale:'en',plan_id:${JSON.stringify(previousPlan)},approved:true})}).then(async r=>({status:r.status,body:await r.json()}))`);assert.equal(stale.status,202);
+  const refused=await until(async()=>{const current=await snapshot(),job=current.jobs.find(row=>row.id===stale.body.job_id);return !current.active_job&&job?.status==='blocked'?job:false},'stale approved plan refusal');assert.equal(refused.result.code,'UNKNOWN_PLAN');
+  audit=await buttonJob('audit-button','audit','ready');assert.notEqual(audit.plan_id,previousPlan);
+  assert.equal(await evaluate('document.getElementById("install-approval").checked'),false);await click('install-approval');
+  report.purchase_document={sha256:purchaseSha,selection_clears_approved_plan:true,old_plan_rejected:true,source:args['--purchase-document']?'caller-provided delivered document':'synthetic test-not-a-purchase confirmation; no payment or acquired-rights claim'};
+  report.steps.push({action:'purchase-document-and-new-approval',interaction:'Real Chromium file input selection, authenticated upload, stale-plan rejection and second pointer approval',sha256:purchaseSha,plan_sha256:audit.plan_sha256});
   await evaluate('document.getElementById("review").scrollIntoView({block:"start",behavior:"instant"})');await screenshot('GUI-DESKTOP-PLAN.png');
   const install=await buttonJob('install-button','install','installed');assert.equal(install.verification.skills,33);assert.equal(install.verification.orchestrator,true);assert.equal(install.verification.source_commit,manifest.source_commit);
+  const retained=install.verification.license_record_retained;assert.ok(retained&&below(initial.state,retained));assert.equal(digest(await boundedFile(retained,256*1024)),purchaseSha);report.purchase_document.retained_bytes_verified=true;
   const verified=await buttonJob('verify-button','verify','verified-files');assert.equal(verified.skills,33);assert.equal(verified.behavior_verified,false);
   const discovery=await buttonJob('discover-button','discover','native-discovery-verified');assert.equal(discovery.skills,34);assert.equal(discovery.source_commit,manifest.source_commit);assert.equal(Object.keys(discovery.observed_paths).length,34);assert.equal(discovery.roles_explicitly_registered,12);assert.equal(discovery.role_execution_verified,false);assert.equal(discovery.behavior_verified,false);
   report.installed_bytes=await installedBytes(pkg,await snapshot(),discovery,install);

@@ -3105,9 +3105,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3148,9 +3151,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3191,9 +3197,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3234,9 +3243,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3277,9 +3289,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3320,9 +3335,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3363,9 +3381,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3406,9 +3427,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3449,9 +3473,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3492,9 +3519,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3535,9 +3565,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3578,9 +3611,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3621,9 +3657,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3664,9 +3703,12 @@
       "current_state": "Composite retained-package journal and per-home writer boundary implement buyer lifecycle.",
       "implementation": [
         "commercial/setup/",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C08, C09, C10, C11, C12, C13, C14, C16, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_setup.py",
         "commercial/setup/README.md"
@@ -3703,9 +3745,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3738,9 +3783,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3773,9 +3821,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3808,9 +3859,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3843,9 +3897,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3878,9 +3935,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3913,9 +3973,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3948,9 +4011,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -3983,9 +4049,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4018,9 +4087,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4053,9 +4125,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4088,9 +4163,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4123,9 +4201,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4158,9 +4239,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4193,9 +4277,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4228,9 +4315,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4263,9 +4353,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4298,9 +4391,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4333,9 +4429,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4368,9 +4467,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4403,9 +4505,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4438,9 +4543,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4473,9 +4581,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4508,9 +4619,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4543,9 +4657,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4578,9 +4695,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4613,9 +4733,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -4648,9 +4771,12 @@
       "implementation": [
         "commercial/offer.json",
         "commercial/legal/",
-        "commercial/fulfillment.py"
+        "commercial/fulfillment.py",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C21, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5074,9 +5200,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5112,9 +5241,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5150,9 +5282,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5188,9 +5323,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5226,9 +5364,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5264,9 +5405,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5302,9 +5446,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5340,9 +5487,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",
@@ -5378,9 +5528,12 @@
       "current_state": "Seller-local test order/redemption and repeat download implemented.",
       "implementation": [
         "commercial/fulfillment.py",
-        "commercial/tests/"
+        "commercial/tests/",
+        "commercial/setup/web.mjs",
+        "commercial/setup/ui",
+        "commercial/tests/gui/native-browser.mjs"
       ],
-      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits.",
+      "verification": "Verify the literal clause through C15, C16, C17, C18, C20, with exact release/source/artifact pins and explicit unavailable-environment limits. Browser document selection retains exact original bytes through audit/install and a fresh setup session; no reimport or new purchase is implied.",
       "evidence": [
         "commercial/tests/test_fulfillment.py",
         "commercial/tests/test_fulfillment_socket.py",

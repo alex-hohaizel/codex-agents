@@ -22,6 +22,8 @@ El candidato comercial reúne la instalación y los derechos adquiridos de versi
 
 ### Instalador listo para Windows, macOS y Linux
 
+Si la entrega de confianza incluye una confirmación de compra o un entitlement JSON, abre **Keep your purchase document · optional** y elige el archivo original antes de preparar el plan. Se conserva de forma privada fuera del paquete y las carpetas de habilidades. Un documento nuevo invalida el plan y la aprobación anteriores; prepara y revisa un plan nuevo. Las actualizaciones conservan automáticamente el documento existente. Guardarlo no verifica una firma de compra ni concede derechos. El instalador técnico también funciona sin este documento.
+
 Descarga el archivo **Universal** listo o el paquete para tu sistema y CPU desde la [versión estable](https://github.com/alex-hohaizel/codex-agents/releases/latest). Extráelo por completo, lee `START_HERE.html` y abre `Start.cmd` en Windows, `Start.command` en macOS o `Start.sh` en Linux. Python, Node y la interfaz compilada están incluidos. El ZIP automático de código fuente de GitHub corresponde a la ruta de desarrollo. El asistente está en inglés y ucraniano; esta guía explica el mismo proceso en español.
 
 Usa **Check now → Prepare plan**, revisa destinos y conflictos, aprueba el plan exacto y continúa con **Install reviewed plan → Verify files → Check in Codex**. La selección estándar incluye 33 habilidades, Orchestrator, perfil y doce roles. Usa tu propia cuenta Codex. **Create practice project → Open folder → Open Codex → Copy prompt** prepara el ejercicio inicial sin ejecutar un modelo. Conserva el registro: la recuperación usa la operación seleccionada y el mismo plan. [Instalación y recuperación](../INSTALL.md#recommended-local-browser-installer)

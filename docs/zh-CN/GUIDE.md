@@ -22,6 +22,8 @@
 
 ### 适用于 Windows、macOS 和 Linux 的现成安装包
 
+如果可信交付提供了购买确认或 entitlement JSON，请在生成计划前展开 **Keep your purchase document · optional** 并选择原始文件。文件会私密保存在软件包和技能目录之外。更换文件会清除旧计划及批准，之后需要重新生成并检查计划。更新会自动保留已有购买记录。保存文件不会验证购买签名或授予权利。技术版安装程序也可在没有购买文件的情况下使用。
+
 从[稳定发行版](https://github.com/alex-hohaizel/codex-agents/releases/latest)下载现成的 **Universal** 归档或与你的系统、CPU 对应的包。完整解压，阅读 `START_HERE.html`，然后在 Windows 打开 `Start.cmd`、macOS 打开 `Start.command`、Linux 打开 `Start.sh`。包中已包含 Python、Node 和构建后的界面，无须另行安装这些运行时。GitHub 自动生成的源码 ZIP 属于开发者流程。安装向导提供英语和乌克兰语；本手册用简体中文解释同一流程。
 
 依次选择 **Check now → Prepare plan**，核对目标与冲突，批准准确的计划，再选择 **Install reviewed plan → Verify files → Check in Codex**。默认安装包含 33 项技能、Orchestrator、配置和十二个角色。实际使用代理需要你自己的 Codex 账户。**Create practice project → Open folder → Open Codex → Copy prompt** 只准备第一个练习，不会执行模型。保留日志；恢复时使用所选操作及原来的计划。[完整安装与恢复](../INSTALL.md#recommended-local-browser-installer)

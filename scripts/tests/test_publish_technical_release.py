@@ -69,7 +69,7 @@ class TechnicalPublicationGuards(unittest.TestCase):
             path = Path(directory) / 'proof.zip'
             pairs = {(('1' if universal else str(index + 2)) * 64, target)
                      for universal in (False, True) for index, target in enumerate(sorted(release.TARGETS))}
-            def write_proofs(break_cleanup=False, gui_cleanup=None):
+            def write_proofs(break_cleanup=False, gui_cleanup=None, purchase_sha=None):
                 with zipfile.ZipFile(path, 'w') as archive:
                     for index, (digest, target) in enumerate(sorted(pairs)):
                         prefix = 'proof-' + str(index) + '/'
@@ -77,11 +77,16 @@ class TechnicalPublicationGuards(unittest.TestCase):
                         records = {
                             'NATIVE-CI.json': {'status': 'passed', 'source_commit': SHA, 'archive_sha256': digest,
                                 'target': target, 'backend_and_real_browser': True, 'workbench_browser_transport_verified': True,
-                                'windows_restricted_non_admin_verified': True, 'environment_limits': []},
+                                'windows_restricted_non_admin_verified': True, 'environment_limits': [],
+                                'purchase_document_gui_verified': True, 'purchase_document_inherited_without_reimport': True},
                             'backend/native-acceptance.json': {'status': 'passed', 'source_clean': True, 'source_commit': SHA,
                                 'archive_sha256': digest, 'native': {'target': target}, 'package_manifest_sha256': manifest},
                             'gui-proof/BROWSER-OBSERVATION.json': {'status': 'passed', 'package': {'source_commit': SHA, 'manifest_sha256': manifest},
-                                'browser_cleanup': {'root_exit_observed': True, 'profile_removed': True} if gui_cleanup is None else gui_cleanup},
+                                'browser_cleanup': {'root_exit_observed': True, 'profile_removed': True} if gui_cleanup is None else gui_cleanup,
+                                'purchase_document': {'retained_bytes_verified': True, 'old_plan_rejected': True, 'selection_clears_approved_plan': True, 'sha256': '9' * 64}},
+                            'GUI-PURCHASE-INHERITANCE.json': {'status': 'passed', 'source_commit': SHA, 'archive_sha256': digest,
+                                'original_document_sha256': '9' * 64 if purchase_sha is None else purchase_sha,
+                                'after_browser_shutdown': True, 'entitlement_argument_supplied': False},
                             'workbench-proof/WORKBENCH-BROWSER-PRIVACY.json': {'status': 'passed', 'source': {'source_commit': SHA,
                                 'package_manifest_sha256': manifest}, 'browser_cleanup': {'parent_exit_observed': True,
                                 'private_root_removed': not break_cleanup}, 'limitations': []}}
@@ -100,6 +105,9 @@ class TechnicalPublicationGuards(unittest.TestCase):
                     write_proofs(gui_cleanup=cleanup)
                     with self.assertRaisesRegex(ValueError, 'Installer browser proof binding or cleanup differs'):
                         release.verify_native_proofs(path, SHA, pairs)
+            write_proofs(purchase_sha='8' * 64)
+            with self.assertRaisesRegex(ValueError, 'purchase document'):
+                release.verify_native_proofs(path, SHA, pairs)
             write_proofs(break_cleanup=True)
             with self.assertRaisesRegex(ValueError, 'cleanup differs'):
                 release.verify_native_proofs(path, SHA, pairs)

@@ -22,6 +22,8 @@ The commercial buyer candidate has a coordinated setup and acquired-version reco
 
 ### Ready installer for Windows, macOS and Linux
 
+If trusted delivery supplied a purchase confirmation or entitlement JSON, open **Keep your purchase document · optional** and choose that original file before preparing the plan. It stays private outside the package and skill folders. A changed document clears the old plan and approval; prepare and review a new plan. Updates automatically retain the existing purchase record. Document retention does not verify a purchase signature or grant rights. The technical installer also works without a purchase document.
+
 Download the ready **Universal** archive or the matching OS/CPU asset from the [stable Release](https://github.com/alex-hohaizel/codex-agents/releases/latest). Fully extract it, read `START_HERE.html`, then open `Start.cmd` (Windows), `Start.command` (macOS), or `Start.sh` (Linux). The ready package includes Python, Node and the built interface; GitHub's automatic source ZIP is a source route. The wizard interface is English/Ukrainian; this guide covers the same workflow.
 
 Use **Check now → Prepare plan → review destinations/conflicts → approve → Install reviewed plan → Verify files → Check in Codex**. The standard selection includes 33 skills, Orchestrator, the profile and twelve roles. Use your own Codex account for agent execution. **Create practice project → Open folder → Open Codex → Copy prompt** prepares the first exercise; it does not execute a model. Keep the journal. Recovery uses the selected saved operation and exact plan. [Complete installer and recovery guide](../INSTALL.md#recommended-local-browser-installer)

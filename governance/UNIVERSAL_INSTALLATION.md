@@ -72,3 +72,11 @@ release notes, manifests, runtime notices, checksums and GitHub attestations
 consistent. Confirm the public `main`, visible latest Release and actual asset
 downloads. A prepared workflow or local ZIP is not publication. Device/OS
 minimums, signing, model tasks and commercial approval keep separate scopes.
+
+The optional purchase-document file choice belongs to the ordinary browser
+journey on all six targets. Accept only bounded document bytes, never a browser
+filesystem path. Require owner session, origin and CSRF; retain exact bytes in
+private state and bind them through the existing audit. Replacement invalidates
+old pending plans and approval. Preserve inherited records and legacy CLI paths.
+Require real file-input selection and retained-byte evidence; a structure check
+does not verify the document's trusted delivery or issue acquired rights.

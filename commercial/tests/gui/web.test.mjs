@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, readFile, copyFile, rm, chmod, realpath } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, copyFile, rm, chmod, realpath, readdir, lstat, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process';
 import { request as rawRequest } from 'node:http';
 import { createHash } from 'node:crypto';
 import { start, runCli } from '../../setup/web.mjs';
-import { securePrivatePath } from '../../../apps/agent-atelier/server/platform.mjs';
+import { securePrivatePath, assertPrivatePath } from '../../../apps/agent-atelier/server/platform.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const python = process.env.AGENT_SYSTEM_TEST_PYTHON || execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-c','import sys;print(sys.executable)'], { encoding:'utf8' }).trim();
@@ -23,7 +23,9 @@ with (a.state/'fixture-calls.jsonl').open('a',encoding='utf8') as f:f.write(json
 try:
  if a.command=='doctor':r={'status':'action-required','platform':{'os':sys.platform,'architecture':'fixture','supported_skills':True,'python':'fixture'},'components':{'profile_and_roles':{'included':True},'workbench':{'status':'included'}},'host':{'ready':False,'next':'Sign in with your own account.'},'next':'Offline files may be installed; sign in separately.'}
  elif a.command=='audit':
-  op=a.state/'operations'/uuid.uuid4().hex;journal=op/'journal.json';plan={'ready':True,'mode':'fresh','optional':{'action':'install','target':str(a.home/'.agents/skills/atelier-orchestrator')}};save(a.plan,plan);h=hashlib.sha256(a.plan.read_bytes()).hexdigest();save(rowfile,[{'journal':str(journal),'plan':str(a.plan),'plan_sha256':h,'status':'planned','can_resume':True,'source_commit':source}]);r={'status':'ready','plan':str(a.plan),'plan_sha256':h,'mode':'fresh','destination':str(a.home/'.agents/skills'),'journal':str(journal),'blockers':[],'preview':{'components':[{'id':'skills','target':str(a.home/'.agents/skills'),'action':'install'}],'conflicts':[],'preserved_changes':[]}}
+  op=a.state/'operations'/uuid.uuid4().hex;journal=op/'journal.json';plan={'ready':True,'mode':'fresh','optional':{'action':'install','target':str(a.home/'.agents/skills/atelier-orchestrator')}}
+  if a.entitlement:plan['entitlement']={'sha256':hashlib.sha256(a.entitlement.read_bytes()).hexdigest()}
+  save(a.plan,plan);h=hashlib.sha256(a.plan.read_bytes()).hexdigest();save(rowfile,[{'journal':str(journal),'plan':str(a.plan),'plan_sha256':h,'status':'planned','can_resume':True,'source_commit':source}]);r={'status':'ready','plan':str(a.plan),'plan_sha256':h,'mode':'fresh','destination':str(a.home/'.agents/skills'),'journal':str(journal),'blockers':[],'preview':{'components':[{'id':'skills','target':str(a.home/'.agents/skills'),'action':'install'}],'conflicts':[],'preserved_changes':[]}}
  elif a.command=='install':
   if hashlib.sha256(a.plan.read_bytes()).hexdigest()!=a.approve:raise ValueError('plan digest changed')
   rows=load(rowfile);row=rows[0];journal=Path(row['journal']);save(journal,{'status':'applying'});time.sleep(.35);f=a.home/'.agents/skills/fixture/SKILL.md';f.parent.mkdir(parents=True,exist_ok=True);f.write_bytes(b'fixture-installed\n');row.update(status='complete',can_resume=False);save(journal,{'status':'complete'});save(rowfile,rows);save(installed,{'status':'complete','journal':str(journal),'source_commit':source});r={'status':'installed','journal':str(journal),'verification':{'status':'verified-files','skills':1}}
@@ -46,7 +48,7 @@ try:
 except Exception as e:print(json.dumps({'status':'blocked','reason':str(e)}),file=sys.stderr);sys.exit(2)
 `;
 
-async function fixture(t) {
+async function fixture(t, options = {}) {
  const dir = await realpath(await mkdtemp(join(tmpdir(),'agent-setup-web-')));
  await securePrivatePath(dir,{directory:true,pythonPath:python});
  const pkg = join(dir,'Отриманий Пакет'); const home = join(dir,'Покупець Home'); const state = join(home,'.local/share/codex-agent-system');
@@ -54,11 +56,11 @@ async function fixture(t) {
  await writeFile(join(pkg,'setup/setup.py'),fakeEngine);
  const server = join(pkg,'product/apps/agent-atelier/server'); await mkdir(server,{recursive:true});
  for(const file of ['session.mjs','utils.mjs','platform.mjs','platform_support.py','environment.mjs'])await copyFile(join(ROOT,'apps/agent-atelier/server',file),join(server,file));
- await writeFile(join(pkg,'product-manifest.json'),JSON.stringify({product_version:'test-only',source_commit:'a'.repeat(40),edition:'fixture'}));
+ await writeFile(join(pkg,'product-manifest.json'),JSON.stringify({product_id:'codex-agent-system',product_version:'1.8.0',source_commit:'a'.repeat(40),edition:options.edition || 'unassigned'}));
  const ready = join(dir,'ready.json');
  // Test transport/privacy behavior with a real child process. This fixture is
  // not proof of the real kit's installation or native host discovery.
- const app = await start({packageRoot:pkg,pythonPath:python,home,state,readyPath:ready});
+ const app = await start({packageRoot:pkg,pythonPath:python,home,state,readyPath:ready,...(options.entitlementPath ? {entitlementPath:options.entitlementPath} : {})});
  t.after(async()=>{for(let i=0;i<100&&app.snapshot().active_job;i++)await new Promise(r=>setTimeout(r,30));await app.stop();await rm(dir,{recursive:true,force:true});});
  let cookie,csrf;
  const send = async(path,body,headers={})=>{
@@ -171,6 +173,107 @@ test('UTF-8 task text survives child process chunks split inside a Ukrainian cha
  const task=await f.action({action:'first-task',locale:'uk'});
  assert.equal(task.result.prompt,'$atelier-orchestrator\nУкраїна: збережи нотатку.');
  assert.equal(task.result.prompt.includes('\ufffd'),false);
+});
+
+const purchase = (changes = {}) => ({schema:'codex-agents.purchase-entitlement/1',mode:'test-not-a-purchase',product_id:'codex-agent-system',
+ order_id:'test-order-private',buyer_ref:'synthetic-private-buyer',edition:'solo',named_seats:1,purchased_product_major:1,purchased_version:'1.7.0',
+ acquired_use:'perpetual-purchased-product-major',included_updates:'purchased-product-major',...changes});
+const upload = bytes => ({document_base64:Buffer.from(bytes).toString('base64')});
+
+test('purchase document selection requires same-origin owner CSRF and preserves the normal command body bound',async t=>{
+ const f=await fixture(t);const body=upload(JSON.stringify(purchase()));
+ assert.equal((await f.send('/api/purchase-document',body)).status,401);await f.claim();
+ assert.equal((await f.send('/api/purchase-document',body,{'X-Setup-Csrf':'wrong'})).status,403);
+ assert.equal((await f.send('/api/purchase-document',body,{Origin:'https://example.invalid'})).status,403);
+ assert.equal((await f.send('/api/action',{action:'doctor',padding:'x'.repeat(33000)})).status,413);
+ assert.equal((await f.send('/api/purchase-document',{...body,path:'/tmp/browser-selected-path'})).status,400);
+ await assert.rejects(readFile(join(f.state,'fixture-calls.jsonl')),{code:'ENOENT'});
+});
+
+test('exact UTF-8 confirmation bytes are privately retained without PII in state and bind the next audit',async t=>{
+ const f=await fixture(t);await f.claim();const old=await f.action({action:'audit'});
+ const original=Buffer.from(JSON.stringify({schema:'codex-agents.purchase-confirmation/1',mode:'test-not-a-purchase',
+  entitlement:purchase({buyer_ref:'synthetic-Приватний покупець'}),payment_processed:false},null,2)+'\n');
+ const selected=await f.send('/api/purchase-document',upload(original));assert.equal(selected.status,200);
+ const hash=createHash('sha256').update(original).digest('hex');assert.deepEqual(selected.body,{status:'document-ready',sha256:hash,edition:'solo',purchased_product_major:1});
+ const directory=join(f.state,'web-setup/purchase-documents'),path=join(directory,(await readdir(directory))[0]);
+ assert.deepEqual(await readFile(path),original);await assertPrivatePath(path,{pythonPath:python});await assertPrivatePath(directory,{directory:true,pythonPath:python});
+ const before=await lstat(path);assert.equal((await f.send('/api/purchase-document',upload(original))).status,200);assert.equal((await lstat(path)).mtimeMs,before.mtimeMs);assert.deepEqual(await readFile(path),original);
+ const selectedPath=join(directory,(await readdir(directory)).find(name=>name!==path.split(/[\\/]/).at(-1)));assert.notEqual(selectedPath,path);assert.deepEqual(await readFile(selectedPath),original);
+ const state=await f.send('/api/state');assert.deepEqual(state.body.purchase_document,selected.body);assert.deepEqual(state.body.plans,[]);assert.equal(state.body.results.audit,undefined);
+ assert.ok(!JSON.stringify(state.body).includes('synthetic-Приватний'));assert.ok(!JSON.stringify(selected.body).includes(path));
+ const stale=await f.action({action:'install',plan_id:old.result.plan_id,approved:true});assert.equal(stale.result.code,'UNKNOWN_PLAN');
+ const next=await f.action({action:'audit'});assert.equal(next.result.status,'ready');
+ const calls=(await readFile(join(f.state,'fixture-calls.jsonl'),'utf8')).trim().split('\n').map(JSON.parse),audit=calls.filter(x=>x.command==='audit').at(-1);
+ assert.equal(audit.argv[audit.argv.indexOf('--entitlement')+1],selectedPath);
+ const plan=JSON.parse(await readFile(join(f.state,'web-setup/plans',next.result.plan_id+'.json'),'utf8'));assert.equal(plan.entitlement.sha256,hash);
+ assert.equal((await f.action({action:'install',plan_id:next.result.plan_id,approved:true})).result.status,'installed');
+});
+
+test('purchase document validation blocks wrong product, SKU, major, shape, encoding and oversize bytes',async t=>{
+ const f=await fixture(t,{edition:'solo'});await f.claim();
+ const invalid=[purchase({product_id:'another-product'}),purchase({edition:'team',named_seats:5}),purchase({purchased_product_major:2,purchased_version:'2.0.0'}),
+  purchase({purchased_version:'2.0.0'}),purchase({named_seats:5}),purchase({schema:'unknown/1'}),purchase({acquired_use:'subscription'}),
+  {schema:'codex-agents.purchase-confirmation/1',mode:'purchased',entitlement:purchase()}];
+ for(const item of invalid)assert.equal((await f.send('/api/purchase-document',upload(JSON.stringify(item)))).status,400);
+ for(const document_base64 of ['!not-base64','YQ','YWJj====','Y Q=='])assert.equal((await f.send('/api/purchase-document',{document_base64})).status,400);
+ assert.equal((await f.send('/api/purchase-document',upload(Buffer.from([0xff,0xfe,0x7b])))).status,400);
+ const duplicate=Buffer.from('{"schema":"unknown","schema":"customer-private-key"}');const rejected=await f.send('/api/purchase-document',upload(duplicate));assert.equal(rejected.status,400);assert.ok(!JSON.stringify(rejected.body).includes('customer-private-key'));
+ const tooLarge=upload(JSON.stringify(purchase({padding:'x'.repeat(256*1024)})));assert.equal((await f.send('/api/purchase-document',tooLarge)).status,413);
+ assert.equal((await f.send('/api/state')).body.purchase_document,null);
+ await assert.rejects(readdir(join(f.state,'web-setup/purchase-documents')),{code:'ENOENT'});
+});
+
+test('a Team document above the command body limit is accepted only by its bounded receipt route',async t=>{
+ const f=await fixture(t,{edition:'team'});await f.claim();
+ const bytes=Buffer.from(JSON.stringify(purchase({edition:'team',named_seats:5,padding:'x'.repeat(64*1024)})));
+ const selected=await f.send('/api/purchase-document',upload(bytes));assert.equal(selected.status,200);assert.equal(selected.body.edition,'team');
+ const directory=join(f.state,'web-setup/purchase-documents');assert.deepEqual(await readFile(join(directory,(await readdir(directory))[0])),bytes);
+ assert.equal((await f.action({action:'audit'})).result.status,'ready');
+});
+
+test('selection observes the same single-job boundary as install and cannot invalidate an active plan',async t=>{
+ const f=await fixture(t);await f.claim();const audited=await f.action({action:'audit'});
+ const started=await f.send('/api/action',{action:'install',plan_id:audited.result.plan_id,approved:true});assert.equal(started.status,202);
+ const blocked=await f.send('/api/purchase-document',upload(JSON.stringify(purchase())));assert.equal(blocked.status,409);assert.equal(blocked.body.code,'OPERATION_RUNNING');
+ assert.equal((await f.wait(started.body.job_id)).result.status,'installed');assert.equal((await f.send('/api/state')).body.purchase_document,null);
+});
+
+test('changed retained purchase bytes block a fresh audit and a previously approved install without overwriting them',async t=>{
+ const f=await fixture(t);await f.claim();const bytes=Buffer.from(JSON.stringify(purchase()));
+ const selected=await f.send('/api/purchase-document',upload(bytes)),directory=join(f.state,'web-setup/purchase-documents'),path=join(directory,(await readdir(directory))[0]);
+ await writeFile(path,'changed-private-document');
+ const audit=await f.action({action:'audit'});assert.equal(audit.result.code,'PURCHASE_DOCUMENT_CHANGED');assert.ok(!JSON.stringify(audit.result).includes(path));
+ const repeated=await f.send('/api/purchase-document',upload(bytes));assert.equal(repeated.status,200);assert.equal(await readFile(path,'utf8'),'changed-private-document');
+ const selectedPath=join(directory,(await readdir(directory)).find(name=>name!==path.split(/[\\/]/).at(-1)));assert.deepEqual(await readFile(selectedPath),bytes);
+ const approved=await f.action({action:'audit'});assert.equal(approved.result.status,'ready');await writeFile(selectedPath,'changed-after-audit');
+ const install=await f.action({action:'install',plan_id:approved.result.plan_id,approved:true});assert.equal(install.result.code,'PURCHASE_DOCUMENT_CHANGED');
+ const calls=(await readFile(join(f.state,'fixture-calls.jsonl'),'utf8')).trim().split('\n').map(JSON.parse);assert.equal(calls.filter(x=>x.command==='install').length,0);
+});
+
+test('explicit original selection recovers after an interrupted partial cache write without changing orphan data',async t=>{
+ const f=await fixture(t);await f.claim();const bytes=Buffer.from(JSON.stringify(purchase())),hash=createHash('sha256').update(bytes).digest('hex');
+ const directory=join(f.state,'web-setup/purchase-documents');await mkdir(directory,{mode:0o700});
+ const orphan=join(directory,hash+'-00000000-0000-4000-8000-000000000000.json');await writeFile(orphan,Buffer.from('partial-private-document'),{mode:0o600});
+ const selected=await f.send('/api/purchase-document',upload(bytes));assert.equal(selected.status,200);assert.equal(selected.body.sha256,hash);
+ assert.equal(await readFile(orphan,'utf8'),'partial-private-document');assert.equal((await readdir(directory)).length,2);
+ const audited=await f.action({action:'audit'});assert.equal(audited.result.status,'ready');
+ const calls=(await readFile(join(f.state,'fixture-calls.jsonl'),'utf8')).trim().split('\n').map(JSON.parse),actual=calls.at(-1).argv;
+ const selectedPath=actual[actual.indexOf('--entitlement')+1];assert.notEqual(selectedPath,orphan);assert.deepEqual(await readFile(selectedPath),bytes);
+});
+
+test('an explicit legacy CLI document is still passed unchanged until a valid GUI selection replaces it',async t=>{
+ const legacyDir=await mkdtemp(join(tmpdir(),'legacy-purchase-'));t.after(()=>rm(legacyDir,{recursive:true,force:true}));
+ const legacy=join(legacyDir,'legacy-receipt.json');await writeFile(legacy,'Legacy opaque receipt retained by the existing CLI.');
+ const f=await fixture(t,{entitlementPath:legacy});await f.claim();await f.action({action:'audit'});
+ let calls=(await readFile(join(f.state,'fixture-calls.jsonl'),'utf8')).trim().split('\n').map(JSON.parse);assert.equal(calls.at(-1).argv[calls.at(-1).argv.indexOf('--entitlement')+1],legacy);
+ await f.send('/api/purchase-document',upload(JSON.stringify(purchase())));await f.action({action:'audit'});
+ calls=(await readFile(join(f.state,'fixture-calls.jsonl'),'utf8')).trim().split('\n').map(JSON.parse);assert.notEqual(calls.at(-1).argv[calls.at(-1).argv.indexOf('--entitlement')+1],legacy);assert.equal(await readFile(legacy,'utf8'),'Legacy opaque receipt retained by the existing CLI.');
+});
+
+test('a linked receipt storage directory cannot redirect document writes', {skip:process.platform==='win32'},async t=>{
+ const f=await fixture(t);await f.claim();const outside=join(f.dir,'unrelated-private');await mkdir(outside);await symlink(outside,join(f.state,'web-setup/purchase-documents'));
+ assert.equal((await f.send('/api/purchase-document',upload(JSON.stringify(purchase())))).status,400);assert.deepEqual(await readdir(outside),[]);
 });
 
 test('failed browser startup retains its real signal and bounded redacted stderr', {skip:process.platform==='win32'},async t=>{
