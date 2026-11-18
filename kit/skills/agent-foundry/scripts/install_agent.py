@@ -8,6 +8,12 @@ Requires exclusive control of kit/project ancestor directories during operations
 Observed links/special files and final-leaf races are checked; this is not a
 sandbox against hostile same-user processes replacing ancestor directories.
 """
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 import hashlib
 import json
@@ -104,7 +110,7 @@ def safe_path(path):
             mode = part.lstat().st_mode
         except FileNotFoundError:
             continue
-        if stat.S_ISLNK(mode):
+        if platform_support.is_link_or_reparse(part):
             raise InstallError("Symlink is not permitted: " + str(part))
         if part != path and not stat.S_ISDIR(mode):
             raise InstallError("Path ancestor is not a directory: " + str(part))
@@ -114,6 +120,9 @@ def safe_path(path):
 def relative_file(value):
     if not isinstance(value, str) or not value or "\\" in value or "\x00" in value:
         raise InstallError("Invalid manifest file path")
+    if platform_support.WINDOWS:
+        try: platform_support.safe_relative(value)
+        except ValueError as error: raise InstallError(str(error)) from error
     path = PurePosixPath(value)
     if path.is_absolute() or any(p in (".", "..", "") for p in value.split("/")):
         raise InstallError("Unsafe manifest file path: " + value)
@@ -155,7 +164,7 @@ def file_map(root):
         for name in directories + filenames:
             entry = Path(current) / name
             mode = entry.lstat().st_mode
-            if stat.S_ISLNK(mode) or not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)):
+            if platform_support.is_link_or_reparse(entry) or not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)):
                 raise InstallError("Link or special file is not permitted: " + str(entry))
         for name in filenames:
             path = Path(current) / name
@@ -170,7 +179,21 @@ def file_mode(path):
         raise InstallError("Expected a regular file: " + str(path))
     if observed.st_mode & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX):
         raise InstallError("Special permission bits are not supported: " + str(path))
-    return stat.S_IMODE(observed.st_mode)
+    if platform_support.WINDOWS and platform_support.private_acl_report(path)['private']:
+        return 0o600
+    return platform_support.file_mode(path)
+
+
+def native_mode(mode):
+    return mode if mode in (0o600, 0o700) else platform_support.project_mode(mode)
+
+
+def native_fingerprint(record):
+    if record is None or not platform_support.WINDOWS:
+        return record
+    if 'modes' in record:
+        return dict(record, modes={name:native_mode(mode) for name,mode in record['modes'].items()})
+    return dict(record, mode=native_mode(record['mode']))
 
 
 def mode_map(root, files):
@@ -343,7 +366,7 @@ def load_kit(kit):
         actual = file_map(kit / entry["path"])
         if actual != entry["files"]:
             raise InstallError("Kit hash/file-set mismatch for " + name)
-        if mode_map(kit / entry["path"], actual) != entry["modes"]:
+        if mode_map(kit / entry["path"], actual) != {path:native_mode(mode) for path,mode in entry["modes"].items()}:
             raise InstallError("Kit permission mismatch for " + name)
         validate_skill(kit, name)
         if manifest.get("operating_standard") is not None:
@@ -659,6 +682,7 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
         previous_entry = old_entries.get(name)
         previous = ({"files": previous_entry["files"], "modes": previous_entry["modes"]} if previous_entry else None)
         wanted = ({"files": entries[name]["files"], "modes": entries[name]["modes"]} if name in entries else None)
+        previous, wanted = native_fingerprint(previous), native_fingerprint(wanted)
         if actual is not None and previous is None:
             raise InstallError("Unmanaged skill conflict: " + str(target))
         if actual != previous and actual != wanted:
@@ -734,7 +758,7 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
                     entry["modes"][path] = record["mode"]
                 overlays[name] = overlay
                 preserved_visuals.append(name)
-                wanted = {"files": entry["files"], "modes": entry["modes"]}
+                wanted = native_fingerprint({"files": entry["files"], "modes": entry["modes"]})
         if actual != wanted:
             operations.append({"path": ".agents/skills/" + name, "kind": "skill", "existed": actual is not None, "before": actual, "after": wanted})
     # Installed receipts describe effective bytes, including each project's
@@ -810,7 +834,7 @@ def write_file(path, data, mode=0o600):
         stream.write(data)
         stream.flush()
         # Set the exact requested ordinary mode independently of the caller's umask.
-        os.fchmod(stream.fileno(), mode)
+        platform_support.fchmod(stream.fileno(), mode)
         os.fsync(stream.fileno())
 
 
@@ -906,7 +930,7 @@ def apply_install(kit, project, other_sources=(), allow_remove_owned=False):
                         raise InstallError("Kit changed during staging: " + name + "/" + relative)
                     mode = plan["entries"][name]["modes"][relative]
                     observed_mode = preserved["mode"] if preserved else file_mode(kit / "skills" / name / relative)
-                    if observed_mode != mode:
+                    if native_mode(observed_mode) != native_mode(mode):
                         raise InstallError("Kit permissions changed during staging: " + name + "/" + relative)
                     write_file(output / relative, data, mode)
             else:
@@ -992,7 +1016,7 @@ def recover(project, txid):
                 name = Path(item["path"]).name
                 owner = old_entries if key == "before" else entries
                 declared = owner.get(name)
-                if declared is None or value != {"files": declared["files"], "modes": declared["modes"]}:
+                if declared is None or native_fingerprint(value) != native_fingerprint({"files": declared["files"], "modes": declared["modes"]}):
                     raise InstallError("Recovery skill snapshot differs from its declared ownership")
             elif not isinstance(value, dict) or not HEX.fullmatch(value.get("sha256", "")) or type(value.get("mode")) is not int or not 0 <= value["mode"] <= 0o777:
                 raise InstallError("Invalid recovery hash")

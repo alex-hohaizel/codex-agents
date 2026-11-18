@@ -27,7 +27,7 @@ class RuntimeTests(unittest.TestCase):
         (self.bundle / "scripts").mkdir(parents=True)
         (self.bundle / "assets").mkdir()
         (self.bundle / "references").mkdir()
-        for name in ("atelier.py", "pipeline.py"):
+        for name in ("atelier.py", "pipeline.py", "platform_support.py"):
             shutil.copyfile(SOURCE / name, self.bundle / "scripts" / name)
         (self.bundle / "assets/stage-catalog.json").write_text('{"schema_version":"2.0.0"}')
         (self.bundle / "references/experience-contract.md").write_text("Test contract v1")

@@ -1,5 +1,6 @@
 import { lstat, readdir, rm, readFile, readlink } from "node:fs/promises";
 import { join, resolve, dirname, basename } from "node:path";
+import { isPortableAbsolutePath, absolutePathPrefixes, portablePathIdentity, portablePathWithin } from "./platform.mjs";
 import { ACTIVE_JOB_STATES } from "../shared/contracts.mjs";
 import { verifyExecutionInputTask } from "./skills.mjs";
 import {
@@ -43,17 +44,8 @@ const copyOwner = (kind, row) => ({
 const relatedRootHashes = (row) => [
   ...new Set(
     [row.root, row.source_root]
-      .filter((value) => typeof value === "string" && value.startsWith("/"))
-      .flatMap((value) => {
-        let prefix = "";
-        return value
-          .split("/")
-          .filter(Boolean)
-          .map((part) => {
-            prefix += "/" + part;
-            return sha(prefix);
-          });
-      }),
+      .filter(isPortableAbsolutePath)
+      .flatMap(value => absolutePathPrefixes(value).flatMap(prefix => [sha(prefix), sha(portablePathIdentity(prefix))])),
   ),
 ];
 const older = (value, days, at) =>
@@ -73,16 +65,10 @@ const references = (
   if (typeof value === "string") {
     if (
       ids.has(value) ||
-      roots.some((root) => value === root || value.startsWith(root + "/"))
+      roots.some((root) => portablePathWithin(root, value))
     )
       return true;
-    if (value.startsWith("/")) {
-      let prefix = "";
-      for (const part of value.split("/").filter(Boolean)) {
-        prefix += "/" + part;
-        if (rootHashes.has(sha(prefix))) return true;
-      }
-    }
+    if (absolutePathPrefixes(value).some(prefix => rootHashes.has(sha(prefix)) || rootHashes.has(sha(portablePathIdentity(prefix))))) return true;
     return false;
   }
   if (value && typeof value === "object")
@@ -341,7 +327,7 @@ export class RetentionManager {
           Object.entries(aliasTargets).every(
             ([name, target]) =>
               typeof target === "string" &&
-              target.startsWith("/") &&
+              isPortableAbsolutePath(target) &&
               target.length <= 8192 &&
               !target.includes("\0") &&
               name === sha(target) + ".md",

@@ -2,7 +2,7 @@
 name: atelier-orchestrator
 description: Choose a suitable route for a new task, an existing project, or an agent-system update. Use when the user needs an entry point, coordinated delivery, or help deciding which existing capability to use.
 metadata:
-  version: "1.5.0"
+  version: "1.5.1"
 ---
 
 # Atelier Orchestrator

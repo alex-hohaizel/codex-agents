@@ -3,7 +3,13 @@
 
 import argparse
 from contextlib import contextmanager
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import json
 import os
@@ -86,7 +92,7 @@ def branch_name(root, branch):
 
 def identity(root):
     root = absolute_path(root, "Git worktree")
-    context.require(git_text(root, "rev-parse", "--show-toplevel") == str(root),
+    context.require(Path(git_text(root, "rev-parse", "--show-toplevel")) == root,
                     "target must be the root of its Git worktree")
     common = absolute_path(git_text(root, "rev-parse", "--path-format=absolute", "--git-common-dir"),
                            "Git common directory")
@@ -111,7 +117,7 @@ def registered_worktrees(root):
 
 
 def check_registered(root, target, branch, head):
-    matches = [row for row in registered_worktrees(root) if row.get("worktree") == str(target)]
+    matches = [row for row in registered_worktrees(root) if row.get("worktree") and Path(row["worktree"]) == target]
     context.require(len(matches) == 1 and matches[0].get("branch") == "refs/heads/" + branch
                     and matches[0].get("HEAD") == head and "prunable" not in matches[0]
                     and "bare" not in matches[0],
@@ -141,8 +147,9 @@ def write_scope(root, paths):
 @contextmanager
 def repository_lock(common):
     path = common / LOCK
-    with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600),
+    with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0), 0o600),
                    "w") as lock:
+        if platform_support.WINDOWS: platform_support.fchmod(lock.fileno(),0o600)
         info = os.fstat(lock.fileno())
         context.require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1,
                         "invalid worktree lock file")
@@ -154,7 +161,10 @@ def repository_lock(common):
 
 
 def distinct_paths(first, second):
-    context.require(not handoff.overlaps(str(first), str(second)),
+    first, second = str(first), str(second)
+    if platform_support.WINDOWS:
+        first, second = first.replace("\\", "/"), second.replace("\\", "/")
+    context.require(not handoff.overlaps(first, second),
                     "worktrees must use separate, nonnested directories")
 
 
@@ -169,7 +179,7 @@ def make_binding(root, base, worktree, branch, write_paths, *, create=False):
         with repository_lock(common):
             for row in registered_worktrees(root):
                 distinct_paths(row["worktree"], worktree)
-            context.require(worktree.parent.is_dir() and not worktree.exists() and not worktree.is_symlink(),
+            context.require(worktree.parent.is_dir() and not worktree.exists() and not platform_support.is_link_or_reparse(worktree),
                             "worktree path must be absent under an existing directory")
             prepare_scope(root, base, write_paths)
             git(root, "worktree", "add", "-b", branch, "--", str(worktree), base)
@@ -233,7 +243,7 @@ def load_record(path, digest):
     context.require(isinstance(digest, str) and context.HASH.fullmatch(digest),
                     "expected a SHA-256 record pin")
     path = Path(path)
-    context.require(not path.is_symlink() and path.is_file() and path.stat().st_size <= MAX_RECORD,
+    context.require(not platform_support.is_link_or_reparse(path) and path.is_file() and path.stat().st_size <= MAX_RECORD,
                     "expected a bounded regular record file")
     raw = path.read_bytes()
     context.require(len(raw) <= MAX_RECORD and hashlib.sha256(raw).hexdigest() == digest,

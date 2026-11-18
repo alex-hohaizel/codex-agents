@@ -31,7 +31,7 @@ def git_identity(root):
     except (subprocess.SubprocessError, OSError) as error:
         raise context.ContextError("a committed, accessible Git worktree is required") from error
     lines = result.stdout.splitlines()
-    context.require(len(lines) == 2 and lines[0] == str(root)
+    context.require(len(lines) == 2 and Path(lines[0]) == root
                     and re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", lines[1]),
                     "Git worktree must match the canonical project root")
     return {"project_root": str(root), "head": lines[1]}

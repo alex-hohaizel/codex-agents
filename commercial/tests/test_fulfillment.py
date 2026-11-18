@@ -18,6 +18,7 @@ class FulfillmentTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix="agent-rights-")
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name).resolve()
+        if fulfillment.platform_support.WINDOWS: fulfillment.platform_support.make_private(self.root)
         self.artifact = self.root / "Agent-System-1.8.0-rc.1-solo.zip"
         self.artifact.write_bytes(b"controlled buyer artifact\n")
         self.offer = fulfillment.read_json(FILE.with_name("offer.json"))
@@ -138,7 +139,7 @@ class FulfillmentTests(unittest.TestCase):
             fulfillment.private_db(FILE.parent / "test.sqlite")
         with self.assertRaisesRegex(ValueError, "production issuance disabled"):
             self.issue(mode="production")
-        self.assertEqual(os.stat(self.root / "seller.sqlite").st_mode & 0o077, 0)
+        self.assertTrue(fulfillment.platform_support.assert_private(self.root / "seller.sqlite")["private"])
 
     def test_terms_and_symlink_sources_cannot_be_substituted(self):
         self.offer["license_version"] = "9.0.0"

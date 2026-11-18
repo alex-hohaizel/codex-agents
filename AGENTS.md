@@ -27,3 +27,13 @@ Use the canonical descriptors and existing component versions; keep buyer
 and source packages derived from the same commit. Verify the affected normal
 buyer path and current artifact receipts. A commercial RC, valid signature
 and local demo do not authorize a public sale, new spending or legal publication.
+
+## Universal installer contract
+
+For setup, platform, runtime, packaging and release changes, apply
+[Universal installation](governance/UNIVERSAL_INSTALLATION.md). Preserve all six
+native targets and the ordinary browser buyer journey. Keep vendor input locks,
+full inventories, source commit bindings, actual native evidence, source ZIP HTML,
+localized guidance and public ready assets consistent. Preserve project runtimes,
+private state, unknown local drift and existing acquired rights. Never substitute
+a source-only ZIP for a ready installer or rebind old evidence to changed bytes.

@@ -1,3 +1,4 @@
+import { homedir } from "node:os";
 import { createHash, randomUUID } from "node:crypto";
 import {
   lstat,
@@ -8,7 +9,8 @@ import {
   open,
   rename,
 } from "node:fs/promises";
-import { resolve, relative, sep, dirname, basename, extname } from "node:path";
+import { resolve, relative, sep, dirname, basename, extname, isAbsolute, parse } from "node:path";
+import { securePrivatePath, syncDirectory } from "./platform.mjs";
 export class ServiceError extends Error {
   constructor(code, message, status = 400, details = {}) {
     super(message);
@@ -208,7 +210,7 @@ export function isWithin(root, target) {
   const path = relative(root, target);
   return (
     path === "" ||
-    (!path.startsWith(`..${sep}`) && path !== ".." && !path.startsWith(sep))
+    (!path.startsWith(`..${sep}`) && path !== ".." && !isAbsolute(path))
   );
 }
 const secretName =
@@ -223,9 +225,9 @@ export async function projectRoot(value) {
     "Select an existing project directory",
   );
   fail(
-    root !== sep &&
-      root !== process.env.HOME &&
-      root !== dirname(process.env.HOME ?? "/Users/owner"),
+    root !== parse(root).root &&
+      root !== (process.env.HOME ?? homedir()) &&
+      root !== dirname(process.env.HOME ?? homedir()),
     "INVALID_ROOT",
     "Select a project directory, not a home or system root",
   );
@@ -249,6 +251,7 @@ export async function safeFile(
     "Path must stay inside the selected project",
   );
   const parts = relative(root, target).split(sep).filter(Boolean);
+  if (process.platform === "win32") fail(parts.every(part => !part.includes(":") && !/[. ]$/.test(part) && !/^(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)/i.test(part)), "OUTSIDE_ROOT", "Windows device, stream and alias paths are not supported");
   let current = root;
   for (const part of parts) {
     fail(
@@ -309,18 +312,14 @@ export async function atomicWrite(path, bytes) {
   const temporary = `${path}.${randomUUID()}.tmp`;
   const file = await open(temporary, "wx", 384);
   try {
+    await securePrivatePath(temporary);
     await file.writeFile(bytes);
     await file.sync();
   } finally {
     await file.close();
   }
   await rename(temporary, path);
-  const parent = await open(dirname(path), "r");
-  try {
-    await parent.sync();
-  } finally {
-    await parent.close();
-  }
+  await syncDirectory(dirname(path));
 }
 export async function listArtifacts(root, { limit = 250 } = {}) {
   const result = [];

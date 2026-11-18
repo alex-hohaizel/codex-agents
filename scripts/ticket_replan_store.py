@@ -3,7 +3,13 @@
 
 import argparse
 from contextlib import contextmanager
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import json
 import os
 from pathlib import Path
@@ -164,8 +170,9 @@ def read_receipt(root, projection_name, operation_id, plan_digest):
 def projection_lock(path):
     # A fixed lock name covers projection names that alias each other on macOS.
     lock_path = path.parent / LOCK_NAME
-    fd = os.open(lock_path, os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+    fd = os.open(lock_path, os.O_WRONLY | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0), 0o600)
     try:
+        if platform_support.WINDOWS: platform_support.fchmod(fd,0o600)
         info = os.fstat(fd)
         context.require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1, "invalid replan lock file")
         try:
@@ -219,20 +226,18 @@ def check_dispatch_reservations(root, projection_name, plan, receipt):
 
 def atomic_replace(path, raw, precondition):
     mode = stat.S_IMODE(path.lstat().st_mode)
+    if platform_support.WINDOWS and platform_support.private_acl_report(path)['private']:
+        mode = 0o600
     fd, name = tempfile.mkstemp(prefix=".ticket-replan-", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as stream:
-            os.fchmod(stream.fileno(), mode)
+            platform_support.fchmod(stream.fileno(), mode)
             stream.write(raw)
             stream.flush()
             os.fsync(stream.fileno())
         precondition()
         os.replace(name, path)
-        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(directory)
-        finally:
-            os.close(directory)
+        platform_support.sync_dir(path.parent)
     finally:
         Path(name).unlink(missing_ok=True)
 

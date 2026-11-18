@@ -32,3 +32,14 @@ Repository checks are evidence about these files. They do not replace domain QA,
 - [ ] Actual runtime architecture/schema/signing tested separately from source checks.
 - [ ] EN/UK buyer flow, seven guide links, truthful demo and support disclosures.
 - [ ] Issuance keys/customer data absent; no unauthorized payment or listing actions.
+
+## Universal installation maintenance
+
+Apply [the universal installation contract](../governance/UNIVERSAL_INSTALLATION.md) to affected changes. Preserve all six
+native Windows/macOS/Linux x64/ARM64 paths, explicit retained Python/Node helpers,
+project environments, full source/resources, private permissions, recovery and
+unknown drift. Ready installers and source archives are separate deliverables.
+The root HTML must survive GitHub source downloads and link to ready assets.
+Require exact-commit native package and real-browser evidence before release;
+keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
+Commercial purchase rights and owner sale gates remain unchanged.

@@ -9,6 +9,12 @@ destination before installation.
 """
 from __future__ import annotations
 
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 from dataclasses import dataclass
 import hashlib
@@ -95,7 +101,7 @@ def load_json(data):
 
 def copy_archive(source, snapshot):
     digest = hashlib.sha256()
-    with os.fdopen(os.open(source, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW), "rb") as origin:
+    with os.fdopen(os.open(source, os.O_RDONLY | getattr(os, 'O_NONBLOCK', 0) | getattr(os, 'O_NOFOLLOW', 0)), "rb") as origin:
         state = os.fstat(origin.fileno())
         if not stat.S_ISREG(state.st_mode) or not 0 < state.st_size <= MAX_ARCHIVE:
             raise ValueError("Expected a regular, bounded Codex ZIP archive")
@@ -253,7 +259,7 @@ def trusted_read_kit(kit):
 
 
 def fresh_staging(path):
-    if not path.is_absolute() or not path.parent.is_dir() or path.is_symlink() or path.exists():
+    if not path.is_absolute() or not path.parent.is_dir() or platform_support.is_link_or_reparse(path) or path.exists():
         raise ValueError("Stage must be a fresh absolute directory inside an existing parent")
     path = path.parent.resolve() / path.name
     parts = path.parts
@@ -282,7 +288,7 @@ def admit(archive, stage, pin):
                 target.parent.mkdir(parents=True, exist_ok=True)
                 with bundle.open(entry) as source, target.open("xb") as output:
                     shutil.copyfileobj(source, output, 1024 * 1024)
-                target.chmod(stat.S_IMODE(entry.external_attr >> 16))
+                platform_support.set_mode(target,stat.S_IMODE(entry.external_attr >> 16))
         if sha256_file(snapshot) != pin.archive_sha256:
             raise ValueError("The verified archive changed before staging")
         trusted_read_kit(payload / "kit")

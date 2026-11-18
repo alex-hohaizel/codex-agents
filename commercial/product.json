@@ -12,49 +12,50 @@
     "tested_cli": "0.166.0",
     "version_policy": "0.166.x tested; later versions require doctor plus discovery and canary",
     "prerequisites": [
-      "Python 3.9+",
-      "An authenticated Codex host supporting local skills",
-      "POSIX filesystem with user-write access"
+      "Supported native Codex host and buyer account",
+      "User-write home directory and a modern browser",
+      "Bundled Python3.13 and Node24 in ready packages; manual Python3.9+ only for the advanced source CLI"
     ],
     "accounts": "Buyer supplies Codex/model account and paid external integrations; these are not included"
   },
   "platforms": [
     {
-      "os": "macOS",
+      "os": "Windows",
       "architectures": [
+        "x64",
         "arm64"
       ],
-      "skills": "isolated user-home acceptance required",
-      "panel": "bundled runtime RC; Apple signing/notarization separate",
-      "minimum_os": "13.5 (bundled Node runtime requirement)"
+      "skills": "Full core, optional Orchestrator, profile and roles; exact native package evidence in release CI",
+      "panel": "Included built client and bundled native runtime",
+      "minimum_os": "Windows11 recommended; native Node upstream minimum Windows10/Server2016 subject to vendor lifecycle support",
+      "acceptance": "Six native OS/CPU workflow cases; minimum-version and every-device acceptance are not implied"
     },
     {
       "os": "macOS",
       "architectures": [
-        "x86_64"
+        "x64",
+        "arm64"
       ],
-      "skills": "unverified on actual Intel hardware",
-      "panel": "unverified without actual Intel run"
+      "skills": "Full core, optional Orchestrator, profile and roles; exact native package evidence in release CI",
+      "panel": "Included built client and bundled native runtime",
+      "minimum_os": "13.5 (Node24 upstream minimum); exact native runners documented",
+      "acceptance": "Six native OS/CPU workflow cases; minimum-version and every-device acceptance are not implied"
     },
     {
       "os": "Linux",
       "architectures": [
-        "x86_64",
+        "x64",
         "arm64"
       ],
-      "skills": "POSIX core path; Linux acceptance via CI runner, not this Mac",
-      "panel": "not advertised"
-    },
-    {
-      "os": "Windows",
-      "architectures": [],
-      "skills": "not advertised",
-      "panel": "not advertised"
+      "skills": "Full core, optional Orchestrator, profile and roles; exact native package evidence in release CI",
+      "panel": "Included built client and bundled native runtime",
+      "minimum_os": "glibc>=2.28, kernel>=4.18, libstdc++ GLIBCXX>=3.4.25; modern desktop browser",
+      "acceptance": "Six native OS/CPU workflow cases; minimum-version and every-device acceptance are not implied"
     },
     {
       "host": "ChatGPT Work",
-      "skills": "existing source-import package retained; host save and first-use acceptance separate",
-      "panel": "not applicable"
+      "skills": "Existing source-import package retained; host save and first-use acceptance separate",
+      "panel": "Not a Work-host runtime"
     }
   ],
   "recommended_components": {
@@ -63,7 +64,7 @@
     "profile": true,
     "roles": true,
     "maintenance": false,
-    "workbench": "optional bundled architecture archives when selected by canonical build"
+    "workbench": "optional; included built client and native runtimes in ready packages"
   },
   "buyer_entry": "START_HERE.html",
   "setup": "setup/setup.py",
@@ -81,7 +82,8 @@
   "trust": {
     "artifact": "detached Ed25519 signature over exact release index",
     "buyer_key": "obtain verifier public key through authenticated seller receipt, independently of archive",
-    "local_rc_key": "test-only private key outside repository; not production issuance"
+    "local_rc_key": "test-only private key outside repository; not production issuance",
+    "technical_release": "GitHub artifact attestations plus INSTALLER-BUILD.json/INSTALLER-SHA256SUMS; exact main commit"
   },
   "data_policy": {
     "telemetry": "none added by the buyer setup",
@@ -89,5 +91,5 @@
     "third_party": "third-party services retain their policies"
   },
   "channels": "commercial/channels/compatibility.json",
-  "status": "commercial release candidate; not a public sales offer"
+  "status": "Published technical distribution; commercial terms remain owner-review draft, no public sale"
 }

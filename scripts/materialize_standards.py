@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import stat
 from pathlib import Path
 
 RESOURCES = {
@@ -20,7 +21,14 @@ RESOURCES = {
     'ai-production.md': 'references/ai-production.md',
     'ai-production.schema.json': 'assets/ai-production.schema.json',
     'ai_production.py': 'scripts/ai_production.py',
+    'platform_support.py': 'scripts/platform_support.py',
 }
+
+
+def linked(path):
+    try: info = path.lstat()
+    except FileNotFoundError: return False
+    return stat.S_ISLNK(info.st_mode) or bool(getattr(info, 'st_file_attributes', 0) & 0x400)
 
 
 def main():
@@ -38,20 +46,37 @@ def main():
     masters = {}
     for source in RESOURCES:
         master = root / 'standards' / source
-        if master.is_symlink() or not master.is_file():
+        if linked(master) or not master.is_file():
             errors.append(str(master.relative_to(root)) + ': missing/linked master')
         else:
             masters[source] = master.read_bytes()
     for bundle in bundles:
         for target in RESOURCES.values():
             path = bundle / target
-            if any(part.is_symlink() for part in (path, *path.parents)
+            if any(linked(part) for part in (path, *path.parents)
                    if part != root and root in part.parents):
                 errors.append(str(path.relative_to(root)) + ': linked target path')
+    platform_targets = ['scripts/platform_support.py', 'kit/portable/platform_support.py',
+                        'commercial/platform_support.py', 'commercial/setup/platform_support.py',
+                        'apps/agent-atelier/server/platform_support.py']
+    for relative in platform_targets:
+        path = root / relative
+        if any(linked(part) for part in (path, *path.parents)
+               if part != root and root in part.parents):
+            errors.append(relative + ': linked/reparse platform target path')
     if errors:
         print(json.dumps({'ok': False, 'check_only': args.check,
                           'resources': records, 'errors': errors}, indent=2))
         return 1
+    if 'platform_support.py' in masters:
+        for relative in platform_targets:
+            path = root / relative
+            if args.check:
+                if not path.is_file() or path.read_bytes() != masters['platform_support.py']:
+                    errors.append(relative + ': platform source drift')
+            else:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(masters['platform_support.py'])
     for source, target in RESOURCES.items():
         data = masters[source]
         for bundle in bundles:

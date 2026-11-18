@@ -2,7 +2,7 @@
 name: app-atelier-operations
 description: "Operate and repair an existing app. Use for incident triage, support trends, product and cost signals, monitoring, recovery, or retirement."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # App Atelier Operations

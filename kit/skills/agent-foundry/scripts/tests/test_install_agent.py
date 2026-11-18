@@ -30,7 +30,7 @@ class PortableTests(unittest.TestCase):
         self.base = Path(self.tmp.name)
         self.tools = self.base / "constructor/scripts"
         self.tools.mkdir(parents=True)
-        for name in ("install_agent.py", "package_agent.py", "check_generated_inheritance.py"):
+        for name in ("install_agent.py", "package_agent.py", "check_generated_inheritance.py", "platform_support.py"):
             shutil.copy2(SOURCE / name, self.tools / name)
         inheritance = module(SOURCE / "check_generated_inheritance.py")
         self.operating_resources = inheritance.RESOURCES
@@ -353,13 +353,13 @@ class PortableTests(unittest.TestCase):
         originals = {"AGENTS.md": "Owner's instructions.\r\n", ".git/sentinel": "commit bytes", "source/core.txt": "source bytes", "state/current.json": '{"revision":9}', ".agents/skills/unrelated/SKILL.md": "unrelated"}
         for name, text in originals.items():
             p = self.project / name;p.parent.mkdir(parents=True, exist_ok=True);p.write_bytes(text.encode())
-        os.chmod(self.project / "AGENTS.md", 0o600)
+        self.api.platform_support.set_mode(self.project / "AGENTS.md", 0o600)
         self.install();self.install("verify")
         for name, text in originals.items():
             actual = (self.project / name).read_bytes()
             self.assertTrue(actual.startswith(text.encode())) if name == "AGENTS.md" else self.assertEqual(actual, text.encode())
-        self.assertEqual(stat.S_IMODE((self.project / "AGENTS.md").stat().st_mode), 0o600)
-        self.assertEqual(stat.S_IMODE((self.project / ".agents/skills" / self.names[0] / "run.py").stat().st_mode), 0o755)
+        self.assertTrue(self.api.platform_support.mode_matches(self.project / "AGENTS.md",0o600))
+        self.assertTrue(self.api.platform_support.mode_matches(self.project / ".agents/skills" / self.names[0] / "run.py",0o755))
 
     def test_disjoint_agents_coexist_and_cross_owner_collision_is_blocked(self):
         self.skills(1, "alpha");self.build();self.install()
@@ -383,7 +383,7 @@ class PortableTests(unittest.TestCase):
         path = self.project / ".agents/skills" / self.names[0] / "run.py"
         path.write_text("local edit\n");self.install(expected=2)
         shutil.copy2(self.kit / "skills" / self.names[0] / "run.py", path)
-        os.chmod(path, 0o644);self.install("verify", expected=2)
+        self.api.platform_support.set_mode(path, 0o444 if self.api.platform_support.WINDOWS else 0o644);self.install("verify", expected=2)
         os.chmod(path, 0o755)
         p = self.project / "AGENTS.md";p.write_text(p.read_text().replace("single entry point", "edited instructions"));self.install(expected=2)
 
@@ -431,7 +431,7 @@ class PortableTests(unittest.TestCase):
         for value in ("", original.replace("name: " + self.names[0], "name: other"), original.replace("Use for the assigned bounded result.", "[]"), original.replace("Use for the assigned bounded result.", '"unterminated'), original.replace("references/rules.md", "missing.md")):
             path.write_text(value);self.build(expected=2);self.assertFalse((self.kit / "manifest.json").exists())
         path.write_text(original);self.build()
-        script = self.kit / "skills" / self.names[0] / "run.py";os.chmod(script, 0o644);self.install(expected=2)
+        script = self.kit / "skills" / self.names[0] / "run.py";self.api.platform_support.set_mode(script, 0o444 if self.api.platform_support.WINDOWS else 0o644);self.install(expected=2)
 
     def test_metadata_ambiguous_scalars_require_quotes(self):
         self.skills(1)

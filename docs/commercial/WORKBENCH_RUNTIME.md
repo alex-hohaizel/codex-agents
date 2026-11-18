@@ -1,9 +1,9 @@
-# Ready-to-run Agent Atelier for Mac
+# Ready-to-run Agent Atelier for Windows, macOS and Linux
 
 The buyer artifact includes the exact built interface, the current server and
-its canonical runtime resources, and an official Node.js binary. It does not
-require npm, TypeScript, developer dependencies, Homebrew or a separate Node
-installation on the buyer's Mac. The skills-only package keeps its own host
+its canonical runtime resources, and the official pinned runtimes. Ready desktop assets do not
+require npm, TypeScript, developer dependencies, Homebrew or separate Node/Python
+installation. The advanced skills-only source package keeps its own host
 requirements. The server listens on loopback and uses the buyer's own Codex
 account only when an authorized operation connects it.
 
@@ -14,11 +14,15 @@ dependency retain their complete upstream notices under `notices/`.
 
 ## Choose the artifact
 
-| Target | Runtime | Declared boundary |
+Use the ready Universal or matching-platform asset attached to the exact Release. The Universal package carries Windows x64/ARM64, macOS x64/ARM64 and Linux x64/ARM64. `START_HERE.html` explains the download and `Start.cmd`, `Start.command` or `Start.sh` opens the local installer. For the workbench, open `Start-Workbench.cmd` on Windows, `Start-Workbench.command` on macOS, or `Start-Workbench.sh` on Linux. Match the release's supported OS minimums, architecture and native receipts before treating your target as tested.
+
+The technical distribution does not claim product-level Authenticode, Developer ID signing or notarization from a vendor runtime signature. Actual native execution, browser acceptance and completed model work remain separate receipts. The original Mac standalone packaging route is retained below:
+
+| Legacy standalone target | Runtime | Declared boundary |
 | --- | --- | --- |
-| Apple Silicon | `Agent-Atelier-<service-version>-macOS-arm64.zip` | macOS 13.5 or newer; verify the RC's hardware execution receipt. |
-| Intel | `Agent-Atelier-<service-version>-macOS-x64.zip` | Same minimum; separate Intel execution is required before claiming it tested. |
-| Other desktops | Skills-only package and supported source route | This Mac distribution does not claim Windows or Linux GUI delivery. |
+| Apple Silicon | `Agent-Atelier-<service-version>-macOS-arm64.zip` | macOS 13.5 or newer; match the exact artifact's execution receipt. |
+| Intel | `Agent-Atelier-<service-version>-macOS-x64.zip` | Same minimum; Intel execution requires its own receipt. |
+| Windows / Linux | Ready Universal or matching-platform asset | Use the native launcher; the legacy Mac ZIP does not contain these targets. |
 
 The official Node v24 platform reference sets the minimum macOS to 13.5.
 An upstream-supported minimum is different from an actual OS-version or device
@@ -32,6 +36,21 @@ product's signature. Follow the commercial artifact delivery and trust check
 before opening an RC. A matching checksum by itself is byte consistency.
 
 ## Start, inspect, and stop
+
+For a ready Universal package, the platform's `Start` launcher also exposes the same workbench CLI by adding `--workbench`, for example:
+
+| Windows | macOS | Linux |
+| --- | --- | --- |
+| `.\Start.cmd --workbench verify` | `./Start.command --workbench verify` | `./Start.sh --workbench verify` |
+| `.\Start.cmd --workbench start` | `./Start.command --workbench start` | `./Start.sh --workbench start` |
+| `.\Start.cmd --workbench status` | `./Start.command --workbench status` | `./Start.sh --workbench status` |
+| `.\Start.cmd --workbench doctor` | `./Start.command --workbench doctor` | `./Start.sh --workbench doctor` |
+| `.\Start.cmd --workbench stop` | `./Start.command --workbench stop` | `./Start.sh --workbench stop` |
+
+Its runtime directories are private to this product. It does not silently adopt an earlier workbench database. Default product data is `%LOCALAPPDATA%\Codex Agent System\Agent Atelier` on Windows, `~/Library/Application Support/Codex Agent System/Agent Atelier` on macOS, and `${XDG_DATA_HOME:-~/.local/share}/codex-agent-system/agent-atelier` on Linux. Use an explicit reviewed `--data-dir` for another state. Keep the installer journals distinct from workbench data.
+
+The following `Runtime.command` examples remain the Mac standalone route; for Universal use the appropriate `Start` launcher followed by `--workbench` and the same verb/arguments.
+
 
 Extract into a permanent folder and open `Launch.command`. The wrapper verifies
 its entire runtime inventory, target architecture, and Node version before it
@@ -80,7 +99,7 @@ retained and protected by their owner. For ordinary live backups, keep the
 workbench's existing reviewed backup/restore procedure; it has its own merge and
 operation-reconciliation semantics.
 
-## Build the developer artifact
+## Build the Mac standalone developer artifact (retained route)
 
 Build from a clean reviewed commit. The client build occurs on the developer's
 machine; it is not a buyer prerequisite.

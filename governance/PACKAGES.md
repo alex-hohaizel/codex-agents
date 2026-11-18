@@ -33,3 +33,14 @@ license and third-party notices. A Mac workbench runtime has its own architectur
 and signing record. See [the buyer guide](../docs/commercial/BUYER_GUIDE.md).
 
 Use repeated `--runtime-artifact` arguments on the commercial builder to include the exact clean-source Mac archives in one buyer delivery. Runtime source/architecture pins must match the buyer package. A skills-only CI archive explicitly records that its optional runtime is separate.
+
+## Universal installation maintenance
+
+Apply [the universal installation contract](../governance/UNIVERSAL_INSTALLATION.md) to affected changes. Preserve all six
+native Windows/macOS/Linux x64/ARM64 paths, explicit retained Python/Node helpers,
+project environments, full source/resources, private permissions, recovery and
+unknown drift. Ready installers and source archives are separate deliverables.
+The root HTML must survive GitHub source downloads and link to ready assets.
+Require exact-commit native package and real-browser evidence before release;
+keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
+Commercial purchase rights and owner sale gates remain unchanged.

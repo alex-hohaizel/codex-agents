@@ -3,7 +3,13 @@
 import argparse
 import copy
 import datetime as dt
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import io
 import json
@@ -93,6 +99,7 @@ def source(record):
 
 def relative(name):
     need(isinstance(name, str) and name and "\\" not in name and ":" not in name, "unsafe relative path")
+    if platform_support.WINDOWS: platform_support.safe_relative(name)
     p = PurePosixPath(name)
     need(not p.is_absolute() and ".." not in p.parts and name == p.as_posix() and p.parts, "unsafe/noncanonical relative path")
     return p
@@ -103,7 +110,7 @@ def safe(root, name, public=False):
     need(not public or p.parts[0] != ".agent-foundry", "artifact cannot be runtime state")
     target = root.joinpath(*p.parts)
     for count in range(1, len(p.parts) + 1):
-        need(not root.joinpath(*p.parts[:count]).is_symlink(), "symlink forbidden: " + name)
+        need(not platform_support.is_link_or_reparse(root.joinpath(*p.parts[:count])), "symlink forbidden: " + name)
     return target
 
 
@@ -146,7 +153,7 @@ def suite():
             relative_name = path.relative_to(root).as_posix()
             if any(part in {"tests", "__pycache__"} for part in path.relative_to(root).parts) or path.name.startswith("test_") or path.suffix in {".pyc", ".pyo"}:
                 continue
-            if path.is_file() or path.is_symlink():
+            if path.is_file() or platform_support.is_link_or_reparse(path):
                 required.add(relative_name)
     return {name: sha(root / name) if (root / name).is_file() else None for name in sorted(required)}
 
@@ -169,6 +176,7 @@ def suite_backup(root, expected):
     need(hashlib.sha256(raw).hexdigest() == expected, 'source state changed during suite adoption; repeat preview')
     folder = safe(root, '.agent-foundry/backups')
     folder.mkdir(mode=0o700, exist_ok=True)
+    if platform_support.WINDOWS: platform_support.make_private(folder)
     need(folder.is_dir(), 'suite backup directory missing')
     relative_name = '.agent-foundry/backups/suite-' + expected + '.json'
     path = safe(root, relative_name)
@@ -178,16 +186,14 @@ def suite_backup(root, expected):
         fd = os.open(path, os.O_CREAT|os.O_EXCL|os.O_WRONLY|getattr(os,'O_NOFOLLOW',0), 0o600)
         with os.fdopen(fd,'wb') as stream:
             stream.write(raw);stream.flush();os.fsync(stream.fileno())
-        directory_fd = os.open(folder, os.O_RDONLY)
-        try: os.fsync(directory_fd)
-        finally: os.close(directory_fd)
+        platform_support.sync_dir(folder)
     return {'backup_path': relative_name, 'backup_sha256': expected}
 
 
 @contextmanager
 def lock(root, create=False):
     for parent in (root, *root.parents):
-        need(not parent.is_symlink(), "session path cannot contain symlinks")
+        need(not platform_support.is_link_or_reparse(parent), "session path cannot contain symlinks")
     if create:
         root.mkdir(parents=True, exist_ok=True)
     need(root.is_dir(), "session directory missing")
@@ -195,6 +201,7 @@ def lock(root, create=False):
     if create:
         home.mkdir(exist_ok=True)
     need(home.is_dir(), "session not initialized")
+    if platform_support.WINDOWS: platform_support.make_private(home)
     path = home / "lock"
     if path.exists():
         ordinary(path)
@@ -229,18 +236,14 @@ def save(home, state, command):
     state["snapshot_hash"] = digest({k: v for k, v in state.items() if k != "snapshot_hash"})
     fd, name = tempfile.mkstemp(prefix=".state-", dir=home)
     try:
-        os.fchmod(fd, 0o600)
-        with os.fdopen(fd, "w") as stream:
+        platform_support.fchmod(fd, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8", newline="") as stream:
             json.dump(state, stream, ensure_ascii=False, indent=2)
             stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(name, home / "state.json")
-        directory = os.open(home, os.O_RDONLY)
-        try:
-            os.fsync(directory)
-        finally:
-            os.close(directory)
+        platform_support.sync_dir(home)
     finally:
         if os.path.exists(name):
             os.unlink(name)
@@ -407,7 +410,7 @@ def check_blueprint(bp, root):
         fields(item, "path", "sha256", "source")
         need(HEX.fullmatch(item["sha256"]), "source hash required")
         path = safe(root, item["path"], public=True)
-        if not path.is_file() or path.is_symlink() or sha(path) != item["sha256"]:
+        if not path.is_file() or platform_support.is_link_or_reparse(path) or sha(path) != item["sha256"]:
             blockers.append("input source differs: " + item["path"])
     return groups, blockers
 
@@ -446,7 +449,7 @@ def test_defs(state):
 def file_current(root, row, key="path", hash_key="sha256"):
     try:
         path = safe(root, row[key], public=True)
-        return path.is_file() and not path.is_symlink() and sha(path) == row[hash_key]
+        return path.is_file() and not platform_support.is_link_or_reparse(path) and sha(path) == row[hash_key]
     except (OSError, ValueError, KeyError):
         return False
 
@@ -719,7 +722,7 @@ def intake(state, root, path, record):
     need(not target.exists(), "intake never overwrites originals")
     path = Path(path).absolute()
     for parent in (path, *path.parents):
-        need(not parent.is_symlink(), "intake source path cannot contain symlinks")
+        need(not platform_support.is_link_or_reparse(parent), "intake source path cannot contain symlinks")
     need(path != root and not path in root.parents and root not in path.parents, "intake source must be separate from session")
     target.parent.mkdir(exist_ok=True)
     temp = Path(tempfile.mkdtemp(prefix=".intake-", dir=target.parent))
@@ -746,7 +749,7 @@ def intake(state, root, path, record):
         if path.is_dir():
             source_paths = sorted(path.rglob("*"))
             for p in source_paths:
-                need(not p.is_symlink(), "intake symlink forbidden")
+                need(not platform_support.is_link_or_reparse(p), "intake symlink forbidden")
                 need(p.is_dir() or p.is_file(), "intake special file forbidden")
                 if p.is_file():
                     write(p.relative_to(path).as_posix(), io.BytesIO(read_bytes(p)))
@@ -1023,13 +1026,13 @@ def dispatch(state, root, args, record):
         bp, groups, _ = active_blueprint(state, root)
         directory = Path(args.directory).absolute()
         for parent in (directory, *directory.parents):
-            need(not parent.is_symlink(), "bundle path cannot contain symlinks")
+            need(not platform_support.is_link_or_reparse(parent), "bundle path cannot contain symlinks")
         need(directory.is_dir(), "bundle directory required")
         found = []
         skills = directory / "skills"
         if skills.is_dir():
             for folder in skills.iterdir():
-                need(folder.is_dir() and not folder.is_symlink(), "unexpected non-directory/link in skills")
+                need(folder.is_dir() and not platform_support.is_link_or_reparse(folder), "unexpected non-directory/link in skills")
                 path = safe(directory, "skills/" + folder.name + "/SKILL.md")
                 content = read_bytes(path).decode()
                 match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.+)", content, re.S)

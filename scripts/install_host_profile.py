@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Audit/apply/verify/rollback the managed Codex profile with exact plans and journals."""
 import argparse
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import json
 import os
@@ -18,6 +24,8 @@ PREVIOUS_PROFILE_TEMPLATES = (
      '8f47c4629edfdf1e4730527e5ea5b6e73e95b45affe8665d9eadadd80a88d891'),
     ('host-profiles/codex/history/6.1.0-AGENTS.md',
      '244b911f65c49f6302e90155d4ce1ca717dba814a89945d2bcd78e7972f5d589'),
+    ('host-profiles/codex/history/6.2.0-AGENTS.md',
+     '59dd12e4c89a0f043e1a5949c2843001440134f29ecaaefd8a1e6be94e3d68db'),
 )
 # A managed role has a byte-pinned flat header and a literal triple-quoted body.
 # Only these bounded selector lines may differ outside that body.
@@ -49,7 +57,7 @@ def pairs(items):
 
 def safe(path):
     require(path.is_absolute(), 'absolute path required')
-    require(not any(p.is_symlink() for p in (path, *path.parents)), 'symlink path rejected')
+    require(not any(platform_support.is_link_or_reparse(p) for p in (path, *path.parents)), 'symlink path rejected')
     return path
 
 
@@ -74,17 +82,13 @@ def atomic(path, text, mode=0o600):
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, name = tempfile.mkstemp(prefix='.' + path.name + '.', dir=path.parent)
     try:
-        os.fchmod(fd, mode)
-        with os.fdopen(fd, 'w', encoding='utf-8') as stream:
+        platform_support.fchmod(fd, mode)
+        with os.fdopen(fd, 'w', encoding='utf-8', newline='') as stream:
             stream.write(text)
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(name, path)
-        parent = os.open(path.parent, os.O_RDONLY)
-        try:
-            os.fsync(parent)
-        finally:
-            os.close(parent)
+        platform_support.sync_dir(path.parent)
     finally:
         if os.path.exists(name):
             os.unlink(name)
@@ -302,6 +306,7 @@ def main():
             root = safe(Path(record['codex_root'])); root.mkdir(parents=True, exist_ok=True)
             lockpath = safe(root / '.agent-system-profile.lock')
             with lockpath.open('a') as lock:
+                if platform_support.WINDOWS: platform_support.fchmod(lock.fileno(),0o600)
                 fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
                 if args.operation == 'apply':
                     result = apply(args.plan.absolute(), args.journal.absolute())

@@ -2,7 +2,7 @@
 name: gamedev-qa
 description: "Independently review native mobile game behavior, source fidelity, camera and controls, learning, performance, commerce, lifecycle, and the evidence due for its stage."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # Game Atelier QA

@@ -4,16 +4,18 @@
 
 | Goal | Start with |
 | --- | --- |
-| Set up the system | [Installation and rollback](INSTALL.md), [guided first task](FIRST_RUN.md), [перші кроки українською](uk/FIRST_RUN.md), or [Agent Atelier for Mac](../apps/agent-atelier/README.md). |
+| Set up the system | [Universal installer page](../START_HERE.html), [Installation and rollback](INSTALL.md), [guided first task](FIRST_RUN.md), [перші кроки українською](uk/FIRST_RUN.md), or [Agent Atelier for Windows, macOS and Linux](../apps/agent-atelier/README.md). |
 | Know what to invoke | [Built-in, optional, and project tools](CAPABILITIES.md#built-in-optional-or-supplied-by-your-project), [product families](CAPABILITIES.md#product-families), [constructors and roles](CAPABILITIES.md#constructors-and-roles), and [complete skill and role catalog](CAPABILITIES.md#all-skills-and-roles). |
 | See a team tackle one product | [Dock Reservations: from one request to release readiness](technical/END_TO_END.md) or [the visual showcase](../marketing/README.md). |
 | Find the current download | [GitHub release](https://github.com/alex-hohaizel/codex-agents/releases/latest), [component versions](../releases/README.md), and [package verification](../governance/PACKAGES.md). |
+
+[Universal installer build and native acceptance](technical/UNIVERSAL_INSTALLER.md) · [Platform and release contract](../governance/UNIVERSAL_INSTALLATION.md)
 
 ## Commercial buyer path
 
 [Install and verify](commercial/BUYER_GUIDE.md) · [Українська](commercial/BUYER_GUIDE.uk.md)
 · [License and acquired rights](commercial/LICENSING.md)
-· [Mac runtime candidate](commercial/WORKBENCH_RUNTIME.md)
+· [Bundled cross-platform workbench](commercial/WORKBENCH_RUNTIME.md)
 · [Channel dossier](../commercial/channels/SUBMISSION_DOSSIER.md)
 · [Commercial development contract](../governance/COMMERCIAL_PRODUCT_CONTRACT.md)
 

@@ -11,7 +11,7 @@ Der kommerzielle Käuferkandidat bündelt Einrichtung und erworbene Versionsrech
 ## Einstieg wählen
 
 - **Codex ausprobieren.** [Installieren und prüfen](#install) · [Erste Aufgabe erledigen](#first-task) · [Abläufe mit Bildbeispielen](../../marketing/de/README.md)
-- **Ein Projekt entwickeln oder betreiben.** [Ablauf wählen](#workflow) · [Skills und Rollen finden](#catalog) · [Mac-Oberfläche](#workbench) · [Betrieb und Wiederherstellung](#operations)
+- **Ein Projekt entwickeln oder betreiben.** [Ablauf wählen](#workflow) · [Skills und Rollen finden](#catalog) · [Lokale Oberfläche](#workbench) · [Betrieb und Wiederherstellung](#operations)
 - **Das System verstehen.** [Harness](#harness) · [Subagenten](#subagents) · [Kontextkapseln](#context) · [Modelle und Kosten](#models)
 - **Belege finden und prüfen.** [Wissenssuche (RAG)](#retrieval) · [Evals](#evals) · [Werkzeuge und Berechtigungen](#permissions)
 
@@ -19,6 +19,16 @@ Der kommerzielle Käuferkandidat bündelt Einrichtung und erworbene Versionsrech
 
 <a name="install"></a>
 ## Installieren und Erkennung prüfen
+
+### Fertiges Installationspaket für Windows, macOS und Linux
+
+Laden Sie das fertige **Universal**-Archiv oder das passende OS/CPU-Paket aus der [stabilen Veröffentlichung](https://github.com/alex-hohaizel/codex-agents/releases/latest). Entpacken Sie es vollständig, lesen Sie `START_HERE.html` und öffnen Sie `Start.cmd` unter Windows, `Start.command` unter macOS oder `Start.sh` unter Linux. Python, Node und die fertige Oberfläche sind enthalten. Das automatische Source-code-ZIP von GitHub ist für den Quellweg bestimmt. Der Assistent ist auf Englisch und Ukrainisch verfügbar; dieses Handbuch erklärt den Ablauf auf Deutsch.
+
+Wählen Sie **Check now → Prepare plan**, prüfen Sie Ziele und Konflikte, genehmigen Sie den exakten Plan und wählen Sie **Install reviewed plan → Verify files → Check in Codex**. Die Standardauswahl enthält 33 Skills, Orchestrator, Profil und zwölf Rollen. Verwenden Sie Ihr eigenes Codex-Konto. **Create practice project → Open folder → Open Codex → Copy prompt** bereitet die erste Übung vor; ein Modell wird dabei nicht ausgeführt. Bewahren Sie das Journal auf. Die Wiederherstellung verwendet den ausgewählten Vorgang und denselben Plan. [Installation und Wiederherstellung](../INSTALL.md#recommended-local-browser-installer)
+
+Projekt-Python/venv und Node behalten ihren Vorrang. Nutzen Sie `AGENT_SYSTEM_PYTHON` für Hilfsskripte des Toolkits. Maintenance bleibt ein separates Eigentümerwerkzeug: installieren Sie `product/maintenance-skill` aus dem Paket oder `maintenance-skill` aus dem Repository über den unterstützten Skill-Manager, prüfen Sie Quelle und Ziel und verifizieren Sie das Ergebnis. Modelle und externe Dienste haben eigene Konten und Kosten.
+
+### Erweiterter Quellweg
 
 1. Öffnen Sie die stabile Veröffentlichung von `alex-hohaizel/codex-agents`. Das Terminalverfahren unter macOS oder Linux verwendet Bash, Python 3.9+, Git, eine angemeldete GitHub CLI (`gh`) und Codex. Für eine begleitete Installation kann Codex jeden Schritt auf Deutsch erklären und exakte Optionen und Pfade beibehalten.
 2. Folgen Sie der attestierten Installation. Das Prüfwerkzeug gleicht Archivprüfsumme und GitHub-Attestierung mit Quell-Commit, Workflow und Manifest ab. Wählen Sie die Neuinstallation für ein leeres Profil oder geben Sie die verifizierte Version einer vorhandenen Suite an. [Stabile Veröffentlichung](https://github.com/alex-hohaizel/codex-agents/releases/latest) · [Genaue Befehle](../INSTALL.md#steps)
@@ -103,7 +113,9 @@ python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir
 Der Test korrigiert einen erwarteten Tippfehler im Testprojekt und kontrolliert die zweite Datei. Die Suite prüft auch eine begrenzte Übergabe, einen genehmigten Agentenpass und die erste Nutzung eines erzeugten Skills. Aussagen über externe Produkte benötigen Belege aus deren Umgebung. [Suite, Testdaten und Belege](../../evaluations/README.md) · [Validierung](../../governance/VALIDATION.md)
 
 <a name="workbench"></a>
-## Agent Atelier auf dem Mac verwenden
+## Agent Atelier unter Windows, macOS oder Linux verwenden
+
+Fertige Pakete enthalten `Start-Workbench.cmd`, `Start-Workbench.command` und `Start-Workbench.sh` für Windows, macOS und Linux. Öffnen Sie den passenden Starter; für die fertige Oberfläche ist kein npm-Build erforderlich. Prüfen Sie die nativen Release-Nachweise unabhängig von der Verfügbarkeit der Laufzeit. Das folgende Build-Verfahren bleibt als optionaler Entwicklerweg erhalten; Projektprüfung und Wiederherstellung gelten für beide Wege. [Fertige Oberfläche und Datenwiederherstellung](../commercial/WORKBENCH_RUNTIME.md)
 
 1. Bauen Sie die aktuelle Quelle mit der fixierten Node.js-Lockdatei. In `apps/agent-atelier/` ausführen:
 

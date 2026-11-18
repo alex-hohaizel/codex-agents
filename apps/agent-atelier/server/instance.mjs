@@ -1,17 +1,20 @@
 import { mkdir, open, readFile, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
+import { securePrivatePath } from "./platform.mjs";
 import { fail, parseStrictJson, now, ServiceError } from "./utils.mjs";
 
 // The lock is acquired before opening SQLite or classifying interrupted jobs.
 // A second launcher must never turn the first instance's running jobs into unknowns.
 export async function acquireInstance(dataDir) {
   await mkdir(dataDir, { recursive: true, mode: 0o700 });
+  if (process.platform === "win32") await securePrivatePath(dataDir, { directory: true });
   const path = join(dataDir, "instance.lock");
   const nonce = randomUUID();
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const handle = await open(path, "wx", 0o600);
+      await securePrivatePath(path);
       await handle.writeFile(
         JSON.stringify({ pid: process.pid, nonce, started_at: now() }),
       );

@@ -2,7 +2,7 @@
 name: gamedev-concepts
 description: "Research and compare complete, meaningfully different mobile game concepts. Develop a finite portfolio with playable rules, camera, progression, rewards, economy, and feasible production before user selection."
 metadata:
-  version: "6.4.0"
+  version: "6.5.0"
 ---
 
 # Game Atelier Concepts

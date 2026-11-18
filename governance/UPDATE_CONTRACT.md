@@ -20,3 +20,14 @@ support and recovery. Regenerate the buyer inventory, third-party notices,
 channel exports and exact artifact signatures. Preserve earlier acquired
 rights when the offer changes. Record C01–C28 for a complete RC. Keep public
 sales, legal approval and private issuance distinct from technical build success.
+
+## Universal installation maintenance
+
+Apply [the universal installation contract](../governance/UNIVERSAL_INSTALLATION.md) to affected changes. Preserve all six
+native Windows/macOS/Linux x64/ARM64 paths, explicit retained Python/Node helpers,
+project environments, full source/resources, private permissions, recovery and
+unknown drift. Ready installers and source archives are separate deliverables.
+The root HTML must survive GitHub source downloads and link to ready assets.
+Require exact-commit native package and real-browser evidence before release;
+keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
+Commercial purchase rights and owner sale gates remain unchanged.

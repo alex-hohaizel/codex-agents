@@ -1,8 +1,9 @@
 import { spawn, execFile } from "node:child_process";
 import { EventEmitter } from "node:events";
-import { mkdir, realpath, access } from "node:fs/promises";
-import { join, resolve, dirname } from "node:path";
+import { mkdir, realpath } from "node:fs/promises";
+import { join, resolve, dirname, basename } from "node:path";
 import { promisify } from "node:util";
+import { resolveNativeCommand } from "./platform.mjs";
 import { runtimeEnvironment, shellEnvironmentConfig } from "./environment.mjs";
 import {
   localProfile,
@@ -107,11 +108,13 @@ export class CodexAdapter extends EventEmitter {
       recursive: true,
       mode: 448,
     });
-    let version = "unknown";
+    let version = "unknown", native;
     try {
+      native = await resolveNativeCommand(this.executable);
       version = (
-        await run(this.executable, ["--version"], {
+        await run(native.command, [...native.args, "--version"], {
           timeout: 5e3,
+          windowsHide: true,
           maxBuffer: 4096,
         })
       ).stdout.trim();
@@ -129,30 +132,24 @@ export class CodexAdapter extends EventEmitter {
       );
     }
     const childEnvironment = runtimeEnvironment();
-    let executablePath = this.executable.includes("/")
-      ? resolve(this.executable)
-      : null;
-    if (!executablePath)
-      for (const entry of (childEnvironment.PATH ?? "").split(":")) {
-        const candidate = join(entry, this.executable);
-        try {
-          await access(candidate);
-          executablePath = candidate;
-          break;
-        } catch {}
+    const executableReal = native.command;
+    this.runtimeReadRoots = [...new Set([
+      executableReal, dirname(executableReal), native.source, dirname(native.source),
+    ])];
+    if (childEnvironment.AGENT_SYSTEM_PYTHON) {
+      let python;
+      try { python = await realpath(childEnvironment.AGENT_SYSTEM_PYTHON); }
+      catch { throw new ServiceError("CAPABILITY_UNVERIFIED", "The selected packaged Python runtime is unavailable; reopen the verified package launcher", 409); }
+      const bin = dirname(python);
+      this.runtimeReadRoots.push(python, bin);
+      if (basename(bin).toLowerCase() === "bin") {
+        for (const name of ["lib", "lib64"]) {
+          try { this.runtimeReadRoots.push(await realpath(join(dirname(bin), name))); }
+          catch (error) { if (error.code !== "ENOENT") throw error; }
+        }
       }
-    fail(
-      executablePath,
-      "CAPABILITY_UNVERIFIED",
-      "Cannot locate the supported Codex runtime executable",
-      409,
-    );
-    const executableReal = await realpath(executablePath);
-    this.runtimeReadRoots = [
-      executablePath,
-      executableReal,
-      dirname(executableReal),
-    ];
+      this.runtimeReadRoots = [...new Set(this.runtimeReadRoots)];
+    }
     const externalBoundary = await externalToolDenials(
       this.executable,
       this.dataDir,
@@ -172,6 +169,7 @@ export class CodexAdapter extends EventEmitter {
     const child = this.spawnProcess(
       executableReal,
       [
+        ...native.args,
         "app-server",
         "--stdio",
         ...(this.#historyReadOnly
@@ -189,6 +187,7 @@ export class CodexAdapter extends EventEmitter {
       {
         cwd: this.dataDir,
         stdio: ["pipe", "pipe", "pipe"],
+        windowsHide: true,
         env: childEnvironment,
       },
     );

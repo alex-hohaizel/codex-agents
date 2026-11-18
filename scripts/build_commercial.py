@@ -19,7 +19,8 @@ sys.dont_write_bytecode = True
 EXCLUDED = {".git","__pycache__",".DS_Store","node_modules","dist",".atelier-local",".pytest_cache","playwright-report","test-results"}
 ROOTS = ("kit","scripts","standards","host-profiles","agent-profiles","optional-skills","templates","releases",
          "apps",".github","governance","docs","evaluations","marketing","assets","commercial","maintenance-skill",
-         "README.md","START_HERE.md","CHANGELOG.md","RIGHTS.md","AGENTS.md","locales.json")
+         "README.md","START_HERE.md","START_HERE.html","ПОЧАТИ.html","Start.command","Start.sh","Start.cmd",
+         "Start-Workbench.command","Start-Workbench.sh","Start-Workbench.cmd","CHANGELOG.md","RIGHTS.md","AGENTS.md","locales.json")
 PRODUCT = "codex-agent-system"
 
 
@@ -114,62 +115,50 @@ def runtime_inputs(artifacts, source, version):
     return selected
 
 
-def build(root, output, runtime_artifacts=()):
-    root=root.resolve(strict=True);output=output.resolve()
-    need(not output.is_relative_to(root),"Output must be outside source checkout")
-    source=capture(root)
-    descriptor=read(root/"commercial/product.json");release=read(root/descriptor["release_record"])
-    offer=read(root/descriptor["offer"])
+def prepare_buyer_stage(root,stage,release,offer,source,edition,runtime=()):
+    """One canonical source/doc/license closure for every buyer distribution."""
     version=release["repository_version"]
-    runtime=runtime_inputs(runtime_artifacts,source,version)
-    need(release.get("release_stage")=="candidate","This builder prepares a local commercial release candidate")
-    need(descriptor["product_id"]==offer["product_id"]==PRODUCT,"Product scope mismatch")
-    output.mkdir(parents=True,exist_ok=True)
-    artifacts=[]
-    with tempfile.TemporaryDirectory(prefix="commercial-build-") as work:
-        for edition in ("solo","team"):
-            stage=Path(work)/f"Agent-System-{version}-{edition}"
-            stage.mkdir()
-            for name in ROOTS:
-                copy_group(root,stage,name,"product")
-            for name in ("assets/marketing/current","assets/marketing/release-1.7","commercial/media"):
-                if (root/name).exists():
-                    copy_group(root,stage,name)
-            # Buyer navigation and the unchanged source manual each keep a complete
-            # link closure. Source guides live beside their canonical source roots.
-            for source_file in paths(root,"docs/commercial"):
-                rel=source_file.relative_to(root)
-                target=stage/rel
-                target.parent.mkdir(parents=True,exist_ok=True)
-                content=source_file.read_text(encoding="utf8")
-                content=content.replace("](../../", "](../../product/")
-                target.write_text(content,encoding="utf8")
-            for path in paths(root,"commercial/setup"):
-                rel=path.relative_to(root/"commercial/setup")
-                to=stage/"setup"/rel;to.parent.mkdir(parents=True,exist_ok=True)
-                shutil.copyfile(path,to);to.chmod(0o755 if path.stat().st_mode&stat.S_IXUSR else 0o644)
-            shutil.copyfile(root/"commercial/legal/LICENSE.txt",stage/"LICENSE.txt")
-            shutil.copyfile(root/"commercial/legal/THIRD_PARTY_NOTICES.txt",stage/"THIRD_PARTY_NOTICES.txt")
-            shutil.copyfile(root/"commercial/offer.json",stage/"offer.json")
-            shutil.copyfile(root/"commercial/product.json",stage/"product.json")
-            (stage/"README.md").write_text("# Codex Agent System buyer candidate\n\nOpen [START_HERE.html](START_HERE.html) or [ПОЧАТИ.html](ПОЧАТИ.html), then use Start.command for the guided setup.\n\n[Buyer guide](docs/commercial/BUYER_GUIDE.md) · [Українська](docs/commercial/BUYER_GUIDE.uk.md) · [Complete product documentation](product/docs/INDEX.md) · [Versioned license](LICENSE.txt)\n\nKeep your trusted delivery receipt and entitlement outside this package. This local candidate is not a public sales offer.\n")
-            (stage/"START_HERE.md").write_text("# Start here\n\n[Open the buyer start page](START_HERE.html) · [Українська](ПОЧАТИ.html) · [Original advanced manual](product/START_HERE.md)\n")
-            for locale,filename in (("en","START_HERE.html"),("uk","ПОЧАТИ.html")):
-                origin=root/f"commercial/site/start-{locale}.html"
-                need(origin.is_file(),"Buyer landing absent: "+str(origin))
-                shutil.copyfile(origin,stage/filename)
-            for locale,filename,other in (("en","SALES.html","ПРОДУКТ.html"),("uk","ПРОДУКТ.html","SALES.html")):
-                raw=(root/f"commercial/site/sales-{locale}.html").read_text()
-                raw=raw.replace("../../assets/","assets/").replace("../../docs/","docs/")
-                raw=raw.replace("../legal/LICENSE.txt","LICENSE.txt")
-                raw=raw.replace("../media/","commercial/media/")
-                raw=raw.replace("sales-uk.html" if locale=="en" else "sales-en.html",other)
-                (stage/filename).write_text(raw)
-            example=stage/"examples"/"first-task";example.mkdir(parents=True)
-            (example/"README.md").write_text("# Cheklist\n\nKeep this note unchanged.\n")
-            (example/"notes.txt").write_text("Original buyer work: preserve this file.\n")
-            (example/"TASK.txt").write_text("Use the installed Atelier Orchestrator to correct Cheklist to Checklist in README.md. Keep all other bytes and notes.txt intact. Report changed paths and verification.\n")
-            launcher="""#!/bin/sh
+    stage.mkdir()
+    for name in ROOTS:
+        copy_group(root,stage,name,"product")
+    for name in ("assets/marketing/current","assets/marketing/release-1.7","commercial/media"):
+        if (root/name).exists():
+            copy_group(root,stage,name)
+    # Buyer navigation and the unchanged source manual each keep a complete
+    # link closure. Source guides live beside their canonical source roots.
+    for source_file in paths(root,"docs/commercial"):
+        rel=source_file.relative_to(root)
+        target=stage/rel
+        target.parent.mkdir(parents=True,exist_ok=True)
+        content=source_file.read_text(encoding="utf8")
+        content=content.replace("](../../", "](../../product/")
+        target.write_text(content,encoding="utf8")
+    for path in paths(root,"commercial/setup"):
+        rel=path.relative_to(root/"commercial/setup")
+        to=stage/"setup"/rel;to.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(path,to);to.chmod(0o755 if path.stat().st_mode&stat.S_IXUSR else 0o644)
+    shutil.copyfile(root/"commercial/legal/LICENSE.txt",stage/"LICENSE.txt")
+    shutil.copyfile(root/"commercial/legal/THIRD_PARTY_NOTICES.txt",stage/"THIRD_PARTY_NOTICES.txt")
+    shutil.copyfile(root/"commercial/offer.json",stage/"offer.json")
+    shutil.copyfile(root/"commercial/product.json",stage/"product.json")
+    (stage/"README.md").write_text("# Codex Agent System buyer candidate\n\nOpen [START_HERE.html](START_HERE.html) or [ПОЧАТИ.html](ПОЧАТИ.html), then use Start.command for the guided setup.\n\n[Buyer guide](docs/commercial/BUYER_GUIDE.md) · [Українська](docs/commercial/BUYER_GUIDE.uk.md) · [Complete product documentation](product/docs/INDEX.md) · [Versioned license](LICENSE.txt)\n\nKeep your trusted delivery receipt and entitlement outside this package. This local candidate is not a public sales offer.\n")
+    (stage/"START_HERE.md").write_text("# Start here\n\n[Open the buyer start page](START_HERE.html) · [Українська](ПОЧАТИ.html) · [Original advanced manual](product/START_HERE.md)\n")
+    for locale,filename in (("en","START_HERE.html"),("uk","ПОЧАТИ.html")):
+        origin=root/f"commercial/site/start-{locale}.html"
+        need(origin.is_file(),"Buyer landing absent: "+str(origin))
+        shutil.copyfile(origin,stage/filename)
+    for locale,filename,other in (("en","SALES.html","ПРОДУКТ.html"),("uk","ПРОДУКТ.html","SALES.html")):
+        raw=(root/f"commercial/site/sales-{locale}.html").read_text()
+        raw=raw.replace("../../assets/","assets/").replace("../../docs/","docs/")
+        raw=raw.replace("../legal/LICENSE.txt","LICENSE.txt")
+        raw=raw.replace("../media/","commercial/media/")
+        raw=raw.replace("sales-uk.html" if locale=="en" else "sales-en.html",other)
+        (stage/filename).write_text(raw)
+    example=stage/"examples"/"first-task";example.mkdir(parents=True)
+    (example/"README.md").write_text("# Cheklist\n\nKeep this note unchanged.\n")
+    (example/"notes.txt").write_text("Original buyer work: preserve this file.\n")
+    (example/"TASK.txt").write_text("Use the installed Atelier Orchestrator to correct Cheklist to Checklist in README.md. Keep all other bytes and notes.txt intact. Report changed paths and verification.\n")
+    launcher="""#!/bin/sh
 set -eu
 folder=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 if ! command -v python3 >/dev/null 2>&1; then
@@ -178,33 +167,52 @@ if ! command -v python3 >/dev/null 2>&1; then
 fi
 exec python3 -B "$folder/setup/setup.py" --package "$folder" "$@"
 """
-            (stage/"Start.command").write_text(launcher);(stage/"Start.command").chmod(0o755)
-            for item in runtime:
-                folder=stage/"runtime";folder.mkdir(exist_ok=True)
-                shutil.copyfile(item["path"],folder/item["name"])
-                need(digest(folder/item["name"])==item["sha256"],"Runtime changed during staging")
-            if runtime:
-                (stage/"runtime"/"README.md").write_text("# Included Mac workbench candidates\n\nExtract the archive matching your Mac. Open Launch.command in its extracted folder. These artifacts bundle Node and the built client; no npm build is required. Product signing/notarization and Intel execution remain separate RC gates. [Runtime guide](../docs/commercial/WORKBENCH_RUNTIME.md)\n")
-            m={"schema":"codex-agents.commercial-package/1","product_id":PRODUCT,"product_version":version,
-               "source_commit":source,"edition":edition,"license_version":offer["license_version"],
-               "components":{"core":release["suite_version"],"orchestrator":next(s["version"] for s in release["optional_skills"] if s["name"]=="atelier-orchestrator"),
-                  "profile":release["host_profile"]["version"],"roles":release["role_profiles"]["version"]},
-               "entry_point":"START_HERE.html","recommended_setup":"Start.command",
-               "runtime":{"status":"included-architecture-archives" if runtime else "separate-optional-artifact",
-                          "artifacts":[{k:v for k,v in item.items() if k!="path"} for item in runtime]},
-               "build_trust":"Obtain the separately signed release index and public key through trusted seller delivery.",
-               "files":manifest_files(stage)}
-            (stage/"product-manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
-            sums="".join(v["sha256"]+"  "+name+"\n" for name,v in m["files"].items())
-            sums+=digest(stage/"product-manifest.json")+"  product-manifest.json\n"
-            (stage/"SHA256SUMS").write_text(sums)
+    (stage/"Start.command").write_text(launcher);(stage/"Start.command").chmod(0o755)
+    for item in runtime:
+        folder=stage/"runtime";folder.mkdir(exist_ok=True)
+        shutil.copyfile(item["path"],folder/item["name"])
+        need(digest(folder/item["name"])==item["sha256"],"Runtime changed during staging")
+    if runtime:
+        (stage/"runtime"/"README.md").write_text("# Included Mac workbench candidates\n\nExtract the archive matching your Mac. Open Launch.command in its extracted folder. These artifacts bundle Node and the built client; no npm build is required. Product signing/notarization and Intel execution remain separate RC gates. [Runtime guide](../docs/commercial/WORKBENCH_RUNTIME.md)\n")
+    m={"schema":"codex-agents.commercial-package/1","product_id":PRODUCT,"product_version":version,
+       "source_commit":source,"edition":edition,"license_version":offer["license_version"],
+       "components":{"core":release["suite_version"],"orchestrator":next(s["version"] for s in release["optional_skills"] if s["name"]=="atelier-orchestrator"),
+          "profile":release["host_profile"]["version"],"roles":release["role_profiles"]["version"]},
+       "entry_point":"START_HERE.html","recommended_setup":"Start.command",
+       "runtime":{"status":"included-architecture-archives" if runtime else "separate-optional-artifact",
+                  "artifacts":[{k:v for k,v in item.items() if k!="path"} for item in runtime]},
+       "build_trust":"Obtain the separately signed release index and public key through trusted seller delivery.",
+       "files":manifest_files(stage)}
+    (stage/"product-manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
+    sums="".join(v["sha256"]+"  "+name+"\n" for name,v in m["files"].items())
+    sums+=digest(stage/"product-manifest.json")+"  product-manifest.json\n"
+    (stage/"SHA256SUMS").write_text(sums)
+    return m
+
+
+def build(root, output, runtime_artifacts=()):
+    root=root.resolve(strict=True);output=output.resolve()
+    need(not output.is_relative_to(root),"Output must be outside source checkout")
+    source=capture(root)
+    descriptor=read(root/"commercial/product.json");release=read(root/descriptor["release_record"])
+    offer=read(root/descriptor["offer"])
+    version=release["repository_version"]
+    runtime=runtime_inputs(runtime_artifacts,source,version)
+    need(release.get("release_stage") in ("candidate","stable"),"This builder requires a declared technical release stage")
+    need(descriptor["product_id"]==offer["product_id"]==PRODUCT,"Product scope mismatch")
+    output.mkdir(parents=True,exist_ok=True)
+    artifacts=[]
+    with tempfile.TemporaryDirectory(prefix="commercial-build-") as work:
+        for edition in ("solo","team"):
+            stage=Path(work)/f"Agent-System-{version}-{edition}"
+            prepare_buyer_stage(root,stage,release,offer,source,edition,runtime)
             dest=output/(stage.name+".zip")
             zip_tree(stage,dest)
             artifacts.append({"name":dest.name,"edition":edition,"sha256":digest(dest),"size":dest.stat().st_size,
                               "entry_point":"START_HERE.html","product_version":version,"source_commit":source})
     exports=export(root,output,version,source)
     result={"schema":"codex-agents.commercial-build/1","product_id":PRODUCT,"product_version":version,
-            "source_commit":source,"status":"local-commercial-release-candidate","files":artifacts,
+            "source_commit":source,"status":"technical-distribution-commercial-terms-owner-review","files":artifacts,
             "exports":exports,"publication_performed":False}
     (output/"BUILD.json").write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
     (output/"SHA256SUMS").write_text("".join(a["sha256"]+"  "+a["name"]+"\n" for a in artifacts))

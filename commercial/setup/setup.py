@@ -5,7 +5,13 @@ from __future__ import annotations
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timezone
-import fcntl
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
+fcntl = platform_support
 import hashlib
 import importlib.util
 import json
@@ -13,7 +19,9 @@ import os
 from pathlib import Path, PurePosixPath
 import platform
 import re
-import selectors
+import queue
+import threading
+import base64
 import shlex
 import shutil
 import socket
@@ -65,13 +73,14 @@ def safe(path):
             mode = ancestor.lstat().st_mode
         except FileNotFoundError:
             continue
-        require(not stat.S_ISLNK(mode), 'Linked setup or target path: ' + str(ancestor))
+        require(not platform_support.is_link_or_reparse(ancestor), 'Linked setup or target path: ' + str(ancestor))
     return path
 
 
 def inside(root, rel):
     require(isinstance(rel, str) and rel and '\\' not in rel and '\0' not in rel,
             'Unsafe package path')
+    platform_support.safe_relative(rel)
     pure = PurePosixPath(rel)
     require(not pure.is_absolute() and '..' not in pure.parts and pure.as_posix() == rel,
             'Unsafe package path')
@@ -94,11 +103,7 @@ def load(path):
 
 
 def sync_dir(path):
-    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
-    try:
-        os.fsync(fd)
-    finally:
-        os.close(fd)
+    platform_support.sync_dir(path)
 
 
 def write(path, value, *, exclusive=False):
@@ -107,6 +112,7 @@ def write(path, value, *, exclusive=False):
     data = encoded(value)
     fd, temp = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
     try:
+        if platform_support.WINDOWS: platform_support.fchmod(fd, 0o600)
         with os.fdopen(fd, 'wb') as target:
             target.write(data)
             target.flush()
@@ -136,14 +142,14 @@ def package_info(package):
             'This is not a supported commercial package')
     require(COMMIT.fullmatch(str(data.get('source_commit', ''))), 'Package source commit is missing')
     entries = data.get('files')
-    require(isinstance(entries, dict) and 34 <= len(entries) <= 20000, 'Invalid package file inventory')
+    require(isinstance(entries, dict) and 34 <= len(entries) <= 65000, 'Invalid package file inventory')
     actual = set()
     total = 0
     for root, directories, names in os.walk(package, followlinks=False):
         for name in directories + names:
             path = Path(root) / name
             info = path.lstat()
-            require(not stat.S_ISLNK(info.st_mode), 'Package contains a link')
+            require(not platform_support.is_link_or_reparse(path), 'Package contains a link or reparse point')
             require(stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode), 'Package contains a special file')
         for name in names:
             relative = (Path(root) / name).relative_to(package).as_posix()
@@ -161,7 +167,7 @@ def package_info(package):
         require(key not in folded, 'Package has case-colliding paths')
         folded.add(key)
         total += entry['size']
-        require(total <= 2 * 1024 * 1024 * 1024, 'Package exceeds supported size')
+        require(total <= 4 * 1024 * 1024 * 1024, 'Package exceeds supported size')
         content = read(path, 256 * 1024 * 1024)
         require(len(content) == entry['size'] and digest(content) == entry['sha256'],
                 'Package file differs from inventory: ' + relative)
@@ -172,8 +178,10 @@ def package_info(package):
 
 
 def paths(home, state=None):
-    home = safe(Path(home).expanduser().resolve())
-    state = safe(Path(state).expanduser().resolve() if state else home / '.local/share/codex-agent-system')
+    home = safe(Path(home).expanduser()).resolve()
+    state = safe(Path(state).expanduser() if state else home / '.local/share/codex-agent-system')
+    if platform_support.WINDOWS:
+        require(not home.is_relative_to(state), 'State must be a dedicated directory, not HOME or its ancestor')
     destination = home / '.agents/skills'
     legacy = home / '.codex/skills'
     for root in (destination, legacy):
@@ -197,12 +205,12 @@ def tree(root):
     for parent, directories, names in os.walk(root, followlinks=False):
         for name in directories + names:
             mode = (Path(parent) / name).lstat().st_mode
-            require(not stat.S_ISLNK(mode) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
+            require(not platform_support.is_link_or_reparse(Path(parent) / name) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
                     'Linked or special optional skill input')
         for name in names:
             path = Path(parent) / name
             result[path.relative_to(root).as_posix()] = {'sha256': digest(read(path)),
-                 'bytes': path.stat().st_size, 'mode': stat.S_IMODE(path.stat().st_mode)}
+                 'bytes': path.stat().st_size, 'mode': platform_support.file_mode(path)}
     return result
 
 
@@ -214,6 +222,8 @@ def optional_plan(package, destination, legacy):
     conflicts = []
     baseline = load(package / 'product/optional-skills/UPDATE_BASELINES.json')
     known = [row['files'] for row in baseline['skills'][ORCHESTRATOR].values()]
+    if platform_support.WINDOWS:
+        known = [{name: dict(record, mode=platform_support.project_mode(record['mode'])) for name, record in files.items()} for files in known]
     if before is not None and before != desired and before not in known:
         conflicts.append('Orchestrator has unknown local changes; reconcile them without overwrite.')
     if (legacy / ORCHESTRATOR).exists():
@@ -223,14 +233,16 @@ def optional_plan(package, destination, legacy):
 
 
 def host_check(codex, home):
-    executable = codex or shutil.which('codex')
+    command = platform_support.codex_command(codex)
+    executable = command[0] if command else None
     result = {'executable': executable, 'version': None, 'authentication': 'unverified', 'ready': False,
               'next': 'Install Codex using its official setup, then sign in with your own account.'}
     if not executable:
         return result
     try:
         env = dict(os.environ, HOME=str(home), CODEX_HOME=str(home / '.codex'))
-        check = subprocess.run([executable, '--version'], capture_output=True, timeout=10, env=env, text=True)
+        if platform_support.WINDOWS: env['USERPROFILE']=str(home)
+        check = subprocess.run([*command, '--version'], capture_output=True, timeout=10, env=env, text=True)
         match = re.search(r'codex-cli (\d+)\.(\d+)\.(\d+)', check.stdout)
         if not match:
             result['next'] = 'Use a supported Codex CLI; the executable did not return a recognized version.'
@@ -239,7 +251,7 @@ def host_check(codex, home):
         if tuple(map(int, match.groups())) < (0, 166, 0):
             result['next'] = 'Update Codex CLI to 0.166.0 or later, then run doctor again.'
             return result
-        login = subprocess.run([executable, 'login', 'status'], capture_output=True, timeout=15, env=env, text=True)
+        login = subprocess.run([*command, 'login', 'status'], capture_output=True, timeout=15, env=env, text=True)
         result['authentication'] = 'signed-in' if login.returncode == 0 else 'sign-in-required'
         result['ready'] = login.returncode == 0
         result['next'] = 'Open a fresh Codex session after installation.' if result['ready'] else 'Run codex login using your own account.'
@@ -252,7 +264,7 @@ def doctor(package, home, state=None, codex=None):
     home, state, destination, legacy = paths(home, state)
     metadata, fingerprint = package_info(package)
     system, machine = platform.system(), platform.machine().lower()
-    supported = system in ('Darwin', 'Linux') and machine in ('arm64', 'aarch64', 'x86_64', 'amd64')
+    supported = system in ('Darwin', 'Linux', 'Windows') and machine in ('arm64', 'aarch64', 'x86_64', 'amd64')
     host = host_check(codex, home)
     runtime = metadata.get('runtime', {})
     return {'status': 'ready' if supported and host['ready'] else 'action-required',
@@ -291,11 +303,39 @@ def retained_package(package, state, fingerprint):
     return cached
 
 
+
+def inherited_entitlement(home, state, product_id):
+    """Carry an existing exact receipt; never infer or issue acquired rights."""
+    installed=state/'installed.json'
+    if not installed.exists():return None
+    current=load(installed)
+    require(current.get('schema')=='codex-agents.buyer-installation/1', 'Unknown installed rights source; reconcile before updating')
+    journal,prior,_,prior_home,prior_state,_=checked_journal(Path(current['journal']))
+    require(prior_home==home and prior_state==state and prior['product_id']==product_id,
+            'Installed rights source belongs to another home, state or product')
+    require(current['source_commit']==prior['source_commit'] and current['product_version']==prior['product_version'],
+            'Installed rights source identity differs from its journal')
+    require(journal['status'] in ('complete','rolled-back','uninstalled'), 'Installed rights source is unresolved; reconcile before updating')
+    reference=journal.get('retained_entitlement')
+    if reference is None:return None
+    path=safe(Path(reference))
+    match=re.fullmatch(r'([a-f0-9]{64})\.json',path.name)
+    require(path.parent==state/'purchases' and match is not None, 'Retained purchase record is outside managed rights storage')
+    info=path.lstat()
+    require(stat.S_ISREG(info.st_mode) and info.st_nlink==1, 'Retained purchase record must be a private unlinked regular file')
+    platform_support.assert_private(path)
+    expected=match.group(1)
+    require(prior.get('entitlement') and prior['entitlement']['sha256']==expected,
+            'Retained purchase record is not bound to its approved plan')
+    require(digest(read(path,256*1024))==expected, 'Retained purchase record changed; preserve it and reconcile before updating')
+    return path
+
+
 def audit(package, home, state, plan_path, entitlement=None):
     package = safe(package)
     metadata, manifest_sha = package_info(package)
     home, state, destination, legacy = paths(home, state)
-    require(platform.system() in ('Darwin', 'Linux'), 'This setup supports skills on macOS and Linux. Use the Work importer for the Work bundle.')
+    require(platform.system() in ('Darwin', 'Linux', 'Windows'), 'This setup supports native skills on Windows, macOS and Linux.')
     package = retained_package(package, state, manifest_sha)
     core, host = engines(package)
     plan_path = safe(plan_path)
@@ -307,7 +347,7 @@ def audit(package, home, state, plan_path, entitlement=None):
     profile_plan = host.audit(package / 'product', home / '.codex', destination / 'agent-foundry')
     optional = optional_plan(package, destination, legacy)
     blockers = list(core_plan['blockers']) + optional['conflicts']
-    launcher = state / 'Open Codex.command'
+    launcher = launcher_path(state)
     launcher_text = read(launcher).decode() if launcher.exists() else None
     launcher_before = digest(launcher_text.encode()) if launcher_text is not None else None
     if launcher_before is not None:
@@ -320,6 +360,8 @@ def audit(package, home, state, plan_path, entitlement=None):
             blockers.append('The generated launcher has unknown changes; preserve them and reconcile before another install.')
     license_record = None
     entitlement_data = None
+    if entitlement is None:
+        entitlement = inherited_entitlement(home,state,metadata['product_id'])
     if entitlement:
         data = read(safe(entitlement), 256 * 1024)
         entitlement_data = data
@@ -338,12 +380,13 @@ def audit(package, home, state, plan_path, entitlement=None):
             'launcher_before': launcher_text,
             'blockers': blockers, 'ready': not blockers, 'created_at': timestamp()}
     operation.mkdir(mode=0o700, parents=True)
+    if platform_support.WINDOWS: platform_support.make_private(operation)
     if entitlement_data is not None:
         with (operation / 'entitlement-document.json').open('xb') as receipt:
             receipt.write(entitlement_data)
             receipt.flush()
             os.fsync(receipt.fileno())
-        os.chmod(operation / 'entitlement-document.json', 0o600)
+        platform_support.set_mode(operation / 'entitlement-document.json', 0o600)
     write(core_path, core_plan, exclusive=True)
     write(profile_path, profile_plan, exclusive=True)
     write(plan_path, plan, exclusive=True)
@@ -351,6 +394,7 @@ def audit(package, home, state, plan_path, entitlement=None):
             'plan_sha256': digest(read(plan_path)), 'mode': mode, 'expected_skills': 33,
             'recommended_orchestrator': True, 'roles': 12, 'destination': str(destination),
             'journal': str(operation / 'journal.json'), 'blockers': blockers,
+            'preview': {'components': [{'id': e['name'], 'target': e['target'], 'action':e['action']} for e in core_plan['entries']] + [{'id':ORCHESTRATOR,'target':optional['target'],'action':optional['action']},{'id':'profile-and-roles','target':str(home / '.codex'),'action':'merge'}], 'conflicts':blockers, 'preserved_changes':core_plan.get('preserved_visuals',[])},
             'next': 'Approve the exact plan SHA-256 before install.' if plan['ready'] else 'Preserve changes and resolve the listed conflicts; run a new audit.'}
 
 
@@ -358,6 +402,7 @@ def audit(package, home, state, plan_path, entitlement=None):
 def locked(state, home=None):
     state = safe(state)
     state.mkdir(parents=True, exist_ok=True, mode=0o700)
+    if platform_support.WINDOWS: platform_support.make_private(state)
     lock = safe((home / '.agents/.buyer-setup.lock') if home is not None else state / '.setup.lock')
     lock.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     fd = os.open(lock, os.O_RDWR | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0), 0o600)
@@ -408,13 +453,13 @@ def checked_journal(journal_path):
     if 'profile_journal' in journal:
         require(safe(journal['profile_journal']) == operation / 'host-journal.json', 'Host journal outside the composite operation')
     if 'launcher' in journal:
-        require(safe(journal['launcher']) == state / 'Open Codex.command', 'Launcher outside the setup state')
+        require(safe(journal['launcher']) == launcher_path(state), 'Launcher outside the setup state')
     if 'uninstall_entries' in journal:
         require(journal['status'] in ('uninstalling','uninstalled') and isinstance(journal['uninstall_entries'], list),
                 'Unexpected uninstall record')
         permitted_trees = {str(home / '.agents/skills' / n) for n in engines(package)[0].NAMES | {ORCHESTRATOR}}
         permitted_files = {str(home / '.codex/agents' / row['file']) for row in load(package / 'product/agent-profiles/manifest.json')['roles']}
-        permitted_files.add(str(state / 'Open Codex.command'))
+        permitted_files.add(str(launcher_path(state)))
         observed = set()
         for entry in journal['uninstall_entries']:
             target = str(safe(entry['target']))
@@ -532,22 +577,89 @@ def launch_arguments(home, product):
     return arguments
 
 
-def make_launcher(home, state, product, expected_before=None):
+def launcher_path(state):
+    return state / ('Open Codex.cmd' if platform_support.WINDOWS else 'Open Codex.command')
+
+
+def runtime_environment(package):
+    metadata=load(package / 'product-manifest.json')
+    rows=metadata.get('portable_runtimes')
+    if not rows:return {}
+    architecture=platform.machine().lower()
+    architecture='arm64' if architecture in ('arm64','aarch64') else 'x64' if architecture in ('amd64','x86_64','x64') else architecture
+    key=sys.platform+'-'+architecture
+    require(key in rows,'This package has no runtime for '+key)
+    row=rows[key]
+    result={}
+    for field,var in [('python_executable','AGENT_SYSTEM_PYTHON'),('node_executable','AGENT_SYSTEM_NODE')]:
+        reference=row[field]
+        require(reference in metadata['files'],'Runtime executable absent from the exact package inventory')
+        executable=inside(package,reference)
+        require(executable.is_file(),'Bundled runtime executable missing')
+        result[var]=str(executable)
+    # Preserve project/venv interpreters. Our helpers use the explicit variables;
+    # PATH supplies bundled tools only when the host lacks its own interpreter.
+    original_path=os.environ.get('PATH','')
+    python_bin=str(Path(result['AGENT_SYSTEM_PYTHON']).parent)
+    node_bin=str(Path(result['AGENT_SYSTEM_NODE']).parent)
+    bundled_python_dirs={os.path.normcase(os.path.abspath(python_bin))}
+    previous_python=os.environ.get('AGENT_SYSTEM_PYTHON')
+    if previous_python:
+        bundled_python_dirs.add(os.path.normcase(os.path.abspath(str(Path(previous_python).parent))))
+    search_parts=[part for part in original_path.split(os.pathsep)
+                  if os.path.normcase(os.path.abspath(part)) not in bundled_python_dirs]
+    if platform_support.WINDOWS:
+        search_parts=[part for part in search_parts
+                      if 'windowsapps' not in part.replace('\\','/').casefold().split('/')]
+    search_path=os.pathsep.join(search_parts)
+    existing_python=any(shutil.which(name,path=search_path) for name in ('python3','python'))
+    parts=([original_path,python_bin,node_bin] if existing_python
+           else [python_bin,original_path,node_bin])
+    result['PATH']=os.pathsep.join(part for part in parts if part)
+    result.update(PYTHONUTF8='1',PYTHONIOENCODING='utf-8',PYTHONDONTWRITEBYTECODE='1')
+    return result
+
+
+def make_launcher(home, state, product, expected_before=None, *, project=None):
     flags = launch_arguments(home, product)
-    executable = shutil.which('codex')
-    if executable is None and (home / '.local/bin/codex').is_file():
-        executable = str(home / '.local/bin/codex')
-    executable = executable or 'codex'
+    if project is not None:
+        project = safe(project)
+        require(project.parent == state / 'practice' and re.fullmatch(r'[0-9a-f]{32}',project.name), 'Practice launcher outside the owned demo root')
+        flags = ['-C',str(project),*flags]
+    command = platform_support.codex_command()
+    if command is None and (home / '.local/bin/codex').is_file():
+        command = [str(home / '.local/bin/codex')]
+    command = command or ['codex']
+    runtime = runtime_environment(product.parent)
+    if runtime and Path(command[0]).name.lower() in ('node','node.exe') and len(command)>1:
+        command[0]=runtime['AGENT_SYSTEM_NODE']
     environment = ['HOME=' + str(home), 'CODEX_HOME=' + str(home / '.codex')]
-    content = '#!/bin/sh\nset -eu\nexec env ' + ' '.join(shlex.quote(x) for x in environment) + ' ' + shlex.quote(executable) + ' ' + ' '.join(shlex.quote(x) for x in flags) + ' "$@"\n'
-    path = state / 'Open Codex.command'
+    if platform_support.WINDOWS:
+        # The batch file contains no user-controlled shell text. PowerShell's
+        # ProcessStartInfo receives an encoded data record and an exact CRT argv
+        # string, avoiding both cmd expansion and PowerShell native-arg stripping.
+        data = {'executable': command[0], 'arguments': subprocess.list2cmdline([*command[1:], *flags]),
+                'environment': {'HOME':str(home), 'USERPROFILE':str(home), 'CODEX_HOME':str(home / '.codex'),
+                                'PYTHONUTF8':'1','PYTHONIOENCODING':'utf-8','PYTHONDONTWRITEBYTECODE':'1',**runtime}}
+        payload = base64.b64encode(encoded(data)).decode('ascii')
+        script = "$t=[IO.File]::ReadAllText($env:AGENT_SYSTEM_LAUNCH_FILE,[Text.Encoding]::UTF8);" + \
+                 "$b=[regex]::Match($t,'(?m)^:AGENT_SYSTEM_LAUNCH_DATA\\r?\\n([A-Za-z0-9+/=]+)').Groups[1].Value;" + \
+                 "$d=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b))|ConvertFrom-Json;" + \
+                 "$s=New-Object Diagnostics.ProcessStartInfo;$s.FileName=$d.executable;$s.Arguments=$d.arguments;$s.UseShellExecute=$false;" + \
+                 "$d.environment.psobject.Properties|ForEach-Object{$s.EnvironmentVariables[$_.Name]=$_.Value};" + \
+                 "$p=[Diagnostics.Process]::Start($s);$p.WaitForExit();exit $p.ExitCode"
+        content = '@echo off\r\nsetlocal DisableDelayedExpansion\r\nset "AGENT_SYSTEM_LAUNCH_FILE=%~f0"\r\npowershell.exe -NoLogo -NoProfile -EncodedCommand ' + base64.b64encode(script.encode('utf-16le')).decode('ascii') + '\r\nexit /b %ERRORLEVEL%\r\n:AGENT_SYSTEM_LAUNCH_DATA\r\n' + payload + '\r\n'
+    else:
+        environment += [name+'='+value for name,value in runtime.items()]
+        content = '#!/bin/sh\nset -eu\nexec env ' + ' '.join(shlex.quote(x) for x in environment) + ' ' + ' '.join(shlex.quote(x) for x in command) + ' ' + ' '.join(shlex.quote(x) for x in flags) + ' "$@"\n'
+    path = (project / launcher_path(state).name) if project is not None else launcher_path(state)
     before = digest(read(path)) if path.exists() else None
     require(before in (expected_before, digest(content.encode())), 'Generated launcher changed during setup; preserve it')
     fd, tmp = tempfile.mkstemp(prefix='.codex-launch-', dir=state)
     try:
         with os.fdopen(fd, 'wb') as file:
             file.write(content.encode()); file.flush(); os.fsync(file.fileno())
-        os.chmod(tmp, 0o755)
+        platform_support.set_mode(tmp, 0o755)
         os.replace(tmp, path)
     finally:
         Path(tmp).unlink(missing_ok=True)
@@ -596,13 +708,17 @@ def install(plan_path, expected, *, resume=None):
             if plan['entitlement']:
                 destination = state / 'purchases' / (plan['entitlement']['sha256'] + '.json')
                 destination.parent.mkdir(mode=0o700, exist_ok=True)
+                if platform_support.WINDOWS: platform_support.make_private(destination.parent)
                 content = read(Path(plan['entitlement']['source']))
                 require(digest(content) == plan['entitlement']['sha256'], 'Entitlement changed during installation')
                 if destination.exists():
+                    require(destination.lstat().st_nlink==1, 'Existing purchase record must not have hard links')
+                    platform_support.assert_private(destination)
                     require(read(destination) == content, 'Existing purchase record disagrees')
                 else:
                     fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
                     with os.fdopen(fd, 'wb') as out:
+                        platform_support.fchmod(out.fileno(),0o600)
                         out.write(content); out.flush(); os.fsync(out.fileno())
                 journal['retained_entitlement'] = str(destination)
             journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'))
@@ -769,17 +885,17 @@ def uninstall(journal_path):
                 if observed is not None:
                     require(observed == entry['before'], 'Uninstall role changed; preserve local work')
                     if stash.exists():
-                        require(stash.read_text() == observed, 'Uninstall file backup differs')
+                        require(stash.read_text(encoding='utf8') == observed, 'Uninstall file backup differs')
                     else:
                         host.atomic(stash, observed, 0o600)
                     target.unlink()
                 else:
-                    require(stash.exists() and stash.read_text() == entry['before'], 'Role missing without backup')
+                    require(stash.exists() and stash.read_text(encoding='utf8') == entry['before'], 'Role missing without backup')
             else:
                 observed = host.read(target)
                 require(observed in (entry['before'], entry['after']), 'Profile changed during uninstall; reconcile first')
                 if observed != entry['after']:
-                    stash.write_text(observed)
+                    host.atomic(stash, observed, 0o600)
                     host.atomic(target, entry['after'], 0o644)
             journal['uninstall_done'].append(index)
             write(Path(journal_path), journal)
@@ -803,20 +919,68 @@ def status(home, state=None):
             'next': 'Run verify for current on-disk state and discover for a fresh Codex host observation.'}
 
 
+def operations(home, state=None):
+    home, state, *_ = paths(home, state)
+    folder = state / 'operations'
+    rows = []
+    if folder.exists():
+        require(folder.is_dir(), 'Operations store is not a directory')
+        entries = list(folder.iterdir())
+        require(len(entries) <= 2000, 'Too many retained operations; select an exact journal in CLI')
+        for entry in sorted(entries):
+            if not re.fullmatch(r'[0-9a-f]{32}', entry.name):
+                continue
+            journal_path = safe(entry / 'journal.json')
+            if not journal_path.is_file():
+                continue
+            journal, plan, package, recorded_home, recorded_state, operation = checked_journal(journal_path)
+            require(recorded_home == home and recorded_state == state, 'Operation belongs to a different setup home')
+            # Partial phases may have mutated files. Resuming requires the same
+            # exact approved plan; listing never retries or repairs them itself.
+            phase = journal.get('phase') or journal.get('optional_phase') or journal['status']
+            can_resume = journal['status'] in ('installing','interrupted')
+            rows.append({'id':entry.name,'journal':str(journal_path), 'plan':journal['plan'],
+                         'plan_sha256':journal['plan_sha256'], 'status':journal['status'],
+                         'phase':phase, 'can_resume':can_resume, 'resumable':can_resume,
+                         'recovery_action':'install' if can_resume else 'rollback' if journal['status']=='rolling-back' else 'uninstall' if journal['status']=='uninstalling' else None,
+                         'source_commit':plan['source_commit'], 'package_source':str(package)})
+    installed = load(state / 'installed.json') if (state / 'installed.json').exists() else None
+    return {'status':'ready','operations':rows,'installed':installed}
+
+
 def discover(journal_path, codex=None, cwd=None):
     journal, plan, package, home, state, operation = checked_journal(journal_path)
     verify(journal_path)
-    executable = codex or shutil.which('codex')
+    command = platform_support.codex_command(codex)
+    executable = command[0] if command else None
     require(executable, 'Install Codex or pass its actual --codex path')
     args = launch_arguments(home, package / 'product')
     project = safe(cwd or home)
     require(project.is_dir(), 'Discovery workspace must exist')
-    process = subprocess.Popen([executable, *args, 'app-server', '--listen', 'stdio://', '--disable', 'apps',
+    environment=dict(os.environ, HOME=str(home), CODEX_HOME=str(home / '.codex'), **runtime_environment(package))
+    if platform_support.WINDOWS: environment['USERPROFILE']=str(home)
+    if environment.get('AGENT_SYSTEM_NODE') and Path(command[0]).name.lower() in ('node','node.exe') and len(command)>1:
+        command[0]=environment['AGENT_SYSTEM_NODE']
+    process = subprocess.Popen([*command, *args, 'app-server', '--listen', 'stdio://', '--disable', 'apps',
                                 '--disable', 'hooks', '--disable', 'plugins'], cwd=project,
-                               env=dict(os.environ, HOME=str(home), CODEX_HOME=str(home / '.codex')),
+                               env=environment,
                                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    selector = selectors.DefaultSelector()
-    selector.register(process.stdout, selectors.EVENT_READ)
+    chunks = queue.Queue(maxsize=256)
+    stopped = threading.Event()
+    def reader():
+        try:
+            while not stopped.is_set():
+                content = os.read(process.stdout.fileno(), 65536)
+                while not stopped.is_set():
+                    try: chunks.put(content, timeout=.1); break
+                    except queue.Full: pass
+                if not content: break
+        except (OSError, ValueError):
+            if not stopped.is_set():
+                try: chunks.put_nowait(b'')
+                except queue.Full: pass
+    reading = threading.Thread(target=reader, daemon=True)
+    reading.start()
     waiting = b''
     def send(method, params=None, ident=None):
         row = {'method': method}
@@ -835,9 +999,10 @@ def discover(journal_path, codex=None, cwd=None):
                 if row.get('id') == ident:
                     require('error' not in row, 'Codex rejected native discovery')
                     return row['result']
-            if not selector.select(max(.01, deadline - time.monotonic())):
+            try:
+                content = chunks.get(timeout=max(.01, deadline - time.monotonic()))
+            except queue.Empty:
                 break
-            content = os.read(process.stdout.fileno(), 65536)
             require(content, 'Codex discovery stopped before its receipt')
             waiting += content
             require(len(waiting) <= 16 * 1024 * 1024, 'Native discovery output exceeds bound')
@@ -861,13 +1026,15 @@ def discover(journal_path, codex=None, cwd=None):
         write(operation / 'native-discovery.json', receipt)
         return receipt
     finally:
-        selector.close()
+        stopped.set()
         if process.poll() is None:
             process.terminate()
         try:
             process.wait(timeout=5)
         except subprocess.TimeoutExpired:
             process.kill(); process.wait(timeout=3)
+        reading.join(timeout=1)
+        process.stdout.close(); process.stdin.close()
 
 
 def first_task(locale='en'):
@@ -879,6 +1046,39 @@ def first_task(locale='en'):
             'expected': {'README.md': '# Checklist\n', 'notes.txt': 'Preserve this note.\n'},
             'next': 'Create these two files in a disposable project; open the generated Codex launcher there and paste the prompt.',
             'execution_performed': False}
+
+
+def prepare_first_task(package, home, state=None, locale='en'):
+    package = safe(package)
+    package_info(package)
+    home, state, *_ = paths(home, state)
+    description = first_task(locale)
+    with locked(state, home):
+        folder = safe(state / 'practice' / uuid.uuid4().hex)
+        folder.mkdir(parents=True, mode=0o700)
+        if platform_support.WINDOWS: platform_support.make_private(folder)
+        for name, content in description['fixture'].items():
+            target = inside(folder, name)
+            with target.open('xb') as file:
+                file.write(content.encode('utf8')); file.flush(); os.fsync(file.fileno())
+            platform_support.set_mode(target, 0o600)
+        task = folder / 'TASK.txt'
+        with task.open('xb') as file:
+            file.write(description['prompt'].encode('utf8')); file.flush(); os.fsync(file.fileno())
+        platform_support.set_mode(task, 0o600)
+        sync_dir(folder)
+    launcher = None
+    record = state / 'installed.json'
+    if record.exists():
+        active = load(record)
+        journal, _, installed_package, installed_home, installed_state, _ = checked_journal(Path(active['journal']))
+        require(installed_home == home and installed_state == state, 'Installed record belongs to another setup home')
+        if journal['status'] == 'complete':
+            verify(Path(active['journal']))
+            launcher = make_launcher(home,state,installed_package / 'product',project=folder)
+    return dict(description, status='prepared', project=str(folder),
+                launcher=launcher, execution_performed=False,
+                next='Open this disposable project in Codex and paste the supplied prompt. Review the resulting files.')
 
 
 def wizard(package, home, state=None, codex=None, locale='en'):
@@ -973,7 +1173,9 @@ def main(argv=None):
     sub = parser.add_subparsers(dest='command')
     sub.add_parser('doctor')
     sub.add_parser('status')
+    sub.add_parser('operations')
     sub.add_parser('first-task')
+    sub.add_parser('prepare-first-task')
     p = sub.add_parser('audit'); p.add_argument('--plan', type=Path, required=True); p.add_argument('--entitlement', type=Path)
     p = sub.add_parser('install'); p.add_argument('--plan', type=Path, required=True); p.add_argument('--approve', required=True); p.add_argument('--resume', type=Path)
     for name in ('verify', 'rollback', 'uninstall', 'discover'):
@@ -1000,6 +1202,10 @@ def main(argv=None):
             result = uninstall(args.journal.expanduser().resolve())
         elif args.command == 'discover':
             result = discover(args.journal.expanduser().resolve(), args.codex, args.cwd)
+        elif args.command == 'operations':
+            result = operations(args.home, args.state)
+        elif args.command == 'prepare-first-task':
+            result = prepare_first_task(package, args.home, args.state, args.locale)
         elif args.command == 'first-task':
             result = first_task(args.locale)
         else:

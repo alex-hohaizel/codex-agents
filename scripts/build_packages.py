@@ -20,6 +20,8 @@ from check_repository import check
 EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".DS_Store", "node_modules",
                   "dist", ".atelier-local", "test-results", "playwright-report"}
 COMMON = ["AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md", "RIGHTS.md", "locales.json", "maintenance-skill",
+          "START_HERE.html", "ПОЧАТИ.html", "Start.command", "Start.sh", "Start.cmd",
+          "Start-Workbench.command", "Start-Workbench.sh", "Start-Workbench.cmd",
           "docs", "templates", "governance", "releases", "scripts", "marketing", "assets",
           "commercial", "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps"]
 

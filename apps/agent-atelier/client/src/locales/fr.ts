@@ -14,7 +14,7 @@ const messages: Record<MessageKey, string> = {
     "Recherche dans la documentation officielle OpenAI via le serveur OpenAI Docs MCP.",
   pluginCheck: "Vérifier les connexions",
   pluginChecking: "Vérification des connexions…",
-  pluginCheckHelp: "Vérifiez à quels outils Codex peut accéder depuis ce Mac.",
+  pluginCheckHelp: "Vérifiez à quels outils Codex peut accéder depuis cet ordinateur.",
   pluginSearch: "Filtrer les connexions",
   pluginNoMatches: "Aucune connexion correspondante",
   pluginNoConnections: "Codex n’a signalé aucune connexion",
@@ -319,12 +319,12 @@ const messages: Record<MessageKey, string> = {
   privacyReceipt: "Reçu de confidentialité du service",
   cleanupRecovery:
     "Rapprochez d’abord les travaux actifs ou à l’issue incertaine. Si l’aperçu a expiré ou ses cibles ont changé, préparez-en un nouveau. Vérifiez le reçu d’un nettoyage interrompu avant de le reprendre.",
-  launcherRequired: "Ouvrir Agent Atelier avec le lanceur Mac",
+  launcherRequired: "Ouvrir Agent Atelier avec le lanceur local",
   launcherRequiredBody:
     "Le lanceur établit cette session du navigateur. Rouvrez Agent Atelier.command, puis utilisez la nouvelle fenêtre du navigateur. Un lien expiré ne peut pas créer de session.",
   platform: "Plateforme opérationnelle",
   personal: "Espace personnel",
-  local: "En local sur votre Mac",
+  local: "Espace local",
   product: "Produit",
   products: "Produits",
   operations: "Opérations",

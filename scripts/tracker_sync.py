@@ -2,6 +2,12 @@
 """Plan and reconcile explicit ticket effects with a mapped tracker."""
 from __future__ import annotations
 
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 from datetime import datetime, timezone
 import json
@@ -247,22 +253,19 @@ def check_id(value):
 
 
 def fsync(path):
-    fd = os.open(path,os.O_RDONLY|os.O_DIRECTORY)
-    try:
-        os.fsync(fd)
-    finally:
-        os.close(fd)
+    platform_support.sync_dir(path)
 
 
 def save(path, data, known):
     raw = encoded(data)
     cx.require(len(raw) <= 64*1024,"operation receipt exceeds the local journal limit")
     if known:
-        store.atomic_replace(path,raw,lambda: cx.require(not path.is_symlink(),"linked tracker journal"))
+        store.atomic_replace(path,raw,lambda: cx.require(not platform_support.is_link_or_reparse(path),"linked tracker journal"))
     else:
         fd,name = tempfile.mkstemp(prefix=".tracker-sync-",dir=path.parent)
         try:
             with os.fdopen(fd,"wb") as file:
+                if platform_support.WINDOWS: platform_support.fchmod(file.fileno(),0o600)
                 file.write(raw); file.flush(); os.fsync(file.fileno())
             os.link(name,path)
             fsync(path.parent)

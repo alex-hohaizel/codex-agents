@@ -7,6 +7,12 @@ only a seller-local private database and buyer-selected delivery destinations.
 from __future__ import annotations
 
 import argparse
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import base64
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -70,7 +76,7 @@ def parse(raw):
 
 def path_safe(path, *, exists=False):
     path = Path(path).expanduser().absolute()
-    require(not any(p.is_symlink() for p in (path, *path.parents)), "linked path rejected")
+    require(not any(platform_support.is_link_or_reparse(p) for p in (path, *path.parents)), "linked path rejected")
     if exists:
         require(path.is_file() and path.stat().st_size <= MAX_JSON, "missing/oversized JSON file")
     return path
@@ -147,13 +153,18 @@ def private_db(path):
     require(path.suffix == ".sqlite", "use a dedicated private .sqlite file")
     if not path.parent.exists():
         path.parent.mkdir(parents=True, mode=0o700)
+        if platform_support.WINDOWS: platform_support.make_private(path.parent)
+    if platform_support.WINDOWS:
+        require(platform_support.private_acl_report(path.parent)['private'],
+                'Seller database needs a dedicated owner-only directory; choose a new private folder or explicitly restrict that folder ACL')
     if path.exists():
         info = path.stat()
         require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1
-                and stat.S_IMODE(info.st_mode) & 0o077 == 0, "seller database must be owner-only")
+                and platform_support.private_acl_report(path)['private'], "seller database must be owner-only")
     else:
         fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
         os.close(fd)
+        platform_support.set_mode(path,0o600)
     connection = sqlite3.connect(path, timeout=5, isolation_level=None)
     connection.execute("PRAGMA foreign_keys = ON")
     connection.execute("PRAGMA busy_timeout = 5000")
@@ -202,16 +213,12 @@ def atomic_file(path, raw, *, same_ok=False):
     fd, temporary = tempfile.mkstemp(prefix=".purchase-", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as file:
-            os.fchmod(file.fileno(), 0o600)
+            platform_support.fchmod(file.fileno(), 0o600)
             file.write(raw)
             file.flush()
             os.fsync(file.fileno())
         os.link(temporary, path)
-        d = os.open(path.parent, os.O_RDONLY)
-        try:
-            os.fsync(d)
-        finally:
-            os.close(d)
+        platform_support.sync_dir(path.parent)
     finally:
         Path(temporary).unlink(missing_ok=True)
 
@@ -316,6 +323,7 @@ def deliver_to(connection, code, destination):
     destination = path_safe(destination)
     require(not destination.is_relative_to(ROOT), "private buyer delivery must be outside reusable source")
     destination.mkdir(parents=True, mode=0o700, exist_ok=True)
+    if platform_support.WINDOWS: platform_support.make_private(destination)
     artifact = checked_artifact(order)
     target = destination / artifact["name"]
     if target.exists():

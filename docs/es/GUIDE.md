@@ -11,7 +11,7 @@ El candidato comercial reúne la instalación y los derechos adquiridos de versi
 ## Elige por dónde empezar
 
 - **Prueba Codex.** [Instala y verifica](#install) · [Haz una primera tarea](#first-task) · [Flujos ilustrados](../../marketing/es/README.md)
-- **Desarrolla u opera un proyecto.** [Elige un flujo de trabajo](#workflow) · [Encuentra una habilidad o un rol](#catalog) · [Panel para Mac](#workbench) · [Operación y recuperación](#operations)
+- **Desarrolla u opera un proyecto.** [Elige un flujo de trabajo](#workflow) · [Encuentra una habilidad o un rol](#catalog) · [Panel local](#workbench) · [Operación y recuperación](#operations)
 - **Entiende el sistema.** [Harness](#harness) · [Subagentes](#subagents) · [Cápsulas de contexto](#context) · [Modelos y costes](#models)
 - **Encuentra y verifica evidencias.** [Búsqueda de conocimiento (RAG)](#retrieval) · [Evaluaciones (evals)](#evals) · [Herramientas y permisos](#permissions)
 
@@ -19,6 +19,16 @@ El candidato comercial reúne la instalación y los derechos adquiridos de versi
 
 <a name="install"></a>
 ## Instala y verifica la detección
+
+### Instalador listo para Windows, macOS y Linux
+
+Descarga el archivo **Universal** listo o el paquete para tu sistema y CPU desde la [versión estable](https://github.com/alex-hohaizel/codex-agents/releases/latest). Extráelo por completo, lee `START_HERE.html` y abre `Start.cmd` en Windows, `Start.command` en macOS o `Start.sh` en Linux. Python, Node y la interfaz compilada están incluidos. El ZIP automático de código fuente de GitHub corresponde a la ruta de desarrollo. El asistente está en inglés y ucraniano; esta guía explica el mismo proceso en español.
+
+Usa **Check now → Prepare plan**, revisa destinos y conflictos, aprueba el plan exacto y continúa con **Install reviewed plan → Verify files → Check in Codex**. La selección estándar incluye 33 habilidades, Orchestrator, perfil y doce roles. Usa tu propia cuenta Codex. **Create practice project → Open folder → Open Codex → Copy prompt** prepara el ejercicio inicial sin ejecutar un modelo. Conserva el registro: la recuperación usa la operación seleccionada y el mismo plan. [Instalación y recuperación](../INSTALL.md#recommended-local-browser-installer)
+
+Python/venv y Node del proyecto conservan su prioridad. Usa `AGENT_SYSTEM_PYTHON` para los scripts del toolkit. Maintenance sigue siendo una herramienta independiente del propietario: instala `product/maintenance-skill` del paquete o `maintenance-skill` del repositorio mediante el gestor compatible, revisa fuente y destino y verifica. Los modelos y servicios externos tienen cuentas y costes propios.
+
+### Ruta avanzada desde el código fuente
 
 1. Abre la versión estable de `alex-hohaizel/codex-agents`. La instalación por terminal en macOS o Linux usa Bash, Python 3.9+, Git, una sesión autenticada de GitHub CLI (`gh`) y Codex. Puedes pedir a Codex que explique cada paso en español y mantenga exactas las opciones y rutas.
 2. Sigue la instalación con atestación. El verificador comprueba la huella del paquete y la atestación de GitHub con el commit, el flujo y el manifiesto. Elige instalación nueva si no tienes la suite gestionada, o indica la versión instalada que ya verificaste. [Versión estable](https://github.com/alex-hohaizel/codex-agents/releases/latest) · [Comandos exactos](../INSTALL.md#steps)
@@ -103,7 +113,9 @@ python3 -B evaluations/native_canary.py --case p01-direct --output "$receipt_dir
 La comprobación corrige la errata prevista en un proyecto temporal y comprueba el otro archivo. El conjunto también cubre un traspaso de alcance limitado, un pasaporte aprobado y el primer uso de una habilidad generada. Las afirmaciones sobre productos externos requieren pruebas en su entorno real. [Evaluaciones, datos y recibos](../../evaluations/README.md) · [Validación](../../governance/VALIDATION.md)
 
 <a name="workbench"></a>
-## Usa Agent Atelier en Mac
+## Usa Agent Atelier en Windows, macOS o Linux
+
+Los paquetes listos incluyen `Start-Workbench.cmd`, `Start-Workbench.command` y `Start-Workbench.sh` para Windows, macOS y Linux. Abre el correspondiente; la interfaz lista no requiere compilar con npm. Revisa las pruebas nativas del lanzamiento por separado de la disponibilidad del runtime. El procedimiento siguiente conserva la opción de compilar para desarrolladores; los pasos de proyectos y recuperación se aplican a ambas rutas. [Runtime listo y recuperación de datos](../commercial/WORKBENCH_RUNTIME.md)
 
 1. Abre el código actual y compila con el archivo de bloqueo de Node.js. Desde `apps/agent-atelier/` ejecuta:
 

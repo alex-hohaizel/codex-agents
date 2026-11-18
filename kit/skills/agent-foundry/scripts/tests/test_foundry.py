@@ -46,6 +46,7 @@ class FoundryTests(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve());self.base=Path(self.temp.name)
         self.bundle=self.base/'bundle';(self.bundle/'scripts').mkdir(parents=True);(self.bundle/'assets').mkdir();(self.bundle/'references').mkdir()
         shutil.copyfile(SOURCE/'foundry.py',self.bundle/'scripts/foundry.py')
+        shutil.copyfile(SOURCE/'platform_support.py',self.bundle/'scripts/platform_support.py')
         shutil.copyfile(SOURCE/'check_foundry_depth.py',self.bundle/'scripts/check_foundry_depth.py')
         shutil.copyfile(SOURCE.parent/'assets/blueprint.template.json',self.bundle/'assets/blueprint.template.json')
         shutil.copyfile(SOURCE.parent/'assets/discovery-topics.json',self.bundle/'assets/discovery-topics.json')

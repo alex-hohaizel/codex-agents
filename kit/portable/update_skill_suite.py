@@ -6,6 +6,12 @@ AGENTS.md, plugins or product data are touched. Requires exclusive control of
 the chosen source/target ancestor directories; not a sandbox against a hostile
 same-user process changing ancestors between checks.
 """
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 import datetime
 import hashlib
@@ -91,7 +97,7 @@ def safe_path(value):
             mode = part.lstat().st_mode
         except FileNotFoundError:
             continue
-        require(not stat.S_ISLNK(mode), 'Symlink is not permitted: ' + str(part))
+        require(not platform_support.is_link_or_reparse(part), 'Symlink/reparse point is not permitted: ' + str(part))
         if part != path:
             require(stat.S_ISDIR(mode), 'Non-directory ancestor: ' + str(part))
     return path
@@ -129,8 +135,8 @@ def atomic_json(path, value, exclusive=False):
     temporary = path.with_name('.' + path.name + '.' + uuid.uuid4().hex + '.tmp')
     try:
         with temporary.open('xb') as stream:
+            platform_support.fchmod(stream.fileno(), 0o600)
             stream.write(encode(value)); stream.flush(); os.fsync(stream.fileno())
-        os.chmod(temporary, 0o600)
         require(not exclusive or not path.exists(), 'Output appeared: ' + str(path))
         os.replace(temporary, path)
     finally:
@@ -141,6 +147,10 @@ def atomic_json(path, value, exclusive=False):
 def relative_file(value):
     require(isinstance(value, str) and value and '\\' not in value and '\x00' not in value,
             'Invalid manifest file path')
+    try:
+        platform_support.safe_relative(value)
+    except ValueError as error:
+        raise SuiteError(str(error)) from error
     path = PurePosixPath(value)
     require(not path.is_absolute() and all(x not in ('', '.', '..') for x in value.split('/')),
             'Unsafe manifest path: ' + value)
@@ -160,7 +170,7 @@ def mode_of(path):
     mode = path.lstat().st_mode
     require(not mode & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX),
             'Special permission bits are not supported: ' + str(path))
-    return stat.S_IMODE(mode)
+    return platform_support.file_mode(path)
 
 
 def logical_sha(files):
@@ -178,7 +188,7 @@ def snapshot(root):
         for name in dirs + names:
             p = Path(current) / name
             mode = p.lstat().st_mode
-            require(not stat.S_ISLNK(mode) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
+            require(not platform_support.is_link_or_reparse(p) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
                     'Link or special file in tree: ' + str(p))
         for name in dirs:
             p = Path(current) / name
@@ -450,7 +460,7 @@ def discover(root, kind):
         if child.name.startswith('.'):
             continue
         # Never follow an unknown directory symlink to discover its name.
-        if child.is_symlink():
+        if platform_support.is_link_or_reparse(child):
             raise SuiteError('Uninspected symlink in skill-discovery root; reconcile independently: ' + str(child))
         if not child.is_dir() or not (child / 'SKILL.md').exists():
             continue
@@ -470,8 +480,16 @@ def known(row, state, ui_text=None, preserve_visual=False):
     return exact or (preserve_visual and recognized_with_visual(row, state, ui_text))
 
 
+def files_match(actual, expected):
+    # Keep canonical Git/ZIP modes in manifests/plans. Compare their explicit
+    # native projection only on Windows, where NTFS has no executable bit.
+    def projected(rows):
+        return {k: dict(v, mode=platform_support.project_mode(v['mode'])) for k,v in rows.items()}
+    return projected(actual) == projected(expected)
+
+
 def desired_matches(row, state):
-    return state is not None and {k: v for k, v in state['files'].items() if not volatile(k)} == row['files']
+    return state is not None and files_match({k:v for k,v in state['files'].items() if not volatile(k)}, row['files'])
 
 
 def audit(kit, destination, legacy_root, backup_root, projects=(), retire_known=False):
@@ -573,7 +591,7 @@ def create_payload(kit, name, target, files):
     if target.exists():
         remove_tree(target)
     target.mkdir(parents=True, mode=0o755)
-    os.chmod(target, 0o755)
+    platform_support.set_mode(target, 0o755)
     for relative, record in sorted(files.items()):
         data = read_bytes(kit / 'skills' / name / relative)
         require(len(data) == record['size'] and sha(data) == record['sha256'], 'Kit changed during preparation: ' + name + '/' + relative)
@@ -581,8 +599,8 @@ def create_payload(kit, name, target, files):
         out.parent.mkdir(parents=True, exist_ok=True)
         with out.open('xb') as stream:
             stream.write(data); stream.flush(); os.fsync(stream.fileno())
-        os.chmod(out, record['mode'])
-    require(snapshot(target)['files'] == files, 'Prepared skill differs from manifest: ' + name)
+        platform_support.set_mode(out, record['mode'])
+    require(files_match(snapshot(target)['files'], files), 'Prepared skill differs from manifest: ' + name)
 
 
 def create_preserved_payload(kit, row, target, entry, backup):
@@ -597,12 +615,12 @@ def create_preserved_payload(kit, row, target, entry, backup):
         output.parent.mkdir(parents=True, exist_ok=True)
         with output.open('wb') as stream:
             stream.write(data); stream.flush(); os.fsync(stream.fileno())
-        os.chmod(output, record['mode'])
+        platform_support.set_mode(output, record['mode'])
     output = safe_path(target / UI_PATH)
     with output.open('wb') as stream:
         stream.write(overlay['effective_ui_yaml'].encode('utf-8')); stream.flush(); os.fsync(stream.fileno())
-    os.chmod(output, entry['desired_files'][UI_PATH]['mode'])
-    require(snapshot(target)['files'] == entry['desired_files'], 'Preserved payload differs from audited effective manifest')
+    platform_support.set_mode(output, entry['desired_files'][UI_PATH]['mode'])
+    require(files_match(snapshot(target)['files'], entry['desired_files']), 'Preserved payload differs from audited effective manifest')
 
 
 def journal_paths(entry, operation, index):
@@ -670,16 +688,14 @@ def acquire_lock(backup_root, operation, plan_hash, resume=False):
                 'Another update lock exists; inspect its journal, do not bypass it')
         require(old.get('hostname') == socket.gethostname() and type(old.get('pid')) is int, 'Cannot prove stale lock ownership on this host')
         try:
-            os.kill(old['pid'], 0)
-        except ProcessLookupError:
-            pass
-        except PermissionError as error:
+            alive = platform_support.process_alive(old['pid'])
+        except OSError as error:
             raise SuiteError('Cannot establish lock process status') from error
-        else:
-            raise SuiteError('Update lock process is still alive')
+        require(not alive, 'Update lock process is still alive')
         lock.unlink()
     fd = os.open(lock, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600)
     try:
+        if platform_support.WINDOWS: platform_support.fchmod(fd, 0o600)
         data = encode({'operation': str(operation), 'plan_sha256': plan_hash, 'pid': os.getpid(), 'hostname': socket.gethostname()})
         os.write(fd, data); os.fsync(fd)
     finally:
@@ -725,7 +741,7 @@ def recover_orphan_initialization(plan_path, journal_path):
         require(operation.is_dir(), 'Initialization operation is not a directory')
         for p in operation.iterdir():
             require(re.fullmatch(r'\.journal\.json\.[0-9a-f]{32}\.tmp', p.name)
-                    and stat.S_ISREG(p.lstat().st_mode) and not p.is_symlink(),
+                    and stat.S_ISREG(p.lstat().st_mode) and not platform_support.is_link_or_reparse(p),
                     'Missing journal has unexpected operation contents; reconcile manually')
     for root in (Path(plan['destination']), Path(plan['legacy_root'])):
         require(not (root.parent / ('.skill-suite-' + operation.name)).exists(),
@@ -778,6 +794,7 @@ def apply_plan(path, resume=None):
     try:
         if not resume or recovered_initialization:
             operation.mkdir(mode=0o700, exist_ok=recovered_initialization)
+            if platform_support.WINDOWS: platform_support.make_private(operation)
             save_journal(operation, journal)
         consumed = backup_root / ('plan-' + journal['plan_sha256'] + '.json')
         if consumed.exists():

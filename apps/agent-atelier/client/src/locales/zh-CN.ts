@@ -11,7 +11,7 @@ const messages: Record<MessageKey, string> = {
   pluginDocumentationHelp: "通过 OpenAI Docs MCP 服务器搜索 OpenAI 官方文档。",
   pluginCheck: "检查可用连接",
   pluginChecking: "正在检查连接…",
-  pluginCheckHelp: "检查 Codex 在这台 Mac 上可以访问哪些工具。",
+  pluginCheckHelp: "检查 Codex 在这台计算机上可以访问哪些工具。",
   pluginSearch: "筛选连接",
   pluginNoMatches: "没有匹配的连接",
   pluginNoConnections: "Codex 未报告任何连接",
@@ -292,12 +292,12 @@ const messages: Record<MessageKey, string> = {
   privacyReceipt: "服务隐私操作回执",
   cleanupRecovery:
     "请先核对活动中或结果不明的工作。如果预览已过期或目标已变化，请重新预览。继续中断的清理前，请检查其回执。",
-  launcherRequired: "通过 Mac 启动器打开 Agent Atelier",
+  launcherRequired: "通过本地启动器打开 Agent Atelier",
   launcherRequiredBody:
     "启动器会建立此浏览器会话。请重新打开 Agent Atelier.command，然后使用新打开的浏览器窗口。已过期的链接无法创建会话。",
   platform: "运营平台",
   personal: "个人工作区",
-  local: "在 Mac 上本地运行",
+  local: "本地工作区",
   product: "产品",
   products: "产品",
   operations: "操作",

@@ -1,0 +1,166 @@
+{
+  "schema": "codex-agents.portable-runtime-sources/1",
+  "node_provenance": {
+    "version": "24.22.2",
+    "official_release": "https://nodejs.org/dist/v24.22.2/",
+    "signed_checksums_sha256": "cbff095ae2d793bc0ffed794e7ef4a6609f7157a0fcb3b051176c09e3320e4a2",
+    "keyring": {
+      "source": "https://raw.githubusercontent.com/nodejs/release-keys/481637f813e912c4aa3622d7964ab426c97b8e8d/gpg/pubring.kbx",
+      "sha256": "610b8d249da3d5733f5a128def2dd0294dbbf5b5713e6ca2529db8db419dee00"
+    },
+    "accepted_signing_fingerprints": [
+      "5BE8A3F6C8A5C01D106C0AD820B1A390B168D356"
+    ]
+  },
+  "python_provenance": {
+    "repository": "https://github.com/astral-sh/python-build-standalone",
+    "release": "20261110",
+    "release_url": "https://github.com/astral-sh/python-build-standalone/releases/tag/20261110",
+    "published_at": "2026-11-11T01:51:17Z",
+    "checksums": {
+      "browser_download_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/SHA256SUMS",
+      "digest": "sha256:72e29bd6b86194d64eca565416c3cd527c7d41260b445ed56e0f3e721e825e45",
+      "name": "SHA256SUMS",
+      "size": 142210
+    },
+    "verification": "Archive SHA pinned to reviewed authenticated vendor release metadata; no claim of an upstream signature unless separately verified."
+  },
+  "targets": {
+    "darwin-arm64": {
+      "os": "darwin",
+      "arch": "arm64",
+      "node": {
+        "version": "24.22.2",
+        "name": "node-v24.22.2-darwin-arm64.tar.gz",
+        "url": "https://nodejs.org/dist/v24.22.2/node-v24.22.2-darwin-arm64.tar.gz",
+        "sha256": "aa9549349e47dffaa42dcf95d6e06ade8c4bdafc980979883b88767670df385a",
+        "executable": "node/bin/node"
+      },
+      "python": {
+        "version": "3.13.18",
+        "release": "20261110",
+        "target_triple": "aarch64-apple-darwin",
+        "name": "cpython-3.13.18+20261110-aarch64-apple-darwin-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.13.18%2B20261110-aarch64-apple-darwin-install_only_stripped.tar.gz",
+        "sha256": "7a2384641584ab9984221fcb0fc9265df465922af71be71410529e2a9c3f0540",
+        "size": 25479437,
+        "executable": "python/bin/python3.13"
+      }
+    },
+    "darwin-x64": {
+      "os": "darwin",
+      "arch": "x64",
+      "node": {
+        "version": "24.22.2",
+        "name": "node-v24.22.2-darwin-x64.tar.gz",
+        "url": "https://nodejs.org/dist/v24.22.2/node-v24.22.2-darwin-x64.tar.gz",
+        "sha256": "d5e336d588c45be0c37dbd52cc29895593009ca4997a77a1fd02815131ed0e52",
+        "executable": "node/bin/node"
+      },
+      "python": {
+        "version": "3.13.18",
+        "release": "20261110",
+        "target_triple": "x86_64-apple-darwin",
+        "name": "cpython-3.13.18+20261110-x86_64-apple-darwin-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.13.18%2B20261110-x86_64-apple-darwin-install_only_stripped.tar.gz",
+        "sha256": "d27d59a722db9f69926eb6d9564071247221f45a04da920ea7f3001c97e32f9b",
+        "size": 25250783,
+        "executable": "python/bin/python3.13"
+      }
+    },
+    "linux-arm64": {
+      "os": "linux",
+      "arch": "arm64",
+      "node": {
+        "version": "24.22.2",
+        "name": "node-v24.22.2-linux-arm64.tar.xz",
+        "url": "https://nodejs.org/dist/v24.22.2/node-v24.22.2-linux-arm64.tar.xz",
+        "sha256": "eb187837a2230d4047161ac0be008584e16b46f726e9c9490ee35dc6b17d9ba8",
+        "executable": "node/bin/node"
+      },
+      "python": {
+        "version": "3.13.18",
+        "release": "20261110",
+        "target_triple": "aarch64-unknown-linux-gnu",
+        "name": "cpython-3.13.18+20261110-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.13.18%2B20261110-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "sha256": "55c00325f7c1fddf325dfc621aabdfbbac4dc54adda224af88ec411dc12db239",
+        "size": 29683231,
+        "executable": "python/bin/python3.13"
+      }
+    },
+    "linux-x64": {
+      "os": "linux",
+      "arch": "x64",
+      "node": {
+        "version": "24.22.2",
+        "name": "node-v24.22.2-linux-x64.tar.xz",
+        "url": "https://nodejs.org/dist/v24.22.2/node-v24.22.2-linux-x64.tar.xz",
+        "sha256": "48cc0e21e048790e54c0cf5749c2725005313d652651c40b7a21feb9697aaf75",
+        "executable": "node/bin/node"
+      },
+      "python": {
+        "version": "3.13.18",
+        "release": "20261110",
+        "target_triple": "x86_64-unknown-linux-gnu",
+        "name": "cpython-3.13.18+20261110-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.13.18%2B20261110-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+        "sha256": "f2d2199eb25880e07863b391cf7124e7ffa1338b0d65600dfcec117c4223a7fb",
+        "size": 35596130,
+        "executable": "python/bin/python3.13"
+      }
+    },
+    "win32-arm64": {
+      "os": "win32",
+      "arch": "arm64",
+      "node": {
+        "version": "24.22.2",
+        "name": "node-v24.22.2-win-arm64.zip",
+        "url": "https://nodejs.org/dist/v24.22.2/node-v24.22.2-win-arm64.zip",
+        "sha256": "f47968c213105077f64c6510f007632c0ca2574802a0b5067c327c49abe1c468",
+        "executable": "node/node.exe"
+      },
+      "python": {
+        "version": "3.13.18",
+        "release": "20261110",
+        "target_triple": "aarch64-pc-windows-msvc",
+        "name": "cpython-3.13.18+20261110-aarch64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.13.18%2B20261110-aarch64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "sha256": "0a8840071810ddb8565256cd406b466d4e9dc6dc523395a5477880dbc4f67eb3",
+        "size": 21381816,
+        "executable": "python/python.exe"
+      }
+    },
+    "win32-x64": {
+      "os": "win32",
+      "arch": "x64",
+      "node": {
+        "version": "24.22.2",
+        "name": "node-v24.22.2-win-x64.zip",
+        "url": "https://nodejs.org/dist/v24.22.2/node-v24.22.2-win-x64.zip",
+        "sha256": "ca1bff5d8ead13c9f2ea404a176db46bd430704d5b5113734049fa365e7799e2",
+        "executable": "node/node.exe"
+      },
+      "python": {
+        "version": "3.13.18",
+        "release": "20261110",
+        "target_triple": "x86_64-pc-windows-msvc",
+        "name": "cpython-3.13.18+20261110-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.13.18%2B20261110-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "sha256": "2e0fed09d48989f64c9305da9ff2d37a41c0d13ab2aa6283405b2b620dfbf805",
+        "size": 22367730,
+        "executable": "python/python.exe"
+      }
+    }
+  },
+  "rights": "Unmodified upstream Node and Python distributions retain every supplied license/notice. Internal symlinks are materialized within the exact vendor namespace for cross-platform ZIP extraction.",
+  "pyyaml": {
+    "version": "6.0.3",
+    "name": "pyyaml-6.0.3.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2/pyyaml-6.0.3.tar.gz",
+    "sha256": "d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f",
+    "size": 130960,
+    "source": "https://pypi.org/project/PyYAML/6.0.3/",
+    "distribution": "Unmodified pure-Python yaml implementation and upstream MIT LICENSE; no optional compiled extension."
+  }
+}

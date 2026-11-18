@@ -5,9 +5,11 @@ import {
   realpath,
   lstat,
   writeFile,
+  chmod,
 } from "node:fs/promises";
 import { resolve, join, dirname } from "node:path";
-import { homedir } from "node:os";
+import { homedir, tmpdir } from "node:os";
+import { assertPrivatePath, securePrivatePath, pythonExecutable } from "./platform.mjs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import {
@@ -57,15 +59,15 @@ async function plainDirectory(path, owned = false) {
   fail(
     stat.isDirectory() &&
       !stat.isSymbolicLink() &&
-      (await realpath(path)) === path &&
-      (!owned ||
-        ((stat.mode & 0o077) === 0 &&
-          (typeof process.getuid !== "function" ||
-            stat.uid === process.getuid()))),
+      (await realpath(path)) === path,
     "SOURCE_DRIFT",
     "Execution-input directory identity changed; prepare again",
     409,
   );
+  if (owned) {
+    try { await assertPrivatePath(path, { directory: true }); }
+    catch { fail(false, "SOURCE_DRIFT", "Execution-input directory privacy changed; prepare again", 409); }
+  }
 }
 
 async function ownedDirectories(base, relative) {
@@ -79,12 +81,15 @@ async function ownedDirectories(base, relative) {
       409,
     );
     current = join(current, part);
+    let created = false;
     try {
       await mkdir(current, { mode: 0o700 });
+      created = true;
     } catch (error) {
       if (error.code !== "EEXIST") throw error;
     }
-    await plainDirectory(current);
+    if (created) await securePrivatePath(current, { directory: true });
+    await plainDirectory(current, true);
   }
   return current;
 }
@@ -99,7 +104,7 @@ export async function executionInputLocation(
   await plainDirectory(dataDir);
   await plainDirectory(dirname(namespace));
   fail(
-    !/[?*\[\]{}\\\0]/.test(namespace),
+    !/[?*\[\]{}\\\0]/.test(process.platform === "win32" ? namespace.replaceAll("\\", "/") : namespace),
     "CAPABILITY_UNVERIFIED",
     "Execution-input namespace cannot be represented by the supported native permission parser",
     409,
@@ -328,6 +333,7 @@ export async function selectedInputTree(root, { exactManifest = null } = {}) {
 
 async function copyApprovedInput(sourceRoot, targetRoot, manifest) {
   await mkdir(targetRoot, { mode: 0o700 });
+  await securePrivatePath(targetRoot, { directory: true });
   await plainDirectory(targetRoot);
   for (const row of manifest) {
     fail(
@@ -357,6 +363,7 @@ async function copyApprovedInput(sourceRoot, targetRoot, manifest) {
     const parent = row.path.split("/").slice(0, -1).join("/");
     await ownedDirectories(targetRoot, parent);
     await writeFile(destination, bytes, { flag: "wx", mode: 0o400 });
+    await chmod(destination, 0o400);
   }
   await selectedInputTree(targetRoot, { exactManifest: manifest });
 }
@@ -681,17 +688,19 @@ export class SkillsManager {
     } catch (error) {
       if (error.code !== "EEXIST") throw error;
     }
+    if (createdNamespace) await securePrivatePath(location.namespace, { directory: true });
     await plainDirectory(location.namespace, true);
     const namespaceFile = join(location.namespace, "OWNERSHIP.json");
-    if (createdNamespace)
-      await writeFile(namespaceFile, JSON.stringify(location.namespaceOwner), {
-        flag: "wx",
-        mode: 0o400,
-      });
+    if (createdNamespace) {
+      await writeFile(namespaceFile, JSON.stringify(location.namespaceOwner), { flag: "wx", mode: 0o400 });
+      await chmod(namespaceFile, 0o400);
+    }
     await ownerFile(namespaceFile, digest(location.namespaceOwner));
     // Never adopt or overwrite a partial/replaced task namespace.
     await mkdir(location.taskRoot, { mode: 0o700 });
+    await securePrivatePath(location.taskRoot, { directory: true });
     await mkdir(join(location.taskRoot, "skills"), { mode: 0o700 });
+    await securePrivatePath(join(location.taskRoot, "skills"), { directory: true });
     const owner = {
       schema_version: transportSchema,
       data_dir_sha256: sha(resolve(this.dataDir)),
@@ -704,6 +713,7 @@ export class SkillsManager {
       JSON.stringify(owner),
       { flag: "wx", mode: 0o400 },
     );
+    await chmod(join(location.taskRoot, "TASK.json"), 0o400);
     const result = [];
     for (const plan of plans) {
       const archiveRoot = join(
@@ -954,14 +964,14 @@ export class SkillsManager {
       409,
     );
     try {
-      const result = await run("python3", ["-B", script, ...args], {
+      const result = await run(pythonExecutable(), ["-B", script, ...args], {
         cwd: this.repoRoot,
         timeout,
         maxBuffer: 8 * 1024 * 1024,
         env: {
           ...process.env,
           PYTHONDONTWRITEBYTECODE: "1",
-          TMPDIR: "/private/tmp",
+          TMPDIR: tmpdir(),
         },
       });
       return parseStrictJson(result.stdout, 8 * 1024 * 1024);

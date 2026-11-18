@@ -31,3 +31,14 @@ buyer entry point with a fresh isolated user home, then preserve a prior
 installation and its user edits. Record C01–C28 separately, including missing
 hardware, seller facts, signing identities and provider access. New sales and
 publication need their own owner approval.
+
+## Universal installation maintenance
+
+Apply [the universal installation contract](../governance/UNIVERSAL_INSTALLATION.md) to affected changes. Preserve all six
+native Windows/macOS/Linux x64/ARM64 paths, explicit retained Python/Node helpers,
+project environments, full source/resources, private permissions, recovery and
+unknown drift. Ready installers and source archives are separate deliverables.
+The root HTML must survive GitHub source downloads and link to ready assets.
+Require exact-commit native package and real-browser evidence before release;
+keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
+Commercial purchase rights and owner sale gates remain unchanged.

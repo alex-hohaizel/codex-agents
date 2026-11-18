@@ -198,6 +198,21 @@ test("trusted-source and record drift are rejected before native mutation", asyn
   );
 });
 
+test("staged platform adapter tampering is rejected before the native state is created", async (t) => {
+  const f = await fixture(t), nativeRun = f.manager.run;
+  f.manager.run = async (python, args, ...rest) => {
+    const directory = args[args.indexOf("--operation-dir") + 1];
+    const helper = join(directory, "platform_support.py");
+    await chmod(helper, 0o600);
+    await writeFile(helper, (await readFile(helper, "utf8")) + "\n# changed after staging\n");
+    return nativeRun(python, args, ...rest);
+  };
+  const result = await initialize(f);
+  assert.equal(result.status, "rejected");
+  assert.match(result.result.error, /Reviewed platform adapter changed/);
+  await assert.rejects(readFile(join(f.root, "factory/.agent-foundry/state.json")), { code: "ENOENT" });
+});
+
 test("controller paths, private nested references, parameters and operation catalog cannot escape the bound project", async (t) => {
   const f = await fixture(t);
   for (const session_path of [

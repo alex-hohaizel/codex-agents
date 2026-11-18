@@ -1,7 +1,7 @@
 import http from "node:http";
 import { readFile, stat, mkdir, realpath } from "node:fs/promises";
 import { resolve, join, dirname, extname } from "node:path";
-import { homedir } from "node:os";
+import { platformStateRoot, securePrivatePath } from "./platform.mjs";
 import { fileURLToPath } from "node:url";
 import { OwnerSession } from "./session.mjs";
 import { Application } from "./application.mjs";
@@ -41,7 +41,7 @@ const mime = {
 };
 export async function createServer({
   dataDir = process.env.ATELIER_DATA_DIR ??
-    join(homedir(), "Library/Application Support/Agent Atelier"),
+    platformStateRoot(),
   repoRoot = resolve(here, "../../.."),
   port = Number(process.env.ATELIER_PORT ?? 4317),
   host = "127.0.0.1",
@@ -56,6 +56,7 @@ export async function createServer({
   );
   dataDir = application?.dataDir ?? dataDir;
   await mkdir(dataDir, { recursive: true, mode: 0o700 });
+  if (process.platform === "win32") await securePrivatePath(dataDir, { directory: true });
   dataDir = await realpath(dataDir);
   const releaseInstance = await acquireInstance(dataDir);
   const app =

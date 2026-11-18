@@ -479,7 +479,7 @@ async function establishSession(): Promise<unknown> {
       (error.status === 401 || error.status === 403)
     ) {
       throw new ApiError(
-        "Open this browser session with the Mac launcher.",
+        "Open this browser session with the local launcher.",
         "LAUNCH_REQUIRED",
         { cause: error.code },
         error.status,
