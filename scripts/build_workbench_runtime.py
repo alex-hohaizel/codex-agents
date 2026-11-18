@@ -251,9 +251,9 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
     require(output != root and root not in output.parents, "Build runtime artifacts outside the source checkout")
     require(not output.exists() or (output.is_dir() and not output.is_symlink()), "Invalid output directory")
     output.mkdir(parents=True, exist_ok=True)
-    name = f"Agent-Atelier-{version}-macOS-{arch}"
-    destination = output/name
-    require(not destination.exists() and not (output/(name+".zip")).exists(), "Runtime output already exists; choose a fresh destination")
+    artifact_name = f"Agent-Atelier-{version}-macOS-{arch}"
+    destination = output/artifact_name
+    require(not destination.exists() and not (output/(artifact_name+".zip")).exists(), "Runtime output already exists; choose a fresh destination")
     destination.mkdir()
     extract_node(node_archive, destination, arch)
     for relative in ROOTS:
@@ -263,8 +263,8 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
     copy_source_tree(root, "commercial/legal", destination/"commercial/legal", tracked)
     for relative in ("commercial/offer.json", "docs/commercial/LICENSING.md"):
         copy_source_file(root, relative, destination/relative, tracked)
-    for name in ("LICENSE.txt", "THIRD_PARTY_NOTICES.txt"):
-        copy_source_file(root, "commercial/legal/"+name, destination/name, tracked)
+    for legal_name in ("LICENSE.txt", "THIRD_PARTY_NOTICES.txt"):
+        copy_source_file(root, "commercial/legal/"+legal_name, destination/legal_name, tracked)
     for relative in ("server", "shared", "launcher"):
         copy_source_tree(root, "apps/agent-atelier/"+relative, destination/"apps/agent-atelier"/relative, tracked)
     compiled = copy_compiled_client(root, "apps/agent-atelier/dist/client", destination/"apps/agent-atelier/dist/client")
@@ -301,14 +301,14 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
     require(allow_dirty or not run(["git", "status", "--porcelain", "--untracked-files=normal"], cwd=root).strip(),
             "Source bytes changed during runtime build; keep this output unshipped and rebuild")
     (destination/"runtime-manifest.json").write_text(json.dumps(desc, indent=2, sort_keys=True)+"\n")
-    zip_path = output/(name+".zip")
+    zip_path = output/(artifact_name+".zip")
     write_zip(destination, zip_path)
     receipt = {"schema": "codex-agents.workbench-runtime-build/1", "directory": str(destination),
                "artifact": str(zip_path), "sha256": sha(zip_path), "size": zip_path.stat().st_size,
                "manifest_sha256": sha(destination/"runtime-manifest.json"), "source_commit": commit,
                "source_clean": not bool(dirty), "target": desc["platform"], "notarized": False,
                "production_dependencies": deps}
-    (output/(name+".build.json")).write_text(json.dumps(receipt, indent=2)+"\n")
+    (output/(artifact_name+".build.json")).write_text(json.dumps(receipt, indent=2)+"\n")
     return receipt
 
 
