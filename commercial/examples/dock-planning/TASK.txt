@@ -1,0 +1,4 @@
+$atelier-orchestrator
+Use the installed Orchestrator and App Atelier Specification for a small loading-dock reservation pilot.
+Read their actual installed SKILL.md files and OWNER_NOTES.md. Produce PRD.md and ARCHITECTURE.md in this folder, in English.
+Keep R-101–R-103 separate and trace them to literal source excerpts. Define a small data/API contract that supports uniqueness and request identity replay, a two-builder scope split, independent QA success and failure checks, and checkpoint/next action for a fresh session. Keep hosting vendor and model budget unresolved. Don't implement code, call a provider, deploy, or select a vendor. This is a buyer demonstration of source-grounded planning, not release acceptance.

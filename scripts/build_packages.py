@@ -8,7 +8,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import stat
+import subprocess
 import sys
 import zipfile
 from pathlib import Path
@@ -22,7 +24,33 @@ COMMON = ["AGENTS.md", "README.md", "START_HERE.md", "CHANGELOG.md", "RIGHTS.md"
           "commercial", "standards", "host-profiles", "agent-profiles", "optional-skills", "evaluations", "apps"]
 
 
+def tracked_sources(root: Path) -> set[str] | None:
+    """Use the index only for this checkout; exported source trees still work.
+
+    Ignored files may contain buyer or developer data even in a clean checkout.
+    A parent repository must not silently turn a nested source export into a
+    checkout, and invalid checkout metadata must fail rather than widen inputs.
+    """
+    root = root.resolve()
+    metadata = root / ".git"
+    if not metadata.exists() and not metadata.is_symlink():
+        return None
+    env = {key: value for key, value in os.environ.items()
+           if key not in {"GIT_DIR", "GIT_COMMON_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"}}
+    try:
+        top = subprocess.check_output(["git", "rev-parse", "--show-toplevel"], cwd=root,
+                                      env=env, stderr=subprocess.PIPE)
+        if Path(os.fsdecode(top).strip()).resolve() != root:
+            raise ValueError("package source must be the exact Git checkout root")
+        entries = subprocess.check_output(["git", "ls-files", "--cached", "-z"], cwd=root,
+                                          env=env, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as exc:
+        raise ValueError("cannot establish tracked package sources for this Git checkout") from exc
+    return {os.fsdecode(relative) for relative in entries.split(b"\0") if relative}
+
+
 def collect(root: Path, relative_roots: list[str]) -> list[Path]:
+    tracked = tracked_sources(root)
     files = set()
     for relative in relative_roots:
         p = root / relative
@@ -35,6 +63,8 @@ def collect(root: Path, relative_roots: list[str]) -> list[Path]:
         for candidate in ([p] if p.is_file() else p.rglob("*")):
             rel = candidate.relative_to(root)
             if EXCLUDED_PARTS.intersection(rel.parts):
+                continue
+            if tracked is not None and rel.as_posix() not in tracked:
                 continue
             if candidate.is_symlink():
                 raise ValueError(f"refusing symlink in package: {rel}")

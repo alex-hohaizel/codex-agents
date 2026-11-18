@@ -6,6 +6,12 @@ TypeScript or a developer build. Your Codex login and model access remain your
 own. For Apple security warnings, first verify the delivery and package
 signature. This candidate has not been notarized for public distribution.
 
+Read the included [candidate license](../legal/LICENSE.txt), [third-party notices](../legal/THIRD_PARTY_NOTICES.txt),
+[rights and licensing guide](../../RIGHTS.md), and [versioned offer](../offer.json).
+The full original terms, support/privacy drafts, and Ukrainian license summary
+are retained under `commercial/legal/`. Node and compiled client dependencies'
+complete notices are under `notices/` and listed in `runtime-manifest.json`.
+
 The runtime is architecture-specific. macOS 13.5 or newer is required by the
 included Node.js v24 binary. `arm64` is Apple Silicon; `x64` is Intel. Running
 on an Apple Silicon Mac does not establish execution on an M1 or an Intel Mac.

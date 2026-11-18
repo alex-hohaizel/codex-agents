@@ -18,9 +18,12 @@ import zipfile
 
 ROOTS = ("kit", "scripts", "standards", "host-profiles", "agent-profiles", "optional-skills",
          "maintenance-skill", "releases", "templates", "governance")
-IGNORE = {".git", "__pycache__", ".pytest_cache", "node_modules", "dist", ".DS_Store"}
+IGNORE = {".git", "__pycache__", ".pytest_cache", "node_modules", "dist", ".DS_Store",
+          ".atelier-local", "playwright-report", "test-results"}
 NODE_VERSION = "24.22.2"
 SCHEMA = "codex-agents.workbench-runtime/1"
+README_LINKS = {"../legal/LICENSE.txt": "LICENSE.txt", "../legal/THIRD_PARTY_NOTICES.txt": "THIRD_PARTY_NOTICES.txt",
+                "../../RIGHTS.md": "RIGHTS.md", "../offer.json": "commercial/offer.json"}
 
 
 def require(value, message):
@@ -44,24 +47,97 @@ def run(args, **kwargs):
 
 def safe_file(path):
     path = Path(path)
-    require(path.is_file() and not path.is_symlink(), "Expected regular source file: " + str(path))
+    info = path.lstat()
+    require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1,
+            "Expected unlinked regular source file: " + str(path))
     return path
 
 
-def copy_tree(source, destination, *, skip_tests=False):
-    require(source.is_dir() and not source.is_symlink(), "Required runtime source absent: " + str(source))
-    for path in sorted(source.rglob("*")):
-        rel = path.relative_to(source)
-        if IGNORE.intersection(rel.parts) or (skip_tests and "tests" in rel.parts) or path.suffix == ".pyc":
+def member_path(name):
+    path = PurePosixPath(name)
+    require(name and path.as_posix() == name and not path.is_absolute()
+            and not {".", ".."}.intersection(path.parts) and "\\" not in name
+            and not any(ord(c) < 32 for c in name), "Unsafe runtime member path")
+    require(not any(p.startswith(".env") or p.endswith((".key", ".pem", ".sqlite", ".db"))
+                    for p in path.parts), "Private or state runtime path rejected: " + name)
+    return path
+
+
+def contained_file(root, name):
+    relative = member_path(name)
+    require(stat.S_ISDIR(root.lstat().st_mode), "Linked runtime directory rejected: " + str(root))
+    for length in range(1, len(relative.parts)):
+        parent = root.joinpath(*relative.parts[:length])
+        require(stat.S_ISDIR(parent.lstat().st_mode), "Linked runtime directory rejected: " + str(parent))
+    return safe_file(root.joinpath(*relative.parts))
+
+
+def git_sources(root, commit):
+    """Select committed paths, never recursive filesystem or index/untracked inputs."""
+    result = subprocess.run(["git", "ls-tree", "-rz", "--full-tree", commit], cwd=root,
+                            capture_output=True, timeout=180, check=True)
+    entries = {}
+    for record in result.stdout.split(b"\0"):
+        if not record:
             continue
-        require(not path.is_symlink(), "Linked runtime source rejected: " + str(path))
-        if not path.is_file():
+        metadata, name = record.split(b"\t", 1)
+        mode, kind, blob = metadata.decode("ascii").split()
+        entries[name.decode("utf-8")] = (mode, kind, blob)
+    return entries
+
+
+def copy_source_file(root, name, destination, tracked):
+    member_path(name)
+    require(name in tracked, "Runtime source is not in the exact committed tree: " + name)
+    mode, kind, _ = tracked[name]
+    require(kind == "blob" and mode in {"100644", "100755"}, "Linked committed runtime source rejected: " + name)
+    path = contained_file(root, name)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(path, destination)
+    destination.chmod(0o755 if mode == "100755" else 0o644)
+
+
+def copy_source_tree(root, relative, destination, tracked, *, skip_tests=False):
+    member_path(relative)
+    # A gitlink/symlink at the selected root must fail rather than silently copy nothing.
+    require(relative not in tracked, "Runtime source root must be a committed directory: " + relative)
+    selected = [name for name in sorted(tracked) if name.startswith(relative + "/")]
+    require(selected, "Required committed runtime source absent: " + relative)
+    for name in selected:
+        rel = PurePosixPath(name).relative_to(relative)
+        if IGNORE.intersection(rel.parts) or (skip_tests and "tests" in rel.parts) or rel.suffix == ".pyc":
             continue
-        require(not any(p.startswith(".env") for p in rel.parts), "Credential-like runtime path rejected")
-        target = destination / rel
+        copy_source_file(root, name, destination/rel, tracked)
+
+
+def copy_compiled_client(root, relative, destination):
+    """Only explicit Vite outputs may enter the separately generated client closure."""
+    manifest_path = contained_file(root, relative+"/.vite/manifest.json")
+    manifest = json.loads(manifest_path.read_text())
+    require(isinstance(manifest, dict) and manifest, "Missing Vite build output inventory")
+    names = {"index.html"}
+    entries = []
+    for key, value in manifest.items():
+        require(isinstance(value, dict) and isinstance(value.get("file"), str), "Invalid Vite build output")
+        if value.get("isEntry"):
+            entries.append(value)
+        for field in ("imports", "dynamicImports"):
+            require(all(item in manifest for item in value.get(field, [])), "Incomplete Vite module closure")
+        for name in [value["file"], *value.get("css", []), *value.get("assets", [])]:
+            member_path(name)
+            require(re.fullmatch(r"assets/[A-Za-z0-9_.-]+-[A-Za-z0-9_-]{8,}\.(?:js|css|svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf)", name),
+                    "Unexpected compiled client output: " + name)
+            names.add(name)
+    require(len(entries) == 1 and "index.html" in manifest and entries[0] is manifest["index.html"],
+            "Expected one compiled index.html entry")
+    for name in sorted(names):
+        path = contained_file(root, relative+"/"+name)
+        target = destination/name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(path, target)
-        target.chmod(0o755 if path.stat().st_mode & stat.S_IXUSR else 0o644)
+        target.chmod(0o644)
+    return {"selection": "explicit-vite-manifest-output-allowlist", "manifest_sha256": sha(manifest_path),
+            "files": sorted(names)}
 
 
 def extract_node(archive, destination, arch):
@@ -113,27 +189,29 @@ def verify_node(archive, signed_sums, keyring, lock, arch):
 
 
 def dependencies_notices(app, destination):
-    lock = json.loads((app/"package-lock.json").read_text())
+    lock = json.loads(contained_file(app, "package-lock.json").read_text())
     included = []
-    pending = list(json.loads((app/"package.json").read_text())["dependencies"])
+    pending = list(json.loads(contained_file(app, "package.json").read_text())["dependencies"])
     names = set()
     while pending:
         package_name = pending.pop()
         if package_name in names:
             continue
         names.add(package_name)
-        manifest = json.loads(safe_file(app/"node_modules"/package_name/"package.json").read_text())
+        manifest = json.loads(contained_file(app, "node_modules/"+package_name+"/package.json").read_text())
         pending.extend(manifest.get("dependencies", {}))
     for package_name in sorted(names):
         name = "node_modules/" + package_name
         entry = lock["packages"][name]
         require(name.startswith("node_modules/") and ".." not in Path(name).parts, "Invalid dependency path")
         folder = app/name
-        package = json.loads(safe_file(folder/"package.json").read_text())
+        package = json.loads(contained_file(app, name+"/package.json").read_text())
+        require(package["name"] == package_name and package["version"] == entry["version"],
+                "Production dependency differs from the committed lock: " + package_name)
         candidates = sorted(p for p in folder.iterdir() if p.name.lower() in {"license", "license.md", "license.txt", "copying"})
         require(candidates, "Production dependency omits redistribution license: " + name)
         for file in candidates:
-            safe_file(file)
+            contained_file(app, file.relative_to(app).as_posix())
             target = destination/(package["name"].replace("/", "-") + "-" + package["version"] + "-" + file.name)
             shutil.copyfile(file, target)
         included.append({"name": package["name"], "version": package["version"], "license": package.get("license"),
@@ -159,6 +237,7 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
     require(re.fullmatch("[a-f0-9]{40}", commit), "Expected actual exact source commit")
     dirty = run(["git", "status", "--porcelain", "--untracked-files=normal"], cwd=root).strip()
     require(allow_dirty or not dirty, "Commit the reviewed source before producing a distributable; --allow-dirty is rehearsal only")
+    tracked = git_sources(root, commit)
     sources = root/"commercial/runtime"
     lock = json.loads((sources/"node-sources.json").read_text())
     provenance = verify_node(safe_file(node_archive).resolve(), safe_file(signed_sums).resolve(),
@@ -166,7 +245,8 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
     release = json.loads((root/"releases/current.json").read_text())
     app = root/"apps/agent-atelier"
     version = json.loads((app/"package.json").read_text())["version"]
-    require((app/"dist/client/index.html").is_file(), "Developer step required: npm ci --ignore-scripts && npm run build in apps/agent-atelier")
+    require((app/"dist/client/.vite/manifest.json").is_file(),
+            "Developer step required: npm ci --ignore-scripts && npm run build -- --manifest in apps/agent-atelier")
     output = output.resolve()
     require(output != root and root not in output.parents, "Build runtime artifacts outside the source checkout")
     require(not output.exists() or (output.is_dir() and not output.is_symlink()), "Invalid output directory")
@@ -177,19 +257,30 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
     destination.mkdir()
     extract_node(node_archive, destination, arch)
     for relative in ROOTS:
-        copy_tree(root/relative, destination/relative, skip_tests=True)
+        copy_source_tree(root, relative, destination/relative, tracked, skip_tests=True)
     for relative in ("AGENTS.md", "RIGHTS.md"):
-        shutil.copyfile(root/relative, destination/relative)
-    for relative in ("server", "shared", "launcher", "dist/client"):
-        copy_tree(app/relative, destination/"apps/agent-atelier"/relative)
+        copy_source_file(root, relative, destination/relative, tracked)
+    copy_source_tree(root, "commercial/legal", destination/"commercial/legal", tracked)
+    for relative in ("commercial/offer.json", "docs/commercial/LICENSING.md"):
+        copy_source_file(root, relative, destination/relative, tracked)
+    for name in ("LICENSE.txt", "THIRD_PARTY_NOTICES.txt"):
+        copy_source_file(root, "commercial/legal/"+name, destination/name, tracked)
+    for relative in ("server", "shared", "launcher"):
+        copy_source_tree(root, "apps/agent-atelier/"+relative, destination/"apps/agent-atelier"/relative, tracked)
+    compiled = copy_compiled_client(root, "apps/agent-atelier/dist/client", destination/"apps/agent-atelier/dist/client")
     for relative in ("package.json", "requirements.json"):
-        shutil.copyfile(app/relative, destination/"apps/agent-atelier"/relative)
+        copy_source_file(root, "apps/agent-atelier/"+relative, destination/"apps/agent-atelier"/relative, tracked)
     for relative in ("control.mjs", "Runtime.command", "Launch.command", "Stop.command", "README.md", "README.uk.md"):
-        shutil.copyfile(sources/relative, destination/relative)
+        copy_source_file(root, "commercial/runtime/"+relative, destination/relative, tracked)
+        if relative in {"README.md", "README.uk.md"}:
+            content = (destination/relative).read_bytes()
+            for source_link, target_link in README_LINKS.items():
+                content = content.replace(b"]("+source_link.encode()+b")", b"]("+target_link.encode()+b")")
+            (destination/relative).write_bytes(content)
         (destination/relative).chmod(0o755 if relative.endswith(".command") else 0o644)
     deps = dependencies_notices(app, destination/"notices")
     for relative in ("node-sources.json",):
-        shutil.copyfile(sources/relative, destination/relative)
+        copy_source_file(root, "commercial/runtime/"+relative, destination/relative, tracked)
     desc = {"schema": SCHEMA, "product_version": release["repository_version"], "service_version": version,
             "source_commit": commit, "release_candidate": True, "source_clean": not bool(dirty),
             "platform": {"os": "darwin", "arch": arch, "minimum_version": "13.5", "hardware_models_verified": []},
@@ -197,7 +288,10 @@ def build(root, output, arch, node_archive, signed_sums, keyring, *, allow_dirty
             "sqlite_schema_max": 1, "backups": "agent-atelier.backup/1",
             "developer_id_signature": "not-signed-for-product-distribution",
             "notarization": "not-submitted; developer credentials and owner release approval required",
-            "runtime_execution": "unverified-until-tested-on-target", "files": {}}
+            "runtime_execution": "unverified-until-tested-on-target",
+            "source_selection": "exact-HEAD-git-tree-regular-file-allowlist", "compiled_client": compiled,
+            "source_derivations": {name: {"source": "commercial/runtime/"+name, "markdown_link_relocations": README_LINKS}
+                                   for name in ("README.md", "README.uk.md")}, "files": {}}
     for path in sorted(destination.rglob("*")):
         if path.is_file():
             desc["files"][path.relative_to(destination).as_posix()] = {

@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -53,6 +54,10 @@ class RepositoryToolsTests(unittest.TestCase):
     def json(self, relative, data):
         self.write(relative, json.dumps(data, indent=2) + "\n")
 
+    def git(self, *args, root=None):
+        return subprocess.check_output(["git", *args], cwd=root or self.root,
+                                       stderr=subprocess.PIPE)
+
     def test_source_corruption_is_detected_and_prevents_package(self):
         self.assertTrue(check(self.root)["ok"])
         self.write("kit/skills/example/SKILL.md", "tampered")
@@ -90,6 +95,36 @@ class RepositoryToolsTests(unittest.TestCase):
             self.assertEqual(descriptor["repository_branch"], first["repository_branch"])
             self.assertEqual(descriptor["repository_version"], release["repository_version"])
             self.assertEqual(descriptor["requirements"], release["requirements"])
+
+    def test_ignored_private_file_never_enters_clean_git_source_packages(self):
+        self.write(".gitignore", "docs/private-test-receipt.txt\n")
+        self.git("init", "-q")
+        self.git("add", ".")
+        self.git("-c", "user.name=Package Test", "-c", "user.email=package-test@example.invalid",
+                 "commit", "-qm", "Synthetic source fixture")
+        before = build(self.root, Path(self.temp.name) / "before-private")
+        self.write("docs/private-test-receipt.txt", "SYNTHETIC_PRIVATE_RECEIPT_MUST_NOT_SHIP\n")
+        self.assertEqual(self.git("status", "--porcelain"), b"")
+        after = build(self.root, Path(self.temp.name) / "after-private")
+        self.assertEqual(before["files"], after["files"])
+        for item in after["files"]:
+            with zipfile.ZipFile(Path(self.temp.name) / "after-private" / item["name"]) as archive:
+                self.assertNotIn("docs/private-test-receipt.txt", archive.namelist())
+                self.assertIn("docs/en/GUIDE.md", archive.namelist())
+
+    def test_non_git_source_export_inside_parent_repository_remains_supported(self):
+        self.git("init", "-q", root=Path(self.temp.name))
+        self.write("templates/exported-source.txt", "Source-export fixture without its own Git metadata.\n")
+        paths = {p.relative_to(self.root).as_posix() for p in collect(self.root, ["templates"])}
+        self.assertEqual(paths, {"templates/exported-source.txt"})
+
+    def test_git_tracked_source_symlink_is_still_rejected(self):
+        self.write("templates/source.txt", "Synthetic source\n")
+        (self.root / "templates/linked-source.txt").symlink_to("source.txt")
+        self.git("init", "-q")
+        self.git("add", ".")
+        with self.assertRaisesRegex(ValueError, "symlink"):
+            collect(self.root, ["templates"])
 
     def test_current_service_requirements_must_match_release_version(self):
         release = json.loads((self.root / "releases/current.json").read_text())

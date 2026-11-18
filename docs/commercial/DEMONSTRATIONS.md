@@ -25,7 +25,8 @@ this host must look up its parent record for real subagents.
 
 ## Source-linked planning
 
-In a separate small project, supply owner notes for a loading-dock reservation:
+The [copyable input, exact task and recorded outputs](../../commercial/examples/dock-planning/README.md)
+make this scenario reproducible. In a separate small project, supply owner notes for a loading-dock reservation:
 one confirmed booking per slot; the same request identity replays the same
 reference; another coordinator gets a conflict and can select another slot.
 Ask Orchestrator and App Atelier Specification to produce a PRD and architecture

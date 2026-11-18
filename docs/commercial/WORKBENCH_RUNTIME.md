@@ -7,6 +7,11 @@ installation on the buyer's Mac. The skills-only package keeps its own host
 requirements. The server listens on loopback and uses the buyer's own Codex
 account only when an authorized operation connects it.
 
+The standalone runtime carries `LICENSE.txt`, `THIRD_PARTY_NOTICES.txt`, the
+complete canonical `commercial/legal/` terms and notices, `commercial/offer.json`,
+`RIGHTS.md` and its linked licensing guide. Node and every compiled production
+dependency retain their complete upstream notices under `notices/`.
+
 ## Choose the artifact
 
 | Target | Runtime | Declared boundary |
@@ -83,7 +88,7 @@ machine; it is not a buyer prerequisite.
 ```sh
 cd apps/agent-atelier
 npm ci --ignore-scripts
-npm run build
+npm run build -- --manifest
 cd ../..
 python3 -B scripts/build_workbench_runtime.py --output /absolute/build-output --arch arm64 \
   --node-archive /absolute/node-v24.22.2-darwin-arm64.tar.gz \
@@ -95,9 +100,17 @@ source URLs, archive SHA-256, signing fingerprint and keyring digest are in
 `commercial/runtime/node-sources.json`. The builder invokes `gpgv` against the
 exact signed checksum content and allowlisted signer before extracting only
 Node and its full license notices. It preserves production client dependencies'
-notices, rejects symlinks, inventories the source closure, and creates a
-reproducible ZIP with executable modes. It records the actual HEAD and refuses
-dirty sources. `--allow-dirty` exists for local rehearsal only and marks the
+notices and rejects linked or hardlinked input files and linked source directories.
+Source files come only from the exact HEAD's committed regular-file allowlist;
+ignored and untracked files are never included, even when Git reports a clean
+checkout. The separately generated client uses only `index.html` and the hashed
+outputs explicitly declared by Vite's build manifest. Extra files in `dist` are
+excluded. Node and dependency licenses use their own explicit inputs. The runtime
+manifest records this selection and the Vite manifest hash; the Vite developer
+manifest itself is not delivered. The builder inventories the complete selected
+closure and creates a reproducible ZIP with executable modes. It records the
+actual HEAD and refuses dirty sources. `--allow-dirty` exists for local rehearsal
+only and marks the
 result nonrelease. Never ship that rehearsal instead of the exact final commit.
 
 After building, run `verify`, inspect the loaded interface, run the isolated

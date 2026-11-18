@@ -13,8 +13,11 @@ reference and minimum redacted technical facts. A voluntary numeric period,
 tax treatment and jurisdiction-specific remedies remain owner decisions.
 This draft does not waive statutory cancellation rights.
 
-A local imported refund event records an external assertion for reconciliation.
-It neither performs a payment-provider refund nor destroys, encrypts, or
-remotely revokes customer projects. A settled refund and any resulting
-license consequences follow the actual accepted terms, law and verified
-channel record. Keep payment status separate from acquired-use entitlement.
+This candidate has no refund-event importer or payment-provider integration.
+A future authorized integration must reconcile external refund assertions
+against the verified channel record; importing an assertion must never be
+reported as performing a payment-provider refund. A settled refund and any
+resulting license consequences follow the actual accepted terms, law and
+verified channel record. Keep payment status separate from acquired-use
+entitlement. Never destroy, encrypt, or remotely revoke customer projects
+as a substitute for that reconciliation.
