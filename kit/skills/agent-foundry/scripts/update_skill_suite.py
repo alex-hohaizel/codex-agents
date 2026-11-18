@@ -683,11 +683,12 @@ def bind_plan_manifest(plan, manifest, skills):
             migration=entry.get('migration_source')
             if migration is not None:
                 require(before is None and isinstance(migration,dict)
-                        and safe_path(migration['target'])==safe_path(plan['legacy_root'])/entry['name'],
+                        and safe_path(migration['target']).parent==safe_path(plan['legacy_root'])
+                        and safe_path(migration['target']).name not in ('.system','plugins'),
                         'Migration source is outside the approved legacy root')
                 retiring=[r for r in plan['entries'] if r['action']=='retire' and r['target']==migration['target']]
                 visual_before=migration.get('snapshot')
-                require(len(retiring)==1 and retiring[0]['before']==visual_before
+                require(len(retiring)==1 and retiring[0]['name']==entry['name'] and retiring[0]['before']==visual_before
                         and known(row,visual_before,ui_text,preserve_visual),
                         'Migration visual source is not an exact known retirement')
             expected_overlay = make_visual_overlay(row, visual_before, ui_text, preserve_visual)

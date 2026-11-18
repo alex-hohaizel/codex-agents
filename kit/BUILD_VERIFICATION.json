@@ -9,7 +9,7 @@
       "size": 1096
     },
     "manifest.json": {
-      "sha256": "199384ce810aa987888bae5b4206d5f8cdab86cd8b981b8dbb1357079e1f47a6",
+      "sha256": "5fc840ae782026fbc4736570d72da37872304b2eb5b71e8f49abca990365770f",
       "size": 6673887
     },
     "portable/check_generated_inheritance.py": {
@@ -25,8 +25,8 @@
       "size": 21061
     },
     "portable/update_skill_suite.py": {
-      "sha256": "8505fcd963680a4b3d07f7450d1b6e8d97e133289f676b73c8da1c2664f19c9d",
-      "size": 62835
+      "sha256": "988d5da3ed7af38802471c26bf6e4d51d3e7ad8a2815a2ede557db6abcd03d87",
+      "size": 62960
     },
     "prepare_existing_project_update.py": {
       "sha256": "d9dff8a218a4d1433b911b44db7d3183806cd06c9e0bb96915ed0beabb68086f",
@@ -357,16 +357,16 @@
       "size": 10182
     },
     "skills/agent-foundry/scripts/tests/test_update_skill_suite.py": {
-      "sha256": "d5c38c6130c684870fbeb2d060806727d028bf2e7a6e94d6ad88e3b76ccfe1f7",
-      "size": 34866
+      "sha256": "c662bc3f612abf6f357a46a146ac03e8b3e5d584d7da73684516c1bea3bfe1da",
+      "size": 35442
     },
     "skills/agent-foundry/scripts/tests/test_visual_identity.py": {
       "sha256": "551cc6d4d6e51e9c4e9436e51d09a5f8f22f5fb80daa300ea4141ce307c3e1f3",
       "size": 4065
     },
     "skills/agent-foundry/scripts/update_skill_suite.py": {
-      "sha256": "8505fcd963680a4b3d07f7450d1b6e8d97e133289f676b73c8da1c2664f19c9d",
-      "size": 62835
+      "sha256": "988d5da3ed7af38802471c26bf6e4d51d3e7ad8a2815a2ede557db6abcd03d87",
+      "size": 62960
     },
     "skills/agent-foundry/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -12946,7 +12946,7 @@
     }
   },
   "hardware_bound": false,
-  "manifest_sha256": "199384ce810aa987888bae5b4206d5f8cdab86cd8b981b8dbb1357079e1f47a6",
+  "manifest_sha256": "5fc840ae782026fbc4736570d72da37872304b2eb5b71e8f49abca990365770f",
   "release": "6.5.0",
   "schema": "agent-release-integrity/1",
   "scope": "curated-reusable-core-33-skills"

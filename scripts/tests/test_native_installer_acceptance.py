@@ -10,6 +10,8 @@ import unittest
 from unittest.mock import patch
 import zipfile
 import stat
+import io
+import tarfile
 
 SOURCE = Path(__file__).resolve().parents[1] / 'native_installer_acceptance.py'
 SPEC = importlib.util.spec_from_file_location('acceptance_timeout_under_test', SOURCE)
@@ -49,6 +51,23 @@ class NativeTimeoutReceipt(unittest.TestCase):
 
 
 class NativeFixtureInheritance(unittest.TestCase):
+    def test_predecessor_archive_keeps_raw_committed_bytes_with_crlf_checkout_configuration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo=Path(directory)
+            def git(*args):
+                return subprocess.check_output(['git','-C',str(repo),*args],stderr=subprocess.PIPE)
+            git('init','-q');git('config','core.autocrlf','false')
+            path=repo/'accepted.md';original=b'Accepted source\nSecond source line\n';path.write_bytes(original)
+            git('add','accepted.md');git('-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','Exact LF source')
+            git('config','core.autocrlf','true');git('config','core.eol','crlf')
+            ordinary=git('archive','--format=tar','HEAD','accepted.md')
+            with tarfile.open(fileobj=io.BytesIO(ordinary)) as archive:
+                self.assertEqual(archive.extractfile('accepted.md').read(),original.replace(b'\n',b'\r\n'))
+            pinned=subprocess.check_output([*acceptance.predecessor_git(repo),'archive','--format=tar','HEAD','accepted.md'])
+            with tarfile.open(fileobj=io.BytesIO(pinned)) as archive:
+                self.assertEqual(archive.extractfile('accepted.md').read(),original)
+            self.assertEqual(git('config','core.autocrlf').strip(),b'true')
+
     def test_output_privacy_runs_before_any_fixture_children(self):
         with tempfile.TemporaryDirectory() as directory:
             archive=Path(directory)/'received.zip';archive.write_bytes(b'not extracted by constructor')

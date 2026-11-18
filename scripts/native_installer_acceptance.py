@@ -75,6 +75,12 @@ def extraction_directory_mode():
     return 0o755 if WINDOWS else 0o700
 
 
+def predecessor_git(repo):
+    # git archive applies convert_to_working_tree, including core.eol/autocrlf.
+    # The immutable predecessor manifest describes raw committed bytes.
+    return ['git','--no-replace-objects','-c','core.autocrlf=false','-c','core.eol=lf','-C',str(repo)]
+
+
 def without_setup_diagnostics(value):
     """Keep one result JSON while allowing only the engines' tagged JSON lines.
 
@@ -678,7 +684,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         engines must recognize, upgrade, verify and roll back the real baseline.
         """
         repo = Path(__file__).resolve().parents[1]
-        git = ['git', '--no-replace-objects', '-C', str(repo)]
+        git = predecessor_git(repo)
 
         def published(name):
             return subprocess.check_output([*git, 'show', PUBLISHED_PREDECESSOR + ':' + name])
@@ -741,6 +747,15 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
             actual = {path.relative_to(folder).as_posix(): {'sha256': digest(path), 'size': path.stat().st_size}
                       for path in folder.rglob('*') if path.is_file()}
             expected = {name: {'sha256': record['sha256'], 'size': record['size']} for name, record in row['files'].items()}
+            if actual!=expected:
+                samples=[]
+                for name in sorted(set(actual)|set(expected)):
+                    if actual.get(name)==expected.get(name):continue
+                    blob=published('kit/skills/'+row['name']+'/'+name) if name in expected else None
+                    samples.append({'path':row['name']+'/'+name,'actual':actual.get(name),'expected':expected.get(name),
+                        'raw_git_blob':{'sha256':hashlib.sha256(blob).hexdigest(),'size':len(blob)} if blob is not None else None})
+                    if len(samples)==3:break
+                self.report['predecessor_mismatch_samples']=samples;self.save()
             require(actual == expected, 'Staged predecessor differs from published kit manifest: ' + row['name'])
         for row in roles:
             require(digest(self.home / '.codex/agents' / row['file']) == row['sha256'], 'Published predecessor role differs')

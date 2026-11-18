@@ -72924,8 +72924,8 @@
         },
         "scripts/tests/test_update_skill_suite.py": {
           "mode": 420,
-          "sha256": "d5c38c6130c684870fbeb2d060806727d028bf2e7a6e94d6ad88e3b76ccfe1f7",
-          "size": 34866
+          "sha256": "c662bc3f612abf6f357a46a146ac03e8b3e5d584d7da73684516c1bea3bfe1da",
+          "size": 35442
         },
         "scripts/tests/test_visual_identity.py": {
           "mode": 420,
@@ -72934,8 +72934,8 @@
         },
         "scripts/update_skill_suite.py": {
           "mode": 420,
-          "sha256": "8505fcd963680a4b3d07f7450d1b6e8d97e133289f676b73c8da1c2664f19c9d",
-          "size": 62835
+          "sha256": "988d5da3ed7af38802471c26bf6e4d51d3e7ad8a2815a2ede557db6abcd03d87",
+          "size": 62960
         },
         "scripts/verify_depth.py": {
           "mode": 420,

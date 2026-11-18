@@ -220,6 +220,17 @@ class SuiteUpdateTests(unittest.TestCase):
                 U.main(['verify','--kit',str(self.kit),'--journal',str(journal),
                         '--destination',str(self.legacy)])
 
+    def test_known_legacy_directory_alias_keeps_existing_explicit_retirement_roundtrip(self):
+        original,state=self.make_old(root=self.legacy)
+        alias=original.with_name('known-installed-alias');original.rename(alias)
+        plan=self.plan(retire=True)
+        self.assertTrue(plan['ready'],plan['blockers'])
+        journal=Path(U.apply_plan(self.plan_path)['journal'])
+        self.assertFalse(alias.exists())
+        self.assertTrue((self.dest/'agent-foundry/SKILL.md').is_file())
+        U.rollback(journal)
+        self.assertEqual(U.snapshot(alias),state)
+
     def test_project_duplicate_never_retired(self):
         project = self.base / 'product'
         target, original = self.make_old(root=project / '.agents/skills')
