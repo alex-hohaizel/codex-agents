@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import shutil
 import stat
+import io
 import subprocess
 import sys
 import tempfile
@@ -433,6 +434,70 @@ class NativeLaunchContractTests(unittest.TestCase):
         observed=json.loads(receipt.read_text(encoding='utf8'))
         self.assertEqual(observed['args'],args)
         self.assertEqual(observed['home'],str(self.home))
+
+
+class PackageReadGuardTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory(prefix='package-read-guards-')
+        self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name).resolve()
+        self.package=self.root/'received package';self.package.mkdir()
+        self.records={}
+        for i in range(34):
+            rel='product/kit/manifest.json' if i==0 else 'product/resources/deep/source/tree/member-%02d.txt'%i
+            path=self.package/rel;path.parent.mkdir(parents=True,exist_ok=True)
+            raw=('Exact UTF-8 source '+str(i)+' Проєкт\n').encode('utf8');path.write_bytes(raw)
+            self.records[rel]={'sha256':setup.digest(raw),'size':len(raw),'mode':0o644}
+        metadata={'schema':setup.MANIFEST,'product_id':'codex-agent-system','product_version':'1.8.0','source_commit':'a'*40,'files':self.records}
+        (self.package/'product-manifest.json').write_bytes(setup.encoded(metadata))
+
+    def test_actual_scan_has_linear_metadata_work_and_rechecks_every_content_hash(self):
+        original=Path.lstat;calls=[]
+        def counted(path,*args,**kwargs):
+            calls.append(path)
+            return original(path,*args,**kwargs)
+        with patch.object(Path,'lstat',counted):setup.package_info(self.package)
+        self.assertLess(len(calls),4*len(self.records)+100)
+        path=self.package/'product/resources/deep/source/tree/member-01.txt'
+        raw=path.read_bytes();path.write_bytes(b'X'+raw[1:])
+        with self.assertRaisesRegex(ValueError,'differs from inventory'):setup.package_info(self.package)
+
+    def test_hardlinked_package_input_is_rejected_without_changing_either_name(self):
+        path=self.package/'product/resources/deep/source/tree/member-01.txt'
+        linked=self.root/'outside copy';os.link(path,linked)
+        before=linked.read_bytes()
+        with self.assertRaisesRegex(ValueError,'hard-linked'):setup.package_info(self.package)
+        self.assertEqual(path.read_bytes(),before);self.assertEqual(linked.read_bytes(),before)
+
+    def test_parent_swapped_to_junction_or_symlink_cannot_read_moved_source_bytes(self):
+        folder=self.package/'product/resources/deep/source/tree'
+        path=folder/'member-01.txt';observed=path.lstat();expected=self.records[path.relative_to(self.package).as_posix()]
+        outside=self.root/'outside source';folder.rename(outside)
+        if setup.platform_support.WINDOWS:
+            result=subprocess.run(['cmd.exe','/d','/c','mklink','/J',str(folder),str(outside)],capture_output=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.addCleanup(lambda:os.rmdir(folder) if folder.exists() else None)
+        else:folder.symlink_to(outside,target_is_directory=True)
+        real_open=Path.open;read_calls=[]
+        class GuardedReader:
+            def __init__(self,actual):self.actual=actual
+            def __enter__(self):return self
+            def __exit__(self,*args):self.actual.close()
+            def fileno(self):return self.actual.fileno()
+            def read(self,*args):read_calls.append(True);raise AssertionError('Outside bytes must not be read')
+        def guarded_open(target,*args,**kwargs):return GuardedReader(real_open(target,*args,**kwargs))
+        with patch.object(Path,'open',guarded_open):
+            with self.assertRaisesRegex(ValueError,'path changed'):setup._scanned_member(path,observed,expected)
+        self.assertEqual(read_calls,[])
+
+    def test_opt_in_doctor_diagnostics_never_replace_json_result_or_leak_paths(self):
+        output=io.StringIO()
+        with patch.dict(os.environ,{'AGENT_SYSTEM_SETUP_DIAGNOSTICS':'1'}),patch.object(setup,'host_check',return_value={'ready':False,'next':'Sign in'}),patch.object(setup.sys,'stderr',output):
+            result=setup.doctor(self.package,self.root/'isolated HOME')
+        self.assertEqual(result['status'],'action-required')
+        events=[json.loads(line.removeprefix('agent-system-setup ')) for line in output.getvalue().splitlines()]
+        self.assertEqual([row['phase'] for row in events],['package-validation-start','package-validation-complete','host-check-start','host-check-complete'])
+        self.assertNotIn(str(self.root),output.getvalue())
 
 
 if __name__=='__main__':

@@ -79,6 +79,11 @@ async function verify() {
     process.env.PYTHONUTF8='1';process.env.PYTHONIOENCODING='utf-8';process.env.PYTHONDONTWRITEBYTECODE='1';
     delete process.env.PYTHONHOME;delete process.env.PYTHONPATH;delete process.env.NODE_OPTIONS;delete process.env.NODE_PATH;
     process.env.PATH=(process.env.PATH||'')+(process.platform==='win32'?';':':')+dirname(python)+(process.platform==='win32'?';':':')+dirname(node);
+    if(tools.terminfo_dirs?.length){
+      const directories=[];
+      for(const name of tools.terminfo_dirs){member(name);fail(name.startsWith('runtimes/'+key+'/python/share/terminfo')&&Object.keys(product.files).some(path=>path.startsWith(name+'/')),'Terminal database layer is outside the product inventory');directories.push(await realpath(join(root,name)));}
+      process.env.TERMINFO_DIRS=[...(process.env.TERMINFO_DIRS!==undefined?[process.env.TERMINFO_DIRS]:[]),...directories,''].join(process.platform==='win32'?';':':');
+    }
     const component=product.components?.workbench;
     manifest={...product,platform:{os:process.platform,arch:process.arch},node_version:runtime.node.version,
       node_provenance:{verification:runtime.node_signature??'Pinned vendor inputs; see included runtime provenance'},

@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal DisableDelayedExpansion
 set "RUNTIME_DIR=%~dp0"
 set "NODE_OPTIONS="
 set "NODE_PATH="

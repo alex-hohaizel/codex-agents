@@ -154,6 +154,40 @@ jobs:
           subprocess.run(command, check=True)
           subprocess.run([sys.executable, '-B', 'scripts/installer_index.py', '--artifacts-dir', str(inputs),
                           '--output', str(pathlib.Path(os.environ['RUNNER_TEMP']) / 'installer-release'), '--require-all'], check=True)
+      - name: Build ready Solo and Team candidates through the same complete portable assembly
+        run: |
+          import json, os, pathlib, subprocess, sys, zipfile
+          inputs = pathlib.Path(os.environ['RUNNER_TEMP']) / 'installer-inputs'
+          output = pathlib.Path(os.environ['RUNNER_TEMP']) / 'commercial-ready'
+          command = [sys.executable, '-B', 'scripts/build_commercial.py', '--output', str(output)]
+          for runtime in sorted(inputs.rglob('runtime-*.zip')): command += ['--portable-runtime-bundle', str(runtime)]
+          subprocess.run(command, check=True)
+          def manifest(path):
+              with zipfile.ZipFile(path) as archive:
+                  names = [name for name in archive.namelist() if name.count('/') == 1 and name.endswith('/product-manifest.json')]
+                  if len(names) != 1: raise SystemExit('Expected one complete product manifest')
+                  return json.loads(archive.read(names[0]))
+          neutral = manifest(next((inputs / 'universal').glob('*-Universal.zip')))
+          catalog = json.loads((output / 'BUILD.json').read_text(encoding='utf8'))
+          if {row['edition'] for row in catalog['files']} != {'solo','team'}:
+              raise SystemExit('Both ready commercial editions are required')
+          for row in catalog['files']:
+              paid = manifest(output / row['name'])
+              if (paid['source_commit'] != os.environ['GITHUB_SHA'] or paid['source_clean'] is not True
+                  or paid['edition'] != row['edition'] or paid['files'] != neutral['files']
+                  or paid['portable_runtimes'] != neutral['portable_runtimes']):
+                  raise SystemExit('Commercial editions lost the identical accepted technical payload')
+          (output / 'PAYLOAD-EQUIVALENCE.json').write_text(json.dumps({
+              'source_commit': os.environ['GITHUB_SHA'], 'status': 'identical-inventoried-payloads',
+              'scope': 'All source/runtime/GUI/resource file hashes and native platform mappings match Universal. Edition manifests and separate trusted delivery remain distinct; this is not independent native execution of paid ZIP bytes.',
+              'sales_launched': False}, indent=2) + '\n', encoding='utf8')
+      - name: Retain ready commercial candidates without publishing or issuing a purchase
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: commercial-ready-candidate
+          path: ${{ runner.temp }}/commercial-ready/
+          if-no-files-found: error
+          retention-days: 7
       - name: Retain all seven candidate ZIPs and the separate installer build index
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -258,7 +292,7 @@ jobs:
       - name: Check the seven exact subjects and clean current source before attestation
         id: subjects
         run: |
-          import hashlib, json, os, pathlib
+          import hashlib, json, os, pathlib, zipfile
           root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'accepted-installers'
           record = json.loads((root / 'INSTALLER-BUILD.json').read_text(encoding='utf8'))
           if record['schema'] != 'codex-agents.installer-release/1' or not record['source_clean'] or record['source_commit'] != os.environ['GITHUB_SHA']:
@@ -281,6 +315,8 @@ jobs:
               proof = json.loads(path.read_text(encoding='utf8'))
               if proof['status'] != 'passed' or proof['source_commit'] != os.environ['GITHUB_SHA'] or proof['backend_and_real_browser'] is not True:
                   raise SystemExit('A native acceptance receipt is not passed or belongs to another source')
+              if proof['target'].startswith('win32-') and proof.get('windows_restricted_non_admin_verified') is not True:
+                  raise SystemExit('Windows archive lacks actual restricted non-admin execution proof')
               pair = (proof['archive_sha256'], proof['target'])
               if pair in observed_proofs: raise SystemExit('Duplicate native archive/target evidence')
               observed_proofs.add(pair)
@@ -289,6 +325,21 @@ jobs:
           subjects += [root / 'INSTALLER-BUILD.json', root / 'INSTALLER-SHA256SUMS']
           if {path.name for path in root.iterdir()} != {path.name for path in subjects}:
               raise SystemExit('Unexpected installer release subjects')
+          proof_root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'accepted-installer-proofs'
+          evidence = root / 'NATIVE-ACCEPTANCE.zip'
+          with zipfile.ZipFile(evidence, 'x', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+              for file in sorted(proof_root.rglob('*')):
+                  if file.is_file():
+                      if file.is_symlink() or file.suffix not in ('.json', '.png'):
+                          raise SystemExit('Unexpected native proof file')
+                      info = zipfile.ZipInfo(file.relative_to(proof_root).as_posix(), (2026, 11, 18, 0, 0, 0))
+                      info.create_system = 3; info.external_attr = 0o100644 << 16
+                      archive.writestr(info, file.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+          with evidence.open('rb') as stream:
+              evidence_sha = hashlib.file_digest(stream, 'sha256').hexdigest()
+          evidence_sums = root / 'NATIVE-ACCEPTANCE-SHA256SUMS'
+          evidence_sums.write_text(evidence_sha + '  NATIVE-ACCEPTANCE.zip\n', encoding='utf8')
+          subjects += [evidence, evidence_sums]
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf8') as result:
               print('paths<<INSTALLER_SUBJECTS', file=result)
               for file in subjects: print(file, file=result)
@@ -297,6 +348,14 @@ jobs:
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
         with:
           subject-path: ${{ steps.subjects.outputs.paths }}
+
+      - name: Retain accepted attested release subjects with durable native proof archive
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: installer-accepted-release
+          path: ${{ runner.temp }}/accepted-installers/
+          if-no-files-found: error
+          retention-days: 7
 
 # This workflow creates downloadable technical artifacts and provenance. It
 # does not publish a GitHub Release, issue an entitlement, start sales, change

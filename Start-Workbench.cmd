@@ -1,2 +1,3 @@
 @echo off
-call "%~dp0Start.cmd" --workbench %*
+setlocal DisableDelayedExpansion
+"%~dp0Start.cmd" --workbench %*

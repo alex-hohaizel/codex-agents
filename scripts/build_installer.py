@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 import shutil
 import stat
@@ -48,6 +49,10 @@ def runtime_input(archive,source,locksha,allow_dirty):
         need(key in LABELS and descriptors[0]==key+'/runtime.json','Runtime platform mismatch')
         need(key==str(desc.get('os'))+'-'+str(desc.get('arch')),'Runtime target, OS or architecture disagree')
         need(desc['schema']=='codex-agents.portable-runtime/1' and desc['source_commit']==source and desc['input_lock_sha256']==locksha,'Runtime differs from source or input lock')
+        terminfo=desc.get('terminfo_dirs',[])
+        need(isinstance(terminfo,list) and len(terminfo)==len(set(terminfo)) and all(
+             re.fullmatch(r'python/share/terminfo(?:-extra(?:[2-9]|[1-9][0-9]+)?)?',name)
+             and any(path.startswith(name+'/') for path in desc['files']) for name in terminfo),'Invalid portable terminfo search layers')
         need(type(desc['source_clean']) is bool and (allow_dirty or desc['source_clean']),'Uncommitted runtime cannot be distributed')
         expected={key+'/'+n for n in desc['files']}|{key+'/runtime.json'}
         need(set(names)==expected,'Runtime inventory mismatch')
@@ -117,7 +122,7 @@ def inspect_ready_zip(file,source,version,platforms,locksha):
             need(h.hexdigest()==row['sha256'],'Ready member digest differs')
     return desc
 
-def build(root,output,runtime_bundles,*,allow_dirty=False):
+def build(root,output,runtime_bundles,*,allow_dirty=False,edition='unassigned'):
     root=root.resolve();output=output.resolve()
     need(not output.is_relative_to(root),'Output must be outside source')
     source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
@@ -125,15 +130,16 @@ def build(root,output,runtime_bundles,*,allow_dirty=False):
     need(allow_dirty or not dirty,'Commit reviewed sources before building a distributable')
     release=read(root/'releases/current.json');offer=read(root/'commercial/offer.json')
     version=release['repository_version'];tracked=git_modes(root)
+    need(edition in ('unassigned','solo','team'),'Unknown distribution edition')
     locksha=digest(root/'commercial/runtime/portable-sources.json')
     selected=[(a,runtime_input(a,source,locksha,allow_dirty)) for a in runtime_bundles]
     keys=[d['target'] for _,d in selected]
     need(len(keys)==len(set(keys)) and len(keys) in (1,6),'Supply one platform, or all six for Universal')
     label='Universal' if len(keys)==6 else LABELS[keys[0]]
-    name=f'Agent-System-{version}-{label}';output.mkdir(parents=True,exist_ok=True)
+    name=f'Agent-System-{version}-'+('' if edition=='unassigned' else edition+'-')+label;output.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='agent-installer-stage-') as temp:
         stage=Path(temp)/name
-        m=prepare_buyer_stage(root,stage,release,offer,source,'unassigned')
+        m=prepare_buyer_stage(root,stage,release,offer,source,edition)
         modes={}
         for p in stage.rglob('*'):
             if not p.is_file():continue
@@ -142,7 +148,7 @@ def build(root,output,runtime_bundles,*,allow_dirty=False):
         portable={}
         for file,desc in selected:
             install_runtime(file,desc,stage,modes);key=desc['target']
-            portable[key]={'os':desc['os'],'arch':desc['arch'],'node_executable':'runtimes/'+key+'/'+desc['node']['executable'],'python_executable':'runtimes/'+key+'/'+desc['python']['executable'],'runtime_descriptor':'runtimes/'+key+'/runtime.json','input_lock_sha256':locksha}
+            portable[key]={'os':desc['os'],'arch':desc['arch'],'node_executable':'runtimes/'+key+'/'+desc['node']['executable'],'python_executable':'runtimes/'+key+'/'+desc['python']['executable'],'runtime_descriptor':'runtimes/'+key+'/runtime.json','input_lock_sha256':locksha,'terminfo_dirs':['runtimes/'+key+'/'+name for name in desc.get('terminfo_dirs',[])]}
         for launcher in ('Start.command','Start.sh','Start.cmd','Start-Workbench.command','Start-Workbench.sh','Start-Workbench.cmd'):
             need(launcher in tracked,'Launcher is not tracked: '+launcher)
             shutil.copyfile(root/launcher,stage/launcher);modes[launcher]=0o644 if launcher.endswith('.cmd') else 0o755
@@ -154,7 +160,7 @@ def build(root,output,runtime_bundles,*,allow_dirty=False):
         for locale,filename in [('en','START_HERE.html'),('uk','ПОЧАТИ.html')]:
             (stage/filename).write_text(render(version,locale,True),encoding='utf8',newline='\n')
         (stage/'README.md').write_text('# Codex Agent System '+version+'\n\nOpen START_HERE.html. Windows: Start.cmd; macOS: Start.command; Linux: Start.sh. Python and Node are included. Start-Workbench opens the optional local panel.\n\n[Installation](product/docs/INSTALL.md) · [Buyer guide](docs/commercial/BUYER_GUIDE.md) · [Українська](docs/commercial/BUYER_GUIDE.uk.md) · [Full documentation](product/docs/INDEX.md)\n\nKeep this extracted package intact. Verify the release SHA256 and GitHub attestation before first run. Codex and its account are separate. This technical distribution does not issue a paid entitlement or finalize commercial terms.\n',encoding='utf8',newline='\n')
-        m.update(source_clean=not dirty,edition='unassigned',recommended_setup={'win32':'Start.cmd','darwin':'Start.command','linux':'Start.sh'},portable_runtimes=portable)
+        m.update(source_clean=not dirty,edition=edition,recommended_setup={'win32':'Start.cmd','darwin':'Start.command','linux':'Start.sh'},portable_runtimes=portable)
         m['components'].update(workbench=release['local_service']['version'],maintenance=next(s['version'] for s in release['optional_skills'] if s['name']=='codex-agents-maintenance'))
         m['runtime']={'status':'included-built-client-and-native-runtimes','entry':'control.mjs','sqlite_schema_max':1,'compiled_client':compiled,'production_dependencies':deps,'execution_evidence':'See exact-commit native acceptance from the release workflow; inclusion alone is not execution proof.'}
         m['distribution']={'kind':'universal' if len(keys)==6 else 'native','platforms':sorted(keys),'rights':'Existing entitlement and license controls remain unchanged. No entitlement is issued by downloading.','product_signing':'Product launchers are unsigned; vendor binary signatures retained where provided. No platform signing or notarization is claimed.'}
@@ -167,7 +173,7 @@ def build(root,output,runtime_bundles,*,allow_dirty=False):
         (stage/'product-manifest.json').write_text(json.dumps(m,indent=2,sort_keys=True)+'\n',encoding='utf8',newline='\n')
         (stage/'SHA256SUMS').write_text(''.join(v['sha256']+'  '+n+'\n' for n,v in m['files'].items())+digest(stage/'product-manifest.json')+'  product-manifest.json\n',encoding='utf8',newline='\n')
         destination=output/(name+'.zip');archive(stage,destination,modes)
-        receipt={'schema':'codex-agents.installer-build/1','product_version':version,'source_commit':source,'source_clean':not dirty,'input_lock_sha256':locksha,'files':[{'name':destination.name,'sha256':digest(destination),'size':destination.stat().st_size,'platforms':sorted(keys)}],'entry_point':'START_HERE.html','native_execution':'pending separate acceptance of these exact archive bytes','publication_performed':False}
+        receipt={'schema':'codex-agents.installer-build/1','product_version':version,'source_commit':source,'source_clean':not dirty,'input_lock_sha256':locksha,'files':[{'name':destination.name,'sha256':digest(destination),'size':destination.stat().st_size,'platforms':sorted(keys),'edition':edition,'product_version':version,'source_commit':source,'entry_point':'START_HERE.html'}],'entry_point':'START_HERE.html','native_execution':'pending separate acceptance of these exact archive bytes','publication_performed':False}
         need(subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()==source,'Source commit changed during build')
         need(allow_dirty or not subprocess.check_output(['git','status','--porcelain','--untracked-files=normal'],cwd=root),'Source changed during build')
         (output/(name+'.build.json')).write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n',encoding='utf8',newline='\n')

@@ -81,7 +81,10 @@ def stage_snapshot(archive,index,signature,key,expected,output,openssl,original_
         with zipfile.ZipFile(archive) as z:
             names=set();expanded=0
             for entry in z.infolist():
-                raw=entry.filename;platform_support.safe_relative(raw);p=PurePosixPath(raw)
+                raw=entry.filename
+                try:platform_support.safe_relative(raw)
+                except ValueError as exc:raise ValueError('Unsafe archive path') from exc
+                p=PurePosixPath(raw)
                 need(not p.is_absolute() and '..' not in p.parts and '\\' not in raw and str(p)==raw and '\0' not in raw,"Unsafe archive path")
                 need(raw.casefold() not in names,"Duplicate archive path");names.add(raw.casefold())
                 kind=(entry.external_attr>>16)&0o170000

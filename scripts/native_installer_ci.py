@@ -84,7 +84,7 @@ def tools(output):
 
 def environment(home, node, python):
     allowed = {'PATH', 'SYSTEMROOT', 'WINDIR', 'COMSPEC', 'PATHEXT', 'TMP', 'TEMP', 'TMPDIR',
-               'LANG', 'LC_ALL', 'LC_CTYPE', 'TZ', 'SSL_CERT_FILE', 'SSL_CERT_DIR', 'NODE_EXTRA_CA_CERTS'}
+               'LANG', 'LC_ALL', 'LC_CTYPE', 'TZ', 'TERMINFO', 'TERMINFO_DIRS', 'SSL_CERT_FILE', 'SSL_CERT_DIR', 'NODE_EXTRA_CA_CERTS'}
     result = {(key.upper() if os.name == 'nt' else key): value for key, value in os.environ.items() if key.upper() in allowed}
     result.update(HOME=str(home), USERPROFILE=str(home), CODEX_HOME=str(home / '.codex'),
         APPDATA=str(home / 'AppData/Roaming'), LOCALAPPDATA=str(home / 'AppData/Local'),
@@ -112,7 +112,8 @@ def collect(output):
     public.mkdir(exist_ok=True)
     selected = [output / 'backend/native-acceptance.json',
                 output / 'gui-proof/BROWSER-OBSERVATION.json', output / 'gui-proof/BROWSER-FAILURE.json',
-                output / 'NATIVE-CI.json', output / 'GUI-RECONCILIATION-REQUIRED.json']
+                output / 'NATIVE-CI.json', output / 'GUI-RECONCILIATION-REQUIRED.json',
+                output / 'standard-user/STANDARD-USER-OBSERVATION.json']
     selected += list((output / 'backend/commands').glob('*.json'))
     index = []
     for path in selected:
@@ -172,6 +173,17 @@ def check(archive, output, codex, browser):
         cache = backend / 'Покупець native & test HOME/.local/share/codex-agent-system/packages'
         require(cache.is_relative_to(backend), 'Cache escaped the owned acceptance root')
         remove_owned_cache(cache)
+        standard_user_verified = False
+        if os.name == 'nt':
+            subprocess.run([sys.executable, '-B', str(REPO / 'scripts/native_windows_standard_user.py'),
+                            '--package', str(package), '--output', str(output / 'standard-user'),
+                            '--python', str(python)], check=True)
+            standard = json.loads((output / 'standard-user/STANDARD-USER-OBSERVATION.json').read_text(encoding='utf8'))
+            require(standard['status'] == 'passed' and standard['child']['is_user_an_admin'] is False
+                    and standard['child']['admin_group_enabled'] is False and standard['child']['default_owner_is_user'] is True and standard['source_commit'] == source
+                    and standard['package_manifest_sha256'] == report['package_manifest_sha256'],
+                    'Standard-user Windows evidence does not match this exact package')
+            standard_user_verified = True
         gui = output / 'gui-private'
         gui.mkdir(mode=0o700)
         home = gui / 'Покупець GUI & spaces HOME'
@@ -198,7 +210,8 @@ def check(archive, output, codex, browser):
         write(output / 'NATIVE-CI.json', {'schema': 'codex-agents.native-installer-ci/1', 'status': 'passed',
             'archive_sha256': report['archive_sha256'], 'source_commit': source, 'target': report['native']['target'],
             'harness_sha256': sha(REPO / 'scripts/native_installer_acceptance.py'),
-            'browser_driver_sha256': observed['driver_sha256'], 'backend_and_real_browser': True})
+            'browser_driver_sha256': observed['driver_sha256'], 'backend_and_real_browser': True,
+            'windows_restricted_non_admin_verified': standard_user_verified})
         status = 0
     finally:
         if engine and engine.poll() is None:

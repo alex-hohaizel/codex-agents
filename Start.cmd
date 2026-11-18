@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal DisableDelayedExpansion
 set "RUNTIME_ARCH=x64"
 if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" set "RUNTIME_ARCH=arm64"
 if /I "%PROCESSOR_ARCHITEW6432%"=="ARM64" set "RUNTIME_ARCH=arm64"

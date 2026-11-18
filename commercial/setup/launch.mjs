@@ -11,13 +11,21 @@ if(!tools)throw new Error('This package does not include '+key+'. Download the U
 const python=join(root,tools.python_executable),node=join(root,tools.node_executable);
 if(!existsSync(python)||!existsSync(node))throw new Error('Runtime files are missing. Extract a fresh verified release package.');
 const env={...process.env,AGENT_SYSTEM_PYTHON:python,AGENT_SYSTEM_NODE:node,PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',PYTHONDONTWRITEBYTECODE:'1'};
+if(tools.terminfo_dirs?.length){
+ const directories=tools.terminfo_dirs.map(reference=>{
+  if(typeof reference!=='string'||!reference.startsWith('runtimes/'+key+'/python/share/terminfo')||reference.includes('..')||reference.includes('\\')||!Object.keys(manifest.files).some(name=>name.startsWith(reference+'/')))throw new Error('Invalid bundled terminal database layer');
+  return join(root,reference);
+ });
+ env.TERMINFO_DIRS=[...(process.env.TERMINFO_DIRS!==undefined?[process.env.TERMINFO_DIRS]:[]),...directories,''].join(process.platform==='win32'?';':':');
+}
 delete env.PYTHONHOME;delete env.PYTHONPATH;delete env.NODE_OPTIONS;
 Object.assign(process.env,env);
 let args=process.argv.slice(2);
 const workbench=args.indexOf('--workbench');
 if(workbench>=0){
  args.splice(workbench,1);
- const result=spawnSync(node,[join(root,'control.mjs'),...(args.length?args:['start'])],{stdio:'inherit',env});
+ const workbenchArgs=!args.length||args[0].startsWith('--')?['start',...args]:args;
+ const result=spawnSync(node,[join(root,'control.mjs'),...workbenchArgs],{stdio:'inherit',env});
  process.exit(result.status??1);
 }
 const verbs=new Set(['doctor','audit','install','verify','discover','rollback','uninstall','status','operations','first-task','prepare-first-task']);

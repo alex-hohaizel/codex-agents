@@ -70,10 +70,11 @@ def safe(path):
     path = Path(os.path.abspath(os.fspath(path)))
     for ancestor in reversed((path, *path.parents)):
         try:
-            mode = ancestor.lstat().st_mode
+            info = ancestor.lstat()
         except FileNotFoundError:
             continue
-        require(not platform_support.is_link_or_reparse(ancestor), 'Linked setup or target path: ' + str(ancestor))
+        require(not stat.S_ISLNK(info.st_mode) and not getattr(info, 'st_file_attributes', 0) & 0x400,
+                'Linked setup or target path: ' + str(ancestor))
     return path
 
 
@@ -134,8 +135,98 @@ def module(path, name):
     return result
 
 
+def _file_identity(info):
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_nlink)
+
+
+def _opened_path(fd):
+    """Bind a scanned member to its actual open handle before reading bytes."""
+    if platform_support.WINDOWS:
+        import ctypes
+        from ctypes import wintypes
+        import msvcrt
+        api = getattr(_opened_path, '_windows_api', None)
+        if api is None:
+            api = ctypes.WinDLL('kernel32', use_last_error=True).GetFinalPathNameByHandleW
+            api.argtypes = (wintypes.HANDLE, wintypes.LPWSTR, wintypes.DWORD, wintypes.DWORD)
+            api.restype = wintypes.DWORD
+            _opened_path._windows_api = api
+        handle = msvcrt.get_osfhandle(fd)
+        size = api(handle, None, 0, 0)
+        if not size: raise ctypes.WinError(ctypes.get_last_error())
+        buffer = ctypes.create_unicode_buffer(size + 1)
+        written = api(handle, buffer, len(buffer), 0)
+        if not written: raise ctypes.WinError(ctypes.get_last_error())
+        require(written < len(buffer), 'Package handle path grew during validation')
+        return buffer.value
+    if sys.platform == 'darwin':
+        import fcntl as native_fcntl
+        return os.fsdecode(native_fcntl.fcntl(fd, native_fcntl.F_GETPATH, b'\0' * 1024).split(b'\0', 1)[0])
+    if sys.platform.startswith('linux'):
+        try: return os.readlink('/proc/self/fd/' + str(fd))
+        except FileNotFoundError: return None
+    return None
+
+
+def _normal_handle_path(value):
+    if platform_support.WINDOWS:
+        if value.startswith('\\\\?\\UNC\\'): value = '\\\\' + value[8:]
+        elif value.startswith('\\\\?\\'): value = value[4:]
+    return os.path.normcase(os.path.normpath(value))
+
+
+def _scanned_member(path, observed, expected):
+    """Hash fresh bytes without repeating the same ancestor lstat per member.
+
+    The traversal checked every parent and rejected links. A final opened-handle
+    path check also rejects a parent swapped to a junction after that traversal.
+    Platforms without a native FD-path query keep the old ancestor check.
+    """
+    with path.open('rb') as source:
+        before = os.fstat(source.fileno())
+        require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                and before.st_size == expected['size']
+                and _file_identity(before) == _file_identity(observed),
+                'Package member changed before validation')
+        actual = _opened_path(source.fileno())
+        if actual is None:
+            safe(path)
+        else:
+            require(_normal_handle_path(actual) == _normal_handle_path(str(path)),
+                    'Package member path changed during validation')
+        hashed = hashlib.sha256()
+        total = 0
+        while chunk := source.read(1024 * 1024):
+            total += len(chunk)
+            require(total <= expected['size'], 'Package member grew beyond inventory')
+            hashed.update(chunk)
+        require(_file_identity(os.fstat(source.fileno())) == _file_identity(before),
+                'Package member changed during validation')
+    require(total == expected['size'] and hashed.hexdigest() == expected['sha256'],
+            'Package file differs from inventory')
+
+
 def package_info(package):
     package = safe(package)
+    # Canonicalize case/short names once, with the original directory identity
+    # and guards rechecked; never adopt a reparse redirection during that step.
+    original = package
+    root_info = package.lstat()
+    require(stat.S_ISDIR(root_info.st_mode), 'Package directory is missing')
+    package = package.resolve()
+    safe(original)
+    require((original.lstat().st_dev, original.lstat().st_ino) == (root_info.st_dev, root_info.st_ino)
+            and (package.lstat().st_dev, package.lstat().st_ino) == (root_info.st_dev, root_info.st_ino),
+            'Package root changed during validation')
+    if sys.platform == 'darwin':
+        fd = os.open(package, os.O_RDONLY | getattr(os, 'O_DIRECTORY', 0) | getattr(os, 'O_NOFOLLOW', 0))
+        try:
+            require((os.fstat(fd).st_dev,os.fstat(fd).st_ino)==(root_info.st_dev,root_info.st_ino),
+                    'Package directory changed while opening')
+            safe(original)
+            native = _opened_path(fd)
+            if native is not None: package = Path(native)
+        finally: os.close(fd)
     raw = read(package / 'product-manifest.json')
     data = json.loads(raw.decode(), object_pairs_hook=pairs)
     require(data.get('schema') == MANIFEST and data.get('product_id') == 'codex-agent-system',
@@ -143,22 +234,10 @@ def package_info(package):
     require(COMMIT.fullmatch(str(data.get('source_commit', ''))), 'Package source commit is missing')
     entries = data.get('files')
     require(isinstance(entries, dict) and 34 <= len(entries) <= 65000, 'Invalid package file inventory')
-    actual = set()
-    total = 0
-    for root, directories, names in os.walk(package, followlinks=False):
-        for name in directories + names:
-            path = Path(root) / name
-            info = path.lstat()
-            require(not platform_support.is_link_or_reparse(path), 'Package contains a link or reparse point')
-            require(stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode), 'Package contains a special file')
-        for name in names:
-            relative = (Path(root) / name).relative_to(package).as_posix()
-            if relative not in ('product-manifest.json', 'SHA256SUMS'):
-                actual.add(relative)
-    require(actual == set(entries), 'Package has missing or unexpected files; extract a clean verified copy')
     folded = set()
+    total = 0
     for relative, entry in entries.items():
-        path = inside(package, relative)
+        platform_support.safe_relative(relative)
         require(isinstance(entry, dict) and set(entry) == {'sha256', 'size', 'mode'}, 'Invalid package file record')
         require(HASH.fullmatch(str(entry['sha256'])) and type(entry['size']) is int
                 and 0 <= entry['size'] <= 256 * 1024 * 1024 and type(entry['mode']) is int
@@ -168,14 +247,37 @@ def package_info(package):
         folded.add(key)
         total += entry['size']
         require(total <= 4 * 1024 * 1024 * 1024, 'Package exceeds supported size')
-        content = read(path, 256 * 1024 * 1024)
-        require(len(content) == entry['size'] and digest(content) == entry['sha256'],
-                'Package file differs from inventory: ' + relative)
-        # Extraction may lose executable flags. Installation applies declared modes.
-    product = safe(package / 'product')
-    require((product / 'kit/manifest.json').is_file(), 'Package core resource is absent')
+    actual = set()
+    pending = [package]
+    directory_count = file_count = 0
+    while pending:
+        folder = pending.pop()
+        with os.scandir(folder) as children:
+            for child in children:
+                path = Path(child.path)
+                info = path.lstat()
+                require(not stat.S_ISLNK(info.st_mode)
+                        and not getattr(info, 'st_file_attributes', 0) & 0x400,
+                        'Package contains a link or reparse point')
+                require(stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode),
+                        'Package contains a special file')
+                if stat.S_ISDIR(info.st_mode):
+                    directory_count += 1
+                    require(directory_count <= 65000, 'Package directory limit exceeded')
+                    pending.append(path)
+                    continue
+                file_count += 1
+                require(file_count <= 65002, 'Package file limit exceeded')
+                require(info.st_nlink == 1, 'Package contains a hard-linked file')
+                relative = path.relative_to(package).as_posix()
+                if relative in ('product-manifest.json', 'SHA256SUMS'):
+                    continue
+                require(relative in entries, 'Package has missing or unexpected files; extract a clean verified copy')
+                actual.add(relative)
+                _scanned_member(path, info, entries[relative])
+    require(actual == set(entries), 'Package has missing or unexpected files; extract a clean verified copy')
+    require('product/kit/manifest.json' in actual, 'Package core resource is absent')
     return data, digest(raw)
-
 
 def paths(home, state=None):
     home = safe(Path(home).expanduser()).resolve()
@@ -260,12 +362,24 @@ def host_check(codex, home):
     return result
 
 
+
+def setup_diagnostic(phase, started=None):
+    if os.environ.get('AGENT_SYSTEM_SETUP_DIAGNOSTICS') == '1':
+        row={'phase':phase}
+        if started is not None:row['seconds']=round(time.monotonic()-started,3)
+        print('agent-system-setup '+json.dumps(row,sort_keys=True),file=sys.stderr,flush=True)
+
+
 def doctor(package, home, state=None, codex=None):
     home, state, destination, legacy = paths(home, state)
+    started=time.monotonic();setup_diagnostic('package-validation-start')
     metadata, fingerprint = package_info(package)
+    setup_diagnostic('package-validation-complete',started)
     system, machine = platform.system(), platform.machine().lower()
     supported = system in ('Darwin', 'Linux', 'Windows') and machine in ('arm64', 'aarch64', 'x86_64', 'amd64')
+    started=time.monotonic();setup_diagnostic('host-check-start')
     host = host_check(codex, home)
+    setup_diagnostic('host-check-complete',started)
     runtime = metadata.get('runtime', {})
     return {'status': 'ready' if supported and host['ready'] else 'action-required',
             'product_id': metadata['product_id'], 'product_version': metadata['product_version'],
@@ -616,6 +730,17 @@ def runtime_environment(package):
     parts=([original_path,python_bin,node_bin] if existing_python
            else [python_bin,original_path,node_bin])
     result['PATH']=os.pathsep.join(part for part in parts if part)
+    terminfo=[]
+    for reference in row.get('terminfo_dirs',[]):
+        require(isinstance(reference,str) and reference.startswith('runtimes/'+key+'/python/share/terminfo')
+                and any(name.startswith(reference+'/') for name in metadata['files']),
+                'Terminal database layer absent from the exact package inventory')
+        directory=inside(package,reference)
+        require(directory.is_dir(),'Bundled terminal database layer missing')
+        terminfo.append(str(directory))
+    if terminfo:
+        previous=os.environ.get('TERMINFO_DIRS')
+        result['TERMINFO_DIRS']=os.pathsep.join(([previous] if previous is not None else [])+terminfo+[''])
     result.update(PYTHONUTF8='1',PYTHONIOENCODING='utf-8',PYTHONDONTWRITEBYTECODE='1')
     return result
 

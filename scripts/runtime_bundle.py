@@ -16,6 +16,7 @@ import sys
 import tarfile
 import tempfile
 import urllib.request
+import unicodedata
 import zipfile
 
 SCHEMA = 'codex-agents.portable-runtime/1'
@@ -92,32 +93,85 @@ def node_archive(archive, output, row):
     require(found==wanted,'Node executable/license missing')
 
 
-def python_archive(archive, output):
-    """Materialize only reviewed in-namespace links; no links enter a buyer ZIP."""
-    links={};total=0;count=0
-    with tarfile.open(archive,'r:gz') as z:
-        for m in z:
-            p=member(m.name);require(p.parts[0]=='python','Unexpected Python namespace')
-            count+=1;require(count<=30000,'Python member limit exceeded')
-            target=output/p
-            if m.isdir():target.mkdir(parents=True,exist_ok=True);continue
-            if m.issym() or m.islnk():
-                raw=m.linkname
-                require(not PurePosixPath(raw).is_absolute() and '\\' not in raw,'Unsafe Python link')
-                joined=posixpath.normpath(posixpath.join(posixpath.dirname(m.name),raw)) if m.issym() else posixpath.normpath(raw)
-                resolved=member(joined);require(resolved.parts[0]=='python','Python link escapes namespace')
-                links[m.name]=resolved.as_posix();continue
-            require(m.isfile() and m.size<=256*1024*1024,'Unexpected special Python member')
-            total+=m.size;require(total<=512*1024*1024,'Python archive expands beyond limit')
-            target.parent.mkdir(parents=True,exist_ok=True)
-            with z.extractfile(m) as src,target.open('xb') as dst:shutil.copyfileobj(src,dst,128*1024)
-            target.chmod(0o755 if m.mode&0o111 else 0o644)
-    def resolve(name,seen=()):
+def python_layout(members):
+    """Allocate every path before extraction, including case-sensitive term names.
+
+    ncurses searches ordered TERMINFO_DIRS. Separate regular directory layers
+    retain Eterm/eterm and 2621A/2621a without losing either bytes or aliases on
+    an APFS/NTFS builder or a Universal-package recipient.
+    """
+    records={};links={};directories=set();total=0
+    for item in members:
+        name=member(item.name).as_posix()
+        require(PurePosixPath(name).parts[0]=='python','Unexpected Python namespace')
+        require(name not in records,'Duplicate Python member')
+        records[name]=item
+        directories.update(p.as_posix() for p in PurePosixPath(name).parents if p.as_posix()!='.')
+        if item.isdir():directories.add(name)
+        elif item.issym() or item.islnk():
+            raw=item.linkname
+            require(not PurePosixPath(raw).is_absolute() and '\\' not in raw,'Unsafe Python link')
+            joined=posixpath.normpath(posixpath.join(posixpath.dirname(name),raw)) if item.issym() else posixpath.normpath(raw)
+            target=member(joined).as_posix();require(PurePosixPath(target).parts[0]=='python','Python link escapes namespace')
+            links[name]=target
+        else:
+            require(item.isfile() and item.size<=256*1024*1024,'Unexpected special Python member')
+            total+=item.size;require(total<=512*1024*1024,'Python archive expands beyond limit')
+    require(len(records)<=30000,'Python member limit exceeded')
+    def resolved(name,seen=()):
         require(name not in seen and len(seen)<16,'Cyclic Python link')
-        return resolve(links[name],(*seen,name)) if name in links else output/member(name)
+        if name in links:return resolved(links[name],(*seen,name))
+        require(name in records or name in directories,'Missing Python link target')
+        return name
+    for name in links:resolved(name)
+    base='python/share/terminfo';claims={};mapping={};layers=set()
+    def claim(name,kind,commit=False):
+        parts=PurePosixPath(name).parts;changes=[]
+        for length in range(1,len(parts)+1):
+            prefix=PurePosixPath(*parts[:length]).as_posix()
+            key=unicodedata.normalize('NFC',prefix).casefold()
+            expected=(prefix,kind if length==len(parts) else 'dir')
+            existing=claims.get(key)
+            if existing is not None and (existing!=expected or expected[1]!='dir'):return False
+            changes.append((key,expected))
+        if commit:claims.update(changes)
+        return True
+    for name,item in sorted(records.items()):
+        if name==base or name.startswith(base+'/'):continue
+        target=resolved(name)
+        kind='dir' if target in directories else 'file'
+        require(claim(name,kind,True),'Case-colliding Python path outside terminfo: '+name)
+        mapping[name]=name
+    for name,item in sorted(records.items()):
+        if name!=base and not name.startswith(base+'/'):continue
+        if item.isdir():continue  # Parent directories are created at their allocated destinations.
+        require(resolved(name) not in directories,'Terminfo directory aliases require an explicit supported layout')
+        relative=PurePosixPath(name).relative_to(base)
+        for layer in range(30000):
+            directory=base if layer==0 else base+'-extra'+('' if layer==1 else str(layer))
+            candidate=(PurePosixPath(directory)/relative).as_posix()
+            if claim(candidate,'file',True):
+                mapping[name]=candidate;layers.add(layer);break
+        else:raise ValueError('Terminfo portable layer capacity exceeded')
+    terminfo=[base if n==0 else base+'-extra'+('' if n==1 else str(n)) for n in sorted(layers)]
+    return records,links,resolved,mapping,terminfo
+
+
+def python_archive(archive, output):
+    """Materialize reviewed in-namespace links into portable regular files."""
+    with tarfile.open(archive,'r:gz') as source:
+        records,links,resolved,mapping,terminfo=python_layout(source.getmembers())
+        for name,item in records.items():
+            if name not in mapping or name in links:continue
+            target=output/member(mapping[name])
+            if item.isdir():target.mkdir(parents=True,exist_ok=True);continue
+            target.parent.mkdir(parents=True,exist_ok=True)
+            with source.extractfile(item) as src,target.open('xb') as dst:shutil.copyfileobj(src,dst,128*1024)
+            target.chmod(0o755 if item.mode&0o111 else 0o644)
     for name in sorted(links):
-        source=resolve(name);require(source.exists(),'Missing Python link target')
-        target=output/member(name);target.parent.mkdir(parents=True,exist_ok=True)
+        original=resolved(name)
+        source=output/member(mapping.get(original,original));require(source.exists(),'Missing Python link target')
+        target=output/member(mapping[name]);target.parent.mkdir(parents=True,exist_ok=True)
         if source.is_dir():
             require(not target.exists(),'Duplicate Python directory alias')
             shutil.copytree(source,target)
@@ -126,6 +180,7 @@ def python_archive(archive, output):
             with source.open('rb') as src,target.open('xb') as dst:shutil.copyfileobj(src,dst,128*1024)
             target.chmod(stat.S_IMODE(source.stat().st_mode))
     require(any('license' in p.name.lower() for p in (output/'python').rglob('*') if p.is_file()),'Python licenses missing')
+    return terminfo
 
 
 def add_yaml(archive, output, target, version):
@@ -176,7 +231,7 @@ def stage(root, target, cache, output, *, allow_dirty=False, verify_signature=Fa
         signature=module.verify_node(n,sums,keys,proof,target)
     output.mkdir(parents=True,exist_ok=True);directory=output/target
     require(not directory.exists(),'Choose fresh runtime output directory')
-    directory.mkdir();node_archive(n,directory,row['node']);python_archive(p,directory);add_yaml(y,directory,target,lock['pyyaml']['version'])
+    directory.mkdir();node_archive(n,directory,row['node']);terminfo_dirs=python_archive(p,directory);add_yaml(y,directory,target,lock['pyyaml']['version'])
     if target.startswith('win32-'):
         exe=directory/row['python']['executable'];require(exe.is_file(),'Expected native Python executable missing')
         alias=directory/'python/python3.exe'
@@ -191,7 +246,7 @@ def stage(root, target, cache, output, *, allow_dirty=False, verify_signature=Fa
            else (0o755 if f.stat().st_mode&0o111 else 0o644)
            for f in directory.rglob('*') if f.is_file()}
     inventory={f.relative_to(directory).as_posix():{'sha256':digest(f),'size':f.stat().st_size,'mode':modes[f.relative_to(directory).as_posix()]} for f in sorted(directory.rglob('*')) if f.is_file()}
-    desc={'schema':SCHEMA,'target':target,'os':row['os'],'arch':row['arch'],'source_commit':source,'source_clean':not dirty,'input_lock_sha256':digest(lock_path),'node':row['node'],'python':row['python'],'pyyaml':lock['pyyaml'],'node_signature':signature,'files':inventory,'runtime_execution':'unverified until the exact target package executes on a native runner','link_policy':'upstream in-namespace symlinks materialized; no links distributed','windows_python3_alias':'same official python.exe bytes' if target.startswith('win32-') else None}
+    desc={'schema':SCHEMA,'target':target,'os':row['os'],'arch':row['arch'],'source_commit':source,'source_clean':not dirty,'input_lock_sha256':digest(lock_path),'node':row['node'],'python':row['python'],'pyyaml':lock['pyyaml'],'node_signature':signature,'files':inventory,'terminfo_dirs':terminfo_dirs,'runtime_execution':'unverified until the exact target package executes on a native runner','link_policy':'upstream in-namespace symlinks materialized; no links distributed','windows_python3_alias':'same official python.exe bytes' if target.startswith('win32-') else None}
     (directory/'runtime.json').write_text(json.dumps(desc,indent=2,sort_keys=True)+'\n',encoding='utf8')
     archive=output/('runtime-'+target+'.zip');zip_tree(directory,archive,modes)
     receipt={'schema':SCHEMA,'target':target,'source_commit':source,'source_clean':not dirty,'input_lock_sha256':desc['input_lock_sha256'],'archive':str(archive),'sha256':digest(archive),'size':archive.stat().st_size,'files':len(inventory),'node_executable':target+'/'+row['node']['executable'],'python_executable':target+'/'+row['python']['executable']}

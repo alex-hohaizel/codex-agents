@@ -13,6 +13,8 @@ const runtimeKeys = [
   "LC_CTYPE",
   "TZ",
   "TERM",
+  "TERMINFO",
+  "TERMINFO_DIRS",
   "COLORTERM",
   "CODEX_HOME",
   "XDG_CONFIG_HOME",

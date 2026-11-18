@@ -70,7 +70,9 @@ developer `gpgv`; Linux CI verifies the official Node signed checksums against
 the reviewed immutable public keyring. Every target checks the pinned archive
 SHA. Python standalone and PyYAML source inputs have exact URLs/SHA, full
 redistribution notices and no buyer pip step. Only reviewed in-namespace vendor
-links are materialized; buyer ZIPs contain regular files.
+links are materialized; buyer ZIPs contain regular files. Linux terminal databases
+retain every original name/byte in ordered `TERMINFO_DIRS` layers so case-sensitive
+terminal aliases also survive Windows extraction of Universal.
 
 Repeat `--runtime-bundle` with all six exact-commit runtime ZIPs to build Universal.
 One target builds one smaller package. Other incomplete sets fail. Source,
@@ -87,6 +89,30 @@ The legacy `BUILD.json` and `SHA256SUMS` still describe the two existing
 WORK/CODEX source archives. Never substitute one format for the other.
 The old commercial Solo/Team builder and trusted-delivery verifier remain
 available; downloading a technical package does not issue a paid entitlement.
+
+## Ready licensed-edition delivery candidates
+
+The same runtime inputs also build ready Solo/Team archives through the existing
+commercial catalog and fulfillment contract:
+
+```bash
+python scripts/build_commercial.py --portable-runtime-bundle /tmp/agent-runtime/runtime-linux-x64.zip --output /tmp/licensed-ready
+```
+
+Repeat that flag with all six exact-source inputs for Universal editions. The
+old no-runtime/source-only build and separate legacy runtime flags remain
+available for compatible automation. The ready route uses the same canonical
+stage, browser GUI, bundled binaries and lifecycle; it changes the declared
+edition and external delivery catalog. It does not issue a purchase or grant
+rights. `BUILD.json` in this separate output retains the commercial-build schema
+for the existing trusted verifier and fulfillment service.
+
+CI builds both Universal edition candidates and verifies every inventoried
+source/runtime/resource hash and platform mapping against the neutral Universal
+payload. The edition ZIPs have different manifests and archive SHAs. Identical
+payload evidence is recorded separately from native execution of each public
+technical ZIP and from actual purchase/delivery acceptance. These are owner-review
+CI artifacts, separate from the public seven-asset technical Release.
 
 ## Exact-archive acceptance and publication
 
@@ -109,11 +135,17 @@ published main source. After integration, rebuild and accept the exact main
 commit before creating its visible latest GitHub Release. Verify its tag,
 assets, checksums, attestations, source ZIP root HTML and direct download links.
 
+The accepted artifact also includes an attested `NATIVE-ACCEPTANCE.zip` and its
+checksum file for durable Release evidence after temporary CI artifacts expire.
+
 Only reviewed redacted synthetic receipts and page screenshots may leave the
 native test job. Never upload test HOME directories, runtime session keys,
 private ready tokens, browser profiles, real account credentials or raw project
-data. Native runner administrator privileges, if present, are an evidence limit;
-they do not justify an unsupported non-admin execution claim.
+data. Windows acceptance additionally creates an actual restricted same-SID medium-integrity
+primary token and proves its admin memberships are disabled before installing,
+verifying and rolling back. This uses no new account or credentials. Its receipt
+is separate from full browser acceptance and does not certify a separate-account
+first-login/UAC experience.
 
 Keep historical acceptance tied to its original bytes. Future changes must
 refresh affected proof, maintain the [U01–U08 trace](../../governance/universal-requirements.json)

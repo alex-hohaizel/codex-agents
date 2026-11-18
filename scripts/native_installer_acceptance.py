@@ -21,6 +21,7 @@ import socket
 import stat
 import subprocess
 import sys
+import tarfile
 import time
 import traceback
 import urllib.error
@@ -30,6 +31,7 @@ import uuid
 import zipfile
 
 sys.dont_write_bytecode = True
+PUBLISHED_PREDECESSOR = '6eda958692eda18d0c3727e6452a970b5058532e'
 
 
 def require(condition, message):
@@ -136,8 +138,16 @@ class Acceptance:
     def run(self, name, argv, *, expected=(0,), parse=True, timeout=180, input=None):
         self.counter += 1
         start = time.monotonic()
-        result = subprocess.run([str(value) for value in argv], env=self.env, cwd=self.home,
-                                capture_output=True, input=input, timeout=timeout)
+        try:
+            result = subprocess.run([str(value) for value in argv], env=self.env, cwd=self.home,
+                                    capture_output=True, input=input, timeout=timeout)
+        except subprocess.TimeoutExpired as error:
+            decode = lambda value: value.decode('utf8', errors='replace') if isinstance(value, bytes) else value or ''
+            receipt = {'name': name, 'argv': [str(value) for value in argv], 'status': 'timeout', 'returncode': None,
+                       'seconds': round(time.monotonic() - start, 3), 'timeout_seconds': timeout,
+                       'stdout': decode(error.stdout), 'stderr': decode(error.stderr)}
+            (self.logs / ('%03d-' % self.counter + re.sub(r'[^a-zA-Z0-9_-]', '-', name) + '.json')).write_bytes(encoded(receipt))
+            raise
         receipt = {'name': name, 'argv': [str(value) for value in argv], 'returncode': result.returncode,
                    'seconds': round(time.monotonic() - start, 3),
                    'stdout': result.stdout.decode('utf8', errors='replace'),
@@ -191,6 +201,7 @@ class Acceptance:
                         APPDATA=str(self.home / 'AppData/Roaming'), LOCALAPPDATA=str(self.home / 'AppData/Local'),
                         XDG_DATA_HOME=str(self.home / '.local/share'), XDG_CONFIG_HOME=str(self.home / '.config'),
                         AGENT_SYSTEM_PYTHON=str(self.python), AGENT_SYSTEM_NODE=str(self.node),
+                        AGENT_SYSTEM_SETUP_DIAGNOSTICS='1',
                         PYTHONUTF8='1', PYTHONIOENCODING='utf-8', PYTHONDONTWRITEBYTECODE='1')
         self.env['PATH'] = str(self.python.parent) + os.pathsep + str(self.node.parent) + os.pathsep + self.env.get('PATH', '')
         self.report.update(source_commit=manifest['source_commit'], source_clean=manifest.get('source_clean'),
@@ -231,6 +242,36 @@ class Acceptance:
         self.role.write_bytes(b'model = "native-acceptance-local-choice"\n' + (self.package / 'product/agent-profiles/foundry-qa.toml').read_bytes())
         self.preserved = {str(path): digest(path) for path in (self.foreign, self.project_file, self.role)}
         self.personal_profile = self.profile.read_text(encoding='utf8')
+
+    def bundled_linux_terminfo(self):
+        if sys.platform != 'linux':
+            return
+        tools = self.manifest['portable_runtimes'][self.target]
+        runtime = load(self.package / 'runtimes' / self.target / 'runtime.json')
+        references = tools.get('terminfo_dirs', [])
+        require(references and references == ['runtimes/' + self.target + '/' + name for name in runtime.get('terminfo_dirs', [])],
+                'Linux runtime does not declare matching portable terminal database layers')
+        directories = [str(self.package / name) for name in references]
+        previous = self.env
+        self.env = dict(previous, TERMINFO_DIRS=os.pathsep.join(directories))
+        self.env.pop('TERMINFO', None)
+        try:
+            observed = []
+            for terminal in ('Eterm', 'eterm', '2621A', '2621a', 'xterm', 'xterm-256color'):
+                matching = [Path(directory) / terminal[0] / terminal for directory in directories
+                            if (Path(directory) / terminal[0] / terminal).is_file()]
+                require(len(matching) == 1, 'The original terminal name was lost or duplicated: ' + terminal)
+                result = self.run('native-curses-' + terminal, [self.python, '-I', '-X', 'utf8', '-B', '-c',
+                    'import curses,json,os,sys;assert os.environ["TERMINFO_DIRS"]==os.pathsep.join(sys.argv[2:]);'
+                    'curses.setupterm(term=sys.argv[1],fd=1);cap=curses.tigetstr("cup");assert cap;'
+                    'print(json.dumps(dict(terminal=sys.argv[1],columns=curses.tigetnum("cols"),cursor_address_hex=cap.hex(),terminfo_dirs=os.environ["TERMINFO_DIRS"])))',
+                    terminal, *directories])
+                observed.append({'terminal': terminal, 'file_sha256': digest(matching[0]), 'columns': result['columns'],
+                                 'fresh_interpreter': True, 'cursor_address_hex': result['cursor_address_hex']})
+            self.record('native-linux-curses-loads-original-case-sensitive-terminal-names',
+                        {'only_bundled_dirs': references, 'probes': observed, 'system_fallback_in_probe': False})
+        finally:
+            self.env = previous
 
     def preserve(self, name, *, restored_profile=False):
         for path, expected in self.preserved.items():
@@ -570,6 +611,116 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         require(len(retained) == 1, 'Acceptance unnecessarily retained more than one complete product package')
         self.record('rollback-reinstall-current-audit-drift-block-and-uninstall', {'retained_full_packages': 1, 'projects_preserved': True})
 
+    def published_predecessor_upgrade(self):
+        """Exercise actual public6.4 bytes; Git is test infrastructure only.
+
+        Reuse this test HOME and its one cached current package after uninstall.
+        No old controller is executed: the received package's portable buyer
+        engines must recognize, upgrade, verify and roll back the real baseline.
+        """
+        repo = Path(__file__).resolve().parents[1]
+        git = ['git', '--no-replace-objects', '-C', str(repo)]
+
+        def published(name):
+            return subprocess.check_output([*git, 'show', PUBLISHED_PREDECESSOR + ':' + name])
+
+        release = json.loads(published('releases/current.json'))
+        baseline = json.loads(published('kit/manifest.json'))
+        roles = json.loads(published('agent-profiles/manifest.json'))['roles']
+        require(release['repository_version'] == '1.7.0' and release['suite_version'] == '6.4.0', 'Predecessor commit is not the declared published release')
+        require(len(baseline['skills']) == 33 and len(roles) == 12, 'Published predecessor does not have the expected complete product')
+        names = {row['name'] for row in baseline['skills']}
+        skills = self.home / '.agents/skills'
+        require(not any((skills / name).exists() for name in names | {'atelier-orchestrator'}), 'Stage predecessor only after the managed uninstall has completed')
+        require('agent-system-quality:start' not in self.profile.read_text(encoding='utf8'), 'An unexpected managed profile is still installed')
+        require(all(not (self.home / '.codex/agents' / row['file']).exists() for row in roles), 'Predecessor staging must not overwrite a role')
+        before_customer = {str(path): digest(path) for path in (self.foreign, self.project_file)}
+        role_names = {row['file'] for row in roles}
+        copied = []
+        command = [*git, 'archive', '--format=tar', PUBLISHED_PREDECESSOR, 'kit/skills',
+                   'optional-skills/atelier-orchestrator', 'agent-profiles']
+        archive = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            with tarfile.open(fileobj=archive.stdout, mode='r|') as stream:
+                for item in stream:
+                    path = PurePosixPath(item.name)
+                    require(not path.is_absolute() and '..' not in path.parts and '\\' not in item.name,
+                            'Unexpected path in the exact Git predecessor archive')
+                    require(item.isdir() or item.isfile(), 'Linked or special predecessor Git member')
+                    if item.isdir():
+                        continue
+                    if item.name.startswith('kit/skills/'):
+                        relative = path.relative_to('kit/skills')
+                        require(relative.parts[0] in names, 'Unexpected predecessor core skill')
+                        target = skills.joinpath(*relative.parts)
+                    elif item.name.startswith('optional-skills/atelier-orchestrator/'):
+                        relative = path.relative_to('optional-skills/atelier-orchestrator')
+                        target = skills / 'atelier-orchestrator' / relative
+                    elif path.parent.as_posix() == 'agent-profiles' and path.name in role_names:
+                        target = self.home / '.codex/agents' / path.name
+                    else:
+                        continue
+                    require(item.size <= 16 * 1024 * 1024 and not target.exists(), 'Oversized or colliding predecessor member')
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    with stream.extractfile(item) as source, target.open('xb') as output:
+                        shutil.copyfileobj(source, output, 128 * 1024)
+                    target.chmod(0o755 if item.mode & 0o111 else 0o644)
+                    copied.append(target)
+            archive.stdout.close()
+            stderr = archive.stderr.read().decode('utf8', errors='replace')
+            require(archive.wait(timeout=15) == 0, 'Reading exact predecessor Git objects failed: ' + stderr)
+        finally:
+            if archive.poll() is None:
+                archive.kill(); archive.wait(timeout=10)
+            archive.stdout.close(); archive.stderr.close()
+        # Prove the complete published kit, not merely a fake older version label.
+        for row in baseline['skills']:
+            folder = skills / row['name']
+            actual = {path.relative_to(folder).as_posix(): {'sha256': digest(path), 'size': path.stat().st_size}
+                      for path in folder.rglob('*') if path.is_file()}
+            expected = {name: {'sha256': record['sha256'], 'size': record['size']} for name, record in row['files'].items()}
+            require(actual == expected, 'Staged predecessor differs from published kit manifest: ' + row['name'])
+        for row in roles:
+            require(digest(self.home / '.codex/agents' / row['file']) == row['sha256'], 'Published predecessor role differs')
+        profile = published('host-profiles/codex/AGENTS.md').decode('utf8').replace('{{STANDARD_ROOT}}', str(skills / 'agent-foundry'))
+        self.profile.write_bytes((self.profile.read_text(encoding='utf8').rstrip() + '\n\n' + profile.strip() + '\n').encode('utf8'))
+        # This tuning is supported user configuration, outside the pinned prompt.
+        self.role.write_bytes(b'model = "native-upgrade-owner-choice"\nmodel_reasoning_effort = "high"\n' + self.role.read_bytes())
+        copied.append(self.profile)
+        predecessor = {path.relative_to(self.home).as_posix(): {'sha256': digest(path), 'mode': stat.S_IMODE(path.stat().st_mode)} for path in copied}
+        (self.output / 'published-predecessor-files.json').write_bytes(encoded({
+            'source_commit': PUBLISHED_PREDECESSOR, 'repository_version': release['repository_version'],
+            'suite_version': release['suite_version'], 'kit_manifest_sha256': hashlib.sha256(published('kit/manifest.json')).hexdigest(),
+            'scope': 'All33 published core skills, Orchestrator,12 roles, managed profile; one supported role has explicit owner selector tuning.',
+            'files': predecessor}))
+        plan = self.output / 'published predecessor upgrade plan.json'
+        audit = self.setup('audit', '--plan', plan)
+        require(audit['status'] == 'ready' and audit['mode'] == 'update', 'Published6.4 predecessor is not a supported complete update')
+        installed = self.setup('install', '--plan', plan, '--approve', audit['plan_sha256'])
+        verified = self.setup('verify', '--journal', installed['journal'])
+        require(verified['skills'] == 33 and verified['orchestrator'] and verified['source_commit'] == self.manifest['source_commit'], 'Predecessor upgrade did not verify the complete new product')
+        for value in (b'model = "native-upgrade-owner-choice"', b'model_reasoning_effort = "high"'):
+            require(value in self.role.read_bytes(), 'Upgrade dropped supported owner role tuning')
+        for path, expected in before_customer.items():
+            require(digest(path) == expected, 'Upgrade changed unrelated customer work')
+        rolled = self.setup('rollback', '--journal', installed['journal'])
+        require(rolled['status'] == 'rolled-back', 'Published-predecessor rollback did not complete')
+        roots = [skills / name for name in names | {'atelier-orchestrator'}]
+        restored_files = {path.relative_to(self.home).as_posix() for root in roots for path in root.rglob('*') if path.is_file()}
+        restored_files |= {str((Path('.codex/agents') / row['file']).as_posix()) for row in roles} | {'.codex/AGENTS.md'}
+        require(restored_files == set(predecessor), 'Rollback did not restore the exact predecessor file inventory')
+        for relative, expected in predecessor.items():
+            path = self.home / relative
+            require(digest(path) == expected['sha256'] and stat.S_IMODE(path.stat().st_mode) == expected['mode'], 'Rollback changed published predecessor bytes or native modes: ' + relative)
+        for path, expected in before_customer.items():
+            require(digest(path) == expected, 'Predecessor rollback changed unrelated customer work')
+        require(len(list((self.state / 'packages').iterdir())) == 1, 'Predecessor test duplicated the full current package cache')
+        self.record('published6-4-complete-upgrade-and-exact-rollback', {
+            'predecessor_commit': PUBLISHED_PREDECESSOR, 'core_skills': 33, 'roles': 12,
+            'predecessor_files': len(predecessor), 'orchestrator': True, 'owner_tuning_preserved': True,
+            'foreign_skill_and_project_preserved': True, 'retained_full_packages': 1,
+            'old_controllers_executed': False, 'current_portable_buyer_engines_executed': True})
+
     def immutable_received_package(self):
         # The authoritative ordinary buyer validator hashes every received file
         # again and rejects pyc, logs or unexpected runtime mutations.
@@ -594,6 +745,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
     def execute(self):
         try:
             self.prepare()
+            self.bundled_linux_terminfo()
             self.seed()
             self.native_entrypoint()
             self.buyer_install()
@@ -601,6 +753,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
             self.discovery()
             self.workbench()
             self.recover_and_uninstall()
+            self.published_predecessor_upgrade()
             self.immutable_received_package()
             self.report['status'] = 'passed'
             return 0

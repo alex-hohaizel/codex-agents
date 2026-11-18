@@ -190,7 +190,7 @@ exec python3 -B "$folder/setup/setup.py" --package "$folder" "$@"
     return m
 
 
-def build(root, output, runtime_artifacts=()):
+def build(root, output, runtime_artifacts=(), portable_runtime_bundles=()):
     root=root.resolve(strict=True);output=output.resolve()
     need(not output.is_relative_to(root),"Output must be outside source checkout")
     source=capture(root)
@@ -202,14 +202,22 @@ def build(root, output, runtime_artifacts=()):
     need(descriptor["product_id"]==offer["product_id"]==PRODUCT,"Product scope mismatch")
     output.mkdir(parents=True,exist_ok=True)
     artifacts=[]
-    with tempfile.TemporaryDirectory(prefix="commercial-build-") as work:
+    if portable_runtime_bundles:
+        need(not runtime_artifacts,"Choose portable ready editions or legacy separate runtime artifacts")
+        # Lazy import keeps the shared source-stage implementation acyclic.
+        from build_installer import build as build_ready
         for edition in ("solo","team"):
-            stage=Path(work)/f"Agent-System-{version}-{edition}"
-            prepare_buyer_stage(root,stage,release,offer,source,edition,runtime)
-            dest=output/(stage.name+".zip")
-            zip_tree(stage,dest)
-            artifacts.append({"name":dest.name,"edition":edition,"sha256":digest(dest),"size":dest.stat().st_size,
-                              "entry_point":"START_HERE.html","product_version":version,"source_commit":source})
+            ready=build_ready(root,output,portable_runtime_bundles,edition=edition)
+            artifacts.extend(ready['files'])
+    else:
+        with tempfile.TemporaryDirectory(prefix="commercial-build-") as work:
+            for edition in ("solo","team"):
+                stage=Path(work)/f"Agent-System-{version}-{edition}"
+                prepare_buyer_stage(root,stage,release,offer,source,edition,runtime)
+                dest=output/(stage.name+".zip")
+                zip_tree(stage,dest)
+                artifacts.append({"name":dest.name,"edition":edition,"sha256":digest(dest),"size":dest.stat().st_size,
+                                  "entry_point":"START_HERE.html","product_version":version,"source_commit":source})
     exports=export(root,output,version,source)
     result={"schema":"codex-agents.commercial-build/1","product_id":PRODUCT,"product_version":version,
             "source_commit":source,"status":"technical-distribution-commercial-terms-owner-review","files":artifacts,
@@ -248,8 +256,9 @@ def main():
     p.add_argument("--root",type=Path,default=Path(__file__).resolve().parents[1])
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--runtime-artifact",type=Path,action="append",default=[],help="Exact clean runtime ZIP from this source; repeat per architecture")
+    p.add_argument("--portable-runtime-bundle",type=Path,action="append",default=[],help="One or all six exact native runtime bundles; creates ready Solo/Team editions through the shared installer assembly")
     a=p.parse_args()
-    try: print(json.dumps(build(a.root,a.output,a.runtime_artifact),indent=2));return 0
+    try: print(json.dumps(build(a.root,a.output,a.runtime_artifact,a.portable_runtime_bundle),indent=2));return 0
     except (ValueError,OSError,KeyError,subprocess.SubprocessError) as e:
         print(json.dumps({"status":"blocked","reason":str(e)}),file=sys.stderr);return 2
 

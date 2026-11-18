@@ -1,8 +1,17 @@
-# Agent Atelier — local Mac workbench
+# Agent Atelier — local project workbench
 
 Agent Atelier provides a universal task entry and a source-backed portfolio of native Codex work. It pages active and archived thread metadata through the supported app-server, groups work by canonical project root and loads individual work groups on demand. It shows observed responses, accepted or declared goals with their provenance, installed versus planned agents and source-backed next actions. The local Codex project registry supplies registered projects even when they have no chats. The portfolio shows how much it has read from the registry and from active and archived history. Project work history opens on demand. Remote hosts and unavailable sources remain outside verified local coverage. Explicit binding is required before project control. It shows native sources/context/requirements/identity, prepares bounded tasks and runs them through the supported Codex app-server. Its multi-pane interface includes source/diff/outcome views, task/jobs, evidence, skill update plans and recovery. `?demo=1` is a separate fictional design preview; it performs no real commands.
 
 The 33-core skill suite, optional orchestrator and this service have separate versions and installation facts. A binding does not migrate a product or grant every future job. Work audit/update/installation/control is deferred. Existing desktop chat adoption requires exact identity/cwd, an idle handoff and current task scope; the service does not fence independent desktop writers.
+
+## Ready Windows, macOS and Linux packages
+
+For normal use, download the ready Universal or matching x64/ARM64 package from
+[the latest Release](https://github.com/alex-hohaizel/codex-agents/releases/latest).
+Extract it and open `START_HERE.html`. `Start.cmd`, `Start.command` and `Start.sh`
+open setup on Windows, macOS and Linux; the corresponding `Start-Workbench`
+launcher opens this optional workbench. Python, Node and the built client are
+included. Keep Codex and your account separate. [Complete instructions](../../docs/commercial/WORKBENCH_RUNTIME.md)
 
 ## Build and launch
 
@@ -26,7 +35,7 @@ node launcher/atelier.mjs stop
 
 A fresh browser must enter through the local launcher. Plain URLs do not grant owner access. The private `owner-credentials.json` and cookies remain local; the launcher/client verify an instance proof before sending a control credential to a local listener. A same-OS-user process able to read that private file remains within the local trust boundary.
 
-Default service state is `~/Library/Application Support/Agent Atelier`, separate from repository sources and native product state. Preserve that directory and its actual backup/receipt records. Do not place credentials, databases or private exports inside this reusable repository. The actual Node-bound SQLite engine is reported by the running service; the system SQLite CLI can be a different version.
+Default source-launch service state is `~/Library/Application Support/Agent Atelier` on macOS (the existing path is preserved), `%LOCALAPPDATA%\Agent Atelier` on Windows, and `$XDG_DATA_HOME/agent-atelier` or `~/.local/share/agent-atelier` on Linux. Ready-package control uses its separately documented product-owned data location. State stays separate from repository sources and native product state. Preserve that directory and its actual backup/receipt records. Do not place credentials, databases or private exports inside this reusable repository. The actual Node-bound SQLite engine is reported by the running service; the system SQLite CLI can be a different version.
 
 For development run the backend and Vite in separate terminals. Set an explicit `ATELIER_DEV_ORIGIN` matching the Vite origin when using its proxy; production uses one origin and serves `dist/client`.
 
