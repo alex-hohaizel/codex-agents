@@ -155,6 +155,8 @@ Antes de escribir con una herramienta comprueba operación, destino, autorizaci�
 
 Usa el paquete estable y su plan para actualizar componentes. Guarda los registros y los datos existentes. Tras una interrupción, examina el destino real antes de continuar. Revierte núcleo, perfil y habilidad opcional con sus registros respectivos. Haz una copia del panel y su base de datos según la guía, reinicia en el directorio de datos establecido y verifica proyectos y una tarea acotada. Los datos de producto, los chats nativos y las cuentas tienen propietarios y rutas de recuperación propios. [Instalación y recuperación](../INSTALL.md#rollback) · [Continuar trabajo](../../governance/RESUMABLE_WORK.md)
 
+Después de un rollback completado, usa el instalador actual para preparar un nuevo plan antes de volver a instalar. Conserva el plan original y el registro de recuperación: permiten a setup reconocer el lanzador restaurado y los derechos conservados. Los cambios locales posteriores del lanzador siguen siendo un conflicto; no borres los registros de instalación para eludir la comprobación.
+
 <a name="catalog"></a>
 ## Elige una habilidad o familia de productos
 

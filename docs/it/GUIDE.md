@@ -155,6 +155,8 @@ Prima di un’azione di scrittura verificate operazione, destinazione, autorizza
 
 Per gli aggiornamenti usate il pacchetto stabile e il suo piano. Conservate i journal e lo stato. Dopo un’interruzione esaminate la destinazione effettiva prima di riprendere. Ripristinate nucleo, profilo e skill opzionale dal rispettivo journal. Salvate il database e i file del pannello con la procedura documentata, riavviate con la directory dati appropriata e controllate i progetti e un compito limitato. Dati di prodotto, chat native e account hanno responsabili e procedure di ripristino propri. [Installazione e ripristino](../INSTALL.md#rollback) · [Riprendere il lavoro](../../governance/RESUMABLE_WORK.md)
 
+Dopo un rollback completato, usate l'installer corrente per preparare un nuovo piano prima di installare di nuovo. Conservate il piano originale e il journal di ripristino: consentono a setup di riconoscere il launcher ripristinato e i diritti conservati. Le modifiche locali successive al launcher restano un conflitto; non cancellate i registri di installazione per aggirare il controllo.
+
 <a name="catalog"></a>
 ## Scegliere una skill o una famiglia
 

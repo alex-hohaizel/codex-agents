@@ -155,6 +155,8 @@ Avant une action d’écriture, vérifiez opération, cible, autorisation, coût
 
 Utilisez le paquet stable et son plan exact pour les mises à jour. Conservez journaux et état. Après une interruption, examinez la cible réelle avant de continuer. Restaurez le noyau, le profil ou un composant optionnel avec son propre journal. Sauvegardez la base et les fichiers de l’interface selon la procédure, redémarrez avec le bon répertoire de données puis vérifiez les projets et une tâche bornée. Données produit, chats natifs et comptes ont chacun leurs responsables et procédures de restauration. [Installation et restauration](../INSTALL.md#rollback) · [Reprise du travail](../../governance/RESUMABLE_WORK.md)
 
+Après un rollback terminé, utilisez l’installateur actuel pour préparer un nouveau plan avant une nouvelle installation. Conservez le plan original et le journal de récupération : ils permettent à setup de reconnaître le lanceur restauré et les droits conservés. Les modifications locales ultérieures du lanceur restent un conflit ; ne supprimez pas les enregistrements d’installation pour contourner le contrôle.
+
 <a name="catalog"></a>
 ## Choisir une compétence ou une famille
 

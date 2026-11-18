@@ -73,6 +73,8 @@ Use that journal for rollback. Uninstall checks ownership and preserves later
 user changes and unrelated skills. Workbench data has its own schema and backup
 procedure: do not roll back a binary over newer data without a compatible backup.
 
+After rollback completes, use the current installer to prepare a new plan before another installation. Keep the previous plan and recovery journal so setup can recognize the restored launcher and retained rights. A later local launcher edit remains a conflict; preserve it for review rather than deleting installation records.
+
 Use the diagnostics in a support report, with product and component versions,
 platform, order reference and the failing step. Do not send Codex credentials,
 API tokens, your private projects or full chat history. The owner-provided

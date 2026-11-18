@@ -394,8 +394,30 @@ def audit(package, home, state, plan_path, entitlement=None):
         previous = state / 'installed.json'
         known_launcher = False
         if previous.exists():
-            old = load(Path(load(previous)['journal']))
-            known_launcher = old.get('launcher') == str(launcher) and old.get('launcher_sha256') == launcher_before
+            record = load(previous)
+            old = load(Path(record['journal']))
+            known_launcher = (old.get('status') == 'complete' and
+                              old.get('launcher') == str(launcher) and old.get('launcher_sha256') == launcher_before)
+            if old.get('status') == 'rolled-back' and old.get('launcher') == str(launcher):
+                # Rollback restores the approved preceding launcher, while the
+                # installed record deliberately retains the latest operation.
+                # Admit only that checked operation's exact prior bytes after
+                # all recovery phases completed; unknown edits stay blocked.
+                checked, prior, _, prior_home, prior_state, _ = checked_journal(Path(record['journal']))
+                require(record.get('schema') == 'codex-agents.buyer-installation/1' and
+                        record.get('source_commit') == prior['source_commit'] and
+                        record.get('product_version') == prior['product_version'] and
+                        prior_home == home and prior_state == state,
+                        'Restored launcher record belongs to another installation')
+                finished = (checked.get('status') == 'rolled-back' and
+                            all(checked.get(name) is True for name in
+                                ('optional_rolled_back', 'profile_rolled_back', 'core_rolled_back', 'launcher_rolled_back')))
+                if prior['optional'].get('legacy_retirement'):
+                    finished = finished and checked.get('optional_legacy_rolled_back') is True
+                before = prior.get('launcher_before')
+                expected = prior.get('launcher_before_sha256')
+                known_launcher = (finished and isinstance(before, str) and
+                                  expected == digest(before.encode()) == launcher_before)
         if not known_launcher:
             blockers.append('The generated launcher has unknown changes; preserve them and reconcile before another install.')
     license_record = None
