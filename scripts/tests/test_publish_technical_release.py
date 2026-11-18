@@ -3,9 +3,13 @@ import copy
 import importlib.util
 import hashlib
 import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 SPEC = importlib.util.spec_from_file_location('technical_release_under_test', Path(__file__).resolve().parents[1] / 'publish_technical_release.py')
@@ -64,6 +68,37 @@ class RemoteFixture:
 
 
 class TechnicalPublicationGuards(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('gh'), 'GitHub CLI is required for the parser regression')
+    def test_attestation_policy_reaches_local_bundle_validation_with_real_gh(self):
+        run = subprocess.run
+        with tempfile.TemporaryDirectory() as directory:
+            work = Path(directory)
+            subject = work / 'subject.zip'
+            subject.write_bytes(b'local parser fixture')
+            bundle, trusted_root = work / 'bundle.jsonl', work / 'trusted-root.jsonl'
+            bundle.touch()
+            trusted_root.touch()
+            env = {'PATH': os.environ['PATH'], 'HOME': str(work), 'USERPROFILE': str(work),
+                   'XDG_STATE_HOME': str(work / 'state'), 'XDG_CACHE_HOME': str(work / 'cache'),
+                   'GH_CONFIG_DIR': str(work / 'config'), 'GH_HOST': 'github.com',
+                   'GH_PROMPT_DISABLED': '1', 'GH_NO_UPDATE_NOTIFIER': '1', 'GH_TELEMETRY': '0'}
+
+            def verify_offline(args, **kwargs):
+                expected = {'--repo': 'alex-hohaizel/codex-agents', '--source-ref': 'refs/heads/main',
+                            '--source-digest': SHA, '--signer-digest': SHA, '--format': 'json',
+                            '--cert-identity': f'https://github.com/alex-hohaizel/codex-agents/{workflow}@refs/heads/main'}
+                for flag, value in expected.items():
+                    self.assertEqual(args[args.index(flag) + 1], value)
+                self.assertIn('--deny-self-hosted-runners', args)
+                # These inputs make gh use local data and stop at the intentionally empty bundle.
+                return run([*args, '--bundle', str(bundle), '--custom-trusted-root', str(trusted_root)],
+                           **dict(kwargs, env=env, cwd=work, timeout=10))
+
+            for workflow in ('.github/workflows/universal-installers.yml', '.github/workflows/validate.yml'):
+                with self.subTest(workflow=workflow), patch.object(release.subprocess, 'run', side_effect=verify_offline):
+                    with self.assertRaisesRegex(ValueError, 'provided bundle file is empty'):
+                        release.GitHub(work).verify_attestation(subject, SHA, workflow)
+
     def test_all_twelve_archive_target_proofs_are_required_and_private_cleanup_cannot_be_lost(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'proof.zip'
