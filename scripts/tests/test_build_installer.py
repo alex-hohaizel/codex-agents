@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import posixpath
 import re
 import stat
 import subprocess
@@ -11,6 +12,7 @@ import tempfile
 import unittest
 import warnings
 import zipfile
+from urllib.parse import unquote, urlsplit
 
 SCRIPTS = Path(__file__).resolve().parents[1]
 if str(SCRIPTS) not in sys.path:
@@ -146,6 +148,47 @@ class InstallerAssemblyTests(unittest.TestCase):
             builder.build(source, output, [])
         self.assertFalse(output.exists())
         self.assertEqual((source / 'preserved.txt').read_text(encoding='utf8'), 'uncommitted owner work\n')
+
+
+class BuyerDocumentationPackageTests(unittest.TestCase):
+    def test_actual_buyer_zip_keeps_all_commercial_markdown_routes_and_canonical_manuals(self):
+        source = SCRIPTS.parent
+        release = json.loads((source / 'releases/current.json').read_text(encoding='utf8'))
+        offer = json.loads((source / 'commercial/offer.json').read_text(encoding='utf8'))
+        with tempfile.TemporaryDirectory(prefix='buyer-documentation-package-') as temporary:
+            stage = Path(temporary).resolve() / 'buyer'
+            manifest = builder.prepare_buyer_stage(source, stage, release, offer, SOURCE, 'solo')
+            destination = stage.parent / 'buyer-documents.zip'
+            builder.archive(stage, destination, {name: row['mode'] for name, row in manifest['files'].items()})
+            with zipfile.ZipFile(destination) as archive:
+                members = set(archive.namelist())
+                guides = sorted(name for name in members
+                                if name.startswith('buyer/docs/commercial/') and name.endswith('.md'))
+                self.assertTrue(guides, 'Exercise the actual packaged buyer guides, not just the source entry page.')
+                local_routes = []
+                for name in guides:
+                    text = archive.read(name).decode('utf8')
+                    for href in re.findall(r'\]\(([^\s)]+)\)', text):
+                        target = urlsplit(href)
+                        if target.scheme or target.netloc or not target.path:
+                            continue
+                        resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), unquote(target.path)))
+                        self.assertTrue(resolved.startswith('buyer/'), 'Packaged guide link escaped: ' + name + ' -> ' + href)
+                        self.assertIn(resolved, members, 'Broken packaged Markdown route: ' + name + ' -> ' + href)
+                        self.assertNotIn('/product/product/', resolved, 'Do not relocate an already relocated path twice.')
+                        local_routes.append((name, href, resolved))
+                self.assertTrue(local_routes)
+                for filename in ('BUYER_GUIDE.md', 'BUYER_GUIDE.uk.md', 'WORKBENCH_RUNTIME.md'):
+                    name = 'buyer/docs/commercial/' + filename
+                    expected = '../../product/docs/INSTALL.md#personal-skill-roots'
+                    self.assertIn('](' + expected + ')', archive.read(name).decode('utf8'))
+                install = archive.read('buyer/product/docs/INSTALL.md').decode('utf8')
+                self.assertRegex(install, r'<a\s+(?:name|id)=["\']personal-skill-roots["\']')
+                canonical = [source / name for name in builder.git_modes(source) if name.startswith('docs/')]
+                self.assertTrue(canonical)
+                for path in canonical:
+                    self.assertEqual(archive.read('buyer/product/' + path.relative_to(source).as_posix()), path.read_bytes(),
+                                     'Buyer navigation must not change the canonical source manual: ' + str(path))
 
 
 class InstallerEntryTests(unittest.TestCase):
