@@ -132,6 +132,9 @@ def prepare_buyer_stage(root,stage,release,offer,source,edition,runtime=()):
         target.parent.mkdir(parents=True,exist_ok=True)
         content=source_file.read_text(encoding="utf8")
         content=content.replace("](../../", "](../../product/")
+        # Single-parent source-manual links need product/docs; already relocated
+        # double-parent links must not acquire a second product prefix.
+        content=re.sub(r"\]\(\.\./(?!\.\./)", "](../../product/docs/", content)
         target.write_text(content,encoding="utf8")
     for path in paths(root,"commercial/setup"):
         rel=path.relative_to(root/"commercial/setup")
