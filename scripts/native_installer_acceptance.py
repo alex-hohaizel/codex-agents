@@ -138,6 +138,7 @@ class Acceptance:
     def run(self, name, argv, *, expected=(0,), parse=True, timeout=180, input=None):
         self.counter += 1
         start = time.monotonic()
+        print('Native command '+str(self.counter)+': '+name+' started', flush=True)
         try:
             result = subprocess.run([str(value) for value in argv], env=self.env, cwd=self.home,
                                     capture_output=True, input=input, timeout=timeout)
