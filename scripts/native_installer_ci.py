@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 from pathlib import Path
 import re
 import shutil
@@ -47,20 +48,105 @@ def npm_command():
     return [str(node), str(cli)]
 
 
+def native_codex_from_npm(output, node, *, platform_name=None, cpu=None):
+    """Resolve the pinned npm optional payload without a Node/batch wrapper.
+
+    Metadata and the native executable header must agree with the requested
+    host target. This resolver does not execute a foreign-target fixture.
+    """
+    platform_name = platform_name or sys.platform
+    machine = platform.machine().lower()
+    cpu = cpu or ('arm64' if machine in ('arm64', 'aarch64') else 'x64' if machine in ('x86_64', 'amd64') else machine)
+    triples = {('linux', 'x64'): 'x86_64-unknown-linux-musl', ('linux', 'arm64'): 'aarch64-unknown-linux-musl',
+               ('darwin', 'x64'): 'x86_64-apple-darwin', ('darwin', 'arm64'): 'aarch64-apple-darwin',
+               ('win32', 'x64'): 'x86_64-pc-windows-msvc', ('win32', 'arm64'): 'aarch64-pc-windows-msvc'}
+    require((platform_name, cpu) in triples, 'Unsupported native Codex target')
+    output = output.resolve()
+    base = next((path for path in (output / 'lib/node_modules/@openai/codex', output / 'node_modules/@openai/codex')
+                 if (path / 'package.json').is_file()), None)
+    require(base, 'Pinned official Codex npm package is missing')
+    metadata = json.loads((base / 'package.json').read_text(encoding='utf8'))
+    suffix = platform_name + '-' + cpu
+    alias = '@openai/codex-' + suffix
+    require(metadata.get('name') == '@openai/codex' and metadata.get('version') == '0.166.0'
+            and metadata.get('optionalDependencies', {}).get(alias) == 'npm:@openai/codex@0.166.0-' + suffix,
+            'Codex npm identity or native optional dependency differs from the pinned release')
+    code = 'const{createRequire}=require("node:module");console.log(createRequire(process.argv[1]).resolve(process.argv[2]+"/package.json"))'
+    resolved = subprocess.run([str(node), '-e', code, str(base / 'package.json'), alias], capture_output=True, text=True, timeout=10)
+    require(resolved.returncode == 0, 'Pinned official Codex native optional package is unavailable')
+    package = Path(resolved.stdout.strip()).resolve().parent
+    require(package.is_relative_to(output), 'Native Codex resolved outside its isolated npm prefix')
+    native = json.loads((package / 'package.json').read_text(encoding='utf8'))
+    require(native.get('name') == '@openai/codex' and native.get('version') == '0.166.0-' + suffix,
+            'Native Codex optional package identity differs from the pinned release')
+    executable = (package / 'vendor' / triples[(platform_name, cpu)] / 'bin' / ('codex.exe' if platform_name == 'win32' else 'codex')).resolve()
+    require(executable.is_relative_to(package) and executable.is_file() and executable.stat().st_size <= 512 * 1024 * 1024,
+            'Pinned native Codex executable is missing or outside its package')
+    with executable.open('rb') as source:
+        header = source.read(64)
+        require(len(header) == 64, 'Native Codex executable header is truncated')
+        if platform_name == 'linux':
+            require(header[:4] == b'\x7fELF' and header[4] == 2 and header[5] in (1, 2), 'Expected a native64-bit ELF Codex executable')
+            machine_id = int.from_bytes(header[18:20], 'little' if header[5] == 1 else 'big')
+            require(machine_id == (183 if cpu == 'arm64' else 62), 'Native Codex ELF architecture differs')
+        elif platform_name == 'darwin':
+            require(header[:4] in (b'\xcf\xfa\xed\xfe', b'\xfe\xed\xfa\xcf'), 'Expected a native64-bit Mach-O Codex executable')
+            machine_id = int.from_bytes(header[4:8], 'little' if header[:4] == b'\xcf\xfa\xed\xfe' else 'big')
+            require(machine_id == (0x100000c if cpu == 'arm64' else 0x1000007), 'Native Codex Mach-O architecture differs')
+        else:
+            require(header[:2] == b'MZ', 'Expected a native PE Codex executable')
+            offset = int.from_bytes(header[60:64], 'little')
+            require(64 <= offset <= 1024 * 1024, 'Invalid native Codex PE header')
+            source.seek(offset); signature = source.read(6)
+            require(signature[:4] == b'PE\0\0' and int.from_bytes(signature[4:6], 'little') == (0xaa64 if cpu == 'arm64' else 0x8664),
+                    'Native Codex PE architecture differs')
+    return executable, {'name': native['name'], 'version': native['version'], 'optional_package': alias,
+                        'target_triple': triples[(platform_name, cpu)], 'executable_sha256': sha(executable)}
+
+
+def standard_browser(*, platform_name=None, cpu=None):
+    """Prefer the free hosted runner's branded browser, including its codecs.
+
+    Linux ARM has no branded Chrome/Edge release in the official runner image;
+    it deliberately falls through to the pinned native Chromium test install.
+    No global browser or user's existing installation is replaced.
+    """
+    platform_name = platform_name or sys.platform
+    machine = platform.machine().lower()
+    cpu = cpu or ('arm64' if machine in ('arm64', 'aarch64') else 'x64' if machine in ('x86_64', 'amd64') else machine)
+    if platform_name == 'win32':
+        candidates = [Path(os.environ.get(name, 'C:/Program Files')) / 'Microsoft/Edge/Application/msedge.exe'
+                      for name in ('ProgramFiles', 'ProgramFiles(x86)', 'LOCALAPPDATA')]
+        provider = 'standard-runner Microsoft Edge'
+    elif platform_name == 'darwin':
+        candidates = [Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')]
+        provider = 'standard-runner Google Chrome'
+    elif platform_name == 'linux' and cpu == 'x64':
+        candidates = [Path(value) for name in ('google-chrome', 'google-chrome-stable')
+                      if (value := shutil.which(name))]
+        candidates += [Path('/opt/google/chrome/chrome')]
+        provider = 'standard-runner Google Chrome'
+    else:
+        candidates, provider = [], None
+    selected = next((path.resolve() for path in candidates if path.is_file()), None)
+    return selected, provider if selected else None
+
+
 def tools(output):
     require(not output.exists(), 'Choose a new test tooling directory')
     output.mkdir(parents=True)
     command = npm_command()
     subprocess.run([*command, 'install', '--global', '--prefix', str(output), '--ignore-scripts',
                     '--no-audit', '--no-fund', '@openai/codex@0.166.0'], check=True)
-    codex = output / ('codex.cmd' if os.name == 'nt' else 'bin/codex')
-    require(codex.is_file(), 'Pinned Codex CLI entry is missing')
+    wrapper = output / ('codex.cmd' if os.name == 'nt' else 'bin/codex')
+    require(wrapper.is_file(), 'Pinned Codex CLI entry is missing')
+    codex, native = native_codex_from_npm(output, command[0])
+    version = subprocess.run([str(codex), '--version'], capture_output=True, text=True, timeout=10)
+    require(version.returncode == 0 and version.stdout.strip() == 'codex-cli 0.166.0', 'Actual native Codex does not return the pinned CLI version')
+    browser, browser_provider = standard_browser()
     if os.name == 'nt':
-        candidates = [Path(os.environ.get(name, 'C:/Program Files')) / 'Microsoft/Edge/Application/msedge.exe'
-                      for name in ('ProgramFiles', 'ProgramFiles(x86)', 'LOCALAPPDATA')]
-        browser = next((path for path in candidates if path.is_file()), None)
         require(browser, 'The standard Windows runner must include Microsoft Edge; no paid or emulated runner fallback is used')
-    else:
+    if browser is None:
         subprocess.run([*command, 'install', '--global', '--prefix', str(output), '--ignore-scripts',
                         '--no-audit', '--no-fund', 'playwright@1.56.1'], check=True)
         playwright = output / 'lib/node_modules/playwright'
@@ -75,8 +161,11 @@ def tools(output):
             'console.log(require(process.argv[1]).chromium.executablePath())', str(playwright)],
             text=True, env=environment).strip())
         require(browser.is_file(), 'Pinned test Chromium is unavailable')
+        browser_provider = 'playwright1.56.1 Chromium; actual media capabilities require a browser probe'
     result = {'codex': str(codex), 'browser': str(browser), 'codex_version': '0.166.0',
-              'browser_provider': 'standard-runner Microsoft Edge' if os.name == 'nt' else 'playwright1.56.1 Chromium',
+              'codex_wrapper': str(wrapper), 'codex_native_package': native,
+              'browser_provider': browser_provider,
+              'browser_version_evidence': 'Actual Browser.getVersion is recorded by both real browser acceptance drivers; provider does not imply codec availability.',
               'node': command[0], 'npm_cli': command[1]}
     write(output / 'TOOLS.json', result)
     return result
@@ -113,7 +202,9 @@ def collect(output):
     selected = [output / 'backend/native-acceptance.json',
                 output / 'gui-proof/BROWSER-OBSERVATION.json', output / 'gui-proof/BROWSER-FAILURE.json',
                 output / 'NATIVE-CI.json', output / 'GUI-RECONCILIATION-REQUIRED.json',
-                output / 'standard-user/STANDARD-USER-OBSERVATION.json']
+                output / 'standard-user/STANDARD-USER-OBSERVATION.json',
+                output / 'backend/windows-token-preflight/STANDARD-USER-OBSERVATION.json',
+                output / 'workbench-proof/WORKBENCH-BROWSER-PRIVACY.json']
     selected += list((output / 'backend/commands').glob('*.json'))
     index = []
     for path in selected:
@@ -125,6 +216,11 @@ def collect(output):
         index.append({'file': rel.as_posix(), 'original_sha256': sha(path), 'redacted_sha256': sha(dest)})
     for path in (output / 'gui-proof').glob('GUI-*.png'):
         dest = public / 'gui-proof' / path.name
+        dest.parent.mkdir(exist_ok=True)
+        shutil.copyfile(path, dest)
+        index.append({'file': dest.relative_to(public).as_posix(), 'sha256': sha(dest)})
+    for path in (output / 'workbench-proof').glob('WORKBENCH-*.png'):
+        dest = public / 'workbench-proof' / path.name
         dest.parent.mkdir(exist_ok=True)
         shutil.copyfile(path, dest)
         index.append({'file': dest.relative_to(public).as_posix(), 'sha256': sha(dest)})
@@ -179,7 +275,7 @@ def check(archive, output, codex, browser):
                             '--package', str(package), '--output', str(output / 'standard-user'),
                             '--python', str(python)], check=True)
             standard = json.loads((output / 'standard-user/STANDARD-USER-OBSERVATION.json').read_text(encoding='utf8'))
-            require(standard['status'] == 'passed' and standard['child']['is_user_an_admin'] is False
+            require(standard['status'] == 'passed' and standard['lifecycle_verified'] is True and standard['child']['is_user_an_admin'] is False
                     and standard['child']['admin_group_enabled'] is False and standard['child']['default_owner_is_user'] is True and standard['source_commit'] == source
                     and standard['package_manifest_sha256'] == report['package_manifest_sha256'],
                     'Standard-user Windows evidence does not match this exact package')
@@ -201,17 +297,34 @@ def check(archive, output, codex, browser):
             while not ready.exists() and engine.poll() is None and time.monotonic() < deadline:
                 time.sleep(.05)
             require(ready.exists() and engine.poll() is None, 'Received package GUI did not become ready')
-            subprocess.run([str(node), str(REPO / 'commercial/tests/gui/native-browser.mjs'), '--ready-file', str(ready),
+            browser_command = [str(node), str(REPO / 'commercial/tests/gui/native-browser.mjs'), '--ready-file', str(ready),
                 '--output', str(output / 'gui-proof'), '--browser', str(browser), '--python', str(python),
-                '--expect-codex-version', '0.166.0', '--timeout-seconds', '600'], env=env, cwd=REPO, check=True)
+                '--expect-codex-version', '0.166.0', '--timeout-seconds', '600']
+            if sys.platform == 'linux':
+                browser_command.append('--allow-no-sandbox')
+            subprocess.run(browser_command, env=env, cwd=REPO, check=True)
             require(engine.wait(timeout=20) == 0, 'GUI did not exit after the browser shutdown button')
         observed = json.loads((output / 'gui-proof/BROWSER-OBSERVATION.json').read_text(encoding='utf8'))
         validate_pair(report, observed, source, sha(archive))
+        workbench_command = [str(node), str(package / 'product/apps/agent-atelier/tests/client/browser-privacy.mjs'),
+            '--package', str(package), '--output', str(output / 'workbench-proof'), '--browser', str(browser), '--python', str(python)]
+        if sys.platform == 'linux':
+            workbench_command.append('--allow-no-sandbox')
+            if report['native']['target'] == 'linux-arm64':
+                workbench_command.append('--allow-missing-h264')
+        subprocess.run(workbench_command, env=env, cwd=package, check=True)
+        privacy = json.loads((output / 'workbench-proof/WORKBENCH-BROWSER-PRIVACY.json').read_text(encoding='utf8'))
+        require(privacy['status'] == 'passed' and privacy['source']['source_commit'] == source
+                and privacy['source']['package_manifest_sha256'] == report['package_manifest_sha256'],
+                'Workbench browser transport proof differs from the received package')
         write(output / 'NATIVE-CI.json', {'schema': 'codex-agents.native-installer-ci/1', 'status': 'passed',
             'archive_sha256': report['archive_sha256'], 'source_commit': source, 'target': report['native']['target'],
             'harness_sha256': sha(REPO / 'scripts/native_installer_acceptance.py'),
             'browser_driver_sha256': observed['driver_sha256'], 'backend_and_real_browser': True,
-            'windows_restricted_non_admin_verified': standard_user_verified})
+            'windows_restricted_non_admin_verified': standard_user_verified,
+            'workbench_browser_transport_verified': True,
+            'environment_limits': privacy.get('limitations', []),
+            'codex_executable_sha256': sha(codex)})
         status = 0
     finally:
         if engine and engine.poll() is None:

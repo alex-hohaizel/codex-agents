@@ -127,7 +127,11 @@ Checks cover writer exclusion; actual interrupted writes and resume; verify,
 discovery and practice; preservation, rollback and uninstall; all controller
 entry points and product-family workflows; and actual workbench boot,
 authenticated backup/restore, snapshots and schema guards. A model call is a
-separate observation; CI discovery does not imply a completed model task.
+separate observation; CI discovery does not imply a completed model task. The
+ephemeral Linux CI Chromium explicitly disables its browser sandbox, records
+that test policy and uses only synthetic data. Human product launchers use the
+default browser without that flag; local server authentication/CSRF/Host guards
+remain active in both paths.
 
 Main-only attestation waits for all12 backend+browser receipts and verifies
 coverage against the seven artifact SHAs. A pull-request merge test is not the
@@ -145,7 +149,12 @@ data. Windows acceptance additionally creates an actual restricted same-SID medi
 primary token and proves its admin memberships are disabled before installing,
 verifying and rolling back. This uses no new account or credentials. Its receipt
 is separate from full browser acceptance and does not certify a separate-account
-first-login/UAC experience.
+first-login/UAC experience. Actual workbench browser checks also exercise
+copied-cookie denial, refresh, live-event reconnect and authenticated media.
+The Linux ARM fallback browser may lack H264: only an observed unsupported codec
+is recorded as an environment limit, with WebM playback and exact original MP4
+delivery still required. It is never reported as successful H264 decoding; use
+a codec-capable browser to close that specific preview observation.
 
 Keep historical acceptance tied to its original bytes. Future changes must
 refresh affected proof, maintain the [U01–U08 trace](../../governance/universal-requirements.json)

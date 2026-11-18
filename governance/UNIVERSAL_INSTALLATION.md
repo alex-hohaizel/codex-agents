@@ -34,7 +34,10 @@ an explicit build inventory. No ignored developer state or credentials may
 enter source, runtime or distribution packages.
 
 The browser service binds loopback, authenticates an owner session and checks
-Host/Origin/CSRF. Browser requests cannot choose arbitrary commands, filesystem
+Host/Origin/CSRF. Private reads also require the origin-scoped proof: a
+localhost cookie alone must never disclose private state or a CSRF secret.
+Preserve browser refresh, authenticated live events and media previews/downloads
+when tightening this boundary. Browser requests cannot choose arbitrary commands, filesystem
 targets, plans or journals. Mutation approval binds the saved plan hash. A
 refresh or lost response reconciles actual journal state before any replay.
 

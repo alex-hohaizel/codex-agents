@@ -229,7 +229,7 @@ def child(args, win):
     ownership = json.loads((output / 'PROBE-OWNERSHIP.json').read_text(encoding='utf8'))
     require(ownership.get('schema') == 'codex-agents.standard-user-probe-owner/1'
             and ownership.get('broker_pid') == os.getppid(), 'Child output was not created by its live broker')
-    report = {'schema': SCHEMA, 'status': 'running', 'scope': 'Actual medium-integrity restricted same-user SID; no separate-account first-login or graphical proof.', 'checks': [], 'model_execution': False}
+    report = {'schema': SCHEMA, 'status': 'running', 'scope': 'Actual medium-integrity restricted same-user SID; no separate-account first-login or graphical proof.', 'checks': [], 'lifecycle_verified': False, 'model_execution': False}
     destination = output / 'STANDARD-USER-OBSERVATION.json'
     try:
         identity = win.identity()
@@ -241,6 +241,10 @@ def child(args, win):
         manifest, tools, target = selected_runtime(package, python)
         report.update(source_commit=manifest['source_commit'], source_clean=True, target=target,
                       package_manifest_sha256=sha(package / 'product-manifest.json'))
+        if args.identity_only:
+            report.update(status='token-observed', lifecycle_verified=False,
+                          limitation='Token API preflight only. No installation lifecycle was performed and C03 is not accepted by this receipt.')
+            return 0
         home = output / 'standard buyer HOME'
         home.mkdir(mode=0o700)
         state = home / '.local/share/codex-agent-system'
@@ -283,7 +287,7 @@ def child(args, win):
         require(not (home / '.agents/skills/agent-foundry').exists(), 'Rollback retained a newly installed managed skill')
         report['child_after'] = win.identity()
         require(report['child_after']['is_user_an_admin'] is False and report['child_after']['integrity_sid'] == 'S-1-16-8192', 'Child rights changed during the probe')
-        report.update(status='passed', preserved_project_files=True, privilege_elevation_performed=False,
+        report.update(status='passed', lifecycle_verified=True, preserved_project_files=True, privilege_elevation_performed=False,
                       cache_cleanup='Fixture retained package removed only after completed verified rollback; exact received package and operation records remain.')
         cache = state / 'packages'
         require(cache.is_relative_to(home), 'Fixture cache escaped its owned home')
@@ -291,7 +295,7 @@ def child(args, win):
             shutil.rmtree(cache)
         return 0
     except Exception as error:
-        report.update(status='blocked', reason=str(error), error_type=type(error).__name__,
+        report.update(status='blocked', lifecycle_verified=False, reason=str(error), error_type=type(error).__name__,
                       next='Inspect this private journal and actual Windows SDK error before retrying; no unknown mutation is replayed.')
         return 1
     finally:
@@ -345,6 +349,8 @@ def broker(args, win):
         startup = StartupInfo()
         startup.cb, startup.lpDesktop = ctypes.sizeof(startup), desktop_name
         argv = [str(python), '-I', '-X', 'utf8', '-B', str(Path(__file__).resolve()), '--child', '--package', str(package), '--output', str(output), '--python', str(python)]
+        if args.identity_only:
+            argv.append('--identity-only')
         command = ctypes.create_unicode_buffer(subprocess.list2cmdline(argv))
         environment = child_environment(output / 'standard buyer HOME', temporary, package, tools)
         block = ctypes.create_unicode_buffer('\0'.join(key+'='+value for key, value in sorted(environment.items()))+'\0\0')
@@ -373,7 +379,9 @@ def broker(args, win):
         report['parent'] = parent
         report['broker'] = {'method':'CreateRestrictedToken + medium integrity + private desktop + CreateProcessAsUserW', 'child_exit_code':code.value, 'new_account_created':False, 'account_credentials_used':False}
         write(destination, report)
-        require(code.value == 0 and report.get('status') == 'passed', 'Restricted standard-user buyer flow did not pass: '+str(report.get('reason')))
+        expected_status, expected_lifecycle = ('token-observed', False) if args.identity_only else ('passed', True)
+        require(code.value == 0 and report.get('status') == expected_status and report.get('lifecycle_verified') is expected_lifecycle,
+                'Restricted standard-user probe did not complete its declared scope: '+str(report.get('reason')))
         require(report['package_manifest_sha256'] == sha(package / 'product-manifest.json') and report['source_commit'] == manifest['source_commit'], 'Restricted proof belongs to different package bytes')
         require(report['child']['user_sid_sha256'] == parent['user_sid_sha256'] and report['child']['is_user_an_admin'] is False, 'Child identity did not retain the exact user while dropping admin rights')
         return report
@@ -394,6 +402,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--python', type=Path, required=True)
     parser.add_argument('--timeout-seconds', type=int, default=1200)
+    parser.add_argument('--identity-only', action='store_true', help='Observe the actual restricted token only; never accepts the installation lifecycle.')
     parser.add_argument('--child', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args()
     try:
@@ -402,10 +411,10 @@ def main():
         if args.child:
             return child(args, win)
         report = broker(args, win)
-        print(json.dumps({'status':report['status'], 'source_commit':report['source_commit'], 'is_user_an_admin':report['child']['is_user_an_admin'], 'model_execution':False}))
+        print(json.dumps({'status':report['status'], 'lifecycle_verified':report['lifecycle_verified'], 'source_commit':report['source_commit'], 'is_user_an_admin':report['child']['is_user_an_admin'], 'model_execution':False}))
         return 0
     except Exception as error:
-        report = {'schema':SCHEMA, 'status':'blocked', 'reason':str(error), 'error_type':type(error).__name__, 'model_execution':False,
+        report = {'schema':SCHEMA, 'status':'blocked', 'lifecycle_verified':False, 'reason':str(error), 'error_type':type(error).__name__, 'model_execution':False,
                   'next':'Run on a native Windows runner with token creation rights; retain the private child journal and SDK error. No acceptance is inferred.'}
         if OWNED_OUTPUT == args.output.resolve() and not args.child:
             destination = args.output / 'STANDARD-USER-OBSERVATION.json'
@@ -413,6 +422,7 @@ def main():
                 previous = json.loads(destination.read_text(encoding='utf8'))
                 previous['broker_failure'] = report
                 previous['status'] = 'blocked'
+                previous['lifecycle_verified'] = False
                 report = previous
             write(destination, report)
         if sys.stderr is not None:

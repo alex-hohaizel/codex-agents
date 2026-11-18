@@ -144,10 +144,10 @@ async function authenticated(current, path, body) {
     method: body ? "POST" : "GET",
     headers: {
       cookie,
+      "X-Atelier-CSRF": token,
       ...(body
         ? {
             "Content-Type": "application/json",
-            "X-Atelier-CSRF": token,
             Origin: origin,
           }
         : {}),

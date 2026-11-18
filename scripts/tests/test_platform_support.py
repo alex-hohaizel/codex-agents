@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SOURCE=Path(__file__).resolve().parents[1]/'platform_support.py'
 spec=importlib.util.spec_from_file_location('native_platform_under_test',SOURCE)
@@ -99,6 +100,46 @@ finally:os.close(f)
         finally:os.close(fd)
         self.assertEqual(path.read_bytes(),payload)
         self.assertTrue(platform.assert_private(path)['private'])
+
+
+    def test_scanned_hash_uses_exact_fresh_bytes_and_rejects_a_changed_revision(self):
+        path=self.root/'fresh source.txt';path.write_bytes('Свіжий source\n'.encode('utf8'))
+        observed=path.lstat()
+        result=platform.hash_scanned(path,observed,1024)
+        import hashlib
+        self.assertEqual(result,{'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'size':path.stat().st_size})
+        path.write_bytes(b'Different source revision')
+        with self.assertRaises(ValueError):platform.hash_scanned(path,observed,1024)
+
+    @unittest.skipUnless(hasattr(os,'mkfifo'),'POSIX nonblocking replacement guard')
+    def test_scanned_regular_file_replaced_by_fifo_cannot_block_the_reader(self):
+        path=self.root/'replace-me';path.write_bytes(b'Original')
+        code="""import importlib.util,os,pathlib,sys
+s=importlib.util.spec_from_file_location('guarded_boundary',sys.argv[1]);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+p=pathlib.Path(sys.argv[2]);observed=p.lstat();p.unlink();os.mkfifo(p)
+try:m.hash_scanned(p,observed,1024)
+except ValueError:sys.exit(0)
+sys.exit(5)
+"""
+        result=subprocess.run([sys.executable,'-B','-c',code,str(SOURCE),str(path)],capture_output=True,timeout=10)
+        self.assertEqual(result.returncode,0,result.stderr)
+
+
+    @unittest.skipIf(platform.WINDOWS,'POSIX npm symlink command contract')
+    def test_official_posix_npm_entry_uses_bundled_node_without_replacing_project_path(self):
+        package=self.root/'node_modules/@openai/codex'
+        script=package/'bin/codex.js';script.parent.mkdir(parents=True)
+        script.write_text('#!/usr/bin/env node\n',encoding='utf8')
+        (package/'package.json').write_text(json.dumps({'name':'@openai/codex','bin':{'codex':'bin/codex.js'}}),encoding='utf8')
+        entry=self.root/'tools/codex';entry.parent.mkdir();entry.symlink_to(script)
+        node=self.root/'bundled node';node.write_bytes(b'toolkit interpreter')
+        with patch.dict(os.environ,{'AGENT_SYSTEM_NODE':str(node),'PATH':'project-interpreter-directory'}):
+            self.assertEqual(platform.codex_command(str(entry)),[str(node),str(script)])
+            self.assertEqual(os.environ['PATH'],'project-interpreter-directory')
+            self.assertEqual(platform.codex_command(sys.executable),[sys.executable])
+        (package/'package.json').write_text(json.dumps({'name':'different-package','bin':{'codex':'bin/codex.js'}}),encoding='utf8')
+        with patch.dict(os.environ,{'AGENT_SYSTEM_NODE':str(node)}):
+            self.assertEqual(platform.codex_command(str(entry)),[str(entry)])
 
 
 if __name__=='__main__':unittest.main()

@@ -55,6 +55,25 @@ def load(path):
     return json.loads(Path(path).read_text(encoding='utf8'))
 
 
+def without_setup_diagnostics(value):
+    """Keep one result JSON while allowing only the engines' tagged JSON lines.
+
+    The raw stream remains in the command receipt. Unknown/malformed stderr is
+    retained so it cannot silently turn into an apparently valid result.
+    """
+    retained = []
+    for line in value.splitlines():
+        prefix = next((item for item in ('agent-system-setup ', 'agent-system-core ') if line.startswith(item)), None)
+        if prefix:
+            try:
+                if isinstance(json.loads(line[len(prefix):]), dict):
+                    continue
+            except json.JSONDecodeError:
+                pass
+        retained.append(line)
+    return '\n'.join(retained)
+
+
 def native_target():
     machine = platform.machine().lower()
     arch = {'aarch64': 'arm64', 'arm64': 'arm64', 'amd64': 'x64', 'x86_64': 'x64'}.get(machine)
@@ -157,7 +176,7 @@ class Acceptance:
         require(result.returncode in expected, name + ' returned ' + str(result.returncode) + ': ' + receipt['stdout'][-1500:] + receipt['stderr'][-1500:])
         if not parse:
             return receipt
-        content = receipt['stdout'].strip() or receipt['stderr'].strip()
+        content = receipt['stdout'].strip() or without_setup_diagnostics(receipt['stderr']).strip()
         try:
             return json.loads(content)
         except json.JSONDecodeError as error:
@@ -225,6 +244,19 @@ class Acceptance:
             # private parent alone does not repair an older child's DACL.
             for path in [self.output / 'native-acceptance.json', *self.logs.iterdir()]:
                 self.run('protect-existing-test-output', [self.python, '-I', '-X', 'utf8', '-B', privacy, '--make-private', path])
+            probe_output = self.output / 'windows-token-preflight'
+            self.run('windows-restricted-token-preflight', [sys.executable, '-B',
+                Path(__file__).with_name('native_windows_standard_user.py'), '--package', self.package,
+                '--output', probe_output, '--python', self.python, '--identity-only', '--timeout-seconds', '30'], timeout=60)
+            token = load(probe_output / 'STANDARD-USER-OBSERVATION.json')
+            require(token['status']=='token-observed' and token['lifecycle_verified'] is False
+                    and token['child']['is_user_an_admin'] is False
+                    and token['source_commit']==manifest['source_commit']
+                    and token['package_manifest_sha256']==self.report['package_manifest_sha256'],
+                    'Windows token preflight did not prove the exact restricted identity')
+            self.report['windows_token_preflight']={'status':'token-observed','lifecycle_verified':False,
+                'scope':'Environment capability only; full installation and C03 acceptance remain separate mandatory checks.'}
+            self.save()
         self.record('native-ready-archive-and-runtimes', {'extraction_seconds': round(time.monotonic() - start, 3), 'target': self.target})
 
     def seed(self):
@@ -489,6 +521,8 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
 
     def request(self, path, body=None, *, headers=None, expected=200):
         outgoing = dict(headers or {})
+        if path.startswith('/api/') and getattr(self, 'csrf', None):
+            outgoing.setdefault('X-Atelier-CSRF', self.csrf)
         if body is not None:
             outgoing['Content-Type'] = 'application/json'
         request = urllib.request.Request(self.origin + path, data=encoded(body) if body is not None else None, headers=outgoing)

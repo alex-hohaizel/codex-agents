@@ -2168,6 +2168,7 @@ function ArtifactReportPreview({
         <a
           className="button"
           href={downloadURL}
+          download={text(artifact.name ?? path).split(/[\\/]/).at(-1)}
           target="_blank"
           rel="noreferrer"
         >
@@ -3145,6 +3146,8 @@ export function ArtifactsView(p: ViewProps) {
     path: string;
   } | null>(null);
   const [query, setQuery] = useState("");
+  const [media, setMedia] = useState<{ key: string; url: string } | null>(null);
+  const [mediaError, setMediaError] = useState("");
   const previewRef = useRef<HTMLDivElement | null>(null);
   const artifactKey = (artifact: Data) =>
     text(artifact.path ?? artifact.relative_path ?? artifact.id);
@@ -3170,14 +3173,25 @@ export function ArtifactsView(p: ViewProps) {
         behavior: "auto",
       });
   }, [selection?.projectId, selection?.path]);
+  const selectedPath = selected?.path ?? selected?.relative_path;
+  const mediaKey = JSON.stringify([p.selected?.id, selectedPath, selected?.sha256, selected?.bytes ?? selected?.size, selected?.modified_at]);
+  useEffect(() => {
+    setMedia(null); setMediaError("");
+    if (p.demo || !p.selected || !selected || typeof selectedPath !== "string") return;
+    const controller = new AbortController();
+    let url: string | undefined;
+    void api.artifactBlob(p.selected.id, selectedPath, controller.signal).then(blob => {
+      if (controller.signal.aborted) return;
+      url = URL.createObjectURL(blob); setMedia({ key: mediaKey, url });
+    }).catch(error => {
+      if (!controller.signal.aborted) setMediaError(error instanceof Error ? error.message : String(error));
+    });
+    return () => { controller.abort(); if (url) URL.revokeObjectURL(url); };
+  }, [p.demo, mediaKey]);
   if (!p.selected) return <Welcome {...p} />;
-  const mediaURL =
-    selected && !p.demo
-      ? `/api/v1/projects/${encodeURIComponent(p.selected.id)}/artifact?path=${encodeURIComponent(selected.path ?? selected.relative_path)}`
-      : "";
+  const mediaURL = media?.key === mediaKey ? media.url : "";
   const name = text(selected?.name ?? selected?.path);
   const extension = name.toLowerCase().split(".").pop();
-  const selectedPath = selected?.path ?? selected?.relative_path;
   const reportSource = (p.workspace?.sources ?? []).find(
     (source) => source.path === selectedPath,
   );
@@ -3264,6 +3278,7 @@ export function ArtifactsView(p: ViewProps) {
         >
           {selected ? (
             <div className="artifact-preview" ref={previewRef}>
+              {mediaError && <div className="panel-padding" role="alert">{mediaError}</div>}
               {mediaURL && /\.(md|markdown)$/i.test(selectedPath ?? "") ? (
                 <ArtifactReportPreview
                   key={JSON.stringify([p.selected.id, selectedPath])}
@@ -3302,6 +3317,7 @@ export function ArtifactsView(p: ViewProps) {
                     <a
                       className="button"
                       href={mediaURL}
+                      download={extension === "pdf" ? undefined : name.split(/[\\/]/).at(-1)}
                       target="_blank"
                       rel="noreferrer"
                     >

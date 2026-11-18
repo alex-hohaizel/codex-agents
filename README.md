@@ -7,7 +7,7 @@ workflow that fits, bring in the specialists you need, and keep the sources,
 decisions, and next action with the project. Use it for one task, a whole
 product, or an agent your team can use again.
 
-**[Download Universal installer](https://github.com/alex-hohaizel/codex-agents/releases/latest)** · **[Open the installer page](START_HERE.html)** · **[Start in Codex](START_HERE.md)** · **[Install or update](docs/INSTALL.md)** · **[See the workflow](#one-entry-from-idea-to-release)** · **[Browse all documentation](docs/INDEX.md)** · [Почати українською](docs/uk/FIRST_RUN.md)
+**[Download Universal installer](https://github.com/alex-hohaizel/codex-agents/releases/download/v1.8.0/Agent-System-1.8.0-Universal.zip)** · **[Open the installer page](START_HERE.html)** · **[Start in Codex](START_HERE.md)** · **[Install or update](docs/INSTALL.md)** · **[See the workflow](#one-entry-from-idea-to-release)** · **[Browse all documentation](docs/INDEX.md)** · [Почати українською](docs/uk/FIRST_RUN.md)
 
 <a name="your-first-task"></a>
 <a name="choose-a-path"></a>

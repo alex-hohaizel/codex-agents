@@ -478,7 +478,7 @@ class PackageReadGuardTests(unittest.TestCase):
             self.assertEqual(result.returncode,0,result.stderr)
             self.addCleanup(lambda:os.rmdir(folder) if folder.exists() else None)
         else:folder.symlink_to(outside,target_is_directory=True)
-        real_open=Path.open;read_calls=[]
+        real_open=os.fdopen;read_calls=[]
         class GuardedReader:
             def __init__(self,actual):self.actual=actual
             def __enter__(self):return self
@@ -486,7 +486,7 @@ class PackageReadGuardTests(unittest.TestCase):
             def fileno(self):return self.actual.fileno()
             def read(self,*args):read_calls.append(True);raise AssertionError('Outside bytes must not be read')
         def guarded_open(target,*args,**kwargs):return GuardedReader(real_open(target,*args,**kwargs))
-        with patch.object(Path,'open',guarded_open):
+        with patch.object(os,'fdopen',guarded_open):
             with self.assertRaisesRegex(ValueError,'path changed'):setup._scanned_member(path,observed,expected)
         self.assertEqual(read_calls,[])
 

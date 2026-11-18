@@ -27,6 +27,7 @@ def check(root):
    for kind in ('node','python'):
     item=row[kind];safe(item['executable']);require(item['executable'].startswith(kind+'/'),'Wrong runtime executable scope')
     require(item['url'].startswith('https://') and re.fullmatch('[a-f0-9]{64}',item['sha256']),'Unpinned vendor input')
+  require(f'releases/download/v{release["repository_version"]}/Agent-System-{release["repository_version"]}-Universal.zip' in (root/'README.md').read_text(),'Front page must directly download the current Universal installer')
   for locale,name in [('en','START_HERE.html'),('uk','ПОЧАТИ.html')]:
    require((root/name).read_bytes()==render(release['repository_version'],locale).encode(),'Stale installer HTML: '+name)
    require(name in ROOTS and name in COMMON,'Installer HTML missing from source/package closure')

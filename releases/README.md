@@ -31,6 +31,8 @@ The [component record](current.json) is the source for these values and the core
 - Native package acceptance covers actual interruption, writer exclusion, existing
   work, discovery, real browser controls and workbench backup/schema recovery.
 - `START_HERE.html` and its Ukrainian entry are visible in source downloads too.
+- Private installer/workbench reads use origin-scoped authorization; refresh,
+  live events and artifact previews retain the protected buyer workflow.
 
 See [the platform/evidence contract](../governance/UNIVERSAL_INSTALLATION.md),
 [installation](../docs/INSTALL.md) and the exact release workflow receipts.

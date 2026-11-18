@@ -12,6 +12,7 @@ import ctypes
 import errno
 from functools import lru_cache
 import json
+import hashlib
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -63,6 +64,106 @@ def safe_path(path):
         if is_link_or_reparse(part):
             raise ValueError('Linked/reparse path is not permitted: ' + str(part))
     return path
+
+
+def _need(value, message):
+    if not value: raise ValueError(message)
+
+
+def file_identity(info):
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_nlink)
+
+
+def opened_path(fd):
+    """Return the kernel-bound final name, rather than resolve user paths."""
+    if WINDOWS:
+        from ctypes import wintypes
+        import msvcrt
+        api = getattr(opened_path, '_windows_api', None)
+        if api is None:
+            api = ctypes.WinDLL('kernel32', use_last_error=True).GetFinalPathNameByHandleW
+            api.argtypes = (wintypes.HANDLE, wintypes.LPWSTR, wintypes.DWORD, wintypes.DWORD)
+            api.restype = wintypes.DWORD
+            opened_path._windows_api = api
+        handle = msvcrt.get_osfhandle(fd)
+        size = api(handle, None, 0, 0)
+        if not size: raise ctypes.WinError(ctypes.get_last_error())
+        buffer = ctypes.create_unicode_buffer(size + 1)
+        written = api(handle, buffer, len(buffer), 0)
+        if not written: raise ctypes.WinError(ctypes.get_last_error())
+        _need(written < len(buffer), 'Opened path grew during validation')
+        return buffer.value
+    if sys.platform == 'darwin':
+        import fcntl
+        return os.fsdecode(fcntl.fcntl(fd, fcntl.F_GETPATH, b'\0' * 1024).split(b'\0', 1)[0])
+    if sys.platform.startswith('linux'):
+        try: return os.readlink('/proc/self/fd/' + str(fd))
+        except FileNotFoundError: return None
+    return None
+
+
+def normal_handle_path(value):
+    if WINDOWS:
+        if value.startswith('\\\\?\\UNC\\'): value = '\\\\' + value[8:]
+        elif value.startswith('\\\\?\\'): value = value[4:]
+    return os.path.normcase(os.path.normpath(value))
+
+
+def canonical_directory(path):
+    """Check ancestors once and retain the actual directory's canonical name."""
+    original = safe_path(path)
+    observed = original.lstat()
+    _need(stat.S_ISDIR(observed.st_mode), 'Expected a regular directory')
+    result = original.resolve()
+    safe_path(original)
+    current, resolved = original.lstat(), result.lstat()
+    identity = (observed.st_dev, observed.st_ino)
+    _need((current.st_dev,current.st_ino) == identity and (resolved.st_dev,resolved.st_ino) == identity,
+          'Directory changed during validation')
+    if not WINDOWS:
+        fd = os.open(result, os.O_RDONLY | getattr(os,'O_DIRECTORY',0) | getattr(os,'O_NOFOLLOW',0))
+        try:
+            current = os.fstat(fd)
+            _need((current.st_dev,current.st_ino) == identity, 'Directory changed while opening')
+            safe_path(original)
+            actual = opened_path(fd)
+            if actual is not None: result = Path(actual)
+        finally: os.close(fd)
+    return result
+
+
+def hash_scanned(path, observed, limit):
+    """Hash fresh bounded bytes after a guarded traversal, with FD binding.
+
+    No file hashes or path approvals survive this read. The kernel-bound final
+    path rejects a parent swapped after the tree scan, before any content read.
+    The descriptor also keeps POSIX nonblocking/no-follow flags for FIFO/link
+    replacement attacks. Unsupported POSIX FD queries retain the ancestor check.
+    """
+    path = Path(path)
+    _need(stat.S_ISREG(observed.st_mode) and not getattr(observed,'st_file_attributes',0)&0x400,
+          'Scanned member must be a regular non-reparse file')
+    _need(observed.st_nlink == 1 and observed.st_size <= limit, 'Scanned member is linked or exceeds its bound')
+    fd = os.open(path, os.O_RDONLY | getattr(os,'O_NOFOLLOW',0) | getattr(os,'O_NONBLOCK',0) | getattr(os,'O_BINARY',0))
+    try:
+        before = os.fstat(fd)
+        _need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+              and before.st_size <= limit and file_identity(before) == file_identity(observed),
+              'Scanned member changed before validation')
+        actual = opened_path(fd)
+        if actual is None: safe_path(path)
+        else: _need(normal_handle_path(actual) == normal_handle_path(str(path)), 'Scanned member path changed during validation')
+        hashed = hashlib.sha256()
+        total = 0
+        with os.fdopen(fd,'rb',closefd=False) as source:
+            while chunk := source.read(1024 * 1024):
+                total += len(chunk)
+                _need(total <= limit and total <= before.st_size, 'Scanned member grew beyond its bound')
+                hashed.update(chunk)
+        _need(file_identity(os.fstat(fd)) == file_identity(before) and total == before.st_size,
+              'Scanned member changed during validation')
+        return {'sha256':hashed.hexdigest(),'size':total}
+    finally: os.close(fd)
 
 
 def sync_dir(path):
@@ -307,7 +408,21 @@ def codex_command(candidate=None):
     if not candidate:return None
     if not Path(candidate).is_absolute(): candidate=shutil.which(candidate) or candidate
     path=Path(candidate)
-    if not WINDOWS or path.suffix.lower() not in ('.cmd','.bat','.ps1'):
+    if not WINDOWS:
+        # npm's POSIX entry is a codex.js symlink with /usr/bin/env node.
+        # Agent System owns an explicit runtime; project PATH remains unchanged.
+        node=os.environ.get('AGENT_SYSTEM_NODE')
+        if node:
+            resolved=path.resolve()
+            if tuple(resolved.parts[-5:])==('node_modules','@openai','codex','bin','codex.js') and resolved.is_file():
+                metadata=resolved.parent.parent/'package.json'
+                if metadata.is_file() and metadata.stat().st_size<=1024*1024:
+                    manifest=json.loads(safe_path(metadata).read_text(encoding='utf8'))
+                    bins=manifest.get('bin',{})
+                    if manifest.get('name')=='@openai/codex' and isinstance(bins,dict) and bins.get('codex') in ('bin/codex.js','./bin/codex.js'):
+                        return [str(node),str(safe_path(resolved))]
+        return [str(path)]
+    if path.suffix.lower() not in ('.cmd','.bat','.ps1'):
         return [str(path)]
     folder=path.resolve().parent
     js=folder/'node_modules/@openai/codex/bin/codex.js'

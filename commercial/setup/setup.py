@@ -135,98 +135,14 @@ def module(path, name):
     return result
 
 
-def _file_identity(info):
-    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_nlink)
-
-
-def _opened_path(fd):
-    """Bind a scanned member to its actual open handle before reading bytes."""
-    if platform_support.WINDOWS:
-        import ctypes
-        from ctypes import wintypes
-        import msvcrt
-        api = getattr(_opened_path, '_windows_api', None)
-        if api is None:
-            api = ctypes.WinDLL('kernel32', use_last_error=True).GetFinalPathNameByHandleW
-            api.argtypes = (wintypes.HANDLE, wintypes.LPWSTR, wintypes.DWORD, wintypes.DWORD)
-            api.restype = wintypes.DWORD
-            _opened_path._windows_api = api
-        handle = msvcrt.get_osfhandle(fd)
-        size = api(handle, None, 0, 0)
-        if not size: raise ctypes.WinError(ctypes.get_last_error())
-        buffer = ctypes.create_unicode_buffer(size + 1)
-        written = api(handle, buffer, len(buffer), 0)
-        if not written: raise ctypes.WinError(ctypes.get_last_error())
-        require(written < len(buffer), 'Package handle path grew during validation')
-        return buffer.value
-    if sys.platform == 'darwin':
-        import fcntl as native_fcntl
-        return os.fsdecode(native_fcntl.fcntl(fd, native_fcntl.F_GETPATH, b'\0' * 1024).split(b'\0', 1)[0])
-    if sys.platform.startswith('linux'):
-        try: return os.readlink('/proc/self/fd/' + str(fd))
-        except FileNotFoundError: return None
-    return None
-
-
-def _normal_handle_path(value):
-    if platform_support.WINDOWS:
-        if value.startswith('\\\\?\\UNC\\'): value = '\\\\' + value[8:]
-        elif value.startswith('\\\\?\\'): value = value[4:]
-    return os.path.normcase(os.path.normpath(value))
-
-
 def _scanned_member(path, observed, expected):
-    """Hash fresh bytes without repeating the same ancestor lstat per member.
-
-    The traversal checked every parent and rejected links. A final opened-handle
-    path check also rejects a parent swapped to a junction after that traversal.
-    Platforms without a native FD-path query keep the old ancestor check.
-    """
-    with path.open('rb') as source:
-        before = os.fstat(source.fileno())
-        require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
-                and before.st_size == expected['size']
-                and _file_identity(before) == _file_identity(observed),
-                'Package member changed before validation')
-        actual = _opened_path(source.fileno())
-        if actual is None:
-            safe(path)
-        else:
-            require(_normal_handle_path(actual) == _normal_handle_path(str(path)),
-                    'Package member path changed during validation')
-        hashed = hashlib.sha256()
-        total = 0
-        while chunk := source.read(1024 * 1024):
-            total += len(chunk)
-            require(total <= expected['size'], 'Package member grew beyond inventory')
-            hashed.update(chunk)
-        require(_file_identity(os.fstat(source.fileno())) == _file_identity(before),
-                'Package member changed during validation')
-    require(total == expected['size'] and hashed.hexdigest() == expected['sha256'],
+    result = platform_support.hash_scanned(path,observed,expected['size'])
+    require(result['size']==expected['size'] and result['sha256']==expected['sha256'],
             'Package file differs from inventory')
 
 
 def package_info(package):
-    package = safe(package)
-    # Canonicalize case/short names once, with the original directory identity
-    # and guards rechecked; never adopt a reparse redirection during that step.
-    original = package
-    root_info = package.lstat()
-    require(stat.S_ISDIR(root_info.st_mode), 'Package directory is missing')
-    package = package.resolve()
-    safe(original)
-    require((original.lstat().st_dev, original.lstat().st_ino) == (root_info.st_dev, root_info.st_ino)
-            and (package.lstat().st_dev, package.lstat().st_ino) == (root_info.st_dev, root_info.st_ino),
-            'Package root changed during validation')
-    if sys.platform == 'darwin':
-        fd = os.open(package, os.O_RDONLY | getattr(os, 'O_DIRECTORY', 0) | getattr(os, 'O_NOFOLLOW', 0))
-        try:
-            require((os.fstat(fd).st_dev,os.fstat(fd).st_ino)==(root_info.st_dev,root_info.st_ino),
-                    'Package directory changed while opening')
-            safe(original)
-            native = _opened_path(fd)
-            if native is not None: package = Path(native)
-        finally: os.close(fd)
+    package = platform_support.canonical_directory(safe(package))
     raw = read(package / 'product-manifest.json')
     data = json.loads(raw.decode(), object_pairs_hook=pairs)
     require(data.get('schema') == MANIFEST and data.get('product_id') == 'codex-agent-system',
@@ -792,7 +708,9 @@ def make_launcher(home, state, product, expected_before=None, *, project=None):
 
 
 def install(plan_path, expected, *, resume=None):
+    started=time.monotonic();setup_diagnostic('install-plan-check-start')
     plan, package, home, state, operation = checked_plan(plan_path, expected)
+    setup_diagnostic('install-plan-check-complete',started)
     core, host = engines(package)
     journal_path = operation / 'journal.json'
     with locked(state, home):
@@ -817,19 +735,25 @@ def install(plan_path, expected, *, resume=None):
             write(journal_path, journal, exclusive=True)
         try:
             if not journal.get('core_complete'):
+                started=time.monotonic();setup_diagnostic('core-install-start')
                 native_journal = core_receipt(core, plan)
                 if native_journal and native_journal.exists() and core.load_journal(native_journal)[1]['status'] == 'complete':
                     result = core.apply_plan(Path(plan['core_plan']))
                 else:
                     result = core.apply_plan(Path(plan['core_plan']), native_journal)
+                setup_diagnostic('core-install-complete',started)
                 journal.update(core_complete=True, core_journal=result['journal'])
                 write(journal_path, journal)
             if not journal.get('profile_complete'):
+                started=time.monotonic();setup_diagnostic('profile-install-start')
                 home.joinpath('.codex').mkdir(parents=True, exist_ok=True)
                 result = host.apply(Path(plan['profile_plan']), operation / 'host-journal.json')
+                setup_diagnostic('profile-install-complete',started)
                 journal.update(profile_complete=True, profile_journal=result['journal'])
                 write(journal_path, journal)
+            started=time.monotonic();setup_diagnostic('optional-install-start')
             apply_optional(plan, operation, journal)
+            setup_diagnostic('optional-install-complete',started)
             if plan['entitlement']:
                 destination = state / 'purchases' / (plan['entitlement']['sha256'] + '.json')
                 destination.parent.mkdir(mode=0o700, exist_ok=True)
@@ -852,7 +776,9 @@ def install(plan_path, expected, *, resume=None):
             write(journal_path, journal)
             write(state / 'installed.json', {'schema': 'codex-agents.buyer-installation/1', 'journal': str(journal_path),
                   'source_commit': plan['source_commit'], 'product_version': plan['product_version'], 'edition': plan['edition']})
+            started=time.monotonic();setup_diagnostic('installed-verification-start')
             report = verify(journal_path)
+            setup_diagnostic('installed-verification-complete',started)
             return {'status': 'installed', 'journal': str(journal_path), 'verification': report,
                     'launcher': journal['launcher'], 'next': 'Open the generated Codex launcher, then run discover and your first task.'}
         except BaseException as exc:

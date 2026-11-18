@@ -15,6 +15,7 @@ import { securePrivatePath, assertPrivatePath, resolveNativeCommand } from '../.
 const args = Object.create(null);
 for (let i = 2; i < process.argv.length; i++) {
   const flag = process.argv[i];
+  if (flag === '--allow-no-sandbox') { assert.equal(args[flag],undefined,'Duplicate browser-proof argument.'); args[flag]=true; continue; }
   assert.ok(['--ready-file','--browser','--output','--python','--timeout-seconds','--expect-codex-version'].includes(flag) && i + 1 < process.argv.length, 'Unknown or incomplete browser-proof argument.');
   assert.equal(args[flag], undefined, 'Duplicate browser-proof argument.');
   args[flag] = process.argv[++i];
@@ -23,11 +24,12 @@ assert.ok(args['--ready-file'] && args['--output'], 'Use --ready-file PRIVATE_RE
 const deadlineMs = Number(args['--timeout-seconds'] || 180) * 1000;
 assert.ok(Number.isFinite(deadlineMs) && deadlineMs >= 1000 && deadlineMs <= 600000, 'Timeout must be between 1 and 600 seconds.');
 const pythonPath = args['--python'] || process.env.AGENT_SYSTEM_PYTHON;
+assert.ok(!args['--allow-no-sandbox'] || platform() === 'linux', '--allow-no-sandbox is limited to an explicitly isolated Linux test browser.');
 const pause = ms => new Promise(ok => setTimeout(ok, ms));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const below = (root, path) => { const tail = relative(root, resolve(path)); return tail !== '' && tail !== '..' && !tail.startsWith('..' + sep) && !isAbsolute(tail); };
 const report = { schema:'codex-agents.native-browser-proof/1', scope:'Actual Chromium pointer interactions, real bundled setup engine, real filesystem, and native Codex discovery. No model task is executed.', started_at:new Date().toISOString(), runner:{os:platform(),architecture:arch(),node:process.version}, steps:[], screenshots:[], model_execution:false };
-let output, profile, browser, socket, nextId = 0, browserExit, launchSecret;
+let output, profile, browser, browserClosed, browserDidClose = false, browserPhase = 'input-validation', socket, nextId = 0, browserExit, browserExitCode, browserExitSignal, browserDiagnostics = '', launchSecret;
 const pending = new Map();
 const redact = value => String(value).replaceAll(launchSecret || '\0','[REDACTED_LAUNCH_TOKEN]');
 
@@ -58,7 +60,7 @@ async function evaluate(expression) {
   if (reply.exceptionDetails) throw Error('Browser evaluation failed: ' + redact(JSON.stringify(reply.exceptionDetails)));
   return reply.result.value;
 }
-async function snapshot() { return evaluate("fetch('/api/state',{cache:'no-store'}).then(async response=>{if(!response.ok)throw Error('State HTTP '+response.status);return response.json()})"); }
+async function snapshot() { return evaluate("fetch('/api/state',{cache:'no-store',headers:{'X-Setup-Csrf':sessionStorage.getItem('codex-agent-system-setup-csrf')||''}}).then(async response=>{if(!response.ok)throw Error('State HTTP '+response.status);return response.json()})"); }
 async function click(id) {
   const encoded = JSON.stringify(id);
   await until(() => evaluate(`Boolean(document.getElementById(${encoded}) && !document.getElementById(${encoded}).disabled && !document.getElementById(${encoded}).hidden)`), 'enabled visible ' + id);
@@ -157,21 +159,34 @@ try {
     const bytes=await boundedFile(join(pkg,name));assert.equal(digest(bytes),manifest.files[name]?.sha256,'GUI input differs from exact package inventory: '+name);report.package.setup_files[name]=digest(bytes);
   }
   report.driver_sha256=digest(await readFile(fileURLToPath(import.meta.url)));
-  const executable=await browserExecutable();report.browser={executable};
-  const flags=['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-default-apps','--disable-dev-shm-usage','--lang=en-US','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0','--user-data-dir='+profile];
-  if (typeof process.getuid==='function'&&process.getuid()===0)flags.push('--no-sandbox');
-  let browserErrors='';browser=spawn(executable,flags,{stdio:['ignore','ignore','pipe'],shell:false,windowsHide:true});
-  browser.stderr.on('data',chunk=>{browserErrors=(browserErrors+chunk.toString('utf8')).slice(-16000)});
-  browser.once('error',error=>{browserErrors+=error.message;browserExit='spawn-error'});browser.once('exit',code=>{browserExit=code??'signal'});
-  const port=await until(async()=>Number((await readFile(join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0]),'Chromium debug endpoint');
-  const tab=await(await fetch('http://127.0.0.1:'+port+'/json/new?about:blank',{method:'PUT'})).json();
-  socket=new WebSocket(tab.webSocketDebuggerUrl);await new Promise((ok,fail)=>{socket.onopen=ok;socket.onerror=()=>fail(Error('Chromium protocol connection failed.'))});
+  const executable=await browserExecutable();report.browser={executable,sandbox:args['--allow-no-sandbox']?'Disabled by explicit --allow-no-sandbox for this isolated Linux test browser; product browser launch and server guards are unchanged.':'Default browser policy: no sandbox disabling flag is supplied; effective sandbox internals are not independently inspected.'};
+  const flags=['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-default-apps','--disable-dev-shm-usage','--disable-breakpad','--password-store=basic','--use-mock-keychain','--edge-skip-compat-layer-relaunch','--lang=en-US','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0','--user-data-dir='+profile];
+  if (args['--allow-no-sandbox'])flags.push('--no-sandbox');
+  browserPhase='browser-spawn';
+  report.browser.test_profile_policy='Fresh disposable profile; basic password store, mock keychain, breakpad disabled; no user profile or account is copied.';
+  browser=spawn(executable,flags,{stdio:['ignore','ignore','pipe'],shell:false,windowsHide:true,detached:platform()!=='win32'});
+  browserClosed=new Promise(ok=>browser.once('close',()=>{browserDidClose=true;ok()}));
+  browser.stderr.setEncoding('utf8');browser.stderr.on('data',chunk=>{browserDiagnostics=(browserDiagnostics+chunk).slice(-16000)});
+  browser.once('error',error=>{browserDiagnostics=(browserDiagnostics+'\n'+error.message).slice(-16000);browserExit='spawn-error'});browser.once('exit',(code,signal)=>{browserExitCode=code;browserExitSignal=signal;browserExit=code??'signal'});
+  browserPhase='debug-endpoint';
+  const port=await until(async()=>Number((await readFile(join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0]),'Chromium debug endpoint',Math.min(deadlineMs,30000));
+  browserPhase='debug-discovery';
+  const tab=await(await fetch('http://127.0.0.1:'+port+'/json/new?about:blank',{method:'PUT',signal:AbortSignal.timeout(5000)})).json();
+  browserPhase='websocket-connection';
+  socket=new WebSocket(tab.webSocketDebuggerUrl);await new Promise((ok,fail)=>{const timer=setTimeout(()=>fail(Error('Chromium protocol connection timed out.')),5000);socket.onopen=()=>{clearTimeout(timer);ok()};socket.onerror=()=>{clearTimeout(timer);fail(Error('Chromium protocol connection failed.'))}});
   socket.onmessage=({data})=>{const row=JSON.parse(data),item=pending.get(row.id);if(item){pending.delete(row.id);row.error?item.fail(row.error):item.ok(row.result)}};
   socket.onclose=()=>{for(const item of pending.values())item.fail('Chromium protocol closed.');pending.clear()};
+  browserPhase='gui-interaction';
   report.browser.version=await call('Browser.getVersion');await call('Page.enable');await call('Emulation.setDeviceMetricsOverride',{width:1400,height:1000,deviceScaleFactor:1,mobile:false});
   await call('Page.navigate',{url:ready.url});
   await until(()=>evaluate('document.body.dataset.setupSession==="ready"'),'one-use owner session');
   await until(async()=>!(await snapshot()).active_job,'initial journal refresh');
+  assert.equal(await evaluate('location.hash'),'','Launch token must be consumed before refresh.');
+  await evaluate('document.documentElement.dataset.beforeReload="present"');
+  await call('Page.reload',{ignoreCache:true});
+  await until(()=>evaluate('!document.documentElement.dataset.beforeReload && document.body.dataset.setupSession==="ready"'),'authorized reload using origin-scoped session state');
+  await until(async()=>!(await snapshot()).active_job,'journal refresh after browser reload');
+  report.authorized_reload_verified=true;
   const initial=await snapshot();assert.equal(initial.instance_id,ready.instance_id);assert.equal(initial.product.source_commit,manifest.source_commit);assert.equal(initial.results.status.status,'not-installed-by-this-setup','Use a fresh isolated buyer HOME for this proof.');
   await evaluate('document.getElementById("locale").value="en";document.getElementById("locale").dispatchEvent(new Event("change"))');
   const doctor=await buttonJob('check-button','doctor');assert.equal(doctor.source_commit,manifest.source_commit);assert.equal(doctor.platform.supported_skills,true);assert.equal(doctor.host.version,args['--expect-codex-version']||'0.166.0','This proof requires the pinned real Codex host.');
@@ -205,15 +220,34 @@ try {
   await screenshot('GUI-MOBILE-UK.png');report.mobile={...mobile,no_horizontal_overflow:true,token_removed:true};
   report.final_receipts=(await snapshot()).results;report.status='passed';report.finished_at=new Date().toISOString();
   await click('shutdown-button');await until(()=>evaluate('document.getElementById("result-banner").textContent.includes("Майстер") || document.getElementById("result-banner").textContent.includes("майстер")'),'explicit safe local shutdown');report.setup_shutdown_requested=true;
-  await writeFile(join(output,'BROWSER-OBSERVATION.json'),JSON.stringify(report,null,2)+'\n',{mode:0o600});
-  process.stdout.write('Native package browser flow PASS; source '+manifest.source_commit+'; proof '+output+'\n');
 } catch(error) {
+  if(browserClosed&&browserExit!==undefined)await Promise.race([browserClosed,pause(1000)]);
   report.status='failed';report.reason=redact(error.message);report.finished_at=new Date().toISOString();
-  if(output){try{report.browser_state=await snapshot();report.rendered_text=await evaluate('document.body.innerText');await screenshot('GUI-FAILED.png')}catch(captureError){report.capture_error=redact(captureError.message)}await writeFile(join(output,'BROWSER-FAILURE.json'),JSON.stringify(report,null,2)+'\n',{mode:0o600});}
+  report.browser_failure={phase:browserPhase,exit_code:browserExitCode??null,signal:browserExitSignal??null,running:!!browser&&browserExit===undefined,stderr:redact(browserDiagnostics)};
+  if(output){if(socket?.readyState===WebSocket.OPEN){try{report.browser_state=await snapshot();report.rendered_text=await evaluate('document.body.innerText');await screenshot('GUI-FAILED.png')}catch(captureError){report.capture_error=redact(captureError.message)}}await writeFile(join(output,'BROWSER-FAILURE.json'),JSON.stringify(report,null,2)+'\n',{mode:0o600});}
   process.stderr.write('Native package browser flow FAILED: '+redact(error.message).slice(0,2000)+'\n');process.exitCode=1;
 } finally {
-  if(socket?.readyState===WebSocket.OPEN){try{await call('Browser.close')}catch{}}
-  socket?.close();
-  if(browser&&browserExit===undefined){await Promise.race([new Promise(ok=>browser.once('exit',ok)),pause(5000)]);if(browserExit===undefined)browser.kill();}
-  if(profile){for(let i=0;i<10;i++){try{await rm(profile,{recursive:true,force:true});break}catch{await pause(250)}}}
+  const cleanup={scope:'Only this driver’s captured browser PID and its own detached POSIX group or Windows child tree.',forced:false,root_exit_observed:!browser,profile_removed:!profile};
+  if(socket?.readyState===WebSocket.OPEN){try{await Promise.race([call('Browser.close'),pause(1000)])}catch{}}
+  try{socket?.close()}catch{}
+  for(const item of pending.values())item.fail('Browser driver cleanup.');pending.clear();
+  if(browser){
+    if(!browserDidClose&&platform()!=='win32'&&browser.pid){try{process.kill(-browser.pid,'SIGTERM')}catch(error){if(error.code!=='ESRCH')cleanup.signal_error=redact(error.message)}}
+    if(browserClosed)await Promise.race([browserClosed,pause(1500)]);
+    if(!browserDidClose&&browser.pid){
+      cleanup.forced=true;
+      if(platform()==='win32'){
+        await new Promise(ok=>{const task=spawn(join(process.env.SYSTEMROOT||'C:\\Windows','System32','taskkill.exe'),['/PID',String(browser.pid),'/T','/F'],{shell:false,windowsHide:true,stdio:'ignore'});const timer=setTimeout(()=>{task.kill();task.unref();cleanup.tree_termination='taskkill-timeout';ok()},3000);task.once('error',error=>{clearTimeout(timer);cleanup.tree_termination=redact(error.message);ok()});task.once('exit',code=>{clearTimeout(timer);cleanup.tree_termination='taskkill-exit-'+code;ok()})});
+      }else{try{process.kill(-browser.pid,'SIGKILL');cleanup.tree_termination='SIGKILL delivered to owned detached group'}catch(error){cleanup.tree_termination=error.code==='ESRCH'?'owned group already absent':redact(error.message)}}
+      if(browserClosed)await Promise.race([browserClosed,pause(2000)]);
+    }
+    cleanup.root_exit_observed=browserExit!==undefined;
+    cleanup.exit_code=browserExitCode??null;cleanup.signal=browserExitSignal??null;
+    browser.stdin?.destroy();browser.stdout?.destroy();browser.stderr?.destroy();browser.unref();
+  }
+  if(profile){for(let i=0;i<10;i++){try{await rm(profile,{recursive:true,force:true});cleanup.profile_removed=true;break}catch(error){cleanup.profile_error=redact(error.message);await pause(250)}}}
+  report.browser_cleanup=cleanup;
+  if(!cleanup.root_exit_observed||!cleanup.profile_removed){report.status='failed';report.reason=report.reason||'The captured test browser exit or private profile cleanup could not be verified.';process.exitCode=1;}
 }
+if(output)await writeFile(join(output,report.status==='passed'?'BROWSER-OBSERVATION.json':'BROWSER-FAILURE.json'),JSON.stringify(report,null,2)+'\n',{mode:0o600});
+if(report.status==='passed')process.stdout.write('Native package browser flow PASS; source '+report.package.source_commit+'; proof '+output+'\n');

@@ -12,6 +12,8 @@ let locale;
 try { locale = localStorage.getItem('agent-system-setup-locale'); } catch {}
 locale = ['en', 'uk'].includes(locale) ? locale : navigator.language?.startsWith('uk') ? 'uk' : 'en';
 let csrf, state, selectedPlan, selectedOperation = '', busy = true, lastReceipt, lastJobStatus, practiceId, currentJob;
+const SESSION_CSRF_KEY = 'codex-agent-system-setup-csrf';
+try { csrf = sessionStorage.getItem(SESSION_CSRF_KEY) || undefined; } catch {}
 const actionLabel = action => dictionaries[locale]['action_'+action] || action || '—';
 const t = key => dictionaries[locale][key] ?? dictionaries.en[key] ?? key;
 const phases = { doctor:'checking',audit:'auditing',install:'installing',verify:'verifying',discover:'discovering',resume:'resuming',rollback:'rollingback',uninstall:'uninstalling',refresh:'refreshing',practice:'preparing','first-task':'preparing','open-practice':'opening','open-codex':'openingCodex' };
@@ -26,7 +28,7 @@ function translated() {
  if (state) render();
 }
 async function request(path, options = {}) {
- const response = await fetch(path, { credentials:'same-origin',...options,headers:{...(options.body ? {'Content-Type':'application/json'} : {}),...(options.method === 'POST' && csrf ? {'X-Setup-Csrf':csrf} : {}),...options.headers} });
+ const response = await fetch(path, { credentials:'same-origin',...options,headers:{...(options.body ? {'Content-Type':'application/json'} : {}),...(csrf ? {'X-Setup-Csrf':csrf} : {}),...options.headers} });
  let result; try { result = await response.json(); } catch { throw new Error(t('genericFailure')); }
  if (!response.ok) throw Object.assign(new Error(result.reason || result.message || t('genericFailure')), { result, status:response.status });
  return result;
@@ -159,6 +161,6 @@ try {
  const params = new URLSearchParams(location.hash.slice(1)); const launch = params.get('launch');
  if(launch)history.replaceState(null,'',location.pathname);
  const result = launch ? await request('/api/session',{method:'POST',body:JSON.stringify({launch_token:launch})}) : await request('/api/session');
- csrf=result.csrf_token;state=await request('/api/state');document.body.dataset.setupSession='ready';render();
+ csrf=result.csrf_token;try{sessionStorage.setItem(SESSION_CSRF_KEY,csrf)}catch{}state=await request('/api/state');document.body.dataset.setupSession='ready';render();
  if(state.active_job)watch(state.active_job.id).catch(showError);else await action('refresh');
 } catch(error){$('session-error').hidden=false;text($('session-error'),`${t('sessionFailed')} ${error.message||''}`);for(const button of document.querySelectorAll('button[data-action]'))button.disabled=true;}

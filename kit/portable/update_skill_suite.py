@@ -94,12 +94,13 @@ def safe_path(value):
     path = Path(os.path.abspath(os.fspath(value)))
     for part in reversed((path,) + tuple(path.parents)):
         try:
-            mode = part.lstat().st_mode
+            info = part.lstat()
         except FileNotFoundError:
             continue
-        require(not platform_support.is_link_or_reparse(part), 'Symlink/reparse point is not permitted: ' + str(part))
+        require(not stat.S_ISLNK(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400,
+                'Symlink/reparse point is not permitted: ' + str(part))
         if part != path:
-            require(stat.S_ISDIR(mode), 'Non-directory ancestor: ' + str(part))
+            require(stat.S_ISDIR(info.st_mode), 'Non-directory ancestor: ' + str(part))
     return path
 
 
@@ -183,21 +184,29 @@ def snapshot(root):
     if not root.exists():
         return None
     require(root.is_dir(), 'Expected skill directory: ' + str(root))
-    files, directories = {}, {'.': mode_of(root)}
+    try:root = platform_support.canonical_directory(root)
+    except ValueError as error:raise SuiteError(str(error)) from error
+    def recorded_mode(info):
+        require(not info.st_mode & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX),
+                'Special permission bits are not supported')
+        return platform_support.project_mode(stat.S_IMODE(info.st_mode),stat.S_ISDIR(info.st_mode))
+    files, directories = {}, {'.':recorded_mode(root.lstat())}
     for current, dirs, names in os.walk(root, followlinks=False):
+        observed={}
         for name in dirs + names:
-            p = Path(current) / name
-            mode = p.lstat().st_mode
-            require(not platform_support.is_link_or_reparse(p) and (stat.S_ISREG(mode) or stat.S_ISDIR(mode)),
-                    'Link or special file in tree: ' + str(p))
-        for name in dirs:
-            p = Path(current) / name
-            directories[p.relative_to(root).as_posix()] = mode_of(p)
+            path = Path(current) / name
+            info = path.lstat()
+            require(not stat.S_ISLNK(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400
+                    and (stat.S_ISREG(info.st_mode) or stat.S_ISDIR(info.st_mode)),
+                    'Link or special file in tree: ' + str(path))
+            observed[name]=info
+            if name in dirs:directories[path.relative_to(root).as_posix()]=recorded_mode(info)
         for name in names:
-            p = Path(current) / name
-            data = read_bytes(p)
-            files[p.relative_to(root).as_posix()] = {'sha256': sha(data), 'size': len(data), 'mode': mode_of(p)}
-    return {'files': files, 'directories': directories, 'tree_sha256': logical_sha(files)}
+            path = Path(current) / name
+            try:record=platform_support.hash_scanned(path,observed[name],MAX_FILE)
+            except ValueError as error:raise SuiteError(str(error)) from error
+            files[path.relative_to(root).as_posix()]={**record,'mode':recorded_mode(observed[name])}
+    return {'files':files,'directories':directories,'tree_sha256':logical_sha(files)}
 
 
 def declared_name(root):
@@ -705,6 +714,12 @@ def acquire_lock(backup_root, operation, plan_hash, resume=False):
 
 def save_journal(operation, journal):
     atomic_json(operation / 'journal.json', journal)
+    if os.environ.get('AGENT_SYSTEM_SETUP_DIAGNOSTICS') == '1':
+        states=journal.get('states',[])
+        active=next((row.get('phase') for row in states if row.get('phase')!='complete'),None)
+        print('agent-system-core '+json.dumps({'status':journal.get('status'),
+              'completed':sum(row.get('phase')=='complete' for row in states),
+              'total':len(states),'next_phase':active},sort_keys=True),file=sys.stderr,flush=True)
 
 
 def load_journal(path):

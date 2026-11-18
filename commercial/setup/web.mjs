@@ -265,6 +265,7 @@ export async function start(options = {}) {
         return json(res, 200, { status: 'ready', csrf_token: result.csrf_token });
       }
       requireThat(authenticated(req), 'SESSION_REQUIRED', 'Open this window through the local installer launcher.', 401);
+      if (req.method === 'GET') requireThat(session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Reopen or refresh this authorized installer window.', 403);
       if (url.pathname === '/api/session' && req.method === 'GET') return json(res, 200, { status: 'ready', csrf_token: session.csrf });
       if (url.pathname === '/api/state' && req.method === 'GET') return json(res, 200, view());
       requireThat(url.pathname === '/api/action' && req.method === 'POST', 'NOT_FOUND', 'Unknown installer route.', 404);

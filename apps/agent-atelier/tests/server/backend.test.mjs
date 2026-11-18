@@ -411,8 +411,9 @@ test("HTTP rejects hostile origin, missing CSRF, duplicate JSON and unbound arti
     });
     assert.equal(claim.status, 200);
     const cookie = claim.headers.get("set-cookie").split(";")[0];
+    const { csrf_token: browserProof } = await claim.json();
     const bootstrap = await (
-      await fetch(running.origin + "/api/v1/bootstrap", { headers: { cookie } })
+      await fetch(running.origin + "/api/v1/bootstrap", { headers: { cookie, "X-Atelier-CSRF": browserProof } })
     ).json();
     const hostile = await fetch(running.origin + "/api/v1/bootstrap", {
       headers: {
@@ -491,7 +492,7 @@ test("HTTP rejects hostile origin, missing CSRF, duplicate JSON and unbound arti
     assert.equal((await duplicate.json()).error.code, "DUPLICATE_JSON_KEY");
     const other = await fetch(
       running.origin + "/api/v1/projects/not-bound/artifact?path=secret.txt",
-      { headers: { cookie } },
+      { headers: { cookie, "X-Atelier-CSRF": browserProof } },
     );
     assert.equal(other.status, 404);
   } finally {

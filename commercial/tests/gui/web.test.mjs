@@ -6,6 +6,7 @@ import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { request as rawRequest } from 'node:http';
+import { createHash } from 'node:crypto';
 import { start, runCli } from '../../setup/web.mjs';
 import { securePrivatePath } from '../../../apps/agent-atelier/server/platform.mjs';
 
@@ -70,6 +71,14 @@ async function fixture(t) {
  return {dir,pkg,home,state,ready,app,send,claim,wait,action};
 }
 
+async function diagnosticPackage(f) {
+ const names=['setup/web.mjs','setup/ui/index.html','setup/ui/app.mjs','setup/ui/style.css'];
+ for(const name of names){await mkdir(dirname(join(f.pkg,name)),{recursive:true});await writeFile(join(f.pkg,name),'diagnostic-only fixture\n');}
+ const manifest={product_id:'codex-agent-system',product_version:'diagnostic-fixture',source_commit:'a'.repeat(40),source_clean:false,files:{}};
+ for(const name of [...names,'setup/setup.py']){const bytes=await readFile(join(f.pkg,name));manifest.files[name]={sha256:createHash('sha256').update(bytes).digest('hex'),size:bytes.length,mode:420};}
+ await writeFile(join(f.pkg,'product-manifest.json'),JSON.stringify(manifest));
+}
+
 test('one-use launcher, owner-only ready receipt, exact Host/Origin and CSRF protect every action',async t=>{
  const f=await fixture(t);
  assert.equal((await f.send('/api/state')).status,401);
@@ -93,6 +102,14 @@ test('closed command contract rejects browser paths and arbitrary execution befo
  assert.equal((await f.send('/api/action',{action:'install',plan_id:'unknown',approved:false})).status,400);
  const invalid=await f.action({action:'install',plan_id:'unknown',approved:true});assert.equal(invalid.result.code,'UNKNOWN_PLAN');
  await assert.rejects(readFile(join(f.state,'fixture-calls.jsonl')),{code:'ENOENT'});
+});
+
+test('a copied host cookie cannot disclose CSRF or private state without the origin-held header',async t=>{
+ const f=await fixture(t);await f.claim();
+ for(const path of ['/api/session','/api/state']){
+  const denied=await f.send(path,undefined,{'X-Setup-Csrf':''});assert.equal(denied.status,403);assert.equal(denied.body.csrf_token,undefined);assert.equal(denied.body.home,undefined);
+ }
+ assert.equal((await f.send('/api/session')).status,200);assert.equal((await f.send('/api/state')).status,200);
 });
 
 test('audit binds exact plan bytes, explicit approval and single active job before changing fixture files',async t=>{
@@ -154,4 +171,36 @@ test('UTF-8 task text survives child process chunks split inside a Ukrainian cha
  const task=await f.action({action:'first-task',locale:'uk'});
  assert.equal(task.result.prompt,'$atelier-orchestrator\nУкраїна: збережи нотатку.');
  assert.equal(task.result.prompt.includes('\ufffd'),false);
+});
+
+test('failed browser startup retains its real signal and bounded redacted stderr', {skip:process.platform==='win32'},async t=>{
+ const f=await fixture(t);
+ // Diagnostic transport only: deliberately exit before CDP or any installer
+ // action. This cannot produce a passed native package/browser receipt.
+ await diagnosticPackage(f);
+ const token=new URLSearchParams(new URL(f.app.url).hash.slice(1)).get('launch');
+ assert.match(token,/^[A-Za-z0-9_.-]+$/);
+ const executable=join(f.dir,'failing-browser');await writeFile(executable,'#!/bin/sh\nprintf "%s\\n" "Diagnostic startup failure '+token+'" >&2\nkill -TERM $$\n',{mode:493});
+ const proof=join(f.dir,'browser-proof');const argv=[join(ROOT,'commercial/tests/gui/native-browser.mjs'),'--ready-file',f.ready,'--output',proof,'--browser',executable];
+ if(process.platform==='linux')argv.push('--allow-no-sandbox');
+ let failed;try{execFileSync(process.execPath,argv,{encoding:'utf8',timeout:20000,stdio:'pipe'});}catch(error){failed=error;}
+ assert.equal(failed?.status,1);
+ const report=JSON.parse(await readFile(join(proof,'BROWSER-FAILURE.json'),'utf8'));
+ assert.equal(report.status,'failed');assert.equal(report.browser_failure.signal,'SIGTERM');assert.equal(report.browser_failure.exit_code,null);
+ assert.ok(report.browser_failure.stderr.includes('Diagnostic startup failure'));assert.ok(report.browser_failure.stderr.includes('[REDACTED_LAUNCH_TOKEN]'));assert.ok(!JSON.stringify(report).includes(token));
+ if(process.platform==='linux')assert.match(report.browser.sandbox,/explicit --allow-no-sandbox/);
+ await f.claim();await assert.rejects(readFile(join(f.state,'fixture-calls.jsonl')),{code:'ENOENT'});
+});
+
+test('a hung test browser and its child group cannot keep the failed driver alive', {skip:process.platform==='win32'},async t=>{
+ const f=await fixture(t);await diagnosticPackage(f);
+ const executable=join(f.dir,'hung-browser'),pids=join(f.dir,'browser-pids.txt');
+ await writeFile(executable,'#!/bin/sh\ntrap "" TERM\nsleep 60 &\nprintf "%s %s\\n" "$$" "$!" > "$BROWSER_FIXTURE_PIDS"\nwhile :; do sleep 1; done\n',{mode:493});
+ const proof=join(f.dir,'hung-browser-proof');const argv=[join(ROOT,'commercial/tests/gui/native-browser.mjs'),'--ready-file',f.ready,'--output',proof,'--browser',executable,'--timeout-seconds','1'];
+ if(process.platform==='linux')argv.push('--allow-no-sandbox');
+ let failed;const began=Date.now();try{execFileSync(process.execPath,argv,{encoding:'utf8',timeout:15000,stdio:'pipe',env:{...process.env,BROWSER_FIXTURE_PIDS:pids}});}catch(error){failed=error;}
+ assert.equal(failed?.status,1);assert.ok(Date.now()-began<12000,'Failed browser cleanup exceeded its bound');
+ const report=JSON.parse(await readFile(join(proof,'BROWSER-FAILURE.json'),'utf8'));assert.equal(report.status,'failed');assert.equal(report.browser_failure.phase,'debug-endpoint');assert.equal(report.browser_cleanup.forced,true);assert.equal(report.browser_cleanup.signal,'SIGKILL');assert.equal(report.browser_cleanup.root_exit_observed,true);assert.equal(report.browser_cleanup.profile_removed,true);
+ const [rootPid]= (await readFile(pids,'utf8')).trim().split(' ').map(Number);assert.throws(()=>process.kill(rootPid,0),{code:'ESRCH'});
+ await assert.rejects(readFile(join(f.state,'fixture-calls.jsonl')),{code:'ENOENT'});
 });
