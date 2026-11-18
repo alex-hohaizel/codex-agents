@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import runpy
 import sys
 
 def check(root):
@@ -54,6 +55,7 @@ def check(root):
                 if p.exists():
                     raw=p.read_text()
                     require(f'lang="{loc}"' in raw and release['repository_version'] in raw and offer['license_version'] in raw,'Stale buyer page: '+str(p))
+        errors.extend(runpy.run_path(str(root/'commercial/render_site.py'))['check_pages'](root))
         for channel in ('agensi','promptbase'):
             path=root/f'commercial/channels/{channel}/SKILL.md'
             require(path.is_file(),'Missing bounded channel skill')

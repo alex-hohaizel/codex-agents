@@ -153,6 +153,25 @@ class Windows:
         self.ok(self.a.OpenProcessToken(self.k.GetCurrentProcess(), rights, ctypes.byref(handle)), 'OpenProcessToken')
         return handle
 
+    def token_boolean(self, token, kind):
+        """Read only the scalar bytes actually returned by this SDK query.
+
+        TokenHasRestrictions is a BOOLEAN at a DWORD-aligned address, despite
+        the older DWORD reference documentation. Microsoft clarification:
+        https://github.com/microsoft/win32metadata/discussions/2308
+        Preserve compatibility with the documented four-byte representation;
+        never decode unreturned trailing bytes as part of a one-byte result.
+        TokenElevation remains a four-byte TOKEN_ELEVATION value.
+        """
+        require(kind in (20, 21), 'Unsupported Windows token scalar class')
+        storage = ctypes.c_uint32()  # zero initialized, DWORD size/alignment
+        returned = W.DWORD()
+        self.ok(self.a.GetTokenInformation(token, kind, ctypes.byref(storage), ctypes.sizeof(storage),
+                                         ctypes.byref(returned)), 'GetTokenInformation scalar ' + str(kind))
+        allowed = (1, 4) if kind == 21 else (4,)
+        require(returned.value in allowed, 'Unexpected Windows token scalar size for class ' + str(kind))
+        return bool(int.from_bytes(ctypes.string_at(ctypes.byref(storage), returned.value), 'little'))
+
     def identity(self):
         handle = self.token()
         admin = self.sid('S-1-5-32-544')
@@ -179,8 +198,8 @@ class Windows:
                 enabled.append(name.value)
             return {'is_user_an_admin': bool(self.s.IsUserAnAdmin()), 'admin_group_enabled': bool(member.value),
                     'integrity_sid': integrity_sid, 'enabled_privileges': enabled,
-                    'token_has_restrictions': bool(W.DWORD.from_buffer(self.information(handle, 21)).value),
-                    'token_elevated': bool(W.DWORD.from_buffer(self.information(handle, 20)).value),
+                    'token_has_restrictions': self.token_boolean(handle, 21),
+                    'token_elevated': self.token_boolean(handle, 20),
                     'default_owner_is_user': owner_sid == user_sid,
                     'user_sid_sha256': hashlib.sha256(user_sid.encode('ascii')).hexdigest(),
                     'pid': os.getpid(), 'python': sys.executable, 'machine': platform.machine()}

@@ -1,0 +1,66 @@
+name: Publish an accepted technical release manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      expected_source_sha:
+        description: Exact current main commit with both accepted push runs
+        required: true
+        type: string
+      accepted_native_run_id:
+        description: Successful main universal-installers run containing installer-accepted-release
+        required: true
+        type: string
+      source_validation_run_id:
+        description: Successful main validate run containing agent-system-bundles
+        required: true
+        type: string
+
+concurrency:
+  group: publish-technical-release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main' && github.repository == 'alex-hohaizel/codex-agents'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    permissions:
+      contents: write
+      actions: read
+      attestations: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONDONTWRITEBYTECODE: '1'
+      EXPECTED_SOURCE_SHA: ${{ inputs.expected_source_sha }}
+      ACCEPTED_NATIVE_RUN_ID: ${{ inputs.accepted_native_run_id }}
+      SOURCE_VALIDATION_RUN_ID: ${{ inputs.source_validation_run_id }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - name: Verify accepted exact-main artifacts, reconcile draft assets, and publish
+        shell: python {0}
+        run: |
+          import os, pathlib, subprocess, sys
+          output = pathlib.Path(os.environ['RUNNER_TEMP']) / 'technical-publication'
+          subprocess.run([sys.executable, '-B', 'scripts/publish_technical_release.py',
+                          '--expected-source-sha', os.environ['EXPECTED_SOURCE_SHA'],
+                          '--accepted-native-run-id', os.environ['ACCEPTED_NATIVE_RUN_ID'],
+                          '--source-validation-run-id', os.environ['SOURCE_VALIDATION_RUN_ID'],
+                          '--output', str(output)], check=True)
+      - name: Preserve the exact publication or reconciliation receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: technical-publication-receipt
+          path: ${{ runner.temp }}/technical-publication/PUBLICATION.json
+          if-no-files-found: warn
+          retention-days: 30
+
+# Dispatching this workflow is an explicit technical-publication action. It does
+# not issue paid entitlements, change commercial terms, buy services, or sell.
