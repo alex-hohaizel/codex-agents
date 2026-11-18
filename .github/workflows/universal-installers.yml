@@ -221,7 +221,7 @@ jobs:
           - {target: win32-x64, runner: windows-2025, cpu: x64}
           - {target: win32-arm64, runner: windows-11-arm, cpu: arm64}
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 45
+    timeout-minutes: ${{ matrix.target == 'win32-arm64' && 60 || 45 }}
     defaults:
       run:
         shell: python {0}
