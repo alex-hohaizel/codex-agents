@@ -1,19 +1,20 @@
 # Current release
 
-**Codex Agent System v1.8.0** provides a ready Universal installer and smaller
-native packages for Windows, macOS and Linux on x64 and ARM64. Use the ready
-Release assets for installation; GitHub's automatic source archives are developer
-sources and include an HTML link to those assets. `main` is the default branch.
-Commercial sale, payment processing and final legal terms remain separate gates.
+**Codex Agent System v1.9.0** is prepared for release as a ready Universal
+installer and six native packages for Windows, macOS and Linux on x64 and ARM64.
+The [v1.9.0 release page](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0)
+will provide the qualified downloads after publication. GitHub's automatic
+source archives contain developer sources and link to the ready assets.
 
-## v1.9.0 candidate
+## v1.9.0 components
 
-The working release record describes the v1.9.0 candidate. The verified
-[v1.8.0 Release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0)
-remains the stable installation and recovery source while the candidate is
-being qualified. Candidate builds and their evidence are pinned separately.
+The release record declares stable intent. Publication requires the exact
+`main` commit to pass source and native CI, verified archives and attestations,
+and readback from the manual publisher. Use the verified
+[v1.8.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0)
+until publication completes. It remains available for recovery.
 
-| Candidate component | Version |
+| Component | Version |
 | --- | --- |
 | Product | 1.9.0 |
 | Core suite and both constructors | 6.6.0 |

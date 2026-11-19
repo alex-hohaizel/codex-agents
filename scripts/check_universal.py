@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import sys
 sys.dont_write_bytecode=True
-from installer_entry import public_installer_version,render
+from installer_entry import LATEST_RELEASE,public_installer_version,render_public
 from build_installer import LABELS,safe
 from build_commercial import ROOTS
 from build_packages import COMMON
@@ -28,9 +28,18 @@ def check(root):
     item=row[kind];safe(item['executable']);require(item['executable'].startswith(kind+'/'),'Wrong runtime executable scope')
     require(item['url'].startswith('https://') and re.fullmatch('[a-f0-9]{64}',item['sha256']),'Unpinned vendor input')
   stable=public_installer_version(release)
-  require(f'releases/download/v{stable}/Agent-System-{stable}-Universal.zip' in (root/'README.md').read_text(),'Front page must directly download the verified public Universal installer')
+  readme=(root/'README.md').read_text()
+  primary=re.search(r'^\*\*\[[^\]]+\]\(([^)]+)\)\*\*',readme,re.M)
+  require(primary and primary.group(1)==LATEST_RELEASE,'Front page primary link must point to the latest published release')
+  base=f'https://github.com/alex-hohaizel/codex-agents/releases/download/v{stable}/Agent-System-{stable}-'
+  require(base+'Universal.zip' in readme,'Front page must link the release-derived Universal installer')
+  intended={base+label+'.zip' for label in ('Universal',*LABELS.values())}
   for locale,name in [('en','START_HERE.html'),('uk','ПОЧАТИ.html')]:
-   require((root/name).read_bytes()==render(release['repository_version'],locale,download_version=stable).encode(),'Stale installer HTML: '+name)
+   page=(root/name).read_text(encoding='utf8')
+   require((root/name).read_bytes()==render_public(release,locale).encode(),'Stale installer HTML: '+name)
+   primary=re.search(r'<a class="primary" href="([^"]+)">',page)
+   require(primary and primary.group(1)==LATEST_RELEASE,'Installer HTML primary link must point to the latest published release: '+name)
+   require(set(re.findall(r'href="([^"]+/releases/download/[^"]+)"',page))==intended,'Incorrect release-derived ready ZIP links: '+name)
    require(name in ROOTS and name in COMMON,'Installer HTML missing from source/package closure')
   for rel in ('AGENTS.md','governance/UPDATE_CONTRACT.md','governance/PACKAGES.md','governance/VALIDATION.md','maintenance-skill/SKILL.md'):
    require('UNIVERSAL_INSTALLATION.md' in (root/rel).read_text(),'Missing durable universal rule: '+rel)

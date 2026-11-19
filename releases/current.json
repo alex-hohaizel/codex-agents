@@ -75,7 +75,7 @@
     "source": "apps/agent-atelier",
     "scope": "Local project workbench for Windows, macOS and Linux; source-backed actions, existing native execution and private state"
   },
-  "release_status": "Universal technical release candidate. The verified v1.8.0 technical release remains the public stable edition.",
+  "release_status": "Stable technical release intent for v1.9.0. Publication requires successful source and native workflows on the exact main commit, verified archives and attestations, and manual publisher readback. v1.8.0 remains the public stable edition until publication completes.",
   "role_profiles": {
     "version": "6.3.0",
     "manifest": "agent-profiles/manifest.json"
@@ -84,7 +84,7 @@
     "version": "6.4.0",
     "source": "host-profiles/codex/AGENTS.md"
   },
-  "release_stage": "candidate",
+  "release_stage": "stable",
   "release_tag": "v1.9.0",
   "installation_guide": "docs/INSTALL.md",
   "showcase_locales": [
@@ -102,6 +102,6 @@
     "offer": "commercial/offer.json",
     "contract": "governance/COMMERCIAL_PRODUCT_CONTRACT.md",
     "acceptance": "governance/commercial/requirements.json",
-    "distribution": "Technical installer candidate; commercial issuance and final legal terms remain separate owner gates."
+    "distribution": "Technical installer release. Commercial issuance and final legal terms remain separate owner gates."
   }
 }
