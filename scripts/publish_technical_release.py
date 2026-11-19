@@ -279,9 +279,10 @@ class GitHub:
         return {'id': matches[0]['id'], 'name': name, 'digest': matches[0].get('digest')}
 
     def verify_attestation(self, path, expected, workflow):
+        # The exact certificate SAN pins the workflow and ref. gh accepts only one identity selector.
         self.command(['attestation', 'verify', str(path), '--repo', REPO,
                       '--source-ref', 'refs/heads/main', '--source-digest', expected,
-                      '--signer-workflow', REPO + '/' + workflow, '--signer-digest', expected,
+                      '--signer-digest', expected,
                       '--cert-identity', 'https://github.com/' + REPO + '/' + workflow + '@refs/heads/main',
                       '--deny-self-hosted-runners', '--format', 'json'], timeout=180)
 
