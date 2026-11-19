@@ -666,9 +666,14 @@ class PortableTests(unittest.TestCase):
         standard = manifest["operating_standard"]
         model = standard["managed_model"]["id"]
         self.assertEqual(model, "gpt-6.2-sol")
+        self.assertEqual(standard["managed_model"]["reasoning_effort"], "ultra")
         self.install()
         text = (self.project / "AGENTS.md").read_text()
-        self.assertIn("codex --model " + model, text)
+        self.assertIn("codex --model " + model + " -c 'model_reasoning_effort=\"ultra\"'", text)
+        standard["managed_model"]["reasoning_effort"] = "high"
+        with self.assertRaisesRegex(self.api.InstallError, "requires a valid managed model and ultra reasoning effort"):
+            self.api.validate_manifest(manifest)
+        standard["managed_model"]["reasoning_effort"] = "ultra"
         self.assertNotIn("model", (self.project / ".agents/skills" / self.names[0] / "agents/openai.yaml").read_text())
         standard["managed_model"]["id"] = "gpt-fixture.0-test"
         path.write_text(json.dumps(manifest))

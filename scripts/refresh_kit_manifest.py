@@ -51,7 +51,8 @@ def refresh(root, predecessor, write):
             raise ValueError('Predecessor interface bytes differ from its manifest')
         previous = list(old.get('previous_trees', []))
         old_tree = sha(''.join(key + '\0' + old['files'][key]['sha256'] + '\n' for key in sorted(old['files'])).encode())
-        if not any(row.get('tree_sha256') == old_tree for row in previous):
+        current_tree = sha(''.join(key + '\0' + files[key]['sha256'] + '\n' for key in sorted(files)).encode())
+        if old_tree != current_tree and not any(row.get('tree_sha256') == old_tree for row in previous):
             previous.append({'source': 'Verified canonical ' + old['version'] + ' predecessor at repository commit ' + baseline_commit,
                              'tree_sha256': old_tree, 'ui_yaml': old_ui, 'files': old['files']})
         manifest['skills'].append({'name': name, 'version': current['suite_version'], 'files': files, 'previous_trees': previous})

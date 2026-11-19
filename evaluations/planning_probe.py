@@ -306,7 +306,7 @@ def main():
     parser.add_argument("--variant", choices=VARIANTS)
     parser.add_argument("--codex", default=shutil.which("codex"))
     parser.add_argument("--model", help="Alternate model pin for the explicit product-baseline lane")
-    parser.add_argument("--effort", choices=("low", "medium", "high"), default=native.DEFAULT_EFFORT)
+    parser.add_argument("--effort", choices=native.REASONING_EFFORTS, help="Alternate effort requires an explicit historical baseline")
     parser.add_argument("--deadline", type=int, default=90)
     parser.add_argument("--persist-model-receipt", action="store_true",
                         help="Allow a disposable native rollout for exact model readback")
@@ -325,7 +325,9 @@ def main():
         if not (base / args.variant / "route.json").is_file():
             parser.error("the requested variant is absent from the prepared case")
         try:
-            model = native.managed_model(args.model, baseline=args.variant == "product-baseline")
+            model, args.effort = native.managed_policy(
+                args.model, args.effort, baseline=args.variant == "product-baseline"
+            )
         except ValueError as exc:
             parser.error(str(exc))
         if not native.auth_ok(args.codex):

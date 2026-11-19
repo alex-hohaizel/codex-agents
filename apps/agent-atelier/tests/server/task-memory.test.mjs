@@ -90,6 +90,7 @@ async function fixture(t) {
         thread: { id: params.threadId ?? "owned-thread" },
         modelProvider: "openai",
         model: "gpt-6.2-sol",
+        reasoningEffort: "ultra",
         instructionSources: [],
       };
     if (method === "thread/memoryMode/set") return {};
@@ -222,7 +223,7 @@ test("owned disabled start/resume confirms native setter before turn without inv
   assert.equal(f.calls[0].params.config["memories.use_memories"], false);
   assert.equal(f.calls[0].params.model, "gpt-6.2-sol");
   assert.equal(f.calls[0].params.modelProvider, "openai");
-  assert.equal(f.calls[0].params.config.model_reasoning_effort, "high");
+  assert.equal(f.calls[0].params.config.model_reasoning_effort, "ultra");
   assert.deepEqual(f.calls[1].params, {
     threadId: "owned-thread",
     mode: "disabled",
@@ -234,7 +235,7 @@ test("owned disabled start/resume confirms native setter before turn without inv
   await f.adapter.turn("owned-thread", capsule, () => dispatched++);
   assert.equal(dispatched, 1);
   assert.equal(f.calls.at(-1).params.model, "gpt-6.2-sol");
-  assert.equal(f.calls.at(-1).params.effort, "high");
+  assert.equal(f.calls.at(-1).params.effort, "ultra");
   const prompt = f.calls.at(-1).params.input.at(-1).text;
   assert.match(prompt, /aliases.*transport, not a prerequisite/);
   assert.match(
@@ -372,12 +373,14 @@ test("changed memory-store alias blocks the next turn without widening or mutati
   assert.deepEqual(f.calls, []);
 });
 
-test("wrong or missing native model and unapproved provider are acknowledged before any admission failure", async (t) => {
+test("wrong or missing native model or effort and unapproved provider stop admission after acknowledgement", async (t) => {
   const f = await fixture(t);
   for (const [replyMeta, expected] of [
     [{ model: "gpt-6.1-sol", modelProvider: "openai" }, "MODEL_UNAVAILABLE"],
     [{ modelProvider: "openai" }, "MODEL_UNAVAILABLE"],
     [{ model: "gpt-6.2-sol", modelProvider: "foreign" }, "BILLING_AUTHORITY_REQUIRED"],
+    [{ model: "gpt-6.2-sol", modelProvider: "openai" }, "MODEL_EFFORT_UNAVAILABLE"],
+    [{ model: "gpt-6.2-sol", modelProvider: "openai", reasoningEffort: "high" }, "MODEL_EFFORT_UNAVAILABLE"],
   ]) {
     const acknowledged = [];
     f.calls.length = 0;
@@ -392,6 +395,8 @@ test("wrong or missing native model and unapproved provider are acknowledged bef
       assert.equal(acknowledged[0].thread.id, "owned-thread");
       assert.equal(error.details.observed_model, replyMeta.model ?? null);
       assert.equal(error.details.observed_provider, replyMeta.modelProvider);
+      assert.equal(error.details.requested_effort, "ultra");
+      assert.equal(error.details.observed_effort, replyMeta.reasoningEffort ?? null);
       assert.equal(error.details.requested_model, "gpt-6.2-sol");
       return true;
     });
@@ -405,7 +410,7 @@ test("missing trusted release policy cannot be sourced from the project", async 
   const release = join(f.root, "releases");
   await mkdir(release);
   await writeFile(join(release, "current.json"), JSON.stringify({
-    schema_version: "codex-agents.release/1", managed_model: { id: "gpt-6.2-sol" },
+    schema_version: "codex-agents.release/1", managed_model: { id: "gpt-6.2-sol", reasoning_effort: "ultra" },
   }));
   const adapter = new CodexAdapter({
     dataDir: f.dataDir, repoRoot: join(f.directory, "unavailable-verified-root"),

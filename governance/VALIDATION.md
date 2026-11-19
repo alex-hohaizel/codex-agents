@@ -10,7 +10,7 @@ python3 -B scripts/materialize_standards.py --check
 python3 -B scripts/check_repository.py
 ```
 
-The repository check verifies the 33 core skill identities and files, component pins, optional assets, role configurations, installation entry point, requirements and the complete guide locales. Review media and gallery exports using their [build instructions](../marketing/README.md). Run the [release workflow](../.github/workflows/validate.yml) for repeatable domain, service, campaign and archive checks.
+The repository check verifies the 33 core skill identities and files, component pins, optional assets, role configurations against the release model and effort, installation entry point, requirements and the complete guide locales. Review media and gallery exports using their [build instructions](../marketing/README.md). Run the [release workflow](../.github/workflows/validate.yml) for repeatable domain, service, campaign and archive checks.
 
 Run the native wizard with an actual `uk-UA` browser before selecting a
 locale. Verify English initial presentation, explicit alternate choice,

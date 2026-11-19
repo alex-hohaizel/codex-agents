@@ -326,8 +326,8 @@ class Acceptance:
         self.role = self.home / '.codex/agents/foundry-qa.toml'
         self.role.parent.mkdir()
         owned_role = (self.package / 'product/agent-profiles/foundry-qa.toml').read_bytes()
-        tuned_role, count = re.subn(rb'^model_reasoning_effort = "\w+"$', b'model_reasoning_effort = "medium"', owned_role, flags=re.M)
-        require(count == 1 and tuned_role != owned_role, 'Local fixture must carry distinct supported effort tuning')
+        tuned_role, count = re.subn(rb'^model_reasoning_effort = "\w+"$', rb'\g<0> # preserved owner comment', owned_role, flags=re.M)
+        require(count == 1 and tuned_role != owned_role, 'Local fixture must carry distinct policy-compatible effort line')
         self.role.write_bytes(tuned_role)
         self.preserved = {str(path): digest(path) for path in (self.foreign, self.project_file, self.role)}
         self.personal_profile = self.profile.read_text(encoding='utf8')
@@ -796,14 +796,22 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         refused = self.setup('audit', '--plan', self.output/'foreign-selector-must-not-install.json', expected=(2,))
         require(refused['status'] == 'blocked' and 'native-upgrade-owner-choice' in refused.get('reason','')
                 and self.role.read_bytes() == foreign, 'Foreign model selection was not held for reconciliation')
-        # An explicitly recognized legacy model migrates. Owner effort remains exact.
-        self.role.write_bytes(f'model = "{LEGACY_MIGRATION_MODEL}"\nmodel_reasoning_effort = "high"\n'.encode() + prior_role)
+        legacy_model = f'model = "{LEGACY_MIGRATION_MODEL}"\n'.encode()
+        lower = legacy_model + b'model_reasoning_effort = "high" # owner choice\n' + prior_role
+        self.role.write_bytes(lower)
+        refused = self.setup('audit', '--plan', self.output/'manual-lower-effort-must-not-install.json', expected=(2,))
+        require(refused['status'] == 'blocked' and 'differs from managed ultra' in refused.get('reason','')
+                and self.role.read_bytes() == lower, 'Manual lower effort was not held for reconciliation')
+        # Stage the approved legacy model and a policy-compatible manual selector.
+        policy = load(self.package / 'product/releases/current.json')['managed_model']
+        exact_effort = f'model_reasoning_effort = "{policy["reasoning_effort"]}" # owner choice'.encode()
+        self.role.write_bytes(legacy_model + exact_effort + b'\n' + prior_role)
         copied.append(self.profile)
         predecessor = {path.relative_to(self.home).as_posix(): {'sha256': digest(path), 'mode': stat.S_IMODE(path.stat().st_mode)} for path in copied}
         (self.output / 'published-predecessor-files.json').write_bytes(encoded({
             'source_commit': PUBLISHED_PREDECESSOR, 'repository_version': release['repository_version'],
             'suite_version': release['suite_version'], 'kit_manifest_sha256': hashlib.sha256(published('kit/manifest.json')).hexdigest(),
-            'scope': 'All 33 published core skills, Orchestrator, 12 roles and managed profile. Foreign tuning held, recognized legacy selector migrated, manual effort preserved.',
+            'scope': 'All 33 published core skills, Orchestrator, 12 roles and managed profile. Foreign tuning held, manual lower effort held, recognized legacy selector migrated, policy-compatible local selector preserved.',
             'files': predecessor}))
         plan = self.output / 'published predecessor upgrade plan.json'
         audit = self.setup('audit', '--plan', plan)
@@ -815,9 +823,8 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         installed = self.setup('install', '--plan', plan, '--approve', audit['plan_sha256'], timeout=upgrade_timeout)
         verified = self.setup('verify', '--journal', installed['journal'])
         require(verified['skills'] == 33 and verified['orchestrator'] and verified['source_commit'] == self.manifest['source_commit'], 'Predecessor upgrade did not verify the complete new product')
-        managed_model = load(self.package / 'product/releases/current.json')['managed_model']['id']
-        for value in (f'model = "{managed_model}"'.encode(), b'model_reasoning_effort = "high"'):
-            require(value in self.role.read_bytes(), 'Upgrade dropped supported owner role tuning')
+        for value in (f'model = "{policy["id"]}"'.encode(), exact_effort):
+            require(value in self.role.read_bytes(), 'Upgrade dropped policy-compatible owner role tuning')
         for path, expected in before_customer.items():
             require(digest(path) == expected, 'Upgrade changed unrelated customer work')
         rolled = self.setup('rollback', '--journal', installed['journal'])
@@ -834,7 +841,8 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         require(len(list((self.state / 'packages').iterdir())) == 1, 'Predecessor test duplicated the full current package cache')
         self.record('published-v1.8-complete-upgrade-and-exact-rollback', {
             'predecessor_commit': PUBLISHED_PREDECESSOR, 'core_skills': 33, 'roles': 12,
-            'foreign_selector_blocked_without_changes': True, 'legacy_managed_selector_migrated': True,
+            'foreign_selector_blocked_without_changes': True, 'manual_lower_effort_blocked_without_changes': True,
+            'legacy_managed_selector_migrated': True,
             'upgrade_command_timeout_seconds': upgrade_timeout,
             'predecessor_files': len(predecessor), 'orchestrator': True, 'owner_tuning_preserved': True,
             'foreign_skill_and_project_preserved': True, 'retained_full_packages': 1,

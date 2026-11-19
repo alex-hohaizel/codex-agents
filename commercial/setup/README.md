@@ -29,12 +29,14 @@ do not clean it while an operation is unresolved.
 The default scope installs all 33 stable skills, Atelier Orchestrator, the
 production profile and twelve roles. The core updater preserves recognized
 local icons and refuses unknown policy or prompt drift. The host installer
-retains valid local model/reasoning choices. Unknown Orchestrator changes are
+migrates exact owned role selectors and holds an unqualified local effort or
+foreign model for review. Unknown Orchestrator changes are
 held for an explicit merge; the setup has no force option. Your other skills
 and existing projects are outside its write scope. Audit a new plan after
 accepting a local merge.
 
-A generated `Open Codex.command` registers the installed roles as launch
+The generated Codex launcher requests the release's model and reasoning effort
+and registers the installed roles as launch
 configuration without modifying the user's `config.toml`. Start Codex through
 that launcher when you want those explicit roles. A successful file check is
 separate from `discover`, and native role execution is separate from discovery.

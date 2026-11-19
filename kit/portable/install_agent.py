@@ -333,9 +333,10 @@ def validate_manifest(value):
             raise InstallError("Operating standard must pin every portable resource")
         if "assets/managed-model.json" in required_resources:
             model = standard.get("managed_model")
-            if not (isinstance(model, dict) and set(model) == {"id"} and
+            if not (isinstance(model, dict) and set(model) == {"id", "reasoning_effort"} and
+                    model["reasoning_effort"] == "ultra" and
                     isinstance(model["id"], str) and re.fullmatch(r"gpt-[a-z0-9]+(?:[.-][a-z0-9]+)+", model["id"])):
-                raise InstallError("Current generated operating standard requires a valid managed model")
+                raise InstallError("Current generated operating standard requires a valid managed model and ultra reasoning effort")
         elif "managed_model" in standard:
             raise InstallError("Historical generated operating standard cannot declare a managed model")
         for name, entry in by_name.items():
@@ -604,7 +605,9 @@ def managed_block(manifest, manifest_hash):
     model = (manifest.get("operating_standard") or {}).get("managed_model")
     model_instruction = (
         "Launch from this project with `codex --model " + model["id"] +
-        "` or use the supported host picker. Check actual session metadata before crediting managed execution.\n"
+        ' -c \'model_reasoning_effort="' + model["reasoning_effort"] +
+        '"\'` or select both settings in the supported host picker. '
+        "Check actual model and reasoning effort in session metadata before crediting managed execution.\n"
         if model is not None else ""
     )
     return (begin + "\n"

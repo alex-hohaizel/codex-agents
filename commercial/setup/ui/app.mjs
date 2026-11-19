@@ -11,9 +11,11 @@ const dictionaries = {
  },
 };
 Object.assign(dictionaries.en,{
+ practiceUpdateRequired:'Prepare, install and verify the toolkit update to use the required model and effort. Then create a new practice project.',
  purchaseTitle:'Keep your purchase document · optional',purchaseHelp:'If you received a purchase confirmation or entitlement JSON from trusted delivery, choose it before preparing the plan. The original document stays private on this computer. Updates keep an existing purchase document automatically.',purchaseChoose:'Choose purchase document',purchaseTrust:'Keeping a document does not verify its signature, activate a purchase or grant new rights.',purchaseEmpty:'No document selected here. The technical installer works without one.',purchaseReady:'Document ready for the next plan',purchaseSelecting:'Keeping the selected document',purchaseInvalid:'Use a JSON purchase document of up to 256 KiB.',purchaseReview:'A new document clears the previous plan and approval. Prepare and review a new plan.'
 });
 Object.assign(dictionaries.uk,{
+ practiceUpdateRequired:'Щоб запустити це завдання з потрібною моделлю, підготуйте, встановіть і перевірте оновлення. Потім створіть новий тренувальний проєкт.',
  purchaseTitle:'Збережіть документ покупки · необов’язково',purchaseHelp:'Якщо довірена доставка видала JSON підтвердження покупки або entitlement, виберіть його перед підготовкою плану. Оригінал залишається приватним на цьому комп’ютері. Під час оновлення наявний документ покупки зберігається автоматично.',purchaseChoose:'Вибрати документ покупки',purchaseTrust:'Збереження документа не перевіряє його підпис, не активує покупку й не надає нових прав.',purchaseEmpty:'У цьому вікні документ ще не вибрано. Технічний установник працює без нього.',purchaseReady:'Документ готовий для нового плану',purchaseSelecting:'Зберігаємо вибраний документ',purchaseInvalid:'Виберіть JSON документа покупки обсягом до 256 КіБ.',purchaseReview:'Новий документ скасовує попередній план і підтвердження. Підготуйте та перегляньте новий план.'
 });
 const LOCALES = new Set(['en', 'uk']);
@@ -96,6 +98,7 @@ function renderReceipts() {
  const practice = state.results?.practice;
  if (practice?.project) {
   practiceId = practice.practice_id; $('practice-result').hidden = false; $('open-practice-button').hidden = false; $('open-codex-button').hidden = !practice.launcher;
+  text($('practice-instructions'),t(practice.launcher_requires_update ? 'practiceUpdateRequired' : 'practiceInstructions'));
   text($('practice-path'),practice.project); $('practice-prompt').value = `${locale === 'uk' ? 'Проєкт' : 'Project'}: ${practice.project}\n\n${practice.prompt || ''}`;
  }
 }

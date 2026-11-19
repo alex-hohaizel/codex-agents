@@ -96,14 +96,14 @@ Erstellen Sie einen interaktiven Browserprototyp aus geprüftem DESIGN und EXPER
 
 Beginnen Sie mit maßgeblichen Anforderungen, Projektidentität, Entscheidungen und Kontrollpunkt. Binden Sie exakte Quell-Hashes, relevante Pflichten, erlaubte Auswirkungen, zurückgestellte Arbeit, Ausgabe, ungeklärte Auswirkungen und den nächsten Schritt. Bei einer geänderten oder fehlenden Quelle prüfen Sie die betroffene Verpflichtung erneut. Die Übergabe überträgt diesen Ausschnitt an die nächste Aufgabe oder Umgebung; die Originalquellen bleiben maßgeblich.
 
-Bei einer Neuinstallation öffnet sich der Assistent auch mit ukrainischem System oder Browser auf Englisch. Wählen Sie im Assistenten Englisch oder Ukrainisch. Die ausdrücklich gewählte Sprache bleibt bei einem Neustart auf einem anderen Port erhalten. Die Workbench verwendet die gültige ausdrückliche Oberflächensprache, danach die gespeicherte Einstellung und schließlich Englisch. Wählen Sie für eine Aufgabe die Ausgabesprache ausdrücklich oder behalten Sie die im Projekt vermerkte Sprache bei. Der verwaltete Starter fordert GPT-6.2 Sol an, sofern das Käuferkonto Zugriff hat. Zahlungen sind für diese Version deaktiviert. Einen vorhandenen Offline-Kaufbeleg können Sie getrennt aufbewahren.
+Bei einer Neuinstallation öffnet sich der Assistent auch mit ukrainischem System oder Browser auf Englisch. Wählen Sie im Assistenten Englisch oder Ukrainisch. Die ausdrücklich gewählte Sprache bleibt bei einem Neustart auf einem anderen Port erhalten. Die Workbench verwendet die gültige ausdrückliche Oberflächensprache, danach die gespeicherte Einstellung und schließlich Englisch. Wählen Sie für eine Aufgabe die Ausgabesprache ausdrücklich oder behalten Sie die im Projekt vermerkte Sprache bei. Der verwaltete Starter fordert GPT-6.2 Sol Ultra an, sofern Modell und Denkstufe im Käuferkonto verfügbar sind. Zahlungen sind für diese Version deaktiviert. Einen vorhandenen Offline-Kaufbeleg können Sie getrennt aufbewahren.
 
 Speichern Sie `preferred_language` im Projektkontext und geben Sie die Einstellung bei Übergaben weiter. Bewahren Sie exakte Befehle, Selektoren, IDs, Quellverweise und Originalzitate. [Betriebsmodell](../OPERATING_MODEL.md#project-context-and-handoffs) · [Projektkontext](../../templates/project-context.json) · [Übergabe](../../templates/HANDOFF.md)
 
 <a name="models"></a>
 ### Modelle und Kosten
 
-Halten Sie beim Vergleich von Arbeitswegen das Modell, den Denkaufwand und das Ergebnis fest. Nutzen Sie eine kostengünstigere Variante, wenn sie mit denselben Eingaben dieselben Abnahmeprüfungen besteht. [Modellwahl und Kosten](../OPERATING_MODEL.md#models-and-cost)
+Halten Sie beim Vergleich von Arbeitswegen das Modell, den Denkaufwand und das Ergebnis fest. Eine niedrigere Denkstufe setzt eine ausdrückliche Anforderung für diese Aufgabe und geprüfte Belege für eine kürzere Laufzeit bei gleicher Qualität und gleichen Eingaben voraus. Prüfen Sie das tatsächliche Modell und die Denkstufe in den nativen Ergebnissen. [Modellwahl und Kosten](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Wissenssuche und RAG ergänzen

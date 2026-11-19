@@ -96,14 +96,14 @@ Crea un prototipo interactivo en el navegador a partir de DESIGN y EXPERIENCE re
 
 Abre los requisitos autorizados, la identidad, las decisiones y el punto de control. Fija las huellas exactas e incluye requisitos aplicables, efectos permitidos, trabajo aplazado, resultado, efectos pendientes y próxima acción. Si una fuente cambia o falta, vuelve a verificar la obligación afectada. El traspaso lleva esta selección a otra tarea o entorno y conserva la autoridad de las fuentes originales.
 
-En una instalación limpia, el asistente se abre en inglés incluso con el sistema o el navegador en ucraniano. Selecciona inglés o ucraniano en el asistente. La elección explícita se conserva tras reiniciar en otro puerto. Workbench usa primero el idioma de interfaz válido especificado, después la preferencia guardada y finalmente el inglés. Para una tarea, selecciona el idioma de salida o conserva la preferencia registrada del proyecto. El iniciador gestionado solicita GPT-6.2 Sol según la disponibilidad en la cuenta del comprador. Los pagos están desactivados en esta versión. Puedes conservar por separado un documento original de compra sin conexión.
+En una instalación limpia, el asistente se abre en inglés incluso con el sistema o el navegador en ucraniano. Selecciona inglés o ucraniano en el asistente. La elección explícita se conserva tras reiniciar en otro puerto. Workbench usa primero el idioma de interfaz válido especificado, después la preferencia guardada y finalmente el inglés. Para una tarea, selecciona el idioma de salida o conserva la preferencia registrada del proyecto. El iniciador gestionado solicita GPT-6.2 Sol Ultra según la disponibilidad del modelo y del nivel de razonamiento en la cuenta del comprador. Los pagos están desactivados en esta versión. Puedes conservar por separado un documento original de compra sin conexión.
 
 Registra `preferred_language` en el contexto y transmítelo al traspasar trabajo. Conserva comandos, selectores, identificadores, referencias y citas exactas. [Modelo operativo](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contexto de proyecto](../../templates/project-context.json) · [Traspaso](../../templates/HANDOFF.md)
 
 <a name="models"></a>
 ### Modelos y costes
 
-Al comparar flujos, registra el modelo, el nivel de razonamiento y el resultado. Usa una variante de menor coste si supera las mismas comprobaciones de aceptación con los mismos datos de entrada. [Selección de modelos y costes](../OPERATING_MODEL.md#models-and-cost)
+Al comparar flujos, registra el modelo, el nivel de razonamiento y el resultado. Un nivel de razonamiento inferior requiere un requisito explícito para la tarea y evidencia revisada de que reduce el tiempo con la misma calidad y los mismos datos de entrada. Comprueba el modelo y el nivel efectivos en los resultados nativos. [Selección de modelos y costes](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Añade búsqueda de conocimiento y RAG

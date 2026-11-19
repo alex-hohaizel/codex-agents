@@ -14,17 +14,24 @@ import native_canary as native
 
 class NativeModelPolicyTests(unittest.TestCase):
     def test_candidate_uses_release_model_and_alternate_requires_baseline(self):
-        self.assertEqual(native.managed_model(), "gpt-6.2-sol")
+        self.assertEqual(native.managed_policy(), ("gpt-6.2-sol", "ultra"))
         with self.assertRaisesRegex(ValueError, "explicit baseline replays"):
-            native.managed_model("gpt-6.1-sol")
+            native.managed_policy("gpt-6.1-sol")
         self.assertEqual(
-            native.managed_model("gpt-6.1-sol", baseline=True), "gpt-6.1-sol"
+            native.managed_policy("gpt-6.1-sol", "high", baseline=True), ("gpt-6.1-sol", "high")
         )
+
+    def test_only_an_explicit_baseline_can_override_managed_effort(self):
+        for lower in ("low", "medium", "high", "xhigh", "max"):
+            with self.subTest(effort=lower):
+                with self.assertRaisesRegex(ValueError, "requires ultra effort"):
+                    native.managed_policy(requested_effort=lower)
+        self.assertEqual(native.managed_policy(requested_effort="ultra"), native.managed_policy())
 
     def test_missing_policy_fails_even_with_explicit_model(self):
         with tempfile.TemporaryDirectory() as location, patch.object(native, "REPO", Path(location)):
             with self.assertRaisesRegex(ValueError, "managed model policy is missing or invalid"):
-                native.managed_model("gpt-6.1-sol", baseline=True)
+                native.managed_policy("gpt-6.1-sol", baseline=True)
 
     def test_native_typed_model_receipts_distinguish_config_and_actual_model(self):
         with tempfile.TemporaryDirectory() as directory, patch.dict("os.environ", {"CODEX_HOME": directory}):
@@ -48,6 +55,7 @@ class NativeModelPolicyTests(unittest.TestCase):
             receipt = native.native_turn_receipt(thread)
             self.assertTrue(native.matches_model(receipt, "gpt-6.2-sol", "high"))
             self.assertFalse(native.matches_model(receipt, "gpt-6.1-sol", "high"))
+            self.assertFalse(native.matches_model(receipt, "gpt-6.2-sol", "ultra"))
             self.assertEqual(receipt["event_sha256"], native.sha(encoded[2]))
             self.assertEqual(receipt["event_line"], 3)
             path.write_bytes(b"".join(encoded + [encoded[2]]))
@@ -56,7 +64,7 @@ class NativeModelPolicyTests(unittest.TestCase):
     def test_ephemeral_fixture_retains_no_rollout_by_default(self):
         case = {"sandbox": "read-only", "persist": False, "skills": [], "files": {},
                 "allowed_changes": [], "checks": [], "prompt": "Read-only synthetic task"}
-        model = native.managed_model()
+        model, effort = native.managed_policy()
         native_id = str(uuid4())
         event_data = (
             {"type": "thread.started", "thread_id": native_id},
@@ -64,15 +72,16 @@ class NativeModelPolicyTests(unittest.TestCase):
         )
         def launch(argv, prompt, out, diagnostics, deadline):
             self.assertEqual("--ephemeral" in argv, not args.persist_model_receipt)
+            self.assertIn('model_reasoning_effort="ultra"', argv)
             out.write(b"".join((json.dumps(event) + "\n").encode() for event in event_data))
             return 0
 
         with tempfile.TemporaryDirectory() as folder:
             for persist in (False, True):
                 with self.subTest(persist=persist):
-                    args = Namespace(prepare_only=False, model=model, effort="high", codex="codex",
+                    args = Namespace(prepare_only=False, model=model, effort=effort, codex="codex",
                                      deadline=30, persist_model_receipt=persist)
-                    model_receipt = {"observed_model": model, "observed_effort": "high"}
+                    model_receipt = {"observed_model": model, "observed_effort": effort}
                     with patch.object(native, "run_native", side_effect=launch), patch.object(
                         native, "native_turn_receipt", return_value=model_receipt
                     ) as read:
@@ -91,7 +100,7 @@ class NativeModelPolicyTests(unittest.TestCase):
             day.mkdir(parents=True)
             parent, child = str(uuid4()), str(uuid4())
             role = "test-role"
-            model = native.managed_model()
+            model, effort = native.managed_policy()
             prose = "Inspect only the named fixture."
             profile = f'developer_instructions = """\n{prose}\n"""'
             def record(kind, **payload):
@@ -114,15 +123,15 @@ class NativeModelPolicyTests(unittest.TestCase):
             child_events = [
                 record("session_meta", id=child,
                        source={"subagent": {"thread_spawn": {"parent_thread_id": parent, "agent_role": role}}}),
-                record("turn_context", model=model, effort="high"),
+                record("turn_context", model=model, effort=effort),
                 record("response_item", type="message", role="developer", content=[{"text": prose}]),
                 record("event_msg", type="task_complete"),
-                record("turn_context", model=model, effort="high"),
+                record("turn_context", model=model, effort=effort),
                 record("event_msg", type="task_complete"),
             ]
             save(parent, parent_events)
             save(child, child_events)
-            proof = native.owned_role_provenance(parent, role, profile, model, "high")
+            proof = native.owned_role_provenance(parent, role, profile, model, effort)
             self.assertTrue(proof["observed"])
             self.assertEqual(proof["requested_spawn_attempts"], 2)
             self.assertEqual(proof["spawn_count"], 1)
@@ -131,11 +140,11 @@ class NativeModelPolicyTests(unittest.TestCase):
 
             child_events[-2]["payload"]["effort"] = "low"
             save(child, child_events)
-            self.assertFalse(native.owned_role_provenance(parent, role, profile, model, "high")["observed"])
+            self.assertFalse(native.owned_role_provenance(parent, role, profile, model, effort)["observed"])
             save(child, child_events[:4])
             parent_events[2]["payload"]["output"] = "unknown outcome"
             save(parent, parent_events)
-            self.assertFalse(native.owned_role_provenance(parent, role, profile, model, "high")["observed"])
+            self.assertFalse(native.owned_role_provenance(parent, role, profile, model, effort)["observed"])
 
     def test_environment_does_not_forward_provider_credentials(self):
         with patch.dict("os.environ", {

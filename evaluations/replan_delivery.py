@@ -341,7 +341,7 @@ def apply(case):
             "ready": report["ready"], "blocked": report["blocked"]}
 
 
-def policy_command(project, codex, model, role, effort=native.DEFAULT_EFFORT, persist_model_receipt=False):
+def policy_command(project, codex, model, role, effort, persist_model_receipt=False):
     conflicts = sorted({ref for name in SKILLS for ref in native.installed_conflicts(name)})
     configured = ",".join("{path=" + json.dumps(ref) + ",enabled=false}" for ref in conflicts)
     denied = {str(path.resolve()) for path in (Path.home() / ".agents/skills", Path.home() / ".codex/skills",
@@ -565,7 +565,7 @@ def main():
     parser.add_argument("--model", help="Alternate model pin requires the explicit baseline replay")
     parser.add_argument("--baseline-replay", action="store_true")
     parser.add_argument("--baseline-source", type=Path, help="Use the reviewed baseline checkout when preparing")
-    parser.add_argument("--effort", choices=("low", "medium", "high"), default=native.DEFAULT_EFFORT)
+    parser.add_argument("--effort", choices=native.REASONING_EFFORTS, help="Alternate effort requires an explicit historical baseline")
     parser.add_argument("--deadline", type=int, default=300)
     parser.add_argument("--persist-model-receipt", action="store_true",
                         help="Allow a disposable Builder rollout for exact model readback")
@@ -580,7 +580,7 @@ def main():
         elif args.stage == "apply":
             result = apply(case)
         else:
-            args.model = native.managed_model(args.model, baseline=args.baseline_replay)
+            args.model, args.effort = native.managed_policy(args.model, args.effort, baseline=args.baseline_replay)
             need(args.codex and native.auth_ok(args.codex), "Native Codex requires existing ChatGPT login")
             need(args.deadline > 0, "Expected a positive deadline")
             result = builder(case, args) if args.stage == "builder" else qa(case, args)

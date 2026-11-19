@@ -96,14 +96,14 @@ Crea un prototipo interattivo nel browser da DESIGN ed EXPERIENCE revisionati o 
 
 Aprite requisiti autorevoli, identità, decisioni e punto di ripresa. Fissate i digest esatti delle fonti e includete i requisiti applicabili, gli effetti permessi, il lavoro rinviato, il risultato, gli effetti incerti e la prossima azione. Se una fonte manca o cambia, verificate nuovamente l’obbligo interessato. Il passaggio consegna la selezione alla prossima attività o ambiente, conservando l’autorità delle fonti originali.
 
-Con una nuova installazione, la procedura guidata si apre in inglese anche su un sistema o un browser in ucraino. Scegliete inglese o ucraino nella procedura. La scelta esplicita viene ricordata anche dopo il riavvio su una porta diversa. Workbench usa la lingua dell’interfaccia scelta in modo esplicito, poi la preferenza salvata e infine l’inglese. Per una singola attività, scegliete la lingua di output oppure conservate la lingua del progetto. Il launcher gestito richiede GPT-6.2 Sol se disponibile per l’account dell’acquirente. I pagamenti sono disattivati per questa versione. Potete conservare a parte un documento di acquisto offline originale.
+Con una nuova installazione, la procedura guidata si apre in inglese anche su un sistema o un browser in ucraino. Scegliete inglese o ucraino nella procedura. La scelta esplicita viene ricordata anche dopo il riavvio su una porta diversa. Workbench usa la lingua dell’interfaccia scelta in modo esplicito, poi la preferenza salvata e infine l’inglese. Per una singola attività, scegliete la lingua di output oppure conservate la lingua del progetto. Il launcher gestito richiede GPT-6.2 Sol Ultra se il modello e il livello di ragionamento sono disponibili per l’account dell’acquirente. I pagamenti sono disattivati per questa versione. Potete conservare a parte un documento di acquisto offline originale.
 
 Registrate `preferred_language` nel contesto e passatelo con le consegne. Mantenete esatti comandi, selettori, ID, riferimenti e citazioni originali. [Modello operativo](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contesto](../../templates/project-context.json) · [Consegna di lavoro](../../templates/HANDOFF.md)
 
 <a name="models"></a>
 ### Modelli e costi
 
-Quando confrontate percorsi diversi, registrate il modello, il livello di ragionamento e il risultato. Usate una variante meno costosa se supera le stesse verifiche di accettazione con gli stessi dati in ingresso. [Scelta dei modelli e valutazione dei costi](../OPERATING_MODEL.md#models-and-cost)
+Quando confrontate percorsi diversi, registrate il modello, il livello di ragionamento e il risultato. Un livello di ragionamento inferiore richiede un requisito esplicito per l’attività e una verifica che dimostri tempi più brevi a parità di qualità e di dati in ingresso. Controllate il modello e il livello effettivi nei risultati nativi. [Scelta dei modelli e valutazione dei costi](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Aggiungere ricerca documentale e RAG

@@ -98,7 +98,7 @@
         "checkout_modified": { "type": "boolean" },
         "cli_version": { "type": ["string", "null"] },
         "requested_model": { "type": ["string", "null"] },
-        "requested_effort": { "enum": ["low", "medium", "high"] },
+        "requested_effort": { "enum": ["low", "medium", "high", "xhigh", "max", "ultra"] },
         "suite_sha256": { "$ref": "#/$defs/digest" },
         "runner_sha256": { "$ref": "#/$defs/digest" }
       },
