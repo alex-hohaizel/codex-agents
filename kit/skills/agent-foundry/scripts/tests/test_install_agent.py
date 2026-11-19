@@ -34,7 +34,8 @@ class PortableTests(unittest.TestCase):
             shutil.copy2(SOURCE / name, self.tools / name)
         inheritance = module(SOURCE / "check_generated_inheritance.py")
         self.operating_resources = inheritance.RESOURCES
-        for name in self.operating_resources:
+        self.briefing_materials = (*inheritance.BRIEFING_TEMPLATES, *inheritance.DOMAIN_BRIEFING)
+        for name in (*self.operating_resources, *self.briefing_materials):
             source = SOURCE.parent / name
             target = self.tools.parent / name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -76,7 +77,7 @@ class PortableTests(unittest.TestCase):
             (root / "references/rules.md").write_text("Concrete source and acceptance contract.\n")
             links = "".join("Read [operating method](" + path + ").\n" for path in self.operating_resources if path.startswith("references/"))
             (root / "SKILL.md").write_text("---\nname: " + name + "\ndescription: Use for the assigned bounded result.\n---\n\n# Assigned work\nRead [rules](references/rules.md).\n" + links)
-            for path in self.operating_resources:
+            for path in (*self.operating_resources, *self.briefing_materials):
                 target = root / path;target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes((self.tools.parent / path).read_bytes())
             (root / "agents").mkdir(exist_ok=True)
@@ -124,6 +125,71 @@ class PortableTests(unittest.TestCase):
             origin["style_reference"] = {"path":"assets/system-style-reference.svg", "sha256":hashlib.sha256(sample.read_bytes()).hexdigest()}
         path.write_text(json.dumps(origin))
         return root
+
+    def test_materialization_preflight_refuses_conflict_before_writing_any_child(self):
+        checker = self.tools / "check_generated_inheritance.py"
+        left, right, outside = (self.base / name for name in ("first", "second", "outside"))
+        for path in (left, right, outside):
+            (path / "scripts").mkdir(parents=True)
+        conflict = right / "scripts/briefing.py"
+        conflict.write_bytes(b"# Unknown local implementation")
+        refused = self.call(checker, ["--materialize", left, right], expected=1)
+        self.assertIn("conflicts with the constructor", refused["errors"][0])
+        self.assertEqual(conflict.read_bytes(), b"# Unknown local implementation")
+        self.assertFalse((left / "scripts/interaction.py").exists())
+        self.assertFalse((right / "assets/status-view.schema.json").exists())
+        conflict.unlink()
+        try:
+            conflict.symlink_to(outside / "scripts/briefing.py")
+        except OSError as error:
+            self.skipTest(f"native symlink creation unavailable: {error}")
+        refused = self.call(checker, ["--materialize", left, right], expected=1)
+        self.assertIn("must not traverse a link", refused["errors"][0])
+        self.assertTrue(conflict.is_symlink())
+        self.assertFalse((outside / "scripts/briefing.py").exists())
+        self.assertFalse((left / "scripts/interaction.py").exists())
+
+    def test_standalone_materialized_brief_and_status_operate_without_constructor(self):
+        self.skills(1)
+        child = self.kit / "skills" / self.names[0]
+        for resource in self.operating_resources:
+            (child / resource).unlink()
+        template = child / "assets/stage-closeout.template.md"
+        template.write_bytes(b"# Domain-specific outcome and continuity evidence\n")
+        checker = self.tools / "check_generated_inheritance.py"
+        created = self.call(checker, ["--materialize", child])
+        self.assertEqual(created["status"], "shared_resources_materialized")
+        self.assertEqual(len(created["created"]), len(self.operating_resources))
+        self.assertEqual(self.call(checker, ["--materialize", child])["created"], [])
+        self.assertEqual(template.read_bytes(), b"# Domain-specific outcome and continuity evidence\n")
+        self.assertTrue(self.call(checker, [child])["valid"])
+        self.build()
+        self.install()
+        installed = self.project / ".agents/skills" / self.names[0]
+        scope = {
+            "schema_version": "app-atelier-state/1", "project_id": "local-project",
+            "profile": {"schema_version": "app-atelier-profile/1", "goal": "Зберегти точний запис"},
+            "job": {}, "decision": {}, "requirement": {}, "evidence": {}, "artifact": {}, "effect": {},
+        }
+        state = self.base / "status.json"
+        state.write_text(json.dumps(scope, ensure_ascii=False))
+        base_hash = hashlib.sha256(state.read_bytes()).hexdigest()
+        observed = self.call(installed / "scripts/interaction.py", ["status", "--source", state, "--format", "json"])
+        self.assertEqual(observed["goal"], "Зберегти точний запис")
+        self.assertEqual(observed["source"]["sha256"], base_hash)
+        self.assertEqual(hashlib.sha256(state.read_bytes()).hexdigest(), base_hash)
+        brief = module(SOURCE / "tests/test_briefing.py").BriefingTests()
+        brief.setUp()
+        self.addCleanup(brief.doCleanups)
+        brief.record_path.write_text(json.dumps(brief.record, ensure_ascii=False))
+        render = self.call(installed / "scripts/briefing.py",
+                           ["render-script", brief.record_path, "--output", "constructed.md", "--json"])
+        self.assertEqual(render["script_binding"]["render_locale"], "en")
+        self.assertIn(brief.record["goal"], (brief.root / "constructed.md").read_text())
+        self.assertIsNone(json.loads(brief.record_path.read_text())["approval"])
+        (child / "assets/status-view.schema.json").unlink()
+        broken = self.call(checker, [child], expected=1)
+        self.assertIn("assets/status-view.schema.json", " ".join(broken["errors"]))
 
     def test_generated_export_requires_all_portable_methods_and_local_links(self):
         self.skills(1)
@@ -493,7 +559,7 @@ class PortableTests(unittest.TestCase):
     def test_historical_operating_standard_keeps_its_exact_eight_resource_contract(self):
         self.skills(1);self.build()
         manifest=json.loads((self.kit/'manifest.json').read_text())
-        standard=manifest['operating_standard'];standard['release']='5.0.0'
+        standard=manifest['operating_standard'];standard['release']='5.0.0';standard.pop('managed_model')
         standard['resources']={key:value for key,value in standard['resources'].items() if key in self.api.LEGACY_OPERATING_RESOURCES}
         self.assertTrue(self.api.validate_manifest(manifest))
         standard['release']='6.0.0'
@@ -503,7 +569,7 @@ class PortableTests(unittest.TestCase):
     def test_six_zero_package_keeps_twelve_resources_without_claiming_six_one_adoption(self):
         self.skills(1);self.build()
         path=self.kit/'manifest.json';manifest=json.loads(path.read_text())
-        standard=manifest['operating_standard'];standard['release']='6.0.7'
+        standard=manifest['operating_standard'];standard['release']='6.0.7';standard.pop('managed_model')
         standard['resources']={key:value for key,value in standard['resources'].items()
                                if key in self.api.V6_0_OPERATING_RESOURCES}
         self.assertEqual(len(standard['resources']),12)
@@ -511,17 +577,78 @@ class PortableTests(unittest.TestCase):
         path.write_text(json.dumps(manifest))
         result=self.install()
         self.assertEqual(result['operating_standard'],'6.0.7')
-        self.assertTrue(any('does not claim current6.1' in warning for warning in result['warnings']))
+        self.assertTrue(any('Historical operating standard retained' in warning for warning in result['warnings']))
 
-    def test_new_six_one_contract_requires_all_fifteen_pins_and_rejects_unknown_future_lines(self):
+    def test_historical_project_update_uses_declared_five_resource_contract(self):
+        self.skills(1)
+        name = self.names[0]
+        child = self.kit / "skills" / name
+        legacy_paths = set(self.api.operating_resources_for_release("5.0.0"))
+        for relative in set(self.operating_resources) - legacy_paths:
+            (child / relative).unlink()
+        for relative in self.briefing_materials:
+            (child / relative).unlink()
+        links = "".join(f"Use [local contract]({relative}).\n"
+                        for relative in sorted(legacy_paths) if relative.startswith("references/"))
+        (child / "SKILL.md").write_text(
+            f"---\nname: {name}\ndescription: Historical scoped agent fixture.\n---\n\n{links}",
+            encoding="utf-8",
+        )
+        files = self.api.file_map(child)
+        self.api.write_manifest(self.kit, {
+            "agent_id": name, "entry_skill": name, "version": "4.9.0", "purpose": "generated",
+            "blueprint": {"id": "historic", "revision": 1, "sha256": "a" * 64, "approval_source": "fixture"},
+            "operating_standard": {
+                "schema": self.api.OPERATING_SCHEMA, "release": "5.0.0",
+                "resources": {relative: files[relative] for relative in legacy_paths},
+            },
+        })
+        self.install()
+        before = self.api.file_map(self.project)
+        source = self.base / "historical-source"
+        shutil.copytree(child, source / name)
+        records = {
+            relative: {"sha256": digest, "size": (child / relative).stat().st_size,
+                       "mode": self.api.file_mode(child / relative)}
+            for relative, digest in files.items()
+        }
+        (source / "source-manifest.json").write_text(json.dumps({
+            "name": name, "version": "5.0.0", "files": records,
+        }))
+        output = self.base / "maintenance-result"
+        receipt = self.call(SOURCE.parents[2] / "prepare_existing_project_update.py",
+                            ["--project", self.project, "--source-root", source, "--output", output])
+        self.assertEqual(receipt["status"], "prepared")
+        self.assertFalse(receipt["project_writes_performed"])
+        manifest = json.loads((output / "manifest.json").read_bytes())
+        self.assertEqual(set(manifest["operating_standard"]["resources"]), legacy_paths)
+        self.assertEqual(before, self.api.file_map(self.project))
+
+    def test_six_one_manifest_remains_admissible_with_original_resources(self):
+        self.skills(1)
+        self.build()
+        path = self.kit / "manifest.json"
+        manifest = json.loads(path.read_bytes())
+        standard = manifest["operating_standard"]
+        standard["release"] = "6.1.0"
+        standard.pop("managed_model")
+        expected = self.api.operating_resources_for_release("6.1.0")
+        self.assertEqual(len(expected), 15)
+        standard["resources"] = {key: standard["resources"][key] for key in expected}
+        path.write_text(json.dumps(manifest))
+        self.assertEqual(self.install()["operating_standard"], "6.1.0")
+
+    def test_new_contract_requires_all_portable_pins_and_rejects_unknown_future_lines(self):
         self.skills(1);self.build()
         manifest=json.loads((self.kit/'manifest.json').read_text())
         standard=manifest['operating_standard']
-        self.assertEqual(standard['release'],'6.1.0')
-        self.assertEqual(len(standard['resources']),15)
+        self.assertEqual(standard['release'],'6.6.0')
+        self.assertEqual(set(standard['resources']), set(self.operating_resources))
+        self.assertIn('scripts/briefing.py', standard['resources'])
+        self.assertIn('assets/status-view.schema.json', standard['resources'])
         self.assertTrue(self.api.validate_manifest(manifest))
         original=dict(standard['resources'])
-        for omitted in ('references/ai-production.md','assets/ai-production.schema.json','scripts/ai_production.py'):
+        for omitted in ('references/ai-production.md','assets/ai-production.schema.json','scripts/ai_production.py','assets/managed-model.json','references/managed-execution.md','scripts/interaction.py','assets/status-view.schema.json'):
             standard['resources']={key:value for key,value in original.items() if key!=omitted}
             with self.subTest(omitted=omitted),self.assertRaisesRegex(self.api.InstallError,'every portable resource'):
                 self.api.validate_manifest(manifest)
@@ -530,6 +657,24 @@ class PortableTests(unittest.TestCase):
             standard['release']=release
             with self.subTest(release=release),self.assertRaisesRegex(self.api.InstallError,'Unsupported future'):
                 self.api.validate_manifest(manifest)
+
+    def test_generated_install_pins_supported_codex_launch_and_rejects_manifest_model_drift(self):
+        self.skills(2)
+        self.build()
+        path = self.kit / "manifest.json"
+        manifest = json.loads(path.read_text())
+        standard = manifest["operating_standard"]
+        model = standard["managed_model"]["id"]
+        self.assertEqual(model, "gpt-6.2-sol")
+        self.install()
+        text = (self.project / "AGENTS.md").read_text()
+        self.assertIn("codex --model " + model, text)
+        self.assertNotIn("model", (self.project / ".agents/skills" / self.names[0] / "agents/openai.yaml").read_text())
+        standard["managed_model"]["id"] = "gpt-fixture.0-test"
+        path.write_text(json.dumps(manifest))
+        rejected = self.install("preflight", expected=2)
+        self.assertIn("Managed model differs", rejected["error"])
+        self.assertEqual(text, (self.project / "AGENTS.md").read_text())
 
     def test_gate_pending_changed_skillset_and_identity_cannot_export(self):
         self.skills(3);self.gate(False)

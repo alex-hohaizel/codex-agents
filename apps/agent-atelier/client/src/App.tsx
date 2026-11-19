@@ -44,7 +44,9 @@ import {
 import {
   catalogs,
   LocaleContext,
+  DEFAULT_LOCALE,
   localeNames,
+  supportedLocale,
   translate,
   type Locale,
   type MessageKey,
@@ -126,8 +128,9 @@ export default function App() {
     [],
   );
   const [demo, setDemo] = useState(initialQuery.get("demo") === "1");
+  const actionLocale = useRef(supportedLocale(initialQuery.get("locale")));
   const [locale, setLocale] = useState<Locale>(
-    (initialQuery.get("locale") as Locale) || "uk",
+    actionLocale.current ?? DEFAULT_LOCALE,
   );
   const [live, setLive] = useState<Bootstrap | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
@@ -256,8 +259,9 @@ export default function App() {
           /* preserve the last observed catalog */
         }
         setConnectionError(null);
-        if (!initialQuery.get("locale") && data.locale && !live)
-          setLocale(data.locale as Locale);
+        setLocale(
+          actionLocale.current ?? supportedLocale(data.locale) ?? DEFAULT_LOCALE,
+        );
         setProjectId((current) =>
           current && data.projects.some((p) => p.id === current)
             ? current
@@ -269,7 +273,7 @@ export default function App() {
         setLoading(false);
       }
     },
-    [demo, initialQuery, Boolean(live)],
+    [demo],
   );
 
   useEffect(() => {
@@ -714,7 +718,13 @@ export default function App() {
     window.history.replaceState({}, "", url);
   }
   async function changeLocale(value: Locale) {
+    actionLocale.current = value;
     setLocale(value);
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("locale") || demo) {
+      url.searchParams.set("locale", value);
+      window.history.replaceState({}, "", url);
+    }
     if (!demo && live) {
       try {
         await command("service.settings", { locale: value });
@@ -893,7 +903,7 @@ export default function App() {
                 .filter((l) => Boolean(catalogs[l]))
                 .map((l) => (
                   <option key={l} value={l}>
-                    {l === "zh-CN" ? "中文" : l.toUpperCase()}
+                    {localeNames[l]}
                   </option>
                 ))}
             </select>

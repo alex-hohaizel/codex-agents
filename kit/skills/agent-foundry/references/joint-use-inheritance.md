@@ -1,6 +1,6 @@
 # Shared operating mode in a generated agent
 
-Apply this to new Foundry outputs and explicitly agreed updates to existing packages. Inherit it together with the domain contract and briefing protocol. Preserve current permissions, state records and acceptance criteria in their owning project.
+Apply this to new Foundry outputs and explicitly agreed updates to existing packages. Inherit it together with the domain contract and briefing protocol. Preserve current permissions, state records and acceptance criteria in their owning project. For the current generated-agent standard, copy the [managed execution contract](managed-execution.md) and its exact model policy into every child.
 
 1. For each new skill, copy the exact [Work ↔ Codex operating guide](joint-work-codex.md) into its own `references/joint-work-codex.md`. Link that local path from `SKILL.md` and direct the skill to consult it at a new or resumed phase when choosing a host, identifying a missing prerequisite, or transferring work. For code- or config-only agents, include the same resource and link from the actual entrypoint, for example root `AGENTS.md`. The package must work without the original constructor or a neighboring skill.
 2. Bind domain roles, inputs, permissions, and criteria to applicable routes. Establish an existing project's identity from evidence and recover its state from the current checkpoint. For each route identify a supported way to verify source, acceptance and any required intervention. Store working IDs, data, and receipts in project state. Keep the packaged guide reusable.
@@ -9,6 +9,6 @@ Apply this to new Foundry outputs and explicitly agreed updates to existing pack
 
 ## Check the portable package
 
-Use the resource and entry-link lists in `scripts/check_generated_inheritance.py`. Each self-contained child includes 15 exact resources and links all seven local references from its actual entrypoint. Apply the applicable production, context and AI/data profiles. For a material artifact, preserve reference identity and functional depth and verify a representative result in the actual medium before scaling.
+Use the resource and entry-link lists in `scripts/check_generated_inheritance.py`. Bundle the listed resources and link the local references from the actual entrypoint. Apply the applicable production, context and AI/data profiles. For a material artifact, preserve reference identity and functional depth and verify a representative result in the actual medium before scaling.
 
 Retain domain requirements and the relevant integrator. Bundle the files with the child and record the emitted operating-standard identifier and resource hashes in its manifest. Verify native use and actual results in a fresh context. Apply a change to an existing agent only after reviewing the exact source and target, preserving authority, accepted work and identity, and exercising the affected behavior.

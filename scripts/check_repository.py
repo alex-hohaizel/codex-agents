@@ -11,6 +11,7 @@ import csv
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlparse
@@ -49,6 +50,19 @@ def check(root: Path, *, links: bool = True) -> dict:
             return {}
 
     current = load("releases/current.json")
+    repository_version = str(current.get("repository_version", ""))
+    managed_stage = re.match(r"^(\d+)\.(\d+)\.(\d+)",repository_version)
+    if managed_stage and tuple(map(int,managed_stage.groups())) >= (1,9,0):
+        from managed_release_checks import audit_checkout_models
+        model = current.get("managed_model")
+        if not isinstance(model,dict) or set(model) != {"id"} or not re.fullmatch(r"gpt-\d+\.\d+-sol",str(model.get("id",""))):
+            errors.append("managed release requires one explicit hosted Sol model in releases/current.json")
+        if current.get("commercial",{}).get("installer_payments_enabled") is not False:
+            errors.append("managed release installer payments must be disabled")
+        try:
+            errors.extend(audit_checkout_models(root))
+        except (OSError,ValueError,KeyError,subprocess.SubprocessError) as exc:
+            errors.append("managed legacy-model audit: " + str(exc))
     manifest = load("kit/manifest.json")
     suite_version = current.get("suite_version")
     skills = manifest.get("skills", [])

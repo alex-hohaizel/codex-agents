@@ -56,4 +56,6 @@ For an existing icon, preserve the original appearance and store an authentic pr
 
 ## Production, context, and AI operating resources
 
-Use the `RESOURCES` and `ENTRY_LINKS` declared by `scripts/check_generated_inheritance.py`. Bundle all 15 exact resources and link the seven local references from the actual entrypoint. Choose the applicable medium profile and preserve the defining reference mechanisms, identity, functional depth, and exact task context. Accept a representative slice on the actual medium before scaling. Record semantics, craft, authorization, and runtime proof separately. For an existing agent, compare exact source and target and test the affected workflow in a fresh context.
+Use the `RESOURCES` and `ENTRY_LINKS` declared by `scripts/check_generated_inheritance.py`. Bundle the listed resources and link the local references from the actual entrypoint. Choose the applicable medium profile and preserve the defining reference mechanisms, identity, functional depth, and exact task context. Accept a representative slice on the actual medium before scaling. Record semantics, craft, authorization, and runtime proof separately. For an existing agent, compare exact source and target and test the affected workflow in a fresh context.
+
+For the current generated-agent standard, inherit the [managed execution contract](managed-execution.md) and exact release model policy in each child. Verify effective use in the target consumer.

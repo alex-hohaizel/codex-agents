@@ -352,7 +352,7 @@ def unresolved_requirements(requirements, data, domain):
     return [row_view(r) for r in requirements if r.get("status") not in ("met", "closed", "complete", "not_applicable")]
 
 
-def build_view(source, project_root=None, scope=None):
+def build_view(source, project_root=None, scope=None, *, include_render_locale=False):
     path, root = locate(source, project_root)
     data, source_hash = read_record(path)
     domain, tables, brief, integrity, pause = adapt(data)
@@ -394,7 +394,7 @@ def build_view(source, project_root=None, scope=None):
     revision = data.get("revision", brief.get("version"))
     need(revision is None or type(revision) in (str, int), "native revision must be text/integer")
     goal = scalar(brief, "goal", "user_intent", "intent", "description", "name") or scalar(data, "goal")
-    return {"schema_version": VIEW_SCHEMA, "mode": "read_only_projection", "domain": domain,
+    view = {"schema_version": VIEW_SCHEMA, "mode": "read_only_projection", "domain": domain,
             "source": {"path": clean(str(path)), "project_root": clean(str(root)), "sha256": source_hash,
                        "native_schema": data["schema_version"], "revision": revision, "record_integrity": integrity},
             "project_id": clean(data.get("project_id", brief.get("id", "unknown"))), "goal": goal,
@@ -412,33 +412,92 @@ def build_view(source, project_root=None, scope=None):
                             "Only source-file integrity is checked; artifact/proof files, environment, native builds, providers and human observations are not exercised.",
                             "Redaction is best-effort; keep credentials out of project state and public free-text fields."]}
 
+    if include_render_locale:
+        saved = data.get("preferred_language", brief.get("preferred_language"))
+        view["render_locale"] = saved if saved in ("en", "uk") else "en"
+    return view
 
-def markdown(view, decision_id=None):
+
+def markdown(view, decision_id=None, locale=None):
+    labels = {
+        "en": {
+            "unknown": "unknown",
+            "decision": "# Decision: ",
+            "question": "Question: ",
+            "reason": "Reason: ",
+            "recommendation": "Recommendation: ",
+            "scope": "Scope: ",
+            "recorded_status": "Recorded status: ",
+            "recorded_answer": "Recorded answer: ",
+            "decision_notice": "This view displays the recorded decision and its sources. Verify authorization against the original message.",
+            "current_state": "# Current status: ",
+            "goal": "Goal: ",
+            "state": "Status: ",
+            "recorded_stage": "Recorded stage: ",
+            "active": "Current work: ",
+            "no_active": "no recorded active work",
+            "pending": "Pending decisions: ",
+            "no_pending": "no recorded pending decisions",
+            "recorded_completed": "Recorded as complete: ",
+            "none": "none",
+            "evidence": "## Evidence by type",
+            "next": "Next action: ",
+            "gap": "- Limitation: ",
+            "state_notice": "This view displays recorded state. Verify execution, quality, and authority at their sources.",
+            "source": "Source: ",
+        },
+        "uk": {
+            "unknown": "невідомо",
+            "decision": "# Рішення: ",
+            "question": "Питання: ",
+            "reason": "Причина: ",
+            "recommendation": "Рекомендація: ",
+            "scope": "Обсяг: ",
+            "recorded_status": "Записаний статус: ",
+            "recorded_answer": "Записана відповідь: ",
+            "decision_notice": "Ця картка не створює згоду й не перевіряє її справжність.",
+            "current_state": "# Поточний стан: ",
+            "goal": "Мета: ",
+            "state": "Стан: ",
+            "recorded_stage": "Записаний етап: ",
+            "active": "Зараз: ",
+            "no_active": "немає записаних активних робіт",
+            "pending": "Очікує рішення: ",
+            "no_pending": "немає записаних pending-рішень",
+            "recorded_completed": "Записано завершеними: ",
+            "none": "немає",
+            "evidence": "## Докази за окремими осями",
+            "next": "Наступна дія: ",
+            "gap": "- Обмеження: ",
+            "state_notice": "Це проєкція записаного стану; actual execution, предметну якість і поточний дозвіл перевіряють окремо.",
+            "source": "Джерело: ",
+        },
+    }[locale or view.get("render_locale", "en")]
     def line(value):
-        return str(value if value is not None else "невідомо").replace("\n", " ").replace("\r", " ")
+        return str(value if value is not None else labels['unknown']).replace("\n", " ").replace("\r", " ")
     if decision_id is not None:
         found = next((r for r in view["recorded_decisions"] if r["id"] == decision_id), None)
         need(found is not None, "decision ID absent from this exact source/scope")
-        parts = ["# Рішення: " + line(found["id"]), "", "Питання: " + line(found.get("question")),
-                 "Причина: " + line(found.get("reason", found.get("explanation"))),
-                 "Рекомендація: " + line(found.get("recommendation")), "Обсяг: " + line(found.get("scope")),
-                 "Записаний статус: " + line(found["recorded_status"]), ""]
+        parts = [labels['decision'] + line(found["id"]), "", labels['question'] + line(found.get("question")),
+                 labels['reason'] + line(found.get("reason", found.get("explanation"))),
+                 labels['recommendation'] + line(found.get("recommendation")), labels['scope'] + line(found.get("scope")),
+                 labels['recorded_status'] + line(found["recorded_status"]), ""]
         parts += ["- " + line(x) + ": " + line(found["consequences"].get(x)) for x in found["options"]]
-        parts += ["", "Записана відповідь: " + line(found.get("answer")),
-                  "Ця картка не створює згоду й не перевіряє її справжність."]
+        parts += ["", labels['recorded_answer'] + line(found.get("answer")),
+                  labels['decision_notice']]
     else:
-        parts = ["# Поточний стан: " + line(view["project_id"]), "", "Мета: " + line(view["goal"]),
-                 "Обсяг: " + line(view["scope"]), "Стан: " + line(view["workflow_status"]), "",
-                 "Записаний етап: " + line(view["recorded_completion"]["stage"]),
-                 "Зараз: " + (", ".join(line(r["id"]) for r in view["current_work"]) or "немає записаних активних робіт"),
-                 "Очікує рішення: " + (", ".join(line(r["id"]) for r in view["pending_decisions"]) or "немає записаних pending-рішень"),
-                 "Записано завершеними: " + (", ".join(line(r["id"]) + (" [recorded stale]" if r["recorded_stale"] else "") for r in view["recorded_completed_work"]) or "немає"), "",
-                 "## Докази за окремими осями", ""]
+        parts = [labels['current_state'] + line(view["project_id"]), "", labels['goal'] + line(view["goal"]),
+                 labels['scope'] + line(view["scope"]), labels['state'] + line(view["workflow_status"]), "",
+                 labels['recorded_stage'] + line(view["recorded_completion"]["stage"]),
+                 labels['active'] + (", ".join(line(r["id"]) for r in view["current_work"]) or labels['no_active']),
+                 labels['pending'] + (", ".join(line(r["id"]) for r in view["pending_decisions"]) or labels['no_pending']),
+                 labels['recorded_completed'] + (", ".join(line(r["id"]) + (" [recorded stale]" if r["recorded_stale"] else "") for r in view["recorded_completed_work"]) or labels['none']), "",
+                 labels['evidence'], ""]
         parts += ["- " + key + ": " + value["status"] for key, value in view["evidence_axes"].items()]
-        parts += ["", "Наступна дія: " + line(view["next_action"])]
-        parts += ["- Обмеження: " + line(x) for x in view["gaps"]]
-        parts += ["", "Це проєкція записаного стану; actual execution, предметну якість і поточний дозвіл перевіряють окремо."]
-    parts += ["", "Джерело: " + line(view["source"]["path"]), "SHA-256: " + view["source"]["sha256"]]
+        parts += ["", labels['next'] + line(view["next_action"])]
+        parts += [labels['gap'] + line(x) for x in view["gaps"]]
+        parts += ["", labels['state_notice']]
+    parts += ["", labels['source'] + line(view["source"]["path"]), "SHA-256: " + view["source"]["sha256"]]
     return "\n".join(parts) + "\n"
 
 
@@ -451,17 +510,18 @@ def main(argv=None):
         p.add_argument("--project-root", type=Path, help="Explicit project root for a record with project-relative references")
         p.add_argument("--scope", help="Exact scope filter; omitted means all recorded scopes")
         p.add_argument("--format", choices=("json", "markdown"), default="markdown")
+        p.add_argument("--locale", choices=("en", "uk"), help="Choose the Markdown view language")
         if command == "decision":p.add_argument("--id", required=True)
     args = parser.parse_args(argv)
     try:
-        view = build_view(args.source, args.project_root, args.scope)
+        view = build_view(args.source, args.project_root, args.scope, include_render_locale=args.format == "markdown")
         if args.command == "decision":
             row = next((r for r in view["recorded_decisions"] if r["id"] == args.id), None)
             need(row is not None, "decision ID absent from this exact source/scope")
             if args.format == "json":print(json.dumps({"schema_version": "atelier-decision-view/1", "source": view["source"], "decision": row, "native_gate_checked": False}, ensure_ascii=False, indent=2))
-            else:print(markdown(view, args.id), end="")
+            else:print(markdown(view, args.id, args.locale), end="")
         elif args.format == "json":print(json.dumps(view, ensure_ascii=False, indent=2, allow_nan=False))
-        else:print(markdown(view), end="")
+        else:print(markdown(view, locale=args.locale), end="")
         return 0
     except (OSError, ValueError, TypeError, KeyError, AttributeError, UnicodeError, RecursionError, OverflowError) as exc:
         # OSError/UnicodeError representations may contain an arbitrary path or

@@ -25,7 +25,7 @@ import {
   SurfaceNotice,
   type T,
 } from "./ui";
-import type { Locale } from "./i18n";
+import { localeNames, supportedLocale, type Locale } from "./i18n";
 import { profileLabel, type Profile } from "./profiles";
 
 export function BindingDialog({
@@ -193,10 +193,14 @@ export function TaskDialog({
   const [objective, setObjective] = useState(preset?.objective ?? "");
   const [acceptance, setAcceptance] = useState(preset?.acceptance ?? "");
   const [scope, setScope] = useState("read-only");
+  const [outputLocale, setOutputLocale] = useState<Locale | "">(
+    supportedLocale(preset?.output_locale) ?? "",
+  );
   const [paths, setPaths] = useState("");
   const [deadline, setDeadline] = useState(300);
   const [publicWebRead, setPublicWebRead] = useState(false);
   const [prepared, setPrepared] = useState<Data | null>(null);
+  const preparedLocale = supportedLocale(prepared?.capsule?.output_locale);
   const scopeReviewRef = useRef<HTMLParagraphElement>(null);
   const [reviewed, setReviewed] = useState(false);
   const [error, setError] = useState("");
@@ -254,6 +258,7 @@ export function TaskDialog({
         {
           objective,
           acceptance,
+          ...(outputLocale ? { output_locale: outputLocale } : {}),
           universal_entry: universal,
           ...(intent !== "auto" ? { route: intent } : {}),
           ...(intent === "maintain_system"
@@ -477,6 +482,23 @@ export function TaskDialog({
           <Status value="read-only" label={t("statePreserved")} />
         </div>
       )}
+      {!prepared && (
+        <Field label={t("taskOutputLanguage")}>
+          <select
+            value={outputLocale}
+            onChange={(event) =>
+              setOutputLocale(supportedLocale(event.target.value) ?? "")
+            }
+          >
+            <option value="">{t("projectLanguageDefault")}</option>
+            {Object.entries(localeNames).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </Field>
+      )}
       {!prepared && projects.length > 1 && (
         <Field label={t("projectSelection")}>
           <select
@@ -510,6 +532,11 @@ export function TaskDialog({
               <span>{deadline}</span>
             </div>
           </div>
+          {preparedLocale && (
+            <p className="muted">
+              {t("taskOutputLanguage")} · {localeNames[preparedLocale]}
+            </p>
+          )}
           <CodeViewer
             value={prepared.capsule ?? prepared}
             fileName="context-capsule.json"

@@ -1,10 +1,41 @@
 # Current release
 
-**Codex Agent System v1.8.0** provides a ready Universal installer and smaller
-native packages for Windows, macOS and Linux on x64 and ARM64. Use the ready
-Release assets for installation; GitHub's automatic source archives are developer
-sources and include an HTML link to those assets. `main` is the default branch.
-Commercial sale, payment processing and final legal terms remain separate gates.
+**Codex Agent System v1.9.0** is prepared for release as a ready Universal
+installer and six native packages for Windows, macOS and Linux on x64 and ARM64.
+The [v1.9.0 release page](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0)
+will provide the qualified downloads after publication. GitHub's automatic
+source archives contain developer sources and link to the ready assets.
+
+## v1.9.0 components
+
+The release record declares stable intent. Publication requires the exact
+`main` commit to pass source and native CI, verified archives and attestations,
+and readback from the manual publisher. Use the verified
+[v1.8.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0)
+until publication completes. It remains available for recovery.
+
+| Component | Version |
+| --- | --- |
+| Product | 1.9.0 |
+| Core suite and both constructors | 6.6.0 |
+| Host profile | 6.4.0 |
+| Role definitions | 6.3.0 |
+| Atelier Orchestrator | 1.6.0 |
+| Maintenance | 1.5.0 |
+| Agent Atelier | 0.9.0 |
+| Managed model | GPT-6.2 Sol (`gpt-6.2-sol`) |
+
+Clean product entry points start in English. The installer remembers a language
+the owner explicitly selects across restarts, and a task can select its own
+output language. Managed Codex launches use the model in the verified release
+record. An unavailable model needs a supported Codex account or workspace.
+
+Payments are disabled for this release. An original offline purchase document
+can still be retained through the separate optional control or inherited
+during a checked update. A public technical download and Codex model access
+have separate requirements.
+
+## v1.8.0 stable components
 
 | Component | Version | What the version identifies |
 | --- | --- | --- |

@@ -12,6 +12,18 @@ python3 -B scripts/check_repository.py
 
 The repository check verifies the 33 core skill identities and files, component pins, optional assets, role configurations, installation entry point, requirements and the complete guide locales. Review media and gallery exports using their [build instructions](../marketing/README.md). Run the [release workflow](../.github/workflows/validate.yml) for repeatable domain, service, campaign and archive checks.
 
+Run the native wizard with an actual `uk-UA` browser before selecting a
+locale. Verify English initial presentation, explicit alternate choice,
+restart on another port with the saved preference, and unmodified project
+and approval records. Run ordinary managed launchers with the exact release
+model and check a conflicting model option fails before dispatch. A displayed
+selector or requested parameter alone does not prove an actual model turn.
+
+Capture product payment/store requests and seller execution attempts on the
+ordinary installer lifecycle. Include an observed synthetic attempt that
+triggers the observer without external effects. Keep separate receipts for
+local C17 delivery, C18 runtime detachment and optional purchase documents.
+
 ## Verify behavior in the actual host
 
 [Native canaries](../evaluations/README.md) cover a direct task, a source-bound handoff, and the construction and use of a local candidate. Use controlled fixtures and compare actual changed files, resolved sources, expected results, permission refusals and operation receipts. Explicit invocation and natural routing need their own observations. A catalog entry and a successful import give useful evidence for discovery. Test the actual consuming step separately.

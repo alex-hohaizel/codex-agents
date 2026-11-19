@@ -252,8 +252,26 @@ class AdaptiveWorkTests(unittest.TestCase):
 
     def test_render_reports_limitations_and_next_action(self):
         text = aw.render(self.doc, self.check())
-        self.assertIn("Наступний крок", text)
-        self.assertIn("не сертифікуються", text)
+        self.assertIn("Next action", text)
+        self.assertIn("respective evidence", text)
+        self.assertIn(self.doc["next"]["action"], text)
+
+    def test_render_uses_saved_project_language_and_keeps_literal_task_data(self):
+        self.doc["task"]["goal"] = "Зберегти SS-01"
+        (self.root / "task.json").write_text(json.dumps(self.doc))
+        (self.root / "project.json").write_text(json.dumps({
+            "schema_version": "codex-agents.project-context/1",
+            "project_id": self.doc["project"]["id"],
+            "preferred_language": "uk",
+        }))
+        args = [sys.executable, "-B", str(MODULE), "render", "--project-root", str(self.root),
+                "--task", "task.json", "--project-context", "project.json"]
+        uk = subprocess.check_output(args, text=True)
+        en = subprocess.check_output(args + ["--locale", "en"], text=True)
+        self.assertIn("Наступний крок", uk)
+        self.assertIn("Next action", en)
+        self.assertIn("Зберегти SS-01", uk)
+        self.assertIn("Зберегти SS-01", en)
 
     def test_cli_create_then_read_only_views_and_malformed_status(self):
         source = self.root / "input.json"

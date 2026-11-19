@@ -137,6 +137,31 @@ async function fixture(t, { conventional = true } = {}) {
   return { root, manifest, manifestPath, save, inspect, prepare };
 }
 
+test("standard project context is implicitly pinned and linked replacements are refused", async (t) => {
+  const f = await fixture(t);
+  const path = "project-context.json";
+  const bytes = JSON.stringify({
+    schema_version: "codex-agents.project-context/1",
+    project_id: "project-test",
+    preferred_language: "uk",
+  });
+  await writeFile(join(f.root, path), bytes);
+  const workspace = await f.inspect();
+  const exactPin = (row) => row.path === path && row.sha256 === sha(bytes);
+  assert.ok(workspace.sources.some(exactPin));
+  const capsule = await f.prepare();
+  assert.ok(capsule.original_sources.some(exactPin));
+
+  await rm(join(f.root, path));
+  await writeFile(join(f.root, "sources/replacement.json"), bytes);
+  await symlink("sources/replacement.json", join(f.root, path), "file");
+  const linked = await f.inspect();
+  assert.ok(
+    linked.warnings.some((row) => row.path === path && row.code === "OUTSIDE_ROOT"),
+  );
+  assert.ok(!linked.sources.some((row) => row.path === path));
+});
+
 test("declared source reconciliation preserves all musts, actual bilingual source, current corrections and deferred work", async (t) => {
   const f = await fixture(t);
   const workspace = await f.inspect();

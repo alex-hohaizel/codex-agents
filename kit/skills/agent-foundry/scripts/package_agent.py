@@ -284,6 +284,7 @@ def build(args):
         raise ValueError("Plugin and delivery archive outputs must be distinct")
     pin = None
     observed = None
+    operating_standard = None
     if args.purpose == "factory":
         if args.agent_id != "agent-foundry" or args.entry_skill != "agent-foundry" or args.session is not None:
             raise ValueError("Factory purpose cannot bypass a target's blueprint approval")
@@ -298,14 +299,15 @@ def build(args):
         if args.agent_id != args.entry_skill:
             raise ValueError("Generated package agent_id must equal its approved entry_skill")
         pin = {"id": blueprint["id"], "revision": blueprint["revision"], "sha256": blueprint["sha256"], "approval_source": observed["approval_ref"]["source"]}
+        operating_standard = inherited_standard(kit, names, api)
     normalized = []
     for name in names:
         ui = kit / "skills" / name / "agents/openai.yaml"
         if ui.exists() and normalize_ui(ui, api):
             normalized.append(name)
     metadata = {"agent_id": args.agent_id, "version": args.version, "entry_skill": args.entry_skill, "purpose": args.purpose, "blueprint": pin}
-    if args.purpose == "generated":
-        metadata["operating_standard"] = inherited_standard(kit, names, api)
+    if operating_standard is not None:
+        metadata["operating_standard"] = operating_standard
     manifest = api.write_manifest(kit, metadata)
     api.load_kit(kit)
     snapshot = capture_files(kit, api)

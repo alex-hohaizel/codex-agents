@@ -2,12 +2,12 @@
 name: agent-foundry
 description: "Create, adapt, recover, or extend a specialized agent or skill family. Use when the user needs durable capabilities, roles, tools, memory, verification, or a portable agent package for repeated work."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # Agent Foundry
 
-Turn the user's goal into a domain-specific agent with one public entry and one owner of integration. Keep the **constructor**, **generated agent**, and **outcome produced by that agent** separate. Each has its own scope, state, evidence, and authority. Follow the user's language choice, then the established project language, then Ukrainian by default. The factory state and blueprint formats are `1.0.0`. The linked domain model is `foundry-depth/2`. The release manifest identifies the installed suite version.
+Turn the user's goal into a domain-specific agent with one public entry and one owner of integration. Keep the **constructor**, **generated agent**, and **outcome produced by that agent** separate. Each has its own scope, state, evidence, and authority. Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. The factory state and blueprint formats are `1.0.0`. The linked domain model is `foundry-depth/2`. The release manifest identifies the installed suite version.
 
 ## Choose the current step
 
@@ -56,6 +56,8 @@ The readable passport and machine blueprint describe the same revision and scope
 - Actual tools and hosts, versions, install and transition routes, permissions and license or cost constraints, evidence gaps, and concrete fallback steps.
 - First use, acceptance in the target environment, operations, safe update, and rollback. Give future decisions a responsible owner and due gate.
 
+For a new agent, draft the blueprint from the [template](assets/blueprint.template.json) and the architecture contract before expanding the readable passport. Give each capability its own observable `acceptance` and link its source, owner, phase, component, artifact, and tests. Check both directions of the links where the architecture contract requires it. Run `foundry.py blueprint SESSION --record DRAFT.json` in the new factory session as soon as the draft is assembled. Resolve missing fields and conflicting links before polishing prose. Reconcile the verified draft with the original request and carry all applicable requirements and deferred decisions into the passport.
+
 Choose a single module for cohesive work. Use a family when capabilities, outputs, allowed actions, acceptance stages, or reuse differ. A skill, a workflow phase, and a person or model instance are distinct. Staff and parallelize proportional to the evidence and actual host limits. Apply the [cross-domain core](references/cross-domain-core.md) and [domain model](references/domain-model-2.md) before material design. Preserve relevant AF, AD, and AX requirements and use the [production recipes](references/production-recipes-2.md) and [depth evaluation](references/depth-evaluation-2.md) when the corresponding work is due.
 
 Show the user the exact proposal, scope, component list, tradeoffs, material gaps, and cost or authority decisions. Before creating or editing target skills, record an actual positive response that authorizes this passport revision, SHA-256, and scope. Use existing exact consent when it applies. Ask only when that consent is missing or a substantive delta exceeds it. A recommendation, JSON field, old approval, or elapsed time cannot satisfy the gate. Verify the current `build-gate` before each dependent build and continue any independent authorized preparation. Treat authority to construct, install in a designated target, or execute the original task as distinct decisions. One exact user response may grant more than one of them. External publication, data transfer, spending, and monitoring need their own active authority.
@@ -64,11 +66,15 @@ Keep M0 exploration, M1 complete passport, and M2 exact delivery distinct. For e
 
 ## Build, verify, install, and use the result
 
+Use the [managed execution contract](references/managed-execution.md) for the new agent and every dependent child. Carry the bundled model policy into the export and verify the actual consumer before claiming model adoption.
+
 After approval, use the current `skill-creator` instructions for skill authoring. Use `design-specialist-skills` when the approved components actually require reusable specialist skills. See [specialist orchestration](references/specialist-orchestration.md). If an approved outcome includes an app or chatbot, keep the stable routes `app-atelier-director` and `chatbot-atelier-director` with concrete component owners, handoff contracts, and one lineage for shared data and decisions.
 
 Implement the approved rules, materials, data, executable code, or tool adapters. Apply [production quality](references/production-quality.md) and the relevant medium profile in `assets/production-profiles.json` before making or changing material. Carry forward approved originals, identity, interfaces, languages, rights, and unresolved work. Preserve the actual composition, interaction, and depth of accepted references. Prove a representative slice in the intended medium before scaling. Keep the current support and recovery routes. Use [visual identity](references/visual-identity.md) for stable icons and colors and distinct identity for new public agents.
 
 Bundle each generated skill's own applied rules and self-contained runtime resources. Apply the [inheritance contract](references/joint-use-inheritance.md) to every new module and package. Follow the exact documented resource and reference set, including the conditional AI/data resources. Keep private or changing project state outside general skill files and link it through approved project-local records. When meaningful data, LLM or retrieval work, prediction, adaptation, media production, or evaluation is involved, consult applicable parts of the [AI and data workflow](references/ai-production.md). Prefer the sufficient existing method. Evaluate any justified addition against permissions, cost, versions, and a measured baseline.
+
+Once the approved blueprint names its child skills, create their isolated staging directories and run `python3 -B scripts/check_generated_inheritance.py --materialize CHILD [OTHER_CHILD ...]` from this constructor. It stages the exact shared resources and supplies missing briefing templates. Author the domain guide and topics for each child, link the reported references, and run the same command without `--materialize` before export. Exercise briefing and state inspection from the standalone child on a pinned project fixture. For an unsupported native layout, retain the verified domain-specific manual procedure and evidence for that layout.
 
 Use the [operating protocol](references/operating-protocol.md) and the exact subcommand help for `python3 -B <ACTIVE_SKILL>/scripts/foundry.py`. For current state, proof bindings, or read-only summary, use the [interaction protocol](references/interaction-protocol.md) and `python3 -B scripts/interaction.py status --source PROJECT --format markdown` from the skill root as applicable. These helpers validate declared properties or provide a view of current records. They do not generate professional output or run external operations.
 

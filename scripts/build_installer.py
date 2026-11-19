@@ -155,6 +155,12 @@ def build(root,output,runtime_bundles,*,allow_dirty=False,edition='unassigned'):
             (stage/launcher).chmod(modes[launcher])
         shutil.copyfile(root/'commercial/runtime/control.mjs',stage/'control.mjs');modes['control.mjs']=0o644
         compiled=copy_compiled_client(root,'apps/agent-atelier/dist/client',stage/'product/apps/agent-atelier/dist/client')
+        if release.get('managed_model'):
+            from managed_release_checks import audit_model_sources
+            client = stage/'product/apps/agent-atelier/dist/client'
+            errors = audit_model_sources(root, ((path.relative_to(stage/'product').as_posix(),path)
+                                 for path in client.rglob('*') if path.is_file()))
+            need(not errors, 'Compiled installer client contains an unmanaged legacy model selector')
         (stage/'notices').mkdir()
         deps=dependencies_notices(root/'apps/agent-atelier',stage/'notices')
         for locale,filename in [('en','START_HERE.html'),('uk','ПОЧАТИ.html')]:

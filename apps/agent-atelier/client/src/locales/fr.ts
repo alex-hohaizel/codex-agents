@@ -511,6 +511,8 @@ const messages: Record<MessageKey, string> = {
     "Restaure uniquement l’état du service. Les fichiers produits et les effets externes sont traités séparément.",
   service: "Service local",
   language: "Langue de l’interface",
+  taskOutputLanguage: "Langue du résultat",
+  projectLanguageDefault: "Langue du projet ou anglais",
   languageHelp:
     "Les langues approuvées du produit et les identifiants stables restent inchangés.",
   about: "À propos de cet espace",

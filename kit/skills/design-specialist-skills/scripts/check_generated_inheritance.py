@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import stat
+import tempfile
 import types
 import xml.etree.ElementTree as ET
 
@@ -34,7 +35,7 @@ def strict_json_loads(raw, **kwargs):
     return json.loads(raw, **kwargs)
 
 SCHEMA = "agent-operating-standard/1"
-RELEASE = "6.1.0"
+RELEASE = "6.6.0"
 RESOURCES = (
     "references/adaptive-work.md",
     "references/research-and-synthesis.md",
@@ -51,18 +52,42 @@ RESOURCES = (
     "references/ai-production.md",
     "assets/ai-production.schema.json",
     "scripts/ai_production.py",
+    "references/managed-execution.md",
+    "assets/managed-model.json",
+    "references/briefing-protocol.md",
+    "references/interaction-protocol.md",
+    "references/tool-compatibility.md",
+    "scripts/briefing.py",
+    "scripts/interaction.py",
+    "assets/status-view.schema.json",
+    "assets/decision-card.template.md",
 )
 ENTRY_LINKS = tuple(p for p in RESOURCES if p.startswith("references/"))
+BRIEFING_TEMPLATES = (
+    "assets/briefing-intake.template.json",
+    "assets/execution-script.template.md",
+    "assets/stage-closeout.template.md",
+)
+DOMAIN_BRIEFING = ("references/briefing-domain-guide.md", "assets/briefing-topics.json")
 VISUAL_LOCK = "assets/visual-identity.lock.json"
 VISUAL_ORIGIN = "assets/visual-identity-origin.json"
 LIMIT = 4 * 1024 * 1024
 
 
-def read_regular(path):
+def checked_path(path):
     path = Path(os.path.abspath(path))
     for part in reversed((path,) + tuple(path.parents)):
-        if part.is_symlink():
-            raise ValueError("Operating resource must not traverse a symlink: " + str(path))
+        try:
+            info = part.lstat()
+        except FileNotFoundError:
+            continue
+        if stat.S_ISLNK(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
+            raise ValueError("Operating resource must not traverse a link: " + str(path))
+    return path
+
+
+def read_regular(path):
+    path = checked_path(path)
     fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
     try:
         info = os.fstat(fd)
@@ -79,6 +104,45 @@ def read_regular(path):
 
 def expected_resources(source_root):
     return {name: hashlib.sha256(read_regular(Path(source_root) / name)).hexdigest() for name in RESOURCES}
+
+
+def materialize_resources(roots, source_root):
+    """Prepare exact shared resources in already-created child staging roots."""
+    source_root = checked_path(source_root)
+    roots = [checked_path(root) for root in roots]
+    if (len(set(roots)) != len(roots) or
+            any(root == source_root or root in source_root.parents or source_root in root.parents for root in roots) or
+            any(root in other.parents for root in roots for other in roots)):
+        raise ValueError("Use separate child staging directories outside the constructor")
+    sources = {resource: read_regular(source_root / resource)
+               for resource in (*RESOURCES, *BRIEFING_TEMPLATES)}
+    pending = []
+    for root in roots:
+        if not root.is_dir():
+            raise ValueError("Child staging directory must already exist: " + str(root))
+        for resource, data in sources.items():
+            target = checked_path(root / resource)
+            try:
+                current = read_regular(target)
+            except FileNotFoundError:
+                pending.append((target, data))
+                continue
+            if resource in RESOURCES and current != data:
+                raise ValueError("Shared resource conflicts with the constructor; reconcile before staging: " + str(target))
+    # No child changes until the complete batch has been preflighted.
+    for target, data in pending:
+        checked_path(target)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(dir=target.parent, delete=False) as stream:
+            staged = Path(stream.name)
+            try:
+                stream.write(data)
+                stream.close()
+                os.chmod(staged, 0o644)
+                os.link(staged, target)
+            finally:
+                staged.unlink()
+    return [str(target) for target, _ in pending]
 
 
 def entry_errors(content, label="SKILL.md"):
@@ -173,6 +237,12 @@ def verify_child(root, expected, entry="SKILL.md", source_root=None):
                     errors.append(resource + " differs from the constructor's operating standard")
             except (OSError, ValueError) as error:
                 errors.append(resource + ": " + str(error))
+        for resource in (*BRIEFING_TEMPLATES, *DOMAIN_BRIEFING):
+            try:
+                if not read_regular(Path(root) / resource).strip():
+                    errors.append(resource + " must contain the child's usable briefing material")
+            except (OSError, ValueError) as error:
+                errors.append(resource + ": " + str(error))
         errors.extend(visual_errors(root, source_root or Path(__file__).resolve().parents[1]))
     except (OSError, ValueError, UnicodeError) as error:
         errors.append(str(error))
@@ -182,18 +252,35 @@ def verify_child(root, expected, entry="SKILL.md", source_root=None):
 def inspect_children(roots, source_root=None, entry="SKILL.md"):
     source_root = Path(source_root or Path(__file__).resolve().parents[1])
     expected = expected_resources(source_root)
+    model = strict_json_loads(read_regular(source_root / "assets/managed-model.json"))
+    if not (isinstance(model, dict) and set(model) == {"id"} and
+            isinstance(model["id"], str) and re.fullmatch(r"gpt-[a-z0-9]+(?:[.-][a-z0-9]+)+", model["id"])):
+        raise ValueError("Invalid bundled managed model policy")
     errors = []
     for root in roots:
         errors.extend(str(root) + ": " + error for error in verify_child(root, expected, entry, source_root))
-    return {"schema": SCHEMA, "release": RELEASE, "resources": expected}, errors
+    return {"schema": SCHEMA, "release": RELEASE, "resources": expected, "managed_model": model}, errors
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("child_roots", type=Path, nargs="+")
     parser.add_argument("--entry", choices=("SKILL.md", "AGENTS.md"), default="SKILL.md")
+    parser.add_argument("--materialize", action="store_true",
+                        help="Copy only missing shared resources into existing isolated child staging directories")
     args = parser.parse_args(argv)
     try:
+        if args.materialize:
+            created = materialize_resources(args.child_roots, Path(__file__).resolve().parents[1])
+            result = {
+                "status": "shared_resources_materialized",
+                "created": created,
+                "entry_links_required": ENTRY_LINKS,
+                "domain_materials_required": DOMAIN_BRIEFING,
+                "quality_certified": False,
+            }
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
         contract, errors = inspect_children(args.child_roots, entry=args.entry)
         result = {"valid": not errors, "operating_standard": contract, "children_checked": len(args.child_roots), "errors": errors,
                   "quality_certified": False, "behavior_verified": False, "human_authority_authenticated": False}

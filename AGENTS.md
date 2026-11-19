@@ -6,6 +6,7 @@ Use this file as an entry point. Read the sources and checks affected by the tas
 - Keep private chats, credentials, databases, raw audit data and account-specific packages out of the reusable repository.
 - English is the canonical instruction language. Preserve commands, stable IDs and original quotations. Maintain equivalent complete guides in the advertised languages when the public workflow changes. Follow the required language for user-facing work.
 - Record source integrity, runtime behavior, native discovery, independent review, installation and product acceptance at their respective scopes. Check evidence against the exact inputs and current target.
+- Apply the [managed release policy](governance/UPDATE_CONTRACT.md#managed-release-policy) for English-first defaults, native model selection, execution-disabled payments and separate acceptance.
 
 | Work | Open when applicable |
 | --- | --- |

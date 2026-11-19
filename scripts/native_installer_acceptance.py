@@ -31,7 +31,8 @@ import uuid
 import zipfile
 
 sys.dont_write_bytecode = True
-PUBLISHED_PREDECESSOR = '6eda958692eda18d0c3727e6452a970b5058532e'
+PUBLISHED_PREDECESSOR = '354a39ceb146e804e4cdc2198e7470177f8e0f2b'
+LEGACY_MIGRATION_MODEL = 'gpt-6.1-sol'
 WINDOWS = os.name == 'nt'
 
 
@@ -159,6 +160,9 @@ class Acceptance:
         self.counter = 0
         self.running = []
         self.service = None
+        self.payment_receipts = self.output / 'payment-observations'
+        self.payment_receipts.mkdir(mode=0o700)
+        self.payment_observer = Path(__file__).resolve().parents[1] / 'commercial/tests/payment_observer.py'
         self.report = {
             'schema': 'codex-agents.native-ready-installer-acceptance/1',
             'status': 'running', 'archive': str(self.archive), 'archive_sha256': digest(self.archive),
@@ -217,7 +221,28 @@ class Acceptance:
         return result + [verb, *args]
 
     def setup(self, verb, *args, **kwargs):
-        return self.run('setup-' + verb, self.setup_argv(verb, *args), **kwargs)
+        argv = self.setup_argv(verb, *args)
+        receipt = self.payment_receipts / ('%03d-' % (self.counter+1) + verb + '.json')
+        instrumented = [*argv[:5], self.payment_observer, '--receipt', receipt,
+                        '--script', argv[5], '--', *argv[6:]]
+        result = self.run('setup-' + verb, instrumented, **kwargs)
+        observed = load(receipt)
+        require(observed.get('source_sha256') == digest(argv[5]) and
+                observed.get('status') == 'zero-observed-attempts' and not observed.get('product_payment_attempts'),
+                'Buyer setup has an observed/suspected product payment attempt')
+        self.report.setdefault('payment_observation', {}).setdefault('observed_setup_commands', []).append({
+            'verb':verb,'source_sha256':observed['source_sha256'],'categories':observed['observed_categories'],
+            'attempt_count':len(observed['product_payment_attempts'])})
+        return result
+
+    def verify_payment_observer(self):
+        receipt = self.payment_receipts / 'positive.json'
+        self.run('payment-observer-positive', [self.python,'-I','-X','utf8','-B',self.payment_observer,
+                '--receipt',receipt,'--probe'], expected=(42,), parse=False)
+        probe = load(receipt)
+        require(probe['status'] == 'blocked-attempt' and probe['product_payment_attempts'] == ['in_process_code'],
+                'Positive control did not observe the injected in-process seller attempt')
+        self.record('payment-observer-positive-control', {'in_process_attempt_blocked':True,'external_effect':False})
 
     def control(self, verb, *args, **kwargs):
         return self.run('workbench-' + verb, [self.node, self.package / 'control.mjs', verb, *args], **kwargs)
@@ -300,7 +325,10 @@ class Acceptance:
         self.profile.write_text('# Personal instructions\nPreserve my accepted projects.\n', encoding='utf8')
         self.role = self.home / '.codex/agents/foundry-qa.toml'
         self.role.parent.mkdir()
-        self.role.write_bytes(b'model = "native-acceptance-local-choice"\n' + (self.package / 'product/agent-profiles/foundry-qa.toml').read_bytes())
+        owned_role = (self.package / 'product/agent-profiles/foundry-qa.toml').read_bytes()
+        tuned_role, count = re.subn(rb'^model_reasoning_effort = "\w+"$', b'model_reasoning_effort = "medium"', owned_role, flags=re.M)
+        require(count == 1 and tuned_role != owned_role, 'Local fixture must carry distinct supported effort tuning')
+        self.role.write_bytes(tuned_role)
         self.preserved = {str(path): digest(path) for path in (self.foreign, self.project_file, self.role)}
         self.personal_profile = self.profile.read_text(encoding='utf8')
 
@@ -677,7 +705,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         self.record('rollback-reinstall-current-audit-drift-block-and-uninstall', {'retained_full_packages': 1, 'projects_preserved': True})
 
     def published_predecessor_upgrade(self):
-        """Exercise actual public6.4 bytes; Git is test infrastructure only.
+        """Exercise exact public v1.8 bytes; Git is test infrastructure only.
 
         Reuse this test HOME and its one cached current package after uninstall.
         No old controller is executed: the received package's portable buyer
@@ -692,13 +720,12 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         release = json.loads(published('releases/current.json'))
         baseline = json.loads(published('kit/manifest.json'))
         roles = json.loads(published('agent-profiles/manifest.json'))['roles']
-        require(release['repository_version'] == '1.7.0' and release['suite_version'] == '6.4.0', 'Predecessor commit is not the declared published release')
+        require(release['repository_version'] == '1.8.0' and release['suite_version'] == '6.5.0', 'Predecessor commit is not the declared published release')
         require(len(baseline['skills']) == 33 and len(roles) == 12, 'Published predecessor does not have the expected complete product')
         names = {row['name'] for row in baseline['skills']}
-        skills = self.home / '.agents/skills'
-        # The real published predecessor used .agents on every host. Windows
-        # must migrate this exact tree to its supported CODEX_HOME/skills root;
-        # rollback must restore the old root, not reinterpret the old journal.
+        # v1.8 already uses the host-native personal root, including
+        # CODEX_HOME/skills on Windows. Rollback restores that exact root.
+        skills = self.skills_root
         require(not any((skills / name).exists() for name in names | {'atelier-orchestrator'}), 'Stage predecessor only after the managed uninstall has completed')
         require('agent-system-quality:start' not in self.profile.read_text(encoding='utf8'), 'An unexpected managed profile is still installed')
         require(all(not (self.home / '.codex/agents' / row['file']).exists() for row in roles), 'Predecessor staging must not overwrite a role')
@@ -761,18 +788,26 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
             require(digest(self.home / '.codex/agents' / row['file']) == row['sha256'], 'Published predecessor role differs')
         profile = published('host-profiles/codex/AGENTS.md').decode('utf8').replace('{{STANDARD_ROOT}}', str(skills / 'agent-foundry'))
         self.profile.write_bytes((self.profile.read_text(encoding='utf8').rstrip() + '\n\n' + profile.strip() + '\n').encode('utf8'))
-        # This tuning is supported user configuration, outside the pinned prompt.
-        self.role.write_bytes(b'model = "native-upgrade-owner-choice"\nmodel_reasoning_effort = "high"\n' + self.role.read_bytes())
+        prior_role = self.role.read_bytes()
+        require(not re.search(rb'^(?:model|model_reasoning_effort)\s*=', prior_role, re.M),
+                'The pinned v1.8 QA role changed its original selectors')
+        foreign = b'model = "native-upgrade-owner-choice"\nmodel_reasoning_effort = "high"\n' + prior_role
+        self.role.write_bytes(foreign)
+        refused = self.setup('audit', '--plan', self.output/'foreign-selector-must-not-install.json', expected=(2,))
+        require(refused['status'] == 'blocked' and 'native-upgrade-owner-choice' in refused.get('reason','')
+                and self.role.read_bytes() == foreign, 'Foreign model selection was not held for reconciliation')
+        # An explicitly recognized legacy model migrates. Owner effort remains exact.
+        self.role.write_bytes(f'model = "{LEGACY_MIGRATION_MODEL}"\nmodel_reasoning_effort = "high"\n'.encode() + prior_role)
         copied.append(self.profile)
         predecessor = {path.relative_to(self.home).as_posix(): {'sha256': digest(path), 'mode': stat.S_IMODE(path.stat().st_mode)} for path in copied}
         (self.output / 'published-predecessor-files.json').write_bytes(encoded({
             'source_commit': PUBLISHED_PREDECESSOR, 'repository_version': release['repository_version'],
             'suite_version': release['suite_version'], 'kit_manifest_sha256': hashlib.sha256(published('kit/manifest.json')).hexdigest(),
-            'scope': 'All33 published core skills, Orchestrator,12 roles, managed profile; one supported role has explicit owner selector tuning.',
+            'scope': 'All 33 published core skills, Orchestrator, 12 roles and managed profile. Foreign tuning held, recognized legacy selector migrated, manual effort preserved.',
             'files': predecessor}))
         plan = self.output / 'published predecessor upgrade plan.json'
         audit = self.setup('audit', '--plan', plan)
-        require(audit['status'] == 'ready' and audit['mode'] == 'update', 'Published6.4 predecessor is not a supported complete update')
+        require(audit['status'] == 'ready' and audit['mode'] == 'update', 'Published v1.8 predecessor is not a supported complete update')
         # This Windows case migrates66 core actions and verifies the complete
         # six-runtime Universal inventory after writing. Keep time for that
         # final verification; all ordinary command budgets remain unchanged.
@@ -780,19 +815,13 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         installed = self.setup('install', '--plan', plan, '--approve', audit['plan_sha256'], timeout=upgrade_timeout)
         verified = self.setup('verify', '--journal', installed['journal'])
         require(verified['skills'] == 33 and verified['orchestrator'] and verified['source_commit'] == self.manifest['source_commit'], 'Predecessor upgrade did not verify the complete new product')
-        if WINDOWS:
-            require(all(not (skills / name).exists() and (self.skills_root / name / 'SKILL.md').is_file()
-                        for name in names | {'atelier-orchestrator'}),
-                    'Windows predecessor migration left duplicate or missing managed sources')
-        for value in (b'model = "native-upgrade-owner-choice"', b'model_reasoning_effort = "high"'):
+        managed_model = load(self.package / 'product/releases/current.json')['managed_model']['id']
+        for value in (f'model = "{managed_model}"'.encode(), b'model_reasoning_effort = "high"'):
             require(value in self.role.read_bytes(), 'Upgrade dropped supported owner role tuning')
         for path, expected in before_customer.items():
             require(digest(path) == expected, 'Upgrade changed unrelated customer work')
         rolled = self.setup('rollback', '--journal', installed['journal'])
         require(rolled['status'] == 'rolled-back', 'Published-predecessor rollback did not complete')
-        if WINDOWS:
-            require(all(not (self.skills_root / name).exists() for name in names | {'atelier-orchestrator'}),
-                    'Windows migration rollback retained a new-root managed source')
         roots = [skills / name for name in names | {'atelier-orchestrator'}]
         restored_files = {path.relative_to(self.home).as_posix() for root in roots for path in root.rglob('*') if path.is_file()}
         restored_files |= {str((Path('.codex/agents') / row['file']).as_posix()) for row in roles} | {'.codex/AGENTS.md'}
@@ -803,8 +832,9 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
         for path, expected in before_customer.items():
             require(digest(path) == expected, 'Predecessor rollback changed unrelated customer work')
         require(len(list((self.state / 'packages').iterdir())) == 1, 'Predecessor test duplicated the full current package cache')
-        self.record('published6-4-complete-upgrade-and-exact-rollback', {
+        self.record('published-v1.8-complete-upgrade-and-exact-rollback', {
             'predecessor_commit': PUBLISHED_PREDECESSOR, 'core_skills': 33, 'roles': 12,
+            'foreign_selector_blocked_without_changes': True, 'legacy_managed_selector_migrated': True,
             'upgrade_command_timeout_seconds': upgrade_timeout,
             'predecessor_files': len(predecessor), 'orchestrator': True, 'owner_tuning_preserved': True,
             'foreign_skill_and_project_preserved': True, 'retained_full_packages': 1,
@@ -838,6 +868,7 @@ with m.locked(pathlib.Path(sys.argv[2]),pathlib.Path(sys.argv[3])):
             self.prepare()
             self.bundled_linux_terminfo()
             self.seed()
+            self.verify_payment_observer()
             self.native_entrypoint()
             self.buyer_install()
             self.controllers()

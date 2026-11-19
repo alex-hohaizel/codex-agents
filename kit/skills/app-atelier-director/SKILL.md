@@ -2,7 +2,7 @@
 name: app-atelier-director
 description: "Lead a new or existing app through the relevant product stages. Use to restore project state, choose the next stage, or coordinate Android, iOS, and web delivery."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # App Atelier Director
@@ -38,7 +38,7 @@ Prepare a concrete decision packet before requesting an owner's material decisio
 
 ## Use the contracts required by this task
 
-Use the requested output language, then the applicable project preference, then the language of the request. Preserve native identifiers, accepted terminology, example inputs and original user wording. For material work in an existing product, apply the relevant [core contract](references/core-contract.md) and [requirements](references/requirements-contract.md) to `.appatelier/profile.json`, `.appatelier/state.json` and the actual artifacts. Reconstruct only an authorized missing record. For small standalone work, read the supplied contract and the few sources needed to complete it. Use the applicable part of the [stage workflow](references/workflow.md) and check [stage acceptance](references/acceptance.md) and [evidence](references/evidence-contract.md) before claiming a material result.
+Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Preserve native identifiers, accepted terminology, example inputs and original user wording. For material work in an existing product, apply the relevant [core contract](references/core-contract.md) and [requirements](references/requirements-contract.md) to `.appatelier/profile.json`, `.appatelier/state.json` and the actual artifacts. Reconstruct only an authorized missing record. For small standalone work, read the supplied contract and the few sources needed to complete it. Use the applicable part of the [stage workflow](references/workflow.md) and check [stage acceptance](references/acceptance.md) and [evidence](references/evidence-contract.md) before claiming a material result.
 
 | Task condition | Relevant local resources |
 | --- | --- |

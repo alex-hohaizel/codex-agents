@@ -13,6 +13,7 @@ import signal
 import stat
 import subprocess
 import tempfile
+import time
 from uuid import UUID
 
 
@@ -21,6 +22,13 @@ SCHEMA = "atelier.native-canary-suite/1"
 RESULT = "atelier.native-canary-receipts/1"
 NAME = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 FIXTURES = Path(__file__).parent / "native-canary-fixtures.json"
+MODEL_ID = re.compile(r"gpt-[0-9]+(?:\.[0-9]+)?-sol\Z")
+DEFAULT_EFFORT = "high"
+NATIVE_ENV_KEYS = {
+    "HOME", "CODEX_HOME", "USER", "LOGNAME", "PATH", "LANG", "LC_ALL",
+    "TMPDIR", "TEMP", "TMP", "SYSTEMROOT", "WINDIR", "COMSPEC", "PATHEXT",
+    "USERPROFILE", "APPDATA", "LOCALAPPDATA",
+}
 
 
 def sha(value):
@@ -36,6 +44,79 @@ def load_json(path):
             result[key] = value
         return result
     return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique)
+
+
+def managed_model(requested=None, *, baseline=False):
+    try:
+        release = load_json(REPO / "releases/current.json")
+        model = release.get("managed_model", {}).get("id")
+        if (release.get("schema_version") != "codex-agents.release/1"
+                or not isinstance(model, str) or not MODEL_ID.fullmatch(model)):
+            raise ValueError
+    except (OSError, ValueError, AttributeError) as exc:
+        raise ValueError("The verified release's managed model policy is missing or invalid") from exc
+    if requested is None or requested == model:
+        return model
+    if not baseline or not MODEL_ID.fullmatch(requested):
+        raise ValueError(f"This managed route requires {model}; model overrides are for explicit baseline replays")
+    return requested
+
+
+def native_environment():
+    return {name: value for name, value in os.environ.items()
+            if name.upper() in NATIVE_ENV_KEYS}
+
+
+def rollout_path(thread):
+    try:
+        thread = str(UUID(thread))
+    except (TypeError, ValueError, AttributeError):
+        return None
+    state = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")) / "sessions"
+    today = datetime.now().astimezone()
+    days = [state / (today + timedelta(days=offset)).strftime("%Y/%m/%d") for offset in (-1, 0, 1)]
+    matches = [path for day in days if not day.is_symlink()
+               for path in day.glob(f"rollout-*-{thread}.jsonl")
+               if path.is_file() and not path.is_symlink()]
+    return matches[0] if len(matches) == 1 else None
+
+
+def native_turn_receipts(thread):
+    """Lift only typed model metadata from the exact fixture chat."""
+    path = rollout_path(thread)
+    if path is None:
+        return []
+    contexts = []
+    with path.open("rb") as stream:
+        for line_number, line in enumerate(stream, 1):
+            if not line.endswith(b"\n"):
+                continue  # An interrupted process can leave the last row incomplete.
+            event = json.loads(line)
+            payload = event.get("payload", {})
+            if line_number == 1 and (event.get("type") != "session_meta" or payload.get("id") != thread):
+                return []
+            if event.get("type") == "turn_context":
+                model, effort = payload.get("model"), payload.get("effort")
+                if not isinstance(model, str) or not isinstance(effort, str):
+                    return []
+                contexts.append({
+                    "observed_model": model,
+                    "observed_effort": effort,
+                    "event_line": line_number,
+                    "event_sha256": sha(line),
+                    "thread_reference_sha256": sha(thread.encode()),
+                })
+    return contexts
+
+
+def native_turn_receipt(thread):
+    contexts = native_turn_receipts(thread)
+    return contexts[0] if len(contexts) == 1 else None
+
+
+def matches_model(receipt, model, effort):
+    return bool(receipt and receipt["observed_model"] == model
+                and receipt["observed_effort"] == effort)
 
 
 def safe_path(root, relative):
@@ -64,24 +145,27 @@ def inspect_files(root):
     return records
 
 
-def skill_source(name):
+def skill_source(name, root=REPO):
     if not isinstance(name, str) or not NAME.fullmatch(name):
         raise ValueError("Invalid skill name")
-    optional = REPO / "optional-skills" / name
-    core = REPO / "kit/skills" / name
+    optional = root / "optional-skills" / name
+    core = root / "kit/skills" / name
     source = optional if optional.is_dir() else core
     if name == "codex-agents-maintenance":
-        source = REPO / "maintenance-skill"
+        source = root / "maintenance-skill"
     if not (source / "SKILL.md").is_file() or source.is_symlink():
         raise ValueError(f"No candidate source for {name}")
     return source
 
 
+def ambient_skill_roots():
+    return (Path.home() / ".agents/skills", Path.home() / ".codex/skills",
+            Path("/etc/codex/skills"), Path("/etc/agents/skills"))
+
+
 def installed_conflicts(name):
-    roots = (Path.home() / ".agents/skills", Path.home() / ".codex/skills",
-             Path("/etc/codex/skills"), Path("/etc/agents/skills"))
     conflicts = set()
-    for root in roots:
+    for root in ambient_skill_roots():
         same_name = root / name / "SKILL.md"
         if same_name.is_file():
             conflicts.update((str(same_name), str(same_name.resolve())))
@@ -119,7 +203,7 @@ def checked_suite():
 
 def auth_ok(codex):
     result = subprocess.run([codex, "login", "status"], capture_output=True,
-                            text=True, timeout=15, check=False)
+                            text=True, timeout=15, check=False, env=native_environment())
     return result.returncode == 0 and "logged in using chatgpt" in (
         result.stdout + result.stderr
     ).lower()
@@ -176,58 +260,79 @@ def role_trace(events):
     return starts, waits
 
 
-def owned_role_provenance(thread, expected_role, profile):
-    # Read messages only from this fixture parent and its uniquely linked child.
-    # For other rollouts, examine only the metadata line to establish linkage.
-    state_root = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")) / "sessions"
-    now = datetime.now().astimezone()
-    days = [
-        state_root / (now + timedelta(days=offset)).strftime("%Y/%m/%d")
-        for offset in (-1, 0, 1)
-    ]
-    parents = [p for day in days for p in day.glob(f"rollout-*-{thread}.jsonl")
-               if p.is_file() and not p.is_symlink()]
+def owned_role_provenance(thread, expected_role, profile, model=None, effort=None):
+    parent = rollout_path(thread)
     evidence = {"observed": False, "spawn_count": 0, "exact_child_instructions": False,
                 "child_completed": False, "model": None, "rollout_sha256": None,
                 "child_rollout_sha256": None, "profile_sha256": sha(profile.encode())}
-    if len(parents) != 1:
+    if parent is None:
         return evidence
 
-    observed = []
-    for event in rows(parents[0]):
+    calls, linked, activities, rejected = {}, set(), [], set()
+    for event in rows(parent):
         payload = event.get("payload", {})
         if event.get("type") == "turn_context":
             evidence["model"] = payload.get("model") or evidence["model"]
+        call_id = payload.get("call_id")
         if payload.get("type") == "function_call" and payload.get("name") == "spawn_agent":
-            observed.append(json.loads(payload.get("arguments", "{}")).get("agent_type"))
-    evidence["spawn_count"] = len(observed)
-    evidence["rollout_sha256"] = sha(parents[0].read_bytes())
-    if observed != [expected_role]:
+            args = json.loads(payload.get("arguments", "{}"))
+            calls[call_id] = args.get("agent_type") if isinstance(args, dict) else None
+        if event.get("type") == "event_msg" and payload.get("type") == "item_completed":
+            activity = payload.get("item", {})
+            if activity.get("type") == "SubAgentActivity" and activity.get("kind") == "started":
+                activities.append(activity)
+        if payload.get("type") != "function_call_output" or call_id not in calls:
+            continue
+        output = payload.get("output")
+        text = [output] if isinstance(output, str) else [
+            part.get("text", "") for part in output or [] if isinstance(part, dict)
+        ]
+        if isinstance(output, str) and output.startswith("failed to parse function arguments:"):
+            rejected.add(call_id)
+        for block in text:
+            try:
+                reply = json.loads(block)
+                if isinstance(reply, dict) and "agent_id" in reply:
+                    linked.add((call_id, str(UUID(reply["agent_id"]))))
+            except (TypeError, ValueError, AttributeError):
+                continue
+    for activity in activities:
+        call_id = activity.get("id")
+        if call_id not in calls:
+            continue
+        try:
+            linked.add((call_id, str(UUID(activity["agent_thread_id"]))))
+        except (KeyError, TypeError, ValueError, AttributeError):
+            continue
+    observed_calls = {call_id for call_id, _ in linked}
+    evidence["spawn_count"] = len(linked)
+    evidence["requested_spawn_attempts"] = len(calls)
+    evidence["invalid_arguments_rejected_without_effect"] = len(rejected - observed_calls)
+    evidence["rollout_sha256"] = sha(parent.read_bytes())
+    if (len(linked) != 1 or set(calls) != observed_calls | rejected
+            or rejected & observed_calls):
+        return evidence
+    call_id, child_id = next(iter(linked))
+    if calls[call_id] != expected_role:
         return evidence
 
     instructions = re.search(r'(?ms)^developer_instructions = """\n(.*?)\n"""$', profile)
     if not instructions or not instructions.group(1):
         return evidence
-    children = []
-    for day in days:
-        for path in day.glob("rollout-*.jsonl"):
-            if path.is_symlink() or not path.is_file():
-                continue
-            try:
-                with path.open(encoding="utf-8") as stream:
-                    meta = json.loads(stream.readline())
-                if meta.get("type") != "session_meta":
-                    continue
-                source = meta.get("payload", {}).get("source", {})
-                spawn = source.get("subagent", {}).get("thread_spawn", {})
-                if spawn.get("parent_thread_id") == thread:
-                    children.append(path)
-            except (OSError, ValueError, AttributeError):
-                continue
-    if len(children) != 1:
+    child = rollout_path(child_id)
+    if child is None:
+        return evidence
+    events = rows(child)
+    meta = events[0] if events else {}
+    metadata = meta.get("payload", {})
+    link = metadata.get("source", {})
+    spawn = link.get("subagent", {}).get("thread_spawn", {}) if isinstance(link, dict) else {}
+    if (meta.get("type") != "session_meta" or metadata.get("id") != child_id
+            or spawn.get("parent_thread_id") != thread
+            or spawn.get("agent_role", expected_role) != expected_role):
         return evidence
 
-    for event in rows(children[0]):
+    for event in events:
         payload = event.get("payload", {})
         if event.get("type") == "event_msg" and payload.get("type") in ("task_complete", "turn_completed"):
             evidence["child_completed"] = True
@@ -236,8 +341,14 @@ def owned_role_provenance(thread, expected_role, profile):
                 instructions.group(1) in (part.get("text") or "")
                 for part in payload.get("content", []) if isinstance(part, dict)
             )
-    evidence["child_rollout_sha256"] = sha(children[0].read_bytes())
-    evidence["observed"] = evidence["child_completed"] and evidence["exact_child_instructions"]
+    evidence["child_thread_id"] = child_id
+    child_receipts = native_turn_receipts(child_id)
+    evidence["child_model_receipt"] = child_receipts[-1] if child_receipts else None
+    evidence["child_model_receipts"] = child_receipts
+    evidence["child_rollout_sha256"] = sha(child.read_bytes())
+    model_verified = child_receipts and all(matches_model(row, model, effort) for row in child_receipts)
+    evidence["observed"] = (evidence["child_completed"] and evidence["exact_child_instructions"]
+                            and (model is None or bool(model_verified)))
     return evidence
 
 
@@ -294,7 +405,8 @@ def apply_approved_kit(project, kit, expected_sha, expected_entry):
 
 def run_native(argv, prompt, out, err, deadline):
     with subprocess.Popen(
-        argv, stdin=subprocess.PIPE, stdout=out, stderr=err, start_new_session=True
+        argv, stdin=subprocess.PIPE, stdout=out, stderr=err, start_new_session=True,
+        env=native_environment()
     ) as child:
         try:
             child.communicate(prompt, timeout=deadline)
@@ -329,7 +441,7 @@ def execute(case_id, case, args, raw_root):
         path = safe_path(project, name)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
-    staged = {name: pin_skill(project, name, skill_source(name)) for name in case["skills"]}
+    staged = {name: pin_skill(project, name, skill_source(name, getattr(args, "source", REPO))) for name in case["skills"]}
     consumer = case.get("approved_kit_consumer")
     install_proof = None
     if consumer:
@@ -358,31 +470,34 @@ def execute(case_id, case, args, raw_root):
         "{path=" + json.dumps(path, ensure_ascii=False) + ",enabled=false}"
         for path in duplicate_paths
     )
-    if case["sandbox"] == "workspace-write":
-        # The built-in workspace profile permits scratch writes by default.
-        # Keep its protected paths while making general temp trees read-only;
-        # workspace writes remain confined to the synthetic project.
-        sandbox = ["-c", 'default_permissions="atelier-canary"', "-c",
-                   'permissions={atelier-canary={extends=":workspace",'
-                   'filesystem={":slash_tmp"="read",":tmpdir"="read"},'
-                   'network={enabled=false}}}']
-    else:
-        sandbox = ["--sandbox", "read-only"]
+    # The model may only use the staged skill source. Disabled discovery alone
+    # does not prevent a shell command from reading another installed copy.
+    sandbox_name = ":workspace" if case["sandbox"] == "workspace-write" else ":read-only"
+    rules = {":slash_tmp": "read", ":tmpdir": "read"}
+    rules.update({str(path.resolve()): "none" for path in ambient_skill_roots() if path.is_dir()})
+    filesystem = ",".join(json.dumps(path) + "=" + json.dumps(mode)
+                          for path, mode in sorted(rules.items()))
+    sandbox = ["-c", 'default_permissions="atelier-canary"', "-c",
+               'permissions={atelier-canary={extends=' + json.dumps(sandbox_name)
+               + ',filesystem={' + filesystem + '},network={enabled=false}}}']
     command = [args.codex, "-a", "never", "exec", "--ignore-user-config",
                 "--strict-config", "--json", *sandbox,
                "-c", "skills.config=[" + configured + "]",
-               "-c", 'web_search="disabled"', "--disable", "apps",
-               *role_config, "-C", str(project)]
-    if not case["persist"]:
+               "-c", 'web_search="disabled"', "--disable", "apps", "--disable", "plugins",
+               "--disable", "hooks", "--disable", "memories",
+               "-c", f'model_reasoning_effort="{args.effort}"',
+               *role_config, "-C", str(project), "--model", args.model]
+    persisted = case["persist"] or getattr(args, "persist_model_receipt", False)
+    if not persisted:
         command.append("--ephemeral")
-    if args.model:
-        command.extend(["--model", args.model])
+    started = time.monotonic()
     native = case_root / "events.jsonl"
     with native.open("wb") as out, (case_root / "diagnostics.log").open("wb") as err:
         exit_code = run_native(
             [*command, "-"], case["prompt"].encode(), out, err, args.deadline
         )
 
+    wall_ms = round((time.monotonic() - started) * 1000)
     events = rows(native)
     turns = [e for e in events if e.get("type") == "turn.completed"]
     threads = [str(UUID(e["thread_id"])) for e in events if e.get("type") == "thread.started"]
@@ -408,13 +523,16 @@ def execute(case_id, case, args, raw_root):
         path == item or (item.endswith("/") and path.startswith(item)) for item in allowed
     ))
     expected_spawns = int("role" in case)
+    model_receipt = native_turn_receipt(threads[0]) if persisted and len(threads) == 1 else None
     provenance = (
-        owned_role_provenance(threads[0], case["role"]["name"], case["role"]["profile"])
+        owned_role_provenance(threads[0], case["role"]["name"], case["role"]["profile"], args.model, args.effort)
         if expected_spawns and len(threads) == 1 else None
     )
     spawn_count = provenance["spawn_count"] if provenance is not None else len(starts)
     if exit_code != 0 or len(turns) != 1 or len(threads) != 1:
         status = "blocked-runtime"
+    elif persisted and not matches_model(model_receipt, args.model, args.effort):
+        status = "unverified-effective-model"
     elif (spawn_count != expected_spawns or len(waits) != expected_spawns or
           unexpected or not all(checks) or not all(s["intact"] for s in sources.values())):
         status = "failed-controlled"
@@ -422,6 +540,8 @@ def execute(case_id, case, args, raw_root):
         s["project_skill_read"] == "unverified" for s in sources.values()
     ):
         status = "unverified-source-selection"
+    elif not persisted:
+        status = "unverified-effective-model"
     elif case.get("requires_passport_review"):
         status = "awaiting-exact-passport-review"
     elif provenance is not None and not provenance["observed"]:
@@ -433,7 +553,9 @@ def execute(case_id, case, args, raw_root):
         "status": status,
         "exit_code": exit_code,
         "turn_count": len(turns),
-        "persisted": case["persist"],
+        "persisted": persisted,
+        "model_receipt": model_receipt,
+        "elapsed_ms": wall_ms,
         "thread_reference_sha256": sha(threads[0].encode()) if len(threads) == 1 else None,
         "observed_spawns": spawn_count,
         "observed_waits": len(waits),
@@ -456,13 +578,24 @@ def main():
     parser.add_argument("--case", action="append", required=True, help="Select one or more synthetic case IDs")
     parser.add_argument("--output", required=True, type=Path, help="New private JSONL receipt")
     parser.add_argument("--codex", default="codex")
-    parser.add_argument("--model", help="Pin a model available to the authenticated ChatGPT session")
+    parser.add_argument("--model", help="Explicit comparison pin; a different model requires baseline mode")
+    parser.add_argument("--effort", choices=("low", "medium", "high"), default=DEFAULT_EFFORT)
     parser.add_argument("--stage", choices=("baseline", "candidate"), default="candidate")
+    parser.add_argument("--baseline-source", type=Path, help="Reviewed clean reference checkout for baseline only")
     parser.add_argument("--deadline", type=int, default=150, help="Seconds per native case (30–600)")
     parser.add_argument("--approved-kit", type=Path, help="Exact already reviewed package directory for the constructor consumer")
     parser.add_argument("--approved-manifest-sha256", help="SHA-256 authorized for this synthetic project installation")
     parser.add_argument("--prepare-only", action="store_true", help="Prepare and inspect fixtures without calling the model")
+    parser.add_argument("--persist-model-receipt", action="store_true",
+                        help="Allow one disposable native rollout per fixture for exact model readback")
     args = parser.parse_args()
+    if args.baseline_source is not None and args.stage != "baseline":
+        parser.error("A baseline source requires --stage baseline")
+    args.source = args.baseline_source.resolve() if args.baseline_source else REPO
+    try:
+        args.model = managed_model(args.model, baseline=args.stage == "baseline")
+    except ValueError as exc:
+        parser.error(str(exc))
     suite = checked_suite()
     if len(set(args.case)) != len(args.case) or any(case not in suite["cases"] for case in args.case):
         parser.error("Select unique IDs from the bundled suite")
@@ -484,13 +617,14 @@ def main():
     raw_root = Path(tempfile.mkdtemp(prefix="atelier-native-canary-")).resolve()
     header = {"schema": RESULT, "stage": args.stage, "native": not args.prepare_only,
               "git_base_commit": subprocess.check_output(
-                    ["git", "-C", str(REPO), "rev-parse", "HEAD"], text=True).strip(),
+                    ["git", "-C", str(args.source), "rev-parse", "HEAD"], text=True).strip(),
               "checkout_modified": bool(subprocess.check_output(
-                    ["git", "-C", str(REPO), "status", "--porcelain"], text=True)),
+                    ["git", "-C", str(args.source), "status", "--porcelain"], text=True)),
               "cli_version": None if args.prepare_only else subprocess.check_output(
                     [args.codex, "--version"], text=True, stderr=subprocess.DEVNULL,
                     timeout=15).strip(),
               "requested_model": args.model,
+              "requested_effort": args.effort,
               "suite_sha256": sha(FIXTURES.read_bytes()),
               "runner_sha256": sha(Path(__file__).read_bytes())}
     old_umask = os.umask(0o077)

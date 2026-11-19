@@ -9,16 +9,16 @@
       "size": 1096
     },
     "manifest.json": {
-      "sha256": "5fc840ae782026fbc4736570d72da37872304b2eb5b71e8f49abca990365770f",
-      "size": 6673887
+      "sha256": "b573003e06b557cd382d67fa56988b1e0d8f30161843c083bbcd3266af47da25",
+      "size": 7381138
     },
     "portable/check_generated_inheritance.py": {
-      "sha256": "4ad3b0e8c8b2c98c05816326ce02530ab02c5323e6dd83aabd0ab4a7e668aa73",
-      "size": 10094
+      "sha256": "87039ea53531b0de53b280c5a410e23cb093d948ec26b3e26d70afbe294995ba",
+      "size": 14180
     },
     "portable/install_agent.py": {
-      "sha256": "dff63b8f4425a17ac842bfcb8e39daaf4c2e40dcf1bccf901db53c90ceda9501",
-      "size": 59636
+      "sha256": "cd6e04daf38c9be0b52de372388fa71efd9258b8cbf577168a786f149dad7719",
+      "size": 61764
     },
     "portable/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -29,20 +29,20 @@
       "size": 62960
     },
     "prepare_existing_project_update.py": {
-      "sha256": "d9dff8a218a4d1433b911b44db7d3183806cd06c9e0bb96915ed0beabb68086f",
-      "size": 10573
+      "sha256": "9778308bc73f12e9aeac1d37e7ad49374054d03df500d41c82006721beac7847",
+      "size": 10594
     },
     "skills/agent-foundry/SKILL.md": {
-      "sha256": "2cc5dd13a71934f403a030ec605676837fae1c5d81422729c6d94628c280d71f",
-      "size": 16887
+      "sha256": "3aee7832912106de77fcef2959a96493f78ce1d89f0bf74916040d57f4d0879d",
+      "size": 18495
     },
     "skills/agent-foundry/agents/openai.yaml": {
       "sha256": "8ccde7b466fb5220cfcc82876f15d2db98b1c4f72f0122550e5f17bbfb4bd014",
       "size": 449
     },
     "skills/agent-foundry/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/agent-foundry/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -108,6 +108,10 @@
       "sha256": "9be88f8dd4c5e658961515c71389eafd45142ffa68bcae58e8dcff57d178ed91",
       "size": 667
     },
+    "skills/agent-foundry/assets/managed-model.json": {
+      "sha256": "edb27cbaf6a57a6bc37db05d75a426bfdf7e8631574a057085431276e94cbc79",
+      "size": 26
+    },
     "skills/agent-foundry/assets/operating-release.json": {
       "sha256": "26ee985ff803efc40f09e6ad188a80f0b43d60b51d9fb0b493de56ca8ab9ced9",
       "size": 588
@@ -141,8 +145,8 @@
       "size": 17700
     },
     "skills/agent-foundry/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/agent-foundry/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -157,8 +161,8 @@
       "size": 6149
     },
     "skills/agent-foundry/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/agent-foundry/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -185,16 +189,16 @@
       "size": 5462
     },
     "skills/agent-foundry/references/generated-agent-contract.md": {
-      "sha256": "7eaabd6266230b5664e5e82f6d356d99ecfd8f2c31825c1b1c9977ae20b127b5",
-      "size": 26125
+      "sha256": "bdd2bedbf6abccee24f7869f36637fe1a01032096240c4885ec42a270f8c7950",
+      "size": 26318
     },
     "skills/agent-foundry/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/agent-foundry/references/joint-use-inheritance.md": {
-      "sha256": "547e55c573a62e2f5e7e61846b61b06ecf546d1db9ff8f4cd08182f97dd03006",
-      "size": 3048
+      "sha256": "2c9a296522111917f02a0fdf0c4996bd9f46de396ec39e01fdb22db5b9947eee",
+      "size": 3162
     },
     "skills/agent-foundry/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -203,6 +207,10 @@
     "skills/agent-foundry/references/lifecycle-and-support.md": {
       "sha256": "66ec04ba0416935aa73616b25a4b42aa3c2a86e9ce83b53d61035934e68b107c",
       "size": 9878
+    },
+    "skills/agent-foundry/references/managed-execution.md": {
+      "sha256": "5f21cc69469c50cda9ab15f85513e29eb6d885aae75cda59f38ee3cb58a53c92",
+      "size": 1425
     },
     "skills/agent-foundry/references/memory-and-evidence.md": {
       "sha256": "cf19ffa7a30716a259ab14b11a1178b5fcb424e4baff7ff226388f6e8213c326",
@@ -249,16 +257,16 @@
       "size": 2540
     },
     "skills/agent-foundry/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/agent-foundry/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/agent-foundry/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/agent-foundry/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -269,8 +277,8 @@
       "size": 17198
     },
     "skills/agent-foundry/scripts/check_generated_inheritance.py": {
-      "sha256": "4ad3b0e8c8b2c98c05816326ce02530ab02c5323e6dd83aabd0ab4a7e668aa73",
-      "size": 10094
+      "sha256": "87039ea53531b0de53b280c5a410e23cb093d948ec26b3e26d70afbe294995ba",
+      "size": 14180
     },
     "skills/agent-foundry/scripts/check_joint_use.py": {
       "sha256": "2aaa1456bd890077732dc26f9cf535be97b913aa1335c5106dea83c78161bd7a",
@@ -293,32 +301,32 @@
       "size": 22413
     },
     "skills/agent-foundry/scripts/install_agent.py": {
-      "sha256": "2f6e06f3103c1fbab0d630666dffbb84b4ff27e014961b2b89e9755ac421a668",
-      "size": 61087
+      "sha256": "6035ff5170a80b5c810c0facccc2de6e4abc4f8d94f43b50027abb0b33b8d577",
+      "size": 63215
     },
     "skills/agent-foundry/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/agent-foundry/scripts/module_migration.py": {
       "sha256": "476b1c3aa60a32a8c3ab0e8dd5da11014575dcd638a76b7ee1fe7f7dc383bf5e",
       "size": 40519
     },
     "skills/agent-foundry/scripts/package_agent.py": {
-      "sha256": "169035002ea8aaf1119193ae276486d3b37c432c5511e03dc291be73409b4826",
-      "size": 18487
+      "sha256": "61f1b3d0e0bdd363c0c32e7762feedd5966efd270dbef46f6c5fd4718f959867",
+      "size": 18568
     },
     "skills/agent-foundry/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
       "size": 21061
     },
     "skills/agent-foundry/scripts/tests/test_adaptive_work.py": {
-      "sha256": "de44f5f56c3f72f0b9dc707a5789da6607d04e4ec5415fdfcec4456736c8e026",
-      "size": 15875
+      "sha256": "73d09c9391cefea74dcff79cbe7e0bd2bce66822825e848cd41e0a495bdf3861",
+      "size": 16844
     },
     "skills/agent-foundry/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/agent-foundry/scripts/tests/test_component_handoff.py": {
       "sha256": "04f8def28228820c902b9e5b96fb276b4cef7e5914911e70d95509f2b6e79a5f",
@@ -341,12 +349,12 @@
       "size": 12924
     },
     "skills/agent-foundry/scripts/tests/test_install_agent.py": {
-      "sha256": "2fe5b7d4c19c7cab96c2ad792c2d0bff68afcf6b83467d3a5f207d5b2b26b378",
-      "size": 45837
+      "sha256": "628b728cbf146ad79f850e4330d22087321bc23fb9000b5908f9de6b4aea774d",
+      "size": 54525
     },
     "skills/agent-foundry/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/agent-foundry/scripts/tests/test_json_admission.py": {
       "sha256": "d1bd15edde88e1815736f13257e7961649c0024600db56e556937a462efecdcc",
@@ -377,16 +385,16 @@
       "size": 8646
     },
     "skills/app-atelier-build/SKILL.md": {
-      "sha256": "ff3affbcc8f9837827aab204edf8450ea5d2133c9ab938bce5fd81695ec56f3d",
-      "size": 8848
+      "sha256": "2e78641726d91a6a38b02b5d64f3fb1ad22d40a1d0db75213e2dfe044c49eb57",
+      "size": 8891
     },
     "skills/app-atelier-build/agents/openai.yaml": {
       "sha256": "6555795ac393647763bd6e31c2bc219b03f525abf079e7efdf94a40111801351",
       "size": 422
     },
     "skills/app-atelier-build/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-build/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -473,8 +481,8 @@
       "size": 4712
     },
     "skills/app-atelier-build/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-build/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -493,8 +501,8 @@
       "size": 5804
     },
     "skills/app-atelier-build/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-build/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -529,8 +537,8 @@
       "size": 2532
     },
     "skills/app-atelier-build/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-build/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -569,16 +577,16 @@
       "size": 6630
     },
     "skills/app-atelier-build/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-build/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-build/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-build/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -589,8 +597,8 @@
       "size": 29024
     },
     "skills/app-atelier-build/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-build/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -601,12 +609,12 @@
       "size": 49904
     },
     "skills/app-atelier-build/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-build/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-build/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -621,16 +629,16 @@
       "size": 8646
     },
     "skills/app-atelier-concepts/SKILL.md": {
-      "sha256": "5dc0c3048c5f18b6258784e769feed5d1a8d9a3bd672609c50d01c2bce83945a",
-      "size": 7845
+      "sha256": "b8b556ebe32d82dbce91627afe80fc8bc5068b3ee3be508c51292245e1170ed7",
+      "size": 7888
     },
     "skills/app-atelier-concepts/agents/openai.yaml": {
       "sha256": "bb9d293f555629e0e53facfd9733b087fef85661b1c4647605211cc39e8eccf2",
       "size": 448
     },
     "skills/app-atelier-concepts/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-concepts/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -717,8 +725,8 @@
       "size": 3021
     },
     "skills/app-atelier-concepts/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-concepts/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -737,8 +745,8 @@
       "size": 5804
     },
     "skills/app-atelier-concepts/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-concepts/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -773,8 +781,8 @@
       "size": 2532
     },
     "skills/app-atelier-concepts/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-concepts/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -813,16 +821,16 @@
       "size": 7644
     },
     "skills/app-atelier-concepts/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-concepts/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-concepts/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-concepts/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -833,8 +841,8 @@
       "size": 29024
     },
     "skills/app-atelier-concepts/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-concepts/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -845,12 +853,12 @@
       "size": 49904
     },
     "skills/app-atelier-concepts/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-concepts/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-concepts/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -865,16 +873,16 @@
       "size": 8646
     },
     "skills/app-atelier-director/SKILL.md": {
-      "sha256": "dc8266c882bc54e1fc279c39359381633252483ac7a7c9cac8ae74fcc704526e",
-      "size": 8588
+      "sha256": "209c5dd520f96860998b923a0822ad51e0607aa7c2da52c62bf5a0c657150d56",
+      "size": 8631
     },
     "skills/app-atelier-director/agents/openai.yaml": {
       "sha256": "f430acffd0876df55f446b8cfd6558f51cab83cad844080134ef9fd8fc33a0a0",
       "size": 413
     },
     "skills/app-atelier-director/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-director/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -961,8 +969,8 @@
       "size": 1335
     },
     "skills/app-atelier-director/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-director/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -981,8 +989,8 @@
       "size": 5804
     },
     "skills/app-atelier-director/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-director/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -1017,8 +1025,8 @@
       "size": 2532
     },
     "skills/app-atelier-director/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-director/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -1057,16 +1065,16 @@
       "size": 4447
     },
     "skills/app-atelier-director/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-director/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-director/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-director/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -1085,8 +1093,8 @@
       "size": 3546
     },
     "skills/app-atelier-director/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-director/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -1097,16 +1105,16 @@
       "size": 49904
     },
     "skills/app-atelier-director/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-director/scripts/tests/test_economics.py": {
       "sha256": "56b72a422fdf043171e4ff06128499ab6666e48a2faae7abb279251f207d2340",
       "size": 4682
     },
     "skills/app-atelier-director/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-director/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -1121,16 +1129,16 @@
       "size": 8646
     },
     "skills/app-atelier-experience/SKILL.md": {
-      "sha256": "2653e99fef3ac100eb91327e9c112b97616bab02b257c3455c13cb926a698e56",
-      "size": 8713
+      "sha256": "e731389a390cf5ade72e9f9e4399d6662d1df82cc1756009a0e4ffbe9b12c751",
+      "size": 8756
     },
     "skills/app-atelier-experience/agents/openai.yaml": {
       "sha256": "a0238af3c79353129dcbf5ab75237a5f930c7562b9495fb787d987134da3717c",
       "size": 436
     },
     "skills/app-atelier-experience/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-experience/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -1225,8 +1233,8 @@
       "size": 6722
     },
     "skills/app-atelier-experience/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-experience/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -1245,8 +1253,8 @@
       "size": 5804
     },
     "skills/app-atelier-experience/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-experience/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -1281,8 +1289,8 @@
       "size": 2532
     },
     "skills/app-atelier-experience/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-experience/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -1321,16 +1329,16 @@
       "size": 7820
     },
     "skills/app-atelier-experience/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-experience/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-experience/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-experience/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -1341,8 +1349,8 @@
       "size": 29024
     },
     "skills/app-atelier-experience/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-experience/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -1353,12 +1361,12 @@
       "size": 49904
     },
     "skills/app-atelier-experience/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-experience/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-experience/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -1377,16 +1385,16 @@
       "size": 8646
     },
     "skills/app-atelier-growth/SKILL.md": {
-      "sha256": "889e4a1893a4cfc51afeb2e7dad7b0f1daa01b63777703b14bf02ea313d915d7",
-      "size": 8194
+      "sha256": "434645a2658fa3e15c852702a8d3f8f77532a35faaa1cd39c2479d4bacd88bc4",
+      "size": 8237
     },
     "skills/app-atelier-growth/agents/openai.yaml": {
       "sha256": "06f19e18f80675afd75253b69f5afb27c8c8dfd90dc036dc7121247294b12ecf",
       "size": 427
     },
     "skills/app-atelier-growth/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-growth/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -1473,8 +1481,8 @@
       "size": 2937
     },
     "skills/app-atelier-growth/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-growth/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -1493,8 +1501,8 @@
       "size": 5804
     },
     "skills/app-atelier-growth/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-growth/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -1529,8 +1537,8 @@
       "size": 2532
     },
     "skills/app-atelier-growth/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-growth/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -1569,16 +1577,16 @@
       "size": 6309
     },
     "skills/app-atelier-growth/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-growth/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-growth/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-growth/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -1589,8 +1597,8 @@
       "size": 29024
     },
     "skills/app-atelier-growth/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-growth/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -1601,12 +1609,12 @@
       "size": 49904
     },
     "skills/app-atelier-growth/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-growth/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-growth/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -1621,16 +1629,16 @@
       "size": 8646
     },
     "skills/app-atelier-operations/SKILL.md": {
-      "sha256": "47c575b8ffd1cedb8cdb9c750b715a3da74dcbf9697543bf89fe5cb3748b99f6",
-      "size": 7874
+      "sha256": "a7f78dbb39e76efc244e930e20abbd65f20d6163adce1626080680418751b3e7",
+      "size": 7917
     },
     "skills/app-atelier-operations/agents/openai.yaml": {
       "sha256": "07b67f7f1b315bade2ad91f0b9fd091bb8ce59207651ec82196395287259ce9e",
       "size": 432
     },
     "skills/app-atelier-operations/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-operations/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -1717,8 +1725,8 @@
       "size": 1136
     },
     "skills/app-atelier-operations/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-operations/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -1737,8 +1745,8 @@
       "size": 5804
     },
     "skills/app-atelier-operations/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-operations/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -1773,8 +1781,8 @@
       "size": 2532
     },
     "skills/app-atelier-operations/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-operations/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -1813,16 +1821,16 @@
       "size": 3215
     },
     "skills/app-atelier-operations/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-operations/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-operations/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-operations/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -1833,8 +1841,8 @@
       "size": 29024
     },
     "skills/app-atelier-operations/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-operations/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -1845,12 +1853,12 @@
       "size": 49904
     },
     "skills/app-atelier-operations/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-operations/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-operations/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -1865,16 +1873,16 @@
       "size": 8646
     },
     "skills/app-atelier-qa/SKILL.md": {
-      "sha256": "2a3fa23bf1cc2f79c40ac89bf5fabcb833ff2e4ea008fbcc4e906ddd356c499c",
-      "size": 10889
+      "sha256": "7e83ba336c3e03b51af061bd5296241c800f5c1dbea13390ec3d01daa6b73691",
+      "size": 10932
     },
     "skills/app-atelier-qa/agents/openai.yaml": {
       "sha256": "56509b843f73faaa5285c41cb036a32ba032e9ba66950cf4d35796a1f18d5aa3",
       "size": 412
     },
     "skills/app-atelier-qa/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-qa/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -1961,8 +1969,8 @@
       "size": 6095
     },
     "skills/app-atelier-qa/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-qa/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -1981,8 +1989,8 @@
       "size": 5804
     },
     "skills/app-atelier-qa/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-qa/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -2017,8 +2025,8 @@
       "size": 2532
     },
     "skills/app-atelier-qa/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-qa/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -2057,16 +2065,16 @@
       "size": 5792
     },
     "skills/app-atelier-qa/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-qa/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-qa/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-qa/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -2077,8 +2085,8 @@
       "size": 29024
     },
     "skills/app-atelier-qa/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-qa/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -2089,12 +2097,12 @@
       "size": 49904
     },
     "skills/app-atelier-qa/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-qa/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-qa/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -2109,16 +2117,16 @@
       "size": 8646
     },
     "skills/app-atelier-release/SKILL.md": {
-      "sha256": "69c9c9d80b07dc0c7675af8d861200d5d31f1a36ac51eb30166073cb3ad59c4f",
-      "size": 7853
+      "sha256": "9b48da99637ffe803d31893eab838d8110bf93eaf7798a3dcfb239eb56c6eb63",
+      "size": 7896
     },
     "skills/app-atelier-release/agents/openai.yaml": {
       "sha256": "70d23d8fc5ddc40d388798346c0de03e753fbd5ae36cc342f5e2ab682c39b8ee",
       "size": 421
     },
     "skills/app-atelier-release/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-release/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -2205,8 +2213,8 @@
       "size": 1147
     },
     "skills/app-atelier-release/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-release/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -2225,8 +2233,8 @@
       "size": 5804
     },
     "skills/app-atelier-release/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-release/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -2261,8 +2269,8 @@
       "size": 2532
     },
     "skills/app-atelier-release/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-release/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -2301,16 +2309,16 @@
       "size": 3358
     },
     "skills/app-atelier-release/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-release/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-release/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-release/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -2321,8 +2329,8 @@
       "size": 29024
     },
     "skills/app-atelier-release/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-release/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -2333,12 +2341,12 @@
       "size": 49904
     },
     "skills/app-atelier-release/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-release/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-release/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -2353,16 +2361,16 @@
       "size": 8646
     },
     "skills/app-atelier-research/SKILL.md": {
-      "sha256": "8315414302a4d82e51b73e7a515c8a9939eed7ab5a605578a327135b53ff32ba",
-      "size": 7951
+      "sha256": "3e09f971e812f691e7130f507f443faf341e17484f41796a3a965ebefbaad68a",
+      "size": 7994
     },
     "skills/app-atelier-research/agents/openai.yaml": {
       "sha256": "ef332429f7f17c2ef81d0122dbb31568ff23b127501f478f5c435ba747520e3a",
       "size": 437
     },
     "skills/app-atelier-research/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-research/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -2449,8 +2457,8 @@
       "size": 2975
     },
     "skills/app-atelier-research/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-research/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -2469,8 +2477,8 @@
       "size": 5804
     },
     "skills/app-atelier-research/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-research/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -2505,8 +2513,8 @@
       "size": 2532
     },
     "skills/app-atelier-research/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-research/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -2545,16 +2553,16 @@
       "size": 5428
     },
     "skills/app-atelier-research/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-research/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-research/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-research/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -2565,8 +2573,8 @@
       "size": 29024
     },
     "skills/app-atelier-research/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-research/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -2577,12 +2585,12 @@
       "size": 49904
     },
     "skills/app-atelier-research/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-research/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-research/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -2597,16 +2605,16 @@
       "size": 8646
     },
     "skills/app-atelier-specification/SKILL.md": {
-      "sha256": "3078c9842ad84fd426ed8471d96c0128b1c296f150c575b4fe4fdfc27f486230",
-      "size": 9081
+      "sha256": "4f5e76dba31267420dc0e5bde5e81124613941892adf612089ffe85505a97e11",
+      "size": 9124
     },
     "skills/app-atelier-specification/agents/openai.yaml": {
       "sha256": "163d8ead622f438c04d0e2bb9d29f4dd50fc10f38bd35fa89e5cf2b61c7d0547",
       "size": 454
     },
     "skills/app-atelier-specification/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-specification/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -2693,8 +2701,8 @@
       "size": 11226
     },
     "skills/app-atelier-specification/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-specification/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -2713,8 +2721,8 @@
       "size": 5804
     },
     "skills/app-atelier-specification/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-specification/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -2749,8 +2757,8 @@
       "size": 2532
     },
     "skills/app-atelier-specification/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-specification/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -2789,16 +2797,16 @@
       "size": 15195
     },
     "skills/app-atelier-specification/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-specification/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-specification/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-specification/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -2809,8 +2817,8 @@
       "size": 29024
     },
     "skills/app-atelier-specification/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-specification/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -2821,12 +2829,12 @@
       "size": 49904
     },
     "skills/app-atelier-specification/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-specification/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-specification/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -2841,16 +2849,16 @@
       "size": 8646
     },
     "skills/app-atelier-support/SKILL.md": {
-      "sha256": "c0eea7d5399fb57d557f2a8fd42c3a67ac3ee0e5d6ab6c70117414b892d0da0c",
-      "size": 9382
+      "sha256": "c25d9d58f699201b33d9eedc1766a75512394e248cc356ff94318085694aa3a0",
+      "size": 9425
     },
     "skills/app-atelier-support/agents/openai.yaml": {
       "sha256": "4da49c5410b2143e5bc8066416358127dac0f19a98d0d16e2fbabb06b17691ad",
       "size": 424
     },
     "skills/app-atelier-support/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/app-atelier-support/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -2937,8 +2945,8 @@
       "size": 4819
     },
     "skills/app-atelier-support/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/app-atelier-support/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -2957,8 +2965,8 @@
       "size": 5804
     },
     "skills/app-atelier-support/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/app-atelier-support/references/budget-contract.md": {
       "sha256": "31d850f62908753be23dda3db1c3e6a96395e8871eace8a0127c79bb5b828797",
@@ -2993,8 +3001,8 @@
       "size": 2532
     },
     "skills/app-atelier-support/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/app-atelier-support/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -3033,16 +3041,16 @@
       "size": 6651
     },
     "skills/app-atelier-support/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/app-atelier-support/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/app-atelier-support/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/app-atelier-support/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -3053,8 +3061,8 @@
       "size": 29024
     },
     "skills/app-atelier-support/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/app-atelier-support/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -3065,12 +3073,12 @@
       "size": 49904
     },
     "skills/app-atelier-support/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/app-atelier-support/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/app-atelier-support/scripts/tests/test_state.py": {
       "sha256": "69273fb361dc04aa9701d36a78bfe4ec276f722287679e143f4b1847a06075cb",
@@ -3085,8 +3093,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-build/SKILL.md": {
-      "sha256": "94d3775198fb86e3bcd04386668889b3ee50c9d4a29e9e98cb2377c94074b7eb",
-      "size": 9077
+      "sha256": "ba1edfbef2ab90ebbaf8f8b34a5409f4540a34380cac95d945e8dd8fb2ca348e",
+      "size": 9120
     },
     "skills/chatbot-atelier-build/agents/openai.yaml": {
       "sha256": "939f72a81e9fd84219add81cb6b94e8d623ea6a8c77ac750494a8a8a5b29ecb5",
@@ -3221,8 +3229,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-build/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-build/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -3233,8 +3241,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-build/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-build/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -3269,8 +3277,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-build/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-build/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -3353,16 +3361,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-build/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-build/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-build/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-build/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -3389,8 +3397,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-build/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-build/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -3425,12 +3433,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-build/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-build/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-build/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -3441,8 +3449,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-conversation/SKILL.md": {
-      "sha256": "8236a4b2e5c8a0fd8d7b527c403ad71becf6f112411f5379126a96c511ac4df2",
-      "size": 9188
+      "sha256": "6fdeadee5a52f6202a83d138884d5a688f9199952ed4d295924427624ec2a370",
+      "size": 9231
     },
     "skills/chatbot-atelier-conversation/agents/openai.yaml": {
       "sha256": "89cfcc4b3455d6db12462d8efa0c8130e76565108556d5aee60a733ab8c56056",
@@ -3577,8 +3585,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-conversation/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-conversation/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -3589,8 +3597,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-conversation/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-conversation/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -3625,8 +3633,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-conversation/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-conversation/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -3709,16 +3717,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-conversation/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-conversation/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-conversation/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-conversation/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -3745,8 +3753,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-conversation/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-conversation/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -3781,12 +3789,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-conversation/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-conversation/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-conversation/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -3797,8 +3805,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-director/SKILL.md": {
-      "sha256": "b099b2f20f30ef937a9ebad91f600c9639ef007ba13cd0b266b7e4a75728c910",
-      "size": 9108
+      "sha256": "70db97ee439e7fac2e65c74291a5f38ec89a4bcbef4ead0b038fee069f15515b",
+      "size": 9151
     },
     "skills/chatbot-atelier-director/agents/openai.yaml": {
       "sha256": "3b31ed753426f210acbf91dcfc0831fe45fe526e9008ea700440ea9714999b7b",
@@ -3937,8 +3945,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-director/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-director/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -3949,8 +3957,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-director/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-director/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -3985,8 +3993,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-director/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-director/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -4069,16 +4077,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-director/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-director/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-director/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-director/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -4105,8 +4113,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-director/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-director/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -4141,12 +4149,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-director/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-director/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-director/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -4157,8 +4165,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-integrations/SKILL.md": {
-      "sha256": "45f3cec650ad2bc9c1c63af5a6f687b878598daf3e7a4e56fbba4e26c0c86d2d",
-      "size": 9604
+      "sha256": "e5689b6f4f579aadf6fbc67bc413017f7cefc9f9d22b0da925e580b31a7edda4",
+      "size": 9647
     },
     "skills/chatbot-atelier-integrations/agents/openai.yaml": {
       "sha256": "df005dafa76323098dcb015e49623ab4fa7992b509199aa1e5db8431ed06cbf1",
@@ -4293,8 +4301,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-integrations/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-integrations/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -4305,8 +4313,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-integrations/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-integrations/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -4341,8 +4349,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-integrations/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-integrations/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -4425,16 +4433,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-integrations/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-integrations/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-integrations/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-integrations/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -4461,8 +4469,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-integrations/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-integrations/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -4497,12 +4505,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-integrations/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-integrations/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-integrations/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -4513,8 +4521,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-knowledge/SKILL.md": {
-      "sha256": "5bf06487bda5a55d6007963e1251d49de8edaa303fae2eface8b263a2a25e4bd",
-      "size": 9451
+      "sha256": "cc99d7eb5fcb6209cff71905e90be367d319cf2c9c49e24c1d3046b9f650d0cc",
+      "size": 9494
     },
     "skills/chatbot-atelier-knowledge/agents/openai.yaml": {
       "sha256": "232104ceb5cad64c5f61f79d752b8bc8df66c9a917b600a2793e1cd67f377964",
@@ -4649,8 +4657,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-knowledge/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-knowledge/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -4661,8 +4669,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-knowledge/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-knowledge/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -4697,8 +4705,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-knowledge/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-knowledge/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -4781,16 +4789,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-knowledge/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-knowledge/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-knowledge/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-knowledge/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -4817,8 +4825,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-knowledge/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-knowledge/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -4853,12 +4861,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-knowledge/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-knowledge/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-knowledge/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -4869,8 +4877,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-media/SKILL.md": {
-      "sha256": "82f98893f4d31a2d35947f24f771bddc8d8a424284c119b0bba479f365fac4a8",
-      "size": 9205
+      "sha256": "e2fff560146ede2a6d998b90a33e6702f6c8da7ae8337ec18837c7cb98bfd8af",
+      "size": 9248
     },
     "skills/chatbot-atelier-media/agents/openai.yaml": {
       "sha256": "9f4468044ea2d62b4e4922a55f82078c575ca068e2210675f6ace5a8297daf32",
@@ -5005,8 +5013,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-media/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-media/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -5017,8 +5025,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-media/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-media/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -5053,8 +5061,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-media/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-media/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -5137,16 +5145,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-media/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-media/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-media/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-media/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -5173,8 +5181,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-media/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-media/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -5209,12 +5217,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-media/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-media/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-media/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -5225,8 +5233,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-operations/SKILL.md": {
-      "sha256": "4450e1a087ce8750e670c0f9aad86d2bed512965a8a7ae90d197bb8fae4ab55b",
-      "size": 9413
+      "sha256": "7eb2bb008abe26a25debc11a542c45910c4d6acee813c9f9a42306d456bbc1c5",
+      "size": 9456
     },
     "skills/chatbot-atelier-operations/agents/openai.yaml": {
       "sha256": "ebbf80c7be8a23eafefa4988b4e01d1bc55e1980e35db393db6bebfaa970bd39",
@@ -5361,8 +5369,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-operations/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-operations/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -5373,8 +5381,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-operations/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-operations/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -5409,8 +5417,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-operations/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-operations/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -5493,16 +5501,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-operations/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-operations/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-operations/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-operations/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -5529,8 +5537,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-operations/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-operations/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -5565,12 +5573,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-operations/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-operations/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-operations/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -5581,8 +5589,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-qa/SKILL.md": {
-      "sha256": "dbeb0c3831228c64bab66e4167821d8d196fc9a25274a95603fc5cf9ec22c22f",
-      "size": 9716
+      "sha256": "b43d4ccf6dc30d3e258bc77c0a6b5aa5d6bad08dc9fbe90ccf841204402acc9a",
+      "size": 9759
     },
     "skills/chatbot-atelier-qa/agents/openai.yaml": {
       "sha256": "00fbad7649b3ff3cf689227211b582ba2b56ac794244912e0d3e6216f451c5bd",
@@ -5717,8 +5725,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-qa/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-qa/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -5729,8 +5737,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-qa/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-qa/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -5765,8 +5773,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-qa/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-qa/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -5849,16 +5857,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-qa/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-qa/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-qa/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-qa/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -5885,8 +5893,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-qa/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-qa/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -5921,12 +5929,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-qa/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-qa/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-qa/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -5937,8 +5945,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-release/SKILL.md": {
-      "sha256": "0cfd77ea560e93ca6ded43bfdbe4364113242f74c10c00f17a44d45dbc0c2089",
-      "size": 9058
+      "sha256": "4f98a6ef977aa3aee7857d4046be53123117740875b24da3043f39ffcab2b80b",
+      "size": 9101
     },
     "skills/chatbot-atelier-release/agents/openai.yaml": {
       "sha256": "dca8779ee8cafe05d1300cf300a02e84843466b3196baeb5676460f40b38b6a3",
@@ -6073,8 +6081,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-release/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-release/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -6085,8 +6093,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-release/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-release/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -6121,8 +6129,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-release/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-release/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -6205,16 +6213,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-release/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-release/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-release/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-release/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -6241,8 +6249,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-release/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-release/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -6277,12 +6285,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-release/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-release/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-release/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -6293,8 +6301,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-research/SKILL.md": {
-      "sha256": "114744643f15b50bf80e8d37d698cf6f6d57b03a735be8ea0a0eb240331fc85e",
-      "size": 8956
+      "sha256": "1005518a03cf05be6f956384542abaac2a91cee44220f822b52931a407660718",
+      "size": 8999
     },
     "skills/chatbot-atelier-research/agents/openai.yaml": {
       "sha256": "253e741b8a44b0b494875ce62b0a3ab79483807c352e99075fcb74faa9060252",
@@ -6429,8 +6437,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-research/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-research/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -6441,8 +6449,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-research/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-research/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -6477,8 +6485,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-research/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-research/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -6561,16 +6569,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-research/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-research/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-research/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-research/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -6597,8 +6605,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-research/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-research/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -6633,12 +6641,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-research/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-research/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-research/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -6649,8 +6657,8 @@
       "size": 8646
     },
     "skills/chatbot-atelier-specification/SKILL.md": {
-      "sha256": "f68aceebec1df9d4561aa876f3345fabcdd944dfc3ccf1bebfe47796e9afbd11",
-      "size": 9434
+      "sha256": "ff980a75600e1928d11c6d96e83e8bf55f2a2ccb0c99c9f7597e943cfe925b5d",
+      "size": 9477
     },
     "skills/chatbot-atelier-specification/agents/openai.yaml": {
       "sha256": "0f9f45fae600444151486a52c8fbaacd8f5ad04190c8dd09124b3e7a41d37f5d",
@@ -6785,8 +6793,8 @@
       "size": 339
     },
     "skills/chatbot-atelier-specification/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/chatbot-atelier-specification/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -6797,8 +6805,8 @@
       "size": 2899
     },
     "skills/chatbot-atelier-specification/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/chatbot-atelier-specification/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -6833,8 +6841,8 @@
       "size": 18006
     },
     "skills/chatbot-atelier-specification/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/chatbot-atelier-specification/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -6917,16 +6925,16 @@
       "size": 1891
     },
     "skills/chatbot-atelier-specification/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/chatbot-atelier-specification/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
       "size": 39473
     },
     "skills/chatbot-atelier-specification/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/chatbot-atelier-specification/scripts/check_chat_contract.py": {
       "sha256": "5e9eb87b062b5af1ca1e0b2662031c7cc53169e41b1fef4134f7fc8637418f6f",
@@ -6953,8 +6961,8 @@
       "size": 29024
     },
     "skills/chatbot-atelier-specification/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/chatbot-atelier-specification/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -6989,12 +6997,12 @@
       "size": 15753
     },
     "skills/chatbot-atelier-specification/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/chatbot-atelier-specification/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/chatbot-atelier-specification/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -7009,16 +7017,16 @@
       "size": 19
     },
     "skills/design-specialist-skills/SKILL.md": {
-      "sha256": "5e55d13b889d06993f60a8ec77ee1b07dbf7192d1c61ee74f0590b1188e0f096",
-      "size": 9185
+      "sha256": "2103d143030985341aaf2c3b223e2a971613fef80d28ffc2765eca36b1febf1b",
+      "size": 9491
     },
     "skills/design-specialist-skills/agents/openai.yaml": {
       "sha256": "d50b778254ea7def78cc8229b75a43a025e3ddae915ce0eeb85c22aaf91e8f84",
       "size": 466
     },
     "skills/design-specialist-skills/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/design-specialist-skills/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -7080,6 +7088,10 @@
       "sha256": "51a6923974188748638a424aa59b42b6afad2d910f910a1d43bb13ee10f3ce26",
       "size": 2182
     },
+    "skills/design-specialist-skills/assets/managed-model.json": {
+      "sha256": "edb27cbaf6a57a6bc37db05d75a426bfdf7e8631574a057085431276e94cbc79",
+      "size": 26
+    },
     "skills/design-specialist-skills/assets/operating-release.json": {
       "sha256": "75a54cb5c3e239b267122dc0ff8c8addd7f444a2c17f8c737cc22a0e9eec9fed",
       "size": 599
@@ -7105,8 +7117,8 @@
       "size": 163
     },
     "skills/design-specialist-skills/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/design-specialist-skills/references/ai-production.md": {
       "sha256": "743bd4c7076ba053b543b6d188dd153ce0770042662d7b492e28c4f99b2a8235",
@@ -7117,8 +7129,8 @@
       "size": 6208
     },
     "skills/design-specialist-skills/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/design-specialist-skills/references/build-and-verify.md": {
       "sha256": "d3757f8d4a29b2a65f83568ccd203937e43c8e883705c9769d2e5a315eacbbe0",
@@ -7141,20 +7153,24 @@
       "size": 8421
     },
     "skills/design-specialist-skills/references/inheritance-contract.md": {
-      "sha256": "5ba7d6aae9ce9b59a4b319f1868603e5813eea8d86d9b71c9d2db6ec8e16c33b",
-      "size": 10623
+      "sha256": "cc128d837f4f9b0816b97549144d2bd02de6634242365efc8fb193f53269a6c5",
+      "size": 10812
     },
     "skills/design-specialist-skills/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/design-specialist-skills/references/joint-use-inheritance.md": {
-      "sha256": "d5cf9950a90e03e06d69036f4eb57b8e7b5a1b04d8761fcb75692f7b3968109d",
-      "size": 4082
+      "sha256": "8a485a361f8c8220b5b9a75f5b6769c92f484699a47394883a528fffc8bcb8be",
+      "size": 4148
     },
     "skills/design-specialist-skills/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
       "size": 4767
+    },
+    "skills/design-specialist-skills/references/managed-execution.md": {
+      "sha256": "5f21cc69469c50cda9ab15f85513e29eb6d885aae75cda59f38ee3cb58a53c92",
+      "size": 1425
     },
     "skills/design-specialist-skills/references/production-quality.md": {
       "sha256": "45e4d9cc21d91b4d3cec61f6bb71164f16e1ab8e3876b9e92ccd2ebacf3f9826",
@@ -7189,8 +7205,8 @@
       "size": 2540
     },
     "skills/design-specialist-skills/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/design-specialist-skills/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -7201,8 +7217,8 @@
       "size": 15944
     },
     "skills/design-specialist-skills/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/design-specialist-skills/scripts/check_component_handoff.py": {
       "sha256": "8feeb56681320e1d3e9185593ebaf662f28f94989bc79ee7156179ff3c54a6c8",
@@ -7213,8 +7229,8 @@
       "size": 7733
     },
     "skills/design-specialist-skills/scripts/check_generated_inheritance.py": {
-      "sha256": "4ad3b0e8c8b2c98c05816326ce02530ab02c5323e6dd83aabd0ab4a7e668aa73",
-      "size": 10094
+      "sha256": "87039ea53531b0de53b280c5a410e23cb093d948ec26b3e26d70afbe294995ba",
+      "size": 14180
     },
     "skills/design-specialist-skills/scripts/check_joint_use.py": {
       "sha256": "2aaa1456bd890077732dc26f9cf535be97b913aa1335c5106dea83c78161bd7a",
@@ -7225,8 +7241,8 @@
       "size": 29024
     },
     "skills/design-specialist-skills/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/design-specialist-skills/scripts/platform_support.py": {
       "sha256": "1dcddfcd352ee42e2ed3bbdff3d93e40f6149b082bcd89160f985ff0d6fbe571",
@@ -7245,20 +7261,20 @@
       "size": 3552
     },
     "skills/design-specialist-skills/scripts/test_generated_children.py": {
-      "sha256": "ff59d52a6f137b514000b75d66cdc53d1e93c3fcb3e3dc86c669fe792eabba56",
-      "size": 5225
+      "sha256": "f1709d0141fb91463a93b1f4a23355b426df36ae0c3334b0028d9cfbc1e60752",
+      "size": 5592
     },
     "skills/design-specialist-skills/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/design-specialist-skills/scripts/tests/test_depth.py": {
       "sha256": "9b6486c73e3431615854035994c8e44debb3bf81264eeb1818851d5069b4ed2e",
       "size": 9914
     },
     "skills/design-specialist-skills/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/design-specialist-skills/scripts/verify_depth.py": {
       "sha256": "fe7771d9432bb121c562759b5e516a24e411af2b7ab3f6c578b150f36dc78d01",
@@ -7269,16 +7285,16 @@
       "size": 8646
     },
     "skills/gamedev-assets/SKILL.md": {
-      "sha256": "aeb48fc4aa474f2cf9c299a9e2ca25af51ad321e5f95eb9e0cca03c4f3e17825",
-      "size": 9842
+      "sha256": "75c088cadb28ac035c63dd52fb39c5cbf430e480929e7840fca10eaa51e21491",
+      "size": 9922
     },
     "skills/gamedev-assets/agents/openai.yaml": {
       "sha256": "4c00775cd1f7b5a0ae028ce013737c9728b7dbac89fe80387bf5a1d8b33aeff1",
       "size": 430
     },
     "skills/gamedev-assets/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-assets/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -7633,8 +7649,8 @@
       "size": 2814
     },
     "skills/gamedev-assets/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-assets/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -7657,8 +7673,8 @@
       "size": 6766
     },
     "skills/gamedev-assets/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-assets/references/catalog-integration.md": {
       "sha256": "7f8a7444b7d8c8271c58922ac7763c10a6bfa7d8b9d8c27c3c45d3505a6390d9",
@@ -7737,8 +7753,8 @@
       "size": 2300
     },
     "skills/gamedev-assets/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-assets/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -7841,8 +7857,8 @@
       "size": 2540
     },
     "skills/gamedev-assets/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-assets/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -7853,8 +7869,8 @@
       "size": 101511
     },
     "skills/gamedev-assets/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-assets/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -7877,8 +7893,8 @@
       "size": 57393
     },
     "skills/gamedev-assets/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-assets/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -7901,12 +7917,12 @@
       "size": 74955
     },
     "skills/gamedev-assets/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-assets/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-assets/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -7933,16 +7949,16 @@
       "size": 23525
     },
     "skills/gamedev-build/SKILL.md": {
-      "sha256": "4c374a465a4b7498ed136851ad2a4d82aa40f72eeb8ce5b92a5e448580918270",
-      "size": 10346
+      "sha256": "c8e5773c934e705fc4d61389ce7466c01e7f8fa24f85973aadba791f4843d89f",
+      "size": 10426
     },
     "skills/gamedev-build/agents/openai.yaml": {
       "sha256": "525827505e2b48f2bfd94415ee0db8209868ef60aed76734556744f40a8d6322",
       "size": 446
     },
     "skills/gamedev-build/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-build/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -8277,8 +8293,8 @@
       "size": 2814
     },
     "skills/gamedev-build/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-build/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -8293,8 +8309,8 @@
       "size": 6766
     },
     "skills/gamedev-build/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-build/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -8369,8 +8385,8 @@
       "size": 4348
     },
     "skills/gamedev-build/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-build/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -8477,8 +8493,8 @@
       "size": 2540
     },
     "skills/gamedev-build/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-build/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -8489,8 +8505,8 @@
       "size": 101511
     },
     "skills/gamedev-build/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-build/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -8513,8 +8529,8 @@
       "size": 57393
     },
     "skills/gamedev-build/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-build/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -8537,12 +8553,12 @@
       "size": 74955
     },
     "skills/gamedev-build/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-build/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-build/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -8569,16 +8585,16 @@
       "size": 23525
     },
     "skills/gamedev-concepts/SKILL.md": {
-      "sha256": "000efd6faf1ef8c35f2d39448bc320603f04958b847afed9a1a119767374ab99",
-      "size": 11295
+      "sha256": "227dc03dabc71424f526b3e4b14f57fc63c1d8e3aff99e315c680239b9020643",
+      "size": 11375
     },
     "skills/gamedev-concepts/agents/openai.yaml": {
       "sha256": "8f9c714e156505677c122d497aefdd035f3aa638a99b4b8cf82483277b7b7f21",
       "size": 431
     },
     "skills/gamedev-concepts/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-concepts/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -8913,8 +8929,8 @@
       "size": 2814
     },
     "skills/gamedev-concepts/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-concepts/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -8929,8 +8945,8 @@
       "size": 6766
     },
     "skills/gamedev-concepts/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-concepts/references/concept-fidelity.md": {
       "sha256": "768537265ab31a50e293eb3fc6f4a119fd3be01423ebda51fa7db19643e5c58e",
@@ -8997,8 +9013,8 @@
       "size": 2300
     },
     "skills/gamedev-concepts/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-concepts/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -9101,8 +9117,8 @@
       "size": 2540
     },
     "skills/gamedev-concepts/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-concepts/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -9113,8 +9129,8 @@
       "size": 101511
     },
     "skills/gamedev-concepts/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-concepts/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -9137,8 +9153,8 @@
       "size": 57393
     },
     "skills/gamedev-concepts/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-concepts/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -9161,12 +9177,12 @@
       "size": 74955
     },
     "skills/gamedev-concepts/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-concepts/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-concepts/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -9197,16 +9213,16 @@
       "size": 23525
     },
     "skills/gamedev-director/SKILL.md": {
-      "sha256": "46b77827a8669d0d80559091f1374c6c32bbf6a80c52482fd7dd068f24d3a387",
-      "size": 9854
+      "sha256": "4549b52282ddfb2f705f44f4f24d4d0f68cd05d87848c55c1f67bc26f5cb8300",
+      "size": 9934
     },
     "skills/gamedev-director/agents/openai.yaml": {
       "sha256": "a35a3d83967138e9eb90de5a5da2d941d9cdc86f64d9deafb1e400b3db32f1df",
       "size": 420
     },
     "skills/gamedev-director/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-director/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -9525,8 +9541,8 @@
       "size": 2814
     },
     "skills/gamedev-director/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-director/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -9541,8 +9557,8 @@
       "size": 6766
     },
     "skills/gamedev-director/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-director/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -9605,8 +9621,8 @@
       "size": 2300
     },
     "skills/gamedev-director/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-director/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -9693,8 +9709,8 @@
       "size": 2540
     },
     "skills/gamedev-director/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-director/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -9705,8 +9721,8 @@
       "size": 101511
     },
     "skills/gamedev-director/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-director/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -9729,8 +9745,8 @@
       "size": 57393
     },
     "skills/gamedev-director/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-director/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -9753,12 +9769,12 @@
       "size": 74955
     },
     "skills/gamedev-director/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-director/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-director/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -9785,16 +9801,16 @@
       "size": 23525
     },
     "skills/gamedev-liveops/SKILL.md": {
-      "sha256": "82dfe5d2d891579f1d9823b1987c45ce327ffb3f20e21a769bfcc8f283a04143",
-      "size": 9198
+      "sha256": "c5b9759820e387d149b30125cf0e7d83338cacfaba3857b91f0375c076f4194b",
+      "size": 9278
     },
     "skills/gamedev-liveops/agents/openai.yaml": {
       "sha256": "00538326bd890e13e436886bb63819c48e83002dd8eb840fcf96d6694740e464",
       "size": 442
     },
     "skills/gamedev-liveops/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-liveops/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -10121,8 +10137,8 @@
       "size": 2814
     },
     "skills/gamedev-liveops/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-liveops/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -10137,8 +10153,8 @@
       "size": 6766
     },
     "skills/gamedev-liveops/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-liveops/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -10201,8 +10217,8 @@
       "size": 2300
     },
     "skills/gamedev-liveops/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-liveops/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -10297,8 +10313,8 @@
       "size": 2540
     },
     "skills/gamedev-liveops/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-liveops/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -10309,8 +10325,8 @@
       "size": 101511
     },
     "skills/gamedev-liveops/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-liveops/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -10333,8 +10349,8 @@
       "size": 57393
     },
     "skills/gamedev-liveops/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-liveops/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -10357,12 +10373,12 @@
       "size": 74955
     },
     "skills/gamedev-liveops/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-liveops/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-liveops/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -10389,16 +10405,16 @@
       "size": 23525
     },
     "skills/gamedev-preproduction/SKILL.md": {
-      "sha256": "46d30e7587bd5529efc349e1f74791f38f654724177b1baffad17a7dffcd0e81",
-      "size": 10635
+      "sha256": "a39aa25aec01704985b58e56581bd33d85c7ceea417237bcc1c9d016a5b761ac",
+      "size": 10715
     },
     "skills/gamedev-preproduction/agents/openai.yaml": {
       "sha256": "322e4b17b2a8413ca8401933cf6ca53fb742116646a7e7b5c3c0bdbac8dc8f8a",
       "size": 428
     },
     "skills/gamedev-preproduction/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-preproduction/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -10789,8 +10805,8 @@
       "size": 2814
     },
     "skills/gamedev-preproduction/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-preproduction/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -10805,8 +10821,8 @@
       "size": 6766
     },
     "skills/gamedev-preproduction/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-preproduction/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -10897,8 +10913,8 @@
       "size": 2974
     },
     "skills/gamedev-preproduction/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-preproduction/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -10997,8 +11013,8 @@
       "size": 2540
     },
     "skills/gamedev-preproduction/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-preproduction/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -11009,8 +11025,8 @@
       "size": 101511
     },
     "skills/gamedev-preproduction/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-preproduction/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -11033,8 +11049,8 @@
       "size": 57393
     },
     "skills/gamedev-preproduction/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-preproduction/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -11057,12 +11073,12 @@
       "size": 74955
     },
     "skills/gamedev-preproduction/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-preproduction/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-preproduction/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -11089,16 +11105,16 @@
       "size": 23525
     },
     "skills/gamedev-qa/SKILL.md": {
-      "sha256": "2025421f0422e75b41a50624df1326b04014d1d11fd93848a4cb073944767331",
-      "size": 10049
+      "sha256": "03c2903346d1cba68dfc2657d303a31fe4f3b8aa55b2789e0d877dd1181c4eaf",
+      "size": 10129
     },
     "skills/gamedev-qa/agents/openai.yaml": {
       "sha256": "672c8f125e4cbea57393a4e7ad96f7cd25ba50705b81d9096ce66db1dbc38bdc",
       "size": 431
     },
     "skills/gamedev-qa/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-qa/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -11429,8 +11445,8 @@
       "size": 2814
     },
     "skills/gamedev-qa/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-qa/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -11445,8 +11461,8 @@
       "size": 6766
     },
     "skills/gamedev-qa/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-qa/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -11517,8 +11533,8 @@
       "size": 2300
     },
     "skills/gamedev-qa/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-qa/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -11629,8 +11645,8 @@
       "size": 2540
     },
     "skills/gamedev-qa/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-qa/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -11641,8 +11657,8 @@
       "size": 101511
     },
     "skills/gamedev-qa/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-qa/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -11665,8 +11681,8 @@
       "size": 57393
     },
     "skills/gamedev-qa/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-qa/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -11689,12 +11705,12 @@
       "size": 74955
     },
     "skills/gamedev-qa/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-qa/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-qa/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -11721,16 +11737,16 @@
       "size": 23525
     },
     "skills/gamedev-release/SKILL.md": {
-      "sha256": "1ac9ddd356406119f78ab162ac2a854ccc30a62c905ff7c333ffd70e9dd167a9",
-      "size": 9578
+      "sha256": "e63ce7cf40ba3e2ab7318fe792eac565a06470cf442faff29cf0062409a5d7cb",
+      "size": 9658
     },
     "skills/gamedev-release/agents/openai.yaml": {
       "sha256": "5b6728f41e00979891db9b6134e319bb5a68c026b7f57165d3c82d2f755ef16e",
       "size": 444
     },
     "skills/gamedev-release/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-release/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -12057,8 +12073,8 @@
       "size": 2814
     },
     "skills/gamedev-release/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-release/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -12073,8 +12089,8 @@
       "size": 6766
     },
     "skills/gamedev-release/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-release/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -12137,8 +12153,8 @@
       "size": 2300
     },
     "skills/gamedev-release/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-release/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -12237,8 +12253,8 @@
       "size": 2540
     },
     "skills/gamedev-release/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-release/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -12249,8 +12265,8 @@
       "size": 101511
     },
     "skills/gamedev-release/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-release/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -12273,8 +12289,8 @@
       "size": 57393
     },
     "skills/gamedev-release/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-release/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -12297,12 +12313,12 @@
       "size": 74955
     },
     "skills/gamedev-release/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-release/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-release/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -12329,16 +12345,16 @@
       "size": 23525
     },
     "skills/gamedev-studio/SKILL.md": {
-      "sha256": "6cb14d202c9fbea5c729a8723ede8e8de891b5659bc1f757a9bba4c19919b4b0",
-      "size": 8980
+      "sha256": "5e58d3d7191fff266d7f9dab5f443d213dc164996438158323092594aa00b4d2",
+      "size": 9060
     },
     "skills/gamedev-studio/agents/openai.yaml": {
       "sha256": "6c6f4db9ea85e0d6400e815d7c8d103f3113e181af444a515f94d78a1f5811a9",
       "size": 446
     },
     "skills/gamedev-studio/assets/adaptive-task.example.json": {
-      "sha256": "f3bff6a570c2e89b76bed0ae18c89395ffe3b183f87b07f7ae5eee3c51f9b8b8",
-      "size": 2993
+      "sha256": "48be1261b9c9bde06477a289b21465199782007a2a83c40e1898f6a05ac640bd",
+      "size": 2562
     },
     "skills/gamedev-studio/assets/adaptive-task.schema.json": {
       "sha256": "c8d2d1a7b57fc49112d3944d20170e320c14f27489891c70ba731314a495c7e7",
@@ -12665,8 +12681,8 @@
       "size": 2814
     },
     "skills/gamedev-studio/references/adaptive-work.md": {
-      "sha256": "bde4c3b2633bf02f60eb9b1a63391465e971dcedd0cb4e46a07830c1d298405a",
-      "size": 9402
+      "sha256": "a97491da34194418b948c7bc3f0991bd11e184a1a374be12a79cb8052bb11940",
+      "size": 9740
     },
     "skills/gamedev-studio/references/agents-context.md": {
       "sha256": "f8436cbe12e6161c37bcb88c74cf0ede75f0b5989f2e7be326c45e9f3483f1af",
@@ -12681,8 +12697,8 @@
       "size": 6766
     },
     "skills/gamedev-studio/references/briefing-protocol.md": {
-      "sha256": "607e94c1d7580524169abd27ffff8a96a4c6f7c73114402e82a1dd4ea9090f4c",
-      "size": 8972
+      "sha256": "65b5e03f581a379175b1f0df02bfeafb89efed96691a8f711636b6b3e229943c",
+      "size": 9653
     },
     "skills/gamedev-studio/references/context-capsule.md": {
       "sha256": "d4766a031af0386eef95c815fe6f8c4d9f2fc5482583bcac2e43059854efcf97",
@@ -12745,8 +12761,8 @@
       "size": 2300
     },
     "skills/gamedev-studio/references/interaction-protocol.md": {
-      "sha256": "f5f7791abecbcaa033a53ccf84a8d6eb910de3f59d5ae44c292ca304d5065148",
-      "size": 5835
+      "sha256": "e01140df94ae67edf685a9ed47b0890b6c6231288b9c6f558847564ce1e0c4bc",
+      "size": 6072
     },
     "skills/gamedev-studio/references/joint-work-codex.md": {
       "sha256": "312c6f1a175b30210036dbf851813f974491e4c4e7fc587294129dc95c61e4d4",
@@ -12849,8 +12865,8 @@
       "size": 2540
     },
     "skills/gamedev-studio/scripts/adaptive_work.py": {
-      "sha256": "04117249d73a45d5ecb7e9094facbd8d3a4e952ff87a168895639efd4725ce27",
-      "size": 24854
+      "sha256": "819be1ff7d417cd3ddee3e12162cb4f9575d52a0a535af92fb33540632995dad",
+      "size": 26675
     },
     "skills/gamedev-studio/scripts/ai_production.py": {
       "sha256": "24d2426447522cc3fc4b44c4cb23c8805374269260292ab628468de72a05d404",
@@ -12861,8 +12877,8 @@
       "size": 101511
     },
     "skills/gamedev-studio/scripts/briefing.py": {
-      "sha256": "389eb3db5fff80f449fd7ecfcc313ba63a30c030a5f783906e93e419e075f613",
-      "size": 36936
+      "sha256": "d3c651d8f56467090992f34104713a9e4aa78732800ca0b44928e698bf0b795d",
+      "size": 43032
     },
     "skills/gamedev-studio/scripts/check_build_receipts.py": {
       "sha256": "0a39ad52a5745baf2603ea5757726a44993a97d73453b2b48b714a5a34eacf44",
@@ -12885,8 +12901,8 @@
       "size": 57393
     },
     "skills/gamedev-studio/scripts/interaction.py": {
-      "sha256": "750ad9e0b5cf9d8d023b9802f95b707161716b24bca6928b9ce856e91f6dc809",
-      "size": 30003
+      "sha256": "59bdd5e1ba012dfa891ebe85947aa706e5ebe7c1beead9d6fd350516ab15779c",
+      "size": 32856
     },
     "skills/gamedev-studio/scripts/pipeline.py": {
       "sha256": "1ddc81c434213c013c338047bfe985bc74c7618493c5704c5432e7c5c59a91f3",
@@ -12909,12 +12925,12 @@
       "size": 74955
     },
     "skills/gamedev-studio/scripts/tests/test_briefing.py": {
-      "sha256": "0ccdf4b243f1a233e162c8b900b2f5fd4f68935eafed87ad61cf37fdc4a20e1d",
-      "size": 20522
+      "sha256": "f12e14cfea0d49bcfb850d31607a95a9ae3dbd57d482a58fd7e229fb0ea1d7c0",
+      "size": 23068
     },
     "skills/gamedev-studio/scripts/tests/test_interaction.py": {
-      "sha256": "b1d772f77c7f946992b511a5bb38ffacec85aec10d0db02d8f5b9d9e659dd258",
-      "size": 21809
+      "sha256": "a68d2d0a5c257365847017d6a24665d473f985e38e153bde51ba627c295ad3ee",
+      "size": 22824
     },
     "skills/gamedev-studio/scripts/tests/test_model_handoff.py": {
       "sha256": "b6926dafd24e1e7a37ac79e9ad2c99113d91451db0debb64608220512e57646d",
@@ -12946,8 +12962,8 @@
     }
   },
   "hardware_bound": false,
-  "manifest_sha256": "5fc840ae782026fbc4736570d72da37872304b2eb5b71e8f49abca990365770f",
-  "release": "6.5.0",
+  "manifest_sha256": "b573003e06b557cd382d67fa56988b1e0d8f30161843c083bbcd3266af47da25",
+  "release": "6.6.0",
   "schema": "agent-release-integrity/1",
   "scope": "curated-reusable-core-33-skills"
 }

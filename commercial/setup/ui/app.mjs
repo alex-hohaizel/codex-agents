@@ -16,9 +16,11 @@ Object.assign(dictionaries.en,{
 Object.assign(dictionaries.uk,{
  purchaseTitle:'Збережіть документ покупки · необов’язково',purchaseHelp:'Якщо довірена доставка видала JSON підтвердження покупки або entitlement, виберіть його перед підготовкою плану. Оригінал залишається приватним на цьому комп’ютері. Під час оновлення наявний документ покупки зберігається автоматично.',purchaseChoose:'Вибрати документ покупки',purchaseTrust:'Збереження документа не перевіряє його підпис, не активує покупку й не надає нових прав.',purchaseEmpty:'У цьому вікні документ ще не вибрано. Технічний установник працює без нього.',purchaseReady:'Документ готовий для нового плану',purchaseSelecting:'Зберігаємо вибраний документ',purchaseInvalid:'Виберіть JSON документа покупки обсягом до 256 КіБ.',purchaseReview:'Новий документ скасовує попередній план і підтвердження. Підготуйте та перегляньте новий план.'
 });
-let locale;
-try { locale = localStorage.getItem('agent-system-setup-locale'); } catch {}
-locale = ['en', 'uk'].includes(locale) ? locale : navigator.language?.startsWith('uk') ? 'uk' : 'en';
+const LOCALES = new Set(['en', 'uk']);
+let legacyLocale;
+try { legacyLocale = localStorage.getItem('agent-system-setup-locale'); } catch {}
+let locale = LOCALES.has(legacyLocale) ? legacyLocale : 'en';
+let savingLocale = false;
 let csrf, state, selectedPlan, selectedOperation = '', busy = true, lastReceipt, lastJobStatus, practiceId, currentJob;
 const SESSION_CSRF_KEY = 'codex-agent-system-setup-csrf';
 try { csrf = sessionStorage.getItem(SESSION_CSRF_KEY) || undefined; } catch {}
@@ -30,6 +32,7 @@ const actionNames = { skills:'skills',orchestrator:'Atelier Orchestrator','profi
 const create = (tag, value, className) => { const node = document.createElement(tag); if (value !== undefined) text(node, value); if (className) node.className = className; return node; };
 function translated() {
  document.documentElement.lang = locale; $('locale').value = locale;
+ $('locale').setAttribute('aria-label', t('language'));
  for (const node of document.querySelectorAll('[data-t]')) {
   const value = t(node.dataset.t); node.replaceChildren();
   const lines = value.split('\n'); lines.forEach((line, index) => { if (index) node.append(document.createElement('br')); node.append(document.createTextNode(line)); });
@@ -108,6 +111,8 @@ function enabled() {
  $('rollback-button').disabled = busy || !known; $('uninstall-button').disabled = busy || !known;
  $('refresh-button').disabled = busy; $('shutdown-button').disabled = busy; $('operation-select').disabled = busy;
  $('purchase-document-file').disabled = busy;
+ $('purchase-document-choose').disabled = busy;
+ $('locale').disabled = savingLocale || !state;
 }
 function render() {
  text($('package-version'),state.product?.version?`Codex Agent System ${state.product.version}`:'Codex Agent System'); text($('edition'),state.product?.edition === 'unassigned' ? t('technicalEdition') : state.product?.edition || '');
@@ -176,12 +181,24 @@ async function keepPurchaseDocument() {
  finally{$('purchase-document-file').value='';busy=!!state?.active_job;enabled();}
 }
 $('purchase-document-file').addEventListener('change',()=>keepPurchaseDocument());
+$('purchase-document-choose').addEventListener('click',()=>{$('purchase-document-file').click();});
 function confirmAction(name) {
  const dialog = $('confirmation');
  text($('confirmation-title'),t(name+'Title')); text($('confirmation-copy'),t(name+'Copy')); text($('confirmation-target'),operation()?.journal_display || '');
  dialog.returnValue = ''; dialog.showModal(); dialog.addEventListener('close',()=>{if(dialog.returnValue==='confirm')action(name);},{once:true});
 }
-$('locale').value = locale; $('locale').addEventListener('change',event=>{locale=event.target.value;try{localStorage.setItem('agent-system-setup-locale',locale)}catch{}translated();});
+async function saveLocale(selected) {
+ if (!LOCALES.has(selected)) return;
+ savingLocale = true; enabled();
+ try {
+  const result = await request('/api/locale-preference',{method:'POST',body:JSON.stringify({locale:selected})});
+  locale = result.preferred_locale; state.preferred_locale = locale;
+  try { localStorage.removeItem('agent-system-setup-locale'); } catch {}
+ } catch (error) { showError(error); }
+ finally { savingLocale = false; translated(); }
+}
+$('locale').disabled = true;
+$('locale').addEventListener('change',event=>saveLocale(event.target.value));
 $('install-approval').addEventListener('change',enabled);
 $('operation-select').addEventListener('change',event=>{selectedOperation=event.target.value;renderOperations();enabled();});
 for(const button of document.querySelectorAll('[data-action]'))button.addEventListener('click',()=>{const name=button.dataset.action;if(['resume','rollback','uninstall'].includes(name))confirmAction(name);else action(name);});
@@ -191,6 +208,9 @@ try {
  const params = new URLSearchParams(location.hash.slice(1)); const launch = params.get('launch');
  if(launch)history.replaceState(null,'',location.pathname);
  const result = launch ? await request('/api/session',{method:'POST',body:JSON.stringify({launch_token:launch})}) : await request('/api/session');
- csrf=result.csrf_token;try{sessionStorage.setItem(SESSION_CSRF_KEY,csrf)}catch{}state=await request('/api/state');document.body.dataset.setupSession='ready';render();
+ csrf=result.csrf_token;try{sessionStorage.setItem(SESSION_CSRF_KEY,csrf)}catch{}state=await request('/api/state');
+ if (LOCALES.has(state.preferred_locale)) locale = state.preferred_locale;
+ else if (LOCALES.has(legacyLocale)) await saveLocale(legacyLocale);
+ document.body.dataset.setupSession='ready';translated();
  if(state.active_job)watch(state.active_job.id).catch(showError);else await action('refresh');
 } catch(error){$('session-error').hidden=false;text($('session-error'),`${t('sessionFailed')} ${error.message||''}`);for(const button of document.querySelectorAll('button[data-action]'))button.disabled=true;}

@@ -2,7 +2,7 @@
 name: app-atelier-support
 description: "Design, implement, or repair product support across app clients and approved channels. Use for support knowledge, identity linking, case handling, and safe support actions."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # App Atelier Support
@@ -31,7 +31,7 @@ Before personal access and release, test actual client/backend/KB/adapter/policy
 
 ## Use the contracts required by this task
 
-Use the requested output language, then the applicable project preference, then the language of the request. Preserve native identifiers, accepted terminology, example inputs and original user wording. For material work in an existing product, apply the relevant [core contract](references/core-contract.md) and [requirements](references/requirements-contract.md) to `.appatelier/profile.json`, `.appatelier/state.json` and the actual artifacts. Reconstruct only an authorized missing record. For small standalone work, read the supplied contract and the few sources needed to complete it. Use the applicable part of the [stage workflow](references/workflow.md) and check [stage acceptance](references/acceptance.md) and [evidence](references/evidence-contract.md) before claiming a material result.
+Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Preserve native identifiers, accepted terminology, example inputs and original user wording. For material work in an existing product, apply the relevant [core contract](references/core-contract.md) and [requirements](references/requirements-contract.md) to `.appatelier/profile.json`, `.appatelier/state.json` and the actual artifacts. Reconstruct only an authorized missing record. For small standalone work, read the supplied contract and the few sources needed to complete it. Use the applicable part of the [stage workflow](references/workflow.md) and check [stage acceptance](references/acceptance.md) and [evidence](references/evidence-contract.md) before claiming a material result.
 
 | Task condition | Relevant local resources |
 | --- | --- |

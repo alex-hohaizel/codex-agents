@@ -118,6 +118,10 @@ def runtime_inputs(artifacts, source, version):
 def prepare_buyer_stage(root,stage,release,offer,source,edition,runtime=()):
     """One canonical source/doc/license closure for every buyer distribution."""
     version=release["repository_version"]
+    if release.get("managed_model"):
+        need(release.get("commercial",{}).get("installer_payments_enabled") is False and
+             read(root/"commercial/product.json").get("installer_payments_enabled") is False,
+             "Managed installer assembly requires payments disabled in the release and product records")
     stage.mkdir()
     for name in ROOTS:
         copy_group(root,stage,name,"product")
@@ -186,6 +190,11 @@ exec python3 -B "$folder/setup/setup.py" --package "$folder" "$@"
                   "artifacts":[{k:v for k,v in item.items() if k!="path"} for item in runtime]},
        "build_trust":"Obtain the separately signed release index and public key through trusted seller delivery.",
        "files":manifest_files(stage)}
+    if release.get("managed_model"):
+        from managed_release_checks import audit_model_sources, buyer_model_sources
+        errors = audit_model_sources(root, buyer_model_sources(stage))
+        need(not errors,"Managed model assembly audit failed:\n" + "\n".join(errors))
+        m["installer_payments_enabled"] = False
     (stage/"product-manifest.json").write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
     sums="".join(v["sha256"]+"  "+name+"\n" for name,v in m["files"].items())
     sums+=digest(stage/"product-manifest.json")+"  product-manifest.json\n"

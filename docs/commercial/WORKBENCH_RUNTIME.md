@@ -84,7 +84,13 @@ Keep the previous runtime and its manifest. Stop the instance before snapshottin
 The offline route acquires the same instance lock as the server, checks SQLite's
 `user_version`, copies exact files and modes, and produces a private receipt.
 A snapshot omits `instance.lock` and `runtime.json`, which are process metadata.
-A symlink, active owner, content change or newer schema blocks the operation.
+An active owner, content change, newer schema or unknown symlink blocks the
+operation. A known instruction alias must match the retained task's exact
+pinned source. Version 2 snapshot receipts preserve those alias pointers as
+metadata without copying external instructions or following their links.
+The controller recreates the pointers only in the separate restore folder.
+Use a controller that supports version 2 to restore such a receipt. Keep the
+original runtime and data folder available for rollback.
 
 ```sh
 ./Runtime.command snapshot --data-dir '/absolute/current state' --output '/absolute/new snapshot'

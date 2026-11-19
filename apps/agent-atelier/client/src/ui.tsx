@@ -11,7 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { pretty, shortHash, text, type Data } from "./api";
-import { LocaleContext, translate, type MessageKey } from "./i18n";
+import { DEFAULT_LOCALE, LocaleContext, translate, type MessageKey } from "./i18n";
 
 export type T = (key: MessageKey) => string;
 
@@ -232,7 +232,7 @@ export function CodeViewer({
   fileName,
   language = "json",
   selectedLine,
-  locale = "uk",
+  locale = DEFAULT_LOCALE,
   onInspect,
 }: {
   value: unknown;

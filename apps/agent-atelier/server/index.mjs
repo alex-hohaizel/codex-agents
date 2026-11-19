@@ -15,7 +15,7 @@ import {
   publicError,
   ServiceError,
 } from "./utils.mjs";
-import { SERVICE_VERSION } from "../shared/contracts.mjs";
+import { SERVICE_VERSION, resolveLocale } from "../shared/contracts.mjs";
 const here = dirname(fileURLToPath(import.meta.url));
 const mime = {
   ".html": "text/html; charset=utf-8",
@@ -227,7 +227,7 @@ export async function createServer({
             res,
             200,
             await app.integrations.list({
-              locale: app.store.get("settings", "owner")?.locale,
+              locale: resolveLocale(url.searchParams.get("locale"), app.store.get("settings", "owner")?.locale),
             }),
           );
         if (url.pathname === "/api/v1/integrations/inspect")
@@ -237,7 +237,7 @@ export async function createServer({
             await app.integrations.inspect({
               kind: url.searchParams.get("kind"),
               id: url.searchParams.get("id"),
-              locale: app.store.get("settings", "owner")?.locale,
+              locale: resolveLocale(url.searchParams.get("locale"), app.store.get("settings", "owner")?.locale),
             }),
           );
         if (url.pathname === "/api/v1/portfolio")

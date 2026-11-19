@@ -509,6 +509,8 @@ const messages: Record<MessageKey, string> = {
     "Stellt nur den Dienstzustand wieder her. Produktdateien und externe Wirkungen werden getrennt behandelt.",
   service: "Lokaler Dienst",
   language: "Oberflächensprache",
+  taskOutputLanguage: "Sprache des Aufgabenergebnisses",
+  projectLanguageDefault: "Projektsprache oder Englisch",
   languageHelp:
     "Die freigegebenen Produktsprachen und stabilen Kennungen bleiben unverändert.",
   about: "Über diesen Arbeitsbereich",

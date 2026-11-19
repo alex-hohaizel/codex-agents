@@ -1,9 +1,13 @@
+from contextlib import closing
 import hashlib
 import importlib.util
 import io
 import json
 import os
 from pathlib import Path
+import platform
+import shutil
+import sqlite3
 import stat
 import subprocess
 import tarfile
@@ -15,6 +19,74 @@ SOURCE = Path(__file__).resolve().parents[2]/"scripts/build_workbench_runtime.py
 loader = importlib.util.spec_from_file_location("build_workbench_runtime", SOURCE)
 runtime = importlib.util.module_from_spec(loader)
 loader.loader.exec_module(runtime)
+
+
+@unittest.skipIf(os.name == 'nt', 'Exercise POSIX legacy Workbench instruction aliases')
+class OfflineSnapshotTests(unittest.TestCase):
+    def test_exact_legacy_alias_pointer_round_trips_without_copying_external_source(self):
+        node = shutil.which('node')
+        if not node or int(subprocess.check_output([node, '--version'], text=True).split('.')[0][1:]) < 24:
+            self.skipTest('The packaged runtime contract requires Node 24+')
+        with tempfile.TemporaryDirectory(prefix='workbench-snapshot-') as directory:
+            root = Path(directory).resolve()
+            program, data = root / 'runtime', root / 'state'
+            helpers = program / 'apps/agent-atelier/server'
+            helpers.mkdir(parents=True)
+            data.mkdir(mode=0o700)
+            repo = SOURCE.parents[1]
+            shutil.copy2(repo / 'commercial/runtime/control.mjs', program / 'control.mjs')
+            for name in ('platform.mjs','platform_support.py','environment.mjs','instance.mjs','utils.mjs'):
+                shutil.copy2(repo / 'apps/agent-atelier/server' / name, helpers / name)
+            runtime_manifest = {
+                'schema': 'codex-agents.workbench-runtime/1',
+                'source_commit': 'a'*40,
+                'service_version': '0.9.0-fixture',
+                'node_version': subprocess.check_output([node,'-p','process.versions.node'],text=True).strip(),
+                'platform': json.loads(subprocess.check_output([node,'-p','JSON.stringify({os:process.platform,arch:process.arch})'],text=True)),
+                'sqlite_schema_max': 1,
+                'files': {p.relative_to(program).as_posix(): {'size':p.stat().st_size,
+                          'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'mode':stat.S_IMODE(p.stat().st_mode)}
+                          for p in program.rglob('*') if p.is_file()},
+            }
+            (program / 'runtime-manifest.json').write_text(json.dumps(runtime_manifest),encoding='utf8')
+            task = 'task_abcd1234-1234-1234-1234-1234567890ab'
+            # Deliberately dangling. Snapshot and restore must not read or create the source.
+            target = root / 'original-project/AGENTS.md'
+            alias = Path('instruction-aliases') / task / (hashlib.sha256(os.fsencode(target)).hexdigest()+'.md')
+            (data / alias).parent.mkdir(parents=True)
+            (data / alias).symlink_to(target)
+            with closing(sqlite3.connect(data / 'atelier.sqlite')) as database, database:
+                database.executescript('PRAGMA user_version=1; CREATE TABLE records(kind,id,data);')
+                record={'capsule':{'instruction_manifest':{'schema_version':'atelier.governing-instructions/1',
+                        'sources':[{'path':str(target),'sha256':'a'*64}]}}}
+                database.execute('INSERT INTO records VALUES (?,?,?)',('task',task,json.dumps(record)))
+
+            def command(*args, check=True):
+                return subprocess.run([node,str(program/'control.mjs'),*(str(arg) for arg in args)],
+                                      check=check,capture_output=True,text=True,timeout=35)
+
+            snapshot, restored = root/'snapshot', root/'restored'
+            receipt=json.loads(command('snapshot','--data-dir',data,'--output',snapshot).stdout)
+            details=json.loads((snapshot/'snapshot-manifest.json').read_bytes())
+            self.assertEqual(details['schema'],'codex-agents.workbench-offline-snapshot/2')
+            self.assertEqual(details['instruction_aliases'],{alias.as_posix():str(target)})
+            self.assertFalse((snapshot/'data'/alias).is_symlink())
+            command('restore','--snapshot',snapshot,'--sha256',receipt['sha256'],'--output',restored)
+            self.assertEqual(os.readlink(restored/alias),str(target))
+            self.assertEqual(os.readlink(data/alias),str(target))
+            self.assertFalse(target.exists())
+            (data/'foreign').symlink_to(target)
+            blocked=command('snapshot','--data-dir',data,'--output',root/'foreign-snapshot',check=False)
+            self.assertNotEqual(blocked.returncode,0)
+            self.assertIn('Linked runtime/state member rejected: foreign',blocked.stderr)
+            (data/'foreign').unlink()
+            wrong=root/'unowned/AGENTS.md'
+            (data/alias).unlink()
+            denied=(data/alias).with_name(hashlib.sha256(os.fsencode(wrong)).hexdigest()+'.md')
+            denied.symlink_to(wrong)
+            blocked=command('snapshot','--data-dir',data,'--output',root/'wrong-task-snapshot',check=False)
+            self.assertNotEqual(blocked.returncode,0)
+            self.assertIn('Instruction alias target is not pinned by its retained task',blocked.stderr)
 
 
 class RuntimePackageTests(unittest.TestCase):

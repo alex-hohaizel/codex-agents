@@ -114,6 +114,26 @@ test('a copied host cookie cannot disclose CSRF or private state without the ori
  assert.equal((await f.send('/api/session')).status,200);assert.equal((await f.send('/api/state')).status,200);
 });
 
+test('wizard locale remains private across origins and a per-action override does not change it',async t=>{
+ const f=await fixture(t);await f.claim();
+ const preference='/api/locale-preference';
+ assert.equal((await f.send('/api/state')).body.preferred_locale,null);
+ assert.equal((await f.send(preference,{locale:'uk'},{'X-Setup-Csrf':'wrong'})).status,403);
+ assert.equal((await f.send(preference,{locale:'uk'},{Origin:'https://example.invalid'})).status,403);
+ assert.equal((await f.send(preference,{locale:'other'})).status,400);
+ assert.deepEqual((await f.send(preference,{locale:'uk'})).body,{preferred_locale:'uk'});
+ const localePath=join(f.state,'web-setup/locale.json');
+ await assertPrivatePath(localePath,{pythonPath:python});
+ await f.action({action:'first-task',locale:'en'});
+ await f.action({action:'first-task'});
+ const used=(await readFile(join(f.state,'fixture-calls.jsonl'),'utf8')).trim().split('\n').map(line=>JSON.parse(line).argv);
+ assert.deepEqual(used.map(args=>args[args.indexOf('--locale')+1]),['en','uk']);
+ const second=await start({packageRoot:f.pkg,pythonPath:python,home:f.home,state:f.state});
+ t.after(()=>second.stop());
+ assert.notEqual(second.origin,f.app.origin);
+ assert.equal(second.snapshot().preferred_locale,'uk');
+});
+
 test('audit binds exact plan bytes, explicit approval and single active job before changing fixture files',async t=>{
  const f=await fixture(t);await f.claim();
  const doctor=await f.action({action:'doctor'});assert.equal(doctor.result.status,'action-required');

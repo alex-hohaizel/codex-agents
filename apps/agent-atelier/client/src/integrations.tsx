@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useContext, useEffect, useRef, useState, type FormEvent } from "react";
 import {
   AudioLines,
   Copy,
@@ -9,7 +9,7 @@ import {
   Search,
 } from "lucide-react";
 import { api, ApiError, rows, text, type Data } from "./api";
-import type { MessageKey } from "./i18n";
+import { LocaleContext, type MessageKey } from "./i18n";
 import {
   Button,
   Empty,
@@ -62,6 +62,7 @@ export function PluginIntegrations({
   csrf?: string;
 }) {
   const [catalog, setCatalog] = useState<Data | null>(null);
+  const locale = useContext(LocaleContext);
   const [filter, setFilter] = useState("");
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
@@ -98,7 +99,7 @@ export function PluginIntegrations({
     setError("");
     setCatalog(null);
     try {
-      const next = await api.integrations();
+      const next = await api.integrations(locale);
       setCatalog(next);
       setSelected((key) =>
         rows(next.entries).some((entry) => integrationKey(entry) === key)
@@ -234,6 +235,7 @@ function IntegrationDetail({
   csrf?: string;
 }) {
   const [inspection, setInspection] = useState<Data | null>(null);
+  const locale = useContext(LocaleContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [toolFilter, setToolFilter] = useState("");
@@ -257,7 +259,7 @@ function IntegrationDetail({
     setError("");
     setInspection(null);
     try {
-      setInspection(await api.integrationDetails(entry.kind, entry.id));
+      setInspection(await api.integrationDetails(entry.kind, entry.id, locale));
     } catch (cause) {
       setError((cause as Error).message);
     } finally {

@@ -14,7 +14,7 @@ import { join, resolve } from "node:path";
 import { EventEmitter } from "node:events";
 import { randomUUID } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { parseStrictJson, safeFile, digest, sha } from "../../server/utils.mjs";
+import { parseStrictJson, safeFile, digest, sha, ServiceError } from "../../server/utils.mjs";
 import { Store } from "../../server/store.mjs";
 import { Application } from "../../server/application.mjs";
 import { createServer } from "../../server/index.mjs";
@@ -231,6 +231,247 @@ test("task capsule retains native must and rejects drift before dispatch", async
     await f.close();
   }
 });
+test("native model mismatch records the acknowledged thread before rejecting any turn", async () => {
+  const f = await fixture();
+  try {
+    f.codex.start = async (_root, _capsule, acknowledge) => {
+      const started = {
+        thread: { id: "acknowledged-native-thread" },
+        model: "foreign-fixture-model",
+        modelProvider: "openai",
+        instructionSources: [],
+      };
+      acknowledge(started);
+      const [live] = f.app.store.list("job");
+      assert.equal(live.thread_id, started.thread.id);
+      assert.equal(live.native_model, started.model);
+      assert.equal(live.native_model_provider, started.modelProvider);
+      throw new ServiceError("MODEL_UNAVAILABLE", "Wrong model for this governed task", 409);
+    };
+    let turns = 0;
+    f.codex.turn = async () => { turns++; throw new Error("Unexpected model request"); };
+    const scope = { project_id: f.binding.id };
+    const prepare = await f.command("task.prepare", { objective: "Read the accepted instructions", acceptance: "Return pinned evidence" }, scope);
+    assert.equal(prepare.status, "completed");
+    const dispatch = await f.command("task.dispatch", { task_id: prepare.result.task.id }, scope);
+    assert.equal(dispatch.error.code, "MODEL_UNAVAILABLE");
+    const [job] = f.app.store.list("job");
+    assert.equal(job.status, "failed");
+    assert.equal(job.thread_id, "acknowledged-native-thread");
+    assert.equal(job.native_thread_acknowledged, true);
+    assert.equal(job.host_dispatch_started, false);
+    assert.equal(turns, 0);
+  } finally {
+    await f.close();
+  }
+});
+
+test("misidentified resume ACK is quarantined without granting authority across restart", async () => {
+  const f = await fixture();
+  const scope = { project_id: f.binding.id };
+  let restarted;
+  const requested = "authorized-idle-native-chat";
+  const reported = "different-idle-chat-in-the-same-project";
+  const readback = [];
+  const resumeCalls = [];
+  let turns = 0;
+  f.codex.readThread = async (threadId) => {
+    readback.push(threadId);
+    return { thread: { id: threadId, cwd: f.project, status: { type: "idle" } } };
+  };
+  f.codex.resume = async (threadId, _root, _capsule, acknowledge) => {
+    resumeCalls.push(threadId);
+    const result = {
+      thread: { id: reported, sessionId: "observed-foreign-session" },
+      model: "gpt-6.2-sol",
+      modelProvider: "openai",
+    };
+    acknowledge(result);
+    return result;
+  };
+  f.codex.turn = async () => { turns++; throw new Error("Unexpected native turn"); };
+  const prepare = async (command, thread) => {
+    const preview = await command("thread.preview", { thread_id: thread }, scope);
+    const adoption = await command("thread.adopt", {
+      preview_id: preview.result.preview_id,
+      confirmed_idle_handoff: true,
+    }, scope);
+    const task = await command("task.prepare", {
+      objective: "Read the prepared native handoff",
+      acceptance: "Preserve the exact chat identity",
+      thread_binding_id: adoption.result.thread_binding.id,
+    }, scope);
+    assert.equal(task.status, "completed");
+    return { task_id: task.result.task.id };
+  };
+  try {
+    const task = await prepare(f.command, requested);
+    const separatelyPrepared = [
+      await prepare(f.command, requested),
+      await prepare(f.command, reported),
+    ];
+    const first = await f.command("task.dispatch", task, scope);
+    assert.equal(first.error.code, "SCOPE_MISMATCH");
+    const [job] = f.app.store.list("job");
+    assert.equal(job.thread_id, requested);
+    assert.equal(job.native_thread_requested_id, requested);
+    assert.equal(job.native_thread_acknowledged_id, reported);
+    assert.equal(job.native_thread_acknowledged_session_id, "observed-foreign-session");
+    assert.equal(job.native_model, "gpt-6.2-sol");
+    assert.equal(job.native_model_provider, "openai");
+    assert.equal(job.native_thread_identity_conflict, true);
+    assert.equal(job.status, "outcome_unknown");
+    assert.equal(job.turn_id, null);
+    assert.equal(job.host_dispatch_started, false);
+
+    await f.app.close();
+    restarted = new Application({ dataDir: join(f.root, "data"), repoRoot, codex: f.codex });
+    const command = (operation, payload, extra) => restarted.execute({
+      command_id: randomUUID(), operation, payload, ...extra,
+    });
+    const readsBeforeReconcile = readback.length;
+    const reconciliation = await command("job.reconcile", { job_id: job.id }, scope);
+    assert.equal(reconciliation.error.code, "OUTCOME_UNKNOWN");
+    assert.equal(readback.length, readsBeforeReconcile);
+    const continuation = await command("task.continue", task, scope);
+    assert.equal(continuation.error.code, "OUTCOME_UNKNOWN");
+    for (const alternate of separatelyPrepared) {
+      const dispatch = await command("task.dispatch", alternate, scope);
+      assert.equal(dispatch.error.code, "OUTCOME_UNKNOWN");
+    }
+    assert.equal(restarted.store.get("job", job.id).native_thread_acknowledged_id, reported);
+    assert.deepEqual(resumeCalls, [requested]);
+    assert.equal(turns, 0);
+  } finally {
+    if (restarted) {
+      await restarted.close();
+      await rm(f.root, { recursive: true, force: true });
+    } else await f.close();
+  }
+});
+
+test("pausing while a native ACK is pending preserves the chat and prevents the turn", async () => {
+  const f = await fixture();
+  try {
+    let entered, release;
+    const started = new Promise((resolve) => { entered = resolve; });
+    const barrier = new Promise((resolve) => { release = resolve; });
+    let turns = 0;
+    f.codex.start = async (_root, _capsule, acknowledge) => {
+      entered();
+      await barrier;
+      const reply = { thread: { id: "paused-native-chat" }, model: "gpt-6.2-sol", modelProvider: "openai" };
+      acknowledge(reply);
+      return reply;
+    };
+    f.codex.turn = async () => { turns++; throw new Error("Unexpected native turn"); };
+    const scope = { project_id: f.binding.id };
+    const prepared = await f.command("task.prepare", {
+      objective: "Read an authorized source",
+      acceptance: "Pause before model dispatch",
+    }, scope);
+    const task = { task_id: prepared.result.task.id };
+    const pending = f.command("task.dispatch", task, scope);
+    await started;
+    try {
+      assert.equal((await f.command("task.pause", task, scope)).status, "completed");
+    } finally {
+      release();
+    }
+    assert.equal((await pending).error.code, "TASK_PAUSED");
+    const [job] = f.app.store.list("job");
+    assert.equal(job.status, "paused");
+    assert.equal(job.thread_id, "paused-native-chat");
+    assert.equal(job.host_dispatch_started, false);
+    assert.equal(turns, 0);
+  } finally {
+    await f.close();
+  }
+});
+
+test("unknown native start reserves the outcome and blocks unacknowledged replay", async () => {
+  const f = await fixture();
+  try {
+    f.codex.start = async () => {
+      f.codex.starts++;
+      throw new ServiceError("HOST_TIMEOUT", "Native thread result unknown", 504, { operation: "thread/start", outcome: "unknown" });
+    };
+    const scope = { project_id: f.binding.id };
+    const prepare = () => f.command("task.prepare", { objective: "Inspect native input", acceptance: "Report exact outcome" }, scope);
+    const task = await prepare();
+    const dispatch = await f.command("task.dispatch", { task_id: task.result.task.id }, scope);
+    assert.equal(dispatch.error.code, "HOST_TIMEOUT");
+    const [job] = f.app.store.list("job");
+    assert.equal(job.status, "outcome_unknown");
+    assert.equal(job.native_thread_operation, "thread/start");
+    assert.equal(job.thread_id, null);
+    assert.equal(job.host_dispatch_started, false);
+    const continued = await f.command("task.continue", { task_id: task.result.task.id }, scope);
+    assert.equal(continued.status, "failed");
+    assert.equal(f.codex.starts, 1);
+  } finally {
+    await f.close();
+  }
+});
+
+test("English interface and task defaults preserve original Ukrainian source and explicit preferences", async () => {
+  const f = await fixture();
+  try {
+    assert.equal((await f.app.bootstrap("test")).locale, "en");
+    await f.command("service.settings", { locale: "fr" });
+    assert.equal((await f.app.bootstrap("test")).locale, "fr");
+    const request = { objective: "Прочитай точну вимогу", acceptance: "Збережи MUST-1" };
+    const scope = { project_id: f.binding.id };
+    let prepare = await f.command("task.prepare", request, scope);
+    assert.equal(prepare.result.capsule.output_locale, "en");
+    assert.equal(prepare.result.capsule.objective, request.objective);
+    const contextRef = "selected/project-context.json";
+    const contextPath = join(f.project, contextRef);
+    const context = JSON.stringify({ schema_version: "codex-agents.project-context/1", preferred_language: "uk" });
+    await mkdir(join(f.project, "selected"));
+    await writeFile(contextPath, context);
+    const pinnedTask = { ...request, source_paths: [contextRef] };
+    prepare = await f.command("task.prepare", pinnedTask, scope);
+    assert.equal(prepare.result.capsule.output_locale, "uk");
+    assert.ok(prepare.result.capsule.original_sources.some((pin) => pin.path === contextRef && pin.sha256 === sha(context)));
+    const explicit = await f.command("task.prepare", { ...pinnedTask, output_locale: "de" }, scope);
+    assert.equal(explicit.result.capsule.output_locale, "de");
+    assert.equal(await readFile(contextPath, "utf8"), context);
+    const malformed = '{"preferred_language":';
+    await writeFile(contextPath, malformed);
+    const optional = await f.command("task.prepare", pinnedTask, scope);
+    assert.equal(optional.status, "completed");
+    assert.equal(optional.result.capsule.output_locale, "en");
+    assert.ok(optional.result.capsule.original_sources.some((pin) => pin.path === contextRef && pin.sha256 === sha(malformed)));
+    await mkdir(join(f.project, ".atelier"));
+    const declared = join(f.project, ".atelier", "context-bindings.json");
+    await writeFile(declared, JSON.stringify({
+      schema: "atelier.context-bindings/1",
+      project_root: f.project,
+      sources: [{ path: contextRef, sha256: sha(malformed), role: "project-context" }],
+    }));
+    const required = await f.command("task.prepare", pinnedTask, scope);
+    assert.equal(required.error.code, "INVALID_JSON");
+    assert.equal(await readFile(contextPath, "utf8"), malformed);
+    await rm(declared);
+    const path = join(f.project, ".appatelier", "profile.json");
+    const profile = JSON.stringify({ schema_version: "app-atelier-profile/1", preferred_language: "uk", goal: "Збережи джерело" });
+    await writeFile(path, profile);
+    prepare = await f.command("task.prepare", request, scope);
+    assert.equal(prepare.result.capsule.output_locale, "uk");
+    assert.ok(prepare.result.capsule.original_sources.some((pin) => pin.path === ".appatelier/profile.json" && pin.sha256 === sha(profile)));
+    assert.equal(prepare.result.capsule.acceptance, request.acceptance);
+    const override = await f.command("task.prepare", { ...request, output_locale: "de" }, scope);
+    assert.equal(override.result.capsule.output_locale, "de");
+    assert.equal((await f.app.bootstrap("test")).locale, "fr");
+    const invalid = await f.command("task.prepare", { ...request, output_locale: "uk-UA" }, scope);
+    assert.equal(invalid.error.code, "INVALID_INPUT");
+    assert.equal(await readFile(path, "utf8"), profile);
+  } finally {
+    await f.close();
+  }
+});
+
 test("one current writer blocks competing write; observed turn completes then owner review stays separate", async () => {
   const f = await fixture();
   try {
@@ -752,6 +993,7 @@ test("queued interrupt persists until actual turn start, then confirms terminal 
 test("backup restore preserves later command receipts and invalidates old dispatch authority", async () => {
   const f = await fixture();
   try {
+    await f.command("service.settings", { locale: "uk" });
     const prepared = await f.command(
       "task.prepare",
       {

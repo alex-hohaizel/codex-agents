@@ -507,6 +507,8 @@ const messages: Record<MessageKey, string> = {
     "Restaura solo el estado del servicio. Los archivos de los productos y los efectos externos se tratan por separado.",
   service: "Servicio local",
   language: "Idioma de la interfaz",
+  taskOutputLanguage: "Idioma del resultado",
+  projectLanguageDefault: "Idioma del proyecto o inglés",
   languageHelp:
     "Los idiomas aprobados del producto y los identificadores estables permanecen sin cambios.",
   about: "Acerca de este espacio",

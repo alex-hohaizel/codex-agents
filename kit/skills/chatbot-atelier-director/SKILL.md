@@ -2,7 +2,7 @@
 name: chatbot-atelier-director
 description: "Lead a new chatbot or coordinate changes across several areas of an existing one. For a contained task, use the relevant specialist."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # ChatBot Atelier · Director
@@ -21,7 +21,7 @@ Pass a self-contained packet and an exact return condition to each receiver. Pro
 
 ## Shared rules and reference lookup
 
-Use the user's requested output language, then the applicable project preference, then the request language. Keep quoted text, commands, identifiers, and native names intact. Restore the source, checkpoint, intended result, work in progress, exact capabilities and allowed effects before changing them. Preserve the applicable musts, dependencies, identities and pending/deferred work in the current project registry. A single owner integrates. Use sufficient scope and depth for the task. Keep small repairs focused and a full product brief complete.
+Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Keep quoted text, commands, identifiers, and native names intact. Restore the source, checkpoint, intended result, work in progress, exact capabilities and allowed effects before changing them. Preserve the applicable musts, dependencies, identities and pending/deferred work in the current project registry. A single owner integrates. Use sufficient scope and depth for the task. Keep small repairs focused and a full product brief complete.
 
 Read the [context capsule](references/context-capsule.md), [adaptive workflow](references/adaptive-work.md), and [research and synthesis guidance](references/research-and-synthesis.md) as needed for the task, its source pins, budget, receiver and acceptance. Use `scripts/context_capsule.py` and `scripts/adaptive_work.py` for declared data checks. Verify unfamiliar domain and tools against primary sources and small relevant probes. For a new agent, carry work from analysis and approved architecture through a portable package, independent representative tasks, installation/discovery and support. Keep accepted [visual identity](references/visual-identity.md), icons and colors. Verify changed hosts with the relevant smoke test or record a blocked check.
 

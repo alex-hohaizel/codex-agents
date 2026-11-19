@@ -1,0 +1,77 @@
+{
+  "schema": "codex-agents.managed-model-exceptions/1",
+  "exceptions": [
+    {
+      "path": "evaluations/tests/test_native_model_policy.py",
+      "line_sha256": "48a5e3299688e2b6c1a5a84344247fdfb62365560594e19e943b46dbfda1461d",
+      "count": 1,
+      "purpose": "Deliberate historical replay and wrong effective-model fixture"
+    },
+    {
+      "path": "evaluations/tests/test_native_model_policy.py",
+      "line_sha256": "08f6e94bbe3edcf614d6ad9e9ce5b8cdc330f5f8bfae0b916c94fa33fff5960a",
+      "count": 2,
+      "purpose": "Deliberate historical replay and wrong effective-model fixture"
+    },
+    {
+      "path": "evaluations/tests/test_native_model_policy.py",
+      "line_sha256": "4b7e89afd3a4d419451cb933dff6b767c3ccef87634f400913479d5e6006b325",
+      "count": 1,
+      "purpose": "Deliberate historical replay and wrong effective-model fixture"
+    },
+    {
+      "path": "evaluations/tests/test_native_model_policy.py",
+      "line_sha256": "f2394b5a6d38bd829cebba465b433a9b866c3ce08442fb535b37621d03d13382",
+      "count": 1,
+      "purpose": "Deliberate historical replay and wrong effective-model fixture"
+    },
+    {
+      "path": "evaluations/tests/test_native_model_policy.py",
+      "line_sha256": "2e4d7d15651b645cbe7a9fa64b7373b376f330f546d7f595aec9b202289b59f2",
+      "count": 1,
+      "purpose": "Deliberate historical replay and wrong effective-model fixture"
+    },
+    {
+      "path": "apps/agent-atelier/tests/server/task-memory.test.mjs",
+      "line_sha256": "b588b5ae3b4e2d5658de5fdbee22a7a2d61409ca525552ed6b95c8bd9b105b6c",
+      "count": 1,
+      "purpose": "Native wrong-model refusal fixture"
+    },
+    {
+      "path": "kit/skills/agent-foundry/scripts/tests/test_import_codex.py",
+      "line_sha256": "85c98a8775d70f1cd31c3705a7f594f8e17bb564a3a04778c7d8c5606d08dcbb",
+      "count": 1,
+      "purpose": "Frozen historical role import fixture"
+    },
+    {
+      "path": "scripts/install_host_profile.py",
+      "line_sha256": "75adc721feb76b1b11b7f14a3b3a6bf3844fd6844e4a20be6fa0a4e159e322e0",
+      "count": 1,
+      "purpose": "Known predecessor migration selector, never an execution default"
+    },
+    {
+      "path": "scripts/native_installer_acceptance.py",
+      "line_sha256": "c0df3262895527e702955df9b8e7015ece53a88480592f7e5485041d8d909bc5",
+      "count": 1,
+      "purpose": "Exact published v1.8 predecessor role migration fixture"
+    },
+    {
+      "path": "scripts/tests/test_host_profile.py",
+      "line_sha256": "593ff962f4bd1cc2e45d20de02a149bae7e0c30acd82ed89ec785fcb95e9aeb3",
+      "count": 1,
+      "purpose": "Owned prior model and untouched global config migration fixture"
+    },
+    {
+      "path": "scripts/tests/test_host_profile.py",
+      "line_sha256": "9edff31d9476b3cc8c84c6f28b4573914fb96cb3e851c15c3e4a46c4db63b78a",
+      "count": 1,
+      "purpose": "Owned prior model and untouched global config migration fixture"
+    },
+    {
+      "path": "scripts/tests/test_host_profile.py",
+      "line_sha256": "2e17ebc748acc8a403661d9a97eabe075da7f12671174ee841347ae4f7ecc03b",
+      "count": 1,
+      "purpose": "Owned prior model and untouched global config migration fixture"
+    }
+  ]
+}

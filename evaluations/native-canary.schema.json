@@ -98,6 +98,7 @@
         "checkout_modified": { "type": "boolean" },
         "cli_version": { "type": ["string", "null"] },
         "requested_model": { "type": ["string", "null"] },
+        "requested_effort": { "enum": ["low", "medium", "high"] },
         "suite_sha256": { "$ref": "#/$defs/digest" },
         "runner_sha256": { "$ref": "#/$defs/digest" }
       },
@@ -117,12 +118,26 @@
             "blocked-runtime",
             "failed-controlled",
             "unverified-source-selection",
-            "unverified-role-provenance"
+            "unverified-role-provenance",
+            "unverified-effective-model"
           ]
         },
         "exit_code": { "type": ["integer", "null"] },
         "turn_count": { "type": "integer", "minimum": 0 },
         "persisted": { "type": "boolean" },
+        "elapsed_ms": { "type": "integer", "minimum": 0 },
+        "model_receipt": {
+          "type": ["object", "null"],
+          "required": ["observed_model", "observed_effort", "event_line", "event_sha256", "thread_reference_sha256"],
+          "properties": {
+            "observed_model": { "type": "string" },
+            "observed_effort": { "type": "string" },
+            "event_line": { "type": "integer", "minimum": 1 },
+            "event_sha256": { "$ref": "#/$defs/digest" },
+            "thread_reference_sha256": { "$ref": "#/$defs/digest" }
+          },
+          "additionalProperties": false
+        },
         "thread_reference_sha256": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] },
         "observed_spawns": { "type": "integer", "minimum": 0 },
         "observed_waits": { "type": "integer", "minimum": 0 },

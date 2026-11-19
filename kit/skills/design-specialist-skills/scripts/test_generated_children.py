@@ -30,7 +30,7 @@ class GeneratedChildrenTests(unittest.TestCase):
             child.mkdir()
             if complete:
                 checker = load(ROOT / "scripts/check_generated_inheritance.py")
-                for relative in checker.RESOURCES:
+                for relative in (*checker.RESOURCES, *checker.BRIEFING_TEMPLATES, *checker.DOMAIN_BRIEFING):
                     target = child / relative;target.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copyfile(ROOT / relative, target)
                 links = "".join("Read [method](" + p + ").\n" for p in checker.ENTRY_LINKS)
@@ -69,8 +69,13 @@ class GeneratedChildrenTests(unittest.TestCase):
         code, result = self.run_check(True)
         self.assertEqual(code, 0, result)
         self.assertEqual(result["children_checked"], 1)
-        self.assertEqual(result["operating_standard"]["release"], "6.1.0")
-        self.assertEqual(len(result["operating_standard"]["resources"]), 15)
+        standard = result["operating_standard"]
+        self.assertEqual(standard["release"], "6.6.0")
+        self.assertIn("scripts/briefing.py", standard["resources"])
+        self.assertIn("scripts/interaction.py", standard["resources"])
+        self.assertIn("assets/status-view.schema.json", standard["resources"])
+        self.assertEqual(standard["managed_model"],
+                         json.loads((ROOT / "assets/managed-model.json").read_bytes()))
         self.assertIs(result["quality_certified"], False)
 
     def test_empty_child_cannot_pass_record_check_as_materialized(self):

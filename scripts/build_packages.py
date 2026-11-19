@@ -80,6 +80,11 @@ def collect(root: Path, relative_roots: list[str]) -> list[Path]:
 
 def write_zip(root: Path, output: Path, files: list[Path], mode: str, release: dict):
     version = release["suite_version"]
+    if release.get("managed_model"):
+        from managed_release_checks import audit_model_sources
+        errors = audit_model_sources(root, ((path.relative_to(root).as_posix(),path) for path in files))
+        if errors:
+            raise ValueError("managed model archive audit failed:\n" + "\n".join(errors))
     baseline_count = len(json.loads((root / "kit/manifest.json").read_text(encoding="utf-8"))["skills"])
     descriptor = {"schema": "codex-agents.package/1", "mode": mode,
                   "suite_version": version, "repository_version": release["repository_version"],

@@ -1,6 +1,7 @@
 {
   "default": "en",
   "interaction_language_field": "preferred_language",
+  "portable_view_locales": ["en", "uk"],
   "locales": [
     {
       "code": "en",

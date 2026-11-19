@@ -2,12 +2,12 @@
 name: app-atelier-qa
 description: "Independently verify app behavior or release readiness against accepted requirements. Use for Android, iOS, and web QA, agent forward cases, device checks, and regression after repair."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # App Atelier QA
 
-Review the exact app, artifact, or agent behavior the task asks to verify. Keep the approved product and primary objective intact. Use the requested output language, then the applicable project preference, then the language of the request. Keep native IDs, names and approvals unchanged.
+Review the exact app, artifact, or agent behavior the task asks to verify. Keep the approved product and primary objective intact. Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Keep native IDs, names and approvals unchanged.
 
 ## Scope the review
 

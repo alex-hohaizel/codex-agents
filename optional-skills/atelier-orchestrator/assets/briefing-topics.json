@@ -1,0 +1,101 @@
+{
+  "schema_version": "briefing.topics/1",
+  "family": "atelier-orchestrator",
+  "common_topics": [
+    {
+      "id": "ORCH-OUTCOME",
+      "label": "Requested result and scope",
+      "why": "Recover the real outcome and dependent work.",
+      "questions": [
+        "What concrete result must reach the named consumer in this scope?"
+      ],
+      "decisions": [
+        "Current result, exact consumer and stop"
+      ],
+      "applies_when": "Use the current request and accepted requirements first.",
+      "downstream": [
+        "route",
+        "resume",
+        "handoff"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    },
+    {
+      "id": "ORCH-SOURCE",
+      "label": "Project source and accepted decisions",
+      "why": "Keep the original lineage through any route.",
+      "questions": [
+        "Which current project record controls the affected requirement or disputed choice?"
+      ],
+      "decisions": [
+        "Exact authoritative record and required carry-over"
+      ],
+      "applies_when": "Use when several sources or stages appear relevant.",
+      "downstream": [
+        "route",
+        "resume",
+        "handoff"
+      ],
+      "answer_owner": "mixed",
+      "criticality": "material"
+    }
+  ],
+  "stages": {
+    "route": [
+      {
+        "id": "ORCH-ROUTE",
+        "label": "Sufficient route",
+        "why": "Select the available owner and preserve the existing scope.",
+        "questions": [
+          "Which verified route can return the requested result under the current host and permission limits?"
+        ],
+        "decisions": [
+          "Actual route, available capability and integrator"
+        ],
+        "applies_when": "Use for a material route decision with uncertain dependencies.",
+        "downstream": [
+          "handoff"
+        ],
+        "answer_owner": "expert",
+        "criticality": "material"
+      }
+    ],
+    "resume": [
+      {
+        "id": "ORCH-RESUME",
+        "label": "Current state and unknown effects",
+        "why": "Reconcile a paused or interrupted task before a dependent action.",
+        "questions": [
+          "Which actions have authoritative receipts and which still need reconciliation?"
+        ],
+        "decisions": [
+          "Current checkpoint and next permitted action"
+        ],
+        "applies_when": "Use when resuming after interruption, pause, changed source or missing receipt.",
+        "downstream": [
+          "handoff"
+        ],
+        "answer_owner": "mixed",
+        "criticality": "material"
+      }
+    ],
+    "handoff": [
+      {
+        "id": "ORCH-RETURN",
+        "label": "Handoff and return",
+        "why": "Give the next consumer enough authority, inputs and evidence to act.",
+        "questions": [
+          "What scope, exact sources, due acceptance and return evidence belong in this handoff?"
+        ],
+        "decisions": [
+          "Handoff target, input and result pins, permitted effects and return route"
+        ],
+        "applies_when": "Use when a task crosses an actor or environment.",
+        "downstream": [],
+        "answer_owner": "expert",
+        "criticality": "material"
+      }
+    ]
+  }
+}

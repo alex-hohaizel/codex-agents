@@ -96,6 +96,8 @@ Créez un prototype interactif dans le navigateur à partir de DESIGN et EXPERIE
 
 Partez des exigences qui font foi, de l’identité, des décisions et du point de reprise du projet. Fixez les empreintes des sources et transportez les obligations, effets permis, travaux différés, résultat, effets non résolus et prochaine action qui concernent la tâche. Une source modifiée ou indisponible entraîne une nouvelle vérification de l’obligation associée. Le transfert passe cette sélection au prochain acteur ou hôte et les sources originales continuent de faire foi.
 
+Lors d’une installation neuve, l’assistant s’ouvre en anglais même sur un système ou dans un navigateur en ukrainien. Choisissez l’anglais ou l’ukrainien dans l’assistant. Ce choix est conservé après un redémarrage sur un autre port. Workbench utilise d’abord la langue d’interface explicitement sélectionnée, puis la préférence enregistrée et enfin l’anglais. Pour chaque tâche, choisissez la langue du résultat ou gardez la préférence du projet. Le lanceur géré demande GPT-6.2 Sol s’il est disponible sur le compte de l’acheteur. Les paiements sont désactivés pour cette version. Vous pouvez conserver séparément un document d’achat hors ligne original.
+
 Enregistrez `preferred_language` dans le contexte du projet et transmettez-le lors des relais. Conservez les commandes, sélecteurs, identifiants, références et citations originales. [Modèle de travail](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contexte de projet](../../templates/project-context.json) · [Passage de relais](../../templates/HANDOFF.md)
 
 <a name="models"></a>

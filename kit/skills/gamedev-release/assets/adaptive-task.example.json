@@ -6,8 +6,8 @@
   "task": {
     "id": "task-id",
     "revision": 1,
-    "goal": "Уточнений фактичний результат",
-    "scope": "Поточне дозволене доручення",
+    "goal": "State the observable result",
+    "scope": "Current authorized assignment",
     "owner": "actual-actor-id",
     "host": "current-verified-host",
     "status": "planned"
@@ -18,12 +18,12 @@
     "consequence": "reversible",
     "coupling": "isolated",
     "depth": "quick",
-    "rationale": "Точний обмежений результат; замінити фактичним обґрунтуванням",
+    "rationale": "Explain why this result warrants a bounded approach",
     "escalate_when": [
-      "Виявлено ширший причинний вплив"
+      "Evidence shows the cause affects a wider scope"
     ],
     "reduce_when": [
-      "Отримано достатній адресний доказ"
+      "The targeted evidence establishes the result"
     ]
   },
   "sources": [
@@ -41,23 +41,23 @@
       "source_ids": [
         "SRC-1"
       ],
-      "text": "Повний фактичний обов’язок, виділений із джерела",
+      "text": "Complete obligation taken from the cited source",
       "status": "included",
       "due": "current-scope",
       "output_ids": [
         "OUT-1"
       ],
-      "acceptance": "Предметний спостережуваний критерій"
+      "acceptance": "Observable domain acceptance criterion"
     }
   ],
   "strategy": {
     "mode": "direct",
     "reuse_choice": "reuse",
-    "rationale": "Чинний метод і компетенція достатні для обмеженого результату",
+    "rationale": "The existing method and competency can deliver the bounded result",
     "competencies": [
       {
         "id": "COMP-1",
-        "method": "Назвати фактичний метод",
+        "method": "Name the method you will use",
         "provider": "actual-actor-or-tool",
         "availability": "verified",
         "source_ids": [
@@ -68,12 +68,12 @@
         ]
       }
     ],
-    "stop": "Завершити після належної адресної перевірки; розширення за матеріальним новим фактом"
+    "stop": "Stop after the relevant check. Widen the scope when a material new fact requires it."
   },
   "outputs": [
     {
       "id": "OUT-1",
-      "description": "Фактичний очікуваний артефакт",
+      "description": "Expected deliverable",
       "status": "planned",
       "author": "actual-actor-id",
       "evidence_ids": []
@@ -82,7 +82,7 @@
   "evidence": [],
   "effects": [],
   "authority": {
-    "scope": "Чинне точне доручення",
+    "scope": "Current exact authorized scope",
     "grant_source_ids": [
       "SRC-1"
     ]
@@ -91,7 +91,7 @@
     "state": "not_required"
   },
   "next": {
-    "action": "Виконати поточний дозволений крок",
+    "action": "Carry out the currently authorized action",
     "owner": "actual-actor-id",
     "requires_user": false
   },

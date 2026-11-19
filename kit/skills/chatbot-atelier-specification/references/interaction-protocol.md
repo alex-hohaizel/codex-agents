@@ -50,3 +50,5 @@ The helper reads only the selected file or fixed ledger. It does not scan creden
 Use domain review for substantive completeness, independence, actual builds, external receipts and owner acceptance. A workbench can display this projection after integration. Work chat control requires its own supported capability.
 
 See [adaptive work](adaptive-work.md) for visible strategy, evidence and exact continuation and [visual identity](visual-identity.md) for stable presentation.
+
+For Markdown status or decision views, choose `--locale en|uk`. The view uses the explicit choice, the native record or its profile’s saved `preferred_language`, then English. JSON output and source values retain their original form.

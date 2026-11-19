@@ -466,6 +466,8 @@ const messages: Record<MessageKey, string> = {
   restoreHelp: "仅恢复服务状态。产品文件和外部影响分别处理。",
   service: "本地服务",
   language: "界面语言",
+  taskOutputLanguage: "任务输出语言",
+  projectLanguageDefault: "项目首选语言或英语",
   languageHelp: "产品已批准的语言和稳定标识符保持不变。",
   about: "关于此工作区",
   aboutHelp:

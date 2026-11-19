@@ -373,6 +373,7 @@ def inherited_entitlement(home, state, product_id):
 def audit(package, home, state, plan_path, entitlement=None):
     package = safe(package)
     metadata, manifest_sha = package_info(package)
+    managed_launcher_model(package / 'product')
     home, state, destination, legacy = paths(home, state)
     require(platform.system() in ('Darwin', 'Linux', 'Windows'), 'This setup supports native skills on Windows, macOS and Linux.')
     package = retained_package(package, state, manifest_sha)
@@ -729,6 +730,68 @@ def launch_arguments(home, product):
     return arguments
 
 
+def managed_launcher_model(product):
+    release = product / 'releases/current.json'
+    record = load(release) if release.is_file() else {}
+    payment = record.get('commercial', {}).get('installer_payments_enabled')
+    require(payment is False, 'Payments are disabled for this release. Use a verified installer whose runtime payment policy is disabled.')
+    policy = record.get('managed_model')
+    model = policy.get('id') if isinstance(policy, dict) else None
+    require(isinstance(model, str) and re.fullmatch(r'gpt-[0-9]+\.[0-9]+-sol', model),
+            'The verified package has no supported managed model policy. Use the matching original installer for older recovery journals, or select the exact current package.')
+    return model
+
+
+LAUNCHER_ARGUMENT_GUARD = """check_model_config() {
+    key=${1%%=*}
+    key=${key%%.*}
+    while [ -n "$key" ]; do
+        case "$key" in
+            [[:space:]]*) key=${key#?} ;;
+            *[[:space:]]) key=${key%?} ;;
+            *) break ;;
+        esac
+    done
+    case "$key" in
+        '"'*'"'|"'"*"'") key=${key#?}; key=${key%?} ;;
+    esac
+    # Native trims Unicode whitespace. Accept only plain root config keys here
+    # so a character the shell cannot trim cannot hide a route override.
+    case "$key" in
+        ''|*[!ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-]*) return 1 ;;
+        model|model_provider|model_providers|openai_base_url|chatgpt_base_url|oss_provider|profile|profiles|\\
+        forced_login_method|forced_chatgpt_workspace_id|\\
+        experimental_realtime_ws_base_url|experimental_realtime_webrtc_call_base_url) return 1 ;;
+    esac
+    return 0
+}
+check_model_arguments() {
+    config_value=no
+    for argument do
+        if [ "$config_value" = yes ]; then
+            check_model_config "$argument" || return 1
+            config_value=no
+            continue
+        fi
+        case "$argument" in
+            --) break ;;
+            --model|--model=*|-m*|--oss|--local-provider|--local-provider=*) return 1 ;;
+            --remote|--remote=*|--remote-auth-token-env|--remote-auth-token-env=*) return 1 ;;
+            --profile|--profile=*|-p*) return 1 ;;
+            -c|--config) config_value=yes ;;
+            --config=*|-c=*) check_model_config "${argument#*=}" || return 1 ;;
+            -c?*) check_model_config "${argument#-c}" || return 1 ;;
+        esac
+    done
+    [ "$config_value" = no ]
+}
+if ! check_model_arguments "$@"; then
+    printf '%s\\n' 'This managed launcher uses the model selected by the verified package. Remove the model, provider, endpoint or profile override. Use a separately reviewed native Codex session for a custom route.' >&2
+    exit 2
+fi
+"""
+
+
 def launcher_path(state):
     return state / ('Open Codex.cmd' if platform_support.WINDOWS else 'Open Codex.command')
 
@@ -783,8 +846,9 @@ def runtime_environment(package):
     return result
 
 
-def make_launcher(home, state, product, expected_before=None, *, project=None):
-    flags = launch_arguments(home, product)
+def make_launcher(home, state, product, expected_before=None, *, project=None, model=None):
+    model = model or managed_launcher_model(product)
+    flags = ['--model', model, *launch_arguments(home, product)]
     if project is not None:
         project = safe(project)
         require(project.parent == state / 'practice' and re.fullmatch(r'[0-9a-f]{32}',project.name), 'Practice launcher outside the owned demo root')
@@ -814,7 +878,7 @@ def make_launcher(home, state, product, expected_before=None, *, project=None):
         content = '@echo off\r\nsetlocal DisableDelayedExpansion\r\nset "AGENT_SYSTEM_LAUNCH_FILE=%~f0"\r\npowershell.exe -NoLogo -NoProfile -EncodedCommand ' + base64.b64encode(script.encode('utf-16le')).decode('ascii') + '\r\nexit /b %ERRORLEVEL%\r\n:AGENT_SYSTEM_LAUNCH_DATA\r\n' + payload + '\r\n'
     else:
         environment += [name+'='+value for name,value in runtime.items()]
-        content = '#!/bin/sh\nset -eu\nexec env ' + ' '.join(shlex.quote(x) for x in environment) + ' ' + ' '.join(shlex.quote(x) for x in command) + ' ' + ' '.join(shlex.quote(x) for x in flags) + ' "$@"\n'
+        content = '#!/bin/sh\nset -eu\n' + LAUNCHER_ARGUMENT_GUARD + 'exec env ' + ' '.join(shlex.quote(x) for x in environment) + ' ' + ' '.join(shlex.quote(x) for x in command) + ' ' + ' '.join(shlex.quote(x) for x in flags) + ' "$@"\n'
     path = (project / launcher_path(state).name) if project is not None else launcher_path(state)
     before = digest(read(path)) if path.exists() else None
     require(before in (expected_before, digest(content.encode())), 'Generated launcher changed during setup; preserve it')
@@ -832,6 +896,7 @@ def make_launcher(home, state, product, expected_before=None, *, project=None):
 def install(plan_path, expected, *, resume=None):
     started=time.monotonic();setup_diagnostic('install-plan-check-start')
     plan, package, home, state, operation = checked_plan(plan_path, expected)
+    model = managed_launcher_model(package / 'product')
     setup_diagnostic('install-plan-check-complete',started)
     core, host = engines(package)
     journal_path = operation / 'journal.json'
@@ -893,7 +958,7 @@ def install(plan_path, expected, *, resume=None):
                         platform_support.fchmod(out.fileno(),0o600)
                         out.write(content); out.flush(); os.fsync(out.fileno())
                 journal['retained_entitlement'] = str(destination)
-            journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'))
+            journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'), model=model)
             journal['launcher_sha256'] = digest(read(Path(journal['launcher'])))
             journal.update(status='complete', finished_at=timestamp())
             write(journal_path, journal)
@@ -1265,6 +1330,7 @@ def first_task(locale='en'):
 def prepare_first_task(package, home, state=None, locale='en'):
     package = safe(package)
     package_info(package)
+    model = managed_launcher_model(package / 'product')
     home, state, *_ = paths(home, state)
     description = first_task(locale)
     with locked(state, home):
@@ -1289,7 +1355,7 @@ def prepare_first_task(package, home, state=None, locale='en'):
         require(installed_home == home and installed_state == state, 'Installed record belongs to another setup home')
         if journal['status'] == 'complete':
             verify(Path(active['journal']))
-            launcher = make_launcher(home,state,installed_package / 'product',project=folder)
+            launcher = make_launcher(home,state,installed_package / 'product',project=folder,model=model)
     return dict(description, status='prepared', project=str(folder),
                 launcher=launcher, execution_performed=False,
                 next='Open this disposable project in Codex and paste the supplied prompt. Review the resulting files.')
