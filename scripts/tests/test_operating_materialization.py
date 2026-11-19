@@ -19,14 +19,25 @@ class OperatingMaterializationTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve())
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
+        self.constructors = ('agent-foundry', 'design-specialist-skills')
+        self.core = ('one', 'two', *self.constructors)
+        self.orchestrator = self.root / 'optional-skills/atelier-orchestrator'
+        self.managed_model = json.loads((ROOT / 'releases/current.json').read_bytes())['managed_model']
         (self.root / 'releases').mkdir()
-        (self.root / 'releases/current.json').write_text(json.dumps({'stable_skill_names': ['one', 'two']}))
-        (self.root / 'standards').mkdir()
+        (self.root / 'releases/current.json').write_text(json.dumps({
+            'stable_skill_names': self.core, 'managed_model': self.managed_model,
+        }))
         self.expected = {}
-        for source in M.RESOURCES:
+        for source in (*M.RESOURCES, *M.CORE_RESOURCES, *M.CONSTRUCTOR_RESOURCES):
             data = ('fixture reviewed bytes: ' + source + '\n').encode()
-            (self.root / 'standards' / source).write_bytes(data)
+            master = self.root / 'standards' / source
+            master.parent.mkdir(parents=True, exist_ok=True)
+            master.write_bytes(data)
             self.expected[source] = data
+        for template in M.ORCHESTRATOR_TEMPLATES:
+            master = self.root / 'kit/skills/agent-foundry' / template
+            master.parent.mkdir(parents=True, exist_ok=True)
+            master.write_text('fixture reviewed template: ' + template + '\n')
 
     def run_materializer(self, *arguments):
         result = subprocess.run([sys.executable, '-B', str(SCRIPT), '--root', str(self.root), *arguments],
@@ -36,11 +47,36 @@ class OperatingMaterializationTests(unittest.TestCase):
     def test_operating_resources_are_local_in_core_and_optional_orchestrator(self):
         code, result = self.run_materializer()
         self.assertEqual(code, 0, result)
-        self.assertIn('standards/tool-compatibility.md', {row['source'] for row in result['resources']})
+        resources = {row['source']: row for row in result['resources']}
+        self.assertIn('standards/tool-compatibility.md', resources)
         for source, target in M.RESOURCES.items():
-            for bundle in ('kit/skills/one', 'kit/skills/two', 'optional-skills/atelier-orchestrator'):
-                self.assertEqual((self.root / bundle / target).read_bytes(), self.expected[source])
-        self.assertTrue(all(row['core_bundles'] == 2 and row['optional_bundles'] == 1 for row in result['resources']))
+            self.assertEqual((self.orchestrator / target).read_bytes(), self.expected[source])
+            for name in self.core:
+                self.assertEqual((self.root / 'kit/skills' / name / target).read_bytes(), self.expected[source])
+            row = resources['standards/' + source]
+            self.assertEqual((row['core_bundles'], row['optional_bundles']), (len(self.core), 1))
+        for source, target in M.CORE_RESOURCES.items():
+            for name in self.core:
+                self.assertEqual((self.root / 'kit/skills' / name / target).read_bytes(), self.expected[source])
+            self.assertFalse((self.orchestrator / target).exists())
+        for source, target in M.CONSTRUCTOR_RESOURCES.items():
+            for name in self.core:
+                path = self.root / 'kit/skills' / name / target
+                if name in self.constructors:
+                    self.assertEqual(path.read_bytes(), self.expected[source])
+                else:
+                    self.assertFalse(path.exists())
+            self.assertFalse((self.orchestrator / target).exists())
+        for name in self.core:
+            model = self.root / 'kit/skills' / name / 'assets/managed-model.json'
+            if name in self.constructors:
+                self.assertEqual(json.loads(model.read_bytes()), self.managed_model)
+            else:
+                self.assertFalse(model.exists())
+        for template in M.ORCHESTRATOR_TEMPLATES:
+            master = self.root / 'kit/skills/agent-foundry' / template
+            self.assertEqual((self.orchestrator / template).read_bytes(), master.read_bytes())
+        self.assertFalse((self.orchestrator / 'assets/managed-model.json').exists())
         code, checked = self.run_materializer('--check')
         self.assertEqual(code, 0, checked)
 
@@ -51,6 +87,7 @@ class OperatingMaterializationTests(unittest.TestCase):
         (self.root / 'standards/ai_production.py').unlink()
         code, result = self.run_materializer()
         self.assertEqual(code, 1, result)
+        self.assertEqual(result['errors'], ['standards/ai_production.py: missing/linked master'])
         self.assertEqual(sentinel.read_text(), 'preserved old bundle')
         self.assertFalse((self.root / 'kit/skills/two').exists())
 
@@ -63,6 +100,9 @@ class OperatingMaterializationTests(unittest.TestCase):
             self.skipTest(str(error))
         code, result = self.run_materializer()
         self.assertEqual(code, 1, result)
+        self.assertTrue(result['errors'])
+        self.assertTrue(all(error.startswith('kit/skills/two/references/') and error.endswith(': linked target path')
+                            for error in result['errors']), result)
         self.assertEqual(list(outside.iterdir()), [])
         self.assertFalse((self.root / 'kit/skills/one').exists())
 
