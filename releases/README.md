@@ -23,12 +23,14 @@ until publication completes. It remains available for recovery.
 | Atelier Orchestrator | 1.6.0 |
 | Maintenance | 1.5.0 |
 | Agent Atelier | 0.9.0 |
-| Managed model | GPT-6.2 Sol (`gpt-6.2-sol`) |
+| Managed model and effort | GPT-6.2 Sol Ultra (`gpt-6.2-sol` with `ultra`) |
 
 Clean product entry points start in English. The installer remembers a language
 the owner explicitly selects across restarts, and a task can select its own
-output language. Managed Codex launches use the model in the verified release
-record. An unavailable model needs a supported Codex account or workspace.
+output language. Managed Codex launches use the model and reasoning effort in the verified
+release record. Both settings must be available in the Codex account or
+workspace. Known owned role defaults migrate to that pair, with a private
+diff for local selector conflicts.
 
 Payments are disabled for this release. An original offline purchase document
 can still be retained through the separate optional control or inherited

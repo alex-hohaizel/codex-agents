@@ -23,7 +23,7 @@ RESULT = "atelier.native-canary-receipts/1"
 NAME = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 FIXTURES = Path(__file__).parent / "native-canary-fixtures.json"
 MODEL_ID = re.compile(r"gpt-[0-9]+(?:\.[0-9]+)?-sol\Z")
-DEFAULT_EFFORT = "high"
+REASONING_EFFORTS = ("low", "medium", "high", "xhigh", "max", "ultra")
 NATIVE_ENV_KEYS = {
     "HOME", "CODEX_HOME", "USER", "LOGNAME", "PATH", "LANG", "LC_ALL",
     "TMPDIR", "TEMP", "TMP", "SYSTEMROOT", "WINDIR", "COMSPEC", "PATHEXT",
@@ -46,20 +46,28 @@ def load_json(path):
     return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique)
 
 
-def managed_model(requested=None, *, baseline=False):
+def managed_policy(requested_model=None, requested_effort=None, *, baseline=False):
     try:
         release = load_json(REPO / "releases/current.json")
-        model = release.get("managed_model", {}).get("id")
+        policy = release.get("managed_model")
+        if not isinstance(policy, dict) or set(policy) != {"id", "reasoning_effort"}:
+            raise ValueError
+        model, effort = policy["id"], policy["reasoning_effort"]
         if (release.get("schema_version") != "codex-agents.release/1"
-                or not isinstance(model, str) or not MODEL_ID.fullmatch(model)):
+                or not isinstance(model, str) or not MODEL_ID.fullmatch(model)
+                or effort != "ultra"):
             raise ValueError
     except (OSError, ValueError, AttributeError) as exc:
         raise ValueError("The verified release's managed model policy is missing or invalid") from exc
-    if requested is None or requested == model:
-        return model
-    if not baseline or not MODEL_ID.fullmatch(requested):
-        raise ValueError(f"This managed route requires {model}; model overrides are for explicit baseline replays")
-    return requested
+    if requested_model is not None and requested_model != model:
+        if not baseline or not MODEL_ID.fullmatch(requested_model):
+            raise ValueError(f"This managed route requires {model}; model overrides are for explicit baseline replays")
+        model = requested_model
+    if requested_effort is not None and requested_effort != effort:
+        if not baseline or requested_effort not in REASONING_EFFORTS:
+            raise ValueError(f"This managed route requires {effort} effort; effort overrides are for explicit baseline replays")
+        effort = requested_effort
+    return model, effort
 
 
 def native_environment():
@@ -579,7 +587,7 @@ def main():
     parser.add_argument("--output", required=True, type=Path, help="New private JSONL receipt")
     parser.add_argument("--codex", default="codex")
     parser.add_argument("--model", help="Explicit comparison pin; a different model requires baseline mode")
-    parser.add_argument("--effort", choices=("low", "medium", "high"), default=DEFAULT_EFFORT)
+    parser.add_argument("--effort", choices=REASONING_EFFORTS, help="Alternate effort requires an explicit historical baseline")
     parser.add_argument("--stage", choices=("baseline", "candidate"), default="candidate")
     parser.add_argument("--baseline-source", type=Path, help="Reviewed clean reference checkout for baseline only")
     parser.add_argument("--deadline", type=int, default=150, help="Seconds per native case (30–600)")
@@ -593,7 +601,7 @@ def main():
         parser.error("A baseline source requires --stage baseline")
     args.source = args.baseline_source.resolve() if args.baseline_source else REPO
     try:
-        args.model = managed_model(args.model, baseline=args.stage == "baseline")
+        args.model, args.effort = managed_policy(args.model, args.effort, baseline=args.stage == "baseline")
     except ValueError as exc:
         parser.error(str(exc))
     suite = checked_suite()

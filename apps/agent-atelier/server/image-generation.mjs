@@ -4,7 +4,7 @@ import { mkdtemp, open, realpath, rm } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { promisify } from "node:util";
-import { CodexAdapter } from "./codex.mjs";
+import { CodexAdapter, readManagedPolicy, requireManagedSelection } from "./codex.mjs";
 import { runtimeEnvironment } from "./environment.mjs";
 import {
   containsObviousCredential,
@@ -71,9 +71,11 @@ async function imageBytes(path, threadId, generatedRoot) {
 export class ImageGeneration {
   #pending = false;
   #host = null;
+  #repoRoot;
 
   constructor({
     executable = "codex",
+    repoRoot,
     generatedRoot = join(
       process.env.CODEX_HOME ?? join(homedir(), ".codex"),
       "generated_images",
@@ -108,6 +110,7 @@ export class ImageGeneration {
     },
     timeoutMs = 150000,
   } = {}) {
+    this.#repoRoot = repoRoot;
     this.generatedRoot = generatedRoot;
     this.makeHost = makeHost;
     this.featureEnabled = featureEnabled;
@@ -147,6 +150,7 @@ export class ImageGeneration {
         "Built-in image generation is disabled or unavailable on this Codex host",
         409,
       );
+      const { model, effort } = await readManagedPolicy(this.#repoRoot);
       directory = await mkdtemp(join(tmpdir(), "atelier-native-image-"));
       const host = this.makeHost(directory);
       this.#host = host;
@@ -160,6 +164,9 @@ export class ImageGeneration {
       const start = await host.rpc("thread/start", {
         cwd: directory,
         ephemeral: true,
+        model,
+        modelProvider: "openai",
+        config: { model_reasoning_effort: effort },
         permissions: "atelier-local",
         approvalPolicy: "never",
         baseInstructions:
@@ -174,6 +181,7 @@ export class ImageGeneration {
         "Could not verify an isolated native image task on the ChatGPT route",
         409,
       );
+      requireManagedSelection(start, { model, effort });
       const images = new Map();
       const earlyTurns = new Map();
       let expectedTurn, resolveTurn;
@@ -204,6 +212,8 @@ export class ImageGeneration {
       const dispatch = await host.rpc("turn/start", {
         threadId,
         cwd: directory,
+        model,
+        effort,
         permissions: "atelier-local",
         approvalPolicy: "never",
         input: [

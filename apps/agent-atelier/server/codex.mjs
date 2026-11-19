@@ -30,20 +30,22 @@ import { InstructionsManager, instructionSettings } from "./instructions.mjs";
 const run = promisify(execFile);
 const TURN_LOOKUP_PAGE_LIMIT = 10;
 const CODEX_PROVIDER = "openai";
-const MANAGED_EFFORT = "high";
 
-async function readManagedModel(repoRoot) {
+export async function readManagedPolicy(
+  repoRoot = fileURLToPath(new URL("../../..", import.meta.url)),
+) {
   try {
     const path = join(repoRoot, "releases", "current.json");
     const state = await lstat(path);
     if (!state.isFile() || state.isSymbolicLink() || state.size > 64 * 1024)
       throw new Error("Invalid release metadata file");
     const release = parseStrictJson(await readFile(path, "utf8"), 64 * 1024);
-    const model = release?.managed_model?.id;
+    const { id: model, reasoning_effort: effort } = release?.managed_model ?? {};
     if (release?.schema_version !== "codex-agents.release/1" ||
-        typeof model !== "string" || !/^gpt-[0-9]+(?:\.[0-9]+)?-sol$/.test(model))
-      throw new Error("Invalid managed model ID");
-    return model;
+        typeof model !== "string" || !/^gpt-[0-9]+(?:\.[0-9]+)?-sol$/.test(model) ||
+        effort !== "ultra" || Object.keys(release.managed_model).length !== 2)
+      throw new Error("Invalid managed model or reasoning effort");
+    return { model, effort };
   } catch {
     throw new ServiceError(
       "MODEL_POLICY_UNAVAILABLE",
@@ -52,6 +54,38 @@ async function readManagedModel(repoRoot) {
     );
   }
 }
+function managedSelectionDetails(result, { model, effort }) {
+  return {
+    requested_model: model,
+    requested_effort: effort,
+    observed_model: result?.model ?? null,
+    observed_effort: result?.reasoningEffort ?? null,
+    observed_provider: result?.modelProvider ?? null,
+    thread_id: result?.thread?.id ?? null,
+  };
+}
+
+export function requireManagedSelection(
+  result,
+  { model, effort },
+  details = managedSelectionDetails(result, { model, effort }),
+) {
+  fail(
+    result?.model === model,
+    "MODEL_UNAVAILABLE",
+    `Native Codex did not confirm the required model ${model}. Check model availability in the existing Codex session before continuing`,
+    409,
+    details,
+  );
+  fail(
+    result?.reasoningEffort === effort,
+    "MODEL_EFFORT_UNAVAILABLE",
+    `Native Codex did not confirm the required reasoning effort ${effort}. Check the available reasoning levels in the existing Codex session before continuing`,
+    409,
+    details,
+  );
+}
+
 const HISTORY_READ_METHODS = new Set([
   "initialize",
   "account/read",
@@ -854,15 +888,9 @@ export class CodexAdapter extends EventEmitter {
       injection_efficacy_verified: false,
     };
   }
-  async verifyModelAdmission(result, capsule, model) {
-    const expected = model ?? await readManagedModel(this.#repoRoot);
+  async verifyModelAdmission(result, capsule, { model, effort }) {
     const route = capsule.instruction_manifest.settings.native_route;
-    const details = {
-      requested_model: expected,
-      observed_model: result?.model ?? null,
-      observed_provider: result?.modelProvider ?? null,
-      thread_id: result?.thread?.id ?? null,
-    };
+    const details = managedSelectionDetails(result, { model, effort });
     fail(
       this.status.auth_mode === "chatgpt" &&
         result?.modelProvider === CODEX_PROVIDER &&
@@ -874,13 +902,7 @@ export class CodexAdapter extends EventEmitter {
       409,
       details,
     );
-    fail(
-      result?.model === expected,
-      "MODEL_UNAVAILABLE",
-      `Native Codex did not confirm the required model ${expected}. Check model availability in the existing Codex session before continuing`,
-      409,
-      details,
-    );
+    requireManagedSelection(result, { model, effort }, details);
   }
   async #openThread(method, threadId, cwd, capsule, onAcknowledged) {
     const memoryMode = taskMemoryMode(capsule.memory_mode);
@@ -901,7 +923,8 @@ export class CodexAdapter extends EventEmitter {
       );
       this.taskPermissions.delete(threadId);
     }
-    const model = await readManagedModel(this.#repoRoot);
+    const policy = await readManagedPolicy(this.#repoRoot);
+    const { model, effort } = policy;
     await this.connect();
     const settings = await this.taskConfiguration(cwd, capsule);
     const pending = this.rpc(method, {
@@ -911,7 +934,7 @@ export class CodexAdapter extends EventEmitter {
       modelProvider: CODEX_PROVIDER,
       permissions: settings.name,
       approvalPolicy: "on-request",
-      config: { ...settings.config, model_reasoning_effort: MANAGED_EFFORT },
+      config: { ...settings.config, model_reasoning_effort: effort },
     });
     let result;
     try {
@@ -923,6 +946,7 @@ export class CodexAdapter extends EventEmitter {
         operation: method,
         outcome: rejected ? "rejected" : "unknown",
         requested_model: model,
+        requested_effort: effort,
         ...(threadId ? { thread_id: threadId } : {}),
       });
     }
@@ -934,7 +958,7 @@ export class CodexAdapter extends EventEmitter {
       502,
       { operation: method, outcome: "unknown", ...(threadId ? { thread_id: threadId } : {}) },
     );
-    onAcknowledged(result);
+    onAcknowledged(result, policy);
     fail(
       !threadId || nativeId === threadId,
       "CAPABILITY_UNVERIFIED",
@@ -942,7 +966,7 @@ export class CodexAdapter extends EventEmitter {
       409,
       { thread_id: threadId, acknowledged_thread_id: nativeId },
     );
-    await this.verifyModelAdmission(result, capsule, model);
+    await this.verifyModelAdmission(result, capsule, policy);
     this.instructions.verifyLoaded(
       capsule.instruction_manifest,
       result.instructionSources,
@@ -958,7 +982,8 @@ export class CodexAdapter extends EventEmitter {
       memory_mode: memoryMode,
       memoryDenyRoots: settings.memoryDenyRoots,
       memory_control: memoryControl,
-      model,
+      model: result.model,
+      effort: result.reasoningEffort,
       provider: result.modelProvider,
     });
     return memoryControl ? { ...result, memory_control: memoryControl } : result;
@@ -1018,19 +1043,22 @@ export class CodexAdapter extends EventEmitter {
         409,
       );
     }
-    const model = await readManagedModel(this.#repoRoot);
+    const policy = await readManagedPolicy(this.#repoRoot);
+    const { model, effort } = policy;
     const admission = this.taskPermissions.get(threadId);
     fail(
-      admission?.task_id === capsule.task_id && admission.model === model,
+      admission?.task_id === capsule.task_id && admission.model === model && admission.effort === effort,
       "MODEL_UNAVAILABLE",
-      `Prepare or resume the exact native chat to verify ${model} before dispatching`,
+      `Prepare or resume the exact native chat to verify ${model} at reasoning effort ${effort} before dispatching`,
       409,
-      { thread_id: threadId, requested_model: model, observed_model: admission?.model ?? null },
+      { thread_id: threadId, requested_model: model, requested_effort: effort,
+        observed_model: admission?.model ?? null, observed_effort: admission?.effort ?? null },
     );
     await this.verifyModelAdmission(
-      { thread: { id: threadId }, model: admission.model, modelProvider: admission.provider },
+      { thread: { id: threadId }, model: admission.model, modelProvider: admission.provider,
+        reasoningEffort: admission.effort },
       capsule,
-      model,
+      policy,
     );
     fail(
       this.taskPermissions.get(threadId) === admission,
@@ -1043,7 +1071,7 @@ export class CodexAdapter extends EventEmitter {
       threadId,
       cwd: capsule.root,
       model,
-      effort: MANAGED_EFFORT,
+      effort,
       approvalPolicy: "on-request",
       permissions: "atelier-task",
       input: [

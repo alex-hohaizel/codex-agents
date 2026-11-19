@@ -199,14 +199,14 @@ class HostProfileTests(unittest.TestCase):
             language,
         )
 
-    def test_approved_predecessors_migrate_model_and_preserve_local_effort_and_unmanaged_files(self):
+    def test_approved_predecessors_migrate_model_and_preserve_equivalent_effort_and_unmanaged_files(self):
         agents = self.codex / 'agents'
         agents.mkdir()
         cost_target, qa_target = agents / 'foundry-cost.toml', agents / 'foundry-qa.toml'
         local_cost = self.predecessor_role(cost_target.name)
         local_qa = self.predecessor_role(qa_target.name)
         local_qa += 'model = "gpt-6.1-sol" # managed model_reasoning_effort = "high"\n'
-        local_qa += "model_reasoning_effort = 'medium' # local effort\n"
+        local_qa += "model_reasoning_effort = 'ultra' # local effort\n"
         cost_target.write_bytes(local_cost.encode())
         qa_target.write_bytes(local_qa.encode())
         unmanaged = {self.codex / 'config.toml': 'model = "gpt-6.1-sol"\n',
@@ -223,9 +223,9 @@ class HostProfileTests(unittest.TestCase):
                 self.assertNotIn('gpt-6.1-sol', row['desired'])
                 self.assertIn('gpt-6.2-sol', row['desired'])
                 self.assertEqual(row['before_sha256'], H.sha(local))
-        self.assertIn("model_reasoning_effort = 'medium' # local effort", rows[qa_target.name]['desired'])
+        self.assertIn("model_reasoning_effort = 'ultra' # local effort", rows[qa_target.name]['desired'])
         self.assertIn('model = "gpt-6.2-sol" # managed model_reasoning_effort = "high"\n', rows[qa_target.name]['desired'])
-        self.assertIn('model_reasoning_effort = "high"', rows[cost_target.name]['desired'])
+        self.assertIn('model_reasoning_effort = "ultra"', rows[cost_target.name]['desired'])
         H.apply(self.plan, self.journal)
         self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
         self.assertEqual(H.read(qa_target), rows[qa_target.name]['desired'])
@@ -261,12 +261,34 @@ class HostProfileTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 2)
         receipt = json.loads(result.stdout)
-        self.assertIn('Local reasoning effort minimal is unavailable', receipt['error'])
+        self.assertIn('Local reasoning effort minimal differs from managed ultra', receipt['error'])
         self.assertEqual(receipt['conflict_diff'], str(diff))
         self.assertIn('-model_reasoning_effort = "minimal"', H.read(diff))
-        self.assertIn('+model_reasoning_effort = "high"', H.read(diff))
+        self.assertIn('+model_reasoning_effort = "ultra"', H.read(diff))
         self.assertEqual(H.read(target), current)
         self.assertFalse(self.plan.exists())
+
+    def test_exact_high_candidate_migrates_but_custom_lower_effort_conflicts(self):
+        agents = self.codex / 'agents'
+        agents.mkdir()
+        target = agents / 'foundry-qa.toml'
+        canonical = H.read(ROOT / 'agent-profiles' / target.name)
+        prior = canonical.replace('model_reasoning_effort = "ultra"', 'model_reasoning_effort = "high"')
+        self.assertIn(H.sha(prior), next(row for row in H.load(ROOT / 'agent-profiles/manifest.json')['roles']
+                                         if row['file'] == target.name)['previous_sha256'])
+        target.write_text(prior)
+        self.make_plan()
+        H.apply(self.plan, self.journal)
+        self.assertEqual(H.read(target), canonical)
+        H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(H.read(target), prior)
+
+        custom = prior.replace('model_reasoning_effort = "high"', 'model_reasoning_effort = "high" # owner choice')
+        target.write_text(custom)
+        with self.assertRaisesRegex(H.ProfileConflict, 'Local reasoning effort high differs from managed ultra') as error:
+            H.audit(ROOT, self.codex, self.standard)
+        self.assertIn('+model_reasoning_effort = "ultra"', error.exception.diff())
+        self.assertEqual(H.read(target), custom)
 
     def test_policy_changed_after_audit_prevents_any_apply(self):
         repo = self.copy_repo()
@@ -287,7 +309,7 @@ class HostProfileTests(unittest.TestCase):
             'quoted duplicate': canonical + '"model" = "gpt-6-sol"\n',
             'unknown role field': canonical + 'sandbox_mode = "workspace-write"\n',
             'invalid selector type': canonical.replace('"gpt-6.2-sol"', 'false'),
-            'unknown effort': canonical.replace('"high"', '"enormous"'),
+            'unknown effort': canonical.replace('"ultra"', '"enormous"'),
             'role identity': canonical.replace('name = "foundry-cost"', 'name = "other-role"'),
             'description': canonical.replace('Cost and performance auditor.', 'Other description.'),
             'selector-like instruction': canonical.replace('developer_instructions = """\n',
@@ -305,9 +327,9 @@ class HostProfileTests(unittest.TestCase):
         (self.codex / 'agents').mkdir()
         target = self.codex / 'agents/foundry-cost.toml'
         canonical = H.read(ROOT / 'agent-profiles/foundry-cost.toml')
-        target.write_bytes(canonical.replace('"high"', '"medium"').encode())
+        target.write_bytes(canonical.replace('"ultra"', "'ultra' # preserved comment").encode())
         self.make_plan()
-        updated = canonical.replace('"high"', '"low"')
+        updated = canonical.replace('"ultra"', "'ultra' # changed after audit")
         target.write_bytes(updated.encode())
         with self.assertRaisesRegex(ValueError, 'target changed since audit'):
             H.apply(self.plan, self.journal)

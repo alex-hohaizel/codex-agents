@@ -253,9 +253,10 @@ def inspect_children(roots, source_root=None, entry="SKILL.md"):
     source_root = Path(source_root or Path(__file__).resolve().parents[1])
     expected = expected_resources(source_root)
     model = strict_json_loads(read_regular(source_root / "assets/managed-model.json"))
-    if not (isinstance(model, dict) and set(model) == {"id"} and
+    if not (isinstance(model, dict) and set(model) == {"id", "reasoning_effort"} and
+            model["reasoning_effort"] == "ultra" and
             isinstance(model["id"], str) and re.fullmatch(r"gpt-[a-z0-9]+(?:[.-][a-z0-9]+)+", model["id"])):
-        raise ValueError("Invalid bundled managed model policy")
+        raise ValueError("Invalid bundled managed model or reasoning effort")
     errors = []
     for root in roots:
         errors.extend(str(root) + ": " + error for error in verify_child(root, expected, entry, source_root))

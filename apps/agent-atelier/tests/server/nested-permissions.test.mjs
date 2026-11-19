@@ -198,6 +198,7 @@ test("task configuration includes the actual inventory and turn rejects its drif
       thread: { id: "synthetic-thread" },
       modelProvider: "openai",
         model: "gpt-6.2-sol",
+        reasoningEffort: "ultra",
       instructionSources: [],
     };
   };

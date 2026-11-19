@@ -52,11 +52,21 @@ def check(root: Path, *, links: bool = True) -> dict:
     current = load("releases/current.json")
     repository_version = str(current.get("repository_version", ""))
     managed_stage = re.match(r"^(\d+)\.(\d+)\.(\d+)",repository_version)
-    if managed_stage and tuple(map(int,managed_stage.groups())) >= (1,9,0):
-        from managed_release_checks import audit_checkout_models
-        model = current.get("managed_model")
-        if not isinstance(model,dict) or set(model) != {"id"} or not re.fullmatch(r"gpt-\d+\.\d+-sol",str(model.get("id",""))):
-            errors.append("managed release requires one explicit hosted Sol model in releases/current.json")
+    model = current.get("managed_model")
+    managed_release = bool(managed_stage and tuple(map(int, managed_stage.groups())) >= (1, 9, 0))
+    if managed_release:
+        from managed_release_checks import audit_checkout_models, managed_model_policy
+        if not managed_model_policy(model):
+            errors.append("managed release requires an explicit hosted Sol model and ultra effort in releases/current.json")
+        inheritance_checker = "check_generated_inheritance.py"
+        try:
+            factory_checker = digest(safe_path(root, f"kit/skills/agent-foundry/scripts/{inheritance_checker}"))
+            for relative in (f"kit/portable/{inheritance_checker}",
+                             f"kit/skills/design-specialist-skills/scripts/{inheritance_checker}"):
+                if digest(safe_path(root, relative)) != factory_checker:
+                    errors.append(f"{relative}: generated inheritance checker differs from the factory source")
+        except (OSError, ValueError) as exc:
+            errors.append(f"generated inheritance checker: {exc}")
         if current.get("commercial",{}).get("installer_payments_enabled") is not False:
             errors.append("managed release installer payments must be disabled")
         try:
@@ -185,8 +195,16 @@ def check(root: Path, *, links: bool = True) -> dict:
             for role in roles["roles"]:
                 relative = f"agent-profiles/{role.get('file')}"
                 try:
-                    if digest(safe_path(root, relative)) != role.get("sha256"):
+                    role_path = safe_path(root, relative)
+                    if digest(role_path) != role.get("sha256"):
                         errors.append(f"{relative}: role hash differs from its manifest")
+                    if managed_release and managed_model_policy(model):
+                        from install_host_profile import role_parts
+                        with role_path.open(encoding="utf-8", newline="") as stream:
+                            parts = role_parts(stream.read())
+                        selectors = {key: value[3] for key, value in parts[1].items()} if parts else {}
+                        if selectors != {"model": model["id"], "model_reasoning_effort": model["reasoning_effort"]}:
+                            errors.append(f"{relative}: role model and effort differ from managed release policy")
                 except (OSError, ValueError) as exc:
                     errors.append(f"{relative}: {exc}")
         profile = current.get("host_profile", {})

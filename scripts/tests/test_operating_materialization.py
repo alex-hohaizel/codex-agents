@@ -9,6 +9,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = ROOT / 'scripts/materialize_standards.py'
+sys.path.insert(0, str(SCRIPT.parent))
 spec = importlib.util.spec_from_file_location('materialize_operating', SCRIPT)
 M = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(M)

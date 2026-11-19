@@ -28,7 +28,7 @@ Payments are disabled for this release. If trusted delivery supplied a purchase 
 
 The bundled runtime is for Agent System helpers. Generated Codex launchers preserve an existing project/virtual-environment Python and Node in PATH. When no legitimate Python exists, the bundled Python supplies a fallback; Windows Store execution aliases are not treated as a working interpreter. `AGENT_SYSTEM_PYTHON` and `AGENT_SYSTEM_NODE` identify the exact retained toolkit runtimes. Use those variables for toolkit helpers, and the project's declared interpreter for project builds and tests. No global PATH or registry change is made.
 
-Generated managed Codex launchers request GPT-6.2 Sol from the verified release record. On macOS and Linux, forwarded options for an alternate model, provider, endpoint, account route or configuration profile cause the launcher to stop before opening Codex. Ordinary options, including a reasoning effort override, still work. Use your native Codex command in a separately reviewed session when you need a named profile or custom route. For managed use, verify the effective model and provider under your existing Codex account and base configuration before running a task.
+Generated managed Codex and practice launchers request GPT-6.2 Sol Ultra from the verified release record. On macOS and Linux, forwarded options that override the model, reasoning effort, roles, provider, endpoint, account route or configuration profile stop the launch. Ordinary options still work on those hosts. The Windows launcher supplies a fixed argument list. Use your native Codex command in a separately reviewed session for custom configurations. Check effective model, reasoning effort and provider under your existing Codex account.
 
 For CLI setup without installing Python separately, use the platform's `Start` launcher with `--help` and the documented `doctor`, `audit`, `install`, `verify`, `discover`, `operations`, `prepare-first-task`, `rollback` and `uninstall` commands. It invokes the same engine and approval-bound journals as the wizard. The [buyer guide](commercial/BUYER_GUIDE.md) covers commercial delivery trust and rights; a public technical release does not activate a shop or finalize seller terms.
 
@@ -153,7 +153,7 @@ the actual destination, reconcile the installed files before another apply.
 
 ### Profile and roles
 
-The managed profile preserves instructions outside its marked block. The role files install separately. If the installed role instructions and identity match the approved source, the audit preserves valid local model and reasoning selections, including inherited settings. Other unknown changes require reconciliation. Run the audit first and review its output. If the target differs from your plan, stop and inspect the affected paths.
+The managed profile preserves instructions outside its marked block. The role files install separately. An exact managed predecessor moves to the current model and effort. The audit preserves local selector formatting that matches the current policy. A foreign model, an unqualified lower effort or unknown role content requires local reconciliation. The global Codex configuration stays outside the managed update. Run the audit first and review its output. If the target differs from your plan, stop and inspect the affected paths.
 
 ```bash
 (
@@ -194,7 +194,7 @@ Use the supported Work skill upload flow for the reviewed sources, keeping
 existing unrelated skills and unselected optional components intact. Review
 the exact target and retain the prior source for recovery before updating.
 Check what the Work host saved, reopen it, and exercise an actual installed
-skill. Verify the effective model where the host exposes it. If Work cannot be
+skill. Verify the effective model and reasoning effort where the host exposes them. If Work cannot be
 accessed, retain the exact archive and digest and record the latest known
 installed state so this procedure can resume. [Official skills upload guide](https://help.openai.com/en/articles/20001066-skills-in-chatgpt)
 

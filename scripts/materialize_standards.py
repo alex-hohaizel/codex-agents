@@ -6,6 +6,8 @@ import json
 import stat
 from pathlib import Path
 
+from managed_release_checks import managed_model_policy
+
 RESOURCES = {
     'production-quality.md': 'references/production-quality.md',
     'tool-compatibility.md': 'references/tool-compatibility.md',
@@ -77,8 +79,8 @@ def main():
         else:
             masters[source] = master.read_bytes()
     model = release.get('managed_model')
-    if not isinstance(model, dict) or set(model) != {'id'} or not isinstance(model['id'], str) or not model['id']:
-        errors.append('releases/current.json: missing or invalid managed model')
+    if not managed_model_policy(model):
+        errors.append('releases/current.json: missing or invalid managed model or reasoning effort')
     else:
         model_source = 'releases/current.json#managed_model'
         masters[model_source] = (json.dumps(model, indent=2) + '\n').encode('utf-8')

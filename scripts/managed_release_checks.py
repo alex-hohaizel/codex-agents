@@ -1,4 +1,4 @@
-"""Fail a managed release when an old Sol selector escapes its exact exception."""
+"""Validate the current release policy and exact legacy model exceptions."""
 from __future__ import annotations
 
 from collections import Counter
@@ -10,6 +10,12 @@ import re
 import subprocess
 
 LEGACY_SELECTOR = re.compile(rb'\bgpt[- _]6[._]1[- _]sol\b', re.IGNORECASE)
+
+
+def managed_model_policy(policy):
+    return (isinstance(policy, dict) and set(policy) == {"id", "reasoning_effort"}
+            and isinstance(policy["id"], str) and re.fullmatch(r"gpt-\d+\.\d+-sol", policy["id"])
+            and policy["reasoning_effort"] == "ultra")
 
 
 def audit_model_sources(root, subjects, *, all_exceptions=False):

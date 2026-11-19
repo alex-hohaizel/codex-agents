@@ -29,6 +29,8 @@ PREVIOUS_PROFILE_TEMPLATES = (
      '59dd12e4c89a0f043e1a5949c2843001440134f29ecaaefd8a1e6be94e3d68db'),
     ('host-profiles/codex/history/6.3.0-AGENTS.md',
      'a908d752e1ff531bc889776f5cbe6d1eb252a6c82d5c1696b3ce5cc7134cce73'),
+    ('host-profiles/codex/history/6.4.0-high-candidate-AGENTS.md',
+     'caff43dc8cccb7d1f397ac6bbf61a0df97d53a105303a539ce0e7b35a0c8db3a'),
 )
 # A managed role has a byte-pinned flat header and a literal triple-quoted body.
 # Only these bounded selector lines may differ outside that body.
@@ -171,14 +173,14 @@ def role_parts(text):
     return (''.join(output), selectors) if began_prompt and not in_prompt else None
 
 
-def reconcile_role(prior, canonical, role, model, target, source):
+def reconcile_role(prior, canonical, role, model, effort, target, source):
     canonical_parts = role_parts(canonical)
     require(canonical_parts is not None, 'invalid canonical role source')
     canonical_body, canonical_selectors = canonical_parts
     canonical_model = canonical_selectors.get('model')
     canonical_effort = canonical_selectors.get('model_reasoning_effort')
     require(canonical_model and canonical_model[3] == model and
-            canonical_effort and canonical_effort[3] in NATIVE_SOL_EFFORTS,
+            canonical_effort and canonical_effort[3] == effort,
             'role selectors differ from release policy')
     if prior is None or sha(prior) in [role['sha256'], *role['previous_sha256']]:
         return canonical
@@ -188,13 +190,6 @@ def reconcile_role(prior, canonical, role, model, target, source):
     if parts is None or sha(parts[0]) not in known_bodies:
         raise ProfileConflict(conflict, target, source, prior, canonical)
     old_model, local_effort = (parts[1].get(name) for name in ('model', 'model_reasoning_effort'))
-    if local_effort and local_effort[3] not in NATIVE_SOL_EFFORTS:
-        choices = ', '.join(sorted(NATIVE_SOL_EFFORTS))
-        raise ProfileConflict(
-            f'{conflict}. Local reasoning effort {local_effort[3]} is unavailable for {model}; '
-            f'choose a supported effort ({choices})',
-            target, source, prior, canonical,
-        )
     approved_legacy = {'gpt-6.1-sol'}
     if role['file'] == 'foundry-cost.toml' and sha(parts[0]) in role['previous_body_sha256']:
         approved_legacy.add('gpt-6-luna')
@@ -204,18 +199,23 @@ def reconcile_role(prior, canonical, role, model, target, source):
         if configured != model and configured not in approved_legacy:
             raise ProfileConflict(f'{conflict}. Local model {configured} has no managed migration to {model}',
                                   target, source, prior, canonical)
-        if parts[0] == canonical_body and configured == model and local_effort is not None:
-            return prior
         desired_model = line[:start] + model + line[end:]
         replacements[canonical_model[0]] = desired_model if desired_model.endswith('\n') else desired_model + '\n'
     if local_effort is not None:
+        if local_effort[3] != effort:
+            raise ProfileConflict(
+                f'{conflict}. Local reasoning effort {local_effort[3]} differs from managed {effort}; '
+                'a lower setting requires an explicit scoped requirement and reviewed timing and quality evidence',
+                target, source, prior, canonical,
+            )
+        if parts[0] == canonical_body and old_model is not None and old_model[3] == model:
+            return prior
         effort_line = local_effort[0]
         replacements[canonical_effort[0]] = effort_line if effort_line.endswith('\n') else effort_line + '\n'
     updated = ''.join(replacements.get(line, line) for line in canonical.splitlines(keepends=True))
     verified = role_parts(updated)
-    expected_effort = (local_effort or canonical_effort)[3]
     require(verified is not None and verified[0] == canonical_body and
-            verified[1]['model'][3] == model and verified[1]['model_reasoning_effort'][3] == expected_effort,
+            verified[1]['model'][3] == model and verified[1]['model_reasoning_effort'][3] == effort,
             'reconciled role selectors differ from the audited model and effort')
     return updated
 
@@ -245,9 +245,13 @@ def audit(repo, codex_root, standard_root):
     release_path = repo / 'releases/current.json'
     release_bytes = read(release_path)
     release = parse(release_bytes)
-    model = release.get('managed_model', {}).get('id')
+    policy = release.get('managed_model')
+    require(isinstance(policy, dict) and set(policy) == {'id', 'reasoning_effort'},
+            'invalid managed model release policy')
+    model, effort = policy['id'], policy['reasoning_effort']
     require(release.get('schema_version') == 'codex-agents.release/1' and isinstance(model, str) and
-            re.fullmatch(r'gpt-[0-9]+(?:\.[0-9]+)?-sol', model), 'invalid managed model release policy')
+            re.fullmatch(r'gpt-[0-9]+(?:\.[0-9]+)?-sol', model) and effort == 'ultra',
+            'invalid managed model release policy')
     manifest_path = repo / 'agent-profiles/manifest.json'
     manifest_bytes = read(manifest_path)
     manifest = parse(manifest_bytes)
@@ -263,7 +267,7 @@ def audit(repo, codex_root, standard_root):
         canonical, prior = read(source), read(target)
         require(sha(canonical) == role['sha256'], 'role source drift')
         before_sha256 = sha(prior)
-        desired = reconcile_role(prior, canonical, role, model, target, source)
+        desired = reconcile_role(prior, canonical, role, model, effort, target, source)
         rows.append({'target': str(target), 'before_sha256': before_sha256, 'desired': desired,
                      'after_sha256': sha(desired), 'source': str(source), 'source_sha256': role['sha256']})
     return {'schema': 'atelier.host-profile-plan/1', 'codex_root': str(codex_root),

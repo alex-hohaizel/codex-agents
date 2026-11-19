@@ -96,14 +96,14 @@ Build an interactive browser prototype from reviewed DESIGN and EXPERIENCE, or u
 
 Start from authoritative project requirements, identity, current decisions and checkpoint. Pin exact source hashes and carry relevant requirements, allowed effects, deferred work, output, unresolved effects, and next action. If a source changes or is unavailable, verify the affected obligation again. A handoff carries this projection to another task or host. The original sources stay authoritative.
 
-On a clean installation, the wizard opens in English even under a Ukrainian OS or browser. Select English or Ukrainian in the wizard. An explicit choice survives a restart on a new port. Workbench uses a valid explicit view locale, then the saved interface preference, then English. For a task choose its output language explicitly, or retain the project’s recorded preference. The managed launcher requests GPT-6.2 Sol, subject to model availability for the buyer’s account. Payments are disabled for this release. You can retain an original offline purchase document separately.
+On a clean installation, the wizard opens in English even under a Ukrainian OS or browser. Select English or Ukrainian in the wizard. An explicit choice survives a restart on a new port. Workbench uses a valid explicit view locale, then the saved interface preference, then English. For a task choose its output language explicitly, or retain the project’s recorded preference. The managed launcher requests GPT-6.2 Sol Ultra, subject to model and reasoning-level availability for the buyer’s account. Payments are disabled for this release. You can retain an original offline purchase document separately.
 
 Record `preferred_language` in project context and pass it through handoffs. Keep commands, selectors, IDs, citations, and original quotations exact. [Operating model](../OPERATING_MODEL.md#project-context-and-handoffs) · [Project context](../../templates/project-context.json) · [Handoff](../../templates/HANDOFF.md)
 
 <a name="models"></a>
 ### Models and cost
 
-Record the model, reasoning setting, and result when comparing routes. Use a lower-cost setup when it passes the same acceptance checks on the same inputs. [Engineering reference for model choice and cost](../OPERATING_MODEL.md#models-and-cost)
+Record the model, reasoning setting, and result when comparing routes. Lower effort requires a scoped requirement and reviewed evidence of faster execution at the same quality on the same inputs. Check the actual model and reasoning level in native results. [Engineering reference for model choice and cost](../OPERATING_MODEL.md#models-and-cost)
 
 <a name="retrieval"></a>
 ## Add knowledge retrieval and RAG

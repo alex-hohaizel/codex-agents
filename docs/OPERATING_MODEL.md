@@ -115,9 +115,9 @@ Run these commands from the repository source directory. The canary uses the nat
 
 The session chooses the main model. For a subagent, an explicit model or effort in its role file has precedence. For each unset field, Codex resolves the spawn option, the matching `[agents]` default, and then the parent setting. A different model selected by a spawn option or default can use that model's own default effort when neither setting specifies effort. [Codex model selection for subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents#custom-agents)
 
-The managed v1.9 release record selects GPT-6.2 Sol for its launchers and supplied roles. The role definitions declare their own effort levels. Check the observed model and effort in the task receipt, even when the launcher and role selectors already agree. An unmanaged Codex session uses its own configuration. [Role definitions](../agent-profiles/manifest.json) · [Model options in Codex](https://learn.chatgpt.com/docs/models?surface=cli)
+The managed v1.9 release record selects GPT-6.2 Sol Ultra. The launchers, Workbench, supplied roles and newly generated agents use that model and effort. Check the observed model and effort in the task receipt, even when the launcher and role selectors already agree. An unmanaged Codex session uses its own configuration. [Role definitions](../agent-profiles/manifest.json) · [Model options in Codex](https://learn.chatgpt.com/docs/models?surface=cli)
 
-Change one variable at a time. Compare the current and candidate settings on the same source, task cases, permissions, and pass criteria. Track missed requirements, erroneous tool actions, retries, time, and cost when available. Keep the setting that meets the acceptance criteria within the task's budget, and retain the exact model and effort in the receipt.
+Change one variable at a time. Compare the current and candidate settings on the same source, task cases, permissions, and pass criteria. Track missed requirements, erroneous tool actions, retries, time, and cost when available. Use a lower effort only for an explicit scoped requirement after a reviewed comparison demonstrates a meaningful timing improvement and preserves the same quality criteria. Retain the exact model and effort in the receipt.
 
 ## Install, verify, and recover
 

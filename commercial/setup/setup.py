@@ -373,7 +373,7 @@ def inherited_entitlement(home, state, product_id):
 def audit(package, home, state, plan_path, entitlement=None):
     package = safe(package)
     metadata, manifest_sha = package_info(package)
-    managed_launcher_model(package / 'product')
+    managed_launcher_policy(package / 'product')
     home, state, destination, legacy = paths(home, state)
     require(platform.system() in ('Darwin', 'Linux', 'Windows'), 'This setup supports native skills on Windows, macOS and Linux.')
     package = retained_package(package, state, manifest_sha)
@@ -730,16 +730,19 @@ def launch_arguments(home, product):
     return arguments
 
 
-def managed_launcher_model(product):
+def managed_launcher_policy(product):
     release = product / 'releases/current.json'
     record = load(release) if release.is_file() else {}
     payment = record.get('commercial', {}).get('installer_payments_enabled')
     require(payment is False, 'Payments are disabled for this release. Use a verified installer whose runtime payment policy is disabled.')
     policy = record.get('managed_model')
     model = policy.get('id') if isinstance(policy, dict) else None
-    require(isinstance(model, str) and re.fullmatch(r'gpt-[0-9]+\.[0-9]+-sol', model),
+    require(record.get('schema_version') == 'codex-agents.release/1' and
+            isinstance(policy, dict) and set(policy) == {'id', 'reasoning_effort'} and
+            isinstance(model, str) and re.fullmatch(r'gpt-[0-9]+\.[0-9]+-sol', model) and
+            policy['reasoning_effort'] == 'ultra',
             'The verified package has no supported managed model policy. Use the matching original installer for older recovery journals, or select the exact current package.')
-    return model
+    return model, policy['reasoning_effort']
 
 
 LAUNCHER_ARGUMENT_GUARD = """check_model_config() {
@@ -759,7 +762,7 @@ LAUNCHER_ARGUMENT_GUARD = """check_model_config() {
     # so a character the shell cannot trim cannot hide a route override.
     case "$key" in
         ''|*[!ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-]*) return 1 ;;
-        model|model_provider|model_providers|openai_base_url|chatgpt_base_url|oss_provider|profile|profiles|\\
+        model|model_provider|model_providers|model_reasoning_effort|agents|openai_base_url|chatgpt_base_url|oss_provider|profile|profiles|\\
         forced_login_method|forced_chatgpt_workspace_id|\\
         experimental_realtime_ws_base_url|experimental_realtime_webrtc_call_base_url) return 1 ;;
     esac
@@ -786,7 +789,7 @@ check_model_arguments() {
     [ "$config_value" = no ]
 }
 if ! check_model_arguments "$@"; then
-    printf '%s\\n' 'This managed launcher uses the model selected by the verified package. Remove the model, provider, endpoint or profile override. Use a separately reviewed native Codex session for a custom route.' >&2
+    printf '%s\\n' 'This managed launcher uses the model and reasoning effort selected by the verified package. Remove the model, reasoning effort, agent, provider, endpoint or profile override. Use a separately reviewed native Codex session for a custom route.' >&2
     exit 2
 fi
 """
@@ -846,9 +849,9 @@ def runtime_environment(package):
     return result
 
 
-def make_launcher(home, state, product, expected_before=None, *, project=None, model=None):
-    model = model or managed_launcher_model(product)
-    flags = ['--model', model, *launch_arguments(home, product)]
+def make_launcher(home, state, product, expected_before=None, *, project=None):
+    model, effort = managed_launcher_policy(product)
+    flags = ['--model', model, '-c', f'model_reasoning_effort="{effort}"', *launch_arguments(home, product)]
     if project is not None:
         project = safe(project)
         require(project.parent == state / 'practice' and re.fullmatch(r'[0-9a-f]{32}',project.name), 'Practice launcher outside the owned demo root')
@@ -896,7 +899,7 @@ def make_launcher(home, state, product, expected_before=None, *, project=None, m
 def install(plan_path, expected, *, resume=None):
     started=time.monotonic();setup_diagnostic('install-plan-check-start')
     plan, package, home, state, operation = checked_plan(plan_path, expected)
-    model = managed_launcher_model(package / 'product')
+    managed_launcher_policy(package / 'product')
     setup_diagnostic('install-plan-check-complete',started)
     core, host = engines(package)
     journal_path = operation / 'journal.json'
@@ -958,7 +961,7 @@ def install(plan_path, expected, *, resume=None):
                         platform_support.fchmod(out.fileno(),0o600)
                         out.write(content); out.flush(); os.fsync(out.fileno())
                 journal['retained_entitlement'] = str(destination)
-            journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'), model=model)
+            journal['launcher'] = make_launcher(home, state, package / 'product', plan.get('launcher_before_sha256'))
             journal['launcher_sha256'] = digest(read(Path(journal['launcher'])))
             journal.update(status='complete', finished_at=timestamp())
             write(journal_path, journal)
@@ -1330,10 +1333,33 @@ def first_task(locale='en'):
 def prepare_first_task(package, home, state=None, locale='en'):
     package = safe(package)
     package_info(package)
-    model = managed_launcher_model(package / 'product')
+    model, effort = managed_launcher_policy(package / 'product')
     home, state, *_ = paths(home, state)
     description = first_task(locale)
+    launcher = None
+    launcher_requires_update = False
+    next_step = ('Відкрийте цей окремий проєкт у Codex і вставте завдання. Перевірте файли після виконання.'
+                 if locale == 'uk' else
+                 'Open this disposable project in Codex and paste the supplied prompt. Review the resulting files.')
     with locked(state, home):
+        installed_product = None
+        record = state / 'installed.json'
+        if record.exists():
+            active = load(record)
+            journal, _, installed_package, installed_home, installed_state, _ = checked_journal(Path(active['journal']))
+            require(installed_home == home and installed_state == state, 'Installed record belongs to another setup home')
+            if journal['status'] == 'complete':
+                verify(Path(active['journal']))
+                installed = installed_package / 'product'
+                installed_release = load(installed / 'releases/current.json')
+                if installed_release.get('managed_model') == {'id': model, 'reasoning_effort': effort}:
+                    managed_launcher_policy(installed)
+                    installed_product = installed
+                else:
+                    launcher_requires_update = True
+                    next_step = ('Щоб запустити це завдання з потрібною моделлю, підготуйте, встановіть і перевірте оновлення. Потім створіть новий тренувальний проєкт.'
+                                 if locale == 'uk' else
+                                 'Prepare, install and verify the toolkit update to use the required model and effort. Then create a new practice project.')
         folder = safe(state / 'practice' / uuid.uuid4().hex)
         folder.mkdir(parents=True, mode=0o700)
         if platform_support.WINDOWS: platform_support.make_private(folder)
@@ -1347,18 +1373,11 @@ def prepare_first_task(package, home, state=None, locale='en'):
             file.write(description['prompt'].encode('utf8')); file.flush(); os.fsync(file.fileno())
         platform_support.set_mode(task, 0o600)
         sync_dir(folder)
-    launcher = None
-    record = state / 'installed.json'
-    if record.exists():
-        active = load(record)
-        journal, _, installed_package, installed_home, installed_state, _ = checked_journal(Path(active['journal']))
-        require(installed_home == home and installed_state == state, 'Installed record belongs to another setup home')
-        if journal['status'] == 'complete':
-            verify(Path(active['journal']))
-            launcher = make_launcher(home,state,installed_package / 'product',project=folder,model=model)
+        if installed_product is not None:
+            launcher = make_launcher(home, state, installed_product, project=folder)
     return dict(description, status='prepared', project=str(folder),
-                launcher=launcher, execution_performed=False,
-                next='Open this disposable project in Codex and paste the supplied prompt. Review the resulting files.')
+                launcher=launcher, launcher_requires_update=launcher_requires_update,
+                execution_performed=False, next=next_step)
 
 
 def wizard(package, home, state=None, codex=None, locale='en'):

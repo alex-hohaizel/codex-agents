@@ -17,10 +17,19 @@ action takes precedence over the relevant saved surface or project preference.
 Keep established names, original quotes, source data and existing approved
 records. Qualify the localized paths the product advertises.
 
-Read the managed model identifier from the exact release record. Confirm the
-actual model in native results. Block an unavailable managed model with an
-actionable explanation. Explicit historical replay and migration fixtures have
-named, pinned exceptions and their own evidence.
+Read the managed model ID and reasoning effort from the exact release record.
+Normal managed v1.9 launches, Workbench tasks, supplied roles, generated agents
+and native evaluations use GPT-6.2 Sol Ultra. Confirm both settings in native
+results. Block unavailable or unverified settings on routes that verify
+admission. A lower effort requires an explicit scoped requirement and reviewed
+evidence of preserved quality and improved timing on the same task. Historical
+replay and migration fixtures retain their original settings and evidence.
+
+Migrate exact owned predecessor selectors, including the superseded High
+candidate. If an existing managed role has an unqualified local effort or
+foreign model, leave its bytes in place and present a private diff and
+reconciliation path. Leave global Codex configuration and account settings
+under their existing ownership.
 
 Payments stay disabled in the installer at execution time. Run the ordinary
 offline buyer lifecycle and verify zero product payment and seller attempts with

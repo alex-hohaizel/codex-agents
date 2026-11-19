@@ -239,13 +239,17 @@ test("native model mismatch records the acknowledged thread before rejecting any
         thread: { id: "acknowledged-native-thread" },
         model: "foreign-fixture-model",
         modelProvider: "openai",
+        reasoningEffort: "high",
         instructionSources: [],
       };
-      acknowledge(started);
+      acknowledge(started, { model: "gpt-6.2-sol", effort: "ultra" });
       const [live] = f.app.store.list("job");
       assert.equal(live.thread_id, started.thread.id);
       assert.equal(live.native_model, started.model);
       assert.equal(live.native_model_provider, started.modelProvider);
+      assert.equal(live.native_reasoning_effort, "high");
+      assert.equal(live.requested_model, "gpt-6.2-sol");
+      assert.equal(live.requested_reasoning_effort, "ultra");
       throw new ServiceError("MODEL_UNAVAILABLE", "Wrong model for this governed task", 409);
     };
     let turns = 0;
@@ -285,6 +289,7 @@ test("misidentified resume ACK is quarantined without granting authority across 
       thread: { id: reported, sessionId: "observed-foreign-session" },
       model: "gpt-6.2-sol",
       modelProvider: "openai",
+      reasoningEffort: "ultra",
     };
     acknowledge(result);
     return result;
@@ -318,6 +323,7 @@ test("misidentified resume ACK is quarantined without granting authority across 
     assert.equal(job.native_thread_acknowledged_id, reported);
     assert.equal(job.native_thread_acknowledged_session_id, "observed-foreign-session");
     assert.equal(job.native_model, "gpt-6.2-sol");
+    assert.equal(job.native_reasoning_effort, "ultra");
     assert.equal(job.native_model_provider, "openai");
     assert.equal(job.native_thread_identity_conflict, true);
     assert.equal(job.status, "outcome_unknown");
@@ -360,7 +366,7 @@ test("pausing while a native ACK is pending preserves the chat and prevents the 
     f.codex.start = async (_root, _capsule, acknowledge) => {
       entered();
       await barrier;
-      const reply = { thread: { id: "paused-native-chat" }, model: "gpt-6.2-sol", modelProvider: "openai" };
+      const reply = { thread: { id: "paused-native-chat" }, model: "gpt-6.2-sol", modelProvider: "openai", reasoningEffort: "ultra" };
       acknowledge(reply);
       return reply;
     };

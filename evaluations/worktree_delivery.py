@@ -612,7 +612,7 @@ def main():
     parser.add_argument("--model", help="Alternate model pin requires the explicit baseline replay")
     parser.add_argument("--baseline-replay", action="store_true")
     parser.add_argument("--baseline-source", type=Path, help="Use the reviewed baseline checkout when preparing")
-    parser.add_argument("--effort", choices=("low", "medium", "high"), default=native.DEFAULT_EFFORT)
+    parser.add_argument("--effort", choices=native.REASONING_EFFORTS, help="Alternate effort requires an explicit historical baseline")
     parser.add_argument("--deadline", type=int, default=300)
     parser.add_argument("--persist-model-receipt", action="store_true",
                         help="Allow disposable Builder rollouts for exact model readback")
@@ -636,7 +636,7 @@ def main():
         elif args.stage == "integrate":
             result = integrate(case)
         else:
-            args.model = native.managed_model(args.model, baseline=args.baseline_replay)
+            args.model, args.effort = native.managed_policy(args.model, args.effort, baseline=args.baseline_replay)
             need(args.codex and native.auth_ok(args.codex), "Existing ChatGPT login required")
             result = {"parallel": parallel, "resume": resume, "review": review}[args.stage](case, args)
     except (OSError, ValueError, subprocess.SubprocessError) as error:

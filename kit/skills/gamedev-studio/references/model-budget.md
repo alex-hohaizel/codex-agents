@@ -8,7 +8,7 @@
 
 Record the desired output, tools actually available, facts to refresh, permitted expensive generation calls, allowed spend, planned checkpoints, and stop condition. Default to no additional spend. Check subscription limits and any separate API, CI or media cost.
 
-Choose the model from the real host catalog without hard-coding names or prices. Use a sufficient lower-cost mode for routine formatting, search or local refactor. Use stronger reasoning for cross-domain architecture or critical review when it is available and justified. Change a user's model only within explicit authority.
+Use the release model and reasoning effort for managed sessions and role work. Otherwise verify the actual host catalog and the user’s authority for any setting change. Use a lower effort only when an explicit scoped requirement and a reviewed comparison show a timing improvement while preserving the same quality criteria.
 
 <a id="команда-за-артефактом"></a>
 

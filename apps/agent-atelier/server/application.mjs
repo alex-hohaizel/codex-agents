@@ -82,7 +82,7 @@ export class Application extends EventEmitter {
     this.integrationCodex = integrations
       ? null
       : new CodexAdapter({ dataDir, integrationMetadataOnly: true });
-    this.imageGeneration = imageGeneration ?? new ImageGeneration();
+    this.imageGeneration = imageGeneration ?? new ImageGeneration({ repoRoot });
     this.integrations =
       integrations ??
       new IntegrationsManager({
@@ -1246,7 +1246,7 @@ export class Application extends EventEmitter {
       this.#requireUnquarantinedNativeThread(resumeThreadId);
       this.updateJob(job.id, { status: "dispatching" });
       let acknowledged = false;
-      const recordThread = (response) => {
+      const recordThread = (response, policy) => {
         const thread = response?.thread;
         fail(
           typeof thread?.id === "string" && thread.id.length > 0,
@@ -1269,8 +1269,11 @@ export class Application extends EventEmitter {
             session_id: thread.sessionId ?? null,
             instruction_sources: response.instructionSources ?? [],
           }),
+          requested_model: policy?.model ?? null,
+          requested_reasoning_effort: policy?.effort ?? null,
           native_model_provider: response.modelProvider ?? null,
           native_model: response.model ?? null,
+          native_reasoning_effort: response.reasoningEffort ?? null,
           native_thread_acknowledged: true,
         });
         acknowledged = true;

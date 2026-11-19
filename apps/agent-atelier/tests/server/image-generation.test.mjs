@@ -27,11 +27,12 @@ class ImageHost extends EventEmitter {
   calls = [];
   closed = 0;
 
-  constructor({ account, savedPath, imageTurn = turnId }) {
+  constructor({ account, savedPath, imageTurn = turnId, effort = "ultra" }) {
     super();
     this.account = account;
     this.savedPath = savedPath;
     this.imageTurn = imageTurn;
+    this.effort = effort;
   }
 
   async connect() {
@@ -44,6 +45,8 @@ class ImageHost extends EventEmitter {
       return {
         thread: { id: threadId, ephemeral: true },
         modelProvider: "openai",
+        model: "gpt-6.2-sol",
+        reasoningEffort: this.effort,
       };
     assert.equal(method, "turn/start");
     this.emit("notification", {
@@ -90,7 +93,7 @@ class ImageHost extends EventEmitter {
 
 async function fixture(
   t,
-  { account = "chatgpt", pathThread = threadId, imageTurn } = {},
+  { account = "chatgpt", pathThread = threadId, imageTurn, effort } = {},
 ) {
   const root = await realpath(
     await mkdtemp(join(tmpdir(), "atelier-image-test-")),
@@ -101,7 +104,7 @@ async function fixture(
   await mkdir(imageFolder, { recursive: true });
   const savedPath = join(imageFolder, "image.png");
   await writeFile(savedPath, samplePng);
-  const host = new ImageHost({ account, savedPath, imageTurn });
+  const host = new ImageHost({ account, savedPath, imageTurn, effort });
   const generation = new ImageGeneration({
     generatedRoot,
     makeHost: () => host,
@@ -126,8 +129,12 @@ test("native image generation verifies and returns the PNG from its isolated thr
   const [start, turn] = host.calls;
   assert.equal(start.method, "thread/start");
   assert.equal(start.params.ephemeral, true);
+  assert.equal(start.params.model, "gpt-6.2-sol");
+  assert.equal(start.params.config.model_reasoning_effort, "ultra");
   assert.equal(start.params.permissions, "atelier-local");
   assert.equal(turn.params.threadId, threadId);
+  assert.equal(turn.params.model, "gpt-6.2-sol");
+  assert.equal(turn.params.effort, "ultra");
   assert.equal(turn.params.cwd, start.params.cwd);
   assert.ok(turn.params.input[0].text.endsWith(JSON.stringify(prompt)));
   assert.equal(host.closed, 1);
@@ -157,4 +164,15 @@ test("an API-key account is rejected before creating an image thread", async (t)
   });
   assert.deepEqual(host.calls, []);
   assert.equal(host.closed, 1);
+});
+
+test("an unconfirmed native reasoning effort blocks the image turn", async (t) => {
+  for (const effort of ["high", null]) {
+    const { generation, host } = await fixture(t, { effort });
+    await assert.rejects(generation.generate({ prompt }), {
+      code: "MODEL_EFFORT_UNAVAILABLE",
+    });
+    assert.deepEqual(host.calls.map(({ method }) => method), ["thread/start"]);
+    assert.equal(host.closed, 1);
+  }
 });
