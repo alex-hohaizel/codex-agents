@@ -12,6 +12,7 @@ import zipfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from build_packages import build, collect
 from check_repository import check
+from managed_release_checks import audit_checkout_models, audit_model_sources
 
 
 def sha(data):
@@ -64,6 +65,23 @@ class RepositoryToolsTests(unittest.TestCase):
         self.assertFalse(check(self.root)["ok"])
         with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
             build(self.root, Path(self.temp.name) / "out")
+
+    def test_legacy_model_exception_does_not_admit_other_active_or_repeated_lines(self):
+        fixture = 'tests/replay.toml'
+        line = 'model = "gpt-' + '6.1-sol"'
+        self.write(fixture, line + '\n')
+        self.json('governance/MANAGED-MODEL-EXCEPTIONS.json', {
+            'schema':'codex-agents.managed-model-exceptions/1',
+            'exceptions':[{'path':fixture,'line_sha256':sha(line.encode()),'count':1,
+                           'purpose':'Approved immutable replay fixture'}]})
+        self.assertEqual(audit_model_sources(self.root,[(fixture,self.root/fixture)],all_exceptions=True),[])
+        self.assertEqual(audit_checkout_models(self.root),[])
+        self.write('launcher.toml',line+'\n')
+        errors = audit_model_sources(self.root,[(fixture,self.root/fixture),('launcher.toml',self.root/'launcher.toml')])
+        self.assertEqual(errors,['launcher.toml:1: unmanaged legacy Sol selector'])
+        self.write(fixture,line+'\n'+line+'\n')
+        self.assertEqual(audit_model_sources(self.root,[(fixture,self.root/fixture)]),
+                         ['tests/replay.toml:2: unmanaged legacy Sol selector'])
 
     def test_changed_english_guide_invalidates_translations(self):
         p = self.root / "docs/en/GUIDE.md"

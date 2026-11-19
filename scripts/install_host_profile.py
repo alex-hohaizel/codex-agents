@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Audit/apply/verify/rollback the managed Codex profile with exact plans and journals."""
 import argparse
+from difflib import unified_diff
 import importlib.util as _platform_import
 from pathlib import Path as _PlatformPath
 _platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
@@ -26,6 +27,8 @@ PREVIOUS_PROFILE_TEMPLATES = (
      '244b911f65c49f6302e90155d4ce1ca717dba814a89945d2bcd78e7972f5d589'),
     ('host-profiles/codex/history/6.2.0-AGENTS.md',
      '59dd12e4c89a0f043e1a5949c2843001440134f29ecaaefd8a1e6be94e3d68db'),
+    ('host-profiles/codex/history/6.3.0-AGENTS.md',
+     'a908d752e1ff531bc889776f5cbe6d1eb252a6c82d5c1696b3ce5cc7134cce73'),
 )
 # A managed role has a byte-pinned flat header and a literal triple-quoted body.
 # Only these bounded selector lines may differ outside that body.
@@ -35,7 +38,10 @@ ROLE_SELECTOR = re.compile(
     r"[ \t]*(model|model_reasoning_effort)[ \t]*=[ \t]*(['\"])([A-Za-z0-9][A-Za-z0-9_.:/-]{0,127})\2"
     r"[ \t]*(?:#[^\x00-\x08\x0a-\x1f\x7f]*)?(?:\r?\n)?"
 )
-ROLE_EFFORTS = {'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'}
+# Sol options observed from the pinned native App Server catalog. Legacy
+# selectors can be recognized for a precise conflict without replacing them.
+NATIVE_SOL_EFFORTS = {'low', 'medium', 'high', 'xhigh', 'max', 'ultra'}
+ROLE_EFFORTS = NATIVE_SOL_EFFORTS | {'none', 'minimal'}
 
 
 def require(value, message):
@@ -70,11 +76,14 @@ def read(path):
         return stream.read()
 
 
-def load(path):
-    raw = read(path)
+def parse(raw):
     require(raw is not None, 'record missing')
     return json.loads(raw, object_pairs_hook=pairs,
                       parse_constant=lambda value: (_ for _ in ()).throw(ValueError('nonfinite JSON')))
+
+
+def load(path):
+    return parse(read(path))
 
 
 def atomic(path, text, mode=0o600):
@@ -98,16 +107,34 @@ def save(path, record):
     atomic(path, json.dumps(record, ensure_ascii=False, indent=2) + '\n')
 
 
-def merge(existing, block, prior_blocks=()):
+class ProfileConflict(ValueError):
+    def __init__(self, message, target, source, installed, proposed):
+        super().__init__(
+            f'{message}: {target} (sha256 {sha(installed)}). Compare with {source} and reconcile '
+            'the selected changes locally before auditing again.'
+        )
+        self.target, self.source = target, source
+        self.installed, self.proposed = installed, proposed
+
+    def diff(self):
+        return ''.join(unified_diff(
+            self.installed.splitlines(keepends=True), self.proposed.splitlines(keepends=True),
+            fromfile=str(self.target), tofile=str(self.source),
+        ))
+
+
+def merge(existing, block, prior_blocks=(), *, target=None, source=None):
     existing = existing or ''
     require(existing.count(START) == existing.count(END) and existing.count(START) <= 1,
             'ambiguous managed profile markers')
     if START in existing:
         begin, end = existing.index(START), existing.index(END) + len(END)
         require(begin < end, 'reversed profile markers')
-        require(existing[begin:end] in (block.strip(), *prior_blocks),
-                'unknown customized managed profile; reconcile without overwrite')
-        return existing[:begin] + block.strip() + existing[end:]
+        proposed = existing[:begin] + block.strip() + existing[end:]
+        if existing[begin:end] not in (block.strip(), *prior_blocks):
+            raise ProfileConflict('unknown customized managed profile; reconcile without overwrite',
+                                  target, source, existing, proposed)
+        return proposed
     return existing.rstrip() + ('\n\n' if existing.strip() else '') + block.strip() + '\n'
 
 
@@ -123,11 +150,9 @@ def prior_profiles(repo, standard_root):
     return blocks, sources
 
 
-def role_without_tuning(text):
-    """Return exact non-selector bytes for the supported flat role format."""
-    if text is None:
-        return None
-    output, selectors = [], set()
+def role_parts(text):
+    """Parse the managed flat header without reserializing any local selectors."""
+    output, selectors = [], {}
     began_prompt = in_prompt = False
     for line in text.splitlines(keepends=True):
         if in_prompt:
@@ -140,15 +165,59 @@ def role_without_tuning(text):
             key, value = match[1], match[3]
             if key in selectors or (key == 'model_reasoning_effort' and value not in ROLE_EFFORTS):
                 return None
-            selectors.add(key)
+            selectors[key] = (line, match.start(3), match.end(3), value)
             continue
         output.append(line)
-    return ''.join(output) if began_prompt and not in_prompt else None
+    return (''.join(output), selectors) if began_prompt and not in_prompt else None
 
 
-def preserves_role_tuning(current, canonical):
-    managed = role_without_tuning(canonical)
-    return managed is not None and role_without_tuning(current) == managed
+def reconcile_role(prior, canonical, role, model, target, source):
+    canonical_parts = role_parts(canonical)
+    require(canonical_parts is not None, 'invalid canonical role source')
+    canonical_body, canonical_selectors = canonical_parts
+    canonical_model = canonical_selectors.get('model')
+    canonical_effort = canonical_selectors.get('model_reasoning_effort')
+    require(canonical_model and canonical_model[3] == model and
+            canonical_effort and canonical_effort[3] in NATIVE_SOL_EFFORTS,
+            'role selectors differ from release policy')
+    if prior is None or sha(prior) in [role['sha256'], *role['previous_sha256']]:
+        return canonical
+    parts = role_parts(prior)
+    known_bodies = [sha(canonical_body), *role['previous_body_sha256']]
+    conflict = 'unknown customized role; reconcile without overwrite'
+    if parts is None or sha(parts[0]) not in known_bodies:
+        raise ProfileConflict(conflict, target, source, prior, canonical)
+    old_model, local_effort = (parts[1].get(name) for name in ('model', 'model_reasoning_effort'))
+    if local_effort and local_effort[3] not in NATIVE_SOL_EFFORTS:
+        choices = ', '.join(sorted(NATIVE_SOL_EFFORTS))
+        raise ProfileConflict(
+            f'{conflict}. Local reasoning effort {local_effort[3]} is unavailable for {model}; '
+            f'choose a supported effort ({choices})',
+            target, source, prior, canonical,
+        )
+    approved_legacy = {'gpt-6.1-sol'}
+    if role['file'] == 'foundry-cost.toml' and sha(parts[0]) in role['previous_body_sha256']:
+        approved_legacy.add('gpt-6-luna')
+    replacements = {}
+    if old_model is not None:
+        line, start, end, configured = old_model
+        if configured != model and configured not in approved_legacy:
+            raise ProfileConflict(f'{conflict}. Local model {configured} has no managed migration to {model}',
+                                  target, source, prior, canonical)
+        if parts[0] == canonical_body and configured == model and local_effort is not None:
+            return prior
+        desired_model = line[:start] + model + line[end:]
+        replacements[canonical_model[0]] = desired_model if desired_model.endswith('\n') else desired_model + '\n'
+    if local_effort is not None:
+        effort_line = local_effort[0]
+        replacements[canonical_effort[0]] = effort_line if effort_line.endswith('\n') else effort_line + '\n'
+    updated = ''.join(replacements.get(line, line) for line in canonical.splitlines(keepends=True))
+    verified = role_parts(updated)
+    expected_effort = (local_effort or canonical_effort)[3]
+    require(verified is not None and verified[0] == canonical_body and
+            verified[1]['model'][3] == model and verified[1]['model_reasoning_effort'][3] == expected_effort,
+            'reconciled role selectors differ from the audited model and effort')
+    return updated
 
 
 def audit(repo, codex_root, standard_root):
@@ -169,12 +238,23 @@ def audit(repo, codex_root, standard_root):
         prior_blocks.extend(alternate_prior)
     target = codex_root / 'AGENTS.md'
     prior = read(target)
-    desired = merge(prior, block, prior_blocks)
+    desired = merge(prior, block, prior_blocks, target=target, source=source)
     rows = [{'target': str(target), 'before_sha256': sha(prior), 'desired': desired,
              'after_sha256': sha(desired), 'source': str(source), 'source_sha256': sha(template),
              'compatibility_sources': compatibility_sources}]
-    manifest = load(repo / 'agent-profiles/manifest.json')
-    require(len(manifest['roles']) == 12, 'expected twelve bounded role profiles')
+    release_path = repo / 'releases/current.json'
+    release_bytes = read(release_path)
+    release = parse(release_bytes)
+    model = release.get('managed_model', {}).get('id')
+    require(release.get('schema_version') == 'codex-agents.release/1' and isinstance(model, str) and
+            re.fullmatch(r'gpt-[0-9]+(?:\.[0-9]+)?-sol', model), 'invalid managed model release policy')
+    manifest_path = repo / 'agent-profiles/manifest.json'
+    manifest_bytes = read(manifest_path)
+    manifest = parse(manifest_bytes)
+    require(manifest.get('schema') == 'atelier.role-profiles/1' and
+            manifest.get('release') == release.get('role_profiles', {}).get('version') and
+            len(manifest['roles']) == 12 and len({role['file'] for role in manifest['roles']}) == 12,
+            'expected twelve bounded role profiles at the managed release version')
     for role in manifest['roles']:
         name = role['file']
         require(Path(name).name == name and name.startswith('foundry-') and name.endswith('.toml'),
@@ -183,14 +263,13 @@ def audit(repo, codex_root, standard_root):
         canonical, prior = read(source), read(target)
         require(sha(canonical) == role['sha256'], 'role source drift')
         before_sha256 = sha(prior)
-        preserve = prior is not None and preserves_role_tuning(prior, canonical)
-        require(prior is None or preserve or before_sha256 in [role['sha256'], *role['previous_sha256']],
-                'unknown customized role; reconcile without overwrite: ' + name)
-        desired = prior if preserve else canonical
+        desired = reconcile_role(prior, canonical, role, model, target, source)
         rows.append({'target': str(target), 'before_sha256': before_sha256, 'desired': desired,
                      'after_sha256': sha(desired), 'source': str(source), 'source_sha256': role['sha256']})
     return {'schema': 'atelier.host-profile-plan/1', 'codex_root': str(codex_root),
-            'standard_root': str(standard_root), 'changes': rows, 'installation_performed': False}
+            'standard_root': str(standard_root), 'changes': rows, 'installation_performed': False,
+            'policy_sources': [{'source': str(path), 'source_sha256': sha(raw)}
+                               for path, raw in ((release_path, release_bytes), (manifest_path, manifest_bytes))]}
 
 
 def validate_rows(record):
@@ -244,6 +323,9 @@ def apply(plan_path, journal_path):
         require(journal['plan_sha256'] == sha(read(plan_path)), 'journal/plan mismatch')
         validate_journal(journal, plan)
     else:
+        for source in plan.get('policy_sources', []):
+            require(sha(read(Path(source['source']))) == source['source_sha256'],
+                    'managed release policy or role manifest changed since audit')
         changes = []
         for row in plan['changes']:
             require(sha(read(Path(row['source']))) == row['source_sha256'], 'source changed since audit')
@@ -302,11 +384,25 @@ def main():
     p.add_argument('--standard-root', type=Path, default=platform_support.personal_skill_roots(Path.home())[0] / 'agent-foundry')
     p.add_argument('--plan', type=Path)
     p.add_argument('--journal', type=Path)
+    p.add_argument('--conflict-diff', type=Path, help='Optional new private diff file for an audit conflict')
     args = p.parse_args()
     try:
         if args.operation == 'audit':
             require(args.plan is not None and not args.plan.exists(), 'new --plan path required')
-            result = audit(args.repo.absolute(), args.codex_root.absolute(), args.standard_root.absolute())
+            if args.conflict_diff:
+                difference = safe(args.conflict_diff.absolute())
+                require(difference != args.plan.absolute(), 'choose a separate conflict diff path')
+            try:
+                result = audit(args.repo.absolute(), args.codex_root.absolute(), args.standard_root.absolute())
+            except ProfileConflict as conflict:
+                if args.conflict_diff is None:
+                    raise
+                fd = os.open(difference, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+                with os.fdopen(fd, 'w', encoding='utf-8', newline='') as stream:
+                    platform_support.fchmod(stream.fileno(), 0o600)
+                    stream.write(conflict.diff())
+                print(json.dumps({'ok': False, 'error': str(conflict), 'conflict_diff': str(difference)}))
+                return 2
             save(args.plan.absolute(), result)
             print(json.dumps({'ok': True, 'plan': str(args.plan), 'changes': len(result['changes'])}))
         else:

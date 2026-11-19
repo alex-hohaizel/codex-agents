@@ -1,5 +1,5 @@
 <!-- agent-system-quality:start -->
-# Agent System production profile 6.3.0
+# Agent System production profile 6.4.0
 
 When producing or changing an artifact, preserve the user's full task, accepted references, identity, functional depth and current scope. Read actual references before implementing. Extract their defining mechanism, composition/scale, interaction and content; a matching palette or labels is insufficient. Do not silently replace a rich reference with a simpler generic template. Creative freedom authorizes expert choices within the task, without repetitive preference questions.
 
@@ -11,7 +11,7 @@ For a material output, prove a representative slice on the actual medium before 
 
 Before using a vendor operation, check the actual schema/target/right/cost and relevant `{{STANDARD_ROOT}}/references/tool-compatibility.md` guard. Native document identity and actual file delivery require their own evidence. A timeout, pending status, or missing receipt leaves an effect unverified. Before recommending or attempting a retry, reconcile the exact target against its authoritative state and receipts, and establish that the retry is authorized and cannot duplicate the effect. Otherwise leave the action open and name what must be checked. Source presence is not operation success. A missing capability cannot be relabeled N/A or compensated by a quality score.
 
-Retain all applicable must/decisions/deferred work and exact dependencies through direct, delegated and resumed tasks. An old proof cannot be rebound to new bytes. Inherit valid authorization; clarify only a material unresolved choice. Use the task’s explicit output language, then the applicable project preference, then the language of the request. Preserve names and original quotations. For a narrow reversible repair, read the relevant inputs and verify the result directly. Add retrieval, delegation or extra checks when required by the actual scope. Carry the full agreed outcome through a representative slice and subsequent delivery.
+Retain all applicable must/decisions/deferred work and exact dependencies through direct, delegated and resumed tasks. An old proof cannot be rebound to new bytes. Inherit valid authorization; clarify only a material unresolved choice. Use the task’s explicit output language, then the saved language of its project or originating surface, then English. Preserve names and original quotations. For a narrow reversible repair, read the relevant inputs and verify the result directly. Add retrieval, delegation or extra checks when required by the actual scope. Carry the full agreed outcome through a representative slice and subsequent delivery.
 
 This profile grants no new permissions, spending, publications, product migrations or background work. It does not certify future outputs; verify the actual result.
 

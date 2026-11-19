@@ -51,7 +51,17 @@ jobs:
           python3 -B -m unittest discover -s scripts/tests
           node --test commercial/tests/gui/web.test.mjs
           python3 -B -m unittest discover -s commercial/tests
-          python3 -B scripts/build_commercial.py --output /tmp/agent-system-commercial-rc
+          observation=$(mktemp -d)
+          if python3 -B commercial/tests/payment_observer.py --receipt "$observation/positive.json" --probe; then
+            echo "The positive control did not block an attempted in-process seller operation."
+            exit 1
+          else
+            test "$?" -eq 42
+          fi
+          python3 -B commercial/tests/payment_observer.py --receipt "$observation/assembly.json" \
+            --script scripts/build_commercial.py -- --output /tmp/agent-system-commercial-rc
+          mkdir /tmp/agent-system-commercial-rc/payment-observation
+          cp "$observation/positive.json" "$observation/assembly.json" /tmp/agent-system-commercial-rc/payment-observation/
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: commercial-release-candidate

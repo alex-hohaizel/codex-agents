@@ -6,13 +6,15 @@ import { spawn } from 'node:child_process';
 import { homedir, platform as hostPlatform } from 'node:os';
 import { resolve, join, dirname, relative, sep, isAbsolute } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
-import { readFile, mkdir, open, rename, lstat, realpath } from 'node:fs/promises';
+import { readFile, mkdir, open, rename, lstat, realpath, unlink } from 'node:fs/promises';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const HASH = /^[a-f0-9]{64}$/;
 const PURCHASE_MAX = 256 * 1024;
 const PURCHASE_BODY_MAX = 4 * Math.ceil(PURCHASE_MAX / 3) + 128;
 const PRODUCT_VERSION = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[A-Za-z0-9.-]+)?$/;
+const LOCALES = new Set(['en', 'uk']);
+const LOCALE_SCHEMA = 'codex-agents.setup-locale/1';
 const MUTATIONS = new Set(['install', 'resume', 'rollback', 'uninstall']);
 const ACTIONS = new Set(['doctor', 'audit', 'install', 'verify', 'discover', 'resume', 'rollback', 'uninstall', 'first-task', 'practice', 'open-practice', 'open-codex', 'refresh', 'shutdown']);
 const below = (root, path) => { const tail = relative(root, resolve(path)); return tail !== '' && tail !== '..' && !tail.startsWith('..' + sep) && !isAbsolute(tail); };
@@ -69,6 +71,38 @@ export async function start(options = {}) {
   const secure = (path, directory = false) => platformTools.securePrivatePath(path, { directory, pythonPath });
   const uiState = join(state, 'web-setup');
   await mkdir(uiState, { recursive: true, mode: 0o700 }); await secure(uiState, true);
+  const localePath = join(uiState, 'locale.json');
+  async function readLocale() {
+    try {
+      const bytes = await regularFile(localePath, 1024);
+      await platformTools.assertPrivatePath(localePath, { pythonPath });
+      const record = parseStrictJson(bytes.toString('utf8'), 1024);
+      requireThat(record?.schema === LOCALE_SCHEMA && LOCALES.has(record.locale) && Object.keys(record).length === 2,
+        'UNKNOWN_LOCALE_RECORD', 'The saved language record is not recognized. Preserve it before repairing the preference.', 409);
+      return record.locale;
+    } catch (error) {
+      if (error.code === 'ENOENT') return null;
+      throw error;
+    }
+  }
+  let preferredLocale = await readLocale().catch(() => null);
+  async function saveLocale(locale) {
+    if (await readLocale() !== locale) {
+      const temporary = localePath + '.' + randomUUID() + '.tmp';
+      const file = await open(temporary, 'wx', 0o600);
+      try {
+        try {
+          await secure(temporary);
+          await file.writeFile(JSON.stringify({ schema: LOCALE_SCHEMA, locale }) + '\n');
+          await file.sync();
+        } finally { await file.close(); }
+        await rename(temporary, localePath);
+        await platformTools.syncDirectory(uiState);
+      } finally { await unlink(temporary).catch(error => { if (error.code !== 'ENOENT') throw error; }); }
+    }
+    preferredLocale = locale;
+    return { preferred_locale: preferredLocale };
+  }
   const plansDirectory = join(uiState, 'plans');
   await mkdir(plansDirectory, { recursive: true, mode: 0o700 }); await secure(plansDirectory, true);
   const session = new OwnerSession();
@@ -202,7 +236,7 @@ export async function start(options = {}) {
     return { status: 'ready', installed: current, operations: [...operations.values()].map(({ plan, journal, ...row }) => ({ ...row, journal_display: journal })) };
   }
   async function perform(body, job) {
-    const locale = body.locale || 'en';
+    const locale = body.locale ?? preferredLocale ?? 'en';
     if (body.action === 'audit') {
       requireThat(plans.size < 64, 'PLAN_LIMIT', 'Reopen setup before creating more audit plans.', 429);
       const id = randomUUID(), plan = join(plansDirectory, id + '.json');
@@ -310,7 +344,7 @@ export async function start(options = {}) {
     }
     const receipt = await run(body.action, [], job, locale); results[body.action] = receipt; return receipt;
   }
-  const view = () => ({ status: activeJob ? 'running' : 'ready', instance_id: instanceId, product, home, state, results, purchase_document: purchaseDocument?.summary ?? null,
+  const view = () => ({ status: activeJob ? 'running' : 'ready', instance_id: instanceId, product, home, state, results, preferred_locale: preferredLocale, purchase_document: purchaseDocument?.summary ?? null,
     plans: [...plans].map(([id, row]) => ({ id, ready: row.ready, sha256: row.sha256 })),
     operations: [...operations.values()].map(({ plan, journal, ...row }) => ({ ...row, journal_display: journal })),
     active_job: activeJob ? jobs.get(activeJob) : null, jobs: [...jobs.values()].slice(-20),
@@ -345,6 +379,12 @@ export async function start(options = {}) {
       if (req.method === 'GET') requireThat(session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Reopen or refresh this authorized installer window.', 403);
       if (url.pathname === '/api/session' && req.method === 'GET') return json(res, 200, { status: 'ready', csrf_token: session.csrf });
       if (url.pathname === '/api/state' && req.method === 'GET') return json(res, 200, view());
+      if (url.pathname === '/api/locale-preference' && req.method === 'POST') {
+        requireThat(req.headers.origin === origin && session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Refresh this local installer before changing the language.', 403);
+        const body = await jsonBody(req, parseStrictJson, 1024);
+        requireThat(Object.keys(body).length === 1 && LOCALES.has(body.locale), 'INVALID_LOCALE', 'Choose English or Ukrainian.');
+        return json(res, 200, await saveLocale(body.locale));
+      }
       if (url.pathname === '/api/purchase-document' && req.method === 'POST') {
         requireThat(req.headers.origin === origin && session.csrfAuthorized(req.headers['x-setup-csrf']), 'CSRF_REQUIRED', 'Refresh this local installer before selecting a document.', 403);
         requireThat(!activeJob, 'OPERATION_RUNNING', 'Wait for the current operation to finish before selecting a document.', 409);
@@ -367,7 +407,7 @@ export async function start(options = {}) {
       requireThat(ACTIONS.has(body.action), 'UNKNOWN_ACTION', 'Unknown installer command.');
       const allowed = new Set(['action', 'locale', ...(['install'].includes(body.action) ? ['plan_id', 'approved'] : []), ...(['verify', 'discover', 'resume', 'rollback', 'uninstall'].includes(body.action) ? ['operation_id', 'approved'] : []), ...(['open-practice','open-codex'].includes(body.action) ? ['practice_id'] : [])]);
       requireThat(Object.keys(body).every(key => allowed.has(key)), 'INVALID_COMMAND', 'The browser cannot supply paths, commands or unknown options.');
-      requireThat(!body.locale || ['en', 'uk'].includes(body.locale), 'INVALID_LOCALE', 'Choose English or Ukrainian.');
+      requireThat(body.locale === undefined || LOCALES.has(body.locale), 'INVALID_LOCALE', 'Choose English or Ukrainian.');
       requireThat(!MUTATIONS.has(body.action) || body.approved === true, 'APPROVAL_REQUIRED', 'Review the displayed action and explicitly confirm it.');
       requireThat(!activeJob, 'OPERATION_RUNNING', 'Wait for the current operation to finish. Its journal will remain available.', 409);
       if (body.action === 'shutdown') {

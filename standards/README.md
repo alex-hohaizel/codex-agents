@@ -6,3 +6,5 @@ The compiler verifies declared context and byte dependencies. It does not certif
 
 
 Use these English masters for adaptive work, briefing, status and decisions, Work/Codex continuity, research and coverage, visual identity, connected tool checks, and the production, context and AI contracts. Keep vendor and product exceptions in their respective maintained sources and keep original quotations intact. The materializer delivers exact copies to the core skills and optional Orchestrator.
+
+All core skills and the Orchestrator carry the adaptive, briefing and status controllers. The Orchestrator adds its own topic catalog and shares the Foundry briefing templates with exact source provenance. Model policy for new generated agents derives from the release record and ships with both constructors. Family topic catalogs and templates retain their own source and ownership.

@@ -68,6 +68,7 @@
   },
   "buyer_entry": "START_HERE.html",
   "setup": "setup/setup.py",
+  "installer_payments_enabled": false,
   "state": "user-owned directory outside skill discovery",
   "lifecycle": [
     "doctor",
@@ -91,5 +92,5 @@
     "third_party": "third-party services retain their policies"
   },
   "channels": "commercial/channels/compatibility.json",
-  "status": "Published technical distribution; commercial terms remain owner-review draft, no public sale"
+  "status": "Technical candidate under qualification; commercial terms remain an owner-review draft"
 }

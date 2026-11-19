@@ -1,6 +1,11 @@
 export const API_VERSION = "agent-atelier.api/1";
-export const SERVICE_VERSION = "0.8.0";
+export const SERVICE_VERSION = "0.9.0";
 export const LOCALES = ["en", "uk", "de", "it", "es", "fr", "zh-CN"];
+export const DEFAULT_LOCALE = "en";
+export function resolveLocale(explicit, saved) {
+  if (LOCALES.includes(explicit)) return explicit;
+  return LOCALES.includes(saved) ? saved : DEFAULT_LOCALE;
+}
 export const OPERATIONS = [
   "skills.optional-preview",
   "skills.optional-apply",

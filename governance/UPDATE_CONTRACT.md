@@ -10,6 +10,28 @@ Identify the current target, the owning source, the authorized effect, and the e
 
 Keep plans and backup journals outside active skill roots. Apply only an exact ready plan, verify with its journal, and do a fresh host check. Reconcile a timeout or missing response with the authoritative destination before an authorized repeat. Unknown local ownership, changed tool scope, and unverified project state are concrete reasons to keep an operation open.
 
+## Managed release policy
+
+Clean product paths start in English. A valid explicit choice on the current
+action takes precedence over the relevant saved surface or project preference.
+Keep established names, original quotes, source data and existing approved
+records. Qualify the localized paths the product advertises.
+
+Read the managed model identifier from the exact release record. Confirm the
+actual model in native results. Block an unavailable managed model with an
+actionable explanation. Explicit historical replay and migration fixtures have
+named, pinned exceptions and their own evidence.
+
+Payments stay disabled in the installer at execution time. Run the ordinary
+offline buyer lifecycle and verify zero product payment and seller attempts with
+a positive control for the observer. Keep optional offline rights retention and
+separate local seller tests intact.
+
+Promote candidate source through the exact-main publication procedure.
+Independently verify source, target archives, runtime behavior, remote bytes
+and host adoption. Codex and Work each require their own installed state and
+first-use evidence.
+
 Translate the complete public guide and navigation together. Preserve functional commands, user-language choice, branding, and public claims tied to the actual system. For visual changes, verify artwork in its delivery medium and accessibility with the current captions and workflows. Keep private project inventories, raw chat traces, credentials and runtime state out of packages.
 
 ## Commercial lifecycle

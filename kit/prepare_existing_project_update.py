@@ -102,7 +102,7 @@ def prepare(project, output, source_root=None):
     metadata = {key: value for key, value in json.loads(json.dumps(old_manifest)).items() if key not in ("skills", "format_version", "kit_id")}
     metadata["version"] = VERSION
     metadata["operating_standard"] = {"schema":api.OPERATING_SCHEMA, "release":VERSION,
-        "resources":{path:records[path]["sha256"] for path in api.OPERATING_RESOURCES}}
+        "resources":{path:records[path]["sha256"] for path in api.operating_resources_for_release(VERSION)}}
     metadata["blueprint_status"] = "historical_origin_only"
     metadata["maintenance_authority"] = {
         "schema":"agent-maintenance-authority/1", "actor":"user",

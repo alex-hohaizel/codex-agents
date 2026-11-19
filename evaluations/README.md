@@ -10,9 +10,9 @@ Keep raw project paths, outputs, private accounts, and tool traces in private ev
 
 Use the synthetic [case suite](native-canary-fixtures.json) and [input and receipt schema](native-canary.schema.json) from the checkout being evaluated. The cases cover a direct repair, a bilingual continuation with a project role, and a generated skill's passport and first use. The runner keeps fixture data and raw native events in a private temporary directory. Choose a new private receipt path outside the checkout. The report records source digests, actual runtime completion, artifact checks, scope changes and usage as separate facts. Redirect or retain the private scratch path for an independent reviewer.
 
-Use Python 3.9+, Git, a supported native Codex CLI, and an existing ChatGPT login. Confirm the available model and pin it when comparing two versions. The runtime excludes personal Codex configuration and disables apps, web search and shell network in the fixture. Writing turns require a supported native permission profile that preserves workspace protections and permits writes inside the fixture while keeping general temporary trees read-only. Each run copies the selected skill into the disposable project and disables known same-name installed paths for that invocation. The runner distinguishes an exact skill body observed in tool output from a command that only shows a read at the project path. Source discovery and source reading are separate observations.
+Use Python 3.9+, Git, a supported native Codex CLI and an existing ChatGPT login. Managed native runs read the model from [the release record](../releases/current.json) and request `high` reasoning by default. The runner forwards allowlisted process variables and uses the existing native sign-in. It skips personal Codex configuration and disables apps, plugins, hooks, memory tools, web search and shell network. The fixture gets a copied project skill, with known same-name skills disabled and ambient skill folders denied. The write profile keeps workspace protections and allows writes inside the test project. General temporary directories are read-only. A receipt distinguishes an observed project path from an exact skill body captured in a tool result.
 
-Prepare P1, P2 and the passport without making model calls:
+Prepare P1, P2 and the passport without invoking a model.
 
 ```sh
 python3 -B evaluations/native_canary.py --prepare-only \
@@ -20,7 +20,7 @@ python3 -B evaluations/native_canary.py --prepare-only \
   --output "$private_prepare_receipt"
 ```
 
-From the repository root, run the direct repair in a fresh disposable project:
+Run the direct repair from the repository root.
 
 ```sh
 receipt_dir="$(mktemp -d)"
@@ -29,9 +29,13 @@ python3 -B evaluations/native_canary.py --case p01-direct \
 cat "$receipt_dir/direct.jsonl"
 ```
 
-The expected change is `cheklist` to `checklist` in `README.md`; `notes.md` stays byte for byte the same. The receipt keeps the file checks, Codex completion, and source observation separate. Run P2 with `--case p02-handoff` and a new receipt path. P2 uses a persisted synthetic turn because native subagent spawn needs the parent rollout. Its trace must show the named role, a returned wait and an exact product artifact. The runner pins the role configuration path for that invocation and matches the new fixture parent's rollout and its uniquely linked child. It checks the child's exact received developer instructions and completion, and records the parent's role invocation and model separately. Other local rollouts are considered only by their parent metadata; the receipts contain no instruction text or raw events. These cases exercise actual behavior in the supplied fixtures. Broader regression coverage, implicit routing and providers require their own cases.
+The expected change replaces `cheklist` with `checklist` in `README.md` and preserves the original `notes.md`. The direct repair and consumer run use ephemeral native chats by default. Add `--persist-model-receipt` to explicitly retain a disposable chat for exact model and effort readback from its typed `turn_context` event. Raw traces and diagnostics stay private. An ephemeral run records its artifact outcome and leaves the effective model unverified. A missing or different model in a persisted run blocks model acceptance.
 
-The constructor has an explicit review boundary. Run `p03-passport` alone. `awaiting-exact-passport-review` means the builder has returned a review request; it is an intermediate stage. Review the exact saved revision, digest, accepted inputs and effects, then continue the constructor under its documented approval contract to produce the approved single-entry `canary-invoice-checker` package. Preserve the construction receipt. With a reviewed unpacked kit and matching authorized manifest digest, run the actual installed consumer against an independent invoice fixture:
+Run P2 with `--case p02-handoff` and a new receipt path. This fixture uses a persisted synthetic turn for linked native role evidence. Its trace must include one named role, a completed wait and an exact output artifact. The runner identifies the child from the exact parent’s native tool activity, matches the child’s parent reference, checks the child’s received developer instructions, and records the child’s model, effort and completion.
+
+For an explicit model comparison, use `--stage baseline --baseline-source "$reviewed_checkout" --model "$observed_baseline_model"` and a new receipt path. For exact model comparison, add `--persist-model-receipt` on both runs. Run the candidate on the current checkout with the same fixture parameters and criteria. Keep the actually observed model, source inventory, runtime, usage and protected file observations for each lane.
+
+The constructor has an explicit review boundary. Run `p03-passport` alone. `awaiting-exact-passport-review` means the builder has returned a review request; it is an intermediate stage. Review the exact saved revision, digest, accepted inputs and effects, then continue the constructor under its documented approval contract to produce the approved single-entry `canary-invoice-checker` package. Preserve the construction receipt. With a reviewed unpacked kit and matching authorized manifest digest, run the installed consumer against an independent invoice fixture.
 
 ```sh
 python3 -B evaluations/native_canary.py --case p03-consumer \
@@ -40,7 +44,7 @@ python3 -B evaluations/native_canary.py --case p03-consumer \
   --output "$private_consumer_receipt"
 ```
 
-The consumer uses the supported preflight, apply and verify commands in a fresh fixture, then opens a read-only Codex turn. Check the native command's JSON output and the captured source read. A successful manifest check, successful preparation or an intermediate review state does not establish a completed canary. Keep raw events, diagnostics, configuration, account details and scratch paths private.
+The consumer runs preflight, apply and verify in a fresh fixture before opening a read-only native turn. Check the actual JSON emitted by the installed script, the project skill read, the typed model receipt and the terminal turn.
 
 
 ## Project replan and Builder delivery
@@ -50,11 +54,18 @@ FieldSlate WSGI app, a historical result and ongoing independent work. The
 `apply` stage checks the proposed plan, exact authorized test decision, write
 and readback, same-operation replay and stale competing decision. The separate
 `builder` and `qa` native stages use fresh Codex sessions. Builder receives
-exact write paths; QA exercises the application through both routes and checks
-the actual returned implementation digest. Use a supported signed-in Codex CLI
-for the native stages. Keep raw session evidence under the selected private
-case directory.
+exact write paths. QA exercises the application through both routes and checks
+the actual returned implementation digest. Use a supported signed-in Codex CLI for the native stages. Add
+`--persist-model-receipt` for a disposable Builder rollout with model readback. Keep raw session evidence under the selected private
+case directory. To compare exact released settings, pass `--baseline-source` at preparation and `--baseline-replay --model` with the intended model while running that baseline’s native stages.
 
 ```bash
 python3 -B evaluations/replan_delivery.py --help
 ```
+
+
+## Planning and worktree comparisons
+
+`planning_probe.py` takes a reviewed Orchestrator source for the baseline and uses the current source for the candidate. When explicitly replaying an earlier model, select `product-baseline` and pass `--model`. Use `--persist-model-receipt` on both lanes when comparing observed models. Evaluate the returned plan against the same protected files and requirements. A successful observation still needs artifact review.
+
+`worktree_delivery.py` binds independent write scopes to two real Git worktrees and observes their overlap, interruption, durable checkpoint, fresh-session recovery, integration readback and independent QA. Run it under a disposable system temporary directory on a supported POSIX host. Worker runs are ephemeral by default. Add `--persist-model-receipt` for model readback. Freeze the model receipts and product oracles alongside the artifact hashes. The captured-review replay verifies the existing reviewed fixture using its original evidence.

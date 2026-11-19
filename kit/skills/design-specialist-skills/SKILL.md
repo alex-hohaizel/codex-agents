@@ -2,14 +2,14 @@
 name: design-specialist-skills
 description: "Design and build a reusable specialist skill or family from a concrete goal and domain evidence. Use for deliberate scope, triggers, roles, reusable resources, handoffs, and verification."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # Specialist Skill Constructor
 
 ## Scope and current evidence
 
-Use the caller's language, then the project preference, then Ukrainian. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
+Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
 
 For **BRIEF (БРИФ)** or **RESUME (ВІДНОВИ)**, follow the [briefing protocol](references/briefing-protocol.md), with the [topics](assets/briefing-topics.json) and [domain guide](references/briefing-domain-guide.md) where relevant. Reconcile current sources and runtime before resuming. Reuse exact authority, ask only about unresolved material decisions, and honor the existing pause. Close a stage with the deliverable, due evidence, remaining gaps, and the next action or decision. Separate the full target, first release, and representative slice.
 
@@ -32,6 +32,8 @@ Show the output, procedure, specialized rules, exact modules, stage ownership, i
 Use the actual `scripts/blueprint.py` help and current `skill.blueprint/2` format from `assets/blueprint-template.json`. Compile and check the blueprint, then use `check --approved` before building. Preserve older materials and reconstruct current facts from their sources before mapping to the supported format. Reader and syntax checks establish structure, reference and approval binding. They do not authenticate consent, implementation behavior or professional result.
 
 ## Build, evaluate and use the approved artifact
+
+Use the [managed execution contract](references/managed-execution.md) for the new agent and every dependent child. Carry the bundled model policy into the export and verify the actual consumer before claiming model adoption.
 
 Read current `skill-creator` and [build and verify](references/build-and-verify.md). Compose stable name, precise triggers, short English operational entry with progressive disclosure, appropriate UI metadata and applicable resources or scripts. Keep project state, private input and secrets separate. Inventory each child user's required outputs, source/operation, recipe, medium, assembly, consumer, proof and owner. Include common resources inside versioned, self-contained skills. Bind original master to export, integration and actual use. Verify each exact medium (DOCX, XLSX, PPTX, native app, or other requested format) through its actual deliverable and rendering, playback or input behavior where due. A structural check or rendering from altered bytes cannot substitute for the named consumer. Missing real access or modality stays blocked with a specific handoff.
 

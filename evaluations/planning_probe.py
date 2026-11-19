@@ -194,7 +194,7 @@ def ready_specs(project, directory, status):
     return specs
 
 
-def run_lane(base, variant, binary, model, effort, deadline):
+def run_lane(base, variant, binary, model, effort, deadline, persist_model_receipt=False):
     case_input = (base / "input.json").read_bytes()
     declared = json.loads(case_input)
     use_git = declared.get("use_git")
@@ -234,12 +234,14 @@ def run_lane(base, variant, binary, model, effort, deadline):
     policy = ('permissions={parity-probe={extends=":workspace",filesystem={'
               + ",".join(rules) + '},network={enabled=false}}}')
     cmd = [binary, "-a", "never", "exec", "--ignore-user-config", "--strict-config",
-           "--json", "--ephemeral", "--disable", "apps", "--disable", "memories",
+           "--json", "--disable", "apps", "--disable", "memories",
            "--disable", "hooks", "--disable", "plugins", "-c", 'web_search="disabled"',
            "-c", f'model_reasoning_effort="{effort}"',
            "-c", 'default_permissions="parity-probe"', "-c",
            policy,
            "--model", model, "-C", str(project)]
+    if not persist_model_receipt:
+        cmd.append("--ephemeral")
     if not use_git:
         cmd.append("--skip-git-repo-check")
     duplicates = native.installed_conflicts(skill) if skill else []
@@ -266,6 +268,8 @@ def run_lane(base, variant, binary, model, effort, deadline):
         "installed_route_inventory_sha256": sha256(json.dumps(before, sort_keys=True).encode()).hexdigest(),
         "variant": variant, "model_requested": model, "effort": effort, "exit_code": code,
         "threads": ids, "completed_turns": len(turns),
+        "persisted": persist_model_receipt,
+        "model_receipt": native.native_turn_receipt(ids[0]) if persist_model_receipt and len(ids) == 1 else None,
         "native_skill_source_path_observed": (any(skill + "/SKILL.md" in line for line in observed_paths)
                                      if skill else None),
         "reviewed_command_observed": (any(route["observed_command"] in line for line in observed_paths)
@@ -282,6 +286,7 @@ def run_lane(base, variant, binary, model, effort, deadline):
         "written_ready_specs": written_specs,
         "artifact_status": "pending_independent_review",
     }
+    result["matches_requested_model"] = native.matches_model(result["model_receipt"], model, effort)
     if messages:
         write(lane / "final-plan.md", messages[-1] + "\n")
     write_json(lane / "observation.json", result)
@@ -300,9 +305,11 @@ def main():
     parser.add_argument("--no-vcs", action="store_true", help="prepare a case without Git")
     parser.add_argument("--variant", choices=VARIANTS)
     parser.add_argument("--codex", default=shutil.which("codex"))
-    parser.add_argument("--model", default="gpt-6.1-sol")
-    parser.add_argument("--effort", choices=("low", "medium"), default="low")
+    parser.add_argument("--model", help="Alternate model pin for the explicit product-baseline lane")
+    parser.add_argument("--effort", choices=("low", "medium", "high"), default=native.DEFAULT_EFFORT)
     parser.add_argument("--deadline", type=int, default=90)
+    parser.add_argument("--persist-model-receipt", action="store_true",
+                        help="Allow a disposable native rollout for exact model readback")
     args = parser.parse_args()
     base = args.case_dir.resolve()
     if args.operation == "prepare":
@@ -317,10 +324,19 @@ def main():
             parser.error("set the source and Git mode while preparing the case")
         if not (base / args.variant / "route.json").is_file():
             parser.error("the requested variant is absent from the prepared case")
-        result = run_lane(base, args.variant, args.codex, args.model, args.effort,
-                          args.deadline)
+        try:
+            model = native.managed_model(args.model, baseline=args.variant == "product-baseline")
+        except ValueError as exc:
+            parser.error(str(exc))
+        if not native.auth_ok(args.codex):
+            parser.error("Native planning probe requires an existing authenticated ChatGPT session")
+        result = run_lane(base, args.variant, args.codex, model, args.effort,
+                          args.deadline, args.persist_model_receipt)
     print(json.dumps(result, ensure_ascii=False))
-    return int(args.operation == "run" and result["exit_code"] != 0)
+    return int(args.operation == "run" and (
+        result["exit_code"] != 0 or result["completed_turns"] != 1
+        or (args.persist_model_receipt and not result["matches_requested_model"])
+    ))
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ T={'en': {'tag': 'AI TEAM · BUILT FOR CODEX',
         'intro': 'Plan the work. Bring in the right specialists. Check the result. Pick up where you left off — with '
                  'sources, decisions and recovery in one local toolkit.',
         'candidate': 'Ready technical toolkit for Windows, macOS and Linux. Commercial terms remain a release '
-                     'candidate; no payment is collected here. Remaining legal seller facts, support hours and public '
+                     'candidate. Payments are disabled for this release. Remaining legal seller facts, support hours and public '
                      'sales approval are still required.',
         'start': 'Open your buyer package',
         'more': 'Read the full product guide',
@@ -107,7 +107,7 @@ T={'en': {'tag': 'AI TEAM · BUILT FOR CODEX',
         'intro': 'Сплануйте роботу. Залучіть потрібних спеціалістів. Перевірте результат. Продовжуйте з того самого '
                  'місця — зі джерелами, рішеннями й відновленням в одному локальному комплекті.',
         'candidate': 'Готовий технічний комплект для Windows, macOS і Linux. Комерційні умови залишаються release '
-                     'candidate; ця сторінка не приймає оплату. Решта юридичних реквізитів продавця, години підтримки '
+                     'candidate. Оплату для цього релізу вимкнено. Решта юридичних реквізитів продавця, години підтримки '
                      'й дозвіл на публічні продажі ще потрібні.',
         'start': 'Відкрити покупецький комплект',
         'more': 'Повний посібник продукту',
@@ -230,7 +230,7 @@ def render_pages():
 <h2>{e(t['trust'])}</h2><p>{e(t['trust_body'])}</p>
 <img src="{image}" alt="{e('Illustrative product workflows; not a live screenshot' if lang=='en' else 'Ілюстрація можливих продуктових сценаріїв; не знімок живого застосунку')}">
 <p class="muted">{e('Original product illustration. Actual installation and task evidence are delivered with the candidate report.' if lang=='en' else 'Оригінальна продуктова ілюстрація. Фактичні докази установки й задач надаються зі звітом кандидата.')}</p>
-<h2>{'See the actual candidate' if lang=='en' else 'Фактична робота кандидата'}</h2>
+<h2>{'Recorded walkthroughs' if lang=='en' else 'Записані проходження'}</h2>
 <p>{e(t['demo_body'])}</p>
 <p class="muted provenance">{e(t['screens_caption'])} <a href="{'commercial/media/' if is_start else '../media/'}WORKBENCH-PROVENANCE.json">{e(t['screens_provenance'])}</a></p>
 <div class="grid">

@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { createReadStream, existsSync } from 'node:fs';
-import { readFile, lstat, readdir, realpath, mkdir, mkdtemp, copyFile, chmod, writeFile, rename, rm } from 'node:fs/promises';
+import { readFile, readlink, symlink, lstat, readdir, realpath, mkdir, mkdtemp, copyFile, chmod, writeFile, rename, rm } from 'node:fs/promises';
 import { spawn, execFileSync } from 'node:child_process';
 import { resolve, dirname, relative, join, isAbsolute, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -17,6 +17,14 @@ const within=(base,target)=>{const name=relative(resolve(base),resolve(target));
 const member=rel=>{fail(!isAbsolute(rel)&&!rel.includes('\\')&&rel.split('/').every(x=>x&&x!=='.'&&x!=='..'),'Invalid snapshot path');if(process.platform==='win32')fail(rel.split('/').every(x=>!x.includes(':')&&!/[. ]$/.test(x)&&!/^(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)/i.test(x)),'Windows snapshot alias/device path rejected');};
 const hash = async path => { const digest = createHash('sha256'); for await (const part of createReadStream(path)) digest.update(part); return digest.digest('hex'); };
 const output = data => console.log(JSON.stringify(data, null, 2));
+const aliasPattern = /^instruction-aliases\/(task_[a-f0-9-]{36})\/([0-9a-f]{64})\.md$/;
+function aliasTask(path, target) {
+  const match = aliasPattern.exec(path);
+  fail(match && typeof target === 'string' && target.length <= 4096 && isAbsolute(target) &&
+    resolve(target) === target && createHash('sha256').update(target).digest('hex') === match[2],
+    'Unrecognized instruction alias pointer: ' + path);
+  return match[1];
+}
 async function regular(path) {
   const info = await lstat(path);
   fail(info.isFile() && !info.isSymbolicLink() && info.nlink === 1, 'Expected one regular owned file: ' + path);
@@ -32,7 +40,7 @@ async function safePath(path) {
   }
   return path;
 }
-async function inventory(folder, skip = new Set(), maxFiles = 20000) {
+async function inventory(folder, skip = new Set(), maxFiles = 20000, aliases = null) {
   const files = {}, pending = [''];
   let count = 0;
   while (pending.length) {
@@ -41,7 +49,14 @@ async function inventory(folder, skip = new Set(), maxFiles = 20000) {
       const rel = prefix ? prefix + '/' + name : name;
       if (skip.has(rel)) continue;
       const path = join(folder,rel), info = await lstat(path);
-      fail(!info.isSymbolicLink(), 'Linked runtime/state member rejected: ' + rel);
+      if (info.isSymbolicLink()) {
+        fail(aliases && aliasPattern.test(rel), 'Linked runtime/state member rejected: ' + rel);
+        fail(++count <= maxFiles, 'State inventory exceeds bounded capacity');
+        const target = await readlink(path);
+        aliasTask(rel, target);
+        aliases[rel] = target;
+        continue;
+      }
       if (info.isDirectory()) pending.push(rel);
       else {
         fail(info.isFile() && info.nlink === 1 && info.size <= 512*1024*1024, 'Unexpected file in runtime/state: '+rel);
@@ -51,6 +66,11 @@ async function inventory(folder, skip = new Set(), maxFiles = 20000) {
     }
   }
   return Object.fromEntries(Object.entries(files).sort(([a],[b])=>a.localeCompare(b,'en')));
+}
+function sameAliases(actual, expected) {
+  fail(Object.keys(actual).length === Object.keys(expected).length &&
+       Object.entries(expected).every(([path, target]) => actual[path] === target),
+       'Instruction alias pointers changed');
 }
 function sameFiles(actual, expected) {
   fail(Object.keys(actual).length === Object.keys(expected).length,'Runtime/state file inventory changed');
@@ -112,10 +132,16 @@ async function stateFolder(requireExisting=true) {
   fail(!within(root,path),'Keep state outside the runtime bundle');
   return path;
 }
-async function schema(dataDir, max) {
+async function schema(dataDir, max, aliases = {}) {
   const database = join(dataDir,'atelier.sqlite');
   try { await regular(database); }
-  catch (e) { if (e.code==='ENOENT') return null; throw e; }
+  catch (e) {
+    if (e.code==='ENOENT') {
+      fail(!Object.keys(aliases).length, 'Instruction aliases require their original task database');
+      return null;
+    }
+    throw e;
+  }
   // SQLite may update shared-memory coordination even on a read-only open.
   // Inspect a stable private copy so preflight never changes source bytes.
   const scratch=await mkdtemp(join(tmpdir(),'atelier-schema-'));
@@ -134,6 +160,22 @@ async function schema(dataDir, max) {
     db=new DatabaseSync(join(scratch,'atelier.sqlite'),{readOnly:true});
     const value = db.prepare('PRAGMA user_version').get().user_version;
     fail(Number.isSafeInteger(value) && value <= max,'Database is newer than this runtime. Use its matching version; do not downgrade the store.');
+    if (Object.keys(aliases).length) {
+      const taskRecord = db.prepare("SELECT data FROM records WHERE kind = 'task' AND id = ?");
+      const manifests = new Map();
+      for (const [path, target] of Object.entries(aliases)) {
+        const task = aliasTask(path, target);
+        if (!manifests.has(task)) {
+          const row = taskRecord.get(task);
+          fail(row?.data && row.data.length <= 16 * 1024 * 1024, 'Instruction alias has no exact retained task: ' + path);
+          const pinned = JSON.parse(row.data)?.capsule?.instruction_manifest;
+          fail(pinned?.schema_version === 'atelier.governing-instructions/1' && Array.isArray(pinned.sources),
+            'Instruction alias has no exact retained source manifest: ' + path);
+          manifests.set(task, new Set(pinned.sources.filter(source => source && /^[a-f0-9]{64}$/.test(source.sha256)).map(source => source.path)));
+        }
+        fail(manifests.get(task).has(target), 'Instruction alias target is not pinned by its retained task: ' + path);
+      }
+    }
     for(const [from,before] of copies) fail(await hash(from)===before,'State changed during schema preflight');
     return value;
   } finally { db?.close(); await rm(scratch,{recursive:true,force:true}); }
@@ -157,16 +199,26 @@ async function snapshot(manifest) {
   let release;
   try {
     release=await acquireInstance(dataDir);
-    const stateSchema=await schema(dataDir,manifest.sqlite_schema_max);
-    const files=await inventory(dataDir,new Set(['instance.lock','runtime.json']));
+    const skips = new Set(['instance.lock','runtime.json']);
+    const aliases = {};
+    const files=await inventory(dataDir,skips,20000,aliases);
+    const stateSchema=await schema(dataDir,manifest.sqlite_schema_max,aliases);
     fail(Object.keys(files).length>0,'Empty state cannot be snapshotted');
     await mkdir(join(dest,'data'),{mode:0o700});
     if(process.platform==='win32') await securePrivatePath(join(dest,'data'),{directory:true});
     await clone(dataDir,join(dest,'data'),files);
-    sameFiles(await inventory(dataDir,new Set(['instance.lock','runtime.json'])),files);
+    const afterAliases = {};
+    sameFiles(await inventory(dataDir,skips,20000,afterAliases),files);
+    sameAliases(afterAliases,aliases);
     sameFiles(await inventory(join(dest,'data')),files);
     const receipt={schema:'codex-agents.workbench-offline-snapshot/1',source_runtime:manifest.source_commit,
       service_version:manifest.service_version,sqlite_user_version:stateSchema,files};
+    if (Object.keys(aliases).length) {
+      // Version 2 stores source pointers only, never their external bytes.
+      // Version 1 readers must not silently restore only the regular files.
+      receipt.schema = 'codex-agents.workbench-offline-snapshot/2';
+      receipt.instruction_aliases = aliases;
+    }
     await writeFile(join(dest,'snapshot-manifest.json'),JSON.stringify(receipt,null,2)+'\n',{flag:'wx',mode:0o600});
     output({status:'snapshot-verified',snapshot:dest,sha256:await hash(join(dest,'snapshot-manifest.json')),sqlite_user_version:stateSchema,
       next:'Keep this private snapshot with the exact runtime. Restore into a NEW directory before switching runtimes.'});
@@ -183,17 +235,31 @@ async function restore(manifest) {
   await regular(join(from,'snapshot-manifest.json'));
   fail(await hash(join(from,'snapshot-manifest.json'))===at('--sha256'),'Snapshot receipt digest differs');
   const receipt=JSON.parse(await readFile(join(from,'snapshot-manifest.json'),'utf8'));
-  fail(receipt.schema==='codex-agents.workbench-offline-snapshot/1' && receipt.sqlite_user_version<=manifest.sqlite_schema_max,
+  const legacy = receipt.schema==='codex-agents.workbench-offline-snapshot/1';
+  const pointers = receipt.schema==='codex-agents.workbench-offline-snapshot/2';
+  fail((legacy || pointers) && receipt.sqlite_user_version<=manifest.sqlite_schema_max,
        'This runtime cannot read the snapshot schema');
+  const aliases = pointers ? receipt.instruction_aliases : {};
+  fail(aliases && typeof aliases === 'object' && !Array.isArray(aliases) && (pointers || !receipt.instruction_aliases),
+    'Invalid instruction aliases in snapshot receipt');
+  for (const [path, target] of Object.entries(aliases)) aliasTask(path, target);
   sameFiles(await inventory(join(from,'data')),receipt.files);
+  if (pointers) await schema(join(from,'data'),manifest.sqlite_schema_max,aliases);
   await mkdir(dest,{mode:0o700});
   if(process.platform==='win32') await securePrivatePath(dest,{directory:true});
   const {acquireInstance}=await import(pathToFileURL(join(root,productPrefix+'apps/agent-atelier/server/instance.mjs')).href);
   const release=await acquireInstance(dest);
   try {
     await clone(join(from,'data'),dest,receipt.files);
-    sameFiles(await inventory(dest,new Set(['instance.lock'])),receipt.files);
-    await schema(dest,manifest.sqlite_schema_max);
+    for (const [rel,target] of Object.entries(aliases)) {
+      const path = join(dest,rel);
+      await mkdir(dirname(path),{recursive:true,mode:0o700});
+      await symlink(target,path,'file');
+    }
+    const restoredAliases = {};
+    sameFiles(await inventory(dest,new Set(['instance.lock']),20000,restoredAliases),receipt.files);
+    sameAliases(restoredAliases,aliases);
+    await schema(dest,manifest.sqlite_schema_max,aliases);
   } finally { await release(); }
   output({status:'restored-new-directory',data_dir:dest,snapshot_sha256:at('--sha256'),source_preserved:true,
     next:'Run status, then start this exact runtime with --data-dir set to the restored directory. Existing data is untouched.'});

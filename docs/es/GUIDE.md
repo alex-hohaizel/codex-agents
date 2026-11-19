@@ -96,6 +96,8 @@ Crea un prototipo interactivo en el navegador a partir de DESIGN y EXPERIENCE re
 
 Abre los requisitos autorizados, la identidad, las decisiones y el punto de control. Fija las huellas exactas e incluye requisitos aplicables, efectos permitidos, trabajo aplazado, resultado, efectos pendientes y próxima acción. Si una fuente cambia o falta, vuelve a verificar la obligación afectada. El traspaso lleva esta selección a otra tarea o entorno y conserva la autoridad de las fuentes originales.
 
+En una instalación limpia, el asistente se abre en inglés incluso con el sistema o el navegador en ucraniano. Selecciona inglés o ucraniano en el asistente. La elección explícita se conserva tras reiniciar en otro puerto. Workbench usa primero el idioma de interfaz válido especificado, después la preferencia guardada y finalmente el inglés. Para una tarea, selecciona el idioma de salida o conserva la preferencia registrada del proyecto. El iniciador gestionado solicita GPT-6.2 Sol según la disponibilidad en la cuenta del comprador. Los pagos están desactivados en esta versión. Puedes conservar por separado un documento original de compra sin conexión.
+
 Registra `preferred_language` en el contexto y transmítelo al traspasar trabajo. Conserva comandos, selectores, identificadores, referencias y citas exactas. [Modelo operativo](../OPERATING_MODEL.md#project-context-and-handoffs) · [Contexto de proyecto](../../templates/project-context.json) · [Traspaso](../../templates/HANDOFF.md)
 
 <a name="models"></a>

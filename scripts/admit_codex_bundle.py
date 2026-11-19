@@ -133,8 +133,8 @@ def verify_attestation(snapshot, pin):
     action = [
         "gh", "attestation", "verify", str(snapshot), "--hostname", "github.com",
         "--repo", REPOSITORY,
-        "--signer-workflow", f"{REPOSITORY}/{pin.signer_workflow}",
-        "--source-digest", pin.source_sha, "--source-ref", pin.source_ref,
+        "--cert-identity", f"https://github.com/{REPOSITORY}/{pin.signer_workflow}@{pin.source_ref}",
+        "--source-digest", pin.source_sha, "--source-ref", pin.source_ref, "--signer-digest", pin.source_sha,
         "--predicate-type", PREDICATE, "--deny-self-hosted-runners", "--format", "json",
     ]
     verified = subprocess.run(

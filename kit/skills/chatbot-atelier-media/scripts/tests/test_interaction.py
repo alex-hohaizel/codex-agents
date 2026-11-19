@@ -10,6 +10,11 @@ import tempfile
 import unittest
 
 SCRIPT = Path(__file__).resolve().parents[1] / "interaction.py"
+STATUS_SCHEMA = (
+    SCRIPT.with_name("status-view.schema.json")
+    if SCRIPT.parent.name == "standards"
+    else SCRIPT.parents[1] / "assets/status-view.schema.json"
+)
 spec = importlib.util.spec_from_file_location("interaction_under_test", SCRIPT)
 interaction = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(interaction)
@@ -68,6 +73,21 @@ class StatusTests(unittest.TestCase):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(data, ensure_ascii=False))
         return p
+
+    def test_status_uses_saved_markdown_language_without_rewriting_data(self):
+        data = app()
+        data["profile"].update(preferred_language="uk", goal="Зберегти запис")
+        path = self.write(data)
+        command = [sys.executable, str(SCRIPT), "status", "--source", str(path)]
+        uk = subprocess.check_output(command, text=True)
+        en = subprocess.check_output(command + ["--locale", "en"], text=True)
+        self.assertIn("# Поточний стан", uk)
+        self.assertIn("# Current status", en)
+        self.assertIn("Зберегти запис", uk)
+        self.assertIn("Зберегти запис", en)
+        self.assertEqual(data, json.loads(path.read_bytes()))
+        self.assertEqual(subprocess.check_output(command + ["--format", "json"]),
+                         subprocess.check_output(command + ["--format", "json", "--locale", "en"]))
 
     def test_all_native_shapes_are_projected_without_authorizing(self):
         for name, data in (("foundry", foundry()), ("game", game()), ("app", app()),
@@ -190,7 +210,7 @@ class StatusTests(unittest.TestCase):
         view = interaction.build_view(self.write(data))
         text = interaction.markdown(view, "D1")
         self.assertIn("revoked", text)
-        self.assertIn("Записана відповідь: no", text)
+        self.assertIn("Recorded answer: no", text)
         self.assertFalse(view["recorded_decisions"][0]["authority_verified_by_view"])
         self.assertEqual([], view["pending_decisions"])
 
@@ -262,7 +282,7 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(["AP"], [r["id"] for r in view["recorded_completed_work"]])
         self.assertEqual(["AF"], [r["id"] for r in view["pending_work"]])
         self.assertEqual("specified", view["recorded_completion"]["stage"])
-        self.assertIn("Записаний етап: specified", interaction.markdown(view))
+        self.assertIn("Recorded stage: specified", interaction.markdown(view))
 
     def test_unknown_effect_prevents_a_repeat_suggestion(self):
         data = app()
@@ -355,7 +375,7 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stderr)
         view = json.loads(result.stdout)
         self.assertEqual("atelier-status-view/1", view["schema_version"])
-        schema = json.loads((SCRIPT.parents[1] / "assets/status-view.schema.json").read_text())
+        schema = json.loads(STATUS_SCHEMA.read_text(encoding="utf-8"))
         self.assertEqual(set(schema["required"]), set(view))
         self.assertEqual(set(schema["properties"]["evidence_axes"]["required"]), set(view["evidence_axes"]))
         missing = subprocess.run([sys.executable, "-B", str(SCRIPT), "decision", "--source", str(p), "--id", "missing"], capture_output=True, text=True)

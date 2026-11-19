@@ -4,13 +4,23 @@ from __future__ import annotations
 import html
 import argparse
 import json
+import re
 from pathlib import Path
 
 ASSETS={'Windows x64':'Windows-x64','Windows ARM64':'Windows-arm64','macOS Apple Silicon':'macOS-arm64','macOS Intel':'macOS-x64','Linux x64':'Linux-x64','Linux ARM64':'Linux-arm64'}
 
-def render(version='1.8.0',locale='en',ready=False):
+def public_installer_version(release):
+    version = (release.get('previous_stable', {}).get('repository_version')
+               if release.get('release_stage') == 'candidate' else release['repository_version'])
+    if not isinstance(version, str) or not re.fullmatch(r'\d+\.\d+\.\d+', version):
+        raise ValueError('Candidate pages require a verified previous stable installer version')
+    return version
+
+
+def render(version='1.8.0',locale='en',ready=False,*,download_version=None):
     uk=locale=='uk'; esc=html.escape
-    base=f'https://github.com/alex-hohaizel/codex-agents/releases/download/v{version}/Agent-System-{version}-'
+    stable=download_version or version
+    base=f'https://github.com/alex-hohaizel/codex-agents/releases/download/v{stable}/Agent-System-{stable}-'
     if ready:
         heading='Відкрийте установник для своєї системи' if uk else 'Open the installer for your system'
         steps=('<li><b>Windows:</b> Start.cmd</li><li><b>macOS:</b> Start.command</li><li><b>Linux:</b> Start.sh</li>')
@@ -43,9 +53,10 @@ def render(version='1.8.0',locale='en',ready=False):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
     root=Path(__file__).resolve().parents[1]
-    version=json.loads((root/'releases/current.json').read_text())['repository_version']
+    release=json.loads((root/'releases/current.json').read_text())
+    version=release['repository_version']
     for locale,name in [('en','START_HERE.html'),('uk','ПОЧАТИ.html')]:
-        expected=render(version,locale).encode('utf8');path=root/name
+        expected=render(version,locale,download_version=public_installer_version(release)).encode('utf8');path=root/name
         if args.check:
             if not path.is_file() or path.read_bytes()!=expected:raise SystemExit('Stale root installer entry: '+name)
         else:path.write_bytes(expected)

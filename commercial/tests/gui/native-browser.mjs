@@ -175,7 +175,7 @@ try {
   }
   report.driver_sha256=digest(await readFile(fileURLToPath(import.meta.url)));
   const executable=await browserExecutable();report.browser={executable,sandbox:args['--allow-no-sandbox']?'Disabled by explicit --allow-no-sandbox for this isolated Linux test browser; product browser launch and server guards are unchanged.':'Default browser policy: no sandbox disabling flag is supplied; effective sandbox internals are not independently inspected.'};
-  const flags=['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-default-apps','--disable-dev-shm-usage','--disable-breakpad','--password-store=basic','--use-mock-keychain','--edge-skip-compat-layer-relaunch','--lang=en-US','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0','--user-data-dir='+profile];
+  const flags=['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-component-update','--disable-sync','--disable-default-apps','--disable-dev-shm-usage','--disable-breakpad','--password-store=basic','--use-mock-keychain','--edge-skip-compat-layer-relaunch','--lang=uk-UA','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0','--user-data-dir='+profile];
   if (args['--allow-no-sandbox'])flags.push('--no-sandbox');
   // Hosted Windows automation has no interactive shell token for Edge's
   // optional de-elevation. This is Microsoft's Edge debugger launch policy;
@@ -202,13 +202,33 @@ try {
   },'owned blank browser page',30000);
   browserPhase='websocket-connection';
   socket=new WebSocket(tab.webSocketDebuggerUrl);await new Promise((ok,fail)=>{const timer=setTimeout(()=>fail(Error('Chromium protocol connection timed out.')),5000);socket.onopen=()=>{clearTimeout(timer);ok()};socket.onerror=()=>{clearTimeout(timer);fail(Error('Chromium protocol connection failed.'))}});
-  socket.onmessage=({data})=>{const row=JSON.parse(data),item=pending.get(row.id);if(item){pending.delete(row.id);row.error?item.fail(row.error):item.ok(row.result)}};
+  const paymentAttempts=[], nonLocalRequests=[];
+  const paymentRoute=/\/(?:payment|payments|checkout|store|seller|fulfillment|redeem|redemption|order|orders|callback|callbacks|analytics|registration)(?:\/|$)/i;
+  socket.onmessage=({data})=>{
+    const row=JSON.parse(data),item=pending.get(row.id);
+    if(item){pending.delete(row.id);row.error?item.fail(row.error):item.ok(row.result);}
+    if(row.method==='Fetch.requestPaused'){
+      const {requestId,request}=row.params;
+      const address=new URL(request.url);
+      const payment=paymentRoute.test(address.pathname);
+      const nonLocal=/^https?:$/.test(address.protocol)&&address.origin!==url.origin;
+      if(payment)paymentAttempts.push({method:request.method,path:address.pathname});
+      if(nonLocal)nonLocalRequests.push({method:request.method,origin:address.origin});
+      const disposition=payment||nonLocal?'Fetch.failRequest':'Fetch.continueRequest';
+      call(disposition,payment||nonLocal?{requestId,errorReason:'BlockedByClient'}:{requestId}).catch(()=>{});
+    }
+  };
   socket.onclose=()=>{for(const item of pending.values())item.fail('Chromium protocol closed.');pending.clear()};
   browserPhase='gui-interaction';
   report.browser.version=await call('Browser.getVersion');await call('Page.enable');await call('Emulation.setDeviceMetricsOverride',{width:1400,height:1000,deviceScaleFactor:1,mobile:false});
+  await call('Emulation.setLocaleOverride',{locale:'uk-UA'});
+  await call('Network.setUserAgentOverride',{userAgent:report.browser.version.userAgent,acceptLanguage:'uk-UA,uk'});
+  await call('Fetch.enable',{patterns:[{urlPattern:'*'}]});
   await call('Page.navigate',{url:ready.url});
   await until(()=>evaluate('document.body.dataset.setupSession==="ready"'),'one-use owner session');
   await until(async()=>!(await snapshot()).active_job,'initial journal refresh');
+  report.first_locale=await evaluate('({browser:navigator.language,document:document.documentElement.lang,control:document.getElementById("locale").value,purchaseLabel:document.getElementById("purchase-document-choose").textContent.trim()})');
+  assert.deepEqual(report.first_locale,{browser:'uk-UA',document:'en',control:'en',purchaseLabel:'Choose purchase document'},'Clean buyer setup must be English before selecting a locale');
   assert.equal(await evaluate('location.hash'),'','Launch token must be consumed before refresh.');
   await evaluate('document.documentElement.dataset.beforeReload="present"');
   await call('Page.reload',{ignoreCache:true});
@@ -216,7 +236,6 @@ try {
   await until(async()=>!(await snapshot()).active_job,'journal refresh after browser reload');
   report.authorized_reload_verified=true;
   const initial=await snapshot();assert.equal(initial.instance_id,ready.instance_id);assert.equal(initial.product.source_commit,manifest.source_commit);assert.equal(initial.results.status.status,'not-installed-by-this-setup','Use a fresh isolated buyer HOME for this proof.');
-  await evaluate('document.getElementById("locale").value="en";document.getElementById("locale").dispatchEvent(new Event("change"))');
   const doctor=await buttonJob('check-button','doctor');assert.equal(doctor.source_commit,manifest.source_commit);assert.equal(doctor.platform.supported_skills,true);assert.equal(doctor.host.version,args['--expect-codex-version']||'0.166.0','This proof requires the pinned real Codex host.');
   await evaluate('window.scrollTo(0,0)');await screenshot('GUI-DESKTOP-CHECK.png');
   let audit=await buttonJob('audit-button','audit','ready');assert.equal(audit.expected_skills,33);assert.equal(audit.roles,12);assert.equal(audit.preview.components.length,35);assert.equal(audit.preview.conflicts.length,0);
@@ -271,9 +290,17 @@ try {
   report.practice={project:practice.project,fixture,task_sha256:digest(Buffer.from(practice.prompt)),launcher_sha256:digest(launcher),launcher_button_enabled:true,clipboard_verified:clipboardVerified,clipboard_newlines:clipboardNewlines,copy_status:copyStatus,model_execution:false};
   await evaluate('document.getElementById("begin").scrollIntoView({block:"start",behavior:"instant"})');await screenshot('GUI-DESKTOP-FIRST-TASK.png');
   await evaluate('document.getElementById("locale").value="uk";document.getElementById("locale").dispatchEvent(new Event("change"))');
+  await until(()=>evaluate('document.documentElement.lang==="uk" && !document.getElementById("locale").disabled'),'saved Ukrainian preference');
+  assert.equal((await snapshot()).preferred_locale,'uk');
   await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('window.scrollTo(0,0)');
   const mobile=await evaluate('({lang:document.documentElement.lang,width:innerWidth,scrollWidth:document.documentElement.scrollWidth,heading:document.querySelector("h1").textContent,hash:location.hash})');assert.equal(mobile.lang,'uk');assert.equal(mobile.width,390,'The mobile layout viewport expanded beyond the requested 390px.');assert.ok(mobile.scrollWidth<=391,'Horizontal overflow at 390px.');assert.equal(mobile.hash,'','One-use launch token was retained in URL.');assert.match(mobile.heading,/встановлення/);
   await screenshot('GUI-MOBILE-UK.png');report.mobile={...mobile,no_horizontal_overflow:true,token_removed:true};
+  assert.deepEqual(paymentAttempts,[],'Ordinary local controls attempted payment/store activity');
+  assert.deepEqual(nonLocalRequests,[],'Ordinary local controls made a non-local request');
+  const denied=await evaluate('fetch("/checkout/observer-probe").then(()=>false,()=>true)');
+  assert.equal(denied,true);
+  assert.deepEqual(paymentAttempts,[{method:'GET',path:'/checkout/observer-probe'}]);
+  report.payment_observation={ordinary_attempt_count:0,non_local_request_count:0,positive_control_detected_and_blocked:true};
   report.final_receipts=(await snapshot()).results;report.status='passed';report.finished_at=new Date().toISOString();
   await evaluate("window.__setupShutdownPointerSeen=false;document.getElementById('shutdown-button').addEventListener('click',event=>{window.__setupShutdownPointerSeen=event.isTrusted},{capture:true,once:true})");
   await click('shutdown-button');

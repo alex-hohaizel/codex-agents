@@ -163,13 +163,27 @@ try {
   await call("Page.enable", {}, session);
   await call("Runtime.enable", {}, session);
   await call("Network.enable", {}, session);
+  const userAgent = await evaluate("navigator.userAgent");
+  await call("Emulation.setLocaleOverride", { locale: "uk_UA" }, session);
+  await call("Emulation.setUserAgentOverride", { userAgent, acceptLanguage: "uk-UA" }, session);
   await call(
     "Emulation.setDeviceMetricsOverride",
     { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false },
     session,
   );
   await call("Page.navigate", { url: `${origin}/?demo=1` }, session);
-  await pause(900);
+  await waitFor("!!document.querySelector('.locale-select')", "The clean demo did not render");
+  checks.push({
+    name: "Clean demo renders English under a Ukrainian browser locale before interaction",
+    pass: await evaluate(
+      `navigator.language==='uk-UA'&&document.documentElement.lang==='en'&&
+       document.querySelector('.locale-select option')?.textContent==='English'&&
+       document.querySelector('.locale-select')?.value==='en'`,
+    ),
+  });
+  await screenshot("default-english-1440.png", 1440, 1080);
+  await call("Page.navigate", { url: `${origin}/?demo=1&locale=uk` }, session);
+  await waitFor("document.documentElement.lang==='uk'", "The explicit Ukrainian demo did not render");
   checks.push({
     name: "Explicit demonstration marker",
     pass: await evaluate(
@@ -275,6 +289,12 @@ try {
       pass: await evaluate(`!location.hash.includes('atelier_launch')`),
     });
   checks.push({
+    name: "Clean live workbench renders English before interaction",
+    pass: await evaluate(
+      `document.documentElement.lang==='en'&&document.querySelector('.locale-select')?.value==='en'`,
+    ),
+  });
+  checks.push({
     name: "Live view is not demonstration",
     pass: await evaluate(`!document.querySelector('.demo-strip')`),
   });
@@ -292,7 +312,7 @@ try {
     });
     await call(
       "Page.navigate",
-      { url: `${origin}/?project=${encodeURIComponent(binding.id)}` },
+      { url: `${origin}/?project=${encodeURIComponent(binding.id)}&locale=uk` },
       session,
     );
     await pause(1300);
@@ -450,7 +470,7 @@ try {
     pass: await evaluate(`document.querySelector('dialog')?.open===true`),
   });
   await evaluate(`document.querySelector('dialog .icon-button')?.click()`);
-  for (const locale of ["uk", "en", "de", "it", "es", "fr", "zh-CN"]) {
+  for (const locale of ["en", "uk", "de", "it", "es", "fr", "zh-CN"]) {
     await call(
       "Emulation.setDeviceMetricsOverride",
       { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false },

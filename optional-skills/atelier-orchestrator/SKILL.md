@@ -2,12 +2,12 @@
 name: atelier-orchestrator
 description: Choose a suitable route for a new task, an existing project, or an agent-system update. Use when the user needs an entry point, coordinated delivery, or help deciding which existing capability to use.
 metadata:
-  version: "1.5.1"
+  version: "1.6.0"
 ---
 
 # Atelier Orchestrator
 
-Own the requested result in the conversation. Use the user's explicit output language, then an applicable project preference, then the language of the request. Keep quoted material, commands, identifiers, and native project names unchanged.
+Own the requested result in the conversation. Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Keep quoted material, commands, identifiers, and native project names unchanged.
 
 ## Choose the smallest sufficient route
 
@@ -24,7 +24,7 @@ Bind the current project, authoritative source revision, accepted requirements a
 
 When a changed requirement affects an active plan or accepted evidence, use [plan change review](references/plan-change-review.md) to review the exact sources, work dependencies, and the decision still due. The same reference routes interrupted worktree reservations, GitHub Issues reconciliation and candidate acceptance reviews.
 
-Only clarify a question that changes the next material step. Use the [briefing protocol](references/briefing-protocol.md) for a new material choice and the [interaction protocol](references/interaction-protocol.md) for review or continuation. Reuse the user's answers and authorization for the unchanged scope. When both creation and original work are requested, continue through the verified agent after construction. When the request covers the agent alone, finish with its specific acceptance evidence.
+Only clarify a question that changes the next material step. Use the [briefing protocol](references/briefing-protocol.md) and [Orchestrator briefing guide](references/briefing-domain-guide.md) for a new material choice. Use the [interaction protocol](references/interaction-protocol.md) for review or continuation. Run its bundled helpers from this skill's root. Reuse the user's answers and authorization for the unchanged scope. When both creation and original work are requested, continue through the verified agent after construction. When the request covers the agent alone, finish with its specific acceptance evidence.
 
 For scoped handoff, provide the original objective, actor and write scope, only relevant pinned inputs, required and deferred IDs, expected artifact, verification and return address, resource limits, and denied or unresolved actions. Report which role actually ran and what it returned. For a read-only assignment, verify that the actual host enforces that boundary before claiming enforced isolation. A role's instructions alone do not set the host sandbox. For Codex versions that require a persisted parent record to spawn roles, use a disposable persisted session for that test. Record a failed spawn in the evidence and finish any work that can proceed safely.
 

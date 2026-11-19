@@ -126,17 +126,17 @@ In every generated agent and dependent skill, bundle the current `briefing/1` [p
 
 After each actually completed stage record completed scope and requirement status, outputs and hashes, result and proof limits, open items and blockers, decisions and current authority, checkpoint, exact next action, stop and return. Explain the result and any next decision in a short human-readable message. Keep unverified work open.
 
-Bundle `references/briefing-protocol.md`, domain-specific `references/briefing-domain-guide.md` and `assets/briefing-topics.json`, `assets/briefing-intake.template.json`, `assets/execution-script.template.md`, and `assets/stage-closeout.template.md`. If using a controller, include `scripts/briefing.py` and dependencies. Keep paths portable. Pin version and hash in the child manifest. In a clean context test normal briefing, cold resume, stage closeout, and dependent continuation without duplicating the controller or extending authority. Reusable source changes do not rewrite project state.
+Bundle `references/briefing-protocol.md`, its `scripts/briefing.py` controller, the domain-specific `references/briefing-domain-guide.md` and `assets/briefing-topics.json`, and the intake, execution-plan and stage-closeout templates. Keep paths portable. Pin version and hash in the child manifest. In a clean context test normal briefing, cold resume, stage closeout, and dependent continuation. Preserve the current scope and authority in project state.
 
 ## Inherited interaction
 
 Keep one current project registry, a concise view of goal, verified work, current work, gaps and the needed decision, and exact continuation. The owner accepts material decisions and stage outcomes. Routine work follows existing scope. Delegation does not prompt for existing consent. A change reopens only downstream work it affects. Separate specification, code, integration, device and human acceptance. A closed scope needs no invented follow-on work. Read `references/interaction-protocol.md`. A supported read-only view may use `scripts/interaction.py` and `assets/status-view.schema.json`. For another domain state, implement and test an appropriate adapter or equivalent projection. An unavailable adapter is not a completed integration. These files do not create a second authority, backlog or background service.
 
-A self-contained child bundles the applicable protocol, `assets/decision-card.template.md`, tool compatibility and the actual helper and schema when used. Pin versions and hashes and test a fresh receiver. Conditional resources do not dictate another domain or runtime. Verify package, model and permission behavior on the actual host. Structural PASS does not establish real tool execution, independent judgment or user approval.
+A self-contained child bundles the interaction protocol, `assets/decision-card.template.md`, tool compatibility, `scripts/interaction.py` and `assets/status-view.schema.json`. A domain-specific manual procedure remains available for a layout the common view cannot read. Bundle it, identify the actual source and locally verified step, and exercise the procedure on that layout. Pin versions and hashes and test a fresh receiver. Verify package, model and permission behavior on the actual host. Structural PASS does not establish real tool execution, independent judgment or user approval.
 
 ## Inherited general working method
 
-Bundle the complete operating resources listed below and link the local references from the entrypoint. Retain domain, depth and rule contracts. Before export run the constructor's `scripts/check_generated_inheritance.py` for all child roots. `package_agent.py --purpose generated` uses this structural gate and records exact resource hashes in manifest `operating_standard`.
+Run the constructor's `python3 -B scripts/check_generated_inheritance.py --materialize CHILD [OTHER_CHILD ...]` on existing isolated child staging directories. It copies missing shared files and supplies missing briefing templates. Existing domain materials remain available for child-specific use. A mismatch at an exact shared path requires reconciliation before packaging. Author the domain guide and topics, retain depth and rule contracts, and link the local references from the entrypoint. Before export run the checker without `--materialize` for all children. `package_agent.py --purpose generated` uses this structural gate and records exact resource hashes in manifest `operating_standard`.
 
 For new or resumed scope separately assess task size, uncertainty, consequences, coupling, capability, authority and evidence needed for acceptance. A localized task only needs a short assessment. Material work records strategy, competency and source reconciliation in the current registry. Do not create a duplicate backlog or a new product for a one-off assignment.
 
@@ -160,11 +160,9 @@ Keep existing icons without regeneration or recoloring. Include the genuine prio
 
 ## Portable operating resources
 
-Bundle these 15 exact resources in every self-contained child.
+Bundle the exact resources declared in `scripts/check_generated_inheritance.py` in every self-contained child.
 
-- Link `references/adaptive-work.md`, `references/research-and-synthesis.md`, `references/visual-identity.md`, `references/joint-work-codex.md`, `references/production-quality.md`, `references/context-capsule.md`, and `references/ai-production.md` from the entrypoint.
-- Include the helpers `scripts/adaptive_work.py`, `scripts/visual_identity.py`, `scripts/context_capsule.py`, and `scripts/ai_production.py`.
-- Include the data files `assets/adaptive-task.schema.json`, `assets/adaptive-task.example.json`, `assets/production-profiles.json`, and `assets/ai-production.schema.json`.
+Link the reported local references from the entrypoint. The common resource set includes the briefing and interaction protocols, their standalone helpers, status projection schema, decision card, and tool compatibility. Use each child's domain guide and topics for its actual workflow. Keep the current AI/data, context, visual identity, adaptive work and managed execution resources.
 
 Choose the medium profile that matches the task, transfer the defining reference mechanisms and exact context, and verify a representative result in the actual medium before scaling. Preserve identity, functional depth and domain requirements.
 

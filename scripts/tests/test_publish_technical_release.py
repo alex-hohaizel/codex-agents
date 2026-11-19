@@ -16,16 +16,21 @@ SPEC = importlib.util.spec_from_file_location('technical_release_under_test', Pa
 release = importlib.util.module_from_spec(SPEC)
 exec(compile(Path(SPEC.origin).read_bytes(), SPEC.origin, 'exec'), release.__dict__)
 SHA = 'a' * 40
-CURRENT = {'repository_version': '1.8.0', 'suite_version': '6.5.0', 'release_tag': 'v1.8.0'}
+CURRENT = {'repository_version': '1.8.0', 'suite_version': '6.5.0', 'release_tag': 'v1.8.0', 'release_stage': 'stable'}
 
 
 class RemoteFixture:
     """A deterministic transport fixture, never a publication execution proof."""
-    def __init__(self, paths, *, published=False, unknown=None, upload_unknown=False):
+    def __init__(self, paths, *, published=False, unknown=None, upload_unknown=False, create=False):
         self.paths = paths; self.writes = []; self.rows = []; self.upload_unknown = upload_unknown
+        self.create = create
+        self.lookups = []
         _, body = release.release_body(CURRENT, SHA, 1, 2, [])
         self.record = {'id': 9, 'tag_name': 'v1.8.0', 'name': 'Codex Agent System 1.8.0',
-                       'body': body, 'draft': not published, 'prerelease': False, 'html_url': 'https://example.invalid/release'}
+                       'body': body, 'draft': not published, 'prerelease': False, 'target_commitish': SHA,
+                       'author': dict(zip(('login','id','type'),release.PUBLISHER_AUTHOR)),
+                       'url': f'https://api.github.com/repos/{release.REPO}/releases/9',
+                       'html_url': 'https://example.invalid/release'}
         if published:
             self.rows = [self.asset(path) for path in paths]
         if unknown:
@@ -42,7 +47,8 @@ class RemoteFixture:
         return SHA
 
     def release(self, tag):
-        return copy.deepcopy(self.record)
+        self.lookups.append(('owner-list', tag))
+        return None if self.create else copy.deepcopy(self.record)
 
     def assets(self, release_id):
         return copy.deepcopy(self.rows)
@@ -52,14 +58,24 @@ class RemoteFixture:
 
     def command(self, args, **kwargs):
         assert args[:2] == ['release', 'upload']; assert '--clobber' not in args
+        assert args[3] == Path(args[3]).name and kwargs.get('cwd')
         self.writes.append(('upload', args[3]))
         if self.upload_unknown == 'before-effect':
             raise ValueError('injected unknown upload before effect')
-        self.rows.append(self.asset(Path(args[3])))
+        path = Path(kwargs['cwd']) / args[3]
+        assert path in self.paths
+        self.rows.append(self.asset(path))
         if self.upload_unknown:
             raise ValueError('injected lost reply after effect')
 
     def api(self, path, *, method='GET', data=None):
+        if path == 'releases' and method == 'POST':
+            self.writes.append(('create', path))
+            assert self.create and data['target_commitish'] == SHA
+            return {'id': self.record['id']}
+        if path == 'releases/9' and method == 'GET':
+            self.lookups.append(('release-id', 9))
+            return copy.deepcopy(self.record)
         if path == 'releases/latest':
             return {'id': self.record['id']}
         assert method == 'PATCH' and data == {'draft': False, 'make_latest': 'true'}
@@ -68,6 +84,70 @@ class RemoteFixture:
 
 
 class TechnicalPublicationGuards(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('gh'), 'GitHub CLI is required for the asset parser regression')
+    def test_release_upload_basename_reaches_repo_parser_from_literal_bracket_path(self):
+        run = subprocess.run
+        with tempfile.TemporaryDirectory(prefix='gh-[literal-') as directory:
+            work = Path(directory)
+            subject = work / 'accepted.zip'
+            subject.write_bytes(b'unchanged exact upload fixture')
+            env = {'PATH': os.environ['PATH'], 'HOME': str(work), 'USERPROFILE': str(work),
+                   'XDG_STATE_HOME': str(work / 'state'), 'XDG_CACHE_HOME': str(work / 'cache'),
+                   'GH_CONFIG_DIR': str(work / 'config'), 'GH_HOST': 'github.com',
+                   'GH_PROMPT_DISABLED': '1', 'GH_NO_UPDATE_NOTIFIER': '1', 'GH_TELEMETRY': '0',
+                   'GH_TOKEN': 'isolated-fixture-no-real-auth',
+                   'HTTP_PROXY': 'http://127.0.0.1:1', 'HTTPS_PROXY': 'http://127.0.0.1:1'}
+
+            def local_parse(args, **kwargs):
+                # A malformed (unroutable) repository lets gh validate the
+                # local path and then fail before reaching the remote API.
+                return run(args, **dict(kwargs, env=env, timeout=10))
+
+            github = release.GitHub(work)
+            args = ['release','upload','never-exists',str(subject),'--repo','invalid-repo-format']
+            with patch.object(release.subprocess, 'run', side_effect=local_parse):
+                with self.assertRaisesRegex(ValueError,'syntax error in pattern'):
+                    github.command(args, cwd=work, json_result=False)
+                args[3] = subject.name
+                with self.assertRaisesRegex(ValueError,r'expected the.*OWNER/REPO'):
+                    github.command(args, cwd=work, json_result=False)
+            self.assertEqual(subject.read_bytes(),b'unchanged exact upload fixture')
+
+    def test_created_release_is_reconciled_by_id_when_owner_list_is_stale(self):
+        with tempfile.TemporaryDirectory(prefix='release-[literal-') as directory:
+            path = Path(directory) / 'accepted.zip'
+            path.write_bytes(b'exact subject')
+            remote = RemoteFixture([path], create=True)
+            result = release.publish(remote, CURRENT, SHA, 1, 2, [path], [])
+            self.assertTrue(result['publication_performed'])
+            self.assertEqual(remote.lookups, [('owner-list','v1.8.0'),('release-id',9),('release-id',9)])
+            self.assertEqual([kind for kind, _ in remote.writes], ['create','upload','publish'])
+            self.assertEqual(remote.rows[0]['digest'], 'sha256:' + release.sha(path))
+
+    def test_created_release_requires_exact_owned_identity_and_assets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'accepted.zip'
+            path.write_bytes(b'exact subject')
+            for key, value in (('id',10),('tag_name','v9.9.9'),('target_commitish','b'*40),
+                               ('body','other body'),('author',{}),('url','https://example.invalid/releases/9'),
+                               ('draft',False)):
+                with self.subTest(key=key):
+                    remote = RemoteFixture([path], create=True)
+                    command = remote.api
+                    def api(endpoint, *, method='GET', data=None):
+                        result = command(endpoint, method=method, data=data)
+                        if endpoint == 'releases/9' and method == 'GET':
+                            result[key] = value
+                        return result
+                    remote.api = api
+                    with self.assertRaisesRegex(ValueError,'not this exact owned'):
+                        release.publish(remote, CURRENT, SHA, 1, 2, [path], [])
+                    self.assertEqual(remote.writes,[('create','releases')])
+            remote = RemoteFixture([path], create=True, unknown='foreign.zip')
+            with self.assertRaisesRegex(ValueError,'Unknown or duplicate remote assets'):
+                release.publish(remote, CURRENT, SHA, 1, 2, [path], [])
+            self.assertEqual(remote.writes,[('create','releases')])
+
     @unittest.skipUnless(shutil.which('gh'), 'GitHub CLI is required for the parser regression')
     def test_attestation_policy_reaches_local_bundle_validation_with_real_gh(self):
         run = subprocess.run

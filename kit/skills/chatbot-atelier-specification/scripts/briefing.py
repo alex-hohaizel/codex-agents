@@ -20,6 +20,8 @@ import tempfile
 from typing import Any
 
 SCHEMA = "briefing/1"
+RENDER_VERSION = 2
+RENDER_LOCALES = ("en", "uk")
 SCOPE_KEYS = ("schema_version", "mode", "family", "stage", "goal", "authority_refs", "baseline", "topics", "execution_spec")
 BASELINE_KEYS = ("source", "accepted_intent", "evidence", "runtime", "continuation")
 TOPIC_STATUSES = {"confirmed", "delegated", "deferred", "not_applicable", "pending"}
@@ -295,8 +297,12 @@ def validate_structure(record: dict[str, Any], root: Path) -> list[str]:
     return errors
 
 
-def render_script(record: dict[str, Any]) -> bytes:
+def render_script(record: dict[str, Any], locale: str | None = None, version: int = RENDER_VERSION) -> bytes:
     """A deterministic, complete human view of the immutable scope fields."""
+    if locale is None:
+        locale = preferred_locale(record)
+    if locale not in RENDER_LOCALES or version not in (1, RENDER_VERSION) or (version == 1 and locale != "uk"):
+        raise BriefingError("Unsupported briefing renderer locale/version")
     labels = {
         "source_role": "Автор джерела", "source_ref": "Джерело", "source_status": "Доступність джерела",
         "facts": "Підтверджені відомості", "unknowns": "Невідомості", "inputs": "Незмінні вхідні файли",
@@ -316,6 +322,30 @@ def render_script(record: dict[str, Any]) -> bytes:
     values = {"confirmed": "підтверджено", "delegated": "делеговано", "deferred": "відкладено",
               "not_applicable": "не застосовується", "pending": "очікує рішення", "material": "матеріальне",
               "technical": "технічне", "future": "майбутнє", "user": "користувач", "policy": "чинне правило"}
+    empty_object, empty_list = "Не задано.", "Немає записів."
+    if locale == "en":
+        labels = {
+            "source_role": "Source author", "source_ref": "Source", "source_status": "Source availability",
+            "facts": "Confirmed facts", "unknowns": "Unknowns", "inputs": "Immutable input files",
+            "text": "Content", "blocking_steps": "Blocked dependent steps", "path": "File", "sha256": "SHA256",
+            "id": "ID", "question": "Question", "status": "Status", "criticality": "Criticality",
+            "answer": "Answer", "bounds": "Authorized bounds", "acceptance": "Acceptance criteria",
+            "owner": "Owner", "due_gate": "Decision due", "dependent_steps": "Dependent steps",
+            "rationale": "Rationale", "revision": "Revision", "outcomes": "Required outcomes",
+            "steps": "Execution steps", "depends_on": "Prerequisites", "outputs": "Outputs",
+            "resources": "Resources", "limits": "Limits", "milestones": "Review milestones",
+            "stop": "Stop conditions", "delegation": "Delegation", "next_route": "Next route",
+            "stage": "Stage", "host": "Host", "selector": "Selector", "goal": "Goal",
+            "source": "Actual sources", "accepted_intent": "Accepted intent", "evidence": "Evidence",
+            "runtime": "Observed runtime", "continuation": "Continuation",
+        }
+        empty_object, empty_list = "Unspecified.", "No entries."
+    elif version == RENDER_VERSION:
+        labels.update({
+            "source": "Фактичні джерела", "accepted_intent": "Прийнятий задум",
+            "evidence": "Докази", "runtime": "Спостережуване виконання",
+            "continuation": "Точка продовження",
+        })
     def literal(value: Any) -> str:
         # Literal user content must not become Markdown structure or a code fence.
         text = str(value).replace("\\", "\\\\")
@@ -326,7 +356,7 @@ def render_script(record: dict[str, Any]) -> bytes:
         prefix = "  " * indent
         if isinstance(value, dict):
             if not value:
-                return [prefix + "- Не задано."]
+                return [prefix + "- " + empty_object]
             output = []
             for key in sorted(value):
                 label = labels.get(key, key.replace("_", " "))
@@ -335,11 +365,18 @@ def render_script(record: dict[str, Any]) -> bytes:
                     output.append(prefix + f"- **{literal(label)}:**")
                     output.extend(human(item, indent + 1))
                 else:
-                    output.append(prefix + f"- **{literal(label)}:** {literal(values.get(item, item) if isinstance(item, str) else item)}")
+                    # Version 1 replaced matching strings in every position.
+                    # New renders retain arbitrary content and localize only known enum fields.
+                    translate = locale == "uk" and (version == 1 or key in {
+                        "status", "criticality", "source_role",
+                    })
+                    if translate and isinstance(item, str):
+                        item = values.get(item, item)
+                    output.append(prefix + f"- **{literal(label)}:** {literal(item)}")
             return output
         if isinstance(value, list):
             if not value:
-                return [prefix + "- Немає записів."]
+                return [prefix + "- " + empty_list]
             output = []
             for index, item in enumerate(value, 1):
                 if isinstance(item, dict):
@@ -352,18 +389,42 @@ def render_script(record: dict[str, Any]) -> bytes:
                     output.append(prefix + "- " + literal(item))
             return output
         return [prefix + "- " + literal(value)]
-    lines = ["# Сценарій виконання", "", f"Редакція: {literal(record['execution_spec']['revision'])}",
-             f"Режим: {literal(record['mode'])}; сімейство: {literal(record['family'])}; етап: {literal(record['stage'])}",
-             f"Scope SHA256: {scope_hash(record)}", "", "## Мета", "", literal(record["goal"]), ""]
-    sections = [("Джерела повноважень", record["authority_refs"]),
-                ("Фактична baseline та невідомості", record["baseline"]),
-                ("Відповіді, делегування та відкладені рішення", record["topics"]),
-                ("План, результати, перевірки, ресурси й межа зупинки", record["execution_spec"])]
-    for title, value in sections:
+    if locale == "en":
+        title, revision, mode, family, stage, goal = "Execution plan", "Revision", "Mode", "Family", "Stage", "Goal"
+        titles = ("Sources of authority", "Observed baseline and unknowns", "Answers, delegation and deferred decisions",
+                  "Plan, outcomes, evidence, resources and stop conditions")
+        notice = ("Execution requires the user's approval for the exact scope. "
+                  "The plan and its SHA256 record what was presented and do not grant authority.")
+    else:
+        title, revision, mode, family, stage, goal = "Сценарій виконання", "Редакція", "Режим", "сімейство", "етап", "Мета"
+        titles = ("Джерела повноважень", "Фактична baseline та невідомості",
+                  "Відповіді, делегування та відкладені рішення", "План, результати, перевірки, ресурси й межа зупинки")
+        notice = ("Сценарій потребує фактичного погодження користувачем у точному scope. "
+                  "Його наявність або SHA256 не створює згоди, не знімає паузу та не засвідчує якість.")
+    lines = [f"# {title}", "", f"{revision}: {literal(record['execution_spec']['revision'])}",
+             f"{mode}: {literal(record['mode'])}; {family}: {literal(record['family'])}; {stage}: {literal(record['stage'])}",
+             f"Scope SHA256: {scope_hash(record)}"]
+    if version == RENDER_VERSION:
+        lines.append(f"Render: {locale}/{version}")
+    lines += ["", f"## {goal}", "", literal(record["goal"]), ""]
+    for title, value in zip(titles, (record["authority_refs"], record["baseline"], record["topics"], record["execution_spec"])):
         lines += [f"## {title}", ""] + human(value) + [""]
-    lines += ["Сценарій потребує фактичного погодження користувачем у точному scope. "
-              "Його наявність або SHA256 не створює згоди, не знімає паузу та не засвідчує якість.", ""]
+    lines += [notice, ""]
     return "\n".join(lines).encode("utf-8")
+
+
+def preferred_locale(record: dict[str, Any]) -> str:
+    value = record.get("preferred_language")
+    return value if value in RENDER_LOCALES else "en"
+
+
+def binding_renderer(binding: dict[str, Any]) -> tuple[str, int]:
+    if "render_locale" not in binding and "render_version" not in binding:
+        return "uk", 1
+    locale, version = binding.get("render_locale"), binding.get("render_version")
+    if locale not in RENDER_LOCALES or type(version) is not int or version != RENDER_VERSION:
+        raise BriefingError("Invalid script_binding render_locale or render_version")
+    return locale, version
 
 
 def binding_errors(record: dict[str, Any], root: Path) -> list[str]:
@@ -371,7 +432,10 @@ def binding_errors(record: dict[str, Any], root: Path) -> list[str]:
     if not isinstance(binding, dict):
         return ["script_binding missing: run render-script and show the actual script to the user"]
     expected_scope = scope_hash(record)
-    expected_script = digest_bytes(render_script(record))
+    try:
+        expected_script = digest_bytes(render_script(record, *binding_renderer(binding)))
+    except BriefingError as exc:
+        return [str(exc)]
     errors = []
     if binding.get("scope_hash") != expected_scope:
         errors.append("script_binding scope_hash is stale")
@@ -402,8 +466,16 @@ def approval_errors(record: dict[str, Any], approval: Any) -> list[str]:
         errors.append("Approval revision is stale")
     if approval.get("scope_hash") != scope_hash(record):
         errors.append("Approval scope_hash is stale")
-    if approval.get("script_sha256") != digest_bytes(render_script(record)):
+    binding = record.get("script_binding") or {}
+    try:
+        locale, version = binding_renderer(binding)
+        expected_script = digest_bytes(render_script(record, locale, version))
+    except BriefingError as exc:
+        return errors + [str(exc)]
+    if approval.get("script_sha256") != expected_script:
         errors.append("Approval script_sha256 is stale")
+    if version == RENDER_VERSION and (approval.get("render_locale"), approval.get("render_version")) != (locale, version):
+        errors.append("Approval render_locale or render_version differs from the bound script")
     known = {step["id"] for step in record["execution_spec"]["steps"]}
     included = id_list(approval.get("approved_steps"), "approval.approved_steps", known, errors)
     excluded = id_list(approval.get("excluded_steps"), "approval.excluded_steps", known, errors)
@@ -587,6 +659,8 @@ def parser() -> argparse.ArgumentParser:
     init.add_argument("--goal", required=True)
     render = command("render-script", "Render the deterministic human script and bind its exact bytes")
     render.add_argument("--output", required=True, help="Script path, relative to --root or absolute within it")
+    render.add_argument("--locale", choices=RENDER_LOCALES, help="Use English or Ukrainian for this render")
+    render.add_argument("--preview", action="store_true", help="Write an unbound view to a new file")
     approval = command("record-approval", "Record actual user decision JSON; never manufactures consent")
     approval.add_argument("--approval", type=Path, required=True)
     validate = command("check", "Check a binding/readiness gate without executing any action")
@@ -618,15 +692,35 @@ def main(argv: list[str] | None = None) -> int:
                     forbidden.add(contained_path(root, item["path"], label))
                 if target in forbidden:
                     raise BriefingError("Rendered script cannot overwrite the record or an immutable input")
-                script = render_script(record)
-                new_binding = {"path": str(target.relative_to(root)), "scope_hash": scope_hash(record), "script_sha256": digest_bytes(script)}
-                if record.get("approval") and (record["approval"].get("scope_hash") != new_binding["scope_hash"] or record["approval"].get("script_sha256") != new_binding["script_sha256"]):
-                    record.setdefault("approval_history", []).append(record.pop("approval"))
-                    record["approval"] = None
-                atomic_write(target, script)
-                record["script_binding"] = new_binding
-                write_json(path, record)
-                output = {"ok": True, "script_binding": new_binding, "approval_created": False}
+                scope = scope_hash(record)
+                binding = record.get("script_binding")
+                approval_record = record.get("approval")
+                has_current_decision = isinstance(approval_record, dict) and approval_record.get("scope_hash") == scope
+                locale = args.locale or preferred_locale(record)
+                bound_file = contained_path(root, binding["path"], "script_binding") if binding else None
+                if has_current_decision and target == bound_file and not args.preview and args.locale is None:
+                    errors = binding_errors(record, root) + approval_errors(record, approval_record)
+                    if errors:
+                        raise BriefingError("; ".join(errors))
+                    output = {"ok": True, "script_binding": binding, "approval_created": False}
+                else:
+                    script = render_script(record, locale)
+                    new_binding = {"path": str(target.relative_to(root)), "scope_hash": scope,
+                                   "script_sha256": digest_bytes(script), "render_locale": locale,
+                                   "render_version": RENDER_VERSION}
+                    if args.preview or has_current_decision:
+                        if target == bound_file:
+                            raise BriefingError("Write the preview to a new path to preserve the bound script")
+                        atomic_write(target, script, exclusive=True)
+                        output = {"ok": True, "preview": new_binding, "approval_created": False}
+                    else:
+                        if approval_record:
+                            record.setdefault("approval_history", []).append(approval_record)
+                            record["approval"] = None
+                        atomic_write(target, script)
+                        record["script_binding"] = new_binding
+                        write_json(path, record)
+                        output = {"ok": True, "script_binding": new_binding, "approval_created": False}
             else:
                 errors = validate_structure(record, root)
                 if not errors:
@@ -650,6 +744,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"- {error}")
             if "script_binding" in output:
                 print(json.dumps(output["script_binding"], ensure_ascii=False, indent=2))
+            if "preview" in output:
+                print(json.dumps(output["preview"], ensure_ascii=False, indent=2))
             print("Structural binding only; no human authentication, action execution, or quality certification.")
         return 0 if output["ok"] else 1
     except (BriefingError, OSError, ValueError, TypeError, KeyError) as exc:

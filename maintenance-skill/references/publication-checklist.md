@@ -15,7 +15,7 @@ Repository: https://github.com/alex-hohaizel/codex-agents
 - Bind the exact approved scope and immutable baseline before declaring a candidate adopted.
 - Compare a relevant real task and retain every accepted working function, including newly discovered or noncritical behavior. Reject regressions without aggregate compensation.
 - Keep full capability and deferred-work denominators visible; missing device, model, provider, craft or owner evidence stays open.
-- Check generated bundles for all 15 declared resources and seven local reference links. Review existing agents against their declared contract and verify any approved change.
+- Run the current constructor's `scripts/check_generated_inheritance.py` against the exact generated bundles. Verify the bundled model policy against the release record and observe effective selection in an authorized task. Review existing agents against their declared contract and verify any approved adoption.
 - Typed schema/helper checks establish only declared structure and pins; never relabel them actual execution, independent review or consent.
 
 Before a commercial candidate, read governance/COMMERCIAL_PRODUCT_CONTRACT.md in the actual repository and inspect the C01–C28 registry. Rebuild exact buyer inventories, legal notices, signatures and channel exports. Keep issuance keys and purchase records private, and obtain applicable release and legal authority.

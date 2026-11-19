@@ -1,92 +1,140 @@
 {
   "schema": "atelier.role-profiles/1",
-  "release": "6.2.0",
+  "release": "6.3.0",
   "roles": [
     {
       "file": "foundry-architecture.toml",
-      "sha256": "f68fc276b4480b927f8a6480561822974e62b076286ab41e1bba96fcd82825bf",
+      "sha256": "de4330a51a9bb81b86ba3ef9d5f6a43cb425e9e44b5c6997673afae9e3d3b59b",
       "previous_sha256": [
+        "f68fc276b4480b927f8a6480561822974e62b076286ab41e1bba96fcd82825bf",
         "1c12939d317830b6960a364ff4d4f6eeb82938da03ddaf8aecc25ef28addebef"
+      ],
+      "previous_body_sha256": [
+        "f68fc276b4480b927f8a6480561822974e62b076286ab41e1bba96fcd82825bf"
       ]
     },
     {
       "file": "foundry-backend.toml",
-      "sha256": "756df1e217ebd180c58a898d14f3ef78fbf9b52cbe539919d0730a92130f8901",
+      "sha256": "39439affbf52acb6e301caf398d33894ae016bd7b366beb458eca75c3239a2b4",
       "previous_sha256": [
+        "756df1e217ebd180c58a898d14f3ef78fbf9b52cbe539919d0730a92130f8901",
         "0480ed712f0301f76835a6053dfd5273688be4e307e58f42dd9cb616dca85a58"
+      ],
+      "previous_body_sha256": [
+        "756df1e217ebd180c58a898d14f3ef78fbf9b52cbe539919d0730a92130f8901"
       ]
     },
     {
       "file": "foundry-conversation.toml",
-      "sha256": "3750c6eca26697ae363510a819e2060d632495544cac17ef6bcfe642e4aeff0c",
+      "sha256": "bbe94707de5e374540877650167b44430e50fc87b672f350e02830e9a481a947",
       "previous_sha256": [
+        "3750c6eca26697ae363510a819e2060d632495544cac17ef6bcfe642e4aeff0c",
         "04b17704564daac09f87526f9b534c73ae7bc30d297a3b132b7927af081aff9d"
+      ],
+      "previous_body_sha256": [
+        "3750c6eca26697ae363510a819e2060d632495544cac17ef6bcfe642e4aeff0c"
       ]
     },
     {
       "file": "foundry-cost.toml",
-      "sha256": "a36ee992e32fa4fd56e944f79ab05f41beb06bbabdeb83a9e6e5311521755245",
+      "sha256": "8f437fbee539b27c6766d899b82df67871544bdbda72de42a425ed9cbc02922d",
       "previous_sha256": [
+        "a36ee992e32fa4fd56e944f79ab05f41beb06bbabdeb83a9e6e5311521755245",
         "749fa483c8e58991b7d8e2ab7019096ec34d4881c63172ecb7e23b4e7f22f1ef"
+      ],
+      "previous_body_sha256": [
+        "95f1a1b3664bdbcb697a957435e67873453a1be5ca97f920bf67beb76b6c8427"
       ]
     },
     {
       "file": "foundry-integrations.toml",
-      "sha256": "963e5ab3832f0bbe893ce55365bc4d95cc5df28506cfd9116758571131190bb5",
+      "sha256": "822dfcf6a9c28474798b2c29c04e9be99a46a5d81369589b378d3bc18018b5ec",
       "previous_sha256": [
+        "963e5ab3832f0bbe893ce55365bc4d95cc5df28506cfd9116758571131190bb5",
         "8c4fad0fecdfd7f461e12134f0f383b414cd66307fa8671ea84e7f1bbb87cd7f"
+      ],
+      "previous_body_sha256": [
+        "963e5ab3832f0bbe893ce55365bc4d95cc5df28506cfd9116758571131190bb5"
       ]
     },
     {
       "file": "foundry-judge.toml",
-      "sha256": "2e8ef451556d60e83544330a45a046a117cd6d33d4e0b0115bd96752bf1d990f",
+      "sha256": "5b6f071c710adb7dae676c58c69cf6251969a72a7179e424522b6e4eab90b199",
       "previous_sha256": [
+        "2e8ef451556d60e83544330a45a046a117cd6d33d4e0b0115bd96752bf1d990f",
         "da44e75f34cc00c88b3c6e4d9dea21612639502382dff467a2f8b8ae39200bf5"
+      ],
+      "previous_body_sha256": [
+        "2e8ef451556d60e83544330a45a046a117cd6d33d4e0b0115bd96752bf1d990f"
       ]
     },
     {
       "file": "foundry-platform.toml",
-      "sha256": "defb1e9d2fd4cb9f50b82bdb3e7a2ff062fd650baa8253d7652f578ce605363f",
+      "sha256": "9b916f02760e44ca401ba75c20dee14e58a6c37d32be84c1207f033a8661b618",
       "previous_sha256": [
+        "defb1e9d2fd4cb9f50b82bdb3e7a2ff062fd650baa8253d7652f578ce605363f",
         "657abd3d84c925e40465ab742cfb549b693e9eb14c90a7241991b2138d4a9bf5"
+      ],
+      "previous_body_sha256": [
+        "defb1e9d2fd4cb9f50b82bdb3e7a2ff062fd650baa8253d7652f578ce605363f"
       ]
     },
     {
       "file": "foundry-privacy.toml",
-      "sha256": "d377c5098988e3472d21fade0132f0424a9682bb35cbbafe5a7a65da9a51e557",
+      "sha256": "a795efdec5c4a22d5868e1e0c109703d2fdb3024290bdf3121fc5632e011f2bb",
       "previous_sha256": [
+        "d377c5098988e3472d21fade0132f0424a9682bb35cbbafe5a7a65da9a51e557",
         "a388eb03d32ada6032d39f2bfcc84f01da6a6e33a8de9fd314d4206763fc3d84",
         "583e5f3ca05974007d18ce8c12a8fa81999d1da0e8d41bbc13aeadc52c9122ab"
+      ],
+      "previous_body_sha256": [
+        "d377c5098988e3472d21fade0132f0424a9682bb35cbbafe5a7a65da9a51e557"
       ]
     },
     {
       "file": "foundry-product.toml",
-      "sha256": "d9a710534b4fcb33409603a6f6a2d01f41b7156f59ac631ee3bef18dcffea96e",
+      "sha256": "311b1be05f0e9cdaf12be2486a14791b329c442e2d6400c98f89ede040357088",
       "previous_sha256": [
+        "d9a710534b4fcb33409603a6f6a2d01f41b7156f59ac631ee3bef18dcffea96e",
         "8a493847826091cf29c15cbab645b60c908f9e8604673d0062b14298f8fcb570",
         "31cd0847c7c00c37edc6908cec26f9d367e112afbfcf66e9e9c4564343b838a4"
+      ],
+      "previous_body_sha256": [
+        "d9a710534b4fcb33409603a6f6a2d01f41b7156f59ac631ee3bef18dcffea96e"
       ]
     },
     {
       "file": "foundry-qa.toml",
-      "sha256": "232459f722a80d56a4c76c3bc41d7acf254cf2c905252646de296635aa504bbd",
+      "sha256": "e096893c2de51418caec9cefdf5f1db84de8308d1214135b08db6392c65cd578",
       "previous_sha256": [
+        "232459f722a80d56a4c76c3bc41d7acf254cf2c905252646de296635aa504bbd",
         "b2dae52242c9d988d8bfd5dae4abe4674df93f054940a4bcd380d5c816f74c0e",
         "2c0fd90e1f1550413e8acb3e2b0f91417c78e846eeebddcc4c93d55924a3965a"
+      ],
+      "previous_body_sha256": [
+        "232459f722a80d56a4c76c3bc41d7acf254cf2c905252646de296635aa504bbd"
       ]
     },
     {
       "file": "foundry-reliability.toml",
-      "sha256": "e6cc134d2e3041fb9a6c1ae98805ce4f74c0f4b937f4f74cab9cbfe5ebf5175f",
+      "sha256": "36219409ffe95fc355971b73dc25bf0d4222804d6f2159bea00c2ea94384f31d",
       "previous_sha256": [
+        "e6cc134d2e3041fb9a6c1ae98805ce4f74c0f4b937f4f74cab9cbfe5ebf5175f",
         "1283892cc7d421b56bc48c701a7cf3975876bf9e9b0e8d26c1e4542928140954"
+      ],
+      "previous_body_sha256": [
+        "e6cc134d2e3041fb9a6c1ae98805ce4f74c0f4b937f4f74cab9cbfe5ebf5175f"
       ]
     },
     {
       "file": "foundry-skeptic.toml",
-      "sha256": "a46bb8a597c1e536db4f214e716d10b83eebd3de2a0bb2c00e5c54d6565895ad",
+      "sha256": "5d8c616893d3f6793433009b9fd02ffdf48a5840b227a607e5abd8ab53bc77c6",
       "previous_sha256": [
+        "a46bb8a597c1e536db4f214e716d10b83eebd3de2a0bb2c00e5c54d6565895ad",
         "7113f8aa511fa40ef0e143576b24ae52d5da765d2bdaee357990d6f452b1a9d4"
+      ],
+      "previous_body_sha256": [
+        "a46bb8a597c1e536db4f214e716d10b83eebd3de2a0bb2c00e5c54d6565895ad"
       ]
     }
   ]

@@ -6,6 +6,36 @@ Release assets for installation; GitHub's automatic source archives are develope
 sources and include an HTML link to those assets. `main` is the default branch.
 Commercial sale, payment processing and final legal terms remain separate gates.
 
+## v1.9.0 candidate
+
+The working release record describes the v1.9.0 candidate. The verified
+[v1.8.0 Release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0)
+remains the stable installation and recovery source while the candidate is
+being qualified. Candidate builds and their evidence are pinned separately.
+
+| Candidate component | Version |
+| --- | --- |
+| Product | 1.9.0 |
+| Core suite and both constructors | 6.6.0 |
+| Host profile | 6.4.0 |
+| Role definitions | 6.3.0 |
+| Atelier Orchestrator | 1.6.0 |
+| Maintenance | 1.5.0 |
+| Agent Atelier | 0.9.0 |
+| Managed model | GPT-6.2 Sol (`gpt-6.2-sol`) |
+
+Clean product entry points start in English. The installer remembers a language
+the owner explicitly selects across restarts, and a task can select its own
+output language. Managed Codex launches use the model in the verified release
+record. An unavailable model needs a supported Codex account or workspace.
+
+Payments are disabled for this release. An original offline purchase document
+can still be retained through the separate optional control or inherited
+during a checked update. A public technical download and Codex model access
+have separate requirements.
+
+## v1.8.0 stable components
+
 | Component | Version | What the version identifies |
 | --- | --- | --- |
 | Codex Agent System release | 1.8.0 | Repository, documentation and ready installer assets |

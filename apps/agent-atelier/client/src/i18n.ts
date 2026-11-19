@@ -5,7 +5,8 @@ import es from "./locales/es";
 import fr from "./locales/fr";
 import zhCN from "./locales/zh-CN";
 
-export const LocaleContext = createContext("uk");
+export const DEFAULT_LOCALE: Locale = "en";
+export const LocaleContext = createContext<Locale>(DEFAULT_LOCALE);
 
 export const en = {
   pluginMediaTitle: "Codex plugins & media",
@@ -545,6 +546,8 @@ export const en = {
     "Restores service state only. Product files and external effects are separate.",
   service: "Local service",
   language: "Interface language",
+  taskOutputLanguage: "Task output language",
+  projectLanguageDefault: "Project preference or English",
   languageHelp:
     "The product’s accepted language and stable identifiers remain unchanged.",
   about: "About this workspace",
@@ -769,7 +772,7 @@ export const en = {
 } as const;
 
 export type MessageKey = keyof typeof en;
-export type Locale = "uk" | "en" | "de" | "it" | "es" | "fr" | "zh-CN";
+export type Locale = "en" | "uk" | "de" | "it" | "es" | "fr" | "zh-CN";
 
 export const uk: Record<MessageKey, string> = {
   pluginMediaTitle: "Плагіни й медіа Codex",
@@ -1310,6 +1313,8 @@ export const uk: Record<MessageKey, string> = {
     "Відновлює лише стан сервісу. Файли продуктів і зовнішні дії мають окремі процедури.",
   service: "Локальний сервіс",
   language: "Мова інтерфейсу",
+  taskOutputLanguage: "Мова результату задачі",
+  projectLanguageDefault: "Мова проєкту або англійська",
   languageHelp: "Прийняті мови продукту та сталі ідентифікатори зберігаються.",
   about: "Про цей простір",
   aboutHelp:
@@ -1532,15 +1537,15 @@ export const uk: Record<MessageKey, string> = {
 };
 
 export const localeNames: Record<Locale, string> = {
-  uk: "Українська",
   en: "English",
+  uk: "Українська",
   de: "Deutsch",
   it: "Italiano",
   es: "Español",
   fr: "Français",
   "zh-CN": "中文",
 };
-export const catalogs: Record<string, Record<MessageKey, string>> = {
+export const catalogs: Record<Locale, Record<MessageKey, string>> = {
   en: { ...en },
   uk,
   de,
@@ -1549,6 +1554,11 @@ export const catalogs: Record<string, Record<MessageKey, string>> = {
   fr,
   "zh-CN": zhCN,
 };
+export function supportedLocale(value: unknown): Locale | undefined {
+  return typeof value === "string" && Object.hasOwn(localeNames, value)
+    ? (value as Locale)
+    : undefined;
+}
 export function translate(locale: string, key: MessageKey): string {
-  return catalogs[locale]?.[key] ?? en[key];
+  return catalogs[supportedLocale(locale) ?? DEFAULT_LOCALE][key];
 }

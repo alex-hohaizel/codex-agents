@@ -52,6 +52,11 @@ specialist, bringing in a real team, and handing off the result.
 
 ## Use another language
 
+English is the initial language for clean setup and tasks without a language
+preference. Choose a language in the wizard or Workbench, and use an explicit
+language on the current task when it needs different output. Project and
+handoff language remain attached to their own records.
+
 Use the written guide for your language or ask Codex to guide you through
 the task in your preferred language. Keep commands, paths, skill names,
 flags, source references, and permission limits exact.

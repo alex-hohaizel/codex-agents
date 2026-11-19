@@ -20,13 +20,15 @@ Start with the 33 core skills. Add the managed Codex profile and twelve role def
 4. Choose **Verify files**, then **Check in Codex**. Files, fresh native discovery, account authentication and a completed task are separate observations. Codex must be installed and authenticated with your own account for native use; model/provider charges and project-specific SDKs remain separate.
 5. Choose **Create practice project**. Use **Open folder** to inspect the new files, **Open Codex** to request opening its generated launcher, and **Copy prompt** to paste the task into that Codex session. Compare the repaired heading and preserved note yourself. Preparing/opening the project does not run a model. [First useful task](FIRST_RUN.md)
 
-The wizard is available in English and Ukrainian; the seven language guides explain the same route. Setup keeps its owned plans, retained package and recovery journals under `~/.local/share/codex-agent-system` by default, including on Windows beneath the selected user home. It preserves unrelated skills and project files. Keep that state and your entitlement document when moving or updating a package. **Continue or recover** reads actual journals after a refresh or interruption; explicitly select the checked operation before resume, rollback or uninstall.
+The wizard starts in English on a clean setup, even with a Ukrainian OS or browser. Choose English or Ukrainian in the language switch. The wizard remembers your selection when it restarts on another local port. The seven language guides explain the same route. Setup keeps its owned plans, retained package and recovery journals under `~/.local/share/codex-agent-system` by default, including on Windows beneath the selected user home. It preserves unrelated skills and project files. Keep that state and your entitlement document when moving or updating a package. **Continue or recover** reads actual journals after a refresh or interruption; explicitly select the checked operation before resume, rollback or uninstall.
 
 After a completed rollback, open the current installer and prepare a new plan before installing again. Keep the original plan and recovery journal: they identify the restored launcher and preserved purchase record. Later edits to that launcher still require review. Do not delete installation records to bypass a conflict.
 
-If trusted delivery supplied a purchase confirmation or entitlement JSON, open **Keep your purchase document · optional** and choose that original file before preparing the plan. It stays private outside the package and skill folders. A changed document clears the old plan and approval; prepare and review a new plan. Updates automatically retain the existing purchase record. Document retention does not verify a purchase signature or grant rights. The technical installer also works without a purchase document.
+Payments are disabled for this release. If trusted delivery supplied a purchase confirmation or entitlement JSON, open **Keep your purchase document · optional** and choose that original file before preparing the plan. It stays private outside the package and skill folders. A changed document clears the old plan and approval; prepare and review a new plan. Updates automatically retain the existing purchase record. Document retention does not verify a purchase signature or grant rights. The technical installer also works without a purchase document.
 
 The bundled runtime is for Agent System helpers. Generated Codex launchers preserve an existing project/virtual-environment Python and Node in PATH. When no legitimate Python exists, the bundled Python supplies a fallback; Windows Store execution aliases are not treated as a working interpreter. `AGENT_SYSTEM_PYTHON` and `AGENT_SYSTEM_NODE` identify the exact retained toolkit runtimes. Use those variables for toolkit helpers, and the project's declared interpreter for project builds and tests. No global PATH or registry change is made.
+
+Generated managed Codex launchers request GPT-6.2 Sol from the verified release record. On macOS and Linux, forwarded options for an alternate model, provider, endpoint, account route or configuration profile cause the launcher to stop before opening Codex. Ordinary options, including a reasoning effort override, still work. Use your native Codex command in a separately reviewed session when you need a named profile or custom route. For managed use, verify the effective model and provider under your existing Codex account and base configuration before running a task.
 
 For CLI setup without installing Python separately, use the platform's `Start` launcher with `--help` and the documented `doctor`, `audit`, `install`, `verify`, `discover`, `operations`, `prepare-first-task`, `rollback` and `uninstall` commands. It invokes the same engine and approval-bound journals as the wizard. The [buyer guide](commercial/BUYER_GUIDE.md) covers commercial delivery trust and rights; a public technical release does not activate a shop or finalize seller terms.
 
@@ -182,6 +184,19 @@ The managed profile preserves instructions outside its marked block. The role fi
 ## Verify
 
 The core file check reports the installed source inventory, compatibility with the approved kit, and preservation confirmed by the exact journal. In a fresh Codex session in the product folder, check the resolved source path for a core skill and any optional skill you installed. Then run the [first small task](../START_HERE.md#install-and-verify). With role support, give one bounded subagent named inputs, permissions, and a result to return. The [native suite](../evaluations/README.md) provides a repeatable example.
+
+### Separate ChatGPT Work installation
+
+Download the official stable `WORK` archive and verify its release digest and
+attestation. Extract it outside local Codex discovery directories. Inventory
+the personal skills already saved in the intended Work account or workspace.
+Use the supported Work skill upload flow for the reviewed sources, keeping
+existing unrelated skills and unselected optional components intact. Review
+the exact target and retain the prior source for recovery before updating.
+Check what the Work host saved, reopen it, and exercise an actual installed
+skill. Verify the effective model where the host exposes it. If Work cannot be
+accessed, retain the exact archive and digest and record the latest known
+installed state so this procedure can resume. [Official skills upload guide](https://help.openai.com/en/articles/20001066-skills-in-chatgpt)
 
 ## Rollback
 

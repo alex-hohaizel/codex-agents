@@ -145,7 +145,7 @@ export const demoBootstrap: Bootstrap = {
   version: "Example",
   instance_id: "fictional-example",
   csrf_token: "",
-  locale: "uk",
+  locale: "en",
   projects: demoProjects,
   jobs: [sampleJob],
   skills: {

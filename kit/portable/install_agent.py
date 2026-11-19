@@ -66,9 +66,19 @@ OPERATING_RESOURCES = (
     "references/production-quality.md", "references/context-capsule.md",
     "assets/production-profiles.json", "scripts/context_capsule.py",
     "references/ai-production.md", "assets/ai-production.schema.json", "scripts/ai_production.py",
+    "references/managed-execution.md", "assets/managed-model.json",
+    "references/briefing-protocol.md", "references/interaction-protocol.md", "references/tool-compatibility.md",
+    "scripts/briefing.py", "scripts/interaction.py",
+    "assets/status-view.schema.json", "assets/decision-card.template.md",
 )
+PORTABLE_BRIEFING_MATERIALS = {
+    "assets/briefing-intake.template.json", "assets/execution-script.template.md",
+    "assets/stage-closeout.template.md", "references/briefing-domain-guide.md",
+    "assets/briefing-topics.json",
+}
 LEGACY_OPERATING_RESOURCES = OPERATING_RESOURCES[:8]
 V6_0_OPERATING_RESOURCES = OPERATING_RESOURCES[:12]
+V6_1_OPERATING_RESOURCES = OPERATING_RESOURCES[:15]
 VISUAL_FIELDS = ("icon_small", "icon_large", "brand_color")
 
 
@@ -84,6 +94,8 @@ def operating_resources_for_release(release):
     if version[:2] == (6, 0):
         return V6_0_OPERATING_RESOURCES
     if version[:2] == (6, 1):
+        return V6_1_OPERATING_RESOURCES
+    if version[:2] == (6, 6):
         return OPERATING_RESOURCES
     raise InstallError("Unsupported future generated-agent operating standard")
 
@@ -319,9 +331,19 @@ def validate_manifest(value):
         required_resources = operating_resources_for_release(standard['release'])
         if not isinstance(resources, dict) or set(resources) != set(required_resources) or any(not isinstance(h, str) or not HEX.fullmatch(h) for h in resources.values()):
             raise InstallError("Operating standard must pin every portable resource")
+        if "assets/managed-model.json" in required_resources:
+            model = standard.get("managed_model")
+            if not (isinstance(model, dict) and set(model) == {"id"} and
+                    isinstance(model["id"], str) and re.fullmatch(r"gpt-[a-z0-9]+(?:[.-][a-z0-9]+)+", model["id"])):
+                raise InstallError("Current generated operating standard requires a valid managed model")
+        elif "managed_model" in standard:
+            raise InstallError("Historical generated operating standard cannot declare a managed model")
         for name, entry in by_name.items():
             if any(entry["files"].get(path) != wanted for path, wanted in resources.items()):
                 raise InstallError("Operating-standard resource pin mismatch: " + name)
+            if ("scripts/briefing.py" in required_resources and
+                    not PORTABLE_BRIEFING_MATERIALS <= entry["files"].keys()):
+                raise InstallError("Current operating standard requires the child's complete briefing materials: " + name)
             if not {"assets/visual-identity.lock.json", "assets/visual-identity-origin.json"} <= set(entry["files"]):
                 raise InstallError("Operating standard requires project visual identity/provenance: " + name)
     return by_name
@@ -351,6 +373,9 @@ def load_kit(kit):
             for path in manifest['operating_standard']['resources']:
                 if path.startswith("references/") and not re.search(r"\]\((?:\./)?" + re.escape(path) + r"\)", content):
                     raise InstallError("Missing local operating-standard entry link: " + name + ": " + path)
+            model = manifest["operating_standard"].get("managed_model")
+            if model is not None and read_json(kit / entry["path"] / "assets/managed-model.json") != model:
+                raise InstallError("Managed model differs from the pinned policy in " + name)
             validate_project_identity(kit / entry["path"])
     return manifest, entries
 
@@ -576,6 +601,12 @@ def write_manifest(kit, metadata):
 
 def managed_block(manifest, manifest_hash):
     begin, end = markers(manifest["agent_id"])
+    model = (manifest.get("operating_standard") or {}).get("managed_model")
+    model_instruction = (
+        "Launch from this project with `codex --model " + model["id"] +
+        "` or use the supported host picker. Check actual session metadata before crediting managed execution.\n"
+        if model is not None else ""
+    )
     return (begin + "\n"
         "## Agent: " + manifest["agent_id"] + "\n\n"
         "For work assigned to this agent, read `.agents/skills/" + manifest["entry_skill"] + "/SKILL.md` first.\n"
@@ -584,6 +615,7 @@ def managed_block(manifest, manifest_hash):
         "Use actual host tools and observed receipts; instructions do not install tools or grant external permissions.\n"
         "Preserve existing product source, version control, project state, accepted originals and unrelated instructions.\n"
         "Use one active instruction source for this agent; report overlapping profile/plugin copies without disabling them.\n"
+        + model_instruction +
         "Installed version: " + manifest["version"] + "; manifest SHA-256: " + manifest_hash + ".\n" + end)
 
 def split_block(text, agent_id):
@@ -784,8 +816,8 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
     warnings = ["Use one active source per agent; host discovery and execution are separate from file installation."]
     if manifest.get("operating_standard") is None:
         warnings.append("Legacy package has no declared operating standard; no upgraded-inheritance or behavior claim is made.")
-    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 1, 0):
-        warnings.append('Historical operating standard retained; installation does not claim current6.1 context/AI-production inheritance or project adoption.')
+    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 6, 0):
+        warnings.append('Historical operating standard retained. Its existing resource pins remain active. Managed model adoption requires a separate verified consumer.')
     if preserved_visuals:
         warnings.append("Existing project icons/colors preserved: " + ", ".join(preserved_visuals))
     warnings.extend("Known additional active source: " + source + "; nothing disabled." for source in other_sources)

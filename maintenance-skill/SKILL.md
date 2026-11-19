@@ -2,7 +2,7 @@
 name: codex-agents-maintenance
 description: Verify, package, release, or update the Codex Agent System. Use for changes to its skills, roles, constructors, guides, or managed installations, including recovery after an interrupted release.
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # Codex Agent System maintenance
@@ -22,7 +22,7 @@ For setup, licensing, delivery, migrations, support or buyer packages, follow th
 
 ## Universal installation maintenance
 
-Apply [the universal installation contract](../governance/UNIVERSAL_INSTALLATION.md) to affected changes. Preserve all six
+From the verified repository checkout, read `governance/UNIVERSAL_INSTALLATION.md` for affected changes. Preserve all six
 native Windows/macOS/Linux x64/ARM64 paths, explicit retained Python/Node helpers,
 project environments, full source/resources, private permissions, recovery and
 unknown drift. Ready installers and source archives are separate deliverables.

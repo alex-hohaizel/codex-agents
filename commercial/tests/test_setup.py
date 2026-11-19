@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import stat
 import io
@@ -23,7 +24,7 @@ spec.loader.exec_module(setup)
 def package_fixture(root):
     product=root/'product'
     product.mkdir(parents=True)
-    for directory in ('kit','host-profiles','agent-profiles','optional-skills'):
+    for directory in ('kit','host-profiles','agent-profiles','optional-skills','releases'):
         shutil.copytree(REPO/directory, product/directory)
     # This synthetic buyer fixture exercises the current controller bytes. The
     # release's canonical manifest regeneration is a separate production gate.
@@ -180,6 +181,47 @@ class BuyerSetupTests(unittest.TestCase):
         result=setup.install(self.plan,plan['plan_sha256'])
         self.assertEqual(result['status'],'installed')
         return plan,result
+
+    def test_cli_offline_fresh_install_document_update_and_rollback_observe_zero_payment_attempts(self):
+        observer = REPO/'commercial/tests/payment_observer.py'
+        engine = REPO/'commercial/setup/setup.py'
+        command = [sys.executable,'-I','-X','utf8','-B',str(observer)]
+        receipts = self.root/'observed'
+        receipts.mkdir()
+        probe = receipts/'positive.json'
+        result = subprocess.run([*command,'--receipt',str(probe),'--probe'],capture_output=True,timeout=30)
+        self.assertEqual(result.returncode,42,result.stderr)
+        self.assertEqual(setup.load(probe)['product_payment_attempts'],['in_process_code'])
+
+        def observed(name, verb, *args):
+            report = receipts/(name+'.json')
+            args = [*command,'--receipt',str(report),'--script',str(engine),'--','--package',str(self.package),
+                    '--home',str(self.home),'--state',str(self.state),'--json',verb,*(str(value) for value in args)]
+            result = subprocess.run(args,capture_output=True,timeout=240)
+            self.assertEqual(result.returncode,0,result.stderr.decode('utf8',errors='replace'))
+            proof = setup.load(report)
+            self.assertEqual(proof['source_sha256'],setup.digest(engine.read_bytes()))
+            self.assertEqual(proof['status'],'zero-observed-attempts')
+            self.assertEqual(proof['product_payment_attempts'],[])
+            self.assertGreater(proof['observed_categories']['in_process_code'],0)
+            return json.loads(result.stdout)
+
+        audit=observed('fresh-audit','audit','--plan',self.plan)
+        first=observed('fresh-install','install','--plan',self.plan,'--approve',audit['plan_sha256'])
+        self.assertIsNone(first['verification'].get('license_record_retained'))
+        original=self.root/'optional-original.json'
+        raw=b'{"mode":"test-not-a-purchase","acquired_major":1,"edition":"solo"}\n'
+        original.write_bytes(raw)
+        plan=self.root/'selected-document-update.json'
+        audit=observed('update-audit','audit','--plan',plan,'--entitlement',original)
+        second=observed('update-install','install','--plan',plan,'--approve',audit['plan_sha256'])
+        retained=Path(second['verification']['license_record_retained'])
+        self.assertEqual(retained.read_bytes(),raw)
+        restored=observed('update-rollback','rollback','--journal',second['journal'])
+        self.assertEqual(restored['status'],'rolled-back')
+        verification=observed('original-verify','verify','--journal',first['journal'])
+        self.assertEqual(verification['skills'],33)
+        self.assertEqual(retained.read_bytes(),raw)
 
     def test_windows_root_migration_resumes_orchestrator_retirement_and_restores_old_journal_rights_and_icons(self):
         oldroot=self.home/'.agents/skills'
@@ -356,7 +398,8 @@ m.install(Path(sys.argv[2]),sys.argv[3])
         launcher=Path(prior['launcher']);before=launcher.read_bytes()
         foreign=self.home/'customer-project.txt';foreign.write_bytes(b'Preserve this customer project.\n')
         role=self.home/'.codex/agents/foundry-qa.toml'
-        role.write_text('model = "customer-model"\n'+role.read_text(encoding='utf8'),encoding='utf8')
+        role.write_text(re.sub(r'^model_reasoning_effort = "\w+"$', 'model_reasoning_effort = "medium"',
+                               role.read_text(encoding='utf8'), flags=re.M),encoding='utf8')
         tuned=role.read_bytes()
         current=self.root/'current upgrade plan.json'
         audited=setup.audit(self.package,self.home,self.state,current)
@@ -454,10 +497,17 @@ m.install(Path(sys.argv[2]),sys.argv[3])
         (profile/'AGENTS.md').write_text('# Personal instructions\nPreserve my projects.\n')
         role=(self.package/'product/agent-profiles/foundry-qa.toml').read_text()
         (profile/'agents').mkdir()
-        (profile/'agents/foundry-qa.toml').write_text('model = "local-choice"\n'+role)
+        target=profile/'agents/foundry-qa.toml'
+        custom=re.sub(r'^model = ".+"$', 'model = "local-choice"', role,flags=re.M)
+        target.write_text(custom)
+        with self.assertRaisesRegex(ValueError,'local-choice'):
+            self.audited()
+        self.assertEqual(target.read_text(),custom)
+        tuning=re.sub(r'^model_reasoning_effort = "\w+"$', 'model_reasoning_effort = "medium"', role,flags=re.M)
+        target.write_text(tuning)
         plan,result=self.installed()
         self.assertEqual(plan['mode'],'known-current')
-        self.assertEqual((profile/'agents/foundry-qa.toml').read_text(),'model = "local-choice"\n'+role)
+        self.assertEqual(target.read_text(),tuning)
         self.assertIn('Preserve my projects.',(profile/'AGENTS.md').read_text())
         report=setup.uninstall(Path(result['journal']))
         self.assertEqual(report['status'],'uninstalled')
@@ -592,6 +642,7 @@ class NativeLaunchContractTests(unittest.TestCase):
         self.home=self.root/'Покупець %name% & test';self.home.mkdir()
         self.state=self.home/'state';self.state.mkdir()
         self.product=self.root/'package'/'product';self.product.mkdir(parents=True)
+        shutil.copytree(REPO/'releases',self.product/'releases')
 
     def test_windows_launcher_keeps_long_arguments_out_of_the_cmd_command_line(self):
         flags=['-c','agents.example.description='+('Useful role description '*2000)]
@@ -603,9 +654,61 @@ class NativeLaunchContractTests(unittest.TestCase):
         payload=raw.split(':AGENT_SYSTEM_LAUNCH_DATA\r\n')[1].strip()
         data=json.loads(base64.b64decode(payload))
         self.assertIn(flags[1],data['arguments'])
+        self.assertIn('--model gpt-6.2-sol',data['arguments'])
         self.assertEqual(data['environment']['HOME'],str(self.home))
         self.assertNotIn(str(self.home),invocation)
         self.assertIn('exit /b %ERRORLEVEL%',raw)
+
+    @unittest.skipIf(sys.platform == 'win32', 'POSIX native argument forwarding')
+    def test_managed_launcher_passes_model_and_does_not_forward_conflicting_selectors(self):
+        codex = self.root / 'fake-codex'
+        codex.write_text("#!/bin/sh\nprintf '%s\\n' \"$@\"\n", encoding='utf8')
+        codex.chmod(0o700)
+        flags = ['-c', 'agents.example.description="Useful role"']
+        practice = self.state / 'practice' / ('a' * 32)
+        practice.mkdir(parents=True)
+        config = self.home / '.codex' / 'config.toml'
+        config.parent.mkdir()
+        manual_config = b'model_reasoning_effort = "medium"\n'
+        config.write_bytes(manual_config)
+        with patch.object(setup.platform_support,'codex_command',return_value=[str(codex)]), \
+                patch.object(setup,'launch_arguments',return_value=flags), \
+                patch.object(setup,'runtime_environment',return_value={}):
+            launcher = setup.make_launcher(self.home,self.state,self.product)
+            practice_launcher = setup.make_launcher(self.home,self.state,self.product,project=practice)
+        allowed = ['--no-alt-screen', '-c=model_reasoning_effort="high"', '--config',
+                   'shell_environment_policy.inherit=all', '--', '--remote literal prompt']
+        result = subprocess.run([launcher,*allowed], capture_output=True, text=True, check=True)
+        self.assertEqual(result.stdout.splitlines(), ['--model','gpt-6.2-sol',*flags,*allowed])
+        conflicts = (
+            ['-m', 'fixture-alternate'], ['--model=fixture-alternate'], ['-mfixture-alternate'],
+            ['--config', ' "model" = "fixture-alternate"'], ['--config=model_provider="other"'],
+            ['-c=model_provider="other"'], ['--oss'], ['--local-provider=fixture'],
+            ['--remote', 'unix://fixture'], ['--remote=unix://fixture'],
+            ['--remote-auth-token-env', 'FIXTURE_TOKEN'], ['--remote-auth-token-env=FIXTURE_TOKEN'],
+            ['-p', 'fixture-profile'], ['-pfixture-profile'], ['-p=fixture-profile'],
+            ['--profile', 'fixture-profile'], ['--profile=fixture-profile'],
+            ['-c', 'openai_base_url="https://fixture.invalid"'],
+            ['--config=chatgpt_base_url="https://fixture.invalid"'],
+            ['-c= model_providers .custom.base_url="https://fixture.invalid"'],
+            ['-c\'model_providers\'.custom.base_url="https://fixture.invalid"'],
+            ['--config', '\u00a0openai_base_url="https://fixture.invalid"'],
+            ['-c', 'profile="fixture-profile"'], ['-cprofiles.fixture.model_provider="other"'],
+            ['-c', 'forced_login_method="api"'],
+            ['-c', 'forced_chatgpt_workspace_id="a808a351-5633-473e-9a3e-c8e9981cb2f4"'],
+            ['-c', 'experimental_realtime_ws_base_url="wss://fixture.invalid"'],
+            ['-c', 'experimental_realtime_webrtc_call_base_url="https://fixture.invalid"'],
+        )
+        for executable in (launcher, practice_launcher):
+            for conflict in conflicts:
+                with self.subTest(executable=executable, conflict=conflict):
+                    result = subprocess.run([executable,*conflict], capture_output=True, text=True)
+                    self.assertEqual(result.returncode,2)
+                    self.assertEqual(result.stdout,'')
+                    self.assertIn('Remove the model, provider, endpoint or profile override',result.stderr)
+        result = subprocess.run([practice_launcher,*allowed], capture_output=True, text=True, check=True)
+        self.assertEqual(result.stdout.splitlines(), ['-C',str(practice),'--model','gpt-6.2-sol',*flags,*allowed])
+        self.assertEqual(config.read_bytes(), manual_config)
 
     def test_retained_runtime_environment_selects_only_inventory_bound_native_executables(self):
         architecture=setup.platform.machine().lower()
@@ -706,7 +809,7 @@ class NativeLaunchContractTests(unittest.TestCase):
         result=subprocess.run(['cmd.exe','/d','/c',str(launcher)],capture_output=True,timeout=40)
         self.assertEqual(result.returncode,0,result.stderr.decode('utf8',errors='replace'))
         observed=json.loads(receipt.read_text(encoding='utf8'))
-        self.assertEqual(observed['args'],args)
+        self.assertEqual(observed['args'],['--model','gpt-6.2-sol',*args])
         self.assertEqual(observed['home'],str(self.home))
 
 

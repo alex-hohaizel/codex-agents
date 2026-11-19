@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import shlex
 import signal
 import subprocess
 import sys
@@ -48,17 +49,21 @@ def changed(root, expected):
     return set(changes_from(expected, snapshot(root)))
 
 
-def prepare(case):
+def prepare(case, source=native.REPO):
+    for path in (WORKTREE_TOOL, CHECKPOINT_TOOL):
+        expected = source / path.relative_to(native.REPO)
+        need(expected.read_bytes() == path.read_bytes(),
+             f"Reference verification tool differs from the active evaluation harness: {path.name}")
     case.mkdir(mode=0o700)
     repo = case / "project"
     repo.mkdir()
     for path in FIXTURE.iterdir():
         if path.is_file():
             shutil.copy2(path, repo / path.name)
-    native.pin_skill(repo, SKILL, native.skill_source(SKILL))
+    native.pin_skill(repo, SKILL, native.skill_source(SKILL, source))
     profile = repo / ".codex/agents/foundry-qa.toml"
     profile.parent.mkdir(parents=True)
-    shutil.copy2(native.REPO / "agent-profiles/foundry-qa.toml", profile)
+    shutil.copy2(source / "agent-profiles/foundry-qa.toml", profile)
     (repo / "review").mkdir()
     for paths in FILES.values():
         for name in paths[1:]:
@@ -86,7 +91,11 @@ def prepare(case):
                                 *(part for path in paths for part in ("--write-path", path))], repo)
         write_json(case, f"{lane}-binding.json", binding)
     prepared = {"baseline_commit": base, "baseline_files": baseline,
-                "baseline_oracle_failures": failures}
+                "baseline_oracle_failures": failures,
+                "verification_tool_sha256": {
+                    str(path.relative_to(native.REPO)): native.sha(path.read_bytes())
+                    for path in (WORKTREE_TOOL, CHECKPOINT_TOOL)
+                }}
     write_json(case, "prepared.json", prepared)
     return {"status": "prepared", "baseline_commit": base,
             "worktrees": {key: str(case / key) for key in BRANCHES}}
@@ -114,7 +123,7 @@ def policy_command(args, root, scope, *, reviewer=False):
     command = [
         args.codex, "-a", "never", "exec", "--ignore-user-config", "--strict-config", "--json",
         "--disable", "apps", "--disable", "memories", "--disable", "hooks", "--disable", "plugins",
-        "-c", 'web_search="disabled"', "-c", 'model_reasoning_effort="low"',
+        "-c", 'web_search="disabled"', "-c", f'model_reasoning_effort="{args.effort}"',
         "-c", "skills.config=[" + conflicts + "]",
         "-C", str(root), "--model", args.model, "-c", 'default_permissions="worktree"', "-c", policy,
     ]
@@ -122,8 +131,8 @@ def policy_command(args, root, scope, *, reviewer=False):
         profile = root / ".codex/agents/foundry-qa.toml"
         command += ["-c", "agents.foundry-qa.config_file=" + json.dumps(str(profile)),
                     "-c", "agents.max_threads=2", "-c", "agents.max_depth=1"]
-    else:
-        command += ["--ephemeral"]
+    elif not args.persist_model_receipt:
+        command.append("--ephemeral")
     return command + ["-c", 'shell_environment_policy.set={PYTHONDONTWRITEBYTECODE="1"}', "-"]
 
 
@@ -140,6 +149,8 @@ class NativeRun:
     def __init__(self, stack, args, root, evidence, scope, prompt, reviewer=False):
         evidence.mkdir(mode=0o700)
         self.root, self.evidence, self.scope = root, evidence, scope
+        self.model, self.effort = args.model, args.effort
+        self.persisted = reviewer or args.persist_model_receipt
         self.trace = evidence / "events.jsonl"
         self.baseline = snapshot(root)
         (evidence / "prompt.md").write_text(prompt, encoding="utf-8")
@@ -148,7 +159,8 @@ class NativeRun:
         self.started = time.monotonic_ns()
         self.process = subprocess.Popen(policy_command(args, root, scope, reviewer=reviewer),
                                         cwd=root, stdin=subprocess.PIPE, stdout=output,
-                                        stderr=errors, start_new_session=True)
+                                        stderr=errors, start_new_session=True,
+                                        env=native.native_environment())
         stack.callback(self.stop)
         self.process.stdin.write(prompt.encode())
         self.process.stdin.close()
@@ -178,9 +190,16 @@ class NativeRun:
         if messages:
             (self.evidence / "answer.md").write_text(messages[-1] + "\n", encoding="utf-8")
         now = snapshot(self.root)
+        turns = [event for event in events if event.get("type") == "turn.completed"]
+        model_receipt = native.native_turn_receipt(threads[0]) if self.persisted and len(threads) == 1 else None
         return {
             "exit_code": self.process.returncode,
-            "turn_count": sum(event.get("type") == "turn.completed" for event in events),
+            "turn_count": len(turns),
+            "model_requested": self.model, "effort_requested": self.effort,
+            "persisted": self.persisted,
+            "model_receipt": model_receipt,
+            "matches_requested_model": native.matches_model(model_receipt, self.model, self.effort),
+            "usage": turns[0].get("usage") if len(turns) == 1 else None,
             "thread_count": len(threads),
             "thread_sha256": native.sha(threads[0].encode()) if len(threads) == 1 else None,
             "pid": self.process.pid, "started_monotonic_ns": self.started,
@@ -294,7 +313,8 @@ def parallel(case, args):
         first.stop()
         stopped = first.observe(5)
         need(stopped["exit_code"] in (-signal.SIGTERM, -signal.SIGKILL)
-             and stopped["turn_count"] == 0 and stopped["thread_count"] == 1,
+             and stopped["turn_count"] == 0 and stopped["thread_count"] == 1
+             and (not stopped["persisted"] or stopped["matches_requested_model"]),
              "Native catalog interruption did not stop a live unfinished turn")
         need(catalog_checkpoint(catalog) and pin(catalog, "catalog.py") == partial,
              "Catalog checkpoint changed after termination")
@@ -306,7 +326,8 @@ def parallel(case, args):
              "Partial catalog already passed, or failed the wrong behavior")
         returned = second.observe(max(5, deadline - time.monotonic()))
         need(returned["exit_code"] == 0 and returned["turn_count"] == 1
-             and returned["thread_count"] == 1 and returned["observed_skill"] != "unverified",
+             and returned["thread_count"] == 1 and returned["observed_skill"] != "unverified"
+             and (not returned["persisted"] or returned["matches_requested_model"]),
              "Independent quotation Builder did not complete its native role")
         need(changed(quote, baseline) == set(FILES["quote"]),
              "Independent Builder modified files outside scope")
@@ -380,17 +401,27 @@ def checkpoint(case):
     return report
 
 
+def matches_shell_command(command, expected):
+    try:
+        argv = shlex.split(command)
+        if len(argv) == 3 and Path(argv[0]).name in {"sh", "bash", "zsh"} and argv[1] in {"-c", "-lc"}:
+            argv = shlex.split(argv[2])
+        return argv == expected
+    except ValueError:
+        return False
+
+
 def resume(case, args):
     before = native.load_json(case / "parallel.json")
     catalog = case / "catalog"
     admitted = native.load_json(case / "checkpoint.json")["admission"]
     current = product_call(CHECKPOINT_TOOL, catalog, "resume", *checkpoint_options(case))
     need(current == admitted, "Actual recovery admission changed since coordinator readback")
-    command = f"python3 -B {CHECKPOINT_TOOL} resume " + " ".join(checkpoint_options(case))
+    command = ["python3", "-B", str(CHECKPOINT_TOOL), "resume", *checkpoint_options(case)]
     prompt = f"""$app-atelier-build
 This is a new session continuing the stopped catalog Builder in the same disposable worktree.
 Before changing any file, run this exact command and read its actual output:
-{command}
+{shlex.join(command)}
 Proceed following ready-to-resume. Read .agents/skills/app-atelier-build/SKILL.md and catalog.py.
 Preserve the already saved strip+uppercase normalization and the PRICES constant. Add a check
 before normalization that rejects non-ASCII input, including non-ASCII whitespace, with
@@ -404,13 +435,14 @@ ValueError. The existing lookup must still refuse unknown and internally spaced 
                       if item.get("exit_code") == 0]
     need(observed["exit_code"] == 0 and observed["turn_count"] == 1
          and observed["thread_count"] == 1
+         and (not observed["persisted"] or observed["matches_requested_model"])
          and observed["thread_sha256"] not in {before["catalog_initial"]["thread_sha256"],
                                              before["quote"]["thread_sha256"]},
          "The resumed work did not complete in a new native session")
     need(observed["observed_skill"] != "unverified", "Resumed Builder skill readback missing")
     need(observed["changed"] == ["catalog.py", "review/catalog-return.json"],
          "Resumed native Builder changed paths outside its assignment")
-    need(any(command in item.get("command", "")
+    need(any(matches_shell_command(item.get("command", ""), command)
              and '"status": "ready-to-resume"' in item.get("aggregated_output", "")
              and before["partial_source"]["sha256"] in item.get("aggregated_output", "")
              for item in successful), "No successful native resume gate with the actual partial pin was observed")
@@ -550,12 +582,14 @@ and both current SHA-256 values with its evidence.
             threads = process.threads()
         write_json(case, "qa-parent-observation.json", observed)
     profile = (root / ".codex/agents/foundry-qa.toml").read_text(encoding="utf-8")
-    provenance = native.owned_role_provenance(threads[0], "foundry-qa", profile) if len(threads) == 1 else None
+    model, effort = (None, None) if args.replay_captured_review else (args.model, args.effort)
+    provenance = (native.owned_role_provenance(threads[0], "foundry-qa", profile, model, effort)
+                  if len(threads) == 1 else None)
     verdict = (case / "native/qa/answer.md").read_text(encoding="utf-8")
-    child_check = child_oracle_observed(threads[0], provenance["child_rollout_sha256"], expected,
+    child_check = child_oracle_observed(provenance["child_thread_id"], provenance["child_rollout_sha256"], expected,
                                         command_marker="oracle.py combined") if provenance and provenance["observed"] else False
     preserved = (observed["git_readback_clean_after_review"] if args.replay_captured_review
-                 else observed["exit_code"] == 0 and not observed["changed"])
+                 else observed["exit_code"] == 0 and not observed["changed"] and observed["matches_requested_model"])
     need(preserved and observed["turn_count"] == 1 and observed["thread_count"] == 1
          and observed["thread_sha256"] not in {before["catalog_initial"]["thread_sha256"],
                                              before["quote"]["thread_sha256"],
@@ -575,8 +609,13 @@ def main():
     parser.add_argument("stage", choices=("prepare", "parallel", "checkpoint", "resume", "integrate", "review"))
     parser.add_argument("--case-dir", type=Path, required=True)
     parser.add_argument("--codex", default=shutil.which("codex"))
-    parser.add_argument("--model", default="gpt-6.1-sol")
+    parser.add_argument("--model", help="Alternate model pin requires the explicit baseline replay")
+    parser.add_argument("--baseline-replay", action="store_true")
+    parser.add_argument("--baseline-source", type=Path, help="Use the reviewed baseline checkout when preparing")
+    parser.add_argument("--effort", choices=("low", "medium", "high"), default=native.DEFAULT_EFFORT)
     parser.add_argument("--deadline", type=int, default=300)
+    parser.add_argument("--persist-model-receipt", action="store_true",
+                        help="Allow disposable Builder rollouts for exact model readback")
     parser.add_argument("--replay-captured-review", action="store_true",
                         help="Verify previously captured native QA without launching another session")
     args = parser.parse_args()
@@ -585,16 +624,19 @@ def main():
         temp = Path("/tmp").resolve()
         need(case != temp and case.is_relative_to(temp), "Use a disposable case under /tmp")
         need(30 <= args.deadline <= 600, "Deadline must be between 30 and 600 seconds")
+        need(args.baseline_source is None or args.stage == "prepare",
+             "Set the reviewed reference source when preparing")
         if args.replay_captured_review:
             need(args.stage == "review", "Captured review replay applies only to the review stage")
             result = review(case, args)
         elif args.stage == "prepare":
-            result = prepare(case)
+            result = prepare(case, args.baseline_source.resolve() if args.baseline_source else native.REPO)
         elif args.stage == "checkpoint":
             result = checkpoint(case)
         elif args.stage == "integrate":
             result = integrate(case)
         else:
+            args.model = native.managed_model(args.model, baseline=args.baseline_replay)
             need(args.codex and native.auth_ok(args.codex), "Existing ChatGPT login required")
             result = {"parallel": parallel, "resume": resume, "review": review}[args.stage](case, args)
     except (OSError, ValueError, subprocess.SubprocessError) as error:

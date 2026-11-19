@@ -2,7 +2,6 @@
 """Exercise a reviewed replan and native handoff on a disposable FieldSlate WSGI app."""
 
 import argparse
-from datetime import datetime, timedelta
 from pathlib import Path
 import json
 import os
@@ -31,12 +30,17 @@ BASELINE = "R3.1"
 TARGET = "R3.2"
 SKILLS = ("app-atelier-build", "atelier-orchestrator")
 TOOLS = (
+    "scripts/platform_support.py",
     "scripts/ticket_tree.py",
     "scripts/ticket_refine.py",
     "scripts/ticket_replan_plan.py",
     "scripts/ticket_replan_store.py",
     "scripts/ticket_replan_correction.py",
     "scripts/ticket_handoff.py",
+    "scripts/ticket_dispatch.py",
+    "scripts/ticket_worktree.py",
+    "scripts/ticket_worktree_assignment.py",
+    "scripts/ticket_worktree_checkpoint.py",
     "standards/context_capsule.py",
 )
 
@@ -191,7 +195,7 @@ def copy_review_tool(project, filename):
     shutil.copy2(FIXTURE / filename, path)
 
 
-def prepare(case):
+def prepare(case, source=native.REPO):
     need(not case.exists(), "Use a new case directory")
     project = case / "project"
     (project / REVIEW).mkdir(parents=True, mode=0o700)
@@ -211,12 +215,12 @@ def prepare(case):
     for ref in TOOLS:
         path = project / "candidate-tools" / ref
         path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(native.REPO / ref, path)
+        shutil.copy2(source / ref, path)
     for name in SKILLS:
-        native.pin_skill(project, name, native.skill_source(name))
+        native.pin_skill(project, name, native.skill_source(name, source))
     profile = project / ".codex/agents/foundry-qa.toml"
     profile.parent.mkdir(parents=True)
-    shutil.copy2(native.REPO / "agent-profiles/foundry-qa.toml", profile)
+    shutil.copy2(source / "agent-profiles/foundry-qa.toml", profile)
     (project / ".gitignore").write_text("__pycache__/\n", encoding="utf-8")
     git(project, "init", "--quiet", "--template=")
     git(project, "add", "--all")
@@ -337,7 +341,7 @@ def apply(case):
             "ready": report["ready"], "blocked": report["blocked"]}
 
 
-def policy_command(project, codex, model, role):
+def policy_command(project, codex, model, role, effort=native.DEFAULT_EFFORT, persist_model_receipt=False):
     conflicts = sorted({ref for name in SKILLS for ref in native.installed_conflicts(name)})
     configured = ",".join("{path=" + json.dumps(ref) + ",enabled=false}" for ref in conflicts)
     denied = {str(path.resolve()) for path in (Path.home() / ".agents/skills", Path.home() / ".codex/skills",
@@ -350,11 +354,12 @@ def policy_command(project, codex, model, role):
     policy = 'permissions={delivery={extends=":read-only",filesystem={' + serialized + '},network={enabled=false}}}'
     command = [codex, "-a", "never", "exec", "--ignore-user-config", "--strict-config", "--json",
                "--disable", "apps", "--disable", "memories", "--disable", "hooks", "--disable", "plugins",
-               "-c", 'web_search="disabled"', "-c", 'model_reasoning_effort="low"',
+               "-c", 'web_search="disabled"', "-c", f'model_reasoning_effort="{effort}"',
                "-c", "skills.config=[" + configured + "]",
                "-C", str(project), "--model", model, "-c", 'default_permissions="delivery"', "-c", policy]
     if role == "builder":
-        command += ["--ephemeral"]
+        if not persist_model_receipt:
+            command.append("--ephemeral")
     else:
         profile = project / ".codex/agents/foundry-qa.toml"
         command += ["-c", "agents.foundry-qa.config_file=" + json.dumps(str(profile)),
@@ -367,7 +372,8 @@ def native_stage(case, project, args, role, prompt):
     subdir = case / role
     subdir.mkdir(mode=0o700)
     before = inventory(project)
-    argv = policy_command(project, args.codex, args.model, role)
+    persisted = role != "builder" or args.persist_model_receipt
+    argv = policy_command(project, args.codex, args.model, role, args.effort, persisted)
     (subdir / "prompt.md").write_text(prompt, encoding="utf-8")
     elapsed_from = time.monotonic()
     trace = subdir / "events.jsonl"
@@ -380,13 +386,18 @@ def native_stage(case, project, args, role, prompt):
                 and event.get("item", {}).get("type") == "agent_message"]
     after = inventory(project)
     report = {
-        "model_requested": args.model, "thread_count": len(threads),
+        "model_requested": args.model, "effort_requested": args.effort,
+        "persisted": persisted,
+        "model_receipt": native.native_turn_receipt(threads[0]) if persisted and len(threads) == 1 else None,
+        "usage": turns[0].get("usage") if len(turns) == 1 else None,
+        "thread_count": len(threads),
         "configured_exact_writable_paths": sorted(SCOPE) if role == "builder" else [],
         "thread_sha256": native.sha(threads[0].encode()) if len(threads) == 1 else None,
         "exit_code": code, "complete_turns": len(turns), "changed_paths": changes_from(before, after),
         "event_trace": pin(subdir, "events.jsonl"), "prompt": pin(subdir, "prompt.md"),
         "elapsed_ms": round((time.monotonic() - elapsed_from) * 1000),
     }
+    report["matches_requested_model"] = native.matches_model(report["model_receipt"], args.model, args.effort)
     if messages:
         answer = subdir / "answer.md"
         answer.write_text(messages[-1] + "\n", encoding="utf-8")
@@ -446,6 +457,7 @@ An independent reviewer will judge the actual output later. In your final answer
     report["implementation"] = pin(project, "src.py")
     report["return_record_verified"] = builder_return(project, sha)
     success = (report["exit_code"] == 0 and report["complete_turns"] == 1 and report["thread_count"] == 1
+               and (not report["persisted"] or report["matches_requested_model"])
                and set(report["changed_paths"]) == SCOPE and report["verified_handoff_observed"]
                and report["skill_read"] != "unverified" and report["return_record_verified"])
     report["status"] = "builder-returned" if success else "builder-needs-review"
@@ -455,68 +467,48 @@ An independent reviewer will judge the actual output later. In your final answer
             "return_record": report["return_record"], "skill_read": report["skill_read"]}
 
 
-def child_oracle_observed(parent_id, child_sha, expected, command_marker="review/oracle.py current"):
-    # Read only the linked fixture child's tool trace. Other transcripts contribute
-    # their first metadata row solely to establish the parent linkage.
-    sessions = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")) / "sessions"
-    now = datetime.now().astimezone()
-    for offset in (-1, 0, 1):
-        day = sessions / (now + timedelta(days=offset)).strftime("%Y/%m/%d")
-        for path in day.glob("rollout-*.jsonl"):
-            if not path.is_file() or path.is_symlink():
+def child_oracle_observed(child_id, child_sha, expected, command_marker="review/oracle.py current"):
+    path = native.rollout_path(child_id)
+    if path is None or native.sha(path.read_bytes()) != child_sha:
+        return False
+    with path.open(encoding="utf-8") as stream:
+        calls = set()
+        for line in stream:
+            tool = json.loads(line).get("payload", {})
+            if tool.get("type") in {"function_call", "custom_tool_call"}:
+                invocation = tool.get("input") or tool.get("arguments") or ""
+                if tool.get("name") in {"exec", "exec_command"} and command_marker in invocation:
+                    calls.add(tool.get("call_id"))
+            if (tool.get("type") not in {"function_call_output", "custom_tool_call_output"}
+                    or tool.get("call_id") not in calls):
                 continue
-            with path.open(encoding="utf-8") as stream:
-                try:
-                    event = json.loads(stream.readline())
-                except ValueError:
-                    continue
-                source = event.get("payload", {}).get("source")
-                if event.get("type") != "session_meta" or not isinstance(source, dict):
-                    continue
-                spawn = source.get("subagent", {}).get("thread_spawn", {})
-                if spawn.get("parent_thread_id") != parent_id:
-                    continue
-                if native.sha(path.read_bytes()) != child_sha:
-                    return False
-                calls = set()
-                for line in stream:
-                    tool = json.loads(line).get("payload", {})
-                    if tool.get("type") in {"function_call", "custom_tool_call"}:
-                        invocation = tool.get("input") or tool.get("arguments") or ""
-                        if tool.get("name") in {"exec", "exec_command"} and command_marker in invocation:
-                            calls.add(tool.get("call_id"))
-                    if (tool.get("type") not in {"function_call_output", "custom_tool_call_output"}
-                            or tool.get("call_id") not in calls):
+            output = tool.get("output")
+            parts = [output] if isinstance(output, str) else [
+                part["text"] for part in output or [] if isinstance(part, dict) and "text" in part
+            ]
+            for part in parts:
+                for record in part.splitlines():
+                    try:
+                        observed = json.loads(record.strip())
+                    except ValueError:
                         continue
-                    output = tool.get("output")
-                    parts = [output] if isinstance(output, str) else [
-                        part["text"] for part in output or [] if isinstance(part, dict) and "text" in part
-                    ]
-                    for part in parts:
-                        for record in part.splitlines():
-                            try:
-                                observed = json.loads(record.strip())
-                            except ValueError:
-                                continue
-                            if observed == expected:
-                                return True
-                            if isinstance(observed, dict) and observed.get("status") == "fulfilled":
-                                observed = observed.get("value")
-                            if not isinstance(observed, dict) or observed.get("exit_code") != 0:
-                                continue
-                            shell_output = observed.get("output")
-                            if not isinstance(shell_output, str):
-                                continue
-                            for shell_line in shell_output.splitlines():
-                                try:
-                                    value = json.loads(shell_line)
-                                except ValueError:
-                                    continue
-                                if value == expected:
-                                    return True
-                return False
+                    if observed == expected:
+                        return True
+                    if isinstance(observed, dict) and observed.get("status") == "fulfilled":
+                        observed = observed.get("value")
+                    if not isinstance(observed, dict) or observed.get("exit_code") != 0:
+                        continue
+                    shell_output = observed.get("output")
+                    if not isinstance(shell_output, str):
+                        continue
+                    for shell_line in shell_output.splitlines():
+                        try:
+                            value = json.loads(shell_line)
+                        except ValueError:
+                            continue
+                        if value == expected:
+                            return True
     return False
-
 
 def qa(case, args):
     project, _ = open_project(case)
@@ -536,7 +528,8 @@ def qa(case, args):
 """
     report, events, threads = native_stage(case, project, args, "qa", prompt)
     profile = native.safe_path(project, ".codex/agents/foundry-qa.toml")
-    provenance = native.owned_role_provenance(threads[0], "foundry-qa", profile.read_text(encoding="utf-8")) \
+    provenance = native.owned_role_provenance(threads[0], "foundry-qa", profile.read_text(encoding="utf-8"),
+                                              args.model, args.effort) \
         if len(threads) == 1 else None
     answer_path = case / "qa" / "answer.md"
     verdict = answer_path.read_text(encoding="utf-8") if answer_path.is_file() else ""
@@ -545,12 +538,13 @@ def qa(case, args):
     report["exact_implementation"] = {"path": "src.py", "sha256": pin_source}
     report["child_provenance"] = provenance
     report["observed_child_runtime_result"] = child_oracle_observed(
-        threads[0], provenance["child_rollout_sha256"], current
+        provenance["child_thread_id"], provenance["child_rollout_sha256"], current
     ) if provenance and provenance["observed"] else False
     report["observed_parent_runtime_command"] = any("oracle.py current" in item.get("command", "")
                                                     for item in successful)
     report["checked_builder_return"] = checked_return
     success = (report["exit_code"] == 0 and report["complete_turns"] == 1 and not report["changed_paths"]
+               and report["matches_requested_model"]
                and report["thread_sha256"] != builder_obs["thread_sha256"]
                and provenance is not None and provenance["observed"] is True
                and report["observed_child_runtime_result"] and "QA_VERDICT=PASS" in verdict
@@ -568,17 +562,25 @@ def main():
     parser.add_argument("stage", choices=["prepare", "apply", "builder", "qa"])
     parser.add_argument("--case-dir", required=True, type=Path)
     parser.add_argument("--codex", default=shutil.which("codex"))
-    parser.add_argument("--model", default="gpt-6.1-sol")
+    parser.add_argument("--model", help="Alternate model pin requires the explicit baseline replay")
+    parser.add_argument("--baseline-replay", action="store_true")
+    parser.add_argument("--baseline-source", type=Path, help="Use the reviewed baseline checkout when preparing")
+    parser.add_argument("--effort", choices=("low", "medium", "high"), default=native.DEFAULT_EFFORT)
     parser.add_argument("--deadline", type=int, default=300)
+    parser.add_argument("--persist-model-receipt", action="store_true",
+                        help="Allow a disposable Builder rollout for exact model readback")
     args = parser.parse_args()
     case = args.case_dir.absolute()
     try:
         need(case == case.resolve(), "Use a canonical case path without symlinks")
+        need(args.baseline_source is None or args.stage == "prepare",
+             "Set the reviewed reference source when preparing")
         if args.stage == "prepare":
-            result = prepare(case)
+            result = prepare(case, args.baseline_source.resolve() if args.baseline_source else native.REPO)
         elif args.stage == "apply":
             result = apply(case)
         else:
+            args.model = native.managed_model(args.model, baseline=args.baseline_replay)
             need(args.codex and native.auth_ok(args.codex), "Native Codex requires existing ChatGPT login")
             need(args.deadline > 0, "Expected a positive deadline")
             result = builder(case, args) if args.stage == "builder" else qa(case, args)

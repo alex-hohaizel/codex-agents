@@ -19,6 +19,7 @@ import zipfile
 
 sys.dont_write_bytecode = True
 REPO = 'alex-hohaizel/codex-agents'
+PUBLISHER_AUTHOR = ('github-actions[bot]', 41898282, 'Bot')
 NATIVE = '.github/workflows/universal-installers.yml'
 SOURCE = '.github/workflows/validate.yml'
 TARGETS = {'darwin-arm64', 'darwin-x64', 'win32-arm64', 'win32-x64', 'linux-arm64', 'linux-x64'}
@@ -91,7 +92,7 @@ def proof_record(archive, name):
     return json.loads(archive.read(info))
 
 
-def verify_native_proofs(path, expected, pairs):
+def verify_native_proofs(path, expected, pairs, *, managed_release=False):
     observed = set()
     limitations = []
     with zipfile.ZipFile(path) as archive:
@@ -128,6 +129,21 @@ def verify_native_proofs(path, expected, pairs):
                  and gui.get('browser_cleanup', {}).get('root_exit_observed') is True
                  and gui['browser_cleanup'].get('profile_removed') is True,
                  'Installer browser proof binding or cleanup differs')
+            if managed_release:
+                locale = gui.get('first_locale', {})
+                gui_payments = gui.get('payment_observation', {})
+                backend_commands = backend.get('payment_observation', {}).get('observed_setup_commands', [])
+                backend_controls = [row for row in backend.get('checks', []) if row.get('name') == 'payment-observer-positive-control']
+                need(locale == {'browser':'uk-UA','document':'en','control':'en','purchaseLabel':'Choose purchase document'}
+                     and gui_payments.get('ordinary_attempt_count') == 0
+                     and gui_payments.get('non_local_request_count') == 0
+                     and gui_payments.get('positive_control_detected_and_blocked') is True
+                     and len(backend_controls) == 1 and backend_controls[0].get('status') == 'passed'
+                     and backend_controls[0].get('details', {}).get('in_process_attempt_blocked') is True
+                     and {'audit','install','verify','discover','rollback','uninstall'} <= {row.get('verb') for row in backend_commands}
+                     and all(row.get('attempt_count') == 0 and re.fullmatch(r'[a-f0-9]{64}',row.get('source_sha256',''))
+                             for row in backend_commands),
+                     'English-first or zero payment attempt proof is incomplete')
             document = gui.get('purchase_document', {})
             need(document.get('retained_bytes_verified') is True and document.get('old_plan_rejected') is True
                  and document.get('selection_clears_approved_plan') is True
@@ -185,7 +201,7 @@ def installer_subjects(directory, release, expected):
     check_sums(directory, 'INSTALLER-SHA256SUMS', [*subjects, index_path])
     proof = directory / 'NATIVE-ACCEPTANCE.zip'
     check_sums(directory, 'NATIVE-ACCEPTANCE-SHA256SUMS', [proof])
-    limits = verify_native_proofs(proof, expected, pairs)
+    limits = verify_native_proofs(proof, expected, pairs, managed_release=bool(release.get('managed_model')))
     subjects += [index_path, directory / 'INSTALLER-SHA256SUMS', proof, directory / 'NATIVE-ACCEPTANCE-SHA256SUMS']
     need({p.name for p in directory.iterdir()} == {p.name for p in subjects}, 'Unexpected accepted installer artifact files')
     return subjects, limits
@@ -230,9 +246,9 @@ class GitHub:
     def __init__(self, work):
         self.work = work
 
-    def command(self, args, *, timeout=120, optional=False, output=None, json_result=True):
+    def command(self, args, *, timeout=120, optional=False, output=None, json_result=True, cwd=None):
         with output.open('wb') if output else tempfile.TemporaryFile() as stream:
-            result = subprocess.run(['gh', *args], stdout=stream, stderr=subprocess.PIPE, timeout=timeout)
+            result = subprocess.run(['gh', *args], stdout=stream, stderr=subprocess.PIPE, timeout=timeout, cwd=cwd)
             if result.returncode:
                 error = result.stderr.decode('utf8', 'replace')
                 if optional and '(HTTP 404)' in error:
@@ -344,19 +360,36 @@ This publishes the technical product only. Commercial edition terms remain an ow
 
 def publish(github, release, expected, native_run, source_run, subjects, limitations):
     tag = 'v' + release['repository_version']
-    need(re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+', tag) and release.get('release_tag') == tag,
+    need(re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+', tag) and release.get('release_tag') == tag
+         and release.get('release_stage') == 'stable',
          'Only the exact current stable technical release tag is supported')
     marker, body = release_body(release, expected, native_run, source_run, limitations)
+    title = 'Codex Agent System ' + release['repository_version']
+
+    def identify(record, release_id=None, *, draft=None):
+        need(isinstance(record, dict), 'Draft/publication outcome is unknown; reconcile the exact target before retry')
+        ident = record.get('id')
+        author = record.get('author') or {}
+        need(type(ident) is int and ident > 0 and (release_id is None or ident == release_id)
+             and record.get('url') == f'https://api.github.com/repos/{REPO}/releases/{ident}'
+             and isinstance(author, dict) and tuple(author.get(key) for key in ('login', 'id', 'type')) == PUBLISHER_AUTHOR
+             and record.get('tag_name') == tag and record.get('target_commitish') == expected
+             and record.get('body') == body and marker in record['body'] and record.get('name') == title
+             and record.get('prerelease') is False and type(record.get('draft')) is bool
+             and (draft is None or record['draft'] is draft),
+             'Existing release is not this exact owned technical draft/publication')
+        return record
+
     expected_files = {path.name: path for path in subjects}
-    need(len(expected_files) == len(subjects), 'Duplicate release asset names')
+    need(len(expected_files) == len(subjects) and all(re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', name)
+                                                      for name in expected_files),
+         'Unsafe or duplicate release asset names')
     github.main_is(expected)
     commit = github.tag_commit(tag)
     need(commit in (None, expected), 'Existing tag points elsewhere; it will not be moved')
     existing = github.release(tag)
     if existing:
-        need(existing.get('tag_name') == tag and existing.get('body') == body and marker in existing['body']
-             and existing.get('name') == 'Codex Agent System ' + release['repository_version']
-             and existing.get('prerelease') is False, 'Existing release is not this exact owned technical draft/publication')
+        identify(existing)
         known_assets = github.assets(existing['id'])
         need(len({row['name'] for row in known_assets}) == len(known_assets)
              and all(row['name'] in expected_files for row in known_assets), 'Unknown remote assets prevent any draft/tag mutation')
@@ -370,14 +403,17 @@ def publish(github, release, expected, native_run, source_run, subjects, limitat
         need(github.tag_commit(tag) == expected, 'Created tag did not resolve to exact source')
     if existing is None:
         try:
-            github.api('releases', method='POST', data={'tag_name': tag, 'target_commitish': expected,
-                'name': 'Codex Agent System ' + release['repository_version'], 'body': body,
+            created = github.api('releases', method='POST', data={'tag_name': tag, 'target_commitish': expected,
+                'name': title, 'body': body,
                 'draft': True, 'prerelease': False, 'make_latest': 'false'})
         except (ValueError, subprocess.TimeoutExpired):
-            pass  # Reconcile the exact target before interpreting/repeating a write.
-        existing = github.release(tag)
-        need(existing and existing.get('draft') is True and existing.get('body') == body,
-             'Draft creation outcome is unknown or belongs to another author; no write is retried')
+            # A lost response has no authoritative ID. Reconcile by exact
+            # identity against the owner list, without retrying the create.
+            existing = identify(github.release(tag), draft=True)
+        else:
+            created_id = created.get('id') if isinstance(created, dict) else None
+            need(type(created_id) is int and created_id > 0, 'Draft response has no authoritative release ID')
+            existing = identify(github.api(f'releases/{created_id}'), created_id, draft=True)
     rows = github.assets(existing['id'])
     need(len({row['name'] for row in rows}) == len(rows) and all(row['name'] in expected_files for row in rows),
          'Unknown or duplicate remote assets will not be deleted or overwritten')
@@ -389,7 +425,10 @@ def publish(github, release, expected, native_run, source_run, subjects, limitat
         if name in present:
             continue
         try:
-            github.command(['release', 'upload', tag, str(path), '--repo', REPO], timeout=1200, json_result=False)
+            # gh interprets asset arguments as globs, including metacharacters
+            # in parent directories. Only its checked basename enters argv.
+            github.command(['release', 'upload', tag, name, '--repo', REPO],
+                           timeout=1200, json_result=False, cwd=path.parent)
         except (ValueError, subprocess.TimeoutExpired):
             pass
         candidates = [row for row in github.assets(existing['id']) if row['name'] == name]
@@ -407,9 +446,8 @@ def publish(github, release, expected, native_run, source_run, subjects, limitat
             github.api('releases/' + str(existing['id']), method='PATCH', data={'draft': False, 'make_latest': 'true'})
         except (ValueError, subprocess.TimeoutExpired):
             pass
-    final = github.release(tag)
-    need(final and final.get('draft') is False and final.get('body') == body
-         and github.api('releases/latest')['id'] == final['id'] and github.tag_commit(tag) == expected,
+    final = identify(github.api(f"releases/{existing['id']}"), existing['id'], draft=False)
+    need(github.api('releases/latest')['id'] == final['id'] and github.tag_commit(tag) == expected,
          'Publication/latest outcome is unverified; read back this exact release before retry')
     final_assets = github.assets(final['id'])
     need(len(final_assets) == len(expected_files) and {row['name'] for row in final_assets} == set(expected_files),

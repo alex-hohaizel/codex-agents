@@ -1,9 +1,18 @@
 {
   "schema_version": "codex-agents.release/1",
   "repository_branch": "main",
-  "repository_version": "1.8.0",
-  "suite_version": "6.5.0",
-  "release_date": "2026-11-18",
+  "repository_version": "1.9.0",
+  "suite_version": "6.6.0",
+  "release_date": "2026-11-19",
+  "managed_model": {
+    "id": "gpt-6.2-sol"
+  },
+  "previous_stable": {
+    "repository_version": "1.8.0",
+    "suite_version": "6.5.0",
+    "tag": "v1.8.0",
+    "source_commit": "354a39ceb146e804e4cdc2198e7470177f8e0f2b"
+  },
   "release_notes": "releases/README.md",
   "requirements": "governance/requirements.csv",
   "stable_skill_names": [
@@ -41,18 +50,18 @@
     "gamedev-release",
     "gamedev-studio"
   ],
-  "source_manifest_sha256": "5fc840ae782026fbc4736570d72da37872304b2eb5b71e8f49abca990365770f",
+  "source_manifest_sha256": "b573003e06b557cd382d67fa56988b1e0d8f30161843c083bbcd3266af47da25",
   "optional_skills": [
     {
       "name": "codex-agents-maintenance",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "source": "maintenance-skill",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported installation; source inclusion does not prove host installation"
     },
     {
       "name": "atelier-orchestrator",
-      "version": "1.5.1",
+      "version": "1.6.0",
       "source": "optional-skills/atelier-orchestrator",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
@@ -62,21 +71,21 @@
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
   "local_service": {
     "name": "agent-atelier",
-    "version": "0.8.0",
+    "version": "0.9.0",
     "source": "apps/agent-atelier",
     "scope": "Local project workbench for Windows, macOS and Linux; source-backed actions, existing native execution and private state"
   },
-  "release_status": "Universal technical release. Commercial edition terms remain an owner-review draft; no public sale is launched.",
+  "release_status": "Universal technical release candidate. The verified v1.8.0 technical release remains the public stable edition.",
   "role_profiles": {
-    "version": "6.2.0",
+    "version": "6.3.0",
     "manifest": "agent-profiles/manifest.json"
   },
   "host_profile": {
-    "version": "6.3.0",
+    "version": "6.4.0",
     "source": "host-profiles/codex/AGENTS.md"
   },
-  "release_stage": "stable",
-  "release_tag": "v1.8.0",
+  "release_stage": "candidate",
+  "release_tag": "v1.9.0",
   "installation_guide": "docs/INSTALL.md",
   "showcase_locales": [
     "en",
@@ -88,10 +97,11 @@
     "zh-CN"
   ],
   "commercial": {
+    "installer_payments_enabled": false,
     "descriptor": "commercial/product.json",
     "offer": "commercial/offer.json",
     "contract": "governance/COMMERCIAL_PRODUCT_CONTRACT.md",
     "acceptance": "governance/commercial/requirements.json",
-    "distribution": "Published technical installer; commercial issuance and final legal terms remain separate owner gates."
+    "distribution": "Technical installer candidate; commercial issuance and final legal terms remain separate owner gates."
   }
 }

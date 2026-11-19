@@ -96,7 +96,10 @@ class ReleaseAdmissionTest(unittest.TestCase):
                 result = admission.admit(self.archive, self.stage, pin)
         argv = gh.call_args.args[0]
         self.assertIn(admission.REPOSITORY, argv)
-        self.assertIn(f"{admission.REPOSITORY}/{pin.signer_workflow}", argv)
+        self.assertEqual(argv[argv.index("--cert-identity") + 1],
+                         f"https://github.com/{admission.REPOSITORY}/{pin.signer_workflow}@{pin.source_ref}")
+        self.assertNotIn("--signer-workflow", argv)
+        self.assertEqual(argv[argv.index("--signer-digest") + 1], pin.source_sha)
         self.assertEqual(argv[argv.index("--source-digest") + 1], pin.source_sha)
         self.assertEqual(argv[argv.index("--source-ref") + 1], pin.source_ref)
         self.assertEqual(argv[argv.index("--predicate-type") + 1], admission.PREDICATE)

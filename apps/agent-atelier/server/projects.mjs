@@ -67,6 +67,7 @@ const stateRefs = [
 ];
 const instructionRefs = [
   contextBindingsPath,
+  "project-context.json",
   "AGENTS.md",
   "README.md",
   "releases/current.json",

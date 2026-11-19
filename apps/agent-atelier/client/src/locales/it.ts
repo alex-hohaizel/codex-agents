@@ -508,6 +508,8 @@ const messages: Record<MessageKey, string> = {
     "Ripristina solo lo stato del servizio. File dei prodotti ed effetti esterni seguono procedure separate.",
   service: "Servizio locale",
   language: "Lingua dell’interfaccia",
+  taskOutputLanguage: "Lingua del risultato",
+  projectLanguageDefault: "Lingua del progetto o inglese",
   languageHelp:
     "Le lingue approvate del prodotto e gli identificatori stabili restano invariati.",
   about: "Informazioni su questo spazio",

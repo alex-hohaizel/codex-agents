@@ -68,13 +68,19 @@ function publicLink(value) {
   }
 }
 
-function handoff(name, kind, locale) {
-  const subject = kind === "media" ? "media" : "plugin";
-  const text =
-    locale === "uk"
-      ? `У цьому чаті Codex перевір, чи доступний ${name} для моєї задачі. Перед зовнішньою дією звір точну операцію, дані, дозволи й можливі витрати. Після дії покажи фактичний результат і джерело.`
-      : `In this Codex chat, check whether ${name} is available for my ${subject} task. Before an external action, verify the exact operation, data, permissions, and any cost. After the action, show the actual result and its source.`;
-  return { kind: "codex", target: name, text };
+const HANDOFF_PROMPTS = {
+  en: "In this Codex chat, check whether {target} is available for my task. Before an external action, verify the exact operation, data, permissions, and any cost. After the action, show the actual result and its source.",
+  uk: "У цьому чаті Codex перевір, чи доступний {target} для моєї задачі. Перед зовнішньою дією звір точну операцію, дані, дозволи й можливі витрати. Після дії покажи фактичний результат і джерело.",
+  de: "Prüfe in diesem Codex-Chat, ob {target} für meine Aufgabe verfügbar ist. Prüfe vor einer externen Aktion den genauen Vorgang, die Daten, Berechtigungen und mögliche Kosten. Zeige danach das tatsächliche Ergebnis und seine Quelle.",
+  it: "In questa chat di Codex verifica se {target} è disponibile per la mia attività. Prima di un’azione esterna verifica l’operazione esatta, i dati, le autorizzazioni e gli eventuali costi. Poi mostra il risultato effettivo e la sua fonte.",
+  es: "Comprueba en este chat de Codex si {target} está disponible para mi tarea. Antes de una acción externa, verifica la operación exacta, los datos, los permisos y el posible coste. Después, muestra el resultado real y su fuente.",
+  fr: "Dans ce chat Codex, vérifie si {target} est disponible pour ma tâche. Avant une action externe, vérifie l’opération exacte, les données, les autorisations et les coûts éventuels. Ensuite, indique le résultat réel et sa source.",
+  "zh-CN": "请在此 Codex 聊天中核实 {target} 是否可用于我的任务。执行外部操作前，请核对具体操作、数据、权限和可能的费用。操作完成后，请给出实际结果及其来源。",
+};
+
+function handoff(name, locale) {
+  const prompt = Object.hasOwn(HANDOFF_PROMPTS, locale) ? HANDOFF_PROMPTS[locale] : HANDOFF_PROMPTS.en;
+  return { kind: "codex", target: name, text: prompt.replace("{target}", () => name) };
 }
 
 function catalogEntry({
@@ -95,7 +101,7 @@ function catalogEntry({
     status,
     version,
     actions: [],
-    handoff: handoff(target, kind, locale),
+    handoff: handoff(target, locale),
   };
 }
 
@@ -187,7 +193,7 @@ function githubCatalog(available, locale) {
     locale,
   });
   if (!available)
-    return { ...entry, handoff: handoff("GitHub", "connector", locale) };
+    return { ...entry, handoff: handoff("GitHub", locale) };
   return {
     ...entry,
     handoff: null,

@@ -2,14 +2,14 @@
 name: gamedev-liveops
 description: "Operate or improve a beta or released game. Use for scoped incidents, player and device evidence, cohort analysis, progression and commerce changes, guardrails, rollout, and recovery."
 metadata:
-  version: "6.5.0"
+  version: "6.6.0"
 ---
 
 # Game Atelier LiveOps
 
 ## Scope and current evidence
 
-Use the caller's language, then the project preference, then Ukrainian. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
+Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Work from current project-owned requirements, accepted originals, decision history, checkpoint, applicable evidence, permissions, budget, and stop boundaries. Apply the [context capsule](references/context-capsule.md) and [adaptive work](references/adaptive-work.md) on new, delegated, or resumed work. Preserve exact source and requirement IDs and every applicable accepted property. For a focused repair, understand its dependencies and read the affected contracts. Scale research, team, and verification to the actual risk and breadth.
 
 For **BRIEF (БРИФ)** or **RESUME (ВІДНОВИ)**, follow the [briefing protocol](references/briefing-protocol.md), with the [topics](assets/briefing-topics.json) and [domain guide](references/briefing-domain-guide.md) where relevant. Reconcile current sources and runtime before resuming. Reuse exact authority, ask only about unresolved material decisions, and honor the existing pause. Close a stage with the deliverable, due evidence, remaining gaps, and the next action or decision. Separate the full target, first release, and representative slice.
 

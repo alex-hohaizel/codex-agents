@@ -48,7 +48,8 @@ class BriefingTests(unittest.TestCase):
         script = briefing.render_script(self.record)
         (self.root / "script.md").write_bytes(script)
         self.record["script_binding"] = {"path": "script.md", "scope_hash": briefing.scope_hash(self.record),
-                                          "script_sha256": briefing.digest_bytes(script)}
+                                          "script_sha256": briefing.digest_bytes(script), "render_locale": "en",
+                                          "render_version": briefing.RENDER_VERSION}
 
     def approve(self, decision="approved", approved=None, excluded=None):
         if self.record.get("script_binding") is None:
@@ -56,9 +57,13 @@ class BriefingTests(unittest.TestCase):
         self.record["approval"] = {
             "source_role": "user", "source_ref": "message:actual-reply-8", "quote": "Погоджую цю редакцію та вказаний scope.",
             "decision": decision, "revision": self.record["execution_spec"]["revision"],
-            "scope_hash": briefing.scope_hash(self.record), "script_sha256": briefing.digest_bytes(briefing.render_script(self.record)),
+            "scope_hash": briefing.scope_hash(self.record), "script_sha256": self.record["script_binding"]["script_sha256"],
             "approved_steps": approved if approved is not None else ["ANALYZE", "BUILD", "RELEASE"],
             "excluded_steps": excluded if excluded is not None else []}
+        binding = self.record["script_binding"]
+        for key in ("render_locale", "render_version"):
+            if key in binding:
+                self.record["approval"][key] = binding[key]
 
     def gate(self, name="execution", step=None):
         return briefing.check(self.record, self.root, name, step)
@@ -89,7 +94,7 @@ class BriefingTests(unittest.TestCase):
         self.assertEqual(first, briefing.render_script(reordered))
         text = first.decode("utf-8")
         self.assertNotIn("```json", text)
-        self.assertIn("Критерії приймання", text)
+        self.assertIn("Acceptance criteria", text)
         self.assertIn("Current accepted baseline snapshot", text)
         self.assertIn("Full design and precise implementation handoff", text)
         self.assertIn("BUILD", text)
@@ -348,6 +353,43 @@ class BriefingTests(unittest.TestCase):
         self.assertIsNone(updated["approval"])
         self.assertEqual(len(updated["approval_history"]), 1)
         self.assertFalse(briefing.check(updated, self.root, "execution")["ok"])
+
+    def test_v18_approval_survives_an_alternate_language_view_byte_for_byte(self):
+        old = briefing.render_script(self.record, "uk", 1)
+        self.assertEqual("e31d4efaeb2759477eb09928c0b4e37f3413b793c00cdc851ae21b7173e01ee2",
+                         briefing.digest_bytes(old))
+        bound = self.root / "script.md"
+        bound.write_bytes(old)
+        self.record["script_binding"] = {"path": "script.md", "scope_hash": briefing.scope_hash(self.record),
+                                         "script_sha256": briefing.digest_bytes(old)}
+        self.approve()
+        briefing.write_json(self.record_path, self.record)
+        saved = self.record_path.read_bytes()
+        result = self.cli("render-script", self.record_path, "--locale", "en", "--output", "view.md", "--json")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preview", json.loads(result.stdout))
+        self.assertIn(self.record["goal"], (self.root / "view.md").read_text(encoding="utf-8"))
+        self.assertEqual(saved, self.record_path.read_bytes())
+        self.assertEqual(old, bound.read_bytes())
+        self.assertTrue(self.gate()["ok"])
+        self.assertNotEqual(self.cli("render-script", self.record_path, "--locale", "en",
+                                    "--output", "script.md", "--json").returncode, 0)
+        self.assertEqual(old, bound.read_bytes())
+
+    def test_new_explicit_locale_is_bound_and_mismatched_reply_fails(self):
+        self.record["preferred_language"] = "uk"
+        briefing.write_json(self.record_path, self.record)
+        response = self.cli("render-script", self.record_path, "--locale", "en", "--output", "script.md", "--json")
+        self.assertEqual(response.returncode, 0, response.stdout + response.stderr)
+        self.record = briefing.load_json(self.record_path)
+        self.approve()
+        self.assertEqual(self.record["script_binding"]["render_locale"], "en")
+        self.assertEqual(self.record["preferred_language"], "uk")
+        self.assertTrue(self.gate()["ok"])
+        self.record["approval"]["render_locale"] = "uk"
+        self.assertFalse(self.gate()["ok"])
+        self.record["script_binding"].pop("render_version")
+        self.assertFalse(self.gate()["ok"])
 
     def test_duplicate_json_keys_rejected_instead_of_silently_rebinding(self):
         self.record_path.write_text('{"schema_version":"briefing/1","schema_version":"other"}', encoding="utf-8")

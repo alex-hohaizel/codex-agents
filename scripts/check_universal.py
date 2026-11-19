@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import sys
 sys.dont_write_bytecode=True
-from installer_entry import render
+from installer_entry import public_installer_version,render
 from build_installer import LABELS,safe
 from build_commercial import ROOTS
 from build_packages import COMMON
@@ -27,9 +27,10 @@ def check(root):
    for kind in ('node','python'):
     item=row[kind];safe(item['executable']);require(item['executable'].startswith(kind+'/'),'Wrong runtime executable scope')
     require(item['url'].startswith('https://') and re.fullmatch('[a-f0-9]{64}',item['sha256']),'Unpinned vendor input')
-  require(f'releases/download/v{release["repository_version"]}/Agent-System-{release["repository_version"]}-Universal.zip' in (root/'README.md').read_text(),'Front page must directly download the current Universal installer')
+  stable=public_installer_version(release)
+  require(f'releases/download/v{stable}/Agent-System-{stable}-Universal.zip' in (root/'README.md').read_text(),'Front page must directly download the verified public Universal installer')
   for locale,name in [('en','START_HERE.html'),('uk','ПОЧАТИ.html')]:
-   require((root/name).read_bytes()==render(release['repository_version'],locale).encode(),'Stale installer HTML: '+name)
+   require((root/name).read_bytes()==render(release['repository_version'],locale,download_version=stable).encode(),'Stale installer HTML: '+name)
    require(name in ROOTS and name in COMMON,'Installer HTML missing from source/package closure')
   for rel in ('AGENTS.md','governance/UPDATE_CONTRACT.md','governance/PACKAGES.md','governance/VALIDATION.md','maintenance-skill/SKILL.md'):
    require('UNIVERSAL_INSTALLATION.md' in (root/rel).read_text(),'Missing durable universal rule: '+rel)

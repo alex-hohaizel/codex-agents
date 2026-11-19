@@ -19,10 +19,12 @@ import { OptionalUpdates } from "./optional_updates.mjs";
 import {
   ACTIVE_JOB_STATES,
   API_VERSION,
+  DEFAULT_LOCALE,
   LOCALES,
   OPERATIONS,
   SERVICE_VERSION,
   TERMINAL_JOB_STATES,
+  resolveLocale,
 } from "../shared/contracts.mjs";
 import {
   atomicWrite,
@@ -66,7 +68,8 @@ export class Application extends EventEmitter {
     this.retention = new RetentionManager({ store: this.store, dataDir });
     this.instructions = new InstructionsManager({ dataDir });
     this.codex =
-      codex ?? new CodexAdapter({ dataDir, instructions: this.instructions });
+      codex ??
+      new CodexAdapter({ dataDir, repoRoot, instructions: this.instructions });
     // Native paginated history lives in the native index. Its read-only
     // transport cannot dispatch; model jobs retain their isolated index.
     this.historyCodex =
@@ -109,7 +112,7 @@ export class Application extends EventEmitter {
     if (!this.store.get("settings", "owner"))
       this.store.put("settings", "owner", {
         id: "owner",
-        locale: "uk",
+        locale: DEFAULT_LOCALE,
         authority_epoch: randomUUID(),
         created_at: now(),
       });
@@ -183,7 +186,7 @@ export class Application extends EventEmitter {
       version: SERVICE_VERSION,
       instance_id: this.instanceId,
       csrf_token: csrfToken,
-      locale: settings.locale,
+      locale: resolveLocale(undefined, settings.locale),
       retention: this.retention.policy(),
       pending_cleanup: this.store
         .list("privacy-cleanup")
@@ -943,6 +946,58 @@ export class Application extends EventEmitter {
       authorityEpoch: epoch,
       instructionManifest,
     });
+    const preferred = payload.output_locale;
+    if (preferred !== undefined)
+      fail(
+        LOCALES.includes(preferred),
+        "INVALID_INPUT",
+        "Unsupported task output language",
+      );
+    const projectLocales = new Set();
+    if (preferred === undefined) {
+      for (const pin of capsule.original_sources) {
+        if (
+          pin.path !== ".appatelier/profile.json" &&
+          !/(?:^|\/)project-context\.json$/.test(pin.path)
+        )
+          continue;
+        const source = await readSource(project.root, pin.path);
+        fail(
+          source.sha256 === pin.sha256,
+          "SOURCE_DRIFT",
+          "The source of the project language changed. Prepare the task again.",
+          409,
+        );
+        let settings;
+        try {
+          settings = parseStrictJson(source.text);
+        } catch (error) {
+          const declaredRequired = capsule.context_coverage.source_checks?.some(
+            (check) => check.path === pin.path && check.required,
+          );
+          if (declaredRequired || !["INVALID_JSON", "DUPLICATE_JSON_KEY"].includes(error.code))
+            throw error;
+          continue;
+        }
+        if (
+          ["app-atelier-profile/1", "codex-agents.project-context/1"].includes(
+            settings?.schema_version,
+          ) &&
+          LOCALES.includes(settings.preferred_language)
+        )
+          projectLocales.add(settings.preferred_language);
+      }
+      fail(
+        projectLocales.size <= 1,
+        "CONTEXT_CONFLICT",
+        "Pinned project settings specify different output languages. Choose an output language for this task or reconcile the sources.",
+        409,
+      );
+    }
+    capsule.output_locale = resolveLocale(
+      preferred,
+      projectLocales.values().next().value,
+    );
     if (payload.thread_binding_id) {
       const binding = this.store.get(
         "thread-binding",
@@ -1002,6 +1057,18 @@ export class Application extends EventEmitter {
       task: this.store.get("task", task.id),
       capsule,
     };
+  }
+  #requireUnquarantinedNativeThread(threadId) {
+    if (!threadId) return;
+    fail(
+      !this.store.list("job").some((job) =>
+        job.native_thread_identity_conflict &&
+        [job.native_thread_requested_id, job.native_thread_acknowledged_id].includes(threadId),
+      ),
+      "OUTCOME_UNKNOWN",
+      "This chat was named in an unresolved native thread identity conflict. Reconcile the exact requested and acknowledged chats before retrying",
+      409,
+    );
   }
   async dispatch(projectId, payload, expected, internal = {}) {
     fail(
@@ -1067,8 +1134,9 @@ export class Application extends EventEmitter {
       "Restored task authority is invalid; prepare again",
       409,
     );
-    let resumeThreadId =
+    const resumeThreadId =
       internal.resumeThreadId ?? task.capsule.existing_thread?.thread_id;
+    this.#requireUnquarantinedNativeThread(resumeThreadId);
     const candidate = {
       id: id("job"),
       project_id: project.id,
@@ -1081,6 +1149,7 @@ export class Application extends EventEmitter {
       native_revision: task.native_revision,
       owned_by: this.instanceId,
       thread_id: resumeThreadId ?? null,
+      native_thread_requested_id: resumeThreadId ?? null,
       turn_id: null,
       host_dispatch_started: false,
       created_at: now(),
@@ -1174,37 +1243,86 @@ export class Application extends EventEmitter {
         "Service authority changed during gate checks",
         409,
       );
+      this.#requireUnquarantinedNativeThread(resumeThreadId);
       this.updateJob(job.id, { status: "dispatching" });
+      let acknowledged = false;
+      const recordThread = (response) => {
+        const thread = response?.thread;
+        fail(
+          typeof thread?.id === "string" && thread.id.length > 0,
+          "HOST_PROTOCOL_ERROR",
+          "Codex did not return a thread identity",
+          502,
+        );
+        const conflict = !!resumeThreadId && thread.id !== resumeThreadId;
+        const conflictReason = "Native resume acknowledged a different chat. Reconcile both exact chat identities before retrying";
+        this.updateJob(job.id, {
+          thread_id: resumeThreadId ?? thread.id,
+          native_thread_acknowledged_id: thread.id,
+          native_thread_acknowledged_session_id: thread.sessionId ?? null,
+          ...(conflict ? {
+            status: "outcome_unknown",
+            native_thread_identity_conflict: true,
+            native_thread_operation: "thread/resume",
+            unknown_reason: conflictReason,
+          } : {
+            session_id: thread.sessionId ?? null,
+            instruction_sources: response.instructionSources ?? [],
+          }),
+          native_model_provider: response.modelProvider ?? null,
+          native_model: response.model ?? null,
+          native_thread_acknowledged: true,
+        });
+        acknowledged = true;
+        fail(!conflict, "SCOPE_MISMATCH", conflictReason, 409, {
+          operation: "thread/resume",
+          outcome: "unknown",
+          requested_thread_id: resumeThreadId,
+          acknowledged_thread_id: thread.id,
+        });
+      };
       const started = resumeThreadId
-        ? await this.codex.resume(resumeThreadId, project.root, task.capsule)
-        : await this.codex.start(project.root, task.capsule);
+        ? await this.codex.resume(
+            resumeThreadId,
+            project.root,
+            task.capsule,
+            recordThread,
+          )
+        : await this.codex.start(project.root, task.capsule, recordThread);
+      if (!acknowledged) recordThread(started);
       const thread = started.thread;
-      fail(
-        thread?.id,
-        "HOST_PROTOCOL_ERROR",
-        "Codex did not return a thread identity",
-        502,
-      );
-      this.updateJob(job.id, {
-        thread_id: thread.id,
-        session_id: thread.sessionId ?? null,
-        instruction_sources: started.instructionSources ?? [],
-        native_model_provider: started.modelProvider ?? null,
-        native_model: started.model ?? null,
-      });
       await this.instructions.verify(
         task.capsule.instruction_manifest,
         this.codex.instructionSettings
           ? await this.codex.instructionSettings(project.root)
           : task.capsule.instruction_manifest.settings,
       );
-      const result = await this.codex.turn(thread.id, task.capsule, () =>
+      const verifyTurnReadiness = () => {
+        this.#requireUnquarantinedNativeThread(thread.id);
+        fail(
+          this.store.get("task", task.id).status !== "paused",
+          "TASK_PAUSED",
+          "The native chat is recorded and the task was paused before the turn",
+          409,
+        );
+        fail(
+          !this.maintenanceOperation &&
+            this.store.get("settings", "owner").authority_epoch ===
+              task.capsule.authority_epoch,
+          "SCOPE_MISMATCH",
+          "Service authority changed before the model turn",
+          409,
+        );
+      };
+      verifyTurnReadiness();
+      const result = await this.codex.turn(thread.id, task.capsule, () => {
+        verifyTurnReadiness();
         this.updateJob(job.id, {
           host_dispatch_started: true,
           host_dispatch_started_at: now(),
           expected_start_pending: true,
-        }),
-      );
+        });
+      });
       const current = this.store.get("job", job.id);
       this.updateJob(job.id, {
         turn_id: result.turn?.id ?? current.turn_id,
@@ -1256,15 +1374,32 @@ export class Application extends EventEmitter {
       return { job: this.store.get("job", job.id) };
     } catch (error) {
       const current = this.store.get("job", job.id);
+      const nativeOperation = ["thread/start", "thread/resume"].includes(
+        error.details?.operation,
+      )
+        ? error.details.operation
+        : null;
+      const threadOutcomeUnknown =
+        nativeOperation && error.details.outcome === "unknown";
       if (
         !["completed", "cancelled", "failed", "paused"].includes(current.status)
       )
         this.updateJob(job.id, {
-          status: current.host_dispatch_started ? "outcome_unknown" : "failed",
+          status:
+            current.host_dispatch_started || threadOutcomeUnknown
+              ? "outcome_unknown"
+              : error.code === "TASK_PAUSED"
+                ? "paused"
+                : "failed",
           error: publicError(error),
-          unknown_reason: current.host_dispatch_started
-            ? "A turn request may have reached the host; reconcile before retrying"
-            : null,
+          ...(nativeOperation ? { native_thread_operation: nativeOperation } : {}),
+          unknown_reason: current.native_thread_identity_conflict
+            ? current.unknown_reason
+            : current.host_dispatch_started
+              ? "A turn request may have reached the host; reconcile before retrying"
+              : threadOutcomeUnknown
+                ? "A native thread request may have reached Codex. Reconcile the thread before retrying."
+                : null,
         });
       throw error;
     }
@@ -1278,6 +1413,7 @@ export class Application extends EventEmitter {
       409,
     );
     const last = this.store.list("job").find((x) => x.task_id === task.id);
+    this.#requireUnquarantinedNativeThread(last?.thread_id);
     fail(
       last && ["paused", "cancelled", "failed"].includes(last.status),
       "TASK_NOT_READY",
@@ -1326,7 +1462,10 @@ export class Application extends EventEmitter {
     const job = this.store
       .list("job")
       .find(
-        (x) => x.thread_id === threadId && ACTIVE_JOB_STATES.includes(x.status),
+        (x) =>
+          x.thread_id === threadId &&
+          !x.native_thread_identity_conflict &&
+          ACTIVE_JOB_STATES.includes(x.status),
       );
     if (!job) return;
     const eventTurnId = params.turnId ?? params.turn?.id;
@@ -1464,6 +1603,7 @@ export class Application extends EventEmitter {
       .find(
         (x) =>
           x.thread_id === request.params?.threadId &&
+          !x.native_thread_identity_conflict &&
           ACTIVE_JOB_STATES.includes(x.status),
       );
     if (!job) {
@@ -1540,6 +1680,17 @@ export class Application extends EventEmitter {
     };
   }
   async reconcile(job) {
+    if (job.native_thread_identity_conflict)
+      fail(
+        false,
+        "OUTCOME_UNKNOWN",
+        "No trusted native turn identity was recorded. Inspect the requested and acknowledged chats in Codex to reconcile the mismatch",
+        409,
+        {
+          requested_thread_id: job.native_thread_requested_id,
+          acknowledged_thread_id: job.native_thread_acknowledged_id,
+        },
+      );
     if (TERMINAL_JOB_STATES.includes(job.status) || job.status === "paused")
       return { job };
     fail(

@@ -390,19 +390,40 @@ def create(document, root: Path, output: str, expected: str | None = None):
         lock.unlink(missing_ok=True)
 
 
-def render(document, verdict):
+def render(document, verdict, locale="en"):
+    labels = {
+        "en": ("revision", "Scope", "Approach", "Strategy",
+               "| Requirement | Status / due | Output | Acceptance |",
+               "Next action", "Owner", "Where", "Instruction", "Success signal", "Return result to",
+               "Structure and bytes", "Native registration",
+               "Verify authority, domain quality, native gates, and execution using their respective evidence.", "Errors"),
+        "uk": ("ревізія", "Обсяг", "Підхід", "Стратегія",
+               "| Вимога | Статус / коли | Результат | Приймання |",
+               "Наступний крок", "Відповідальний", "Де", "Що виконати", "Ознака успіху", "Повернути результат",
+               "Структура й байти", "Реєстрація в середовищі",
+               "Перевірте повноваження, предметну якість, умови допуску та виконання за відповідними доказами.", "Помилки"),
+    }[locale]
+    revision, scope, approach, strategy, header, action, owner, where, instruction, success, return_to, structure, registration, notice, errors = labels
     task = document["task"]
-    lines = [f"**{task['id']} · ревізія {task['revision']} · {task['status']}**", "", task["goal"], "", f"Обсяг: {task['scope']}", f"Підхід: {document['assessment']['depth']} — {document['assessment']['rationale']}", f"Стратегія: {document['strategy']['mode']} / {document['strategy']['reuse_choice']} — {document['strategy']['rationale']}", "", "| Вимога | Статус / коли | Результат | Приймання |", "|---|---|---|---|"]
+    assessment, plan, next_step = (document[key] for key in ("assessment", "strategy", "next"))
+    lines = [
+        f"**{task['id']} · {revision} {task['revision']} · {task['status']}**", "", task["goal"], "",
+        f"{scope}: {task['scope']}",
+        f"{approach}: {assessment['depth']} — {assessment['rationale']}",
+        f"{strategy}: {plan['mode']} / {plan['reuse_choice']} — {plan['rationale']}",
+        "", header, "|---|---|---|---|",
+    ]
     def cell(value):
         return str(value).replace("|", "\\|").replace("\n", " ")
     for r in document["obligations"]:
         lines.append(f"| {cell(r['id'] + ': ' + r['text'])} | {cell(r['status'] + ' / ' + r['due'])} | {cell(', '.join(r['output_ids']))} | {cell(r['acceptance'])} |")
-    lines += ["", f"Наступний крок: {document['next']['action']}", f"Відповідальний: {document['next']['owner']}"]
-    if document["next"]["requires_user"]:
-        lines += [f"Де: {document['next']['where']}", f"Що виконати: {document['next']['instruction']}", f"Ознака успіху: {document['next']['success_signal']}", f"Повернути результат: {document['next']['return_to']}"]
-    lines += ["", f"Структура/bytes: {'PASS' if verdict['valid'] else 'FAIL'}. Native registration: {verdict['artifact_registered']}.", "Змістова якість, згода, native gate і фактичне виконання цим інструментом не сертифікуються."]
+    lines += ["", f"{action}: {next_step['action']}", f"{owner}: {next_step['owner']}"]
+    if next_step["requires_user"]:
+        lines += [f"{where}: {next_step['where']}", f"{instruction}: {next_step['instruction']}",
+                  f"{success}: {next_step['success_signal']}", f"{return_to}: {next_step['return_to']}"]
+    lines += ["", f"{structure}: {'PASS' if verdict['valid'] else 'FAIL'}. {registration}: {verdict['artifact_registered']}.", notice]
     if verdict["errors"]:
-        lines += ["", "Помилки:"] + [f"- {e}" for e in verdict["errors"]]
+        lines += ["", errors + ":"] + [f"- {e}" for e in verdict["errors"]]
     return "\n".join(lines) + "\n"
 
 
@@ -418,6 +439,9 @@ def main(argv=None):
             p.add_argument("--expected-sha256")
         else:
             p.add_argument("--task", required=True)
+        if command == "render":
+            p.add_argument("--locale", choices=("en", "uk"))
+            p.add_argument("--project-context", help="Relative path to the current project-context JSON with a saved language")
     args = parser.parse_args(argv)
     try:
         root = args.project_root.resolve(strict=True)
@@ -432,7 +456,15 @@ def main(argv=None):
                 effects = document.get("effects", [])
                 result.update({"declared_task_status": document["task"].get("status"), "next": document.get("next"), "unknown_effects": [x.get("id") for x in effects if isinstance(x, dict) and x.get("state") == "unknown"] if isinstance(effects, list) else None})
             if args.command == "render" and not shape(document, read_json(SCHEMA_PATH)):
-                print(render(document, result), end="")
+                locale = args.locale
+                if locale is None and args.project_context:
+                    context = read_json(safe_path(root, args.project_context))
+                    if (not isinstance(context, dict) or context.get("schema_version") != "codex-agents.project-context/1"
+                            or context.get("project_id") != document["project"]["id"]):
+                        raise Invalid("Project context does not identify this task's project")
+                    saved = context.get("preferred_language")
+                    locale = saved if saved in ("en", "uk") else None
+                print(render(document, result, locale or "en"), end="")
                 return 0 if result["valid"] else 1
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["valid"] else 1
