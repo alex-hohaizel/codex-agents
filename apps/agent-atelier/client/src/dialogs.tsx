@@ -547,7 +547,7 @@ export function TaskDialog({
           <SurfaceNotice>{t("taskPreparedNote")}</SurfaceNotice>
           {prepared.capsule?.production_choice && (
             <SurfaceNotice>
-              {t("productionPhase")} · {prepared.capsule.production_choice.phase} · {prepared.capsule.production_choice.path}
+              {t("productionPhase")} · {prepared.capsule.production_choice.legacy ? t("productionRepair") : `${prepared.capsule.production_choice.phase} · ${prepared.capsule.production_choice.path}`}
             </SurfaceNotice>
           )}
           <label className="checkbox-field">
@@ -688,6 +688,7 @@ export function TaskDialog({
               <option value="">{t("productionAutomatic")}</option>
               <option value="explore">{t("productionExplore")}</option>
               <option value="implement">{t("productionImplement")}</option>
+              <option value="repair">{t("productionRepair")}</option>
               <option value="scale">{t("productionScale")}</option>
               <option value="accept">{t("productionAccept")}</option>
             </select>

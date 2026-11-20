@@ -6,6 +6,7 @@ const messages: Record<MessageKey, string> = {
   productionAutomatic: "Scegli dal registro di progetto",
   productionExplore: "Esplorazione",
   productionImplement: "Implementazione",
+  productionRepair: "Riparazione mirata con decisioni esistenti",
   productionScale: "Replica",
   productionAccept: "Accettazione",
   productionDriftReview: "Le fonti sono cambiate durante l’esecuzione di Codex. Rivedi l’output e la decisione prima di usarlo.",

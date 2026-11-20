@@ -893,7 +893,9 @@ export class Application extends EventEmitter {
         "Native project changed; refresh the workspace",
         409,
       );
-    const productionChoice = await prepareProductionChoice(project.root, payload);
+    const productionChoice = await prepareProductionChoice(project.root, payload, {
+      legacyProject: project.production_choice_policy === undefined,
+    });
     const taskId = id("task"),
       epoch = this.store.get("settings", "owner").authority_epoch;
     const instructionManifest = await this.instructions.capture(
@@ -948,6 +950,10 @@ export class Application extends EventEmitter {
       authorityEpoch: epoch,
       instructionManifest,
     });
+    if (productionChoice?.legacy) fail(
+      capsule.original_sources.length > 0 || instructionManifest.sources.length > 0,
+      "PRODUCTION_CHOICE_REQUIRED", "An existing repair needs pinned governing project sources", 409,
+    );
     const preferred = payload.output_locale;
     if (preferred !== undefined)
       fail(
@@ -1191,8 +1197,10 @@ export class Application extends EventEmitter {
       epoch,
     );
     this.event("job.created", { job });
+    const legacyProject = project.production_choice_policy === undefined;
+    const choicePolicy = { legacyProject, allowUnbound: legacyProject || task.scope === "read-only" };
     try {
-      await verifyPreparedProductionChoice(project.root, task.capsule.production_choice);
+      await verifyPreparedProductionChoice(project.root, task.capsule.production_choice, choicePolicy);
       await this.instructions.verify(task.capsule.instruction_manifest);
       await this.codex.connect();
       await this.instructions.verify(
@@ -1226,7 +1234,7 @@ export class Application extends EventEmitter {
           409,
         );
       }
-      await verifyPreparedProductionChoice(project.root, task.capsule.production_choice);
+      await verifyPreparedProductionChoice(project.root, task.capsule.production_choice, choicePolicy);
       if (resumeThreadId) {
         const observed = await this.checkedThread(project.id, resumeThreadId);
         fail(

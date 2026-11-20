@@ -54,14 +54,16 @@ async function verify(root, phase, expected) {
   };
 }
 
-export async function prepareProductionChoice(root, payload) {
+export async function prepareProductionChoice(root, payload, { legacyProject = false } = {}) {
   const phase = payload.production_phase;
-  fail(phase === undefined || phases.has(phase),
+  fail(phase === undefined || phase === "repair" || phases.has(phase),
     "INVALID_INPUT", "Unsupported production phase");
   const exists = await hasProjectRecord(root);
-  if (phase === undefined && !exists) return null;
   const writable = payload.scope === "workspace-write";
-  const chosen = phase ?? (writable ? "implement" : "explore");
+  if (!exists && phase === "repair" && legacyProject && writable)
+    return { phase: "repair", legacy: true };
+  if (!exists && phase === undefined && !writable) return null;
+  const chosen = phase === "repair" ? "implement" : phase ?? (writable ? "implement" : "explore");
   if (chosen === "explore" && writable) {
     const paths = payload.allowed_paths;
     // Exploration may author a disposable slice, but cannot use its provisional
@@ -75,8 +77,14 @@ export async function prepareProductionChoice(root, payload) {
   return verify(root, chosen);
 }
 
-export async function verifyPreparedProductionChoice(root, binding) {
+export async function verifyPreparedProductionChoice(root, binding, { allowUnbound = true, legacyProject = false } = {}) {
+  if (binding?.phase === "repair" && binding.legacy === true) {
+    fail(legacyProject && !await hasProjectRecord(root), "SOURCE_DRIFT",
+      "The legacy repair no longer applies. Prepare again using the current project choice.", 409);
+    return;
+  }
   if (!binding) {
+    fail(allowUnbound, "PRODUCTION_CHOICE_REQUIRED", "Prepare a new writable task with a current production choice", 409);
     fail(!await hasProjectRecord(root), "SOURCE_DRIFT",
       "A production choice record appeared after preparation. Prepare again to bind it.", 409);
     return;

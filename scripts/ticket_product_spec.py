@@ -141,7 +141,7 @@ def collect(root, projection, name, snapshot):
                     and request["projection_sha256"] == board["projection"]["sha256"],
                     "product specification targets a different native projection")
     sources = read_pins(snapshot, request["sources"])
-    production = verify_route(Path(root), "explore")
+    production = verify_route(Path(root), "explore", required=RECORD in sources)
     if production:
         context.require(RECORD in sources and
                         context.digest(snapshot.read(RECORD)) == production["record_sha256"],

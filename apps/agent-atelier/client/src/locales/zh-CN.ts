@@ -6,6 +6,7 @@ const messages: Record<MessageKey, string> = {
   productionAutomatic: "根据项目记录选择",
   productionExplore: "探索",
   productionImplement: "实现",
+  productionRepair: "沿用现有决策进行有限修复",
   productionScale: "批量制作",
   productionAccept: "验收",
   productionDriftReview: "Codex 运行期间项目来源发生了变化。请在使用前检查输出和项目决策。",

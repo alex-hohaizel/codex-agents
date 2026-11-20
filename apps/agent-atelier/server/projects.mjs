@@ -850,6 +850,7 @@ export class ProjectAdapter {
       repository: view.repository,
       native_schema: view.native_schema,
       source_refs: preview.source_refs,
+      production_choice_policy: 1,
       capabilities: view.capabilities,
       created_at: stamp,
       updated_at: stamp,
