@@ -10,6 +10,7 @@ import sys
 
 sys.dont_write_bytecode = True
 import ticket_tree as tree
+import production_choices as choices
 
 context = tree.context
 SNAPSHOT = "atelier.ticket-impact-snapshot/1"
@@ -20,6 +21,9 @@ CHECK_STATES = {
     "verified", "unavailable", "stale", "binding-mismatch", "invalid-subject",
     "subject-unavailable", "subject-stale",
 }
+CHOICE_PHASES = {"implement", "scale", "accept"}
+CHOICE_STATES = {"verified", "invalid-binding", "record-unavailable", "record-stale",
+                 "decision-stale", "invalid-or-stale"}
 
 
 @dataclass
@@ -65,12 +69,98 @@ def capture(root, name):
     retirements = [row["replan_retirement"] for row in board["tickets"] if "replan_retirement" in row]
     if retirements:
         result["replan_retirements"] = retirements
+    choice = capture_choice(source, context.json_object(source.read(name)), requirements)
+    if choice is not None:
+        result["production_choice"] = choice
     source.verify_unchanged()
     return result
 
 
 def is_hash(value):
     return isinstance(value, str) and context.HASH.fullmatch(value) is not None
+
+
+def choice_binding(binding, requirements):
+    context.require(isinstance(binding, dict) and set(binding) == {
+        "record", "decision_sha256", "requirement_ids", "phase",
+    }, "production choice binding needs record, decision_sha256, requirement_ids and phase")
+    tree.pins([binding["record"]])
+    context.require(is_hash(binding["decision_sha256"]), "invalid production decision SHA-256")
+    phase = context.text(binding, "phase")
+    context.require(phase in CHOICE_PHASES, "unsupported production choice phase")
+    requirement_ids = context.bounded_ids(binding["requirement_ids"], "production choice requirements")
+    context.require(requirement_ids and all(
+        key in requirements and requirements[key]["applicable"] for key in requirement_ids
+    ), "production choice binding needs explicit, applicable native requirement IDs")
+    return {**binding, "requirement_ids": sorted(requirement_ids)}
+
+
+def capture_choice(source, projection, requirements):
+    binding = None
+    if "production_choice" in projection:
+        try:
+            binding = choice_binding(projection["production_choice"], requirements)
+        except context.ContextError as error:
+            return {"status": "invalid-binding", "binding": None, "issue": str(error)}
+    else:
+        default = source.root / choices.DEFAULT_RECORD
+        if not default.exists() and not default.is_symlink():
+            return None
+    path = binding["record"]["path"] if binding else choices.DEFAULT_RECORD
+    phase = binding["phase"] if binding else "implement"
+    result = {"binding": binding, "path": path, "phase": phase}
+    try:
+        record_sha = context.digest(source.read(path))
+    except (context.ContextError, OSError) as error:
+        return {**result, "status": "record-unavailable", "issue": str(error)}
+    result["record_sha256"] = record_sha
+    if binding and binding["record"]["sha256"] != record_sha:
+        return {**result, "status": "record-stale", "issue": "The production choice record changed."}
+    try:
+        observed = choices.verify_project(source.root, phase, record=path, expected_sha256=record_sha)
+    except choices.ChoiceError as error:
+        return {**result, "status": "invalid-or-stale", "issue": str(error)}
+    for field in ("record_id", "revision", "decision_sha256", "configuration_artifacts", "evidence_artifacts"):
+        result[field] = observed[field]
+    if binding and binding["decision_sha256"] != observed["decision_sha256"]:
+        return {**result, "status": "decision-stale", "issue": "The approved decision differs from the projection pin."}
+    return {**result, "status": "verified"}
+
+
+def captured_choice(snapshot, graph):
+    if "production_choice" not in snapshot:
+        return None
+    row = snapshot["production_choice"]
+    context.require(isinstance(row, dict) and context.text(row, "status") in CHOICE_STATES
+                    and "binding" in row, "invalid captured production choice")
+    if row["binding"] is not None:
+        choice_binding(row["binding"], graph.requirements)
+    return row
+
+
+def compare_choice(before, after, old_graph, new_graph):
+    old, new = captured_choice(before, old_graph), captured_choice(after, new_graph)
+    if old is None and new is None:
+        return None, set()
+    old_binding = old["binding"] if old else None
+    new_binding = new["binding"] if new else None
+    if new is None:
+        change = "removed"
+    elif old is None:
+        change = "added"
+    elif old_binding and not new_binding:
+        change = "binding-removed"
+    elif old != new:
+        change = "changed"
+    else:
+        change = "unchanged"
+    review = change != "unchanged" or new["status"] != "verified"
+    exact_ids = {key for binding in (old_binding, new_binding) if binding for key in binding["requirement_ids"]}
+    return {
+        "before": old, "after": new, "change": change, "requires_review": review,
+        "explicit_requirement_ids": sorted(exact_ids),
+        "relationship_scope": "explicit native requirement IDs and declared graph dependencies",
+    }, exact_ids if review else set()
 
 
 def load_snapshot(path, expected):
@@ -199,7 +289,7 @@ def inherited_changes(before, after, key):
         yield from (("ancestor-path-changed", group) for group in (old_groups ^ new_groups) or old_groups)
 
 
-def record_impact(old_graph, new_graph, changed_requirements):
+def record_impact(old_graph, new_graph, changed_requirements, choice_requirements=()):
     before, after = old_graph.tickets, new_graph.tickets
     reasons, downstream = defaultdict(set), defaultdict(set)
     structural = {}
@@ -224,13 +314,18 @@ def record_impact(old_graph, new_graph, changed_requirements):
             change["retirement"] = {"before": prior_retirement, "after": current_retirement}
             reasons[key].add(("ticket-retirement-changed", key))
 
+    choice_requirements = set(choice_requirements)
+    reviewed_requirements = changed_requirements | choice_requirements
     for graph in (old_graph, new_graph):
         for key, ticket in graph.tickets.items():
             assigned = set(ticket["requirement_ids"])
-            hits = changed_requirements & graph.closures[key]
+            hits = reviewed_requirements & graph.closures[key]
             for requirement in hits:
                 kind = "direct-requirement" if requirement in assigned else "requirement-prerequisite"
-                reasons[key].add((kind, requirement))
+                if requirement in changed_requirements:
+                    reasons[key].add((kind, requirement))
+                if requirement in choice_requirements:
+                    reasons[key].add(("production-choice-" + kind, requirement))
             for dep in graph.prerequisites[key]:
                 downstream[dep].add(("ticket-prerequisite", key))
             for child in graph.children[key]:
@@ -279,7 +374,9 @@ def compare(before, after, before_sha256, after_sha256):
     old_tickets, new_tickets = old_graph.tickets, new_graph.tickets
     changes = requirement_changes(old_graph.requirements, new_graph.requirements)
     drift = source_drift(before["requirement_sources"], after["requirement_sources"])
-    reasons, structure = record_impact(old_graph, new_graph, {change["id"] for change in changes})
+    choice_change, choice_requirements = compare_choice(before, after, old_graph, new_graph)
+    reasons, structure = record_impact(old_graph, new_graph, {change["id"] for change in changes},
+                                      choice_requirements)
     affected = []
     for key, why in sorted(reasons.items()):
         old, new = old_tickets.get(key, {}), new_tickets.get(key, {})
@@ -306,8 +403,10 @@ def compare(before, after, before_sha256, after_sha256):
         **revisions,
         "native_revision_reused_with_source_changes": (
             before["native_revision"] == after["native_revision"]
-            and (bool(drift) or before["projection"] != after["projection"])
+            and (bool(drift) or before["projection"] != after["projection"]
+                 or bool(choice_change and choice_change["change"] != "unchanged"))
         ),
+        **({"production_choice_change": choice_change} if choice_change is not None else {}),
         "requirement_changes": changes,
         "requirement_source_drift": drift,
         "affected_tickets": affected,

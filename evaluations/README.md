@@ -6,6 +6,16 @@ Test the actual local workbench, source and context compilation, evidence admiss
 
 Keep raw project paths, outputs, private accounts, and tool traces in private evaluation records. Record the reproducible scope and public assertions in [verification guidance](../governance/VALIDATION.md).
 
+## Exercise the production choice lifecycle
+
+The [production choices guide](../docs/technical/PRODUCTION_CHOICES.md) pairs project decisions with exact accepted inputs, actual implementation and separate review. Use the [coverage map](../governance/production-choice-coverage.json) to find the affected new and historical routes.
+
+- [Review queue and recovery](fixtures/production-choice-technical/README.md) exercises concurrent delivery, role refusal, maintenance, migration and readback from a restored backup.
+- The [review cabinet and editorial campaign](fixtures/production-choice-web/requirements.md) share controlled inputs but test separate product workflows and compositions. Open the actual browser pages and exercise the defined interactions.
+- [Game import and runtime](fixtures/production-choice-game/README.md), [audio production](fixtures/production-choice-audio/RIGHTS.md), [local feed integration](fixtures/production-choice-integration/README.md), and [uncatalogued runtime](fixtures/production-choice-uncatalogued/README.md) cover their actual consumers.
+
+Keep reproduction outputs outside the reusable source tree. Review the intended target, exact source and tool versions before claiming an outcome.
+
 ## Run a focused native Codex canary
 
 Use the synthetic [case suite](native-canary-fixtures.json) and [input and receipt schema](native-canary.schema.json) from the checkout being evaluated. The cases cover a direct repair, a bilingual continuation with a project role, and a generated skill's passport and first use. The runner keeps fixture data and raw native events in a private temporary directory. Choose a new private receipt path outside the checkout. The report records source digests, actual runtime completion, artifact checks, scope changes and usage as separate facts. Redirect or retain the private scratch path for an independent reviewer.

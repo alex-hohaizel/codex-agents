@@ -2,10 +2,12 @@
 name: gamedev-build
 description: "Implement or repair the approved native mobile game. Use for gameplay, world and AI, camera/input, media and learning, progression, commerce, save lifecycle, and verifiable Android or iOS builds."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier Build
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

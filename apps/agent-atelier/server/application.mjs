@@ -16,6 +16,7 @@ import { ImageGeneration } from "./image-generation.mjs";
 import { proposeRoute } from "./routing.mjs";
 import { NativeControllers } from "./controllers.mjs";
 import { OptionalUpdates } from "./optional_updates.mjs";
+import { prepareProductionChoice, verifyPreparedProductionChoice } from "./production-choices.mjs";
 import {
   ACTIVE_JOB_STATES,
   API_VERSION,
@@ -892,6 +893,9 @@ export class Application extends EventEmitter {
         "Native project changed; refresh the workspace",
         409,
       );
+    const productionChoice = await prepareProductionChoice(project.root, payload, {
+      legacyProject: project.production_choice_policy === undefined,
+    });
     const taskId = id("task"),
       epoch = this.store.get("settings", "owner").authority_epoch;
     const instructionManifest = await this.instructions.capture(
@@ -946,6 +950,10 @@ export class Application extends EventEmitter {
       authorityEpoch: epoch,
       instructionManifest,
     });
+    if (productionChoice?.legacy) fail(
+      capsule.original_sources.length > 0 || instructionManifest.sources.length > 0,
+      "PRODUCTION_CHOICE_REQUIRED", "An existing repair needs pinned governing project sources", 409,
+    );
     const preferred = payload.output_locale;
     if (preferred !== undefined)
       fail(
@@ -1035,6 +1043,7 @@ export class Application extends EventEmitter {
       capsule.continuation = routing.continuation;
     }
     capsule.planning_only = payload.planning_only === true;
+    if (productionChoice) capsule.production_choice = productionChoice;
     delete capsule.capsule_sha256;
     capsule.capsule_sha256 = digest(capsule);
     const task = {
@@ -1057,6 +1066,28 @@ export class Application extends EventEmitter {
       task: this.store.get("task", task.id),
       capsule,
     };
+  }
+  async generateImage(payload) {
+    if (!payload || !Object.hasOwn(payload, "project_id"))
+      return this.imageGeneration.generate(payload);
+    const { project_id, production_phase = "implement", prompt, ...extra } = payload;
+    fail(Object.keys(extra).length === 0 &&
+      ["explore", "implement"].includes(production_phase),
+    "INVALID_INPUT", "Choose a project and an exploration or implementation phase");
+    const project = this.projects.get(text(project_id, "project_id"));
+    const binding = await prepareProductionChoice(project.root, { production_phase });
+    // The image provider receives only the existing appearance prompt. The
+    // check binds the local governing record; it neither discloses its inputs
+    // nor establishes that the generated image matches an approved master.
+    const result = await this.imageGeneration.generate({ prompt });
+    let state = "requires-artifact-review";
+    try {
+      await verifyPreparedProductionChoice(project.root, binding);
+    } catch (error) {
+      if (!(error instanceof ServiceError)) throw error;
+      state = "source-changed-review-required";
+    }
+    return { ...result, production_choice: binding, production_choice_state: state };
   }
   #requireUnquarantinedNativeThread(threadId) {
     if (!threadId) return;
@@ -1166,7 +1197,10 @@ export class Application extends EventEmitter {
       epoch,
     );
     this.event("job.created", { job });
+    const legacyProject = project.production_choice_policy === undefined;
+    const choicePolicy = { legacyProject, allowUnbound: legacyProject || task.scope === "read-only" };
     try {
+      await verifyPreparedProductionChoice(project.root, task.capsule.production_choice, choicePolicy);
       await this.instructions.verify(task.capsule.instruction_manifest);
       await this.codex.connect();
       await this.instructions.verify(
@@ -1200,6 +1234,7 @@ export class Application extends EventEmitter {
           409,
         );
       }
+      await verifyPreparedProductionChoice(project.root, task.capsule.production_choice, choicePolicy);
       if (resumeThreadId) {
         const observed = await this.checkedThread(project.id, resumeThreadId);
         fail(

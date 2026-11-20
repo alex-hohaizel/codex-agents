@@ -2,6 +2,8 @@
 
 Before creation, match the blueprint version and substantive content hash to the actual user consent. Filename or formatting changes preserve a still-applicable approval. A material change to the task, stages, quality, external actions or costs needs a new revision and a specific decision.
 
+Use the [production choices guide](production-choices.md) and verify the exploration record before a material probe. The implementation check supplies `decision_sha256`. Save it in the blueprint as `production_decision_sha256` and declare each installable module and its stages in `architecture.modules` before hashing the proposal and recording the user's blueprint approval. Run `scripts/blueprint.py check BLUEPRINT --approved` before constructing or resuming dependent work. If the blueprint file and the choice record are in different directories, supply the project directory with `--project-root`. Add `--scale` before repeating a representative slice. Draft checks remain available as record inspections.
+
 Every skill carries its narrow trigger, mission and exact outcome, required inputs, canonical criteria and sources, actual domain roles and conditions for activating them, evidence rules, workflow and readiness, handoff, local repair, retry and closure, checkpoint, tools and permissions, and final acceptance. Open the references appropriate to the operation.
 
 Derive the specialist content from the domain. Design needs concrete samples and materials. Software needs working implementation and the relevant checks. Deployment needs actual provider receipts and read-back. Analysis needs primary sources, a method and limits on the conclusion. Preserve only the applicable criteria, provider choices and account context.
@@ -28,7 +30,7 @@ Use local `scripts/check_generated_inheritance.py` for new constructor outputs, 
 
 Compare baseline and candidate for coverage, correctness, utility, professional quality, unnecessary questions or manual handoffs, resource use and recovery. Repeat consequential or unstable cases and use an independent rubric. Limit conclusions to the actual hosts and domains tested. Keep structural, semantic and user acceptance observations separate.
 
-To check the current blueprint and authored child together, use the actual `scripts/blueprint.py check BLUEPRINT --approved --child CHILD_ROOT` command. Repeat `--child` for each package. Without `--child`, it checks the blueprint record alone.
+To check the current blueprint and authored child together, use `scripts/blueprint.py check BLUEPRINT --approved --child CHILD_ROOT`. Repeat `--child` for each package. The command verifies the approved module set, native entry names, inherited resources and acceptance evidence for each child's exact `SKILL.md` bytes. It reports `material_gate_passed` separately from the result of a draft or structural inspection. The Codex import route can stage those exact files into an isolated project for first use. Actual consent, domain quality and downstream execution have their own evidence.
 
 <a id="незмінний-portable-candidate-та-кероване-представлення-work"></a>
 

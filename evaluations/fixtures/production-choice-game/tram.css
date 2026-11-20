@@ -1,0 +1,9 @@
+:root { font: 17px/1.55 system-ui, sans-serif; background: #111d24; color: #f7edce; }
+body { margin: 0; }
+main { max-width: 60rem; margin: auto; padding: 2rem clamp(1rem, 5vw, 4rem); }
+header p { color: #afc8bb; }
+h1 { font: 750 clamp(2.5rem, 6vw, 4rem)/1 Georgia, serif; margin: 0; }
+canvas { display: block; width: 100%; height: auto; border: 1px solid #6c837b; }
+button { font: inherit; color: #142422; background: #efcf88; border: 0; border-radius: .35rem; min-height: 44px; padding: 0 1rem; }
+button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+#status { min-height: 2em; }

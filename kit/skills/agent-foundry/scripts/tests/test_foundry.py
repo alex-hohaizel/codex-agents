@@ -14,6 +14,8 @@ import unittest
 import zipfile
 
 SOURCE = Path(__file__).absolute().parents[1]
+sys.path.insert(0, str(SOURCE.parents[3] / 'scripts/tests'))
+from fixture_production_choices import make_choice
 
 
 def digest(value):
@@ -47,6 +49,7 @@ class FoundryTests(unittest.TestCase):
         self.bundle=self.base/'bundle';(self.bundle/'scripts').mkdir(parents=True);(self.bundle/'assets').mkdir();(self.bundle/'references').mkdir()
         shutil.copyfile(SOURCE/'foundry.py',self.bundle/'scripts/foundry.py')
         shutil.copyfile(SOURCE/'platform_support.py',self.bundle/'scripts/platform_support.py')
+        shutil.copyfile(SOURCE/'production_choices.py', self.bundle/'scripts/production_choices.py')
         shutil.copyfile(SOURCE/'check_foundry_depth.py',self.bundle/'scripts/check_foundry_depth.py')
         shutil.copyfile(SOURCE.parent/'assets/blueprint.template.json',self.bundle/'assets/blueprint.template.json')
         shutil.copyfile(SOURCE.parent/'assets/discovery-topics.json',self.bundle/'assets/discovery-topics.json')
@@ -56,6 +59,7 @@ class FoundryTests(unittest.TestCase):
         self.script=self.bundle/'scripts/foundry.py';self.root=self.base/'session'
         self.call('init','--project-id','fixture')
         self.bp=blueprint()
+        self.bp['production_decision_sha256'] = make_choice(self.root, target_kind='agent')['decision_sha256']
 
     def tearDown(self):self.temp.cleanup()
 
@@ -307,8 +311,74 @@ class FoundryTests(unittest.TestCase):
         self.call('refresh','--accept-suite-update',record=review,expected=2)
         self.assertIn('NEW-MUST',self.state()['requirements'])
     def test_bundle_check_exact_approved_skills_proofs_and_bytes(self):
-        self.ready_design();self.artifact();self.call('bundle-check','--directory',self.root/'deliverable',expected=1);self.evidence();self.assertTrue(self.call('bundle-check','--directory',self.root/'deliverable')['valid'])
+        self.ready_design();self.artifact();self.call('bundle-check','--directory',self.root/'deliverable',expected=1);self.evidence()
+        make_choice(self.root, target_kind='agent', phase='accept',
+                    accepted_artifacts=['deliverable/skills/target-agent/SKILL.md'])
+        self.assertTrue(self.call('bundle-check','--directory',self.root/'deliverable')['valid'])
         self.write('deliverable/skills/unapproved/SKILL.md','---\nname: unapproved\ndescription: Unexpected scope.\n---\n\nUnexpected instruction.\n');self.call('bundle-check','--directory',self.root/'deliverable',expected=1)
+
+    def test_material_gate_blocks_legacy_blueprint_and_stale_choice_after_resume(self):
+        original = self.bp['production_decision_sha256']
+        del self.bp['production_decision_sha256']
+        self.ready_design()
+        self.assertTrue(self.call('check')['valid'])
+        self.assertIn('production_decision_sha256', str(self.call('build-gate', expected=1)['blockers']))
+        self.bp.update(revision=2, production_decision_sha256=original)
+        self.ready_design();self.execution();self.task()
+        self.assertTrue(self.call('build-gate')['ready'])
+        self.assertFalse(self.call('build-gate','--phase','scale',expected=1)['ready'])
+        self.call('pause',record={'source':'fixture','verbatim':'Pause this task.', 'reason':'pause for review','boundary':'now'})
+        self.write('_choice-fixture/configuration.md', 'Unreviewed replacement')
+        self.call('resume')
+        self.assertIn('configuration.md', str(self.call('readiness','--id','TASK-1',expected=1)['blockers']))
+
+    def test_real_foundry_exports_and_installs_the_verified_child(self):
+        from test_install_agent import PortableTests
+
+        portable = PortableTests(methodName='runTest')
+        portable.setUp()
+        self.addCleanup(portable.tearDown)
+        self.script = SOURCE / 'foundry.py'
+        self.root = self.base / 'real-session'
+        self.call('init', '--project-id', 'real-fixture')
+        self.bp['production_decision_sha256'] = make_choice(self.root, target_kind='agent')['decision_sha256']
+        kit = self.root / 'deliverable'
+        entry, = portable.skills(1, prefix='real', kit=kit)
+        self.bp['entry_skill'] = self.bp['skills'][0]['name'] = entry
+        relative = f'skills/{entry}/SKILL.md'
+        staged = 'deliverable/' + relative
+        self.bp['artifacts'][0]['path'] = relative
+        self.ready_design()
+        self.call('artifact', record={'id': 'ART-1', 'path': staged, 'bundle_path': relative,
+                                     'phase_id': 'PHASE-1', 'kind': 'instruction',
+                                     'author_ids': ['maker'], 'capability_ids': ['CAP-1']})
+        self.evidence()
+        output = self.base / 'verified-child.zip'
+        args = ['--kit', kit, '--agent-id', entry, '--entry-skill', entry, '--version', '1.0.0',
+                '--purpose', 'generated', '--session', self.root, '--kit-output', output]
+        make_choice(self.root, target_kind='agent', phase='accept')
+        failure = portable.call(SOURCE / 'package_agent.py', args, expected=2)
+        self.assertIn('exact packaged skill', failure['error'])
+        self.assertFalse(output.exists())
+        receipt = make_choice(self.root, target_kind='agent', phase='accept',
+                              accepted_artifacts=[staged])
+        portable.call(SOURCE / 'package_agent.py', args)
+        with zipfile.ZipFile(output) as archive:
+            for member in archive.infolist():
+                extracted = Path(archive.extract(member, self.base / 'extracted'))
+                if not member.is_dir():
+                    extracted.chmod(stat.S_IMODE(member.external_attr >> 16))
+        delivered = next((self.base / 'extracted').rglob('manifest.json')).parent
+        manifest = json.loads((delivered / 'manifest.json').read_bytes())
+        self.assertEqual(receipt['decision_sha256'], manifest['blueprint']['production_decision_sha256'])
+        installer = SOURCE.parents[2] / 'portable/install_agent.py'
+        consumer = self.base / 'recipient'
+        portable.call(installer, ['--kit', delivered, '--project', consumer, '--mode', 'apply'])
+        verifier = consumer / '.agents/skills' / entry / 'scripts/production_choices.py'
+        verify = ['verify', consumer, '--phase', 'implement']
+        self.assertFalse(portable.call(verifier, verify, expected=1)['ok'])
+        make_choice(consumer)
+        self.assertTrue(portable.call(verifier, verify)['ok'])
     def test_regular_usage_creates_no_installed_cache(self):
         before={str(p.relative_to(self.bundle)) for p in self.bundle.rglob('*')};self.ready_design();self.call('context');self.call('build-gate');self.assertEqual(before,{str(p.relative_to(self.bundle)) for p in self.bundle.rglob('*')})
     def test_purposes_use_separate_sessions_preserve_existing_project(self):

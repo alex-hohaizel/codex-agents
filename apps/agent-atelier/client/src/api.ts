@@ -636,11 +636,11 @@ export const api = {
   doctor: () => request<Data>("/doctor"),
   integrations: (locale?: string) =>
     request<Data>(locale ? `/integrations?${new URLSearchParams({ locale })}` : "/integrations"),
-  generateImage: (prompt: string, csrf: string) =>
+  generateImage: (prompt: string, csrf: string, choice?: { project_id: string; production_phase: "explore" | "implement" }) =>
     request<Data>("/integrations/generation", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Atelier-CSRF": csrf },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({ prompt, ...choice }),
     }),
   integrationDetails: (kind: string, id: string, locale?: string) =>
     request<Data>(`/integrations/inspect?${new URLSearchParams({ kind, id, ...(locale ? { locale } : {}) })}`),

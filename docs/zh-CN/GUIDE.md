@@ -8,6 +8,14 @@
 
 商业候选包包含统一安装流程和已购版本权益记录。选择前请阅读[买家指南](../commercial/BUYER_GUIDE.md)、[许可](../commercial/LICENSING.md)和[运行环境限制](../commercial/WORKBENCH_RUNTIME.md)。
 
+<a id="production-choices"></a>
+
+## 生产决策与已批准的设计
+
+在制作重要原型、搭建项目骨架或实施变更之前，根据项目要求和实际目标环境比较技术方案。将已批准的原始文件、流程和决策与实现绑定。批量制作之前，先验证可运行的代表性成果，再验收具体交付版本。
+
+[打开生产决策指南](../technical/PRODUCTION_CHOICES.md)
+
 ## 选择起点
 
 - **试用 Codex。** [安装并验证](#install) · [完成第一个任务](#first-task) · [查看图解流程](../../marketing/zh-CN/README.md)

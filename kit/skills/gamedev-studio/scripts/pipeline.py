@@ -182,7 +182,7 @@ def acceptance_profile(manifest):
     return {"gate": gate, "scope": scope, "kinds": kinds, "decisions": decisions}
 
 
-def verify(root, require_accepted=False):
+def verify(root, require_accepted=False, *, current_work=False, project_root=None):
     errors, warnings = [], []
     m = read_json(root / "manifest.json")
     for key in ("schema_version", "suite_version", "package_id", "project_id", "stage", "revision", "stage_status", "upstream", "artifacts"):
@@ -208,6 +208,31 @@ def verify(root, require_accepted=False):
         profile = {"gate": None, "scope": None, "kinds": [], "decisions": []}
     if require_accepted and m.get("stage_status") != "accepted":
         errors.append("stage_status is not accepted")
+    production_choices = None
+    if accepted and current_work and m.get("stage") != "studio":
+        stage = m.get("stage")
+        scope = profile.get("scope")
+        choice_phase = {"concepts": "implement", "preproduction": "implement",
+                        "assets": "scale", "build": "scale", "qa": "accept",
+                        "release": "accept", "liveops": "accept"}.get(stage)
+        if scope in {"candidate_completion", "design_review", "incident_analysis"}:
+            choice_phase = "explore"
+        elif scope in {"contract_review", "design_change"}:
+            choice_phase = "implement"
+        elif scope in {"slice_review", "runtime_change"}:
+            choice_phase = "scale"
+        if choice_phase:
+            try:
+                from production_choices import ChoiceError, verify_project
+                try:
+                    production_choices = verify_project(project_root or root, choice_phase, required_kind="game")
+                    decision = production_choices["decision_sha256"]
+                    if decision is not None and m.get("production_choice_decision_sha256") != decision:
+                        errors.append("handoff does not bind the current production decision; reconcile and reseal")
+                except ChoiceError as exc:
+                    errors.append("production choices: " + str(exc))
+            except ImportError:
+                errors.append("missing installed production choice verifier")
     artifacts = m.get("artifacts", [])
     if not isinstance(artifacts, list):
         raise ValueError("artifacts must be array")
@@ -364,7 +389,11 @@ def verify(root, require_accepted=False):
                 errors.append("no current independent review " + a["id"])
     else:
         warnings.append("Draft/blocked transport validity is not stage acceptance")
-    return {"valid": not errors, "toolkit_version": m.get("toolkit_version"), "current_toolkit_ready": not errors and accepted and m.get("toolkit_version") == TOOLKIT_VERSION, "stage": m.get("stage"), "stage_status": m.get("stage_status"),
+    current_ready = (not errors and accepted and current_work and m.get("toolkit_version") == TOOLKIT_VERSION
+                     and (m.get("stage") == "studio" or production_choices is not None))
+    return {"valid": not errors, "toolkit_version": m.get("toolkit_version"), "current_toolkit_ready": current_ready,
+            "production_choices": production_choices, "historical_inspection": accepted and not current_work,
+            "stage": m.get("stage"), "stage_status": m.get("stage_status"),
             "errors": sorted(set(errors)), "warnings": warnings, "game_model_report": model_report, "model_gate": actual_model_gate, "acceptance_scope": acceptance_scope, "required_artifact_kinds": profile["kinds"], "required_decision_ids": profile["decisions"], "quality_certified": False}
 
 def impact(root, changed):
@@ -403,7 +432,11 @@ def main():
     for command in ("init", "seal", "verify", "pack", "impact", "status"):
         p = sub.add_parser(command); p.add_argument("path", type=Path)
         if command == "init": p.add_argument("--stage", choices=KINDS, required=True); p.add_argument("--project-id", required=True)
-        if command == "verify": p.add_argument("--require-accepted", action="store_true")
+        if command == "verify":
+            p.add_argument("--require-accepted", action="store_true")
+            p.add_argument("--historical", action="store_true", help="Inspect historical package evidence without current admission")
+        if command in {"verify", "pack"}:
+            p.add_argument("--project-root", type=Path, help="Project owning the current production choice; defaults to the package")
         if command == "pack": p.add_argument("--output", type=Path, required=True)
         if command == "impact": p.add_argument("--changed", required=True)
     args = parser.parse_args()
@@ -418,8 +451,13 @@ def main():
         if root.is_file():
             if args.command != "verify": raise ValueError("only verify accepts an archive")
             with tempfile.TemporaryDirectory() as tmp:
-                unzip(root, Path(tmp)); result = verify(Path(tmp), args.require_accepted)
-        else: result = verify(root, getattr(args, "require_accepted", False))
+                unpacked = Path(tmp)
+                unzip(root, unpacked)
+                result = verify(unpacked, args.require_accepted, current_work=not args.historical,
+                                project_root=args.project_root)
+        else:
+            result = verify(root, getattr(args, "require_accepted", False),
+                            current_work=not getattr(args, "historical", False), project_root=args.project_root)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         if not result["valid"]: return 1
         if args.command == "pack":

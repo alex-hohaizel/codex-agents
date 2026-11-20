@@ -2,10 +2,12 @@
 name: app-atelier-director
 description: "Lead a new or existing app through the relevant product stages. Use to restore project state, choose the next stage, or coordinate Android, iOS, and web delivery."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Director
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 Lead one app with one product integrator and conversation owner. Identify whether the task starts a product, accepts a package, continues a stage, makes a decision, repairs a defect, asks for status, pauses, or updates the agent. Keep work that already meets its current acceptance. A local repair should proceed without reopening discovery.
 

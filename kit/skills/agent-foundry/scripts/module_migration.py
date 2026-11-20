@@ -721,6 +721,9 @@ def stage(args):
     for source in [*args.source, *args.previous, *args.shared_runtime]:
         source = fs.safe_path(source)
         require(output != source and source not in output.parents, "Stage outside the source modules")
+    material = plan["migration"] is not None and bool(plan["migration"]["changes"])
+    choice_root = getattr(args, "choice_root", None) or project
+    choice = native.material_choice(choice_root, plan) if material else None
     lock = output.with_name("." + output.name + ".module-import-lock")
     lock.mkdir(mode=0o700)
     try:
@@ -734,6 +737,10 @@ def stage(args):
             require(refreshed["plan_sha256"] == args.expect, "Inputs changed while writing the staged project")
             receipt = {"schema": RECEIPT_SCHEMA, "plan": plan, "root": str(output),
                        "source_project_writes": 0, "hooks_executed": 0}
+            if material:
+                require(native.material_choice(choice_root, refreshed) == choice,
+                        "Production choice changed while staging; rerun the reviewed plan")
+                receipt["production_choice"] = choice
             fs.write_file(temp / RECEIPT, fs.encode(receipt), 0o600)
             require(not output.exists(), "Staging output already exists")
             temp.rename(output)
@@ -778,9 +785,13 @@ def main():
         command.add_argument("--license", type=Path, action="append", default=[])
         command.add_argument("--change-set", type=Path)
         command.add_argument("--change-set-schema", default=CHANGE_SET_SCHEMA)
-        if action == "stage":
+        if action == "audit":
+            command.add_argument("--plan-file", type=Path, help="Also save exact canonical JSON to this new file")
+        else:
             command.add_argument("--output", type=Path, required=True)
             command.add_argument("--expect", required=True)
+            command.add_argument("--choice-root", type=Path,
+                                 help="Approved production decision directory; defaults to the audited project")
     checker = commands.add_parser("verify")
     checker.add_argument("--output", type=Path, required=True)
     checker.add_argument("--expect", required=True)
@@ -790,6 +801,8 @@ def main():
     try:
         if args.action == "audit":
             result = audit(args)[0]
+            if args.plan_file:
+                native.export_audit_plan(args.plan_file, result)
         elif args.action == "stage":
             result = stage(args)
         else:

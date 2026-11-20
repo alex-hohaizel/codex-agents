@@ -1,0 +1,33 @@
+# Production choices and approved design
+
+Use this contract for a material technology, implementation, interaction or media choice. Apply it in the governing project before a substantive scaffold, prototype, generation, handoff or repair that changes an accepted decision. For a narrow behavior-preserving repair, reuse the current decision, keep the original inputs and verify the changed risk. Review a new decision only where the change affects it.
+
+## Choose in the project
+
+1. Identify users, purpose, required actions, target medium and versions, existing architecture and identity, source rights, permissions, test data, budget, maintenance owner and exit path. Resolve actual references. Distinguish inspiration, a required property, an approved master and a rejected result. For every defining property record why it matters and how to check it.
+2. Select the experiments from the requirements. Use the bundled `assets/technology-catalog.json` or repository `standards/technology-catalog.json` to broaden the search. Query its classes, keys, constraints and candidate names with the ordinary text or JSON tools available in the project. Add a missing candidate using the same evidence rules. Treat catalogue entries as candidates. Verify the decisive operation on the current version, official source, target/account and in a representative run. Verify costs, licenses, dependencies, portability, available effort and limits when they affect the decision. Confirm device/browser/runtime support beyond a vendor label.
+3. Compare meaningful choices at the scale of the actual effect. Use the same example inputs and minimum requirements. Compare workable combinations such as engine + renderer + asset format + device or runtime + storage + event delivery + recovery. Include an incumbent or a simpler route when it is sufficient. If only one choice fits, document the excluded candidates, why and the representative check. Agree material criteria before scoring. A result that violates a hard condition is inadmissible.
+4. Record the decision in the project with stable requirement and candidate IDs, source hashes, why the winning combination meets the use case, effects and alternatives, due evidence, owner, and events that reopen review. Research and experimenting do not authorize changing the production project, using new paid services or external publication. Exploratory output carries its verified inputs and declared limits.
+
+## Preserve the accepted artifact
+
+Bind the accepted revision to actual files and hashes, including a statement of what was approved and any allowed adaptation. Pin masters, assets and licenses; source format, export/import operation and consumer; semantic tokens, each defining component and its states; the interaction or game flow, input and permissions, copy, errors, empty/loading, return and recovery. Use the approved original when its bytes were accepted. A generated derivative records the exact input, tool/version, supported parameters, seed when available, output hash and real consumer. A repeatable recipe does not guarantee identical generative bytes.
+
+Each material handoff, dependent generator and resumed run receives the current decision and the required source/master/flow pins, exact scope, owner, and limit. Verify those bytes before acting. Show a change with its affected requirements, controls, views, source, state, tests, permissions and cost. Obtain the applicable decision for a material change before the dependent action. Retain valid unaffected proofs and the old version. A tool upgrade does not excuse unapproved redesign.
+
+When a direction is undecided, compare materially different routes in a real medium on the same scenario. Different colors on the same layout or a generic dashboard cannot prove distinct work. For the accepted direction, run the defining interaction before replication. Compare actual rendered or running outputs at the intended viewport/input/environment, including normal, accessibility, denied, failure and recovery cases when applicable. An offline transition walkthrough is simulation evidence. Technical behavior and production craft have separate acceptance. Only claim independent review or human authorization when observed and bound to the exact subject.
+
+## Keep implementation usable by people
+
+Record the chosen project layout, namespace and naming rules, allowed dependencies, ownership of modules and state, entry points, contracts, error behavior, generated and edited sources, data/migration and verification boundaries. Reuse the project conventions when adequate. Add dependencies only for a known useful capability. Test ordinary setup, build and a meaningful change of a module in an independent path. Where relevant prove correctness under conflicting or repeated input, recovery, rollback, access revocation and data compatibility. A reviewer should be able to find the correct file, run a test, diagnose an observed failure and follow the recovery instructions without asking the author to operate the project.
+
+## Use the portable verifier
+
+For the current managed format keep `production-choices.json` in the governed project root. From the installed skill use its actual `scripts/production_choices.py`; from a repository use `standards/production_choices.py` or the canonical materialized copy. Use the retained toolkit interpreter when configured. The helper's `--help` and the product guide at `docs/technical/PRODUCTION_CHOICES.md` describe the supported record and commands.
+
+- `explore` checks the pinned requirements, target, candidate, declared purpose, same-input files, procedure, success criteria and temporary boundary before the experiment.
+- `implement` checks the exact selected combination, approved scope, current eligible probe and configuration/master/flow pins before dependent implementation.
+- `scale` additionally checks the bound representative result and its positive/negative observations before replication.
+- `accept` additionally checks the bound final result and independent acceptance observations.
+
+Use the phase required by the owning entry, not a weaker phase chosen by the producer. Check accepted pins again at consume, resume and return as applicable. Keep inspection and historical replay separate from approval under this edition. Report missing evidence, permissions or unsupported host operation at the affected scope. The helper validates declarations and observed local bytes; it cannot authenticate an approver, establish that a reported run occurred or judge craft. A declared severe failure cannot be averaged or waived into release acceptance.

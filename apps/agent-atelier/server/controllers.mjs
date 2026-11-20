@@ -10,6 +10,7 @@ import {
 import { resolve, join, relative, isAbsolute } from "node:path";
 import { pythonExecutable, installedPersonalSkillRoot, personalSkillRoots } from "./platform.mjs";
 import { runtimeEnvironment } from "./environment.mjs";
+import { prepareProductionChoice, verifyPreparedProductionChoice } from "./production-choices.mjs";
 import {
   atomicWrite,
   digest,
@@ -98,6 +99,7 @@ const PARAMS = {
   start: ["id"],
   complete: ["id", "evidence"],
   "phase-check": ["id", "scope", "execution_id"],
+  "build-gate": ["phase"],
   "bundle-check": ["directory"],
   intake: ["source"],
   dispatch: ["id", "revision"],
@@ -486,6 +488,10 @@ export class NativeControllers {
       );
       add("--outcome", params.outcome);
     }
+    if (operation === "build-gate" && params.phase !== undefined) {
+      fail(["implement", "scale"].includes(params.phase), "INVALID_INPUT", "Unsupported construction phase");
+      add("--phase", params.phase);
+    }
     if (operation === "bundle-check") {
       const path = ref(params.directory, "directory");
       await safeFile(session, path, { directory: true });
@@ -498,6 +504,11 @@ export class NativeControllers {
     }
     if (operation === "refresh" && params.accept_suite_update === true)
       args.push("--accept-suite-update");
+    const governedPhase = operation === "build-gate" ? params.phase ?? "implement"
+      : operation === "bundle-check" ? "accept" : null;
+    const choice = governedPhase ? await prepareProductionChoice(session, { production_phase: governedPhase }) : null;
+    if (choice) fail(nativeBlueprint?.data?.production_decision_sha256 === choice.decision_sha256,
+      "PRODUCTION_CHOICE_REQUIRED", "Register and approve the blueprint with the current project choice", 409);
     const closure = await bundle(this.foundryRoot);
     const wrapper = resolve(
       this.repoRoot,
@@ -518,6 +529,7 @@ export class NativeControllers {
       controller_source_sha256: closure.sha256,
       wrapper_sha256: wrapperSha,
       platform_support_sha256: platformSupportSha,
+      ...(choice ? { production_choice: choice } : {}),
       record_path: recordSource?.path ?? null,
       record_sha256: recordSource?.sha256 ?? null,
       params,
@@ -620,6 +632,7 @@ export class NativeControllers {
         "Controller input record changed since preview",
         409,
       );
+    if (p.production_choice) await verifyPreparedProductionChoice(found.session, p.production_choice);
     const recordId = id("native-controller"),
       backupDir = join(this.dataDir, "controller-backups", recordId);
     const receipt = {
@@ -725,6 +738,8 @@ export class NativeControllers {
       found.closure.files["scripts/foundry.py"],
       "--expected-state",
       p.native_state_sha256,
+      ...(p.production_choice ? ["--choice-phase", p.production_choice.phase,
+        "--expected-choice", p.production_choice.sha256] : []),
       "--",
       ...found.args,
     ];

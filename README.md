@@ -9,7 +9,7 @@ product, or an agent your team can use again.
 
 **[Latest published release](https://github.com/alex-hohaizel/codex-agents/releases/latest)** · **[Open the installer page](START_HERE.html)** · **[Start in Codex](START_HERE.md)** · **[Install or update](docs/INSTALL.md)** · **[See the workflow](#one-entry-from-idea-to-release)** · **[Browse all documentation](docs/INDEX.md)** · [Почати українською](docs/uk/FIRST_RUN.md)
 
-The [v1.9.0 Universal installer](https://github.com/alex-hohaizel/codex-agents/releases/download/v1.9.0/Agent-System-1.9.0-Universal.zip) becomes available when its release is published. The [v1.8.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0) remains available for recovery.
+The [v1.10.0 Universal installer](https://github.com/alex-hohaizel/codex-agents/releases/download/v1.10.0/Agent-System-1.10.0-Universal.zip) becomes available when its release is published. The [v1.9.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0) remains available for recovery. See [production choices and approved design](docs/technical/PRODUCTION_CHOICES.md) for the project workflow.
 
 <a name="your-first-task"></a>
 <a name="choose-a-path"></a>
@@ -25,6 +25,8 @@ your first task. Python and Node are included; Codex and your account are separa
 The separate [commercial dossier](docs/commercial/BUYER_GUIDE.md) preserves draft
 edition, license and delivery records. This technical release does not launch
 public sales or finalize legal terms.
+
+[Choose a stack, carry approved design into the build, and verify the result](docs/technical/PRODUCTION_CHOICES.md)
 
 ## Choose where to start
 

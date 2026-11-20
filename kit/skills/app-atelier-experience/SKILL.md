@@ -2,10 +2,12 @@
 name: app-atelier-experience
 description: "Design or repair an app brand, UX, visual system, and interactive prototype. Use for Android, iOS, and web experience and tested design handoff."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Experience
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Bind the accepted experience
 

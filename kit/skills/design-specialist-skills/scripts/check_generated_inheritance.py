@@ -35,7 +35,7 @@ def strict_json_loads(raw, **kwargs):
     return json.loads(raw, **kwargs)
 
 SCHEMA = "agent-operating-standard/1"
-RELEASE = "6.6.0"
+RELEASE = "6.7.0"
 RESOURCES = (
     "references/adaptive-work.md",
     "references/research-and-synthesis.md",
@@ -61,6 +61,9 @@ RESOURCES = (
     "scripts/interaction.py",
     "assets/status-view.schema.json",
     "assets/decision-card.template.md",
+    "references/production-choices.md",
+    "scripts/production_choices.py",
+    "assets/technology-catalog.json",
 )
 ENTRY_LINKS = tuple(p for p in RESOURCES if p.startswith("references/"))
 BRIEFING_TEMPLATES = (
@@ -267,12 +270,17 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("child_roots", type=Path, nargs="+")
     parser.add_argument("--entry", choices=("SKILL.md", "AGENTS.md"), default="SKILL.md")
+    parser.add_argument("--source-root", type=Path,
+                        help="Use the supplied reviewed constructor root as the resource authority")
     parser.add_argument("--materialize", action="store_true",
                         help="Copy only missing shared resources into existing isolated child staging directories")
     args = parser.parse_args(argv)
     try:
+        source_root = args.source_root or Path(__file__).resolve().parents[1]
+        if args.source_root is None and Path(__file__).parent.name == "portable":
+            source_root = source_root / "skills/agent-foundry"
         if args.materialize:
-            created = materialize_resources(args.child_roots, Path(__file__).resolve().parents[1])
+            created = materialize_resources(args.child_roots, source_root)
             result = {
                 "status": "shared_resources_materialized",
                 "created": created,
@@ -282,7 +290,7 @@ def main(argv=None):
             }
             print(json.dumps(result, ensure_ascii=False, indent=2))
             return 0
-        contract, errors = inspect_children(args.child_roots, entry=args.entry)
+        contract, errors = inspect_children(args.child_roots, source_root, entry=args.entry)
         result = {"valid": not errors, "operating_standard": contract, "children_checked": len(args.child_roots), "errors": errors,
                   "quality_certified": False, "behavior_verified": False, "human_authority_authenticated": False}
     except (OSError, ValueError) as error:

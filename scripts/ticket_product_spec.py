@@ -9,6 +9,7 @@ import sys
 sys.dont_write_bytecode = True
 import ticket_spec_review as spec_review
 import ticket_tree as tree
+from production_choice_route import RECORD, verify_route
 
 context = tree.context
 MANIFEST = "atelier.ticket-product-spec-manifest/1"
@@ -140,6 +141,11 @@ def collect(root, projection, name, snapshot):
                     and request["projection_sha256"] == board["projection"]["sha256"],
                     "product specification targets a different native projection")
     sources = read_pins(snapshot, request["sources"])
+    production = verify_route(Path(root), "explore", required=RECORD in sources)
+    if production:
+        context.require(RECORD in sources and
+                        context.digest(snapshot.read(RECORD)) == production["record_sha256"],
+                        "The product specification must include its current production choice among its source pins")
     requirements = tree.read_requirements(snapshot, board["requirement_sources"])
     choices = decision_rows(snapshot, request["decision_sources"])
     texts = documents(snapshot, request["documents"])

@@ -2,10 +2,12 @@
 name: app-atelier-research
 description: "Research app needs, target markets, competing products, and alternatives. Use for a source-backed market map, direction shortlist, or targeted market reassessment."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Research
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Choose a research question and evidence plan
 

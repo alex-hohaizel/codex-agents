@@ -9,6 +9,7 @@ import sys
 
 sys.dont_write_bytecode = True
 import ticket_tree as tree
+from production_choice_route import CORE_REQUIREMENTS, ChoiceError, verify_route
 
 context = tree.context
 PLAN = "atelier.ticket-quality-plan/1"
@@ -137,6 +138,8 @@ def read_results(snapshot, record, plan_sha, producer, checks, excluded, as_of):
         result["artifacts"] = artifacts
         waiver = result.get("waiver")
         if waiver is not None:
+            context.require(not CORE_REQUIREMENTS.intersection(checks[key]["requirement_ids"]),
+                            f"required production choice checks cannot be waived: {key}")
             exact_fields(waiver, ("by", "reason", "expires_on", "decision"), "waiver")
             by = context.text(waiver, "by")
             context.require(by.strip() == by and by.casefold() not in {
@@ -174,6 +177,7 @@ def classify(rows, gaps, upstream_holds):
 
 
 def evaluate(root, projection, plan_name, plan_sha, review_name=None, review_sha=None, *, as_of):
+    production = verify_route(Path(root), "accept" if review_name is not None else "implement")
     snapshot = tree.Snapshot(root)
     board = tree.project_board(root, projection, snapshot=snapshot)
     plan = read_record(snapshot, plan_name, plan_sha)
@@ -231,6 +235,7 @@ def evaluate(root, projection, plan_name, plan_sha, review_name=None, review_sha
                   for (t, r), ids in trace.items()],
         "unmapped": gaps, "upstream_holds": upstream_holds, "checks": rows,
         "review_identity_authenticated": False, "release_authorized": False,
+        **({"production_choice": production} if production else {}),
     }
 
 
@@ -251,7 +256,7 @@ def main():
         result = evaluate(args.root, args.projection, args.plan, args.plan_sha256,
                           args.review, args.review_sha256,
                           as_of=parse_date(args.as_of) if args.as_of else date.today())
-    except (context.ContextError, OSError) as error:
+    except (context.ContextError, ChoiceError, OSError) as error:
         print(json.dumps({"error": str(error)}, ensure_ascii=False), file=sys.stderr)
         return 2
     print(json.dumps(result, ensure_ascii=False, indent=2))

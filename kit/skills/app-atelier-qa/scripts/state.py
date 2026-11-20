@@ -49,6 +49,29 @@ MAX_FILE_BYTES = 512 * 1024 * 1024
 DEFAULT_GATES = {'concepts':['direction'], 'specification':['concept'], 'experience':['concept'],
                  'build':['concept','design','budget'], 'support':['concept','design','budget'],
                  'release':['release_readiness','budget'], 'growth_activation':['release_readiness','budget']}
+CHOICE_PHASES = {
+    'concepts': ('explore', 'explore'),
+    'specification': ('explore', 'explore'),
+    'experience': ('explore', 'scale'),
+    'build': ('implement', 'scale'),
+    'support': ('implement', 'scale'),
+    'release': ('accept', 'accept'),
+    'growth_activation': ('implement', 'accept'),
+}
+
+
+def production_choice_check(root, phase_name, completed=False):
+    phases = CHOICE_PHASES.get(phase_name)
+    if not phases:
+        return None
+    try:
+        from production_choices import ChoiceError, verify_project
+    except ImportError as exc:
+        raise ValueError('missing installed production choice verifier') from exc
+    try:
+        return verify_project(root, phases[1 if completed else 0])
+    except ChoiceError as exc:
+        raise ValueError('production choices: ' + str(exc)) from exc
 
 def need(ok, message):
     if not ok:
@@ -423,7 +446,7 @@ def apply_profile_amendment(root,folder,state,new_profile,approval):
         if p not in impact['affected_phases'] and closure.get('profile_sha256')==old_hash:closure['profile_sha256']=new_hash
     return impact
 
-def gate(root,folder,state,jid,for_completion=False):
+def gate(root,folder,state,jid,for_completion=False,*,choice_result=None):
     need(jid in state['job'],'unknown job')
     j=state['job'][jid];reasons=[]
     def check(ok,msg):
@@ -431,6 +454,18 @@ def gate(root,folder,state,jid,for_completion=False):
     check(profile_current(state,folder),'profile changed; reconcile explicit amendment before work')
     check(not state['pause'].get('active'),'project is paused')
     check(j.get('_profile_sha256')==state['profile_sha256'],'job belongs to stale profile')
+    try:
+        choice = production_choice_check(root, j['phase'], for_completion)
+        if choice is not None:
+            prior = j.get('production_choice_decision_sha256')
+            check(not prior or choice.get('decision_sha256') == prior,
+                  'production decision changed since job started; reconcile approved dependency')
+            if for_completion:
+                reasons.extend(choice_artifact_blockers(state, j, choice))
+            if choice_result is not None:
+                choice_result.update(choice)
+    except (ValueError, OSError) as exc:
+        reasons.append(str(exc))
     if not for_completion:check(j.get('status') not in ('completed','running'),'job already running/completed; reconcile instead of replay')
     ex=state['execution'].get(j.get('execution_id'))
     try:
@@ -466,8 +501,29 @@ def gate(root,folder,state,jid,for_completion=False):
         for k in ('metric','threshold','horizon','stop','budget_usd'):check(k in j['experiment'] and j['experiment'][k] is not None,'experiment missing '+k)
     return sorted(set(reasons))
 
-def phase_blockers(root,state,p,seen=None):
+def choice_artifact_blockers(state, job, choice):
+    phase_evidence = choice.get('evidence_artifacts', {}).get(choice['phase'])
+    if phase_evidence is None:
+        return []
+    observed = {(item['path'], item['sha256']) for item in phase_evidence}
+    blockers = []
+    for artifact_id in job.get('artifact_ids', []):
+        artifact = state['artifact'].get(artifact_id, {})
+        if (artifact.get('path'), artifact.get('sha256')) not in observed:
+            blockers.append('production evidence does not bind current job artifact: ' + artifact_id)
+    return blockers
+
+def phase_blockers(root,state,p,seen=None,*, include_closure=True):
     blockers=[]
+    closure = state.get('phase_closures', {}).get(p, {})
+    prior = closure.get('production_choice_decision_sha256')
+    if prior and include_closure:
+        try:
+            choice = production_choice_check(root, p, True)
+            if choice is None or choice.get('decision_sha256') != prior:
+                blockers.append('production decision changed since phase closure: ' + p)
+        except (ValueError, OSError) as exc:
+            blockers.append(str(exc))
     for r in state['requirement'].values():
         due=r.get('phase',r.get('due_phase'))
         if due and phase(due)==p and (r.get('priority')=='must' or r.get('emphasis')):
@@ -485,6 +541,11 @@ def completed_current(root,state,j,seen=None):
     visited.add(j['id'])
     try:
         if file_sha(root/'.appatelier/profile.json')!=state['profile_sha256']:return False
+        prior = j.get('production_choice_decision_sha256')
+        if prior:
+            choice = production_choice_check(root, j['phase'], True)
+            if choice is None or choice.get('decision_sha256') != prior:return False
+            if choice_artifact_blockers(state, j, choice):return False
         ex=state['execution'][j['execution_id']]
         if ex.get('status')!='current' or ex.get('_profile_sha256')!=state['profile_sha256']:return False
         authority(ex['authority'],execution_subject(ex))
@@ -534,6 +595,7 @@ def validate_record(root,folder,state,kind,r):
     elif kind=='job':
         require(r,'phase','scope','owner','goal','execution_id');r['phase']=phase(r['phase']);r.setdefault('status','pending')
         r.pop('input_requirement_hashes',None);r.pop('completion_hashes',None);r.pop('completion_evidence_hashes',None)
+        r.pop('production_choice_decision_sha256',None)
         need(r['status']=='pending','new/updated job must start pending')
         for k in ('depends_on','requirement_ids','fulfills_requirements','artifact_ids','evidence_ids','decision_ids','effect_ids'):strings(r.setdefault(k,[]))
         need(set(r['fulfills_requirements'])<=set(r['requirement_ids']),'fulfilled requirements must be assigned')
@@ -668,20 +730,30 @@ def main():
             if a.kind=='artifact' and s['pause'].get('boundary')=='after_artifact' and s['pause'].get('target')==r['id']:s['pause']['active']=True
             result={'recorded':r['id'],'kind':a.kind,'executes':False,'paused':s['pause']['active']}
         elif cmd in ('phase-check','phase-complete'):
-            pp=phase(a.phase);reasons=phase_blockers(root,s,pp)
+            pp=phase(a.phase);reasons=phase_blockers(root,s,pp,include_closure=False)
+            choice = None
+            try:
+                choice = production_choice_check(root, pp, True)
+            except (ValueError, OSError) as exc:
+                reasons.append(str(exc))
             if not profile_current(s,folder):reasons.append('profile changed')
             if cmd=='phase-check':return {'ready':not reasons,'phase':pp,'blockers':reasons,'executes':False}
             need(not reasons,'phase blocked: '+'; '.join(reasons));need(not s['pause']['active'],'project paused')
             s.setdefault('phase_closures',{})[pp]={'profile_sha256':s['profile_sha256'],'closed_at':now()}
+            if choice is not None and choice.get('decision_sha256'):
+                s['phase_closures'][pp]['production_choice_decision_sha256'] = choice['decision_sha256']
             pause=s['pause']
             if pause.get('boundary')=='after_phase' and phase(pause.get('target',''))==pp:pause['active']=True
             result={'phase_complete':pp,'scope':'current due requirements and declared jobs','paused':pause['active']}
         elif cmd in ('gate','start','complete'):
-            reasons=gate(root,folder,s,a.job,cmd=='complete')
+            choice_result = {}
+            reasons=gate(root,folder,s,a.job,cmd=='complete',choice_result=choice_result)
             if cmd=='gate':return {'ready':not reasons,'blockers':reasons,'executes':False}
             need(not reasons,'job blocked: '+'; '.join(reasons));j=s['job'][a.job]
             if cmd=='start':
                 j['status']='running';j['started_at']=now()
+                if choice_result.get('decision_sha256'):
+                    j['production_choice_decision_sha256'] = choice_result['decision_sha256']
                 j['input_requirement_hashes']={rid:digest(requirement_definition(s['requirement'][rid])) for rid in j.get('requirement_ids',[])}
                 result={'started':a.job,'executes':False}
             else:
@@ -690,6 +762,8 @@ def main():
                 need(not proof_blockers,'; '.join(proof_blockers))
                 for rid in j['fulfills_requirements']:need(current_requirement(root,s,s['requirement'][rid]),'declared requirement not closed with current evidence: '+rid)
                 j['status']='completed';j['completed_at']=now();j['completion_hashes']={aid:s['artifact'][aid]['sha256'] for aid in j['artifact_ids']}
+                if choice_result.get('decision_sha256'):
+                    j['production_choice_decision_sha256'] = choice_result['decision_sha256']
                 j['completion_evidence_hashes']={eid:digest(evidence_definition(s['evidence'][eid])) for eid in j['evidence_ids']}
                 p=s['pause']
                 if p.get('boundary')=='after_job' and p.get('target')==a.job or p.get('boundary')=='after_artifact' and p.get('target') in j['artifact_ids']:p['active']=True

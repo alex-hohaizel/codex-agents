@@ -136,11 +136,16 @@
       "REQ-047",
       "REQ-048",
       "REQ-049",
-      "REQ-050"
+      "REQ-050",
+      "PQ-05",
+      "PQ-15",
+      "PQ-16",
+      "PQ-18",
+      "PQ-19"
     ],
     "verified_release_evidence": "../../governance/VALIDATION.md",
     "local_catalog_evidence": "../../governance/VALIDATION.md",
     "baseline_acceptance_evidence": "../../governance/VALIDATION.md"
   },
-  "version": "0.9.0"
+  "version": "0.10.0"
 }

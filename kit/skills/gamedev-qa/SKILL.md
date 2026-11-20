@@ -2,10 +2,12 @@
 name: gamedev-qa
 description: "Independently review native mobile game behavior, source fidelity, camera and controls, learning, performance, commerce, lifecycle, and the evidence due for its stage."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier QA
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

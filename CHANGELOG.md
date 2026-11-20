@@ -2,6 +2,12 @@
 
 The [component record](releases/current.json) identifies the supported release and [GitHub Releases](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0) provides the versioned source and attested downloads. See the [release overview](releases/README.md) for the current product scope and the [installation guide](docs/INSTALL.md) for setup and recovery.
 
+## v1.10.0 — production choices and exact handoff
+
+- Compare project-specific techniques before a material design, prototype or implementation. Use a versioned catalog and a reproducible probe.
+- Carry approved masters, flows and decisions into the actual consuming route. Recheck them before resume or implementation. Require a representative slice before replication and bind acceptance to exact outputs.
+- Update native family routes, both constructors, portable packages, role and host instructions, Workbench control, and language guides. Retain supported older package handling and separate host adoption.
+
 ## v1.8.0 — universal installation
 
 Adds one browser-based setup workflow and ready packages for Windows/macOS/Linux

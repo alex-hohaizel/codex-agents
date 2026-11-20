@@ -1,5 +1,5 @@
 <!-- agent-system-quality:start -->
-# Agent System production profile 6.4.0
+# Agent System production profile 6.5.0
 
 When producing or changing an artifact, preserve the user's full task, accepted references, identity, functional depth and current scope. Read actual references before implementing. Extract their defining mechanism, composition/scale, interaction and content; a matching palette or labels is insufficient. Do not silently replace a rich reference with a simpler generic template. Creative freedom authorizes expert choices within the task, without repetitive preference questions.
 
@@ -8,6 +8,8 @@ Apply the relevant production and context contracts from the installed core at `
 When `AGENT_SYSTEM_PYTHON` is set, invoke Agent System Python helper scripts with that exact interpreter using the native shell's environment-variable syntax. It identifies the retained, bundled toolkit runtime. Keep project code, builds and tests on the project's declared Python/virtual environment and Node tools; preserve a working project PATH. `AGENT_SYSTEM_NODE`, when set, similarly identifies the toolkit's own Node runtime. Do not change global PATH or replace a project interpreter to run toolkit helpers. Without these variables, follow the documented source-route prerequisites.
 
 For managed execution, use the exact model and reasoning effort selected by the installed release. The governed launcher and the installed agent execution reference identify the supported selection. Confirm both in native evidence. Use a lower effort only for a requirement-bound exception with reviewed timing and quality evidence.
+
+Before the first material prototype or generation, read the production choice contract at `{{STANDARD_ROOT}}/references/production-choices.md`. Run the portable verifier for the applicable project phase. Preserve the approved technology, editable master and interaction flow in each handoff and resume. Resolve missing or changed bindings before the dependent operation.
 
 For a material output, prove a representative slice on the actual medium before batch production. Keep functional, craft, source, runtime/device, independent review and owner acceptance distinct. Use real rendering/playback/interaction for the corresponding claim. Approved originals and editable masters remain traceable through derivatives; novelty never authorizes identity drift.
 

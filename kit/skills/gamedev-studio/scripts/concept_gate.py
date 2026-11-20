@@ -554,12 +554,22 @@ def main(argv=None):
     parser.add_argument("--evidence", help="Optional separate capability-evidence registry")
     parser.add_argument("--reviews", help="Actual independent semantic-review receipts; see review scope below")
     parser.add_argument("--cards", help="Readable cards linked by id and passport_ref")
-    parser.add_argument("--for-illustration", action="store_true", help="Require resolved profiles/evidence plus current independent pre_illustration_systemic_passport receipts")
+    parser.add_argument("--for-illustration", action="store_true", help="Verify exploration choices and independent pre-illustration evidence")
+    parser.add_argument("--project-root", type=Path, help="Project root containing production-choices.json")
+    parser.add_argument("--historical", action="store_true", help="Inspect a historical passport without current illustration admission")
     parser.add_argument("--images", help="Optional {images:[{concept_id,path,sha256,profile_ref,visible_input_refs}]} reference records")
     parser.add_argument("--check-files", action="store_true", help="With --images, verify referenced file existence and exact SHA-256")
     parser.add_argument("--json", action="store_true", help="Emit structured JSON rather than a short human report")
     args = parser.parse_args(argv)
     try:
+        production_choices = None
+        if args.for_illustration and not args.historical:
+            from production_choices import ChoiceError, verify_project
+            root = args.project_root or (Path(args.input).resolve().parent if args.input != "-" else Path.cwd())
+            try:
+                production_choices = verify_project(root, "explore", required_kind="game")
+            except ChoiceError as exc:
+                raise ValueError("production choices: " + str(exc)) from exc
         data, schema = _load(args.input), _load(args.schema)
         kwargs = {name: _load(getattr(args, name)) if getattr(args, name) else None for name in ("profiles", "evidence", "reviews", "cards", "images")}
         if args.check_files and not args.images:
@@ -567,7 +577,10 @@ def main(argv=None):
         result = validate_passports(data, schema, for_illustration=args.for_illustration,
                                     check_files=args.check_files,
                                     base_dir=Path(args.input).resolve().parent if args.input != "-" else Path.cwd(), **kwargs)
-    except (OSError, ValueError, TypeError, KeyError, RecursionError) as exc:
+        result["production_choices"] = production_choices
+        result["historical_inspection"] = args.historical
+        result["current_illustration_admitted"] = bool(args.for_illustration and result["valid"] and production_choices)
+    except (OSError, ValueError, TypeError, KeyError, RecursionError, ImportError) as exc:
         print(json.dumps({"status": "input_error", "valid": False, "error": str(exc)}, ensure_ascii=False), file=sys.stderr)
         return 2
     if args.json:

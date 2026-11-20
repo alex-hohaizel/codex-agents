@@ -27,7 +27,7 @@ class RuntimeTests(unittest.TestCase):
         (self.bundle / "scripts").mkdir(parents=True)
         (self.bundle / "assets").mkdir()
         (self.bundle / "references").mkdir()
-        for name in ("atelier.py", "pipeline.py", "platform_support.py"):
+        for name in ("atelier.py", "pipeline.py", "platform_support.py", "production_choices.py"):
             shutil.copyfile(SOURCE / name, self.bundle / "scripts" / name)
         (self.bundle / "assets/stage-catalog.json").write_text('{"schema_version":"2.0.0"}')
         (self.bundle / "references/experience-contract.md").write_text("Test contract v1")
@@ -646,14 +646,32 @@ class RuntimeTests(unittest.TestCase):
         path.write_text(json.dumps(intent))
         self.call("route", "--intent", path)
         self.task("C1", source=intent["source"], requires_production_choice=False)
-        self.call("readiness", "--task", "C1")
+        result = self.call("readiness", "--task", "C1", expected=1)
+        self.assertIn("production-choices.json", " ".join(result["blockers"]))
         self.task("WRONG-SOURCE", source="different request", expected=2)
         self.task("DOWNGRADE", source=intent["source"], operation="visual_previews", expected=2)
         self.task("FULL", source=intent["source"])
         self.assertEqual(self.state()["tasks"]["FULL"]["operation"], "full_concepts")
-        self.call("readiness", "--task", "FULL")
+        self.call("readiness", "--task", "FULL", expected=1)
         self.test_stop_search_and_production_choice_are_explicit_distinct_decisions()
-        self.call("readiness", "--task", "FULL")
+        requirements = self.write("full-concept-scenario.md", "Keep game experiments local for this test.\n")
+        candidate = {"id": "local", "description": "Run the scoped game concept probe locally",
+                     "reason": "No external service needed", "mode": "feasible",
+                     "components": [{"role": "runtime", "name": "Chromium", "version": "test"}],
+                     "checks": {"R1": "unknown"}, "sources": []}
+        self.write("production-choices.json", json.dumps({
+            "schema": "atelier.production-choices/1", "id": "game-test", "revision": 1,
+            "author": "fixture", "objective": "Compare local experiments", "target": "Desktop synthetic",
+            "target_kind": "game", "requirements": [{"id": "R1", "hard": True, "description": "Keep experiments local",
+                "source": {"path": requirements.name, "sha256": hashlib.sha256(requirements.read_bytes()).hexdigest()}}],
+            "candidates": [candidate],
+            "experiment": {"candidate_id": "local", "purpose": "Check a local run with no network",
+                "inputs": [{"path": requirements.name, "sha256": hashlib.sha256(requirements.read_bytes()).hexdigest()}],
+                "procedure": {"path": requirements.name, "sha256": hashlib.sha256(requirements.read_bytes()).hexdigest()},
+                "success_criteria": ["Local runs reach the intended scenario"],
+                "temporary_boundary": "Synthetic isolated output only"},
+        }))
+        self.assertEqual(self.call("readiness", "--task", "FULL")["production_choices"]["phase"], "explore")
 
     def test_stage_check_never_creates_bundle_bytecode_cache(self):
         before = {path.relative_to(self.bundle).as_posix(): path.read_bytes() for path in self.bundle.rglob("*") if path.is_file()}

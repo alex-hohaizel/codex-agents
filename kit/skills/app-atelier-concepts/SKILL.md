@@ -2,10 +2,12 @@
 name: app-atelier-concepts
 description: "Compare app concepts, monetization, and economics for an accepted direction. Use when choosing a complete core, pricing model, or viable operating approach."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Concepts and Economics
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Build and compare viable candidates
 

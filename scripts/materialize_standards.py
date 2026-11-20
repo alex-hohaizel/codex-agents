@@ -10,6 +10,9 @@ from managed_release_checks import managed_model_policy
 
 RESOURCES = {
     'production-quality.md': 'references/production-quality.md',
+    'production-choices.md': 'references/production-choices.md',
+    'production_choices.py': 'scripts/production_choices.py',
+    'technology-catalog.json': 'assets/technology-catalog.json',
     'tool-compatibility.md': 'references/tool-compatibility.md',
     'visual-identity.md': 'references/visual-identity.md',
     'research-and-synthesis.md': 'references/research-and-synthesis.md',
@@ -42,6 +45,10 @@ ORCHESTRATOR_TEMPLATES = (
     'assets/execution-script.template.md',
     'assets/stage-closeout.template.md',
 )
+PRODUCTION_VERIFIER_TARGETS = (
+    'scripts/production_choices.py',
+    'apps/agent-atelier/server/production_choices.py',
+)
 
 
 def linked(path):
@@ -68,6 +75,8 @@ def main():
                  for source, target in table.items()]
     resources.extend(('kit/skills/agent-foundry/' + target, target, [orchestrator])
                      for target in ORCHESTRATOR_TEMPLATES)
+    resources.extend(('standards/production_choices.py', target, [root])
+                     for target in PRODUCTION_VERIFIER_TARGETS)
     # Read the complete reviewed source closure before replacing any bundle.
     # A missing new master must not leave a partly materialized old bundle.
     masters = {}

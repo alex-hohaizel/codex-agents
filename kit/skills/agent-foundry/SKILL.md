@@ -2,10 +2,12 @@
 name: agent-foundry
 description: "Create, adapt, recover, or extend a specialized agent or skill family. Use when the user needs durable capabilities, roles, tools, memory, verification, or a portable agent package for repeated work."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Agent Foundry
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 Turn the user's goal into a domain-specific agent with one public entry and one owner of integration. Keep the **constructor**, **generated agent**, and **outcome produced by that agent** separate. Each has its own scope, state, evidence, and authority. Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. The factory state and blueprint formats are `1.0.0`. The linked domain model is `foundry-depth/2`. The release manifest identifies the installed suite version.
 

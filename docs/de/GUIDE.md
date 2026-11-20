@@ -8,6 +8,14 @@ Beginnen Sie mit der [geführten Einrichtung](../../START_HERE.md#install-and-ve
 
 Der kommerzielle Käuferkandidat bündelt Einrichtung und erworbene Versionsrechte. Lesen Sie [die Käuferanleitung](../commercial/BUYER_GUIDE.md), [Lizenzbedingungen](../commercial/LICENSING.md) und [Laufzeitgrenzen](../commercial/WORKBENCH_RUNTIME.md).
 
+<a id="production-choices"></a>
+
+## Produktionsentscheidungen und freigegebenes Design
+
+Vergleichen Sie vor einem wesentlichen Prototyp, Projektgerüst oder einer Änderung die Verfahren anhand der Projektanforderungen und der realen Zielumgebung. Binden Sie freigegebene Originale, Abläufe und Entscheidungen an die Umsetzung. Prüfen Sie einen funktionsfähigen Ausschnitt vor der Vervielfältigung und nehmen Sie die konkrete Lieferung ab.
+
+[Anleitung zu Produktionsentscheidungen öffnen](../technical/PRODUCTION_CHOICES.md)
+
 ## Einstieg wählen
 
 - **Codex ausprobieren.** [Installieren und prüfen](#install) · [Erste Aufgabe erledigen](#first-task) · [Abläufe mit Bildbeispielen](../../marketing/de/README.md)

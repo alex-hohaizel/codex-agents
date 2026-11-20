@@ -8,6 +8,8 @@ Read the original task and the actual references before selecting tools or a sha
 
 The production brief names audience/use, required outcome, exact source pins, acceptance criteria, editable master, target formats/environments, tool operation and parameter support, owner, resource bounds and repair stop. Do not infer missing behavior from decorative artwork. A platform illustration is a reference to translate into usable controls, real data and clear system states; it is not permission to fake those capabilities.
 
+For each material production choice, including the first exploratory generation, use the [production choice contract](production-choices.md) (bundled as `references/production-choices.md`). Record the actual alternatives, constraints and representative check before committing to the dependent work. Carry the exact accepted definition, editable master, interactions and allowed changes across direct, delegated, generated and resumed work. No implicit choice of a stack, media provider, template or renderer can satisfy that contract.
+
 ## Make the defining mechanism work first
 
 Before batch production, implement one representative slice with real applicable content/state and the defining visual, auditory, narrative or interaction mechanism at the agreed level. Inspect it on the actual target medium, alongside the reference. The reviewer must answer what retained the character, what changed, and whether the useful task still works. Scale only after that benchmark is accepted for its scope.

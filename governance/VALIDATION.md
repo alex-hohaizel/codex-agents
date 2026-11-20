@@ -54,3 +54,7 @@ The root HTML must survive GitHub source downloads and link to ready assets.
 Require exact-commit native package and real-browser evidence before release;
 keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
 Commercial purchase rights and owner sale gates remain unchanged.
+
+## Production choice evidence
+
+Run [the decision lifecycle](../docs/technical/PRODUCTION_CHOICES.md) in the actual consuming route. Use separate evidence for exploration, authorized implementation, a representative slice and final acceptance. Include a missing-record or changed-pin control and preserve the prior supported workflow. Match scope and SHA-256 before reusing evidence. Report declarative, structural, runtime, human and publication evidence separately.

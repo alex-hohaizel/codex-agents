@@ -51,6 +51,12 @@ jobs:
           architecture: ${{ matrix.cpu }}
           cache: npm
           cache-dependency-path: apps/agent-atelier/package-lock.json
+      - name: Verify existing owner-only profile permissions through update and rollback
+        if: startsWith(matrix.target, 'win32-')
+        run: |
+          import subprocess, sys
+          subprocess.run([sys.executable, '-B', '-m', 'unittest', 'discover', '-s', 'scripts/tests',
+                          '-p', 'test_host_profile.py', '-k', 'keep_permissions_through_update_and_rollback'], check=True)
       - name: Compile the current complete client without changing source
         run: |
           import importlib.util, pathlib, subprocess

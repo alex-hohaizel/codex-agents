@@ -2,10 +2,12 @@
 name: chatbot-atelier-knowledge
 description: "Design chatbot knowledge, memory, retrieval, and deletion across access boundaries. Use conversation for wording and integrations for provider wiring."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # ChatBot Atelier · Knowledge
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Define memory and permissions
 

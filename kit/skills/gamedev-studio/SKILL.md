@@ -2,10 +2,12 @@
 name: gamedev-studio
 description: "Create or maintain the studio's identity, accepted artwork, versioned derivatives, lawful usage, and verified account or service readiness for a mobile game."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier Studio
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

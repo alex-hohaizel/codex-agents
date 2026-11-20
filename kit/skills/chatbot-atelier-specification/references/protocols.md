@@ -14,6 +14,8 @@ A canonical run has `id`, `actor_id`, `kind`, `status`, `requirement_ids`, `doma
 
 `python3 scripts/teamctl.py plan ROUND.json --kind local --active ID` creates a current draft. `hashes` records observed bytes, `freeze` binds the package digest and `check` validates team records. `python3 scripts/check_round.py ROUND.json` requires the current team policy for every acceptance path. Verify naturalness, experience, delivery and authors' claims through suitable independent evidence.
 
+Feature, critical, and stage rounds use the owning project's `production-choices.json`. `bind-inputs` verifies the experiment rationale for planning runs and the approved decision for dependent runs. Keep that binding when delegating and resuming. `freeze` checks the recorded decisions against the current project before it creates a package hash. `check --ready` and `check_round.py` check the evidence due for current acceptance. Use `--project-root PROJECT` if the record lives outside the round directory. `check_round.py --historical` reads retained traceability without admitting the prior round into current work.
+
 `chatbot.review/1` allows reuse of an unexpired same-format result from this project when the exact inputs, dependencies and environment still match. Changed or unknown dependencies and revoked data invalidate the affected acceptance.
 
 ## Unsupported input and existing projects

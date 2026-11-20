@@ -38,8 +38,8 @@ prompt body and retain skill identity, UI policy, and role configuration.
 
 ```bash
 IMPORTER="$PWD/kit/skills/agent-foundry/scripts/import_codex.py"
-python3 -B "$IMPORTER" audit "$MANIFEST" --target "$PROJECT"
-python3 -B "$IMPORTER" stage "$MANIFEST" --target "$PROJECT" \
+"${AGENT_SYSTEM_PYTHON:-python3}" -B "$IMPORTER" audit "$MANIFEST" --target "$PROJECT"
+"${AGENT_SYSTEM_PYTHON:-python3}" -B "$IMPORTER" stage "$MANIFEST" --target "$PROJECT" \
   --expect "$PLAN_SHA" --output "$NEW_PROJECT" > stage.json
 ```
 
@@ -47,6 +47,17 @@ Read the observed target, blockers and `plan_sha256` before staging.
 Staging checks the same inputs, rejects conflicting names, and publishes
 the reviewed files into the new directory. Keep the original source and
 review report so the task and any later customization can be reproduced.
+
+An overlay that changes skill or role bytes requires an approved
+[production choice](PRODUCTION_CHOICES.md). Add `--plan-file "$CHOICE_ROOT/import-plan.json"`
+to the audit and pin that exact file in the decision's `configuration`.
+Supply `--choice-root "$CHOICE_ROOT"` to the stage command when the decision
+is outside the audited project. Keep approved plan files under separate
+names when preparing a new revision. Staging checks the decision before
+writing and again before publishing the staged directory. The receipt
+records both the choice and its current record digest. Byte-preserving
+imports use the reviewed plan and make no changes to the audited project.
+
 For a fresh launch that does not load project configuration, pass each
 `role_launch_overrides` string from `stage.json` as its own `-c` argument.
 This explicitly registers the staged roles for that launch. For example,

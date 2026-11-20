@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify an offline interactive prototype from exact reviewed UX sources."""
+"""Build a source-linked walkthrough or check an explicitly approved visual master."""
 from __future__ import annotations
 
 import argparse
@@ -223,16 +223,50 @@ def build(root, input_file):
                  "screens":len(spec["screens"]), "runtime_verified":False}
 
 
+def verify_master(root, artifact, source_root):
+    from production_choices import DEFAULT_RECORD, verify_project
+
+    choice = verify_project(root, "implement")
+    require(choice["target_kind"] in {"web", "app"}, "An App or web production choice is required")
+    record = get_file(root, DEFAULT_RECORD)
+    require(digest(record) == choice["record_sha256"], "The production choice changed during verification")
+    decision = json.loads(record, object_pairs_hook=pairs)["decision"]
+    absolute = artifact.absolute()
+    relative = absolute.relative_to(root) if absolute.is_relative_to(root) else absolute.relative_to(source_root.absolute())
+    path = relative.as_posix()
+    master = get_file(root, path)
+    master_sha256 = digest(master)
+    require(b'<script id="prototype-data" type="application/json">' not in master,
+            "The simulated walkthrough cannot substitute for a production visual master")
+    require(any(master["path"] == path and master["sha256"] == master_sha256
+                for master in decision["masters"]), "Use an exact approved master from the current production choice")
+    require(decision["flows"], "Pin the approved interaction flow alongside the visual master")
+    return {"status":"verified-master", "artifact_kind":"approved-visual-master", "master":path,
+            "master_sha256":master_sha256, "flows":decision["flows"], "production_choices":choice,
+            "runtime_verified":False}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("build", "verify"))
+    parser.add_argument("action", choices=("build", "verify", "verify-master"))
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--input", required=True, help="Project relative JSON manifest")
+    parser.add_argument("--input", help="Project-relative walkthrough JSON manifest for build or verify")
     parser.add_argument("--artifact", type=Path, required=True, help="Local HTML prototype path")
     args = parser.parse_args()
     try:
         root = args.root.resolve(strict=True)
         require(root.is_dir(), "Project root is not a directory")
+        if args.action == "verify-master":
+            require(args.input is None, "The approved master uses the canonical production choice")
+            print(json.dumps(verify_master(root, args.artifact, args.root), indent=2))
+            return 0
+        require(args.input, "Supply the project-relative walkthrough manifest with --input")
+        choice = None
+        if args.action == "build":
+            from production_choices import verify_project
+
+            choice = verify_project(root, "explore")
+            require(choice["target_kind"] in {"web", "app"}, "An App or web production choice is required")
         raw, receipt = build(root, args.input)
         require(not args.artifact.is_symlink(), "Artifact cannot be a symbolic link")
         if args.action == "build":
@@ -240,9 +274,11 @@ def main():
                 file.write(raw)
         else:
             require(args.artifact.read_bytes() == raw, "HTML is stale or inconsistent with current reviewed sources")
+        receipt["artifact_kind"] = "simulated-walkthrough"
+        receipt["production_choices"] = choice
         receipt["status"] = "built" if args.action == "build" else "verified-exact-bytes"
         print(json.dumps(receipt, indent=2))
-    except (OSError, ValueError, TypeError, KeyError) as exc:
+    except (OSError, ValueError, TypeError, KeyError, ImportError) as exc:
         print(json.dumps({"status":"blocked","reason":str(exc)}), file=sys.stderr)
         return 2
     return 0

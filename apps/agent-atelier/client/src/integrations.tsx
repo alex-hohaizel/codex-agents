@@ -56,9 +56,11 @@ export function PluginIntegrations({
   t,
   demo,
   csrf,
+  project,
 }: {
   t: T;
   demo: boolean;
+  project?: { id: string };
   csrf?: string;
 }) {
   const [catalog, setCatalog] = useState<Data | null>(null);
@@ -204,6 +206,7 @@ export function PluginIntegrations({
                   entry={selection}
                   t={t}
                   csrf={csrf}
+                  project={project}
                 />
               ) : (
                 <Empty icon={Plug} compact title={t("pluginSelect")} />
@@ -229,10 +232,12 @@ function IntegrationDetail({
   entry,
   t,
   csrf,
+  project,
 }: {
   entry: Data;
   t: T;
   csrf?: string;
+  project?: { id: string };
 }) {
   const [inspection, setInspection] = useState<Data | null>(null);
   const locale = useContext(LocaleContext);
@@ -352,7 +357,7 @@ function IntegrationDetail({
       )}
       {entry.status === "ready" &&
         actions.some(({ id }) => id === "codex.image.generate") && (
-          <ImageGeneration t={t} csrf={csrf} />
+          <ImageGeneration key={project?.id} t={t} csrf={csrf} projectId={project?.id} />
         )}
       {entry.status === "ready" && hasRepositoryLookup && (
         <RepositoryLookup t={t} csrf={csrf} />

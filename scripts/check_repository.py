@@ -80,6 +80,9 @@ def check(root: Path, *, links: bool = True) -> dict:
     names = [s.get("name") for s in skills]
     if not expected or len(expected) != len(set(expected)):
         errors.append("release must record unique stable_skill_names")
+    if managed_stage and tuple(map(int, managed_stage.groups())) >= (1, 10, 0):
+        from check_production_choice_coverage import check_coverage
+        errors.extend(check_coverage(root, current, expected))
     if sorted(names) != sorted(expected):
         errors.append("kit skill names differ from release inventory")
     if len(names) != len(set(names)):

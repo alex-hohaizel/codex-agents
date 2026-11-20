@@ -277,14 +277,29 @@ def main():
     parser.add_argument("project", type=Path)
     parser.add_argument("--gate", choices=LEVEL, default="draft")
     parser.add_argument("--root", type=Path)
+    parser.add_argument("--historical", action="store_true",
+                        help="Inspect a historical depth/2 projection without current production admission")
     args = parser.parse_args()
+    managed = not args.historical and args.gate != "draft"
+    production_choices = None
     try:
         data = strict_json_loads(args.project.read_text(encoding="utf-8"))
-        errors = validate(data, args.root or args.project.parent, args.gate)
-    except (ValueError, OSError, TypeError, KeyError) as exc:
+        root = args.root or args.project.parent
+        errors = validate(data, root, args.gate)
+        if managed:
+            from production_choices import ChoiceError, verify_project
+            phase = "explore" if args.gate == "design" else "accept"
+            try:
+                production_choices = verify_project(root, phase)
+            except ChoiceError as exc:
+                errors.append("production choices: " + str(exc))
+    except (ValueError, OSError, TypeError, KeyError, ImportError) as exc:
         errors = [str(exc)]
     print(json.dumps({"structurally_valid": not errors, "quality_certified": False,
-                      "gate": args.gate, "errors": errors}, ensure_ascii=False, indent=2))
+                      "gate": args.gate, "errors": errors,
+                      "historical_inspection": args.historical,
+                      "current_production_choices_checked": production_choices is not None,
+                      "production_choices": production_choices}, ensure_ascii=False, indent=2))
     return 1 if errors else 0
 
 

@@ -53,7 +53,7 @@ class HostProfileTests(unittest.TestCase):
         installed = H.read(self.instructions)
         self.assertTrue(installed.startswith('Owner prefix.\r\n\r\n'))
         self.assertTrue(installed.endswith('\r\n\r\nOwner suffix.\r\n'))
-        self.assertIn('production profile 6.4.0', installed)
+        self.assertIn('production profile ' + H.load(ROOT / 'releases/current.json')['host_profile']['version'], installed)
         self.assertNotIn('production profile 6.0.0', installed)
         H.verify_or_rollback(self.journal, rollback=True)
         self.assertEqual(self.instructions.read_bytes(), before.encode('utf-8'))
@@ -80,7 +80,7 @@ class HostProfileTests(unittest.TestCase):
         self.instructions.write_bytes(before.encode('utf8'))
         self.make_plan();H.apply(self.plan,self.journal)
         installed=H.read(self.instructions)
-        self.assertIn('production profile 6.4.0',installed)
+        self.assertIn('production profile ' + H.load(ROOT / 'releases/current.json')['host_profile']['version'],installed)
         self.assertIn('AGENT_SYSTEM_PYTHON',installed)
         self.assertIn('preserve a working project PATH',installed)
         H.verify_or_rollback(self.journal,rollback=True)
@@ -152,12 +152,20 @@ class HostProfileTests(unittest.TestCase):
     def test_legacy_plan_and_journal_without_compatibility_metadata_stay_supported(self):
         plan = H.audit(ROOT, self.codex, self.standard)
         plan['changes'][0].pop('compatibility_sources')
+        for row in plan['changes']:
+            row.pop('before_mode')
+            row.pop('after_mode')
+        H.platform_support.set_mode(self.instructions, 0o600)
         H.save(self.plan, plan)
         H.apply(self.plan, self.journal)
         self.assertNotIn('compatibility_sources', H.load(self.journal)['changes'][0])
-        self.assertTrue(H.verify_or_rollback(self.journal)['ok'])
+        verified = H.verify_or_rollback(self.journal)
+        self.assertTrue(verified['ok'])
+        self.assertFalse(verified['permission_pins_verified'])
+        self.assertTrue(H.platform_support.assert_private(self.instructions))
         H.verify_or_rollback(self.journal, rollback=True)
         self.assertEqual(H.read(self.instructions), 'Existing owner instructions.\n')
+        self.assertTrue(H.platform_support.assert_private(self.instructions))
 
     def test_verify_and_rollback_use_actual_journal_without_repository_history(self):
         repo = self.copy_repo()
@@ -188,8 +196,59 @@ class HostProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'unknown customized role'):
             self.make_plan()
 
-    def predecessor_role(self, filename):
+    def test_existing_private_profile_and_role_keep_permissions_through_update_and_rollback(self):
+        target = self.codex / 'agents/foundry-qa.toml'
+        target.parent.mkdir()
+        target.write_bytes(self.role_before_production_choices(target.name).encode())
+        originals = {}
+        for path in (self.instructions, target):
+            H.platform_support.set_mode(path, 0o600)
+            originals[path] = path.read_bytes()
+        self.make_plan()
+        rows = {Path(row['target']): row for row in H.load(self.plan)['changes']}
+        for path in originals:
+            self.assertEqual(rows[path]['before_mode'], 0o600)
+            self.assertEqual(rows[path]['after_mode'], 0o600)
+        self.assertTrue(H.apply(self.plan, self.journal)['permission_pins_verified'])
+        for path, content in originals.items():
+            self.assertNotEqual(path.read_bytes(), content)
+            self.assertTrue(H.platform_support.assert_private(path))
+        verified = H.verify_or_rollback(self.journal)
+        self.assertTrue(verified['permission_pins_verified'])
+        H.verify_or_rollback(self.journal, rollback=True)
+        for path, content in originals.items():
+            self.assertEqual(path.read_bytes(), content)
+            self.assertTrue(H.platform_support.assert_private(path))
+
+    @unittest.skipIf(H.platform_support.WINDOWS, 'mode-only drift uses POSIX chmod')
+    def test_permission_only_edit_blocks_apply_and_rollback_before_effect(self):
+        self.make_plan()
+        self.instructions.chmod(0o600 if self.instructions.stat().st_mode & 0o077 else 0o644)
+        with self.assertRaisesRegex(ValueError, 'permissions'):
+            H.apply(self.plan, self.journal)
+        self.assertFalse(self.journal.exists())
+        self.make_plan()
+        H.apply(self.plan, self.journal)
+        installed = self.instructions.read_bytes()
+        self.instructions.chmod(0o400)
+        with self.assertRaisesRegex(ValueError, 'preserve later work'):
+            H.verify_or_rollback(self.journal, rollback=True)
+        self.assertEqual(self.instructions.read_bytes(), installed)
+        self.assertEqual(self.instructions.stat().st_mode & 0o777, 0o400)
+
+    def role_before_production_choices(self, filename):
         canonical = H.read(ROOT / 'agent-profiles' / filename)
+        rows = canonical.splitlines(keepends=True)
+        known = [line for line in rows if line.startswith('For material production tasks, use the installed production choice contract.')]
+        self.assertEqual(len(known), 1)
+        original = canonical.replace(known[0], '')
+        manifest = H.load(ROOT / 'agent-profiles/manifest.json')
+        self.assertIn(H.sha(original), next(entry for entry in manifest['roles']
+                                           if entry['file'] == filename)['previous_sha256'])
+        return original
+
+    def predecessor_role(self, filename):
+        canonical = self.role_before_production_choices(filename)
         body, _ = H.role_parts(canonical)
         language = ('Use the task or project preferred language, with Ukrainian as the default when none is set.'
                     if filename == 'foundry-qa.toml' else
@@ -273,7 +332,7 @@ class HostProfileTests(unittest.TestCase):
         agents.mkdir()
         target = agents / 'foundry-qa.toml'
         canonical = H.read(ROOT / 'agent-profiles' / target.name)
-        prior = canonical.replace('model_reasoning_effort = "ultra"', 'model_reasoning_effort = "high"')
+        prior = self.role_before_production_choices(target.name).replace('model_reasoning_effort = "ultra"', 'model_reasoning_effort = "high"')
         self.assertIn(H.sha(prior), next(row for row in H.load(ROOT / 'agent-profiles/manifest.json')['roles']
                                          if row['file'] == target.name)['previous_sha256'])
         target.write_text(prior)

@@ -2,10 +2,12 @@
 name: app-atelier-release
 description: "Assess app store and deployment feasibility, then prepare and execute an authorized release candidate. Use for exact packages, target tracks, signing, and rollout verification."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Release
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Check feasibility before significant build
 

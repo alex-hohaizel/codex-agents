@@ -2,10 +2,12 @@
 name: app-atelier-support
 description: "Design, implement, or repair product support across app clients and approved channels. Use for support knowledge, identity linking, case handling, and safe support actions."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Support
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Define support for the actual product
 

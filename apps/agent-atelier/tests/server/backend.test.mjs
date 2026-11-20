@@ -23,6 +23,14 @@ import { localProfile } from "../../server/permissions.mjs";
 import { readInstalledSource } from "../../server/skills.mjs";
 import { selectRequirements } from "../../server/context.mjs";
 const repoRoot = resolve(import.meta.dirname, "../../../..");
+
+function writeProductionChoice(project, targetKind = "script") {
+  const python = process.env.AGENT_SYSTEM_PYTHON || (process.platform === "win32" ? "python" : "python3");
+  const source = "import sys; sys.path.insert(0, 'scripts/tests'); " +
+    "from fixture_production_choices import make_choice; make_choice(sys.argv[1], target_kind=sys.argv[2])";
+  execFileSync(python, ["-B", "-c", source, project, targetKind], { cwd: repoRoot });
+}
+
 class FakeCodex extends EventEmitter {
   constructor() {
     super();
@@ -231,6 +239,116 @@ test("task capsule retains native must and rejects drift before dispatch", async
     await f.close();
   }
 });
+test("production prepare and dispatch bind a decision and stop changed masters before the native start", async () => {
+  const f = await fixture();
+  const request = {
+    objective: "Prepare an approved web implementation",
+    acceptance: "Preserve the master and navigation",
+    scope: "read-only",
+    production_phase: "implement",
+    deadline_seconds: 60,
+  };
+  const target = { project_id: f.binding.id, expected_revision: f.binding.revision };
+  try {
+    const missing = await f.command("task.prepare", request, target);
+    assert.equal(missing.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    writeProductionChoice(f.project, "web");
+    const prep = await f.command("task.prepare", request, target);
+    assert.equal(prep.status, "completed");
+    const { task, capsule } = prep.result;
+    assert.equal(capsule.production_choice.phase, "implement");
+    assert.equal(capsule.production_choice.sha256, sha(await readFile(join(f.project, "production-choices.json"))));
+    const master = join(f.project, "_choice-fixture", "master.html");
+    const original = await readFile(master);
+    await writeFile(master, "<main>Unapproved replacement</main>");
+    const denied = await f.command("task.dispatch", { task_id: task.id }, target);
+    assert.equal(denied.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    assert.match(denied.error.message, /master\.html/);
+    assert.equal(f.codex.starts, 0);
+    await writeFile(master, original);
+    const retry = await f.command("task.prepare", request, target);
+    assert.equal(retry.status, "completed");
+    const run = await f.command("task.dispatch", { task_id: retry.result.task.id }, target);
+    assert.equal(run.status, "completed");
+    assert.equal(f.codex.starts, 1);
+  } finally {
+    await f.close();
+  }
+});
+test("new writable tasks require an approved choice even when labeled repair", async () => {
+  const f = await fixture();
+  const target = { project_id: f.binding.id };
+  const request = {
+    objective: "Fix the cable label in the synthetic source",
+    acceptance: "Only the documented label changes",
+    scope: "workspace-write",
+    allowed_paths: ["src"],
+    deadline_seconds: 60,
+  };
+  try {
+    await mkdir(join(f.project, "src"));
+    assert.equal(f.binding.production_choice_policy, 1);
+    const automatic = await f.command("task.prepare", request, target);
+    assert.equal(automatic.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    const fakeRepair = await f.command("task.prepare", { ...request, production_phase: "repair" }, target);
+    assert.equal(fakeRepair.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    assert.deepEqual(f.app.store.list("task"), []);
+    assert.equal(f.codex.starts, 0);
+    writeProductionChoice(f.project);
+    const prepared = await f.command("task.prepare", request, target);
+    assert.equal(prepared.status, "completed");
+    assert.equal(prepared.result.capsule.production_choice.phase, "implement");
+  } finally {
+    await f.close();
+  }
+});
+
+test("explicit legacy repair keeps the existing writer route and rejects a newly appearing choice", async () => {
+  const f = await fixture();
+  const target = { project_id: f.binding.id };
+  const request = {
+    objective: "Fix the cable label in the synthetic source",
+    acceptance: "Only the documented label changes",
+    scope: "workspace-write",
+    allowed_paths: ["src"],
+    deadline_seconds: 60,
+  };
+  try {
+    await mkdir(join(f.project, "src"));
+    const { production_choice_policy: policy, ...legacy } = f.app.projects.get(f.binding.id);
+    assert.equal(policy, 1);
+    f.app.store.put("project", legacy.id, legacy, legacy.record_revision);
+    const implicit = await f.command("task.prepare", request, target);
+    assert.equal(implicit.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    const prepareRepair = () => f.command("task.prepare", { ...request, production_phase: "repair" }, target);
+    const prepared = await prepareRepair();
+    assert.equal(prepared.status, "completed");
+    assert.deepEqual(prepared.result.capsule.production_choice, { phase: "repair", legacy: true });
+    assert.deepEqual(prepared.result.capsule.allowed_paths, ["src"]);
+    const started = await f.command("task.dispatch", { task_id: prepared.result.task.id }, target);
+    assert.equal(started.status, "completed");
+    assert.equal(started.result.job.status, "running");
+    assert.equal(f.codex.starts, 1);
+    f.codex.emit("notification", {
+      method: "turn/completed",
+      params: { threadId: "thread-test", turn: { id: "turn-test", status: "completed" } },
+      observed_at: new Date().toISOString(),
+    });
+    assert.equal(f.app.store.get("job", started.result.job.id).status, "completed");
+    const stale = await prepareRepair();
+    assert.equal(stale.status, "completed");
+    writeProductionChoice(f.project);
+    const denied = await f.command("task.dispatch", { task_id: stale.result.task.id }, target);
+    assert.equal(denied.error.code, "SOURCE_DRIFT");
+    assert.equal(f.codex.starts, 1);
+    const current = await prepareRepair();
+    assert.equal(current.status, "completed");
+    assert.equal(current.result.capsule.production_choice.phase, "implement");
+  } finally {
+    await f.close();
+  }
+});
+
 test("native model mismatch records the acknowledged thread before rejecting any turn", async () => {
   const f = await fixture();
   try {
@@ -481,6 +599,7 @@ test("English interface and task defaults preserve original Ukrainian source and
 test("one current writer blocks competing write; observed turn completes then owner review stays separate", async () => {
   const f = await fixture();
   try {
+    writeProductionChoice(f.project);
     const prepare = () =>
       f.command(
         "task.prepare",
@@ -1169,6 +1288,7 @@ test("idle native metadata cannot grant continuation when the isolated executor 
 test("atomic reservation survives concurrent dispatch awaits and consumes each task once", async () => {
   const f = await fixture();
   try {
+    writeProductionChoice(f.project);
     const prepare = () =>
       f.command(
         "task.prepare",
@@ -1214,6 +1334,7 @@ test("atomic reservation survives concurrent dispatch awaits and consumes each t
 test("raw resume override and wrong-turn terminal cannot free current writer", async () => {
   const f = await fixture();
   try {
+    writeProductionChoice(f.project);
     const p = await f.command(
       "task.prepare",
       {
@@ -1460,6 +1581,7 @@ test("cleanup maintenance reserves its barrier before asynchronous file cleanup"
   const f = await fixture();
   let release;
   try {
+    writeProductionChoice(f.project);
     const prepared = await f.command(
       "task.prepare",
       {
@@ -1651,6 +1773,11 @@ test("overlapping canonical project roots share one writer boundary", async () =
         preview_id: preview.result.preview_id,
       });
       const projects = { parent: f.binding, child: bound.result.project };
+      const roots = { parent: f.project, child: childRoot };
+      const writers = new Set();
+      if (scenario.first_scope === "workspace-write") writers.add(scenario.first);
+      if (scenario.second_scope === "workspace-write") writers.add(scenario.second);
+      for (const project of writers) writeProductionChoice(roots[project]);
       f.codex.start = async () => {
         f.codex.starts++;
         return { thread: { id: "overlap-thread-" + f.codex.starts } };
@@ -1726,8 +1853,12 @@ test("disjoint canonical projects retain concurrent writer admission including u
     const binding = await f.command("project.bind", {
       preview_id: preview.result.preview_id,
     });
+    writeProductionChoice(f.project);
+    writeProductionChoice(sibling);
     f.codex.start = async () => {
-      f.codex.starts++;
+      writeProductionChoice(f.project);
+    writeProductionChoice(sibling);
+    f.codex.starts++;
       return { thread: { id: "disjoint-thread-" + f.codex.starts } };
     };
     f.codex.turn = async (threadId, _capsule, onDispatch) => {

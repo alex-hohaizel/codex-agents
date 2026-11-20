@@ -2,10 +2,12 @@
 name: gamedev-director
 description: "Guide a native mobile game through studio setup, concept, design, assets, build, independent QA, release, or live operations. Use for cross-stage direction and when the right next owner needs to be selected."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier Director
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

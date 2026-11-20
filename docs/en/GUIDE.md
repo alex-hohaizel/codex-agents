@@ -8,6 +8,14 @@ For a guided first session, open [Start here](../../START_HERE.md#install-and-ve
 
 The commercial buyer candidate has a coordinated setup and acquired-version records. Read [the buyer guide](../commercial/BUYER_GUIDE.md), [license terms](../commercial/LICENSING.md), and [runtime limits](../commercial/WORKBENCH_RUNTIME.md) before selecting that distribution.
 
+<a id="production-choices"></a>
+
+## Production choices and approved design
+
+Before a material prototype, scaffold or change, compare techniques against the project requirements and real target. Bind the approved original, flow and decisions to implementation. Review a working slice before replication and verify the exact delivery.
+
+[Open the production choices guide](../technical/PRODUCTION_CHOICES.md)
+
 ## Choose where to start
 
 - **Try Codex.** [Install and verify](#install) · [Do a first task](#first-task) · [See illustrated workflows](../../marketing/en/README.md)

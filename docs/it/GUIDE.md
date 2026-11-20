@@ -8,6 +8,14 @@ Per la prima sessione, apri la [guida di avvio](../../START_HERE.md#install-and-
 
 Il candidato commerciale riunisce configurazione e diritti della versione acquistata. Leggi [la guida](../commercial/BUYER_GUIDE.md), [la licenza](../commercial/LICENSING.md) e [i limiti runtime](../commercial/WORKBENCH_RUNTIME.md).
 
+<a id="production-choices"></a>
+
+## Scelte di produzione e design approvato
+
+Prima di un prototipo, di una struttura iniziale o di una modifica sostanziale, confronta le tecniche con i requisiti e l’ambiente effettivo. Collega gli originali, i flussi e le scelte approvati all’implementazione. Verifica una parte funzionante prima di replicarla e controlla la consegna esatta.
+
+[Apri la guida alle scelte di produzione](../technical/PRODUCTION_CHOICES.md)
+
 ## Da dove iniziare
 
 - **Provate Codex.** [Installazione e verifica](#install) · [Primo compito](#first-task) · [Flussi illustrati](../../marketing/it/README.md)

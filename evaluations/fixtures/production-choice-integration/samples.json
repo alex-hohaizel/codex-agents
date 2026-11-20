@@ -1,0 +1,12 @@
+{
+  "base": [
+    {"event_id": "EV-120", "title": "Open Studio, Hall B", "remaining_seats": 0},
+    {"event_id": "EV-014", "title": "Майстерня «Світло»", "remaining_seats": 19},
+    {"event_id": "EV-070", "title": "A \"Quoted\" Tour", "remaining_seats": 4}
+  ],
+  "after_recovery": [
+    {"event_id": "EV-120", "title": "Open Studio, Hall B", "remaining_seats": 3},
+    {"event_id": "EV-014", "title": "Майстерня «Світло»", "remaining_seats": 0},
+    {"event_id": "EV-070", "title": "A \"Quoted\" Tour", "remaining_seats": 9}
+  ]
+}

@@ -43,12 +43,14 @@ Replace `<SKILL_DIR>` with the active skill directory resolved from Codex's avai
 python3 <SKILL_DIR>/scripts/pipeline.py init ./handoff --stage concepts --project-id my-game
 python3 <SKILL_DIR>/scripts/pipeline.py seal ./handoff
 python3 <SKILL_DIR>/scripts/pipeline.py verify ./handoff
-python3 <SKILL_DIR>/scripts/pipeline.py verify ./handoff --require-accepted
+python3 <SKILL_DIR>/scripts/pipeline.py verify ./handoff --require-accepted --project-root "$PROJECT"
 python3 <SKILL_DIR>/scripts/pipeline.py impact ./handoff --changed ART-0001
-python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip
+python3 <SKILL_DIR>/scripts/pipeline.py pack ./handoff --output ./handoff.zip --project-root "$PROJECT"
 ```
 
 `init` creates a draft. `verify` accepts a directory or ZIP and returns a nonzero status for checksum errors, unsafe paths, broken references, self-review, or stale review. `--require-accepted` also checks the stage minimum and blockers. `pack` verifies then archives the sealed snapshot. Check the stage status before dependent work because drafts can be packed. Inspect and authorize scripts from incoming ZIPs before executing them.
+
+Current acceptance opens the owning project's `production-choices.json` and checks the stage and scope. Record the verified decision SHA-256 as `manifest.production_choice_decision_sha256` before sealing a handoff that depends on it. A candidate or design-only review can carry the earlier experiment rationale while the project chooses a final concept. Use `verify --historical` to inspect a retained package without granting current stage admission.
 
 ## Intake and resumption
 

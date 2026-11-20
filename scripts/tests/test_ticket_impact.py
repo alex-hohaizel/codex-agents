@@ -9,6 +9,8 @@ import sys
 from tempfile import TemporaryDirectory
 import unittest
 
+from fixture_production_choices import make_choice
+
 SCRIPT = Path(__file__).resolve().parents[1] / "ticket_impact.py"
 
 
@@ -289,6 +291,80 @@ class TicketImpactTest(unittest.TestCase):
         reopened = self.compare(retired, baseline)
         restored = next(row for row in reopened["affected_tickets"] if row["ticket_id"] == "S-FORM")
         self.assertEqual(restored["plan_change"]["retirement"], {"before": marker, "after": None})
+
+    def bind_choice(self, *, phase="implement", record="production-choices.json"):
+        observed = make_choice(self.before, phase=phase, record=record)
+        projection = json.loads((self.before / "tickets.json").read_bytes())
+        projection["production_choice"] = {
+            "record": pin(self.before, record), "decision_sha256": observed["decision_sha256"],
+            "phase": phase, "requirement_ids": ["R-LEASE"],
+        }
+        write(self.before, "tickets.json", projection)
+        return projection
+
+    def test_choice_artifact_drift_rechecks_only_explicit_requirements_and_native_dependencies(self):
+        self.bind_choice(phase="accept", record="review/choice.json")
+        old = self.capture(self.before, "before-impact.json")
+        choice = json.loads(old.read_bytes())["production_choice"]
+        self.assertEqual("verified", choice["status"])
+        self.assertIn("accept", choice["evidence_artifacts"])
+        (self.before / "_choice-fixture" / "accept-artifact.txt").write_text("Replacement", encoding="utf-8")
+        new = self.capture(self.before, "after-impact.json")
+        report = self.compare(old, new)
+        self.assertEqual([], report["requirement_changes"])
+        self.assertTrue(report["native_revision_reused_with_source_changes"])
+        change = report["production_choice_change"]
+        self.assertEqual("invalid-or-stale", change["after"]["status"])
+        self.assertIn("accept-artifact.txt", change["after"]["issue"])
+        self.assertEqual(["R-LEASE"], change["explicit_requirement_ids"])
+        affected = {row["ticket_id"]: row for row in report["affected_tickets"]}
+        self.assertIn({"code": "production-choice-direct-requirement", "id": "R-LEASE"},
+                      affected["S-LEASE"]["reasons"])
+        self.assertIn({"code": "production-choice-requirement-prerequisite", "id": "R-LEASE"},
+                      affected["S-RETURN"]["reasons"])
+        self.assertTrue(affected["S-LEASE"]["review_prior_acceptance"])
+        self.assertEqual("verified", affected["S-LEASE"]["prior_evidence_requiring_review"][0]["prior"]["status"])
+        self.assertEqual(["B-ICON", "S-FORM", "SP-EXPORT"], report["other_ticket_ids"])
+
+    def test_stale_record_and_dropped_binding_remain_visible_with_ticket_graph(self):
+        projection = self.bind_choice()
+        old = self.capture(self.before, "before-impact.json")
+        unchanged = self.compare(old, old)
+        self.assertFalse(unchanged["production_choice_change"]["requires_review"])
+        self.assertEqual([], unchanged["affected_tickets"])
+        record = self.before / "production-choices.json"
+        record.write_bytes(record.read_bytes() + b"\n")
+        stale = self.capture(self.before, "stale-impact.json")
+        changed = self.compare(old, stale)["production_choice_change"]
+        self.assertEqual("record-stale", changed["after"]["status"])
+        self.assertNotEqual(changed["before"]["record_sha256"], changed["after"]["record_sha256"])
+        del projection["production_choice"]
+        write(self.before, "tickets.json", projection)
+        unbound = self.capture(self.before, "unbound-impact.json")
+        report = self.compare(old, unbound)
+        self.assertEqual("binding-removed", report["production_choice_change"]["change"])
+        self.assertEqual(["R-LEASE"], report["production_choice_change"]["explicit_requirement_ids"])
+        self.assertIn("B-ICON", report["other_ticket_ids"])
+        record.unlink()
+        absent = self.capture(self.before, "absent-impact.json")
+        self.assertEqual("removed", self.compare(old, absent)["production_choice_change"]["change"])
+
+    def test_unbound_and_invalid_binding_never_infer_a_ticket_link(self):
+        old = self.capture(self.before, "before-impact.json")
+        projection = self.bind_choice()
+        projection["production_choice"]["requirement_ids"] = ["UNKNOWN"]
+        write(self.before, "tickets.json", projection)
+        invalid = self.capture(self.before, "invalid-impact.json")
+        report = self.compare(old, invalid)
+        self.assertEqual("invalid-binding", report["production_choice_change"]["after"]["status"])
+        self.assertEqual([], report["affected_tickets"])
+        del projection["production_choice"]
+        write(self.before, "tickets.json", projection)
+        unbound = self.capture(self.before, "discovered-impact.json")
+        report = self.compare(old, unbound)
+        self.assertEqual("verified", report["production_choice_change"]["after"]["status"])
+        self.assertIsNone(report["production_choice_change"]["after"]["binding"])
+        self.assertEqual([], report["affected_tickets"])
 
     def test_capture_rejects_stale_registry_pin(self):
         (self.after / "requirements.json").write_text("{}", encoding="utf-8")
