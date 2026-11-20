@@ -1,0 +1,1854 @@
+{
+  "schema": "atelier.technology-catalog/1",
+  "revision": 1,
+  "scope": "Open candidate catalogue. Inclusion is not a recommendation, compatibility proof, access grant, cost statement or requirement to install. Research an unlisted route under the same rules.",
+  "decision_card_fields": [
+    "candidate ID and role",
+    "current version and language/runtime",
+    "operation and actual target",
+    "input and output formats",
+    "official sources and check date",
+    "scope, permissions and rights",
+    "limits and costs",
+    "compatible dependencies",
+    "representative consuming operation",
+    "support, recovery and exit",
+    "review conditions",
+    "license",
+    "asset usage rights",
+    "provider account and operation access",
+    "cost and budget",
+    "export format and actual consumer",
+    "restore procedure",
+    "replacement path"
+  ],
+  "categories": [
+    {
+      "id": "web-content",
+      "label": "Web content and documentation",
+      "tags": [
+        "browser",
+        "static",
+        "server-rendered",
+        "cms",
+        "accessibility"
+      ],
+      "compare": "Content ownership, editorial flow, delivery, startup, localization and export",
+      "candidates": [
+        {
+          "id": "web-content/html-css-js-without-a-framework",
+          "name": "HTML/CSS/JS without a framework",
+          "status": "candidate",
+          "role": "web-content"
+        },
+        {
+          "id": "web-content/astro",
+          "name": "Astro",
+          "status": "candidate",
+          "role": "web-content"
+        },
+        {
+          "id": "web-content/eleventy",
+          "name": "Eleventy",
+          "status": "candidate",
+          "role": "web-content"
+        },
+        {
+          "id": "web-content/hugo",
+          "name": "Hugo",
+          "status": "candidate",
+          "role": "web-content"
+        },
+        {
+          "id": "web-content/jekyll",
+          "name": "Jekyll",
+          "status": "candidate",
+          "role": "web-content"
+        },
+        {
+          "id": "web-content/sveltekit",
+          "name": "SvelteKit",
+          "status": "candidate",
+          "role": "web-content"
+        },
+        {
+          "id": "web-content/managed-cms-and-static-hosting",
+          "name": "Managed CMS and static hosting",
+          "status": "candidate",
+          "role": "web-content"
+        }
+      ],
+      "reference_examples": [
+        {
+          "url": "https://developer.mozilla.org/en-US/docs/Glossary/Baseline/Compatibility",
+          "checked_on": "2026-11-20",
+          "claim": "Browser feature availability is a decision input; verify the actual target and accessibility separately."
+        }
+      ],
+      "facets": {
+        "capability": [
+          "publish",
+          "read",
+          "documentation",
+          "editorial"
+        ],
+        "language": [
+          "html",
+          "css",
+          "javascript"
+        ],
+        "platform": [
+          "browser",
+          "server"
+        ],
+        "format": [
+          "html",
+          "css",
+          "json",
+          "markdown"
+        ],
+        "constraint": [
+          "localization",
+          "accessibility",
+          "export"
+        ],
+        "task": [
+          "web-content",
+          "publish",
+          "read",
+          "documentation",
+          "editorial"
+        ]
+      }
+    },
+    {
+      "id": "web-interaction",
+      "label": "Interactive web apps and PWA",
+      "tags": [
+        "browser",
+        "server-rendered",
+        "state",
+        "navigation",
+        "offline",
+        "accessibility"
+      ],
+      "compare": "Input and navigation, state and conflict handling, browser targets and client cost",
+      "candidates": [
+        {
+          "id": "web-interaction/native-web-apis-and-web-components",
+          "name": "Native Web APIs and Web Components",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/ssr-with-htmx",
+          "name": "SSR with HTMX",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/react-next-js",
+          "name": "React/Next.js",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/vue-nuxt",
+          "name": "Vue/Nuxt",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/svelte-sveltekit",
+          "name": "Svelte/SvelteKit",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/angular",
+          "name": "Angular",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/solid",
+          "name": "Solid",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/qwik",
+          "name": "Qwik",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/lit",
+          "name": "Lit",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/blazor",
+          "name": "Blazor",
+          "status": "candidate",
+          "role": "web-interaction"
+        },
+        {
+          "id": "web-interaction/phoenix-liveview",
+          "name": "Phoenix LiveView",
+          "status": "candidate",
+          "role": "web-interaction"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "cabinet",
+          "dashboard",
+          "state",
+          "navigation",
+          "pwa"
+        ],
+        "language": [
+          "javascript",
+          "typescript"
+        ],
+        "platform": [
+          "browser",
+          "server"
+        ],
+        "format": [
+          "html",
+          "css",
+          "json"
+        ],
+        "constraint": [
+          "offline",
+          "concurrency",
+          "accessibility"
+        ],
+        "task": [
+          "web-interaction",
+          "cabinet",
+          "dashboard",
+          "state",
+          "navigation",
+          "pwa"
+        ]
+      }
+    },
+    {
+      "id": "native-clients",
+      "label": "Mobile and desktop clients",
+      "tags": [
+        "ios",
+        "android",
+        "windows",
+        "macos",
+        "linux",
+        "desktop",
+        "mobile"
+      ],
+      "compare": "Platform controls, architecture, accessibility, signing, delivery and maintenance",
+      "candidates": [
+        {
+          "id": "native-clients/swift-swiftui-uikit",
+          "name": "Swift/SwiftUI/UIKit",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/kotlin-compose",
+          "name": "Kotlin/Compose",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/flutter-dart",
+          "name": "Flutter/Dart",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/react-native",
+          "name": "React Native",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/kotlin-multiplatform",
+          "name": "Kotlin Multiplatform",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/net-maui",
+          "name": ".NET MAUI",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/qt-qml",
+          "name": "Qt/QML",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/gtk",
+          "name": "GTK",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/winui",
+          "name": "WinUI",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/electron",
+          "name": "Electron",
+          "status": "candidate",
+          "role": "native-clients"
+        },
+        {
+          "id": "native-clients/tauri",
+          "name": "Tauri",
+          "status": "candidate",
+          "role": "native-clients"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "native",
+          "client",
+          "mobile",
+          "desktop"
+        ],
+        "language": [
+          "swift",
+          "kotlin",
+          "dart",
+          "csharp",
+          "javascript",
+          "typescript",
+          "rust",
+          "cpp"
+        ],
+        "platform": [
+          "ios",
+          "android",
+          "windows",
+          "macos",
+          "linux"
+        ],
+        "format": [
+          "native",
+          "app",
+          "pwa"
+        ],
+        "constraint": [
+          "device",
+          "integration",
+          "performance",
+          "maintenance"
+        ],
+        "task": [
+          "native-clients",
+          "native",
+          "client",
+          "mobile",
+          "desktop"
+        ]
+      }
+    },
+    {
+      "id": "game-engine",
+      "label": "Games, simulation and XR",
+      "tags": [
+        "2d",
+        "3d",
+        "xr",
+        "browser",
+        "mobile",
+        "desktop",
+        "renderer",
+        "physics"
+      ],
+      "compare": "Interaction, frame budget, asset import, renderer and supported target",
+      "candidates": [
+        {
+          "id": "game-engine/godot",
+          "name": "Godot",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/unity",
+          "name": "Unity",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/unreal-engine",
+          "name": "Unreal Engine",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/defold",
+          "name": "Defold",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/gamemaker",
+          "name": "GameMaker",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/bevy",
+          "name": "Bevy",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/libgdx",
+          "name": "libGDX",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/monogame",
+          "name": "MonoGame",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/raylib",
+          "name": "raylib",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/sdl",
+          "name": "SDL",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/phaser",
+          "name": "Phaser",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/pixijs",
+          "name": "PixiJS",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/three-js",
+          "name": "Three.js",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/babylon-js",
+          "name": "Babylon.js",
+          "status": "candidate",
+          "role": "game-engine"
+        },
+        {
+          "id": "game-engine/metal-vulkan-webgpu-target-routes",
+          "name": "Metal/Vulkan/WebGPU target routes",
+          "status": "candidate",
+          "role": "game-engine"
+        }
+      ],
+      "reference_examples": [
+        {
+          "url": "https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html",
+          "checked_on": "2026-11-20",
+          "claim": "Engine and renderer are separate choices; inspect target characteristics and the actual asset pipeline."
+        }
+      ],
+      "facets": {
+        "capability": [
+          "mechanics",
+          "renderer",
+          "physics",
+          "2d",
+          "3d",
+          "xr"
+        ],
+        "language": [
+          "csharp",
+          "gdscript",
+          "cpp",
+          "javascript",
+          "rust"
+        ],
+        "platform": [
+          "browser",
+          "mobile",
+          "desktop",
+          "console"
+        ],
+        "format": [
+          "gltf",
+          "fbx",
+          "usd",
+          "sprites"
+        ],
+        "constraint": [
+          "latency",
+          "input",
+          "graphics",
+          "compatibility"
+        ],
+        "task": [
+          "game-engine",
+          "mechanics",
+          "renderer",
+          "physics",
+          "2d",
+          "3d",
+          "xr"
+        ]
+      }
+    },
+    {
+      "id": "design",
+      "label": "Design, prototypes and graphics",
+      "tags": [
+        "visual",
+        "web",
+        "mobile",
+        "svg",
+        "raster",
+        "typography",
+        "design-system"
+      ],
+      "compare": "Editable master, exact consumer, rights, accessibility and component states",
+      "candidates": [
+        {
+          "id": "design/figma",
+          "name": "Figma",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/penpot",
+          "name": "Penpot",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/sketch",
+          "name": "Sketch",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/inkscape",
+          "name": "Inkscape",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/illustrator",
+          "name": "Illustrator",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/affinity",
+          "name": "Affinity",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/krita",
+          "name": "Krita",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/photoshop",
+          "name": "Photoshop",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/gimp",
+          "name": "GIMP",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/procreate",
+          "name": "Procreate",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/svg-css-canvas",
+          "name": "SVG/CSS/Canvas",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/html-prototype",
+          "name": "HTML prototype",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/storybook",
+          "name": "Storybook",
+          "status": "candidate",
+          "role": "design"
+        },
+        {
+          "id": "design/imagegen-with-manual-finishing",
+          "name": "ImageGen with manual finishing",
+          "status": "candidate",
+          "role": "design"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "design-system",
+          "typography",
+          "interface",
+          "asset"
+        ],
+        "language": [
+          "css",
+          "javascript"
+        ],
+        "platform": [
+          "browser",
+          "desktop",
+          "mobile"
+        ],
+        "format": [
+          "svg",
+          "png",
+          "raster",
+          "design",
+          "tokens"
+        ],
+        "constraint": [
+          "accessibility",
+          "source-rights",
+          "editing"
+        ],
+        "task": [
+          "design",
+          "design-system",
+          "typography",
+          "interface",
+          "asset"
+        ]
+      }
+    },
+    {
+      "id": "motion",
+      "label": "3D, animation and effects",
+      "tags": [
+        "3d",
+        "2d",
+        "gltf",
+        "usd",
+        "fbx",
+        "animation",
+        "materials",
+        "shader"
+      ],
+      "compare": "Rig, color, render budget, native import and supported motion",
+      "candidates": [
+        {
+          "id": "motion/blender",
+          "name": "Blender",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/maya",
+          "name": "Maya",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/houdini",
+          "name": "Houdini",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/cinema-4d",
+          "name": "Cinema 4D",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/rive",
+          "name": "Rive",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/lottie",
+          "name": "Lottie",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/gsap",
+          "name": "GSAP",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/motion",
+          "name": "Motion",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/web-animations-api",
+          "name": "Web Animations API",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/native-engine-animation",
+          "name": "Native engine animation",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/gltf",
+          "name": "glTF",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/usd",
+          "name": "USD",
+          "status": "candidate",
+          "role": "motion"
+        },
+        {
+          "id": "motion/fbx",
+          "name": "FBX",
+          "status": "candidate",
+          "role": "motion"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "model",
+          "rig",
+          "animation",
+          "shader",
+          "renderer"
+        ],
+        "language": [
+          "python",
+          "glsl",
+          "wgsl"
+        ],
+        "platform": [
+          "desktop",
+          "browser",
+          "game"
+        ],
+        "format": [
+          "gltf",
+          "usd",
+          "fbx",
+          "textures"
+        ],
+        "constraint": [
+          "import",
+          "geometry",
+          "renderer",
+          "rights"
+        ],
+        "task": [
+          "motion",
+          "model",
+          "rig",
+          "animation",
+          "shader",
+          "renderer"
+        ]
+      }
+    },
+    {
+      "id": "media",
+      "label": "Video, audio, speech and documents",
+      "tags": [
+        "audio",
+        "video",
+        "pdf",
+        "html",
+        "docx",
+        "subtitles",
+        "playback",
+        "export"
+      ],
+      "compare": "Editable source, licenses, target format, rendering and actual playback",
+      "candidates": [
+        {
+          "id": "media/ffmpeg",
+          "name": "FFmpeg",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/davinci-resolve",
+          "name": "DaVinci Resolve",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/premiere-pro",
+          "name": "Premiere Pro",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/after-effects",
+          "name": "After Effects",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/audacity",
+          "name": "Audacity",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/reaper",
+          "name": "Reaper",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/web-audio",
+          "name": "Web Audio",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/tts-and-lip-sync-tools",
+          "name": "TTS and lip sync tools",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/markdown-html",
+          "name": "Markdown/HTML",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/docx",
+          "name": "DOCX",
+          "status": "candidate",
+          "role": "media"
+        },
+        {
+          "id": "media/pdf-and-compatible-editors",
+          "name": "PDF and compatible editors",
+          "status": "candidate",
+          "role": "media"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "audio",
+          "video",
+          "document",
+          "editing",
+          "export"
+        ],
+        "language": [
+          "python",
+          "shell",
+          "javascript"
+        ],
+        "platform": [
+          "desktop",
+          "browser",
+          "player"
+        ],
+        "format": [
+          "wav",
+          "flac",
+          "mp4",
+          "webm",
+          "pdf",
+          "html",
+          "docx",
+          "srt"
+        ],
+        "constraint": [
+          "color",
+          "playback",
+          "editability",
+          "source-rights"
+        ],
+        "task": [
+          "media",
+          "audio",
+          "video",
+          "document",
+          "editing",
+          "export"
+        ]
+      }
+    },
+    {
+      "id": "scripts",
+      "label": "Scripts, CLI, automation and embedded",
+      "tags": [
+        "shell",
+        "python",
+        "javascript",
+        "ruby",
+        "php",
+        "lua",
+        "go",
+        "rust",
+        "csharp",
+        "java",
+        "c",
+        "cpp",
+        "zig",
+        "windows",
+        "macos",
+        "linux",
+        "embedded"
+      ],
+      "compare": "Host runtime, installation, recovery, effects, IO and memory",
+      "candidates": [
+        {
+          "id": "scripts/posix-shell",
+          "name": "POSIX shell",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/powershell",
+          "name": "PowerShell",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/python",
+          "name": "Python",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/node-js",
+          "name": "Node.js",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/deno",
+          "name": "Deno",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/bun",
+          "name": "Bun",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/ruby",
+          "name": "Ruby",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/php-cli",
+          "name": "PHP CLI",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/lua",
+          "name": "Lua",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/go",
+          "name": "Go",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/rust",
+          "name": "Rust",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/net",
+          "name": ".NET",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/java",
+          "name": "Java",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/c-c",
+          "name": "C/C++",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/zig",
+          "name": "Zig",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/micropython",
+          "name": "MicroPython",
+          "status": "candidate",
+          "role": "scripts"
+        },
+        {
+          "id": "scripts/perl-core-json",
+          "name": "Perl and JSON::PP",
+          "role": "scripts",
+          "status": "candidate",
+          "card": "evaluations/fixtures/production-choice-uncatalogued/README.md",
+          "facets": {
+            "language": [
+              "perl"
+            ],
+            "platform": [
+              "macos"
+            ],
+            "capability": [
+              "audit-report"
+            ],
+            "format": [
+              "json"
+            ],
+            "constraint": [
+              "offline",
+              "no-install"
+            ]
+          }
+        }
+      ],
+      "reference_examples": [
+        {
+          "url": "https://perldoc.perl.org/JSON%3A%3APP",
+          "checked_on": "2026-11-20",
+          "claim": "JSON::PP documents core availability and UTF-8 JSON decoding. Probe the actual target to confirm version and behavior."
+        }
+      ],
+      "facets": {
+        "capability": [
+          "script",
+          "cli",
+          "automation",
+          "embedded"
+        ],
+        "language": [
+          "shell",
+          "python",
+          "javascript",
+          "ruby",
+          "php",
+          "lua",
+          "go",
+          "rust",
+          "csharp",
+          "java",
+          "c",
+          "cpp",
+          "zig",
+          "perl"
+        ],
+        "platform": [
+          "windows",
+          "macos",
+          "linux",
+          "embedded"
+        ],
+        "format": [
+          "json",
+          "yaml",
+          "csv",
+          "text"
+        ],
+        "constraint": [
+          "offline",
+          "dependencies",
+          "permissions",
+          "portability"
+        ],
+        "task": [
+          "scripts",
+          "script",
+          "cli",
+          "automation",
+          "embedded"
+        ]
+      }
+    },
+    {
+      "id": "server",
+      "label": "Server languages and runtimes",
+      "tags": [
+        "javascript",
+        "typescript",
+        "python",
+        "go",
+        "rust",
+        "java",
+        "kotlin",
+        "csharp",
+        "php",
+        "ruby",
+        "elixir",
+        "scala",
+        "clojure",
+        "erlang",
+        "haskell",
+        "ocaml"
+      ],
+      "compare": "Deployment, state, concurrency, dependencies, failure and support",
+      "candidates": [
+        {
+          "id": "server/node-js-fastify-nestjs",
+          "name": "Node.js/Fastify/NestJS",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/python-fastapi-django-flask",
+          "name": "Python/FastAPI/Django/Flask",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/go-net-http-chi",
+          "name": "Go/net/http/Chi",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/rust-axum",
+          "name": "Rust/Axum",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/java-kotlin-spring-ktor",
+          "name": "Java/Kotlin/Spring/Ktor",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/c-net-asp-net-core",
+          "name": "C#/.NET ASP.NET Core",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/php-laravel-symfony",
+          "name": "PHP/Laravel/Symfony",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/ruby-rails",
+          "name": "Ruby/Rails",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/elixir-phoenix",
+          "name": "Elixir/Phoenix",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/scala",
+          "name": "Scala",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/clojure",
+          "name": "Clojure",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/erlang",
+          "name": "Erlang",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/haskell",
+          "name": "Haskell",
+          "status": "candidate",
+          "role": "server"
+        },
+        {
+          "id": "server/ocaml",
+          "name": "OCaml",
+          "status": "candidate",
+          "role": "server"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "backend",
+          "service",
+          "worker",
+          "api"
+        ],
+        "language": [
+          "javascript",
+          "typescript",
+          "python",
+          "go",
+          "rust",
+          "java",
+          "kotlin",
+          "csharp",
+          "php",
+          "ruby",
+          "elixir",
+          "scala",
+          "clojure",
+          "erlang",
+          "haskell",
+          "ocaml"
+        ],
+        "platform": [
+          "server",
+          "linux",
+          "windows",
+          "macos"
+        ],
+        "format": [
+          "json",
+          "protobuf",
+          "sql"
+        ],
+        "constraint": [
+          "runtime",
+          "latency",
+          "operability",
+          "dependency"
+        ],
+        "task": [
+          "server",
+          "backend",
+          "service",
+          "worker",
+          "api"
+        ]
+      }
+    },
+    {
+      "id": "architecture",
+      "label": "Architecture and integration",
+      "tags": [
+        "cli",
+        "worker",
+        "monolith",
+        "serverless",
+        "edge",
+        "rest",
+        "graphql",
+        "grpc",
+        "events",
+        "stream"
+      ],
+      "compare": "Ownership, contracts, retry, identity, replay and exit path",
+      "candidates": [
+        {
+          "id": "architecture/one-shot-process",
+          "name": "One-shot process",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/library",
+          "name": "Library",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/modular-monolith",
+          "name": "Modular monolith",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/dedicated-worker",
+          "name": "Dedicated worker",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/serverless",
+          "name": "serverless",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/edge",
+          "name": "edge",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/services",
+          "name": "Services",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/rest-openapi",
+          "name": "REST/OpenAPI",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/graphql",
+          "name": "GraphQL",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/grpc",
+          "name": "gRPC",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/webhook",
+          "name": "webhook",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/sse-websocket",
+          "name": "SSE/WebSocket",
+          "status": "candidate",
+          "role": "architecture"
+        },
+        {
+          "id": "architecture/file-import-export",
+          "name": "File import/export",
+          "status": "candidate",
+          "role": "architecture"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "cli",
+          "worker",
+          "monolith",
+          "serverless",
+          "edge",
+          "integration"
+        ],
+        "language": [
+          "language-independent"
+        ],
+        "platform": [
+          "desktop",
+          "server",
+          "edge"
+        ],
+        "format": [
+          "http",
+          "graphql",
+          "protobuf",
+          "events",
+          "stream"
+        ],
+        "constraint": [
+          "cost",
+          "recovery",
+          "ordering",
+          "permissions"
+        ],
+        "task": [
+          "architecture",
+          "cli",
+          "worker",
+          "monolith",
+          "serverless",
+          "edge",
+          "integration"
+        ]
+      }
+    },
+    {
+      "id": "storage",
+      "label": "Storage, search, cache and queues",
+      "tags": [
+        "sql",
+        "embedded",
+        "client-server",
+        "search",
+        "object-storage",
+        "cache",
+        "queue",
+        "stream"
+      ],
+      "compare": "Data topology, durability, isolation, writer load, restore and migrations",
+      "candidates": [
+        {
+          "id": "storage/files",
+          "name": "Files",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/sqlite",
+          "name": "SQLite",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/postgresql",
+          "name": "PostgreSQL",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/mysql-mariadb",
+          "name": "MySQL/MariaDB",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/sql-server",
+          "name": "SQL Server",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/duckdb",
+          "name": "DuckDB",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/clickhouse",
+          "name": "ClickHouse",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/mongodb",
+          "name": "MongoDB",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/firestore",
+          "name": "Firestore",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/redis-valkey",
+          "name": "Redis/Valkey",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/opensearch",
+          "name": "OpenSearch",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/meilisearch",
+          "name": "Meilisearch",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/object-storage",
+          "name": "object storage",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/rabbitmq",
+          "name": "RabbitMQ",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/nats",
+          "name": "NATS",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/kafka",
+          "name": "Kafka",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/db-based-outbox",
+          "name": "DB-based outbox",
+          "status": "candidate",
+          "role": "storage"
+        },
+        {
+          "id": "storage/temporal",
+          "name": "Temporal",
+          "status": "candidate",
+          "role": "storage"
+        }
+      ],
+      "reference_examples": [
+        {
+          "url": "https://www.sqlite.org/whentouse.html",
+          "checked_on": "2026-11-20",
+          "claim": "Data location and write concurrency inform an embedded versus client/server storage decision."
+        }
+      ],
+      "facets": {
+        "capability": [
+          "persist",
+          "query",
+          "search",
+          "cache",
+          "queue"
+        ],
+        "language": [
+          "sql",
+          "language-independent"
+        ],
+        "platform": [
+          "local",
+          "server",
+          "hosted"
+        ],
+        "format": [
+          "sqlite",
+          "postgres",
+          "sql",
+          "json",
+          "stream"
+        ],
+        "constraint": [
+          "restore",
+          "migration",
+          "durability",
+          "concurrency"
+        ],
+        "task": [
+          "storage",
+          "persist",
+          "query",
+          "search",
+          "cache",
+          "queue"
+        ]
+      }
+    },
+    {
+      "id": "models",
+      "label": "Models, retrieval and analytical operations",
+      "tags": [
+        "local",
+        "hosted",
+        "llm",
+        "sql",
+        "retrieval",
+        "embedding",
+        "cv",
+        "tts"
+      ],
+      "compare": "Permission, safety, fixture outcomes, time, spend and fallback",
+      "candidates": [
+        {
+          "id": "models/rules",
+          "name": "Rules",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/sql",
+          "name": "SQL",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/lexical-or-hybrid-search",
+          "name": "Lexical or hybrid search",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/local-models",
+          "name": "Local models",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/hosted-llm",
+          "name": "hosted LLM",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/embeddings",
+          "name": "embeddings",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/tool-api-calls",
+          "name": "tool/API calls",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/structured-output",
+          "name": "structured output",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/retrieval",
+          "name": "retrieval",
+          "status": "candidate",
+          "role": "models"
+        },
+        {
+          "id": "models/specialized-cv-tts",
+          "name": "Specialized CV/TTS",
+          "status": "candidate",
+          "role": "models"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "ai",
+          "llm",
+          "retrieval",
+          "embedding",
+          "cv",
+          "tts"
+        ],
+        "language": [
+          "python",
+          "javascript",
+          "typescript"
+        ],
+        "platform": [
+          "local",
+          "hosted",
+          "offline"
+        ],
+        "format": [
+          "model",
+          "API",
+          "embeddings",
+          "text",
+          "audio"
+        ],
+        "constraint": [
+          "cost",
+          "latency",
+          "source",
+          "privacy",
+          "licensing",
+          "fallback"
+        ],
+        "task": [
+          "models",
+          "ai",
+          "llm",
+          "retrieval",
+          "embedding",
+          "cv",
+          "tts"
+        ]
+      }
+    },
+    {
+      "id": "delivery",
+      "label": "Build, test, delivery and operations",
+      "tags": [
+        "ci",
+        "test",
+        "package",
+        "observability",
+        "windows",
+        "macos",
+        "linux",
+        "browser",
+        "rollback"
+      ],
+      "compare": "Target, lock file, ordinary execution, reproducible delivery and recovery",
+      "candidates": [
+        {
+          "id": "delivery/native-sdk-build-tools",
+          "name": "Native SDK/build tools",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/packages",
+          "name": "Packages",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/containers",
+          "name": "Containers",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/vm-paas-edge",
+          "name": "VM/PaaS/edge",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/playwright",
+          "name": "Playwright",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/webdriver",
+          "name": "WebDriver",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/xctest",
+          "name": "XCTest",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/android-instrumentation",
+          "name": "Android instrumentation",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/unittest-pytest",
+          "name": "unittest/pytest",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/go-test",
+          "name": "Go test",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/contract-checks",
+          "name": "contract checks",
+          "status": "candidate",
+          "role": "delivery"
+        },
+        {
+          "id": "delivery/opentelemetry-and-native-telemetry",
+          "name": "OpenTelemetry and native telemetry",
+          "status": "candidate",
+          "role": "delivery"
+        }
+      ],
+      "reference_examples": [],
+      "facets": {
+        "capability": [
+          "deploy",
+          "ci",
+          "test",
+          "package",
+          "monitoring",
+          "rollback"
+        ],
+        "language": [
+          "shell",
+          "python",
+          "language-independent"
+        ],
+        "platform": [
+          "windows",
+          "macos",
+          "linux",
+          "browser",
+          "server"
+        ],
+        "format": [
+          "zip",
+          "container",
+          "html",
+          "logs"
+        ],
+        "constraint": [
+          "version",
+          "support",
+          "access",
+          "rights",
+          "recovery"
+        ],
+        "task": [
+          "delivery",
+          "deploy",
+          "ci",
+          "test",
+          "package",
+          "monitoring",
+          "rollback"
+        ]
+      }
+    }
+  ]
+}

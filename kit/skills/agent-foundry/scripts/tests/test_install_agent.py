@@ -43,7 +43,7 @@ class PortableTests(unittest.TestCase):
             # subject-method scripts. Use real visual code for image checking.
             target.write_bytes(source.read_bytes() if source.exists() else ("neutral operating fixture: " + name + "\n").encode())
         (self.tools.parent / "SKILL.md").write_text("---\nname: agent-foundry\ndescription: Construct a scoped agent.\n---\n\n# Constructor\n")
-        (self.tools / "foundry.py").write_text('import json,sys\nfrom pathlib import Path\nr=json.loads(Path(sys.argv[2]).read_text())\nif sys.argv[1]=="bundle-check":r={"valid":r.get("bundle_valid",r.get("ready")),"blockers":[]}\nprint(json.dumps(r));sys.exit(0 if r.get("ready",r.get("valid")) else 1)\n')
+        (self.tools / "foundry.py").write_text('import json,sys\nfrom pathlib import Path\nr=json.loads(Path(sys.argv[2]).read_text())\nif sys.argv[1]=="bundle-check":r={"valid":r.get("bundle_valid",r.get("ready")),"blockers":[],"production_choice":dict(r["production_choice"],phase="accept",record_sha256=r.get("accept_record_sha256",r["production_choice"]["record_sha256"]))}\nprint(json.dumps(r));sys.exit(0 if r.get("ready",r.get("valid")) else 1)\n')
         self.kit = self.base / "Input Kit UA"
         self.kit.mkdir()
         self.project = self.base / "Existing Project UA"
@@ -65,6 +65,7 @@ class PortableTests(unittest.TestCase):
         names = names or self.names
         entry = entry or names[0]
         value = {"ready": ready, "blockers": [] if ready else ["approval pending"], "blueprint": {"id": "passport-a", "revision": 1, "sha256": "a" * 64, "entry_skill": entry, "skill_names": names}, "approval_ref": {"source": "test-user-message", "verbatim": "Approve this test fixture", "scope": "test-passport", "blueprint_sha256": "a" * 64, "blueprint_revision": 1, "recorded_at": "fixture"}}
+        value["production_choice"] = {"ok": True, "phase": "implement", "decision_sha256": "b" * 64, "record_sha256": "c" * 64}
         self.session.write_text(json.dumps(value))
         return value
 
@@ -642,13 +643,13 @@ class PortableTests(unittest.TestCase):
         self.skills(1);self.build()
         manifest=json.loads((self.kit/'manifest.json').read_text())
         standard=manifest['operating_standard']
-        self.assertEqual(standard['release'],'6.6.0')
+        self.assertEqual(standard['release'],'6.7.0')
         self.assertEqual(set(standard['resources']), set(self.operating_resources))
         self.assertIn('scripts/briefing.py', standard['resources'])
         self.assertIn('assets/status-view.schema.json', standard['resources'])
         self.assertTrue(self.api.validate_manifest(manifest))
         original=dict(standard['resources'])
-        for omitted in ('references/ai-production.md','assets/ai-production.schema.json','scripts/ai_production.py','assets/managed-model.json','references/managed-execution.md','scripts/interaction.py','assets/status-view.schema.json'):
+        for omitted in ('references/ai-production.md','assets/ai-production.schema.json','scripts/ai_production.py','assets/managed-model.json','references/managed-execution.md','scripts/interaction.py','assets/status-view.schema.json','references/production-choices.md','assets/technology-catalog.json','scripts/production_choices.py'):
             standard['resources']={key:value for key,value in original.items() if key!=omitted}
             with self.subTest(omitted=omitted),self.assertRaisesRegex(self.api.InstallError,'every portable resource'):
                 self.api.validate_manifest(manifest)
@@ -657,6 +658,54 @@ class PortableTests(unittest.TestCase):
             standard['release']=release
             with self.subTest(release=release),self.assertRaisesRegex(self.api.InstallError,'Unsupported future'):
                 self.api.validate_manifest(manifest)
+
+    def test_generated_export_refuses_choice_evidence_change_between_gates(self):
+        self.skills(1)
+        gate = self.gate()
+        gate["accept_record_sha256"] = "d" * 64
+        self.session.write_text(json.dumps(gate))
+        output = self.base / 'unaccepted.zip'
+        result = self.build(extra=['--kit-output', output], expected=2)
+        self.assertIn('evidence changed during packaging', result['error'])
+        self.assertFalse(output.exists())
+
+    def test_previous_generated_standard_install_upgrade_and_backout(self):
+        self.skills(1); self.build()
+        previous = self.base / 'Historical generated kit'
+        shutil.copytree(self.kit, previous)
+        manifest = json.loads((previous / 'manifest.json').read_bytes())
+        standard = manifest['operating_standard']
+        standard['release'] = '6.6.0'
+        previous_paths = self.api.operating_resources_for_release('6.6.0')
+        self.assertEqual(len(previous_paths), 24)
+        omitted = set(standard['resources']) - set(previous_paths)
+        for key in omitted:
+            del standard['resources'][key]
+            (previous / 'skills' / self.names[0] / key).unlink()
+        for field in ('production_decision_sha256', 'production_record_sha256'):
+            del manifest['blueprint'][field]
+        entry = previous / 'skills' / self.names[0] / 'SKILL.md'
+        entry.write_text('\n'.join(line for line in entry.read_text().split('\n')
+                                   if 'references/production-choices.md' not in line))
+        self.api.write_manifest(previous, manifest)
+        self.project.mkdir()
+        instructions = self.project / 'AGENTS.md'
+        instructions.write_text('# Local instructions\n\nKeep the manual settings.\n')
+        self.assertEqual(self.install(kit=previous)['operating_standard'], '6.6.0')
+        original = {
+            path.relative_to(self.project): (path.read_bytes(), stat.S_IMODE(path.stat().st_mode))
+            for path in self.project.rglob('*') if path.is_file() and self.project / self.api.BACKUPS not in path.parents
+        }
+        self.assertEqual(self.install()['operating_standard'], '6.7.0')
+        self.install('verify')
+        self.assertIn('Keep the manual settings.', instructions.read_text())
+        self.assertEqual(self.install(kit=previous)['operating_standard'], '6.6.0')
+        self.install('verify', kit=previous)
+        restored = {
+            path.relative_to(self.project): (path.read_bytes(), stat.S_IMODE(path.stat().st_mode))
+            for path in self.project.rglob('*') if path.is_file() and self.project / self.api.BACKUPS not in path.parents
+        }
+        self.assertEqual(original, restored)
 
     def test_generated_install_pins_supported_codex_launch_and_rejects_manifest_model_drift(self):
         self.skills(2)

@@ -48,14 +48,18 @@ class OperatingMaterializationTests(unittest.TestCase):
     def test_operating_resources_are_local_in_core_and_optional_orchestrator(self):
         code, result = self.run_materializer()
         self.assertEqual(code, 0, result)
-        resources = {row['source']: row for row in result['resources']}
-        self.assertIn('standards/tool-compatibility.md', resources)
+        resources = {(row['source'], row['target'], row['core_bundles']): row
+                     for row in result['resources']}
+        self.assertIn(('standards/tool-compatibility.md', 'references/tool-compatibility.md', len(self.core)),
+                      resources)
         for source, target in M.RESOURCES.items():
             self.assertEqual((self.orchestrator / target).read_bytes(), self.expected[source])
             for name in self.core:
                 self.assertEqual((self.root / 'kit/skills' / name / target).read_bytes(), self.expected[source])
-            row = resources['standards/' + source]
+            row = resources[('standards/' + source, target, len(self.core))]
             self.assertEqual((row['core_bundles'], row['optional_bundles']), (len(self.core), 1))
+        for target in M.PRODUCTION_VERIFIER_TARGETS:
+            self.assertEqual((self.root / target).read_bytes(), self.expected['production_choices.py'])
         for source, target in M.CORE_RESOURCES.items():
             for name in self.core:
                 self.assertEqual((self.root / 'kit/skills' / name / target).read_bytes(), self.expected[source])

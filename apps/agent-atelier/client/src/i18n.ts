@@ -9,6 +9,15 @@ export const DEFAULT_LOCALE: Locale = "en";
 export const LocaleContext = createContext<Locale>(DEFAULT_LOCALE);
 
 export const en = {
+  productionPhase: "Production phase",
+  productionScratch: "Unbound scratch image",
+  productionAutomatic: "Choose from the project record",
+  productionExplore: "Exploration",
+  productionImplement: "Implementation",
+  productionScale: "Replication",
+  productionAccept: "Acceptance",
+  productionDriftReview: "Project sources changed while Codex ran. Review the output and governing decision before using it.",
+  productionArtifactReview: "Review the generated artifact against the project decision before using it.",
   pluginMediaTitle: "Codex plugins & media",
   imageBrief: "Image brief",
   imageGenerate: "Generate image",
@@ -775,6 +784,15 @@ export type MessageKey = keyof typeof en;
 export type Locale = "en" | "uk" | "de" | "it" | "es" | "fr" | "zh-CN";
 
 export const uk: Record<MessageKey, string> = {
+  productionPhase: "Етап роботи",
+  productionScratch: "Чернетка поза проєктом",
+  productionAutomatic: "Визначити за записом проєкту",
+  productionExplore: "Перша проба",
+  productionImplement: "Реалізація",
+  productionScale: "Тиражування",
+  productionAccept: "Приймання",
+  productionDriftReview: "Джерела проєкту змінилися під час роботи Codex. Перед використанням перевірте результат і рішення.",
+  productionArtifactReview: "Перед використанням звірте створений артефакт із рішенням проєкту.",
   pluginMediaTitle: "Плагіни й медіа Codex",
   imageBrief: "Опис зображення",
   imageGenerate: "Створити зображення",

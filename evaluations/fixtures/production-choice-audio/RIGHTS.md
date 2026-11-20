@@ -1,0 +1,5 @@
+# Synthetic confirmation tone provenance
+
+`master.json` is an original three-event score authored for this repository's synthetic evaluation. The tool synthesizes the oscillation and envelope from the numbers in the master. The fixture consumes no music recordings, instrument sample packs, service or licensed third-party assets. The source and test output follow the repository license. The audio signals successful review without carrying unique information that a user could miss when the device is muted.
+
+The editable score defines sample rate, relative starts, note durations, pitch, amplitude and final silence. The builder writes mono 16-bit PCM because the intended target is the local macOS Core Audio player and this clip can stay below 100 KiB without a codec or a second decode dependency. It excluded compressed delivery for this bounded probe because the expected size is small and lossless byte/sample comparison is a criterion. Speech generation would add a textual and language dependency to a short non-verbal cue. Actual playback is tested at zero output volume. Audible judgment, a physical speaker and mobile playback are outside this test.

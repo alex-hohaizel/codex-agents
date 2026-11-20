@@ -2,10 +2,12 @@
 name: app-atelier-build
 description: "Implement or repair an accepted app on its target Android, iOS, and web clients. Use for a working slice, integration, build, or implementation regression."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Build
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Check production scope and choose the simplest approach
 

@@ -2,10 +2,12 @@
 name: app-atelier-growth
 description: "Plan app acquisition from initial discovery to activation and repeat value. Use for channel selection, growth materials, attributed metrics, or authorized activation."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Growth
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Separate plan, preparation, activation and observation
 

@@ -24,6 +24,7 @@
 | Procedure | What it produces |
 | --- | --- |
 | [Workshop](technical/WORKSHOP.md) and [team deliberation](../optional-skills/atelier-orchestrator/references/team-deliberation.md) | Alternatives, dissent, decisions, and a resumable record. |
+| [Production choices and approved design](technical/PRODUCTION_CHOICES.md) | Comparable probes, an exact design and technology decision, and a verified handoff from prototype to implementation. |
 | [Product facilitation](technical/PRODUCT_FACILITATION.md) and [document templates](technical/DOCUMENT_TEMPLATES.md) | Briefs, PRFAQs, repeatable documents, and review bound to a revision. |
 | [PRD and architecture](technical/TICKET_PRODUCT_SPEC.md) and [interactive UX](technical/UX_PROTOTYPE.md) | A reviewed product contract, design and experience sources, and an offline walkthrough. |
 | [Ticket tree and sprint](technical/TICKET_TREE.md), [requirement impact](technical/TICKET_CHANGE_REVIEW.md), and [replan](technical/TICKET_REPLAN.md) | Ordered work, changed dependencies, and the accepted next action. |

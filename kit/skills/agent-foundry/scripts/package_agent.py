@@ -96,6 +96,16 @@ def gate(session):
     return result
 
 
+def production_pin(result, phase):
+    report = result.get("production_choice")
+    fields = ("decision_sha256", "record_sha256")
+    if (not isinstance(report, dict) or report.get("ok") is not True or report.get("phase") != phase
+            or any(not isinstance(report.get(field), str) or not re.fullmatch(r"[a-f0-9]{64}", report[field])
+                   for field in fields)):
+        raise ValueError("Constructor gate lacks current production choice provenance for " + phase)
+    return {"production_" + key: report[key] for key in fields}
+
+
 def bundle_gate(session, directory):
     runtime = HERE / "foundry.py"
     p = subprocess.run([sys.executable, "-B", str(runtime), "bundle-check", str(session), "--directory", str(directory)], capture_output=True, text=True, timeout=45)
@@ -299,6 +309,7 @@ def build(args):
         if args.agent_id != args.entry_skill:
             raise ValueError("Generated package agent_id must equal its approved entry_skill")
         pin = {"id": blueprint["id"], "revision": blueprint["revision"], "sha256": blueprint["sha256"], "approval_source": observed["approval_ref"]["source"]}
+        pin.update(production_pin(observed, "implement"))
         operating_standard = inherited_standard(kit, names, api)
     normalized = []
     for name in names:
@@ -317,10 +328,13 @@ def build(args):
         write_snapshot(frozen, snapshot, api)
         api.load_kit(frozen)
         if observed is not None:
-            bundle_gate(args.session, frozen)
+            accepted = bundle_gate(args.session, frozen)
             current = gate(args.session)
             if current["blueprint"] != observed["blueprint"] or current["approval_ref"] != observed["approval_ref"]:
                 raise ValueError("Approval changed during packaging; do not export")
+            expected = production_pin(observed, "implement")
+            if production_pin(accepted, "accept") != expected or production_pin(current, "implement") != expected:
+                raise ValueError("Production choice or evidence changed during packaging; recheck before export")
         else:
             own_factory(frozen, names, api)
         expected_files = {name: api.digest(record["bytes"]) for name, record in snapshot.items()}

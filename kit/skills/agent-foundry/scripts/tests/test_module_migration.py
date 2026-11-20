@@ -8,6 +8,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import module_migration as mod
+from test_import_codex import bind_plan
 
 
 class ModuleMigrationTest(unittest.TestCase):
@@ -94,10 +95,16 @@ checklist = ["Review the report using the new location."]
         self.assertEqual([row["status"] for row in plan["dependencies"]], ["missing"])
         self.assertEqual(plan["migration"]["guide_checklist_pending"], ["Review the report using the new location."])
         self.args.expect = plan["plan_sha256"]
+        with self.assertRaisesRegex(ValueError, "Production choices block material staging"):
+            mod.stage(self.args)
+        self.assertFalse(self.args.output.exists())
+        self.args.choice_root = self.root / "migration-decision"
+        decision = bind_plan(self.args.choice_root, plan)
         receipt = mod.stage(self.args)
         stage = self.args.output
         self.assertEqual(receipt["source_project_writes"], 0)
         self.assertEqual(receipt["hooks_executed"], 0)
+        self.assertEqual(receipt["production_choice"]["decision_sha256"], decision)
         for original, name in ((team, "dock-review.toml"), (personal, "dock-review.user.toml"), (retired, retired.name)):
             self.assertEqual((stage / "_modules/custom" / name).read_bytes(), original.read_bytes())
         self.assertEqual((stage / "_modules/custom/dock-review.user.toml").stat().st_mode & 0o777, 0o600)

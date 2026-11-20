@@ -2,10 +2,12 @@
 name: chatbot-atelier-media
 description: "Create or repair chatbot media, including images, stickers, motion, voice, music, and delivery. Use conversation for text dialogue alone."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # ChatBot Atelier · Media
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Establish the media and delivery contract
 

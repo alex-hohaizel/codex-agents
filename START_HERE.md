@@ -50,6 +50,8 @@ specialist, bringing in a real team, and handing off the result.
 [First task through handoff](docs/FIRST_RUN.md#extend-the-task-into-a-project-workflow) ·
 [Exact commands and checks](docs/FIRST_RUN.md#precision-path)
 
+For a material design, technology or production choice, follow the [prototype-to-release workflow](docs/technical/PRODUCTION_CHOICES.md) before the first generated artifact. Open it again when you hand off the approved result or resume work.
+
 ## Use another language
 
 English is the initial language for clean setup and tasks without a language

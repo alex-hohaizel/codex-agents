@@ -2,10 +2,12 @@
 name: chatbot-atelier-director
 description: "Lead a new chatbot or coordinate changes across several areas of an existing one. For a contained task, use the relevant specialist."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # ChatBot Atelier · Director
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Intake and team ownership
 

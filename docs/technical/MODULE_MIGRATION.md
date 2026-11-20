@@ -111,6 +111,14 @@ to the change-set file if its contents need to change.
 Add `--change-set "$CHANGES"` to both audit and stage. If a previously
 reviewed change set has a different schema identifier and the same
 fields, pass `--change-set-schema "$ORIGINAL_SCHEMA"` to both commands.
+With a change set that moves or replaces files, add
+`--plan-file "$CHOICE_ROOT/migration-plan.json"` to the audit. Pin that
+exact file in the approved [production choice's](PRODUCTION_CHOICES.md)
+`configuration`. Add `--choice-root "$CHOICE_ROOT"` to stage when the
+record is outside the audited project. Use a new plan file for each
+reviewed revision. Staging checks these dependencies again before it
+publishes the new directory.
+
 The importer checks the exact migration guide, file paths and contents
 before staging. It copies the selected artifact roots, applies the
 listed moves and replacements, and checks the inputs again before

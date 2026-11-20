@@ -4694,7 +4694,7 @@ export function SystemView(
         }
       />
       {p.section === "integrations" && (
-        <PluginIntegrations t={p.t} demo={p.demo} csrf={p.boot?.csrf_token} />
+        <PluginIntegrations t={p.t} demo={p.demo} csrf={p.boot?.csrf_token} project={p.selected ?? undefined} />
       )}
       <div className="system-grid">
         <Panel title={p.t("codex")} icon={TerminalSquare}>

@@ -65,7 +65,7 @@ def markers(agent_id):
 
 HEX = re.compile(r"^[0-9a-f]{64}$")
 OPERATING_SCHEMA = "agent-operating-standard/1"
-OPERATING_RESOURCES = (
+V6_6_OPERATING_RESOURCES = (
     "references/adaptive-work.md", "references/research-and-synthesis.md",
     "references/visual-identity.md", "references/joint-work-codex.md",
     "scripts/adaptive_work.py", "scripts/visual_identity.py", "assets/adaptive-task.schema.json", "assets/adaptive-task.example.json",
@@ -77,6 +77,12 @@ OPERATING_RESOURCES = (
     "scripts/briefing.py", "scripts/interaction.py",
     "assets/status-view.schema.json", "assets/decision-card.template.md",
 )
+PRODUCTION_CHOICE_RESOURCES = (
+    "references/production-choices.md",
+    "scripts/production_choices.py",
+    "assets/technology-catalog.json",
+)
+OPERATING_RESOURCES = V6_6_OPERATING_RESOURCES + PRODUCTION_CHOICE_RESOURCES
 PORTABLE_BRIEFING_MATERIALS = {
     "assets/briefing-intake.template.json", "assets/execution-script.template.md",
     "assets/stage-closeout.template.md", "references/briefing-domain-guide.md",
@@ -102,6 +108,8 @@ def operating_resources_for_release(release):
     if version[:2] == (6, 1):
         return V6_1_OPERATING_RESOURCES
     if version[:2] == (6, 6):
+        return V6_6_OPERATING_RESOURCES
+    if version[:2] == (6, 7):
         return OPERATING_RESOURCES
     raise InstallError("Unsupported future generated-agent operating standard")
 
@@ -354,6 +362,10 @@ def validate_manifest(value):
         required_resources = operating_resources_for_release(standard['release'])
         if not isinstance(resources, dict) or set(resources) != set(required_resources) or any(not isinstance(h, str) or not HEX.fullmatch(h) for h in resources.values()):
             raise InstallError("Operating standard must pin every portable resource")
+        if "scripts/production_choices.py" in required_resources and value["purpose"] == "generated":
+            for field in ("production_decision_sha256", "production_record_sha256"):
+                if not isinstance(pin.get(field), str) or not HEX.fullmatch(pin[field]):
+                    raise InstallError("Current generated package requires exact production choice provenance")
         if "assets/managed-model.json" in required_resources:
             model = standard.get("managed_model")
             if not (isinstance(model, dict) and set(model) == {"id", "reasoning_effort"} and
@@ -625,13 +637,21 @@ def write_manifest(kit, metadata):
 
 def managed_block(manifest, manifest_hash):
     begin, end = markers(manifest["agent_id"])
-    model = (manifest.get("operating_standard") or {}).get("managed_model")
+    standard = manifest.get("operating_standard") or {}
+    model = standard.get("managed_model")
     model_instruction = (
         "Launch from this project with `codex --model " + model["id"] +
         ' -c \'model_reasoning_effort="' + model["reasoning_effort"] +
         '"\'` or select both settings in the supported host picker. '
         "Check actual model and reasoning effort in session metadata before crediting managed execution.\n"
         if model is not None else ""
+    )
+    choice_instruction = (
+        "For material work, read the installed entry skill's local production-choices reference. "
+        "Run its bundled scripts/production_choices.py verify PROJECT --phase explore before a material first draft, "
+        "then verify the appropriate phase before dependent work. Use the toolkit interpreter when configured. "
+        "Carry the exact approved choices, editable masters and flows through handoff and regeneration.\n"
+        if set(PRODUCTION_CHOICE_RESOURCES) <= standard.get("resources", {}).keys() else ""
     )
     return (begin + "\n"
         "## Agent: " + manifest["agent_id"] + "\n\n"
@@ -641,7 +661,7 @@ def managed_block(manifest, manifest_hash):
         "Use actual host tools and observed receipts; instructions do not install tools or grant external permissions.\n"
         "Preserve existing product source, version control, project state, accepted originals and unrelated instructions.\n"
         "Use one active instruction source for this agent; report overlapping profile/plugin copies without disabling them.\n"
-        + model_instruction +
+        + choice_instruction + model_instruction +
         "Installed version: " + manifest["version"] + "; manifest SHA-256: " + manifest_hash + ".\n" + end)
 
 def split_block(text, agent_id):
@@ -843,8 +863,8 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
     warnings = ["Use one active source per agent; host discovery and execution are separate from file installation."]
     if manifest.get("operating_standard") is None:
         warnings.append("Legacy package has no declared operating standard; no upgraded-inheritance or behavior claim is made.")
-    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 6, 0):
-        warnings.append('Historical operating standard retained. Its existing resource pins remain active. Managed model adoption requires a separate verified consumer.')
+    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 7, 0):
+        warnings.append('Historical operating standard retained. Its existing resource pins remain active. Current production choices and managed model use require separate verified consumers.')
     if preserved_visuals:
         warnings.append("Existing project icons/colors preserved: " + ", ".join(preserved_visuals))
     warnings.extend("Known additional active source: " + source + "; nothing disabled." for source in other_sources)

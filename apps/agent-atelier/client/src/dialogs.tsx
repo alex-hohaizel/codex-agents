@@ -193,6 +193,7 @@ export function TaskDialog({
   const [objective, setObjective] = useState(preset?.objective ?? "");
   const [acceptance, setAcceptance] = useState(preset?.acceptance ?? "");
   const [scope, setScope] = useState("read-only");
+  const [productionPhase, setProductionPhase] = useState<string>(preset?.production_phase ?? "");
   const [outputLocale, setOutputLocale] = useState<Locale | "">(
     supportedLocale(preset?.output_locale) ?? "",
   );
@@ -258,6 +259,7 @@ export function TaskDialog({
         {
           objective,
           acceptance,
+          ...(productionPhase ? { production_phase: productionPhase } : {}),
           ...(outputLocale ? { output_locale: outputLocale } : {}),
           universal_entry: universal,
           ...(intent !== "auto" ? { route: intent } : {}),
@@ -543,6 +545,11 @@ export function TaskDialog({
             locale={locale}
           />
           <SurfaceNotice>{t("taskPreparedNote")}</SurfaceNotice>
+          {prepared.capsule?.production_choice && (
+            <SurfaceNotice>
+              {t("productionPhase")} · {prepared.capsule.production_choice.phase} · {prepared.capsule.production_choice.path}
+            </SurfaceNotice>
+          )}
           <label className="checkbox-field">
             <input
               type="checkbox"
@@ -676,6 +683,15 @@ export function TaskDialog({
               />
             </Field>
           </div>
+          <Field label={t("productionPhase")}>
+            <select value={productionPhase} onChange={(e) => setProductionPhase(e.target.value)}>
+              <option value="">{t("productionAutomatic")}</option>
+              <option value="explore">{t("productionExplore")}</option>
+              <option value="implement">{t("productionImplement")}</option>
+              <option value="scale">{t("productionScale")}</option>
+              <option value="accept">{t("productionAccept")}</option>
+            </select>
+          </Field>
           <Field label={t("allowedPaths")} help={t("pathsHelp")}>
             <textarea
               rows={2}

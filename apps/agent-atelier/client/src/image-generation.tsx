@@ -3,7 +3,10 @@ import { Image } from "lucide-react";
 import { api, ApiError } from "./api";
 import { Button, Field, SurfaceNotice, type T } from "./ui";
 
-export function ImageGeneration({ csrf, t }: { csrf?: string; t: T }) {
+export function ImageGeneration({ csrf, t, projectId }: { csrf?: string; t: T; projectId?: string }) {
+  const [phase, setPhase] = useState<"explore" | "implement" | "scratch">("implement");
+  const [review, setReview] = useState<"" | "artifact" | "drift">("");
+  const [blocked, setBlocked] = useState("");
   const [prompt, setPrompt] = useState("");
   const [artifact, setArtifact] = useState<Blob | null>(null);
   const [url, setUrl] = useState("");
@@ -28,8 +31,11 @@ export function ImageGeneration({ csrf, t }: { csrf?: string; t: T }) {
     setRunning(true);
     setArtifact(null);
     setFailure("");
+    setReview("");
+    setBlocked("");
     try {
-      const result = await api.generateImage(prompt.trim(), csrf);
+      const result = await api.generateImage(prompt.trim(), csrf,
+        projectId && phase !== "scratch" ? { project_id: projectId, production_phase: phase } : undefined);
       if (
         result.status !== "completed" ||
         result.operation !== "codex.image.generate" ||
@@ -43,7 +49,12 @@ export function ImageGeneration({ csrf, t }: { csrf?: string; t: T }) {
       if (!bytes.length || bytes.length !== result.artifact.bytes)
         throw new Error();
       setArtifact(new Blob([bytes], { type: "image/png" }));
+      if (projectId && phase !== "scratch") setReview(result.production_choice_state === "source-changed-review-required" ? "drift" : "artifact");
     } catch (error) {
+      if (error instanceof ApiError && error.code === "PRODUCTION_CHOICE_REQUIRED") {
+        setBlocked(error.message);
+        return;
+      }
       setFailure(
         error instanceof ApiError && error.code === "OUTCOME_UNKNOWN"
           ? "unknown"
@@ -68,6 +79,18 @@ export function ImageGeneration({ csrf, t }: { csrf?: string; t: T }) {
           onChange={(event) => setPrompt(event.target.value)}
         />
       </Field>
+      {projectId && (
+        <Field label={t("productionPhase")}>
+          <select value={phase} disabled={running} onChange={(event) => {
+            const next = event.target.value;
+            if (next === "explore" || next === "implement" || next === "scratch") setPhase(next);
+          }}>
+            <option value="explore">{t("productionExplore")}</option>
+            <option value="implement">{t("productionImplement")}</option>
+            <option value="scratch">{t("productionScratch")}</option>
+          </select>
+        </Field>
+      )}
       <div>
         <Button
           type="submit"
@@ -83,6 +106,8 @@ export function ImageGeneration({ csrf, t }: { csrf?: string; t: T }) {
           {t("running")}
         </p>
       )}
+      {blocked && <div role="alert"><SurfaceNotice tone="error">{blocked}</SurfaceNotice></div>}
+      {review && <SurfaceNotice tone="warning">{t(review === "drift" ? "productionDriftReview" : "productionArtifactReview")}</SurfaceNotice>}
       {failure && (
         <div role="alert">
           <SurfaceNotice tone="error">

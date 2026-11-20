@@ -699,7 +699,7 @@ def approved_for(state, decision, effect, artifact_ids=None):
     return True
 
 
-def readiness(state, task_id, phase="start"):
+def readiness(state, task_id, phase="start", *, project_root=None):
     require(task_id in state["tasks"], "unknown task")
     task = state["tasks"][task_id]
     blockers = global_blockers(state)
@@ -750,9 +750,26 @@ def readiness(state, task_id, phase="start"):
     if task.get("requires_production_choice", production_operation(task["stage"], task.get("operation", "work"))) or task.get("operation") == "production":
         if not state["production_choice"] or not state["search_stopped"]:
             blockers.append("production choice absent or search not explicitly stopped; saved favorites are not selection")
+    production_choices = None
+    production_phase = None
+    if task.get("operation") == "full_concepts":
+        production_phase = "explore"
+    elif task.get("work_class") == "production" or task.get("operation") == "production":
+        production_phase = "implement"
+        if phase == "complete" and task["stage"] in {"assets", "build", "qa", "release", "liveops"}:
+            production_phase = "scale" if task["stage"] in {"assets", "build"} else "accept"
+    if project_root is not None and production_phase is not None:
+        try:
+            from production_choices import verify_project
+            production_choices = verify_project(project_root, production_phase, required_kind="game")
+            previous = task.get("production_choice_decision_sha256")
+            if previous is not None and production_choices["decision_sha256"] != previous:
+                blockers.append("production decision changed since task start; reconcile the affected scope")
+        except (ValueError, OSError, ImportError) as exc:
+            blockers.append("production choices: " + str(exc))
     if task.get("status") == "completed":
         blockers.append("task already completed; no replay")
-    return {"ready": not blockers, "task": task_id, "task_token": token(task), "task_status": task.get("status"), "blockers": sorted(set(blockers)), "knowledge_revision": state["knowledge_revision"]}
+    return {"ready": not blockers, "task": task_id, "task_token": token(task), "task_status": task.get("status"), "blockers": sorted(set(blockers)), "knowledge_revision": state["knowledge_revision"], "production_choices": production_choices}
 
 
 def reconcile_task_modalities(state, record):
@@ -1116,6 +1133,7 @@ def dispatch(state, root, args):
             record["requires_production_choice"] = record["work_class"] == "production"
         old = state["tasks"].get(record["id"], {})
         require(old.get("status") not in {"completed", "running"}, "running/completed task cannot be reset; use a new derivative task ID or reconcile stale task")
+        record.pop("production_choice_decision_sha256", None)
         for name in ("required_decisions", "required_requirements", "fulfills_requirements", "required_evidence", "capabilities", "artifact_ids", "external_actions", "required_modalities"):
             strings(record.get(name, []), name)
         record["depends_on"] = sorted(set(record.get("depends_on", []) + [x for group in ("knowledge", "requirements") for x, k in state[group].items() if applicable(k, record["stage"], record["scope"])]))
@@ -1124,7 +1142,7 @@ def dispatch(state, root, args):
     if command == "reconcile-task-modalities":
         return reconcile_task_modalities(state, record)
     if command in {"readiness", "start", "complete"}:
-        result = readiness(state, args.task, "complete" if command == "complete" else "start")
+        result = readiness(state, args.task, "complete" if command == "complete" else "start", project_root=root)
         if command == "readiness" or not result["ready"]:
             return result
         task = state["tasks"][args.task]
@@ -1132,6 +1150,9 @@ def dispatch(state, root, args):
             require(task["status"] == "planned", "task already started; do not replay execution")
             task["status"] = "running"
             task["started_at"] = now()
+            choice = result["production_choices"] or {}
+            if choice.get("decision_sha256") is not None:
+                task["production_choice_decision_sha256"] = choice["decision_sha256"]
             return {"started": args.task, "actual_execution": False, "next": "Agent uses actual skill/tools within task contract."}
         require(task["status"] == "running", "start task before recording completion")
         require(args.evidence, "completion requires actual evidence")
@@ -1175,7 +1196,7 @@ def dispatch(state, root, args):
         require(row["status"] == "prepared", "action already dispatched/terminal/unknown; reconcile, never replay")
         require(args.project_revision == state["revision"], "wrong project revision for dispatch")
         require(state["tasks"][row["task"]]["status"] == "running", "start the bounded action task before dispatch")
-        blockers = readiness(state, row["task"])["blockers"]
+        blockers = readiness(state, row["task"], project_root=root)["blockers"]
         blockers = [x for x in blockers if x != "external outcome pending/unknown/failed: " + args.id]
         require(not blockers, "action task blocked: " + "; ".join(blockers))
         require(not any(a["status"] in {"pending", "unknown"} for a in state["actions"].values()), "pending/unknown external outcome must be reconciled before another dispatch")
@@ -1301,14 +1322,15 @@ def dispatch(state, root, args):
             model_source = SCRIPT_ROOT / "game_model.py"
             require(model_source.is_file() and not platform_support.is_link_or_reparse(model_source), "game model checker missing/linked")
             require(sha(model_source) == state["suite_lock"].get("scripts/game_model.py"), "game model checker changed after suite preflight")
-        result = module.verify(package, args.require_accepted)
+        result = module.verify(package, args.require_accepted,
+                               current_work=True, project_root=root)
         if result["valid"] and args.require_accepted:
             require(suite_lock() == state["suite_lock"], "installed suite changed during validator execution; reconcile before accepting stage")
             require(not global_blockers(state), "cannot cross stage boundary while paused/integrity blocked")
             manifest_path = package / "manifest.json"
             manifest = strict_json_loads(manifest_path.read_text(encoding="utf-8"))
             require(manifest["project_id"] == state["project_id"], "stage package belongs to another project")
-            state["stage_checks"].append({"stage": result["stage"], "scope": manifest.get("scope", "project"), "toolkit_version": TOOLKIT_VERSION, "runtime_suite_sha256": digest(state["suite_lock"]), "manifest_path": str(manifest_path), "manifest_sha256": sha(manifest_path), "knowledge_revision": state["knowledge_revision"], "model_gate": result.get("model_gate"), "acceptance_scope": result.get("acceptance_scope"), "at": now()})
+            state["stage_checks"].append({"stage": result["stage"], "scope": manifest.get("scope", "project"), "toolkit_version": TOOLKIT_VERSION, "runtime_suite_sha256": digest(state["suite_lock"]), "manifest_path": str(manifest_path), "manifest_sha256": sha(manifest_path), "knowledge_revision": state["knowledge_revision"], "model_gate": result.get("model_gate"), "acceptance_scope": result.get("acceptance_scope"), "production_choice_decision_sha256": (result.get("production_choices") or {}).get("decision_sha256"), "at": now()})
             stop_boundary(state, "stage", result["stage"])
         return result
     raise ValueError("unsupported command")

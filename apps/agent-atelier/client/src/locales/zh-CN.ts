@@ -1,6 +1,15 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  productionPhase: "制作阶段",
+  productionScratch: "项目外的草稿图像",
+  productionAutomatic: "根据项目记录选择",
+  productionExplore: "探索",
+  productionImplement: "实现",
+  productionScale: "批量制作",
+  productionAccept: "验收",
+  productionDriftReview: "Codex 运行期间项目来源发生了变化。请在使用前检查输出和项目决策。",
+  productionArtifactReview: "使用生成的产物之前，请根据项目决策进行检查。",
   pluginMediaTitle: "Codex 插件和媒体服务",
   imageBrief: "图像描述",
   imageGenerate: "生成图像",

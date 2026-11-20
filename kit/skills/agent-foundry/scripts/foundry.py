@@ -19,6 +19,7 @@ import shutil
 import stat
 import sys
 import tempfile
+import types
 import zipfile
 from contextlib import contextmanager
 from pathlib import Path, PurePosixPath
@@ -440,6 +441,27 @@ def approval_current(state, root):
     return blockers
 
 
+def construction_choice(state, root, phase, blockers, *, require_agent=False):
+    if blockers:
+        return None
+    try:
+        pin = state["blueprint"]["data"].get("production_decision_sha256")
+        need(isinstance(pin, str) and HEX.fullmatch(pin),
+             "bind production_decision_sha256 to the current choice before approving the blueprint")
+        helper = SCRIPT_ROOT / "production_choices.py"
+        module = types.ModuleType("foundry_production_choices")
+        module.__file__ = str(helper)
+        exec(compile(read_bytes(helper), str(helper), "exec"), module.__dict__)
+        kind = "agent" if require_agent or state["purpose"] == "factory" else None
+        report = module.verify_project(root, phase, required_kind=kind)
+        need(report["decision_sha256"] == pin,
+             "production decision differs from the approved blueprint; register and approve its new revision")
+        return report
+    except (OSError, ValueError) as error:
+        blockers.append("production choices: " + str(error))
+        return None
+
+
 def test_defs(state):
     result = {r["id"]: r for r in (state.get("blueprint") or {}).get("data", {}).get("tests", [])}
     result.update(state["project_tests"])
@@ -579,6 +601,7 @@ def closure(state, row):
 
 def readiness(state, root, task):
     blockers = approval_current(state, root)
+    construction_choice(state, root, "implement", blockers)
     if task["status"] not in ("pending", "running"):
         blockers.append("task is not pending/running")
     execution = state["executions"].get(task["execution_id"], {})
@@ -666,6 +689,7 @@ def decision_blockers(state, root, phase_id, scope, task_id=None):
 
 def phase_readiness(state, root, phase_id, scope, execution_id):
     blockers = approval_current(state, root)
+    construction_choice(state, root, "implement", blockers)
     _, groups, _ = active_blueprint(state, root)
     need(phase_id in groups["phases"], "unknown phase")
     execution = state["executions"].get(execution_id, {})
@@ -680,6 +704,7 @@ def phase_readiness(state, root, phase_id, scope, execution_id):
 
 def effect_current(state, root, grant):
     blockers = approval_current(state, root)
+    construction_choice(state, root, "implement", blockers)
     if grant.get("decision") != "approve" or grant.get("blueprint_sha256") != state["blueprint"]["sha256"]:
         blockers.append("positive current exact effect authority missing")
     if not authority_current(root, grant, grant["subject_sha256"]):
@@ -809,7 +834,8 @@ def dispatch(state, root, args, record):
             blockers += state["integrity_errors"]
             return {"valid": not blockers, "blockers": sorted(set(blockers)), "blueprint": blueprint_public(state), "semantic_quality_certified": False}
         blockers = approval_current(state, root)
-        return {"ready": not blockers, "blockers": blockers, "blueprint": blueprint_public(state), "approval_ref": state.get("approval"), "executes": False}
+        choice = construction_choice(state, root, args.phase, blockers, require_agent=True)
+        return {"ready": not blockers, "blockers": blockers, "blueprint": blueprint_public(state), "approval_ref": state.get("approval"), "production_choice": choice, "executes": False}
     if cmd == "approve":
         bp, _, blockers = active_blueprint(state, root)
         need(not blockers and not state["integrity_errors"] and state["suite"] == suite() and not state["pause"]["active"], "cannot approve while source/question/suite/pause is blocked")
@@ -1023,6 +1049,7 @@ def dispatch(state, root, args, record):
         return {"valid": not blockers, "blockers": blockers, "phase_id": args.id, "scope": args.scope, "semantic_quality_certified": False}
     if cmd == "bundle-check":
         blockers = approval_current(state, root)
+        choice = construction_choice(state, root, "accept", blockers, require_agent=True)
         bp, groups, _ = active_blueprint(state, root)
         directory = Path(args.directory).absolute()
         for parent in (directory, *directory.parents):
@@ -1043,6 +1070,12 @@ def dispatch(state, root, args, record):
                 found.append(folder.name)
         if set(found) != set(x["name"] for x in bp["data"]["skills"]):
             blockers.append("bundle skill set differs from approved exact set")
+        if choice is not None:
+            accepted = {row["sha256"] for row in choice["evidence_artifacts"]["accept"]}
+            for name in found:
+                entry = safe(directory, f"skills/{name}/SKILL.md")
+                if sha(entry) not in accepted:
+                    blockers.append("acceptance evidence does not cover this exact packaged skill: " + name)
         for ident, definition in groups["artifacts"].items():
             row = state["artifacts"].get(ident, {})
             path = safe(directory, definition["path"])
@@ -1052,7 +1085,7 @@ def dispatch(state, root, args, record):
             evidence = [e for e in state["evidence"].values() if e["test_id"] == ident and e["status"] == "pass" and e.get("test_sha256") == digest(test)]
             if not evidence:
                 blockers.append("missing current pass for blueprint test: " + ident)
-        return {"valid": not blockers, "blockers": sorted(set(blockers)), "blueprint": blueprint_public(state), "semantic_quality_certified": False, "installed": False}
+        return {"valid": not blockers, "blockers": sorted(set(blockers)), "blueprint": blueprint_public(state), "production_choice": choice, "semantic_quality_certified": False, "installed": False}
     if cmd == "intake":
         return intake(state, root, args.source, record)
     if cmd == "pause":
@@ -1184,6 +1217,9 @@ def parser():
         if name == "init":
             q.add_argument("--project-id", required=True)
             q.add_argument("--purpose", choices=("factory", "project"), default="factory")
+        if name == "build-gate":
+            q.add_argument("--phase", choices=("implement", "scale"), default="implement",
+                           help="Scale requires reviewed representative-slice evidence")
         if name == "blueprint":
             q.add_argument("--change-authority")
         if name == "approve":

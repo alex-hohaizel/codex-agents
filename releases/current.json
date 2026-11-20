@@ -1,18 +1,18 @@
 {
   "schema_version": "codex-agents.release/1",
   "repository_branch": "main",
-  "repository_version": "1.9.0",
-  "suite_version": "6.6.0",
-  "release_date": "2026-11-19",
+  "repository_version": "1.10.0",
+  "suite_version": "6.7.0",
+  "release_date": "2026-11-20",
   "managed_model": {
     "id": "gpt-6.2-sol",
     "reasoning_effort": "ultra"
   },
   "previous_stable": {
-    "repository_version": "1.8.0",
-    "suite_version": "6.5.0",
-    "tag": "v1.8.0",
-    "source_commit": "354a39ceb146e804e4cdc2198e7470177f8e0f2b"
+    "repository_version": "1.9.0",
+    "suite_version": "6.6.0",
+    "tag": "v1.9.0",
+    "source_commit": "6af8febdfc716eeba30becae3f3ea5449cd66ae4"
   },
   "release_notes": "releases/README.md",
   "requirements": "governance/requirements.csv",
@@ -51,18 +51,18 @@
     "gamedev-release",
     "gamedev-studio"
   ],
-  "source_manifest_sha256": "6e1490279edadbdafa4dd4d851cab1d0a0328840d9aac56b1621f4a668ed5b26",
+  "source_manifest_sha256": "8702938962c0707f2bf46ff21550846dd1ea8fd087df0532c319965d4e63dc7c",
   "optional_skills": [
     {
       "name": "codex-agents-maintenance",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "source": "maintenance-skill",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported installation; source inclusion does not prove host installation"
     },
     {
       "name": "atelier-orchestrator",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "source": "optional-skills/atelier-orchestrator",
       "included_in_baseline_count": false,
       "installation_scope": "Separate supported manager; actual source/discovery/task proof required"
@@ -72,21 +72,21 @@
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
   "local_service": {
     "name": "agent-atelier",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "source": "apps/agent-atelier",
     "scope": "Local project workbench for Windows, macOS and Linux; source-backed actions, existing native execution and private state"
   },
-  "release_status": "Stable technical release intent for v1.9.0. Publication requires successful source and native workflows on the exact main commit, verified archives and attestations, and manual publisher readback. v1.8.0 remains the public stable edition until publication completes.",
+  "release_status": "Stable technical release intent for v1.10.0. The current candidate requires exact-main evidence, accepted source and native workflows, verified archives and attestations, and manual publisher readback. v1.9.0 remains the published stable edition until publication completes.",
   "role_profiles": {
-    "version": "6.3.0",
+    "version": "6.4.0",
     "manifest": "agent-profiles/manifest.json"
   },
   "host_profile": {
-    "version": "6.4.0",
+    "version": "6.5.0",
     "source": "host-profiles/codex/AGENTS.md"
   },
   "release_stage": "stable",
-  "release_tag": "v1.9.0",
+  "release_tag": "v1.10.0",
   "installation_guide": "docs/INSTALL.md",
   "showcase_locales": [
     "en",
@@ -104,5 +104,12 @@
     "contract": "governance/COMMERCIAL_PRODUCT_CONTRACT.md",
     "acceptance": "governance/commercial/requirements.json",
     "distribution": "Technical installer release. Commercial issuance and final legal terms remain separate owner gates."
+  },
+  "production_choices": {
+    "schema": "atelier.production-choices/1",
+    "standard": "standards/production-choices.md",
+    "validator": "standards/production_choices.py",
+    "catalog": "standards/technology-catalog.json",
+    "coverage": "governance/production-choice-coverage.json"
   }
 }

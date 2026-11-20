@@ -231,6 +231,45 @@ test("task capsule retains native must and rejects drift before dispatch", async
     await f.close();
   }
 });
+test("production prepare and dispatch bind a decision and stop changed masters before the native start", async () => {
+  const f = await fixture();
+  const request = {
+    objective: "Prepare an approved web implementation",
+    acceptance: "Preserve the master and navigation",
+    scope: "read-only",
+    production_phase: "implement",
+    deadline_seconds: 60,
+  };
+  const target = { project_id: f.binding.id, expected_revision: f.binding.revision };
+  try {
+    const missing = await f.command("task.prepare", request, target);
+    assert.equal(missing.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    const python = process.env.AGENT_SYSTEM_PYTHON || (process.platform === "win32" ? "python" : "python3");
+    execFileSync(python, ["-B", "-c",
+      "import sys; sys.path.insert(0, 'scripts/tests'); from fixture_production_choices import make_choice; make_choice(sys.argv[1], target_kind='web')",
+      f.project], { cwd: repoRoot });
+    const prep = await f.command("task.prepare", request, target);
+    assert.equal(prep.status, "completed");
+    const { task, capsule } = prep.result;
+    assert.equal(capsule.production_choice.phase, "implement");
+    assert.equal(capsule.production_choice.sha256, sha(await readFile(join(f.project, "production-choices.json"))));
+    const master = join(f.project, "_choice-fixture", "master.html");
+    const original = await readFile(master);
+    await writeFile(master, "<main>Unapproved replacement</main>");
+    const denied = await f.command("task.dispatch", { task_id: task.id }, target);
+    assert.equal(denied.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    assert.match(denied.error.message, /master\.html/);
+    assert.equal(f.codex.starts, 0);
+    await writeFile(master, original);
+    const retry = await f.command("task.prepare", request, target);
+    assert.equal(retry.status, "completed");
+    const run = await f.command("task.dispatch", { task_id: retry.result.task.id }, target);
+    assert.equal(run.status, "completed");
+    assert.equal(f.codex.starts, 1);
+  } finally {
+    await f.close();
+  }
+});
 test("native model mismatch records the acknowledged thread before rejecting any turn", async () => {
   const f = await fixture();
   try {

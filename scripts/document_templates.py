@@ -9,6 +9,7 @@ import sys
 
 sys.dont_write_bytecode = True
 import ticket_tree as tree
+from production_choice_route import verify_route
 import document_templates_view as view
 
 context = tree.context
@@ -637,6 +638,8 @@ def main(argv=None):
         root = args.root.absolute()
         context.require(root.is_dir() and root.resolve() == root, "root must be an existing canonical directory")
         snapshot = tree.Snapshot(root)
+        production = (verify_route(root, "explore" if args.command == "draft" else "implement")
+                      if args.command in ("draft", "update") else None)
         if args.command == "upstream-registry":
             response = catalog_registry(snapshot, args.upstream, args.catalog)
         elif args.command == "init-library":
@@ -666,6 +669,8 @@ def main(argv=None):
                 snapshot.verify_unchanged()
                 response = emit_outputs(root, args.output, {"draft_sha256": record["sha256"],
                                                            "revision": record["revision"],
+                                                           **({"production_choice": production}
+                                                              if production else {}),
                                                            "unplaced_html_sections": unplaced}, payloads)
         if args.command not in ("draft", "update"):
             snapshot.verify_unchanged()

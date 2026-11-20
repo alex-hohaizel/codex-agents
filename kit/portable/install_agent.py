@@ -8,6 +8,12 @@ Requires exclusive control of kit/project ancestor directories during operations
 Observed links/special files and final-leaf races are checked; this is not a
 sandbox against hostile same-user processes replacing ancestor directories.
 """
+import importlib.util as _platform_import
+from pathlib import Path as _PlatformPath
+_platform_spec = _platform_import.spec_from_file_location('_agent_system_platform', _PlatformPath(__file__).with_name('platform_support.py'))
+platform_support = _platform_import.module_from_spec(_platform_spec)
+exec(compile(_PlatformPath(__file__).with_name('platform_support.py').read_bytes(),
+             str(_PlatformPath(__file__).with_name('platform_support.py')), 'exec'), platform_support.__dict__)
 import argparse
 import hashlib
 import json
@@ -59,7 +65,7 @@ def markers(agent_id):
 
 HEX = re.compile(r"^[0-9a-f]{64}$")
 OPERATING_SCHEMA = "agent-operating-standard/1"
-OPERATING_RESOURCES = (
+V6_6_OPERATING_RESOURCES = (
     "references/adaptive-work.md", "references/research-and-synthesis.md",
     "references/visual-identity.md", "references/joint-work-codex.md",
     "scripts/adaptive_work.py", "scripts/visual_identity.py", "assets/adaptive-task.schema.json", "assets/adaptive-task.example.json",
@@ -71,6 +77,12 @@ OPERATING_RESOURCES = (
     "scripts/briefing.py", "scripts/interaction.py",
     "assets/status-view.schema.json", "assets/decision-card.template.md",
 )
+PRODUCTION_CHOICE_RESOURCES = (
+    "references/production-choices.md",
+    "scripts/production_choices.py",
+    "assets/technology-catalog.json",
+)
+OPERATING_RESOURCES = V6_6_OPERATING_RESOURCES + PRODUCTION_CHOICE_RESOURCES
 PORTABLE_BRIEFING_MATERIALS = {
     "assets/briefing-intake.template.json", "assets/execution-script.template.md",
     "assets/stage-closeout.template.md", "references/briefing-domain-guide.md",
@@ -96,6 +108,8 @@ def operating_resources_for_release(release):
     if version[:2] == (6, 1):
         return V6_1_OPERATING_RESOURCES
     if version[:2] == (6, 6):
+        return V6_6_OPERATING_RESOURCES
+    if version[:2] == (6, 7):
         return OPERATING_RESOURCES
     raise InstallError("Unsupported future generated-agent operating standard")
 
@@ -116,7 +130,7 @@ def safe_path(path):
             mode = part.lstat().st_mode
         except FileNotFoundError:
             continue
-        if stat.S_ISLNK(mode):
+        if platform_support.is_link_or_reparse(part):
             raise InstallError("Symlink is not permitted: " + str(part))
         if part != path and not stat.S_ISDIR(mode):
             raise InstallError("Path ancestor is not a directory: " + str(part))
@@ -126,6 +140,9 @@ def safe_path(path):
 def relative_file(value):
     if not isinstance(value, str) or not value or "\\" in value or "\x00" in value:
         raise InstallError("Invalid manifest file path")
+    if platform_support.WINDOWS:
+        try: platform_support.safe_relative(value)
+        except ValueError as error: raise InstallError(str(error)) from error
     path = PurePosixPath(value)
     if path.is_absolute() or any(p in (".", "..", "") for p in value.split("/")):
         raise InstallError("Unsafe manifest file path: " + value)
@@ -167,7 +184,7 @@ def file_map(root):
         for name in directories + filenames:
             entry = Path(current) / name
             mode = entry.lstat().st_mode
-            if stat.S_ISLNK(mode) or not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)):
+            if platform_support.is_link_or_reparse(entry) or not (stat.S_ISDIR(mode) or stat.S_ISREG(mode)):
                 raise InstallError("Link or special file is not permitted: " + str(entry))
         for name in filenames:
             path = Path(current) / name
@@ -182,7 +199,21 @@ def file_mode(path):
         raise InstallError("Expected a regular file: " + str(path))
     if observed.st_mode & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX):
         raise InstallError("Special permission bits are not supported: " + str(path))
-    return stat.S_IMODE(observed.st_mode)
+    if platform_support.WINDOWS and platform_support.private_acl_report(path)['private']:
+        return 0o600
+    return platform_support.file_mode(path)
+
+
+def native_mode(mode):
+    return mode if mode in (0o600, 0o700) else platform_support.project_mode(mode)
+
+
+def native_fingerprint(record):
+    if record is None or not platform_support.WINDOWS:
+        return record
+    if 'modes' in record:
+        return dict(record, modes={name:native_mode(mode) for name,mode in record['modes'].items()})
+    return dict(record, mode=native_mode(record['mode']))
 
 
 def mode_map(root, files):
@@ -331,6 +362,10 @@ def validate_manifest(value):
         required_resources = operating_resources_for_release(standard['release'])
         if not isinstance(resources, dict) or set(resources) != set(required_resources) or any(not isinstance(h, str) or not HEX.fullmatch(h) for h in resources.values()):
             raise InstallError("Operating standard must pin every portable resource")
+        if "scripts/production_choices.py" in required_resources and value["purpose"] == "generated":
+            for field in ("production_decision_sha256", "production_record_sha256"):
+                if not isinstance(pin.get(field), str) or not HEX.fullmatch(pin[field]):
+                    raise InstallError("Current generated package requires exact production choice provenance")
         if "assets/managed-model.json" in required_resources:
             model = standard.get("managed_model")
             if not (isinstance(model, dict) and set(model) == {"id", "reasoning_effort"} and
@@ -366,7 +401,7 @@ def load_kit(kit):
         actual = file_map(kit / entry["path"])
         if actual != entry["files"]:
             raise InstallError("Kit hash/file-set mismatch for " + name)
-        if mode_map(kit / entry["path"], actual) != entry["modes"]:
+        if mode_map(kit / entry["path"], actual) != {path:native_mode(mode) for path,mode in entry["modes"].items()}:
             raise InstallError("Kit permission mismatch for " + name)
         validate_skill(kit, name)
         if manifest.get("operating_standard") is not None:
@@ -602,13 +637,21 @@ def write_manifest(kit, metadata):
 
 def managed_block(manifest, manifest_hash):
     begin, end = markers(manifest["agent_id"])
-    model = (manifest.get("operating_standard") or {}).get("managed_model")
+    standard = manifest.get("operating_standard") or {}
+    model = standard.get("managed_model")
     model_instruction = (
         "Launch from this project with `codex --model " + model["id"] +
         ' -c \'model_reasoning_effort="' + model["reasoning_effort"] +
         '"\'` or select both settings in the supported host picker. '
         "Check actual model and reasoning effort in session metadata before crediting managed execution.\n"
         if model is not None else ""
+    )
+    choice_instruction = (
+        "For material work, read the installed entry skill's local production-choices reference. "
+        "Run its bundled scripts/production_choices.py verify PROJECT --phase explore before a material first draft, "
+        "then verify the appropriate phase before dependent work. Use the toolkit interpreter when configured. "
+        "Carry the exact approved choices, editable masters and flows through handoff and regeneration.\n"
+        if set(PRODUCTION_CHOICE_RESOURCES) <= standard.get("resources", {}).keys() else ""
     )
     return (begin + "\n"
         "## Agent: " + manifest["agent_id"] + "\n\n"
@@ -618,7 +661,7 @@ def managed_block(manifest, manifest_hash):
         "Use actual host tools and observed receipts; instructions do not install tools or grant external permissions.\n"
         "Preserve existing product source, version control, project state, accepted originals and unrelated instructions.\n"
         "Use one active instruction source for this agent; report overlapping profile/plugin copies without disabling them.\n"
-        + model_instruction +
+        + choice_instruction + model_instruction +
         "Installed version: " + manifest["version"] + "; manifest SHA-256: " + manifest_hash + ".\n" + end)
 
 def split_block(text, agent_id):
@@ -694,6 +737,7 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
         previous_entry = old_entries.get(name)
         previous = ({"files": previous_entry["files"], "modes": previous_entry["modes"]} if previous_entry else None)
         wanted = ({"files": entries[name]["files"], "modes": entries[name]["modes"]} if name in entries else None)
+        previous, wanted = native_fingerprint(previous), native_fingerprint(wanted)
         if actual is not None and previous is None:
             raise InstallError("Unmanaged skill conflict: " + str(target))
         if actual != previous and actual != wanted:
@@ -769,7 +813,7 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
                     entry["modes"][path] = record["mode"]
                 overlays[name] = overlay
                 preserved_visuals.append(name)
-                wanted = {"files": entry["files"], "modes": entry["modes"]}
+                wanted = native_fingerprint({"files": entry["files"], "modes": entry["modes"]})
         if actual != wanted:
             operations.append({"path": ".agents/skills/" + name, "kind": "skill", "existed": actual is not None, "before": actual, "after": wanted})
     # Installed receipts describe effective bytes, including each project's
@@ -819,8 +863,8 @@ def plan_install(kit, project, other_sources=(), allow_remove_owned=False):
     warnings = ["Use one active source per agent; host discovery and execution are separate from file installation."]
     if manifest.get("operating_standard") is None:
         warnings.append("Legacy package has no declared operating standard; no upgraded-inheritance or behavior claim is made.")
-    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 6, 0):
-        warnings.append('Historical operating standard retained. Its existing resource pins remain active. Managed model adoption requires a separate verified consumer.')
+    elif tuple(int(part) for part in manifest['operating_standard']['release'].split('.')) < (6, 7, 0):
+        warnings.append('Historical operating standard retained. Its existing resource pins remain active. Current production choices and managed model use require separate verified consumers.')
     if preserved_visuals:
         warnings.append("Existing project icons/colors preserved: " + ", ".join(preserved_visuals))
     warnings.extend("Known additional active source: " + source + "; nothing disabled." for source in other_sources)
@@ -845,7 +889,7 @@ def write_file(path, data, mode=0o600):
         stream.write(data)
         stream.flush()
         # Set the exact requested ordinary mode independently of the caller's umask.
-        os.fchmod(stream.fileno(), mode)
+        platform_support.fchmod(stream.fileno(), mode)
         os.fsync(stream.fileno())
 
 
@@ -941,7 +985,7 @@ def apply_install(kit, project, other_sources=(), allow_remove_owned=False):
                         raise InstallError("Kit changed during staging: " + name + "/" + relative)
                     mode = plan["entries"][name]["modes"][relative]
                     observed_mode = preserved["mode"] if preserved else file_mode(kit / "skills" / name / relative)
-                    if observed_mode != mode:
+                    if native_mode(observed_mode) != native_mode(mode):
                         raise InstallError("Kit permissions changed during staging: " + name + "/" + relative)
                     write_file(output / relative, data, mode)
             else:
@@ -1027,7 +1071,7 @@ def recover(project, txid):
                 name = Path(item["path"]).name
                 owner = old_entries if key == "before" else entries
                 declared = owner.get(name)
-                if declared is None or value != {"files": declared["files"], "modes": declared["modes"]}:
+                if declared is None or native_fingerprint(value) != native_fingerprint({"files": declared["files"], "modes": declared["modes"]}):
                     raise InstallError("Recovery skill snapshot differs from its declared ownership")
             elif not isinstance(value, dict) or not HEX.fullmatch(value.get("sha256", "")) or type(value.get("mode")) is not int or not 0 <= value["mode"] <= 0o777:
                 raise InstallError("Invalid recovery hash")

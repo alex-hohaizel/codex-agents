@@ -1,5 +1,7 @@
 import importlib
+import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -8,6 +10,28 @@ from unittest.mock import patch
 SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
 import_codex = importlib.import_module("import_codex")
+
+sys.path.insert(0, str(SCRIPTS.parents[3] / "scripts/tests"))
+from fixture_production_choices import current_pin, decision_subject, make_choice, put
+
+
+def bind_plan(choice_root, plan, *, name="audit-plan.json"):
+    choice_root.mkdir(exist_ok=True, parents=True)
+    plan_path = choice_root / name
+    if not plan_path.exists():
+        import_codex.export_audit_plan(plan_path, plan)
+    make_choice(choice_root)
+    record = choice_root / "production-choices.json"
+    value = json.loads(record.read_bytes())
+    value["decision"]["configuration"].append(current_pin(choice_root, name))
+    put(choice_root, record.name, value)
+    subject = decision_subject(choice_root)
+    approval_path = value["decision"]["approval"]["path"]
+    approval = json.loads((choice_root / approval_path).read_bytes())
+    value["decision"]["approval"] = put(choice_root, approval_path,
+                                        dict(approval, subject_sha256=subject))
+    put(choice_root, record.name, value)
+    return subject
 
 
 class ImportTests(unittest.TestCase):
@@ -57,8 +81,8 @@ class ImportTests(unittest.TestCase):
     def audit(self):
         return import_codex.audit(self.manifest, self.target)[0]
 
-    def stage(self, plan):
-        return import_codex.stage(self.manifest, self.target, self.output, plan["plan_sha256"])
+    def stage(self, plan, choice_root=None):
+        return import_codex.stage(self.manifest, self.target, self.output, plan["plan_sha256"], choice_root)
 
     def test_native_skill_stages_without_editing_target(self):
         self.write_manifest()
@@ -92,10 +116,41 @@ class ImportTests(unittest.TestCase):
         ])
         plan = self.audit()
         self.assertEqual([row["scope"] for row in plan["members"][0]["customizations"]], ["team", "personal"])
-        self.stage(plan)
+        choice = self.root / "decision"
+        decision = bind_plan(choice, plan)
+        self.assertEqual(self.stage(plan, choice)["production_choice"]["decision_sha256"], decision)
         staged = self.output / ".agents/skills/receipt-reader/SKILL.md"
         self.assertEqual(staged.read_bytes(), intermediate.rstrip() + b"\n\nPersonal instruction.\n")
         self.assertEqual(self.entry.read_bytes(), original)
+
+    def test_cli_material_overlay_requires_the_pinned_canonical_plan(self):
+        team = self.source / "overlay.md"
+        team.write_text("Review the stated additional requirement.\n")
+        self.write_manifest(overlays=[self.overlay("team", "prepend", team.name, self.entry.read_bytes())])
+        choice = self.root / "decision"
+        choice.mkdir()
+        command = [sys.executable, "-B", str(SCRIPTS / "import_codex.py")]
+        subject = [str(self.manifest), "--target", str(self.target)]
+        audit = subprocess.run([*command, "audit", *subject, "--plan-file", str(choice / "audit-plan.json")],
+                               text=True, capture_output=True, timeout=8)
+        self.assertEqual(audit.returncode, 0, audit.stdout + audit.stderr)
+        plan = json.loads(audit.stdout)
+        self.assertEqual((choice / "audit-plan.json").read_bytes(), import_codex.files.encode(plan))
+        stage = [*command, "stage", *subject, "--choice-root", str(choice),
+                 "--output", str(self.output), "--expect", plan["plan_sha256"]]
+        failure = subprocess.run(stage, text=True, capture_output=True, timeout=8)
+        self.assertEqual(failure.returncode, 2, failure.stdout)
+        self.assertIn("Production choices block", failure.stdout)
+        make_choice(choice)
+        failure = subprocess.run(stage, text=True, capture_output=True, timeout=8)
+        self.assertEqual(failure.returncode, 2, failure.stdout)
+        self.assertIn("pin its exact bytes", failure.stdout)
+        self.assertFalse(self.output.exists())
+        decision = bind_plan(choice, plan)
+        outcome = subprocess.run(stage, text=True, capture_output=True, timeout=8)
+        self.assertEqual(outcome.returncode, 0, outcome.stdout + outcome.stderr)
+        self.assertEqual(json.loads(outcome.stdout)["production_choice"]["decision_sha256"], decision)
+        self.assertEqual(list(self.target.iterdir()), [])
 
     def test_rejects_stale_override_or_path_escape(self):
         team = self.source / "team.md"
@@ -215,7 +270,9 @@ class ImportTests(unittest.TestCase):
                                   "role", "receipt_checker")])
         plan = self.audit()
         self.assertEqual([module["id"] for module in plan["modules"]], ["ledger", "review"])
-        receipt = self.stage(plan)
+        choice = self.root / "role-decision"
+        bind_plan(choice, plan)
+        receipt = self.stage(plan, choice)
         registry = self.output / ".codex/config.toml"
         self.assertEqual(import_codex.files.digest(registry.read_bytes()), plan["role_registry_sha256"])
         self.assertEqual(import_codex.tomllib.loads(registry.read_text())["agents"]["receipt_checker"]["config_file"],

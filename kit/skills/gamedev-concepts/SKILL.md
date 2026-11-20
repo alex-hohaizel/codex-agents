@@ -2,10 +2,12 @@
 name: gamedev-concepts
 description: "Research and compare complete, meaningfully different mobile game concepts. Develop a finite portfolio with playable rules, camera, progression, rewards, economy, and feasible production before user selection."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier Concepts
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

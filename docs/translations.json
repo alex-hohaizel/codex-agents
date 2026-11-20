@@ -1,9 +1,9 @@
 {
   "schema_version": "codex-agents.translations/1",
   "source": "docs/en/GUIDE.md",
-  "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
+  "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
   "default_locale": "en",
-  "repository_version": "1.9.0",
+  "repository_version": "1.10.0",
   "guide_editions": 7,
   "translation_editions": 6,
   "campaign_languages": [
@@ -20,8 +20,8 @@
     {
       "locale": "en",
       "path": "docs/en/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
       "status": "complete",
       "role": "source",
       "verified_parity": {
@@ -38,8 +38,8 @@
     {
       "locale": "uk",
       "path": "docs/uk/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "0391e4b460b7d5ed237b590eb93511347417c75c55cf9ccf9847fa0e2e744a13",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "df8672704acae6438e207aeb57ce950eb9e17c457dde50c3ba14710ee27147de",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -56,8 +56,8 @@
     {
       "locale": "de",
       "path": "docs/de/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "975a78b1ca885796960f9b3425e60c24378a48bc2d41446176d0be2b724def89",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "8f0b48744e9477f7f29f390343799f91f6c4681cc4f32f2508d19f5d594630b9",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -74,8 +74,8 @@
     {
       "locale": "it",
       "path": "docs/it/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "bf0122713ba1abcb7179c0e370122b227ba74fd2d033df24330c8b88f9f5c8b3",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "e7f066bf956d253ac0f6976cbcd1c78badcae564c46803dcf3b1018ab44cdd1c",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -92,8 +92,8 @@
     {
       "locale": "es",
       "path": "docs/es/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "4707a02924fd85f2d347d72b605d5a8c3713b29c726654c2c117e1f57a501ae7",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "2cfbb97199475db5d5b3552e7bda41ed891e2aafcf50b3c84c750787f2a8334f",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -110,8 +110,8 @@
     {
       "locale": "fr",
       "path": "docs/fr/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "2051c6cf2657f0a4c06c8c7e5c37036638c9a7c22762a580d6fb660287065f90",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "6628f1613cd31f17357e7ac50098883644e959327e863ad924fbe25bd4557070",
       "status": "complete",
       "role": "translation",
       "verified_parity": {
@@ -128,8 +128,8 @@
     {
       "locale": "zh-CN",
       "path": "docs/zh-CN/GUIDE.md",
-      "source_sha256": "b527d21676107660a02a09f759ba19078078496fa8c4c0accdb4f37cbf38f3ba",
-      "sha256": "0a7331176009c1bc4d43b9ed559bdd334a13a5357a87e61cfd409f8c73f79fdc",
+      "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
+      "sha256": "0e61679f3ed82b0f1debc25072e753dd6bcc190258d84fea2d999e148e01bbaf",
       "status": "complete",
       "role": "translation",
       "verified_parity": {

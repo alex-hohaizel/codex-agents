@@ -1,0 +1,10 @@
+{
+  "title": "Field report confirmed",
+  "sample_rate": 48000,
+  "events": [
+    {"offset_ms": 0, "length_ms": 155, "frequency_hz": 523.25, "gain": 0.22},
+    {"offset_ms": 140, "length_ms": 195, "frequency_hz": 659.25, "gain": 0.16},
+    {"offset_ms": 285, "length_ms": 310, "frequency_hz": 783.99, "gain": 0.10}
+  ],
+  "tail_ms": 85
+}

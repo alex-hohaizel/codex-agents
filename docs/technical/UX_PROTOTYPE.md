@@ -41,13 +41,17 @@ also produce and test the applicable client slice alongside this route.
 ## Build and test
 
 Set `EXPERIENCE_SKILL` to the actual detected skill folder and `PROJECT`
-to the reviewed project root. Choose a new local destination every time a
-binding changes.
+to the reviewed project root. Before creating a walkthrough, record the
+requirements, candidate approaches, and purpose of the experiment in the
+[project's production choice](PRODUCTION_CHOICES.md). Choose a new local
+destination every time a binding changes. The `verify` command still checks
+exact bytes of an existing walkthrough against its original sources.
 
 ```sh
-python3 -B "$EXPERIENCE_SKILL/scripts/ux_prototype.py" build \
+TOOLKIT_PYTHON="${AGENT_SYSTEM_PYTHON:-python3}"
+"$TOOLKIT_PYTHON" -B "$EXPERIENCE_SKILL/scripts/ux_prototype.py" build \
   --root "$PROJECT" --input prototype.json --artifact "$ARTIFACT"
-python3 -B "$EXPERIENCE_SKILL/scripts/ux_prototype.py" verify \
+"$TOOLKIT_PYTHON" -B "$EXPERIENCE_SKILL/scripts/ux_prototype.py" verify \
   --root "$PROJECT" --input prototype.json --artifact "$ARTIFACT"
 ```
 
@@ -65,3 +69,23 @@ restore a new binding before testing again. Keep the original walk and its
 evidence attached to the original bytes. For product adoption, pass the
 reviewed documents, exact artifact, observed receipt, device limits and any
 remaining assumptions to the build and QA owners.
+
+## Carry the accepted visual master into implementation
+
+Save the editable master, styles, data or asset dependencies, and exact
+interaction flow in the owning project. Pin the master and flows in the
+production decision and pin their supporting files in its configuration.
+Use the approval for that exact revision. Check the same files again
+before handoff, repeat, implementation, or resumption.
+
+```sh
+"$TOOLKIT_PYTHON" -B "$EXPERIENCE_SKILL/scripts/ux_prototype.py" verify-master \
+  --root "$PROJECT" --artifact "$PROJECT/design/review.html"
+```
+
+This check identifies the current decision, exact artifact and flow.
+Demonstrate the real interaction in its intended browser or device and
+record the actual observation separately. The
+[Riverdesk and Riverlines examples](../../evaluations/fixtures/production-choice-web/requirements.md)
+use the same source data with different reading orders, actions, and
+interaction patterns.

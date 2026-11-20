@@ -27,6 +27,7 @@ def strict_json_loads(raw, **kwargs):
 EVIDENCE_RESULTS = {'pass', 'passed', 'accept', 'accepted', 'observed', 'fail', 'failed', 'reject', 'rejected',
                     'pending', 'not_run', 'running', 'unknown', 'uncertain', 'cancelled', 'inconclusive', 'blocked'}
 ACCEPTED_RESULTS = {'pass', 'passed', 'accept', 'accepted'}
+EXPLORATORY_RUNS = {'product_brief', 'chief_plan', 'decomposition', 'impact'}
 
 def _check(data, source_root=None):
     errors = []
@@ -192,13 +193,56 @@ def check(data, source_root=None):
         return ['malformed typed round fields: ' + type(exc).__name__]
 
 
+def production_choice_for_round(data, root, phase):
+    import team_policy
+
+    scope = data['team_policy']['scope']
+    # A localized repair can inherit the existing bot baseline. The current
+    # projects that carry a production decision still have to prove it.
+    choice_file = root / 'production-choices.json'
+    bound = data.get('production_choice_decision_sha256') or any(run.get('production_choice_binding') for run in data.get('runs', []))
+    critical = set(scope.get('active_requirement_ids', ())) & set(team_policy.load_profile()['critical_requirement_ids'])
+    material = scope['kind'] != 'local' or scope.get('material_baseline_change') or critical
+    if not (material or bound or choice_file.exists() or choice_file.is_symlink()):
+        return None
+    try:
+        from production_choices import verify_project
+    except ImportError as exc:
+        raise ValueError('missing installed production choice verifier') from exc
+    return verify_project(root, phase, required_kind='chatbot')
+
+
+def check_current_choice(data, root, phase):
+    current = production_choice_for_round(data, root, phase)
+    if current is not None:
+        if data.get('production_choice_decision_sha256') != current['decision_sha256']:
+            raise ValueError('round does not bind the current production decision; reconcile before freezing')
+        for run in data.get('runs', []):
+            binding = run.get('production_choice_binding') or {}
+            if run.get('status') != 'completed':
+                continue
+            expected_phase = 'explore' if run.get('kind') in EXPLORATORY_RUNS else 'implement'
+            if binding.get('phase') != expected_phase:
+                raise ValueError('run misses its required production choice binding: ' + str(run['id']))
+            if expected_phase == 'implement' and binding.get('decision_sha256') != current['decision_sha256']:
+                raise ValueError('run uses a stale production decision: ' + str(run['id']))
+    return current
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('file', type=Path)
+    parser.add_argument('--project-root', type=Path)
+    parser.add_argument('--historical', action='store_true', help='Read previous evidence without current acceptance')
     args = parser.parse_args()
     try:
         data = strict_json_loads(args.file.read_text())
         issues = check(data, source_root=args.file.parent)
+        stage = data.get('completion', {}).get('stage')
+        phase = {'locally_verified': 'scale', 'independently_reviewed': 'accept',
+                 'deployed': 'accept', 'observed_in_chat': 'accept'}.get(stage)
+        if phase and not issues and not args.historical:
+            check_current_choice(data, args.project_root or args.file.parent, phase)
     except (OSError, ValueError, IndexError, KeyError, TypeError, AttributeError) as error:
         print('INVALID: ' + str(error))
         sys.exit(1)
@@ -206,4 +250,7 @@ if __name__ == '__main__':
         print('INVALID: ' + issue)
     if issues:
         sys.exit(1)
-    print('Traceability structure valid; product quality and evidence truth require review.')
+    if args.historical:
+        print('Historical traceability structure valid; current production admission was not checked.')
+    else:
+        print('Traceability structure valid; product quality and evidence truth require review.')

@@ -62,3 +62,7 @@ The root HTML must survive GitHub source downloads and link to ready assets.
 Require exact-commit native package and real-browser evidence before release;
 keep INSTALLER-BUILD.json distinct from the legacy two-archive BUILD.json.
 Commercial purchase rights and owner sale gates remain unchanged.
+
+## Changes to production choices
+
+Apply the [production choices contract](../standards/production-choices.md) to a material change to implementation, approved artifacts, or their consumption. Each affected consumer must carry its current choice through preparation, execution, resume and acceptance. Update the [coverage map](production-choice-coverage.json) when its supported routes, gates, inheritance or runtime boundaries change. Prove compatible earlier packages and a rollback on a restored separate state before adoption.

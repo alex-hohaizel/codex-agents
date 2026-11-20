@@ -2,10 +2,12 @@
 name: app-atelier-operations
 description: "Operate and repair an existing app. Use for incident triage, support trends, product and cost signals, monitoring, recovery, or retirement."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # App Atelier Operations
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Restore the deployed state and measure the incident
 

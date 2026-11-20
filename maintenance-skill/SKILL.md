@@ -2,10 +2,12 @@
 name: codex-agents-maintenance
 description: Verify, package, release, or update the Codex Agent System. Use for changes to its skills, roles, constructors, guides, or managed installations, including recovery after an interrupted release.
 metadata:
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Codex Agent System maintenance
+
+When updating a managed release, verify the current production choice policy, the complete consumer inventory, exact portable inheritance and real acceptance evidence. Preserve approved project decisions, masters and historical artifacts through adoption and rollback.
 
 Use the current canonical repository, its [publication checklist](references/publication-checklist.md), and the actual authorized destination. For a narrowly scoped fix, read the relevant source and checks. For a release, read the active branch, current component record, requirements, update contract, and installation and recovery instructions. Use the actual GitHub revision rather than a cached branch pointer.
 

@@ -15,6 +15,7 @@ import re
 import shutil
 import stat
 import tempfile
+import types
 import unicodedata
 
 try:
@@ -413,7 +414,28 @@ def audit(manifest, target):
     return plan, snapshots
 
 
-def stage(manifest, target, output, expected):
+def material_choice(root, plan):
+    """Require a decision about this exact plan before writing staged changes."""
+    helper = Path(__file__).absolute().with_name("production_choices.py")
+    module = types.ModuleType("native_import_production_choices")
+    module.__file__ = str(helper)
+    exec(compile(files.read_bytes(helper), str(helper), "exec"), module.__dict__)
+    try:
+        report = module.verify_project(root, "implement")
+        expected = files.digest(files.encode(plan))
+        require(any(pin["sha256"] == expected for pin in report["configuration_artifacts"]),
+                "Save the canonical audit output JSON and pin its exact bytes in the approved decision configuration")
+    except (OSError, ValueError) as error:
+        raise ValueError("Production choices block material staging: " + str(error)) from error
+    return {field: report[field] for field in ("record_sha256", "decision_sha256")}
+
+
+def export_audit_plan(path, plan):
+    """Save reproducible UTF-8 JSON bytes without replacing an earlier plan."""
+    files.write_file(files.safe_path(path), files.encode(plan))
+
+
+def stage(manifest, target, output, expected, choice_root=None):
     plan, snapshots = audit(manifest, target)
     require(plan["ready"], "Target collision blocks staging")
     require(expected == plan["plan_sha256"], "Reviewed import plan or source has drifted")
@@ -422,6 +444,9 @@ def stage(manifest, target, output, expected):
     require(not output.exists() and output.parent.is_dir(), "Output must be a fresh directory with an existing parent")
     require(output != target_path and target_path not in output.parents,
             "Stage outside the audited target project")
+    material = any(member["original"] != member["output"] for member in plan["members"])
+    choice_root = choice_root or target_path
+    choice = material_choice(choice_root, plan) if material else None
     lock = output.with_name("." + output.name + ".import-lock")
     lock.mkdir(mode=0o700)
     try:
@@ -445,6 +470,10 @@ def stage(manifest, target, output, expected):
             receipt = {"schema": "codex-agent-import-stage/1", "plan": plan, "output": str(output),
                        "role_launch_overrides": role_launch_overrides(plan["role_registry"], output),
                        "target_modified": False, "code_or_hooks_executed": False}
+            if material:
+                require(material_choice(choice_root, refreshed) == choice,
+                        "Production choice changed while staging; rerun the reviewed plan")
+                receipt["production_choice"] = choice
             files.write_file(temp / "IMPORT-RECEIPT.json", files.encode(receipt), 0o600)
             require(not output.exists(), "Staging output already exists")
             temp.rename(output)
@@ -463,13 +492,19 @@ def main():
         command = commands.add_parser(action)
         command.add_argument("manifest", type=Path)
         command.add_argument("--target", type=Path, required=True)
-        if action == "stage":
+        if action == "audit":
+            command.add_argument("--plan-file", type=Path, help="Also save exact canonical JSON to this new file")
+        else:
             command.add_argument("--output", type=Path, required=True)
             command.add_argument("--expect", required=True)
+            command.add_argument("--choice-root", type=Path,
+                                 help="Approved production decision directory; defaults to the audited project")
     args = parser.parse_args()
     try:
         result = (audit(args.manifest, args.target)[0] if args.action == "audit"
-                  else stage(args.manifest, args.target, args.output, args.expect))
+                  else stage(args.manifest, args.target, args.output, args.expect, args.choice_root))
+        if args.action == "audit" and args.plan_file:
+            export_audit_plan(args.plan_file, result)
         print(files.encode(result).decode(), end="")
         return 0 if result.get("ready", True) else 2
     except (OSError, ValueError, files.InstallError) as error:

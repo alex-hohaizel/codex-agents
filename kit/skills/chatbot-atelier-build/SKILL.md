@@ -2,10 +2,12 @@
 name: chatbot-atelier-build
 description: "Implement or repair a chatbot runtime from an agreed model. Use integrations for a standalone provider operation and release for rollout."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # ChatBot Atelier · Build
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Establish the exact starting point
 

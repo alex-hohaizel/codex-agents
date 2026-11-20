@@ -1,28 +1,28 @@
 # Current release
 
-**Codex Agent System v1.9.0** is prepared for release as a ready Universal
+**Codex Agent System v1.10.0** is prepared for release as a ready Universal
 installer and six native packages for Windows, macOS and Linux on x64 and ARM64.
-The [v1.9.0 release page](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0)
+The [v1.10.0 release page](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.10.0)
 will provide the qualified downloads after publication. GitHub's automatic
 source archives contain developer sources and link to the ready assets.
 
-## v1.9.0 components
+## v1.10.0 components
 
 The release record declares stable intent. Publication requires the exact
 `main` commit to pass source and native CI, verified archives and attestations,
 and readback from the manual publisher. Use the verified
-[v1.8.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0)
+[v1.9.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0)
 until publication completes. It remains available for recovery.
 
 | Component | Version |
 | --- | --- |
-| Product | 1.9.0 |
-| Core suite and both constructors | 6.6.0 |
-| Host profile | 6.4.0 |
-| Role definitions | 6.3.0 |
-| Atelier Orchestrator | 1.6.0 |
-| Maintenance | 1.5.0 |
-| Agent Atelier | 0.9.0 |
+| Product | 1.10.0 |
+| Core suite and both constructors | 6.7.0 |
+| Host profile | 6.5.0 |
+| Role definitions | 6.4.0 |
+| Atelier Orchestrator | 1.7.0 |
+| Maintenance | 1.6.0 |
+| Agent Atelier | 0.10.0 |
 | Managed model and effort | GPT-6.2 Sol Ultra (`gpt-6.2-sol` with `ultra`) |
 
 Clean product entry points start in English. The installer remembers a language
@@ -36,6 +36,21 @@ Payments are disabled for this release. An original offline purchase document
 can still be retained through the separate optional control or inherited
 during a checked update. A public technical download and Codex model access
 have separate requirements.
+
+## v1.9.0 stable components
+
+| Component | Version |
+| --- | --- |
+| Product | 1.9.0 |
+| Core suite and both constructors | 6.6.0 |
+| Host profile | 6.4.0 |
+| Role definitions | 6.3.0 |
+| Atelier Orchestrator | 1.6.0 |
+| Maintenance | 1.5.0 |
+| Agent Atelier | 0.9.0 |
+| Managed model and effort | GPT-6.2 Sol Ultra (`gpt-6.2-sol` with `ultra`) |
+
+Stable source `6af8febdfc716eeba30becae3f3ea5449cd66ae4`. [Release assets and notes](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0)
 
 ## v1.8.0 stable components
 

@@ -1,6 +1,15 @@
 import type { MessageKey } from "../i18n";
 
 const messages: Record<MessageKey, string> = {
+  productionPhase: "Fase de producción",
+  productionScratch: "Borrador de imagen fuera del proyecto",
+  productionAutomatic: "Elegir según el registro del proyecto",
+  productionExplore: "Exploración",
+  productionImplement: "Implementación",
+  productionScale: "Replicación",
+  productionAccept: "Aceptación",
+  productionDriftReview: "Las fuentes cambiaron durante la ejecución de Codex. Revisa el resultado y la decisión antes de usarlo.",
+  productionArtifactReview: "Contrasta el artefacto generado con la decisión del proyecto antes de usarlo.",
   pluginMediaTitle: "Plugins y medios de Codex",
   imageBrief: "Descripción de la imagen",
   imageGenerate: "Generar imagen",

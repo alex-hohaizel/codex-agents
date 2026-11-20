@@ -2,10 +2,12 @@
 name: chatbot-atelier-operations
 description: "Diagnose and maintain a running chatbot, including incidents, support, and service health. Use release for planned rollout or migration."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # ChatBot Atelier · Operations
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Restore current incident state
 

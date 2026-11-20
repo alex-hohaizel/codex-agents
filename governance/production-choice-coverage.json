@@ -1,0 +1,2823 @@
+{
+  "schema": "atelier.production-choice-coverage/1",
+  "predecessor": "6af8febdfc716eeba30becae3f3ea5449cd66ae4",
+  "stages": {
+    "S1": "Inventory and representative working slices",
+    "S2": "Canonical production choice and governance",
+    "S3": "Every entry, specialist, portable and managed path",
+    "S4": "Preservation and independent comparison",
+    "S5": "Documentation, compatibility and verified packages",
+    "S6": "Technical delivery and verified managed adoption"
+  },
+  "requirements": [
+    {
+      "id": "PQ-01",
+      "domain": "sources",
+      "mechanism_at_predecessor": "Current context capsule and domain registries",
+      "gap_at_predecessor": "Native record must bind inputs and applicability",
+      "required_change": "Bind requirements, exact pins and materiality before action",
+      "acceptance": [
+        "A01",
+        "A11"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "foundry-architecture",
+        "foundry-backend",
+        "foundry-conversation",
+        "foundry-cost",
+        "foundry-integrations",
+        "foundry-judge",
+        "foundry-platform",
+        "foundry-privacy",
+        "foundry-product",
+        "foundry-qa",
+        "foundry-reliability",
+        "foundry-skeptic",
+        "orchestrator",
+        "host-profile",
+        "workbench",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "ux-and-documents",
+        "engineering-slice",
+        "tickets-and-tracker",
+        "operator-docs",
+        "change-impact"
+      ]
+    },
+    {
+      "id": "PQ-02",
+      "domain": "decision",
+      "mechanism_at_predecessor": "Production quality and briefing instructions",
+      "gap_at_predecessor": "Choices can remain prose or defaults",
+      "required_change": "Canonical decision records and actual phase admission",
+      "acceptance": [
+        "A01",
+        "A02",
+        "A05",
+        "A07",
+        "A08",
+        "A10"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "ux-and-documents",
+        "engineering-slice",
+        "game-and-media-targets"
+      ]
+    },
+    {
+      "id": "PQ-03",
+      "domain": "decision",
+      "mechanism_at_predecessor": "Game engine record and operation compatibility",
+      "gap_at_predecessor": "Presence can pass without comparison",
+      "required_change": "Compatible combination, source and representative evidence",
+      "acceptance": [
+        "A01",
+        "A02",
+        "A05",
+        "A07",
+        "A08",
+        "A10",
+        "A13"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "foundry-architecture",
+        "foundry-backend",
+        "foundry-conversation",
+        "foundry-cost",
+        "foundry-integrations",
+        "foundry-judge",
+        "foundry-platform",
+        "foundry-privacy",
+        "foundry-product",
+        "foundry-qa",
+        "foundry-reliability",
+        "foundry-skeptic",
+        "orchestrator",
+        "portable",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "ux-and-documents",
+        "engineering-slice",
+        "game-and-media-targets"
+      ]
+    },
+    {
+      "id": "PQ-04",
+      "domain": "catalog",
+      "mechanism_at_predecessor": "Production profiles plus tool-compatibility",
+      "gap_at_predecessor": "No searchable open candidate registry",
+      "required_change": "Versioned catalogue with common criteria, provenance and replacement",
+      "acceptance": [
+        "A01",
+        "A02"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "design-specialist-skills",
+        "ux-and-documents",
+        "engineering-slice"
+      ]
+    },
+    {
+      "id": "PQ-05",
+      "domain": "preservation",
+      "mechanism_at_predecessor": "Direct route and plan change review",
+      "gap_at_predecessor": "Proportionate route and hard rules need a shared binding",
+      "required_change": "Reuse known choice; material drift returns to review",
+      "acceptance": [
+        "A02",
+        "A07",
+        "A12",
+        "A14"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "orchestrator",
+        "maintenance",
+        "host-profile",
+        "workbench",
+        "portable",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "ux-and-documents",
+        "engineering-slice",
+        "tickets-and-tracker",
+        "distribution",
+        "operator-docs",
+        "native-model",
+        "work-host",
+        "change-impact",
+        "browser-and-cli-start"
+      ]
+    },
+    {
+      "id": "PQ-06",
+      "domain": "design",
+      "mechanism_at_predecessor": "Production quality and App Experience",
+      "gap_at_predecessor": "Uniform scaffold can be mistaken for a design master",
+      "required_change": "Bind references, actual concept properties and scope",
+      "acceptance": [
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S4"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "ux-and-documents",
+        "game-and-media-targets"
+      ]
+    },
+    {
+      "id": "PQ-07",
+      "domain": "design",
+      "mechanism_at_predecessor": "App Experience and game concepts",
+      "gap_at_predecessor": "Presentation variation may only alter appearance",
+      "required_change": "Compare distinct interaction/layout for same need",
+      "acceptance": [
+        "A03",
+        "A05"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "ux-and-documents",
+        "game-and-media-targets",
+        "operator-docs"
+      ]
+    },
+    {
+      "id": "PQ-08",
+      "domain": "design",
+      "mechanism_at_predecessor": "Visual identity contract",
+      "gap_at_predecessor": "No cross-phase required visual pins",
+      "required_change": "Register master, tokens, elements/adaptations",
+      "acceptance": [
+        "A03",
+        "A04",
+        "A06"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "workbench",
+        "ux-and-documents",
+        "game-and-media-targets",
+        "browser-and-cli-start"
+      ]
+    },
+    {
+      "id": "PQ-09",
+      "domain": "design",
+      "mechanism_at_predecessor": "Domain journey/state contracts",
+      "gap_at_predecessor": "Proof not always bound to selected concept",
+      "required_change": "Bind interaction graph and render evidence",
+      "acceptance": [
+        "A03",
+        "A04",
+        "A05"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "consumers": [
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "workbench",
+        "ux-and-documents",
+        "game-and-media-targets"
+      ]
+    },
+    {
+      "id": "PQ-10",
+      "domain": "media",
+      "mechanism_at_predecessor": "App Experience, ChatBot Media and Game Assets",
+      "gap_at_predecessor": "Export proof may omit master/permissions/versions",
+      "required_change": "Pin master, effect recipe and consumer trace",
+      "acceptance": [
+        "A05",
+        "A06"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "consumers": [
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "workbench",
+        "ux-and-documents",
+        "game-and-media-targets"
+      ]
+    },
+    {
+      "id": "PQ-11",
+      "domain": "engineering",
+      "mechanism_at_predecessor": "App/ChatBot specs and Game architecture",
+      "gap_at_predecessor": "Naming and module decisions may not carry into implementation",
+      "required_change": "Bind architecture, module ownership and validation",
+      "acceptance": [
+        "A07",
+        "A08",
+        "A09"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "consumers": [
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "foundry-factory-import-migrate",
+        "engineering-slice",
+        "tickets-and-tracker"
+      ]
+    },
+    {
+      "id": "PQ-12",
+      "domain": "engineering",
+      "mechanism_at_predecessor": "Domain execution depth",
+      "gap_at_predecessor": "Design may not match deployed data and failure paths",
+      "required_change": "Enforce bounded compatible state/data contracts",
+      "acceptance": [
+        "A07",
+        "A08",
+        "A09"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "foundry-factory-import-migrate",
+        "ux-and-documents",
+        "engineering-slice",
+        "tickets-and-tracker",
+        "operator-docs",
+        "browser-and-cli-start"
+      ]
+    },
+    {
+      "id": "PQ-13",
+      "domain": "engineering",
+      "mechanism_at_predecessor": "Operating model and release gates",
+      "gap_at_predecessor": "Human maintainability evidence not systematically requested",
+      "required_change": "Independent run, change and recover case",
+      "acceptance": [
+        "A07",
+        "A08",
+        "A09"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "consumers": [
+        "engineering-slice",
+        "tickets-and-tracker"
+      ]
+    },
+    {
+      "id": "PQ-14",
+      "domain": "model-data",
+      "mechanism_at_predecessor": "AI production and provider schemas",
+      "gap_at_predecessor": "Alternatives and exact model use can be declarative",
+      "required_change": "Compare and verify applicable route, cost and limits",
+      "acceptance": [
+        "A10"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "consumers": [
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "workbench",
+        "engineering-slice",
+        "native-model"
+      ]
+    },
+    {
+      "id": "PQ-15",
+      "domain": "evidence",
+      "mechanism_at_predecessor": "Production quality and native validation",
+      "gap_at_predecessor": "Canned checks cannot certify an actual medium",
+      "required_change": "Real implemented slice and independent evidence",
+      "acceptance": [
+        "A03",
+        "A04",
+        "A05",
+        "A06",
+        "A08",
+        "A10",
+        "A15"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "foundry-architecture",
+        "foundry-backend",
+        "foundry-conversation",
+        "foundry-cost",
+        "foundry-integrations",
+        "foundry-judge",
+        "foundry-platform",
+        "foundry-privacy",
+        "foundry-product",
+        "foundry-qa",
+        "foundry-reliability",
+        "foundry-skeptic",
+        "orchestrator",
+        "host-profile",
+        "workbench",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "ux-and-documents",
+        "engineering-slice",
+        "game-and-media-targets",
+        "tickets-and-tracker",
+        "release",
+        "native-model",
+        "browser-and-cli-start"
+      ]
+    },
+    {
+      "id": "PQ-16",
+      "domain": "change",
+      "mechanism_at_predecessor": "Plan change review and context pins",
+      "gap_at_predecessor": "Handoff/refresh can materially drift",
+      "required_change": "Read and recheck exact approved decision, master and dependency scope",
+      "acceptance": [
+        "A06",
+        "A11",
+        "A12",
+        "A13"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "foundry-architecture",
+        "foundry-backend",
+        "foundry-conversation",
+        "foundry-cost",
+        "foundry-integrations",
+        "foundry-judge",
+        "foundry-platform",
+        "foundry-privacy",
+        "foundry-product",
+        "foundry-qa",
+        "foundry-reliability",
+        "foundry-skeptic",
+        "orchestrator",
+        "host-profile",
+        "workbench",
+        "portable",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "ux-and-documents",
+        "engineering-slice",
+        "game-and-media-targets",
+        "tickets-and-tracker",
+        "operator-docs",
+        "change-impact"
+      ]
+    },
+    {
+      "id": "PQ-17",
+      "domain": "inheritance",
+      "mechanism_at_predecessor": "Shared standards and native entry points",
+      "gap_at_predecessor": "Structural parity alone misses bypass",
+      "required_change": "Attach operative gate, distribute to exact consumers, audit alternate routes",
+      "acceptance": [
+        "A12",
+        "A13",
+        "A14"
+      ],
+      "stages": [
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "foundry-architecture",
+        "foundry-backend",
+        "foundry-conversation",
+        "foundry-cost",
+        "foundry-integrations",
+        "foundry-judge",
+        "foundry-platform",
+        "foundry-privacy",
+        "foundry-product",
+        "foundry-qa",
+        "foundry-reliability",
+        "foundry-skeptic",
+        "orchestrator",
+        "maintenance",
+        "host-profile",
+        "workbench",
+        "portable",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "tickets-and-tracker",
+        "distribution",
+        "release",
+        "work-host"
+      ]
+    },
+    {
+      "id": "PQ-18",
+      "domain": "acceptance",
+      "mechanism_at_predecessor": "Quality gate and release governance",
+      "gap_at_predecessor": "Waivers or omitted fields may hide obligations",
+      "required_change": "Reject missing hard acceptance and accurately scope evidence",
+      "acceptance": [
+        "A11",
+        "A12",
+        "A14",
+        "A15"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "app-atelier-build",
+        "app-atelier-concepts",
+        "app-atelier-director",
+        "app-atelier-experience",
+        "app-atelier-growth",
+        "app-atelier-operations",
+        "app-atelier-qa",
+        "app-atelier-release",
+        "app-atelier-research",
+        "app-atelier-specification",
+        "app-atelier-support",
+        "chatbot-atelier-build",
+        "chatbot-atelier-conversation",
+        "chatbot-atelier-director",
+        "chatbot-atelier-integrations",
+        "chatbot-atelier-knowledge",
+        "chatbot-atelier-media",
+        "chatbot-atelier-operations",
+        "chatbot-atelier-qa",
+        "chatbot-atelier-release",
+        "chatbot-atelier-research",
+        "chatbot-atelier-specification",
+        "design-specialist-skills",
+        "gamedev-assets",
+        "gamedev-build",
+        "gamedev-concepts",
+        "gamedev-director",
+        "gamedev-liveops",
+        "gamedev-preproduction",
+        "gamedev-qa",
+        "gamedev-release",
+        "gamedev-studio",
+        "foundry-architecture",
+        "foundry-backend",
+        "foundry-conversation",
+        "foundry-cost",
+        "foundry-integrations",
+        "foundry-judge",
+        "foundry-platform",
+        "foundry-privacy",
+        "foundry-product",
+        "foundry-qa",
+        "foundry-reliability",
+        "foundry-skeptic",
+        "orchestrator",
+        "maintenance",
+        "host-profile",
+        "workbench",
+        "portable",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "ux-and-documents",
+        "engineering-slice",
+        "game-and-media-targets",
+        "tickets-and-tracker",
+        "distribution",
+        "release",
+        "operator-docs",
+        "native-model",
+        "work-host",
+        "change-impact",
+        "browser-and-cli-start"
+      ]
+    },
+    {
+      "id": "PQ-19",
+      "domain": "continuity",
+      "mechanism_at_predecessor": "Portable operating standard, updater and journals",
+      "gap_at_predecessor": "New contracts risk rejecting recognised predecessor bytes",
+      "required_change": "New release admission plus pinned historical compatibility and scoped adoption",
+      "acceptance": [
+        "A11",
+        "A13",
+        "A14",
+        "A15",
+        "A16"
+      ],
+      "stages": [
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "agent-foundry",
+        "design-specialist-skills",
+        "orchestrator",
+        "maintenance",
+        "host-profile",
+        "workbench",
+        "portable",
+        "foundry-factory-import-migrate",
+        "design-constructor",
+        "tickets-and-tracker",
+        "distribution",
+        "release",
+        "operator-docs",
+        "work-host",
+        "change-impact"
+      ]
+    },
+    {
+      "id": "PQ-20",
+      "domain": "release",
+      "mechanism_at_predecessor": "Source/native workflow and exact publisher",
+      "gap_at_predecessor": "Changes need new acceptance/provenance; previous proof remains historic",
+      "required_change": "Versioned verified release, fresh adoption and rollback",
+      "acceptance": [
+        "A16"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "consumers": [
+        "maintenance",
+        "host-profile",
+        "workbench",
+        "portable",
+        "distribution",
+        "release",
+        "operator-docs",
+        "work-host",
+        "browser-and-cli-start"
+      ]
+    }
+  ],
+  "consumers": [
+    {
+      "id": "agent-foundry",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-04",
+        "PQ-05",
+        "PQ-06",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the agent-foundry direct or delegated foundry operation.",
+      "sources": [
+        "kit/skills/agent-foundry/SKILL.md",
+        "kit/skills/agent-foundry/references/production-choices.md",
+        "kit/skills/agent-foundry/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-build",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-build direct or delegated build operation.",
+      "sources": [
+        "kit/skills/app-atelier-build/SKILL.md",
+        "kit/skills/app-atelier-build/references/production-choices.md",
+        "kit/skills/app-atelier-build/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-concepts",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-concepts direct or delegated concepts operation.",
+      "sources": [
+        "kit/skills/app-atelier-concepts/SKILL.md",
+        "kit/skills/app-atelier-concepts/references/production-choices.md",
+        "kit/skills/app-atelier-concepts/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-director",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-director direct or delegated director operation.",
+      "sources": [
+        "kit/skills/app-atelier-director/SKILL.md",
+        "kit/skills/app-atelier-director/references/production-choices.md",
+        "kit/skills/app-atelier-director/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-experience",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-experience direct or delegated experience operation.",
+      "sources": [
+        "kit/skills/app-atelier-experience/SKILL.md",
+        "kit/skills/app-atelier-experience/references/production-choices.md",
+        "kit/skills/app-atelier-experience/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-growth",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-growth direct or delegated growth operation.",
+      "sources": [
+        "kit/skills/app-atelier-growth/SKILL.md",
+        "kit/skills/app-atelier-growth/references/production-choices.md",
+        "kit/skills/app-atelier-growth/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-operations",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-operations direct or delegated operations operation.",
+      "sources": [
+        "kit/skills/app-atelier-operations/SKILL.md",
+        "kit/skills/app-atelier-operations/references/production-choices.md",
+        "kit/skills/app-atelier-operations/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-qa",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-qa direct or delegated qa operation.",
+      "sources": [
+        "kit/skills/app-atelier-qa/SKILL.md",
+        "kit/skills/app-atelier-qa/references/production-choices.md",
+        "kit/skills/app-atelier-qa/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-release",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-release direct or delegated release operation.",
+      "sources": [
+        "kit/skills/app-atelier-release/SKILL.md",
+        "kit/skills/app-atelier-release/references/production-choices.md",
+        "kit/skills/app-atelier-release/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-research",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-research direct or delegated research operation.",
+      "sources": [
+        "kit/skills/app-atelier-research/SKILL.md",
+        "kit/skills/app-atelier-research/references/production-choices.md",
+        "kit/skills/app-atelier-research/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-specification",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-specification direct or delegated specification operation.",
+      "sources": [
+        "kit/skills/app-atelier-specification/SKILL.md",
+        "kit/skills/app-atelier-specification/references/production-choices.md",
+        "kit/skills/app-atelier-specification/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "app-atelier-support",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-06",
+        "PQ-08",
+        "PQ-09",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the app-atelier-support direct or delegated support operation.",
+      "sources": [
+        "kit/skills/app-atelier-support/SKILL.md",
+        "kit/skills/app-atelier-support/references/production-choices.md",
+        "kit/skills/app-atelier-support/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-build",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-build direct or delegated build operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-build/SKILL.md",
+        "kit/skills/chatbot-atelier-build/references/production-choices.md",
+        "kit/skills/chatbot-atelier-build/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-conversation",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-conversation direct or delegated conversation operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-conversation/SKILL.md",
+        "kit/skills/chatbot-atelier-conversation/references/production-choices.md",
+        "kit/skills/chatbot-atelier-conversation/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-director",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-director direct or delegated director operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-director/SKILL.md",
+        "kit/skills/chatbot-atelier-director/references/production-choices.md",
+        "kit/skills/chatbot-atelier-director/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-integrations",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-integrations direct or delegated integrations operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-integrations/SKILL.md",
+        "kit/skills/chatbot-atelier-integrations/references/production-choices.md",
+        "kit/skills/chatbot-atelier-integrations/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-knowledge",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-knowledge direct or delegated knowledge operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-knowledge/SKILL.md",
+        "kit/skills/chatbot-atelier-knowledge/references/production-choices.md",
+        "kit/skills/chatbot-atelier-knowledge/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-media",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-media direct or delegated media operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-media/SKILL.md",
+        "kit/skills/chatbot-atelier-media/references/production-choices.md",
+        "kit/skills/chatbot-atelier-media/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-operations",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-operations direct or delegated operations operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-operations/SKILL.md",
+        "kit/skills/chatbot-atelier-operations/references/production-choices.md",
+        "kit/skills/chatbot-atelier-operations/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-qa",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-qa direct or delegated qa operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-qa/SKILL.md",
+        "kit/skills/chatbot-atelier-qa/references/production-choices.md",
+        "kit/skills/chatbot-atelier-qa/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-release",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-release direct or delegated release operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-release/SKILL.md",
+        "kit/skills/chatbot-atelier-release/references/production-choices.md",
+        "kit/skills/chatbot-atelier-release/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-research",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-research direct or delegated research operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-research/SKILL.md",
+        "kit/skills/chatbot-atelier-research/references/production-choices.md",
+        "kit/skills/chatbot-atelier-research/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "chatbot-atelier-specification",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-09",
+        "PQ-12",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the chatbot-atelier-specification direct or delegated specification operation.",
+      "sources": [
+        "kit/skills/chatbot-atelier-specification/SKILL.md",
+        "kit/skills/chatbot-atelier-specification/references/production-choices.md",
+        "kit/skills/chatbot-atelier-specification/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "design-specialist-skills",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-04",
+        "PQ-05",
+        "PQ-06",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the design-specialist-skills direct or delegated skills operation.",
+      "sources": [
+        "kit/skills/design-specialist-skills/SKILL.md",
+        "kit/skills/design-specialist-skills/references/production-choices.md",
+        "kit/skills/design-specialist-skills/scripts/verify_depth.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-assets",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-assets direct or delegated assets operation.",
+      "sources": [
+        "kit/skills/gamedev-assets/SKILL.md",
+        "kit/skills/gamedev-assets/references/production-choices.md",
+        "kit/skills/gamedev-assets/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-build",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-build direct or delegated build operation.",
+      "sources": [
+        "kit/skills/gamedev-build/SKILL.md",
+        "kit/skills/gamedev-build/references/production-choices.md",
+        "kit/skills/gamedev-build/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-concepts",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-concepts direct or delegated concepts operation.",
+      "sources": [
+        "kit/skills/gamedev-concepts/SKILL.md",
+        "kit/skills/gamedev-concepts/references/production-choices.md",
+        "kit/skills/gamedev-concepts/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-director",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-director direct or delegated director operation.",
+      "sources": [
+        "kit/skills/gamedev-director/SKILL.md",
+        "kit/skills/gamedev-director/references/production-choices.md",
+        "kit/skills/gamedev-director/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-liveops",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-liveops direct or delegated liveops operation.",
+      "sources": [
+        "kit/skills/gamedev-liveops/SKILL.md",
+        "kit/skills/gamedev-liveops/references/production-choices.md",
+        "kit/skills/gamedev-liveops/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-preproduction",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-preproduction direct or delegated preproduction operation.",
+      "sources": [
+        "kit/skills/gamedev-preproduction/SKILL.md",
+        "kit/skills/gamedev-preproduction/references/production-choices.md",
+        "kit/skills/gamedev-preproduction/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-qa",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-qa direct or delegated qa operation.",
+      "sources": [
+        "kit/skills/gamedev-qa/SKILL.md",
+        "kit/skills/gamedev-qa/references/production-choices.md",
+        "kit/skills/gamedev-qa/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-release",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-release direct or delegated release operation.",
+      "sources": [
+        "kit/skills/gamedev-release/SKILL.md",
+        "kit/skills/gamedev-release/references/production-choices.md",
+        "kit/skills/gamedev-release/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "gamedev-studio",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "instruction-and-stage-controller",
+      "operation": "Apply production choice in the gamedev-studio direct or delegated studio operation.",
+      "sources": [
+        "kit/skills/gamedev-studio/SKILL.md",
+        "kit/skills/gamedev-studio/references/production-choices.md",
+        "kit/skills/gamedev-studio/scripts/atelier.py"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-architecture",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the architecture role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-architecture.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-backend",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the backend role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-backend.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-conversation",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the conversation role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-conversation.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-cost",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the cost role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-cost.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-integrations",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the integrations role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-integrations.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-judge",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the judge role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-judge.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-platform",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the platform role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-platform.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-privacy",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the privacy role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-privacy.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-product",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the product role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-product.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-qa",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the qa role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-qa.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-reliability",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the reliability role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-reliability.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "foundry-skeptic",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "governing-instructions",
+      "operation": "Carry the applicable exact choice and original artifacts through the skeptic role task, handoff or review.",
+      "sources": [
+        "agent-profiles/foundry-skeptic.toml"
+      ],
+      "evidence_status": "source-identified"
+    },
+    {
+      "id": "orchestrator",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-05",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Select owning family and preserve exact project inputs on delegation and continuation.",
+      "sources": [
+        "optional-skills/atelier-orchestrator/scripts/check_routing.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "maintenance",
+      "pq": [
+        "PQ-05",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S3",
+        "S5",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Audit, backup, apply and verify exact versioned managed sources.",
+      "sources": [
+        "scripts/install_host_profile.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "host-profile",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Load the current contract before direct native execution.",
+      "sources": [
+        "host-profiles/codex/AGENTS.md"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "workbench",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Bind the exact choice on task prepare, dispatch, resume and project image generation.",
+      "sources": [
+        "apps/agent-atelier/server/application.mjs",
+        "apps/agent-atelier/server/production-choices.mjs",
+        "apps/agent-atelier/server/codex.mjs"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "portable",
+      "pq": [
+        "PQ-03",
+        "PQ-05",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Validate inherited resources and migrate or restore isolated generated package installations.",
+      "sources": [
+        "kit/portable/check_generated_inheritance.py",
+        "kit/portable/install_agent.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "foundry-factory-import-migrate",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-05",
+        "PQ-11",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Gate build, acceptance, packaged inheritance and material staged migration.",
+      "sources": [
+        "kit/skills/agent-foundry/scripts/package_agent.py",
+        "kit/skills/agent-foundry/scripts/module_migration.py",
+        "kit/skills/agent-foundry/scripts/import_codex.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "design-constructor",
+      "pq": [
+        "PQ-01",
+        "PQ-03",
+        "PQ-05",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Gate approved blueprint, representative slice and exact staged child files.",
+      "sources": [
+        "kit/skills/design-specialist-skills/scripts/blueprint.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "ux-and-documents",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-04",
+        "PQ-05",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-12",
+        "PQ-15",
+        "PQ-16",
+        "PQ-18"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S4"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Check visual exploration, runnable master and exact declared document inputs.",
+      "sources": [
+        "kit/skills/app-atelier-experience/scripts/ux_prototype.py",
+        "scripts/document_templates.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "engineering-slice",
+      "pq": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-04",
+        "PQ-05",
+        "PQ-11",
+        "PQ-12",
+        "PQ-13",
+        "PQ-14",
+        "PQ-15",
+        "PQ-16",
+        "PQ-18"
+      ],
+      "stages": [
+        "S1",
+        "S2",
+        "S4"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Compare the proportional CLI and actual state/concurrency/restore paths, and independently prove a maintenance change.",
+      "sources": [
+        "standards/production_choices.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "game-and-media-targets",
+      "pq": [
+        "PQ-02",
+        "PQ-03",
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16",
+        "PQ-18"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S4"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Run the imported asset, renderer, actual input and mechanics or exported time-based file on its target.",
+      "sources": [
+        "kit/skills/gamedev-director/scripts/pipeline.py",
+        "kit/skills/chatbot-atelier-media/SKILL.md"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "tickets-and-tracker",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-11",
+        "PQ-12",
+        "PQ-13",
+        "PQ-15",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S3",
+        "S4"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Bind project choice at specification, quality gate and Builder handoff. Reconcile tracker results.",
+      "sources": [
+        "scripts/ticket_product_spec.py",
+        "scripts/ticket_quality_gate.py",
+        "scripts/ticket_handoff.py",
+        "scripts/tracker_sync.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "distribution",
+      "pq": [
+        "PQ-05",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S2",
+        "S4",
+        "S5"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Materialize current rules and verify exact current and predecessor inventory before building.",
+      "sources": [
+        "scripts/materialize_standards.py",
+        "scripts/refresh_kit_manifest.py",
+        "scripts/check_repository.py",
+        "scripts/build_packages.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "release",
+      "pq": [
+        "PQ-15",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S4",
+        "S5",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Validate source, all native target jobs, publisher and actual downloads before adoption.",
+      "sources": [
+        ".github/workflows/validate.yml",
+        ".github/workflows/universal-installers.yml",
+        ".github/workflows/publish-technical-release.yml"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "operator-docs",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-07",
+        "PQ-12",
+        "PQ-16",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S2",
+        "S5",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Read the buyer and operator procedure, scope, languages and exact recovery.",
+      "sources": [
+        "README.md",
+        "START_HERE.md",
+        "docs/INSTALL.md",
+        "docs/technical/PRODUCTION_CHOICES.md"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "native-model",
+      "pq": [
+        "PQ-05",
+        "PQ-14",
+        "PQ-15",
+        "PQ-18"
+      ],
+      "stages": [
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Confirm the actual model and effort and exact loaded skills using authorized native executions.",
+      "sources": [
+        "apps/agent-atelier/server/codex.mjs",
+        "evaluations/production-context-cases.json"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "work-host",
+      "pq": [
+        "PQ-05",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19",
+        "PQ-20"
+      ],
+      "stages": [
+        "S3",
+        "S5",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Build Work and verify the installation and actual discovery on the supported Work host.",
+      "sources": [
+        "scripts/build_packages.py",
+        "docs/INSTALL.md"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "change-impact",
+      "pq": [
+        "PQ-01",
+        "PQ-05",
+        "PQ-16",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "stages": [
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Map changed requirements and sources to tickets, tests, evidence and unchanged dependencies.",
+      "sources": [
+        "docs/technical/TICKET_CHANGE_REVIEW.md",
+        "scripts/ticket_impact.py"
+      ],
+      "evidence_status": "target-verification-required"
+    },
+    {
+      "id": "browser-and-cli-start",
+      "pq": [
+        "PQ-05",
+        "PQ-08",
+        "PQ-12",
+        "PQ-15",
+        "PQ-18",
+        "PQ-20"
+      ],
+      "stages": [
+        "S1",
+        "S3",
+        "S5",
+        "S6"
+      ],
+      "mechanism": "supported-route-or-actual-target",
+      "operation": "Choose the downloaded product in the documented route and obtain a real first result.",
+      "sources": [
+        "START_HERE.html",
+        "START_HERE.md",
+        "docs/FIRST_RUN.md"
+      ],
+      "evidence_status": "target-verification-required"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "A01",
+      "requirements": [
+        "PQ-01",
+        "PQ-02",
+        "PQ-03",
+        "PQ-04"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A02",
+      "requirements": [
+        "PQ-02",
+        "PQ-03",
+        "PQ-04",
+        "PQ-05"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A03",
+      "requirements": [
+        "PQ-06",
+        "PQ-07",
+        "PQ-08",
+        "PQ-09",
+        "PQ-15"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A04",
+      "requirements": [
+        "PQ-08",
+        "PQ-09",
+        "PQ-15"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A05",
+      "requirements": [
+        "PQ-02",
+        "PQ-03",
+        "PQ-06",
+        "PQ-07",
+        "PQ-09",
+        "PQ-10",
+        "PQ-15"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A06",
+      "requirements": [
+        "PQ-06",
+        "PQ-08",
+        "PQ-10",
+        "PQ-15",
+        "PQ-16"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A07",
+      "requirements": [
+        "PQ-02",
+        "PQ-03",
+        "PQ-05",
+        "PQ-11",
+        "PQ-12",
+        "PQ-13"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A08",
+      "requirements": [
+        "PQ-02",
+        "PQ-03",
+        "PQ-11",
+        "PQ-12",
+        "PQ-13",
+        "PQ-15"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A09",
+      "requirements": [
+        "PQ-11",
+        "PQ-12",
+        "PQ-13"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A10",
+      "requirements": [
+        "PQ-02",
+        "PQ-03",
+        "PQ-14",
+        "PQ-15"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A11",
+      "requirements": [
+        "PQ-01",
+        "PQ-16",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A12",
+      "requirements": [
+        "PQ-05",
+        "PQ-16",
+        "PQ-17",
+        "PQ-18"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A13",
+      "requirements": [
+        "PQ-03",
+        "PQ-16",
+        "PQ-17",
+        "PQ-19"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A14",
+      "requirements": [
+        "PQ-05",
+        "PQ-17",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A15",
+      "requirements": [
+        "PQ-15",
+        "PQ-18",
+        "PQ-19"
+      ],
+      "status": "requires-revision-bound-evidence"
+    },
+    {
+      "id": "A16",
+      "requirements": [
+        "PQ-19",
+        "PQ-20"
+      ],
+      "status": "requires-revision-bound-evidence"
+    }
+  ]
+}

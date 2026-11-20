@@ -31,6 +31,8 @@ PREVIOUS_PROFILE_TEMPLATES = (
      'a908d752e1ff531bc889776f5cbe6d1eb252a6c82d5c1696b3ce5cc7134cce73'),
     ('host-profiles/codex/history/6.4.0-high-candidate-AGENTS.md',
      'caff43dc8cccb7d1f397ac6bbf61a0df97d53a105303a539ce0e7b35a0c8db3a'),
+    ('host-profiles/codex/history/6.4.0-AGENTS.md',
+     'f2422dcb3ab74012f12fca16170295316d340780febdfe7458735c5a06ee616f'),
 )
 # A managed role has a byte-pinned flat header and a literal triple-quoted body.
 # Only these bounded selector lines may differ outside that body.
@@ -78,6 +80,25 @@ def read(path):
         return stream.read()
 
 
+def target_mode(path, content):
+    if content is None:
+        return None
+    mode = platform_support.file_mode(path)
+    if platform_support.WINDOWS and mode == 0o644 and platform_support.private_acl_report(path)['private']:
+        return 0o600
+    return mode
+
+
+def mode_pins(path, content):
+    before = target_mode(path, content)
+    return {'before_mode': before, 'after_mode': 0o644 if before is None else before}
+
+
+def matching_target(row, which, content, mode):
+    mode_key = which + '_mode'
+    return sha(content) == row[which + '_sha256'] and (mode_key not in row or row[mode_key] == mode)
+
+
 def parse(raw):
     require(raw is not None, 'record missing')
     return json.loads(raw, object_pairs_hook=pairs,
@@ -88,17 +109,44 @@ def load(path):
     return parse(read(path))
 
 
-def atomic(path, text, mode=0o600):
+def replace_windows_file(path, staged):
+    # Zero flags require native ACL merging to succeed.
+    import ctypes
+    from ctypes import wintypes
+    replace = ctypes.WinDLL('kernel32', use_last_error=True).ReplaceFileW
+    replace.argtypes = (wintypes.LPCWSTR, wintypes.LPCWSTR, wintypes.LPCWSTR,
+                        wintypes.DWORD, wintypes.LPVOID, wintypes.LPVOID)
+    replace.restype = wintypes.BOOL
+    backup = safe(Path(staged + '.previous'))
+    require(not backup.exists(), 'temporary Windows profile backup already exists')
+    if not replace(str(path), str(staged), str(backup), 0, None, None):
+        error = ctypes.WinError(ctypes.get_last_error())
+        if backup.exists() and not path.exists():
+            os.replace(backup, path)
+        if backup.exists():
+            raise OSError(f'{error}; Windows retained the previous file at {backup}') from error
+        raise error
+    backup.unlink()
+
+
+def atomic(path, text, mode=0o600, *, preserve_file_security=False):
     safe(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, name = tempfile.mkstemp(prefix='.' + path.name + '.', dir=path.parent)
     try:
-        platform_support.fchmod(fd, mode)
         with os.fdopen(fd, 'w', encoding='utf-8', newline='') as stream:
+            merge_windows_acl = platform_support.WINDOWS and preserve_file_security and path.exists()
+            if platform_support.WINDOWS:
+                platform_support.fchmod(stream.fileno(), 0o600 if merge_windows_acl else mode)
             stream.write(text)
             stream.flush()
+            if not platform_support.WINDOWS:
+                platform_support.fchmod(stream.fileno(), mode)
             os.fsync(stream.fileno())
-        os.replace(name, path)
+        if merge_windows_acl:
+            replace_windows_file(path, name)
+        else:
+            os.replace(name, path)
         platform_support.sync_dir(path.parent)
     finally:
         if os.path.exists(name):
@@ -241,7 +289,7 @@ def audit(repo, codex_root, standard_root):
     desired = merge(prior, block, prior_blocks, target=target, source=source)
     rows = [{'target': str(target), 'before_sha256': sha(prior), 'desired': desired,
              'after_sha256': sha(desired), 'source': str(source), 'source_sha256': sha(template),
-             'compatibility_sources': compatibility_sources}]
+             'compatibility_sources': compatibility_sources, **mode_pins(target, prior)}]
     release_path = repo / 'releases/current.json'
     release_bytes = read(release_path)
     release = parse(release_bytes)
@@ -269,7 +317,8 @@ def audit(repo, codex_root, standard_root):
         before_sha256 = sha(prior)
         desired = reconcile_role(prior, canonical, role, model, effort, target, source)
         rows.append({'target': str(target), 'before_sha256': before_sha256, 'desired': desired,
-                     'after_sha256': sha(desired), 'source': str(source), 'source_sha256': role['sha256']})
+                     'after_sha256': sha(desired), 'source': str(source), 'source_sha256': role['sha256'],
+                     **mode_pins(target, prior)})
     return {'schema': 'atelier.host-profile-plan/1', 'codex_root': str(codex_root),
             'standard_root': str(standard_root), 'changes': rows, 'installation_performed': False,
             'policy_sources': [{'source': str(path), 'source_sha256': sha(raw)}
@@ -287,6 +336,13 @@ def validate_rows(record):
         require(path not in targets, 'duplicate target')
         targets.add(path)
         require(sha(row['desired']) == row['after_sha256'], 'desired bytes changed')
+        require(('before_mode' in row) == ('after_mode' in row), 'incomplete target permission pins')
+        if 'before_mode' in row:
+            before, after = row['before_mode'], row['after_mode']
+            require((before is None and row['before_sha256'] is None or
+                     type(before) is int and 0 <= before <= 0o7777 and row['before_sha256'] is not None) and
+                    type(after) is int and after == (0o644 if before is None else before),
+                    'invalid target permission pins')
         sources = row.get('compatibility_sources', [])
         require(isinstance(sources, list) and len(sources) <= len(PREVIOUS_PROFILE_TEMPLATES),
                 'invalid profile compatibility source list')
@@ -336,8 +392,10 @@ def apply(plan_path, journal_path):
             for source in row.get('compatibility_sources', []):
                 require(sha(read(Path(source['source']))) == source['source_sha256'],
                         'prior profile source changed since audit')
-            current = read(Path(row['target']))
-            require(sha(current) == row['before_sha256'], 'target changed since audit')
+            target = Path(row['target'])
+            current = read(target)
+            require(matching_target(row, 'before', current, target_mode(target, current)),
+                    'target changed since audit (bytes or permissions)')
             changes.append({**row, 'before': current})
         journal = {'schema': 'atelier.host-profile-journal/1', 'status': 'applying',
                    'codex_root': plan['codex_root'], 'plan_sha256': sha(read(plan_path)),
@@ -346,14 +404,20 @@ def apply(plan_path, journal_path):
     require(journal['status'] in ('applying', 'applied'), 'journal is not apply-resumable')
     for row in journal['changes']:
         target = Path(row['target'])
-        current = sha(read(target))
-        if current == row['after_sha256']:
+        current = read(target)
+        mode = target_mode(target, current)
+        if matching_target(row, 'after', current, mode):
             continue
-        require(current == row['before_sha256'], 'resume conflict; preserve current target')
-        atomic(target, row['desired'], mode=0o644)
+        require(matching_target(row, 'before', current, mode), 'resume conflict; preserve current target')
+        atomic(target, row['desired'], mode=row.get('after_mode', mode if mode is not None else 0o644),
+               preserve_file_security=True)
+        installed = read(target)
+        require(matching_target(row, 'after', installed, target_mode(target, installed)),
+                'managed write did not preserve approved bytes and permissions')
     journal['status'] = 'applied'
     save(journal_path, journal)
     return {'ok': True, 'journal': str(journal_path), 'files': len(journal['changes']),
+            'permission_pins_verified': all('before_mode' in row for row in journal['changes']),
             'host_discovery_verified': False}
 
 
@@ -362,21 +426,31 @@ def verify_or_rollback(journal_path, rollback=False):
     validate_journal(journal)
     require(journal['status'] in ('applied', 'rolling_back'), 'journal not applied')
     for row in journal['changes']:
-        current = sha(read(Path(row['target'])))
-        allowed = [row['after_sha256'], row['before_sha256']] if rollback and journal['status'] == 'rolling_back' else [row['after_sha256']]
-        require(current in allowed, 'current target drift; preserve later work')
+        target = Path(row['target'])
+        current = read(target)
+        mode = target_mode(target, current)
+        require(matching_target(row, 'after', current, mode) or
+                (rollback and journal['status'] == 'rolling_back' and matching_target(row, 'before', current, mode)),
+                'current target drift; preserve later work')
     if rollback:
         journal['status'] = 'rolling_back'; save(journal_path, journal)
         for row in reversed(journal['changes']):
             target = Path(row['target'])
-            if sha(read(target)) == row['before_sha256']:
+            current = read(target)
+            mode = target_mode(target, current)
+            if matching_target(row, 'before', current, mode):
                 continue
             if row['before'] is None:
                 target.unlink()
             else:
-                atomic(target, row['before'], mode=0o644)
+                atomic(target, row['before'], mode=row.get('before_mode', mode),
+                       preserve_file_security=True)
+            restored = read(target)
+            require(matching_target(row, 'before', restored, target_mode(target, restored)),
+                    'rollback did not restore recorded bytes and permissions')
         journal['status'] = 'rolled_back'; save(journal_path, journal)
     return {'ok': True, 'status': journal['status'], 'files': len(journal['changes']),
+            'permission_pins_verified': all('before_mode' in row for row in journal['changes']),
             'host_discovery_verified': False}
 
 

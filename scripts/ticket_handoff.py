@@ -14,6 +14,7 @@ import unicodedata
 sys.dont_write_bytecode = True
 import ticket_replan_store as store
 import ticket_tree as tree
+from production_choice_route import ChoiceError, RECORD, verify_route
 
 context = tree.context
 HANDOFF = "atelier.ticket-builder-handoff/1"
@@ -115,6 +116,12 @@ def prepare(root, projection, operation_id, plan_sha256, ticket_id, write_paths,
     receipt, ticket = receipt_scope(result, board, ticket_id)
     replan_sources = bound_replan_sources(snapshot, receipt)
     protected = {projection, *board["requirement_sources"], *replan_sources}
+    try:
+        choice = verify_route(root, "implement")
+    except ChoiceError as error:
+        raise context.ContextError(f"production choice: {error}") from error
+    if choice:
+        protected.update([RECORD, *choice["checked_paths"]])
     for row in board["tickets"]:
         for evidence in row["evidence"]:
             protected.add(evidence["path"])
@@ -169,6 +176,10 @@ def prepare(root, projection, operation_id, plan_sha256, ticket_id, write_paths,
         )},
         "requirements": selected_sources,
         "replan_sources": replan_sources,
+        **({"production_choice": {
+            "path": RECORD, "sha256": choice["record_sha256"],
+            "decision_sha256": choice["decision_sha256"],
+        }} if choice else {}),
         "write_paths": writes, "return_path": return_path,
         "operator_authority_authenticated": False,
         "process_permissions_enforced": False,

@@ -15,6 +15,7 @@ from pathlib import Path
 import stat
 import tempfile
 import team_policy
+from check_round import EXPLORATORY_RUNS, check_current_choice, production_choice_for_round
 
 
 
@@ -136,6 +137,7 @@ def main():
     p.add_argument('--kind', choices=('local', 'feature', 'critical', 'stage'), default='stage')
     p.add_argument('--active', nargs='+')
     p.add_argument('--ready', action='store_true')
+    p.add_argument('--project-root', type=Path, help='Owning project for production choices; defaults to the round directory')
     p.add_argument('--run', help='Actual prepared/planned/running run whose input snapshot is captured')
     p.add_argument('--expected-sha256', help='Reject a stale caller revision before planning or mutation')
     a = p.parse_args()
@@ -156,6 +158,7 @@ def main():
             print('Draft current plan written; no role, outcome or acceptance manufactured.')
             return 0
         plan, runs, root = data['team_policy'], data.get('runs', []), a.file.parent
+        project_root = a.project_root or root
         if a.command == 'bind-inputs':
             matches = [row for row in runs if row.get('id') == a.run]
             if not a.run or len(matches) != 1: raise ValueError('Exact existing --run ID required')
@@ -164,6 +167,8 @@ def main():
                 raise ValueError('Completed/failed/cancelled run inputs are immutable; use an actual new run')
             if run.get('input_snapshot'):
                 raise ValueError('Existing input snapshot retained; use an actual new run for changed inputs')
+            phase = 'explore' if run.get('kind') in EXPLORATORY_RUNS else 'implement'
+            choice = production_choice_for_round(data, project_root, phase)
             snapshot = team_policy.snapshot_inputs(plan, run, runs, requirement_records=data['requirements'])
             for cid, item in snapshot['components'].items():
                 ref = plan['components'][cid]['artifact_ref']
@@ -179,6 +184,8 @@ def main():
                 if not actual.is_file() or platform_support.is_link_or_reparse(actual) or root.resolve() not in actual.resolve().parents or hashlib.sha256(actual.read_bytes()).hexdigest() != expected_hash:
                     raise ValueError('Reviewed primary evidence bytes differ: ' + ref)
             run['input_snapshot'] = snapshot
+            if choice is not None:
+                run['production_choice_binding'] = {key: choice[key] for key in ('phase', 'record_sha256', 'decision_sha256')}
             save(a.file, data)
             print('Current scoped inputs captured; no execution, result or acceptance created.')
             return 0
@@ -206,11 +213,17 @@ def main():
             print('Current input/output byte hashes recorded; acceptance is separate.')
             return 0
         if a.command == 'freeze':
+            choice = production_choice_for_round(data, project_root, 'implement')
+            if choice is not None:
+                data['production_choice_decision_sha256'] = choice['decision_sha256']
+                check_current_choice(data, project_root, 'implement')
             h = team_policy.snapshot_hash(data)
             data['completion']['package_hash'] = h
             save(a.file, data)
             print(json.dumps({'package_hash': h, 'acceptance_created': False}))
             return 0
+        if a.ready:
+            check_current_choice(data, project_root, 'accept')
         errors = team_policy.check(plan, ids, runs, data['completion'].get('package_hash'), root=root,
                                    ready=a.ready, requirement_records=data['requirements'])
         print(json.dumps({'ok': not errors, 'errors': errors, 'limits': 'Current team record only; not domain quality.'}, ensure_ascii=False, indent=2))

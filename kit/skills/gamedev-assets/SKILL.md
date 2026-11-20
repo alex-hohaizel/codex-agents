@@ -2,10 +2,12 @@
 name: gamedev-assets
 description: "Produce or repair the approved editable game art, motion, UI, VFX, sound, and haptics. Use for source-to-engine integration and modality-aware acceptance in the actual gameplay context."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier Assets
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

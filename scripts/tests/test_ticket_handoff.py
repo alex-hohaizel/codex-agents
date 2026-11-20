@@ -88,6 +88,21 @@ class BuilderHandoffTests(unittest.TestCase):
         with self.assertRaisesRegex(context.ContextError, "stale"):
             handoff.verify(self.root, "review/handoff.json", sha)
 
+    def test_declared_choice_pins_are_read_only_and_rechecked_after_handoff(self):
+        from fixture_production_choices import make_choice
+
+        report = make_choice(self.root, target_kind="web")
+        self.save("review/handoff.json", self.prepare())
+        handoff_sha = self.pin("review/handoff.json")["sha256"]
+        verified = handoff.verify(self.root, "review/handoff.json", handoff_sha)
+        self.assertEqual(verified["handoff"]["production_choice"]["decision_sha256"],
+                         report["decision_sha256"])
+        with self.assertRaisesRegex(context.ContextError, "overlaps a project record"):
+            self.prepare(write="_choice-fixture/master.html")
+        (self.root / "_choice-fixture/master.html").write_text("Incorrect fallback")
+        with self.assertRaisesRegex(context.ContextError, "production choice.*master.html"):
+            handoff.verify(self.root, "review/handoff.json", handoff_sha)
+
     def test_review_uses_actual_returned_artifact_not_only_builder_claim(self):
         self.save("review/handoff.json", self.prepare())
         digest = self.pin("review/handoff.json")["sha256"]

@@ -351,8 +351,9 @@ test("panel-only owner approval derives exact native subject and opens only the 
     [
       "-B",
       "-c",
-      "import runpy,sys,json; m=runpy.run_path(sys.argv[1]); print(json.dumps(m['blueprint']()))",
+      "import runpy,sys,json; m=runpy.run_path(sys.argv[1]); bp=m['blueprint'](); bp['production_decision_sha256']=m['make_choice'](sys.argv[2],target_kind='agent')['decision_sha256']; print(json.dumps(bp))",
       fixtureSource,
+      join(f.root, "factory"),
     ],
     { encoding: "utf8" },
   );

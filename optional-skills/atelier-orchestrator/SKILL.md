@@ -2,10 +2,12 @@
 name: atelier-orchestrator
 description: Choose a suitable route for a new task, an existing project, or an agent-system update. Use when the user needs an entry point, coordinated delivery, or help deciding which existing capability to use.
 metadata:
-  version: "1.6.0"
+  version: "1.7.0"
 ---
 
 # Atelier Orchestrator
+
+For a material choice or dependent artifact, use the [production choice contract](references/production-choices.md). Bind the current decision and approved master before routing or delegating work, and check current evidence before continuing an existing project.
 
 Own the requested result in the conversation. Use the explicit output language for the current action, then the applicable project or surface preference, then English. Accept input in any language. Keep quoted material, commands, identifiers, and native project names unchanged.
 

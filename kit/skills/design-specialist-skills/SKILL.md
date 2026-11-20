@@ -2,10 +2,12 @@
 name: design-specialist-skills
 description: "Design and build a reusable specialist skill or family from a concrete goal and domain evidence. Use for deliberate scope, triggers, roles, reusable resources, handoffs, and verification."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Specialist Skill Constructor
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

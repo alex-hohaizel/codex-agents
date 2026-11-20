@@ -2,6 +2,7 @@
   "schema_version": "skill.blueprint/2",
   "id": "DRAFT",
   "version": 1,
+  "production_decision_sha256": null,
   "brief": {
     "goal": "",
     "audience": "",
@@ -14,7 +15,8 @@
   "architecture": {
     "kind": "single",
     "reason": "",
-    "alternative": ""
+    "alternative": "",
+    "modules": []
   },
   "stages": [],
   "team": {

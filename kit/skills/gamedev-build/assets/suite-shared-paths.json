@@ -124,6 +124,7 @@
     "scripts/game_model.py",
     "scripts/interaction.py",
     "scripts/pipeline.py",
+    "scripts/production_choices.py",
     "scripts/production_contract.py",
     "scripts/reference_math.py",
     "scripts/tests/test_atelier.py",

@@ -2,10 +2,12 @@
 name: chatbot-atelier-specification
 description: "Specify a chatbot's state, permissions, actions, events, and failure semantics. Use build to implement an agreed contract."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # ChatBot Atelier · Specification
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Model each active system
 

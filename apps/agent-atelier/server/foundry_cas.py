@@ -77,6 +77,12 @@ def invoke(args, operation_dir):
             actual = module.sha(state) if state.exists() else 'missing'
             if actual != args.expected_state:
                 raise ValueError('Native state changed since the reviewed preview')
+            if args.expected_choice:
+                helper = path.with_name("production_choices.py")
+                engine = types.ModuleType("atelier_pinned_choice")
+                engine.__file__ = str(helper)
+                exec(compile(helper.read_bytes(), str(helper), "exec"), engine.__dict__)
+                engine.verify_project(Path(root), args.choice_phase, expected_sha256=args.expected_choice)
             yield home
 
     module.lock = admitted_lock
@@ -97,6 +103,8 @@ def main():
     parser.add_argument('--script-sha256')
     parser.add_argument('--closure-sha256')
     parser.add_argument('--expected-state')
+    parser.add_argument('--expected-choice')
+    parser.add_argument('--choice-phase', choices=('implement', 'scale', 'accept'))
     parser.add_argument('native_args', nargs=argparse.REMAINDER)
     args = parser.parse_args()
     global _support

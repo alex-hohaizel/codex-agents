@@ -2,10 +2,12 @@
 name: gamedev-liveops
 description: "Operate or improve a beta or released game. Use for scoped incidents, player and device evidence, cohort analysis, progression and commerce changes, guardrails, rollout, and recovery."
 metadata:
-  version: "6.6.0"
+  version: "6.7.0"
 ---
 
 # Game Atelier LiveOps
+
+Before a material production choice or dependent artifact, follow the [production choice contract](references/production-choices.md). Bind the current project decision, accepted master and flow, and verify the phase before using the result. Reuse verified decisions for narrow repairs.
 
 ## Scope and current evidence
 

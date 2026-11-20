@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import types
 
 
 
@@ -222,14 +223,53 @@ def check_depth(data, approved=False):
 
 
 
+def load_bundled(name):
+    helper = Path(__file__).resolve().with_name(name + '.py')
+    module = types.ModuleType('bundled_' + name)
+    module.__file__ = str(helper)
+    exec(compile(helper.read_bytes(), str(helper), 'exec'), module.__dict__)
+    return module
+
+
+def current_choice(root, data, children, phase, child_reader=None):
+    pin = data.get('production_decision_sha256')
+    if not isinstance(pin, str) or not re.fullmatch('[a-f0-9]{64}', pin):
+        raise ValueError('bind production_decision_sha256 to the current choice before approving the proposal')
+    modules = data['architecture'].get('modules')
+    if not modules:
+        raise ValueError('declare the exact installable module names and stages before approving creation')
+    report = load_bundled('production_choices').verify_project(
+        root, 'accept' if children else phase, required_kind='agent')
+    if report['decision_sha256'] != pin:
+        raise ValueError('production decision differs from the approved proposal; approve a new revision')
+    if children:
+        expected = {module['name'] for module in modules}
+        if len(children) != len(expected) or {child.name for child in children} != expected:
+            raise ValueError('supplied child roots differ from the exact approved module set')
+        accepted = {row['sha256'] for row in report['evidence_artifacts']['accept']}
+        for child in children:
+            entry = child_reader(child / 'SKILL.md')
+            header = re.match(r'\A(?:\ufeff)?---\r?\n(.*?)\r?\n---(?:\r?\n|\Z)', entry.decode('utf-8'), re.S)
+            names = re.findall(r'^name:[ \t]*(.*)$', header[1], re.M) if header else []
+            if len(names) != 1 or names[0].strip() not in {child.name, f"'{child.name}'", f'"{child.name}"'}:
+                raise ValueError('child frontmatter name differs from the approved module: ' + child.name)
+            if hashlib.sha256(entry).hexdigest() not in accepted:
+                raise ValueError('acceptance evidence does not cover this exact child skill: ' + child.name)
+    return report
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=('init', 'check', 'hash'))
     parser.add_argument('file', type=Path)
     parser.add_argument('--approved', action='store_true')
+    parser.add_argument('--project-root', type=Path, help='Directory containing production-choices.json; defaults to the blueprint directory')
+    parser.add_argument('--scale', action='store_true', help='Require reviewed representative-slice evidence with --approved')
     parser.add_argument('--child', action='append', type=Path, default=[], help='Also verify each authored child package inherits the current portable operating standard')
     args = parser.parse_args()
     try:
+        if args.scale and (args.command != 'check' or not args.approved):
+            raise ValueError('use --scale with check --approved')
         if args.command == 'init':
             template = Path(__file__).resolve().parents[1] / 'assets/blueprint-template.json'
             with args.file.open('x') as stream:
@@ -244,18 +284,25 @@ def main():
             return 0
         errors = check(data, args.approved)
         inheritance = None
+        child_reader = None
         if args.child:
-            import types
-            helper = Path(__file__).resolve().parent / 'check_generated_inheritance.py'
-            module = types.ModuleType('current_generated_inheritance')
-            module.__file__ = str(helper)
-            exec(compile(helper.read_bytes(), str(helper), 'exec'), module.__dict__)
+            module = load_bundled('check_generated_inheritance')
+            child_reader = module.read_regular
             inheritance, inherited_errors = module.inspect_children(args.child, Path(__file__).resolve().parents[1])
             errors.extend(inherited_errors)
+        choice = None
+        if args.approved and not errors:
+            try:
+                phase = 'scale' if args.scale else 'implement'
+                choice = current_choice(args.project_root or args.file.absolute().parent, data,
+                                        args.child, phase, child_reader)
+            except (OSError, ValueError) as error:
+                errors.append('production choices: ' + str(error))
         print(json.dumps({'ok': not errors, 'proposal_hash': proposal_hash(data), 'errors': errors,
                           'limits': 'Record integrity only; verify actual user consent and domain quality.',
                           'supported_schema': 'skill.blueprint/2', 'quality_certified': False,
-                          'children_checked': len(args.child), 'operating_standard': inheritance}, ensure_ascii=False, indent=2))
+                          'children_checked': len(args.child), 'operating_standard': inheritance,
+                          'production_choice': choice, 'material_gate_passed': choice is not None}, ensure_ascii=False, indent=2))
         return bool(errors)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         print(json.dumps({'ok': False, 'error': str(exc)}))
