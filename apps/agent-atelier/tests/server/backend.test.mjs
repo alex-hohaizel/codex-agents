@@ -45,7 +45,8 @@ class FakeCodex extends EventEmitter {
       instructionSources: [],
     };
   }
-  async turn(_threadId, _capsule, onDispatch) {
+  async turn(_threadId, _capsule, onDispatch, verifyBeforeDispatch) {
+    await verifyBeforeDispatch?.();
     onDispatch?.();
     this.emit("notification", {
       method: "turn/started",
@@ -346,6 +347,236 @@ test("explicit legacy repair keeps the existing writer route and rejects a newly
     assert.equal(current.result.capsule.production_choice.phase, "implement");
   } finally {
     await f.close();
+  }
+});
+
+test("legacy repair rejects normalized root-wide paths and mixed bounds", async () => {
+  const f = await fixture();
+  const target = { project_id: f.binding.id };
+  try {
+    const { production_choice_policy: _policy, ...legacy } = f.app.projects.get(f.binding.id);
+    f.app.store.put("project", legacy.id, legacy, legacy.record_revision);
+    await mkdir(join(f.project, "src"));
+    for (const allowed_paths of [["."], ["././"], ["src", "."]]) {
+      const result = await f.command("task.prepare", {
+        objective: "Fix a label in an existing module",
+        acceptance: "Only the named label changes",
+        scope: "workspace-write",
+        production_phase: "repair",
+        allowed_paths,
+        deadline_seconds: 60,
+      }, target);
+      assert.equal(result.error?.code, "PRODUCTION_CHOICE_REQUIRED", JSON.stringify(allowed_paths));
+    }
+    assert.deepEqual(f.app.store.list("task"), []);
+    assert.equal(f.codex.starts, 0);
+  } finally {
+    await f.close();
+  }
+});
+
+test("old unbound writer cannot dispatch or resume and retains its history", async () => {
+  const f = await fixture();
+  const target = { project_id: f.binding.id };
+  try {
+    const { production_choice_policy: _policy, ...legacy } = f.app.projects.get(f.binding.id);
+    f.app.store.put("project", legacy.id, legacy, legacy.record_revision);
+    await mkdir(join(f.project, "src"));
+    const prepared = await f.command("task.prepare", {
+      objective: "Fix a label in an existing module",
+      acceptance: "Only the named label changes",
+      scope: "workspace-write",
+      production_phase: "repair",
+      allowed_paths: ["src"],
+      deadline_seconds: 60,
+    }, target);
+    assert.equal(prepared.status, "completed");
+    const { production_choice: _choice, capsule_sha256: _digest, ...previousCapsule } = prepared.result.capsule;
+    const capsule = { ...previousCapsule, capsule_sha256: digest(previousCapsule) };
+    const task = { ...prepared.result.task, capsule };
+    f.app.store.put("task", task.id, task);
+    let hostCalls = 0;
+    const connect = f.codex.connect.bind(f.codex);
+    f.codex.connect = async () => {
+      hostCalls++;
+      return connect();
+    };
+    const dispatched = await f.command("task.dispatch", { task_id: task.id }, target);
+    assert.equal(dispatched.error?.code, "PRODUCTION_CHOICE_REQUIRED");
+    assert.match(dispatched.error.message, /prepare/i);
+
+    f.app.store.put("task", task.id, { ...task, status: "paused" });
+    const prior = { id: randomUUID(), project_id: f.binding.id, task_id: task.id,
+      scope: "workspace-write", thread_id: "thread-test", status: "paused" };
+    f.app.store.put("job", prior.id, prior);
+    const oldTask = f.app.store.get("task", task.id);
+    const oldJob = f.app.store.get("job", prior.id);
+    const continued = await f.command("task.continue", { task_id: task.id }, target);
+    assert.equal(continued.error?.code, "PRODUCTION_CHOICE_REQUIRED");
+    assert.match(continued.error.message, /prepare/i);
+    assert.deepEqual(f.app.store.get("task", task.id), oldTask);
+    assert.deepEqual(f.app.store.get("job", prior.id), oldJob);
+    assert.equal(hostCalls, 0);
+    assert.equal(f.codex.starts, 0);
+    assert.equal(f.codex.interrupted, undefined);
+
+    const reader = await f.command("task.prepare", {
+      objective: "Check the saved task history",
+      acceptance: "All project files stay read-only",
+      scope: "read-only",
+    }, target);
+    assert.equal(reader.status, "completed");
+    assert.equal(reader.result.capsule.production_choice, undefined);
+    const read = await f.command("task.dispatch", { task_id: reader.result.task.id }, target);
+    assert.equal(read.status, "completed");
+    assert.equal(f.codex.starts, 1);
+  } finally {
+    await f.close();
+  }
+});
+
+test("legacy repair requires a governing source outside its write scope", async () => {
+  const f = await fixture();
+  const target = { project_id: f.binding.id };
+  try {
+    const { production_choice_policy: _policy, ...legacy } = f.app.projects.get(f.binding.id);
+    f.app.store.put("project", legacy.id, legacy, legacy.record_revision);
+    await rm(join(f.project, "AGENTS.md"));
+    await rm(join(f.project, ".appatelier"), { recursive: true });
+    await mkdir(join(f.project, "src"));
+    await writeFile(join(f.project, "src/settings.txt"), "Original settings");
+    const request = {
+      objective: "Fix a label in an existing module",
+      acceptance: "Only the named label changes",
+      scope: "workspace-write",
+      production_phase: "repair",
+      allowed_paths: ["src"],
+      source_paths: ["src/settings.txt"],
+      deadline_seconds: 60,
+    };
+    const denied = await f.command("task.prepare", request, target);
+    assert.equal(denied.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    assert.match(denied.error.message, /governing project source/);
+    await mkdir(join(f.project, "docs"));
+    await writeFile(join(f.project, "docs/requirements.md"), "Keep the established behavior.");
+    const alias = join(f.project, "DOCS");
+    let sameDirectory = false;
+    try {
+      sameDirectory = realpathSync(alias) === join(f.project, "docs");
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+    for (const path of sameDirectory ? ["docs", "DOCS"] : ["docs"]) {
+      const enclosed = await f.command("task.prepare", { ...request, allowed_paths: [path] }, target);
+      assert.equal(enclosed.error.code, "PRODUCTION_CHOICE_REQUIRED");
+    }
+    await rm(join(f.project, "docs"), { recursive: true });
+    await writeFile(join(f.project, "README.md"), "The existing input contract must stay compatible.");
+    const prepared = await f.command("task.prepare", request, target);
+    assert.equal(prepared.status, "completed");
+    await rm(join(f.project, "src"), { recursive: true });
+    const dispatch = await f.command("task.dispatch", { task_id: prepared.result.task.id }, target);
+    assert.equal(dispatch.error.code, "SOURCE_DRIFT");
+    assert.match(dispatch.error.message, /directory changed/);
+    assert.equal(f.codex.starts, 0);
+  } finally {
+    await f.close();
+  }
+});
+
+test("legacy repair rechecks a changed governing choice after native resume before starting a turn", async () => {
+  const f = await fixture();
+  const target = { project_id: f.binding.id };
+  try {
+    const { production_choice_policy: _policy, ...legacy } = f.app.projects.get(f.binding.id);
+    f.app.store.put("project", legacy.id, legacy, legacy.record_revision);
+    await mkdir(join(f.project, "src"));
+    const request = {
+      objective: "Fix a label in an existing module",
+      acceptance: "Only the named label changes",
+      scope: "workspace-write",
+      production_phase: "repair",
+      allowed_paths: ["src"],
+      deadline_seconds: 60,
+    };
+    const prepared = await f.command("task.prepare", request, target);
+    assert.equal(prepared.status, "completed");
+    const task = prepared.result.task;
+    f.app.store.put("task", task.id, { ...task, status: "paused" });
+    const prior = {
+      id: randomUUID(), project_id: f.binding.id, task_id: task.id,
+      scope: "workspace-write", thread_id: "thread-test", status: "paused",
+    };
+    f.app.store.put("job", prior.id, prior);
+    const saved = f.app.store.get("job", prior.id);
+    let resumed = false, turns = 0;
+    f.codex.readThread = async () => ({
+      thread: { id: prior.thread_id, cwd: f.project, status: { type: "idle" } },
+    });
+    f.codex.resume = async () => {
+      resumed = true;
+      writeProductionChoice(f.project);
+      return { thread: { id: prior.thread_id } };
+    };
+    f.codex.turn = async (_threadId, _capsule, _onDispatch, verifyBeforeDispatch) => {
+      await verifyBeforeDispatch?.();
+      turns++;
+      throw new Error("Unbound turn started");
+    };
+    const result = await f.command("task.continue", { task_id: task.id }, target);
+    assert.equal(result.error?.code, "SOURCE_DRIFT");
+    assert.equal(resumed, true);
+    assert.equal(turns, 0);
+    assert.deepEqual(f.app.store.get("job", prior.id), saved);
+    assert.equal(f.app.store.list("job").find((job) => job.id !== prior.id).host_dispatch_started, false);
+  } finally {
+    await f.close();
+  }
+});
+
+test("current choice drift after native open never reaches turn/start", async (t) => {
+  for (const stage of ["thread open", "turn preflight"]) {
+    await t.test(stage, async () => {
+      const f = await fixture();
+      const target = { project_id: f.binding.id };
+      try {
+        writeProductionChoice(f.project);
+        const record = join(f.project, "production-choices.json");
+        const original = await readFile(record, "utf8");
+        const replaceChoice = () => writeFile(record, original + "\n");
+        const prepared = await f.command("task.prepare", {
+          objective: "Fix a label using the approved production choice",
+          acceptance: "Record identity and the other settings stay unchanged",
+          scope: "workspace-write",
+          allowed_paths: ["."],
+        }, target);
+        assert.equal(prepared.status, "completed");
+        assert.equal(prepared.result.capsule.production_choice.sha256, sha(original));
+        let sent = 0;
+        const start = f.codex.start.bind(f.codex);
+        f.codex.start = async () => {
+          const opened = await start();
+          if (stage === "thread open") await replaceChoice();
+          return opened;
+        };
+        f.codex.turn = async (threadId, capsule, onDispatch, verifyBeforeDispatch) => {
+          if (stage === "turn preflight") await replaceChoice();
+          await verifyBeforeDispatch?.();
+          onDispatch();
+          sent++;
+          return { turn: { id: threadId + "-turn" } };
+        };
+        const result = await f.command("task.dispatch", { task_id: prepared.result.task.id }, target);
+        assert.equal(result.error?.code, "PRODUCTION_CHOICE_REQUIRED");
+        assert.equal(f.codex.starts, 1);
+        assert.equal(sent, 0);
+        const [job] = f.app.store.list("job");
+        assert.equal(job.thread_id, "thread-test");
+        assert.equal(job.host_dispatch_started, false);
+      } finally {
+        await f.close();
+      }
+    });
   }
 });
 
@@ -1056,7 +1287,8 @@ test("declared requirement closure matches shared Python compiler fixture", asyn
 test("queued interrupt persists until actual turn start, then confirms terminal cancellation", async () => {
   const f = await fixture();
   try {
-    f.codex.turn = async (_threadId, _capsule, onDispatch) => {
+    f.codex.turn = async (_threadId, _capsule, onDispatch, verifyBeforeDispatch) => {
+      await verifyBeforeDispatch?.();
       onDispatch?.();
       return { turn: { id: "turn-test" } };
     };
@@ -1391,7 +1623,8 @@ test("raw resume override and wrong-turn terminal cannot free current writer", a
 test("disconnect converts queued turn to unknown and prevents automatic replay", async () => {
   const f = await fixture();
   try {
-    f.codex.turn = async (_thread, _capsule, onDispatch) => {
+    f.codex.turn = async (_thread, _capsule, onDispatch, verifyBeforeDispatch) => {
+      await verifyBeforeDispatch?.();
       onDispatch?.();
       return { turn: { id: "turn-test" } };
     };
@@ -1782,7 +2015,8 @@ test("overlapping canonical project roots share one writer boundary", async () =
         f.codex.starts++;
         return { thread: { id: "overlap-thread-" + f.codex.starts } };
       };
-      f.codex.turn = async (threadId, _capsule, onDispatch) => {
+      f.codex.turn = async (threadId, _capsule, onDispatch, verifyBeforeDispatch) => {
+        await verifyBeforeDispatch?.();
         onDispatch?.();
         return { turn: { id: threadId + "-turn" } };
       };
@@ -1861,7 +2095,8 @@ test("disjoint canonical projects retain concurrent writer admission including u
     f.codex.starts++;
       return { thread: { id: "disjoint-thread-" + f.codex.starts } };
     };
-    f.codex.turn = async (threadId, _capsule, onDispatch) => {
+    f.codex.turn = async (threadId, _capsule, onDispatch, verifyBeforeDispatch) => {
+      await verifyBeforeDispatch?.();
       onDispatch?.();
       return { turn: { id: threadId + "-turn" } };
     };
@@ -1925,7 +2160,8 @@ test("overlapping read-only roots share two readers while disjoint roots keep th
       f.codex.starts++;
       return { thread: { id: "reader-thread-" + f.codex.starts } };
     };
-    f.codex.turn = async (threadId, _capsule, onDispatch) => {
+    f.codex.turn = async (threadId, _capsule, onDispatch, verifyBeforeDispatch) => {
+      await verifyBeforeDispatch?.();
       onDispatch?.();
       return { turn: { id: threadId + "-turn" } };
     };

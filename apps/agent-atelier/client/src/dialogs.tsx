@@ -693,7 +693,10 @@ export function TaskDialog({
               <option value="accept">{t("productionAccept")}</option>
             </select>
           </Field>
-          <Field label={t("allowedPaths")} help={t("pathsHelp")}>
+          <Field
+            label={t("allowedPaths")}
+            help={t(productionPhase === "repair" ? "productionRepairPaths" : "pathsHelp")}
+          >
             <textarea
               rows={2}
               value={paths}

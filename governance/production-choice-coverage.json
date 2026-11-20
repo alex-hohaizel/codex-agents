@@ -2290,7 +2290,7 @@
         "S6"
       ],
       "mechanism": "supported-route-or-actual-target",
-      "operation": "Bind the exact choice on task prepare, dispatch, resume and project image generation.",
+      "operation": "Bind the exact choice on task prepare, dispatch, resume and project image generation. Recheck governing sources and bounded directories for legacy repairs before any dependent native execution.",
       "sources": [
         "apps/agent-atelier/server/application.mjs",
         "apps/agent-atelier/server/production-choices.mjs",

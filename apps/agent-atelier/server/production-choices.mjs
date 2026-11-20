@@ -1,11 +1,12 @@
 import { execFile } from "node:child_process";
-import { lstat } from "node:fs/promises";
-import { join } from "node:path";
+import { lstat, realpath } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { runtimeEnvironment } from "./environment.mjs";
+import { writablePaths } from "./permissions.mjs";
 import { resolvePythonCommand } from "./platform.mjs";
-import { fail } from "./utils.mjs";
+import { fail, isWithin, readSource, safeFile } from "./utils.mjs";
 
 const run = promisify(execFile);
 const verifier = fileURLToPath(new URL("./production_choices.py", import.meta.url));
@@ -77,14 +78,57 @@ export async function prepareProductionChoice(root, payload, { legacyProject = f
   return verify(root, chosen);
 }
 
-export async function verifyPreparedProductionChoice(root, binding, { allowUnbound = true, legacyProject = false } = {}) {
+export function requirePreparedProductionChoice(scope, binding) {
+  fail(binding || scope === "read-only", "PRODUCTION_CHOICE_REQUIRED",
+    "This writable task has no bound production choice. Keep its history and prepare a new task with the current choice or an eligible bounded legacy repair.", 409);
+}
+
+async function verifyLegacyRepair(root, capsule) {
+  const allowed = capsule?.allowed_paths;
+  const scopeMessage = "A legacy repair needs explicit writable directories below the project root. Prepare again with the affected directories or use an approved production choice.";
+  fail(capsule?.scope === "workspace-write" && Array.isArray(allowed) && allowed.length > 0,
+    "PRODUCTION_CHOICE_REQUIRED", scopeMessage, 409);
+  const paths = writablePaths(allowed);
+  fail(!paths.includes("."), "PRODUCTION_CHOICE_REQUIRED", scopeMessage, 409);
+  const directories = [];
+  for (const path of paths) {
+    try {
+      const directory = await realpath(await safeFile(root, path, { directory: true }));
+      fail(directory !== root && isWithin(root, directory),
+        "PRODUCTION_CHOICE_REQUIRED", scopeMessage, 409);
+      directories.push(directory);
+    } catch (error) {
+      if (error.code === "ENOENT" || error.code === "INVALID_PATH")
+        fail(false, "SOURCE_DRIFT", `Legacy repair directory changed: ${path}. Review the writable scope and prepare again.`, 409);
+      throw error;
+    }
+  }
+  const outsideWriteScope = (path) => !directories.some((dir) => isWithin(dir, path));
+  const instruction = capsule.instruction_manifest?.sources?.some((pin) =>
+    pin.scope === "project" && pin.present && pin.nonempty && hash.test(pin.sha256) &&
+    outsideWriteScope(pin.path));
+  if (instruction) return;
+  for (const pin of capsule.original_sources ?? []) {
+    if (pin.kind === "task-source" || !pin.bytes || !hash.test(pin.sha256)) continue;
+    const actual = await readSource(root, pin.path);
+    if (!outsideWriteScope(await realpath(resolve(root, pin.path)))) continue;
+    fail(actual.sha256 === pin.sha256, "SOURCE_DRIFT",
+      "The governing source changed after preparation. Review it and prepare the legacy repair again.", 409);
+    return;
+  }
+  fail(false, "PRODUCTION_CHOICE_REQUIRED",
+    "A legacy repair needs a pinned governing project source outside its writable directories. Review project instructions or bind the current production choice before preparing again.", 409);
+}
+
+export async function verifyPreparedProductionChoice(root, binding, { legacyProject = false, capsule } = {}) {
+  requirePreparedProductionChoice(capsule?.scope, binding);
   if (binding?.phase === "repair" && binding.legacy === true) {
     fail(legacyProject && !await hasProjectRecord(root), "SOURCE_DRIFT",
       "The legacy repair no longer applies. Prepare again using the current project choice.", 409);
+    await verifyLegacyRepair(root, capsule);
     return;
   }
   if (!binding) {
-    fail(allowUnbound, "PRODUCTION_CHOICE_REQUIRED", "Prepare a new writable task with a current production choice", 409);
     fail(!await hasProjectRecord(root), "SOURCE_DRIFT",
       "A production choice record appeared after preparation. Prepare again to bind it.", 409);
     return;

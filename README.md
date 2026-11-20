@@ -9,7 +9,7 @@ product, or an agent your team can use again.
 
 **[Latest published release](https://github.com/alex-hohaizel/codex-agents/releases/latest)** · **[Open the installer page](START_HERE.html)** · **[Start in Codex](START_HERE.md)** · **[Install or update](docs/INSTALL.md)** · **[See the workflow](#one-entry-from-idea-to-release)** · **[Browse all documentation](docs/INDEX.md)** · [Почати українською](docs/uk/FIRST_RUN.md)
 
-The [v1.10.0 Universal installer](https://github.com/alex-hohaizel/codex-agents/releases/download/v1.10.0/Agent-System-1.10.0-Universal.zip) becomes available when its release is published. The [v1.9.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0) remains available for recovery. See [production choices and approved design](docs/technical/PRODUCTION_CHOICES.md) for the project workflow.
+[Supported editions and recovery](releases/README.md) links versioned downloads. See [production choices and approved design](docs/technical/PRODUCTION_CHOICES.md) for the project workflow.
 
 <a name="your-first-task"></a>
 <a name="choose-a-path"></a>

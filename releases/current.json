@@ -1,18 +1,18 @@
 {
   "schema_version": "codex-agents.release/1",
   "repository_branch": "main",
-  "repository_version": "1.10.0",
+  "repository_version": "1.10.1",
   "suite_version": "6.7.0",
-  "release_date": "2026-11-20",
+  "release_date": "2026-11-21",
   "managed_model": {
     "id": "gpt-6.2-sol",
     "reasoning_effort": "ultra"
   },
   "previous_stable": {
-    "repository_version": "1.9.0",
-    "suite_version": "6.6.0",
-    "tag": "v1.9.0",
-    "source_commit": "6af8febdfc716eeba30becae3f3ea5449cd66ae4"
+    "repository_version": "1.10.0",
+    "suite_version": "6.7.0",
+    "tag": "v1.10.0",
+    "source_commit": "374c46d0516496c8294fa5c13d9e41934218886d"
   },
   "release_notes": "releases/README.md",
   "requirements": "governance/requirements.csv",
@@ -72,11 +72,11 @@
   "marketing_current_campaign": "marketing/CURRENT_CAMPAIGN.json",
   "local_service": {
     "name": "agent-atelier",
-    "version": "0.10.0",
+    "version": "0.10.1",
     "source": "apps/agent-atelier",
     "scope": "Local project workbench for Windows, macOS and Linux; source-backed actions, existing native execution and private state"
   },
-  "release_status": "Stable technical release intent for v1.10.0. The current candidate requires exact-main evidence, accepted source and native workflows, verified archives and attestations, and manual publisher readback. v1.9.0 remains the published stable edition until publication completes.",
+  "release_status": "Versioned technical release record. Use GitHub Releases to verify which exact versions and installer assets have been published. v1.10.0 remains available for recovery.",
   "role_profiles": {
     "version": "6.4.0",
     "manifest": "agent-profiles/manifest.json"
@@ -86,7 +86,7 @@
     "source": "host-profiles/codex/AGENTS.md"
   },
   "release_stage": "stable",
-  "release_tag": "v1.10.0",
+  "release_tag": "v1.10.1",
   "installation_guide": "docs/INSTALL.md",
   "showcase_locales": [
     "en",

@@ -3,7 +3,7 @@
   "source": "docs/en/GUIDE.md",
   "source_sha256": "19321033ac87a966a3a8f18c8d92474a5f0fefdf613f881c01d55b2f33741fab",
   "default_locale": "en",
-  "repository_version": "1.10.0",
+  "repository_version": "1.10.1",
   "guide_editions": 7,
   "translation_editions": 6,
   "campaign_languages": [

@@ -1,6 +1,10 @@
 # Current release
 
-The [component record](releases/current.json) identifies the supported release and [GitHub Releases](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.8.0) provides the versioned source and attested downloads. See the [release overview](releases/README.md) for the current product scope and the [installation guide](docs/INSTALL.md) for setup and recovery.
+The [component record](releases/current.json) identifies the supported release and [GitHub Releases](https://github.com/alex-hohaizel/codex-agents/releases/latest) provides the versioned source and attested downloads. See the [release overview](releases/README.md) for the current product scope and the [installation guide](docs/INSTALL.md) for setup and recovery.
+
+## v1.10.1 — bounded Workbench repairs
+
+Agent Atelier rechecks the write scope and governing inputs of a legacy repair before it contacts Codex. Re-prepare a queued legacy task whose capsule lacks the current choice or a bounded repair scope. Prior tasks, records and results are preserved.
 
 ## v1.10.0 — production choices and exact handoff
 

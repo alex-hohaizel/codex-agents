@@ -7,6 +7,7 @@ const messages: Record<MessageKey, string> = {
   productionExplore: "Erkundung",
   productionImplement: "Umsetzung",
   productionRepair: "Kleine Reparatur nach bestehenden Entscheidungen",
+  productionRepairPaths: "Geben Sie die betroffenen Verzeichnisse innerhalb des Projekts an. Die Reparatur verwendet die gespeicherten Anweisungen oder gebundenen Projektquellen.",
   productionScale: "Vervielfältigung",
   productionAccept: "Abnahme",
   productionDriftReview: "Projektquellen änderten sich während des Codex-Laufs. Prüfen Sie Ergebnis und Entscheidung vor der Verwendung.",

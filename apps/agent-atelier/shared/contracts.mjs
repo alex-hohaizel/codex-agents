@@ -1,5 +1,5 @@
 export const API_VERSION = "agent-atelier.api/1";
-export const SERVICE_VERSION = "0.10.0";
+export const SERVICE_VERSION = "0.10.1";
 export const LOCALES = ["en", "uk", "de", "it", "es", "fr", "zh-CN"];
 export const DEFAULT_LOCALE = "en";
 export function resolveLocale(explicit, saved) {

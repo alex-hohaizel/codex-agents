@@ -140,6 +140,7 @@
       "PQ-05",
       "PQ-15",
       "PQ-16",
+      "PQ-17",
       "PQ-18",
       "PQ-19"
     ],
@@ -147,5 +148,5 @@
     "local_catalog_evidence": "../../governance/VALIDATION.md",
     "baseline_acceptance_evidence": "../../governance/VALIDATION.md"
   },
-  "version": "0.10.0"
+  "version": "0.10.1"
 }
