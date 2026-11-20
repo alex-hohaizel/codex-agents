@@ -56,6 +56,43 @@ task can still have a current binding warning. Old proof retains historical
 meaning; neither a digest nor metadata proves who approved something or that an
 implementation satisfies a criterion.
 
+## Track an approved production decision
+
+To link a material decision to the native ticket graph, add an optional
+`production_choice` to the ticket projection alongside `requirement_sources`
+and `tickets`. Use applicable IDs from the native requirement registry. Use
+the `record_sha256` and `decision_sha256` from the [production choice
+verifier](../../standards/production-choices.md) for the exact file and approval.
+
+```json
+{
+  "production_choice": {
+    "record": {"path": "production-choices.json", "sha256": "<record SHA-256>"},
+    "decision_sha256": "<approved decision SHA-256>",
+    "phase": "accept",
+    "requirement_ids": ["REQ-EXPORT"]
+  }
+}
+```
+
+Use `implement` to check the current decision, approval and configuration,
+`scale` to also check the representative slice, and `accept` to check the
+recorded final proof. Capture checks the record and exact pinned sources for
+that phase. It reports missing or stale bytes, a changed decision, missing
+proof or an invalid linkage with a reason. A root-level default record with
+no native binding is checked at `implement` and retained as context without
+assigning it to any ticket. Historical snapshots without this field can be
+compared as captured.
+
+The `production_choice_change` section retains both observations, including
+verified artifact pins where available, and calls out removed bindings.
+Linked requirements seed the existing downstream ticket review when a choice
+changes, is dropped or needs current validation. The report shows historical
+receipts for those tickets and retains the unrelated ticket graph. Direct,
+prerequisite and other native graph reasons remain visible. Read records with
+`requires_review` before continuing work that depends on the decision. A
+reviewer confirms the declared scope and observes the applicable execution.
+
 ## Prepare a refinement
 
 Use a disposable review copy of the selected project revision if the proposal
