@@ -994,7 +994,7 @@ export class CodexAdapter extends EventEmitter {
   async resume(threadId, cwd, capsule, onAcknowledged = () => {}) {
     return this.#openThread("thread/resume", threadId, cwd, capsule, onAcknowledged);
   }
-  async turn(threadId, capsule, onDispatch = () => {}) {
+  async turn(threadId, capsule, onDispatch = () => {}, verifyBeforeDispatch) {
     const memoryMode = taskMemoryMode(capsule.memory_mode);
     if (memoryMode === "disabled") {
       const pinned = this.taskPermissions.get(threadId);
@@ -1060,6 +1060,9 @@ export class CodexAdapter extends EventEmitter {
       capsule,
       policy,
     );
+    // The exact current production input may change during the native awaits.
+    // Check it before recording an attempted send or making the turn RPC.
+    if (verifyBeforeDispatch) await verifyBeforeDispatch();
     fail(
       this.taskPermissions.get(threadId) === admission,
       "CAPABILITY_UNVERIFIED",

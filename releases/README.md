@@ -1,29 +1,28 @@
 # Current release
 
-**Codex Agent System v1.10.0** is prepared for release as a ready Universal
-installer and six native packages for Windows, macOS and Linux on x64 and ARM64.
-The [v1.10.0 release page](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.10.0)
-will provide the qualified downloads after publication. GitHub's automatic
-source archives contain developer sources and link to the ready assets.
+[GitHub Releases](https://github.com/alex-hohaizel/codex-agents/releases/latest)
+lists the latest published Universal installer and six native packages for
+Windows, macOS and Linux on x64 and ARM64. See [installation and
+recovery](../docs/INSTALL.md) for setup and available rollback operations.
 
-## v1.10.0 components
-
-The release record declares stable intent. Publication requires the exact
-`main` commit to pass source and native CI, verified archives and attestations,
-and readback from the manual publisher. Use the verified
-[v1.9.0 release](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.9.0)
-until publication completes. It remains available for recovery.
+## v1.10.1 components
 
 | Component | Version |
 | --- | --- |
-| Product | 1.10.0 |
+| Product | 1.10.1 |
 | Core suite and both constructors | 6.7.0 |
 | Host profile | 6.5.0 |
 | Role definitions | 6.4.0 |
 | Atelier Orchestrator | 1.7.0 |
 | Maintenance | 1.6.0 |
-| Agent Atelier | 0.10.0 |
+| Agent Atelier | 0.10.1 |
 | Managed model and effort | GPT-6.2 Sol Ultra (`gpt-6.2-sol` with `ultra`) |
+
+The Workbench update requires a current production choice for material writes.
+A bounded repair in an existing project can carry its current governing
+sources forward. Re-prepare a queued task if its saved scope or decision no
+longer meets the execution gate. Use the [production workflow](../docs/technical/PRODUCTION_CHOICES.md)
+to bind the current technology, prototype and acceptance evidence.
 
 Clean product entry points start in English. The installer remembers a language
 the owner explicitly selects across restarts, and a task can select its own
@@ -36,6 +35,21 @@ Payments are disabled for this release. An original offline purchase document
 can still be retained through the separate optional control or inherited
 during a checked update. A public technical download and Codex model access
 have separate requirements.
+
+## v1.10.0 stable components
+
+| Component | Version |
+| --- | --- |
+| Product | 1.10.0 |
+| Core suite and both constructors | 6.7.0 |
+| Host profile | 6.5.0 |
+| Role definitions | 6.4.0 |
+| Atelier Orchestrator | 1.7.0 |
+| Maintenance | 1.6.0 |
+| Agent Atelier | 0.10.0 |
+| Managed model and effort | GPT-6.2 Sol Ultra (`gpt-6.2-sol` with `ultra`) |
+
+Stable source `374c46d0516496c8294fa5c13d9e41934218886d`. [Release assets and notes](https://github.com/alex-hohaizel/codex-agents/releases/tag/v1.10.0)
 
 ## v1.9.0 stable components
 

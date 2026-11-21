@@ -16,7 +16,11 @@ import { ImageGeneration } from "./image-generation.mjs";
 import { proposeRoute } from "./routing.mjs";
 import { NativeControllers } from "./controllers.mjs";
 import { OptionalUpdates } from "./optional_updates.mjs";
-import { prepareProductionChoice, verifyPreparedProductionChoice } from "./production-choices.mjs";
+import {
+  prepareProductionChoice,
+  requirePreparedProductionChoice,
+  verifyPreparedProductionChoice,
+} from "./production-choices.mjs";
 import {
   ACTIVE_JOB_STATES,
   API_VERSION,
@@ -893,9 +897,8 @@ export class Application extends EventEmitter {
         "Native project changed; refresh the workspace",
         409,
       );
-    const productionChoice = await prepareProductionChoice(project.root, payload, {
-      legacyProject: project.production_choice_policy === undefined,
-    });
+    const legacyProject = project.production_choice_policy === undefined;
+    const productionChoice = await prepareProductionChoice(project.root, payload, { legacyProject });
     const taskId = id("task"),
       epoch = this.store.get("settings", "owner").authority_epoch;
     const instructionManifest = await this.instructions.capture(
@@ -950,10 +953,8 @@ export class Application extends EventEmitter {
       authorityEpoch: epoch,
       instructionManifest,
     });
-    if (productionChoice?.legacy) fail(
-      capsule.original_sources.length > 0 || instructionManifest.sources.length > 0,
-      "PRODUCTION_CHOICE_REQUIRED", "An existing repair needs pinned governing project sources", 409,
-    );
+    if (productionChoice?.legacy)
+      await verifyPreparedProductionChoice(project.root, productionChoice, { legacyProject, capsule });
     const preferred = payload.output_locale;
     if (preferred !== undefined)
       fail(
@@ -1158,6 +1159,8 @@ export class Application extends EventEmitter {
       "Governing instruction root differs from this project",
       409,
     );
+    fail(task.scope === task.capsule.scope, "SCOPE_MISMATCH",
+      "Task scope differs from the prepared capsule. Prepare again before dispatch.", 409);
     const epoch = this.store.get("settings", "owner").authority_epoch;
     fail(
       task.capsule.authority_epoch === epoch,
@@ -1168,6 +1171,7 @@ export class Application extends EventEmitter {
     const resumeThreadId =
       internal.resumeThreadId ?? task.capsule.existing_thread?.thread_id;
     this.#requireUnquarantinedNativeThread(resumeThreadId);
+    requirePreparedProductionChoice(task.scope, task.capsule.production_choice);
     const candidate = {
       id: id("job"),
       project_id: project.id,
@@ -1197,8 +1201,10 @@ export class Application extends EventEmitter {
       epoch,
     );
     this.event("job.created", { job });
-    const legacyProject = project.production_choice_policy === undefined;
-    const choicePolicy = { legacyProject, allowUnbound: legacyProject || task.scope === "read-only" };
+    const choicePolicy = {
+      legacyProject: project.production_choice_policy === undefined,
+      capsule: task.capsule,
+    };
     try {
       await verifyPreparedProductionChoice(project.root, task.capsule.production_choice, choicePolicy);
       await this.instructions.verify(task.capsule.instruction_manifest);
@@ -1353,6 +1359,9 @@ export class Application extends EventEmitter {
         );
       };
       verifyTurnReadiness();
+      const verifyBoundChoice = task.capsule.production_choice
+        ? () => verifyPreparedProductionChoice(project.root, task.capsule.production_choice, choicePolicy)
+        : undefined;
       const result = await this.codex.turn(thread.id, task.capsule, () => {
         verifyTurnReadiness();
         this.updateJob(job.id, {
@@ -1360,7 +1369,7 @@ export class Application extends EventEmitter {
           host_dispatch_started_at: now(),
           expected_start_pending: true,
         });
-      });
+      }, verifyBoundChoice);
       const current = this.store.get("job", job.id);
       this.updateJob(job.id, {
         turn_id: result.turn?.id ?? current.turn_id,
@@ -1464,6 +1473,7 @@ export class Application extends EventEmitter {
       "This task cannot be continued",
       409,
     );
+    requirePreparedProductionChoice(task.scope, task.capsule.production_choice);
     this.store.put("task", task.id, {
       ...task,
       status: "prepared",

@@ -18,7 +18,7 @@ import {
   localProfile,
 } from "../../server/permissions.mjs";
 import { compileContext } from "../../server/context.mjs";
-import { readSource } from "../../server/utils.mjs";
+import { readSource, ServiceError } from "../../server/utils.mjs";
 import { CodexAdapter } from "../../server/codex.mjs";
 
 async function fixture(t) {
@@ -208,6 +208,15 @@ test("task configuration includes the actual inventory and turn rejects its drif
   assert.equal(dispatched, 1);
   assert.ok(calls.includes("turn/start"));
   calls.length = 0;
+  await assert.rejects(
+    adapter.turn("synthetic-thread", cap, () => dispatched++, async () => {
+      await Promise.resolve();
+      throw new ServiceError("SOURCE_DRIFT", "The bound production choice changed", 409);
+    }),
+    { code: "SOURCE_DRIFT" },
+  );
+  assert.equal(dispatched, 1);
+  assert.deepEqual(calls, []);
   await mkdir(join(root, "child/new-native/.atelier"), { recursive: true });
   await assert.rejects(
     adapter.turn("synthetic-thread", cap, () => dispatched++),

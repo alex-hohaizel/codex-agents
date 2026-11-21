@@ -18,7 +18,7 @@ Keep established names, original quotes, source data and existing approved
 records. Qualify the localized paths the product advertises.
 
 Read the managed model ID and reasoning effort from the exact release record.
-Normal managed v1.9 launches, Workbench tasks, supplied roles, generated agents
+Managed launches, Workbench tasks, supplied roles, generated agents
 and native evaluations use GPT-6.2 Sol Ultra. Confirm both settings in native
 results. Block unavailable or unverified settings on routes that verify
 admission. A lower effort requires an explicit scoped requirement and reviewed
